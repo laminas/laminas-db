@@ -1,6 +1,6 @@
 <?php
 
-namespace Zend\Db\Sql\Exception;
+namespace Zend\Db\TableGateway\Exception;
 
 class InvalidArgumentException extends \InvalidArgumentException
 {
