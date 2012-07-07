@@ -8,17 +8,21 @@
  * @package   Zend_Db
  */
 
-namespace Zend\Db\ResultSet;
+namespace Zend\Db\Adapter;
 
-use ArrayAccess,
-    Countable;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * @category   Zend
  * @package    Zend_Db
- * @subpackage ResultSet
+ * @subpackage Adapter
  */
-interface RowObjectInterface extends Countable, ArrayAccess
+class AdapterServiceFactory implements FactoryInterface
 {
-    public function populate(array $rowData);
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        $config = $serviceLocator->get('Configuration');
+        return new Adapter($config['db']);
+    }
 }
