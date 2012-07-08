@@ -1,6 +1,6 @@
 {
     "name": "zendframework/zend-db",
-    "description": "Zend\\Db component",
+    "description": " ",
     "license": "BSD-3-Clause",
     "keywords": [
         "zf2",
@@ -9,11 +9,11 @@
     "homepage": "https://github.com/zendframework/zend-db",
     "autoload": {
         "psr-4": {
-            "Zend\\Db\\": "src/"
+            "Zend\\Db": "src/"
         }
     },
     "require": {
-        "php": ">=5.3.23",
+        "php": ">=5.3.3",
         "zendframework/zend-stdlib": "self.version"
     },
     "require-dev": {
