@@ -10,12 +10,12 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Platform\Sqlite;
+use Zend\Db\Adapter\Platform\Postgresql;
 
-class SqliteTest extends \PHPUnit_Framework_TestCase
+class PostgresqlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Sqlite
+     * @var Postgresql
      */
     protected $platform;
 
@@ -25,19 +25,19 @@ class SqliteTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->platform = new Sqlite;
+        $this->platform = new Postgresql;
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::getName
+     * @covers Zend\Db\Adapter\Platform\Postgresql::getName
      */
     public function testGetName()
     {
-        $this->assertEquals('SQLite', $this->platform->getName());
+        $this->assertEquals('PostgreSQL', $this->platform->getName());
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::getQuoteIdentifierSymbol
+     * @covers Zend\Db\Adapter\Platform\Postgresql::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -45,7 +45,7 @@ class SqliteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteIdentifier
+     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -53,7 +53,7 @@ class SqliteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteIdentifierChain
+     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -63,7 +63,7 @@ class SqliteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::getQuoteValueSymbol
+     * @covers Zend\Db\Adapter\Platform\Postgresql::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -71,7 +71,7 @@ class SqliteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteValue
+     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteValue
      */
     public function testQuoteValue()
     {
@@ -79,7 +79,7 @@ class SqliteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteValueList
+     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteValueList
      */
     public function testQuoteValueList()
     {
@@ -89,7 +89,7 @@ class SqliteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::getIdentifierSeparator
+     * @covers Zend\Db\Adapter\Platform\Postgresql::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -97,7 +97,7 @@ class SqliteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteIdentifierInFragment
+     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {

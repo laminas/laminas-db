@@ -8,14 +8,21 @@
  * @package   Zend_Db
  */
 
-namespace Zend\Db\Exception;
+namespace Zend\Db\Adapter;
+
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Adapter
  */
-interface ExceptionInterface
+class AdapterServiceFactory implements FactoryInterface
 {
-
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        $config = $serviceLocator->get('Configuration');
+        return new Adapter($config['db']);
+    }
 }
