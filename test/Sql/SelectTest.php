@@ -250,7 +250,53 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select = new Select;
         $select->order(array('name ASC', 'age DESC'));
         $this->assertEquals(array('name ASC', 'age DESC'), $select->getRawState('order'));
+    }
 
+    /**
+     * @testdox unit test: Test having() returns same Select object (is chainable)
+     * @covers Zend\Db\Sql\Select::having
+     */
+    public function testHaving()
+    {
+        $select = new Select;
+        $return = $select->having(array('x = ?' => 5));
+        $this->assertSame($select, $return);
+        return $return;
+    }
+
+    /**
+     * @testdox unit test: Test getRawState() returns information populated via having()
+     * @covers Zend\Db\Sql\Select::getRawState
+     * @depends testHaving
+     */
+    public function testGetRawStateViaHaving(Select $select)
+    {
+        $this->assertInstanceOf('Zend\Db\Sql\Having', $select->getRawState('having'));
+    }
+
+    /**
+     * @testdox unit test: Test group() returns same Select object (is chainable)
+     * @covers Zend\Db\Sql\Select::group
+     */
+    public function testGroup()
+    {
+        $select = new Select;
+        $return = $select->group(array('col1', 'col2'));
+        $this->assertSame($select, $return);
+        return $return;
+    }
+
+    /**
+     * @testdox unit test: Test getRawState() returns information populated via group()
+     * @covers Zend\Db\Sql\Select::getRawState
+     * @depends testGroup
+     */
+    public function testGetRawStateViaGroup(Select $select)
+    {
+        $this->assertEquals(
+            array('col1', 'col2'),
+            $select->getRawState('group')
+        );
     }
 
     /**
@@ -315,6 +361,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @testdox unit test: Text process*() methods will return proper array when internally called, part of extension API
      * @dataProvider providerData
      * @covers Zend\Db\Sql\Select::processSelect
+     * @covers Zend\Db\Sql\Select::processJoin
+     * @covers Zend\Db\Sql\Select::processWhere
+     * @covers Zend\Db\Sql\Select::processGroup
+     * @covers Zend\Db\Sql\Select::processHaving
+     * @covers Zend\Db\Sql\Select::processOrder
+     * @covers Zend\Db\Sql\Select::processLimit
+     * @covers Zend\Db\Sql\Select::processOffset
      */
     public function testProcessMethods(Select $select, $unused, $unused2, $unused3, $internalTests)
     {
@@ -445,7 +498,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr10 = 'SELECT "foo".*, "zac".* FROM "foo" INNER JOIN "zac" ON "m" = "n"';
         $internalTests10 = array(
             'processSelect' => array(array(array('"foo".*'), array('"zac".*')), '"foo"'),
-            'processJoin'   => array(array(array('INNER', '"zac"', '"m" = "n"')))
+            'processJoins'   => array(array(array('INNER', '"zac"', '"m" = "n"')))
         );
 
         // join with columns
@@ -455,7 +508,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr11 = 'SELECT "foo".*, "zac"."bar" AS "bar", "zac"."baz" AS "baz" FROM "foo" INNER JOIN "zac" ON "m" = "n"';
         $internalTests11 = array(
             'processSelect' => array(array(array('"foo".*'), array('"zac"."bar"', '"bar"'), array('"zac"."baz"', '"baz"')), '"foo"'),
-            'processJoin'   => array(array(array('INNER', '"zac"', '"m" = "n"')))
+            'processJoins'   => array(array(array('INNER', '"zac"', '"m" = "n"')))
         );
 
         // join with alternate type
@@ -465,7 +518,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr12 = 'SELECT "foo".*, "zac"."bar" AS "bar", "zac"."baz" AS "baz" FROM "foo" OUTER JOIN "zac" ON "m" = "n"';
         $internalTests12 = array(
             'processSelect' => array(array(array('"foo".*'), array('"zac"."bar"', '"bar"'), array('"zac"."baz"', '"baz"')), '"foo"'),
-            'processJoin'   => array(array(array('OUTER', '"zac"', '"m" = "n"')))
+            'processJoins'   => array(array(array('OUTER', '"zac"', '"m" = "n"')))
         );
 
         // join with column aliases
@@ -475,7 +528,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr13 = 'SELECT "foo".*, "zac"."bar" AS "BAR", "zac"."baz" AS "BAZ" FROM "foo" INNER JOIN "zac" ON "m" = "n"';
         $internalTests13 = array(
             'processSelect' => array(array(array('"foo".*'), array('"zac"."bar"', '"BAR"'), array('"zac"."baz"', '"BAZ"')), '"foo"'),
-            'processJoin'   => array(array(array('INNER', '"zac"', '"m" = "n"')))
+            'processJoins'   => array(array(array('INNER', '"zac"', '"m" = "n"')))
         );
 
         // join with table aliases
@@ -485,7 +538,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr14 = 'SELECT "foo".*, "b".* FROM "foo" INNER JOIN "bar" AS "b" ON "b"."foo_id" = "foo"."foo_id"';
         $internalTests14 = array(
             'processSelect' => array(array(array('"foo".*'), array('"b".*')), '"foo"'),
-            'processJoin' => array(array(array('INNER', '"bar" AS "b"', '"b"."foo_id" = "foo"."foo_id"')))
+            'processJoins' => array(array(array('INNER', '"bar" AS "b"', '"b"."foo_id" = "foo"."foo_id"')))
         );
 
         // where (simple string)
@@ -583,7 +636,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr24 = 'SELECT "foo".* FROM "foo" ORDER BY "c1" DESC, "c2" ASC';
         $internalTests24 = array(
             'processSelect' => array(array(array('"foo".*')), '"foo"'),
-            'processOrder'  => array(array(array('"c1"', Select::ORDER_DESENDING), array('"c2"', Select::ORDER_ASCENDING)))
+            'processOrder'  => array(array(array('"c1"', Select::ORDER_DESCENDING), array('"c2"', Select::ORDER_ASCENDING)))
         );
 
         $select25 = new Select;
@@ -592,7 +645,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr25 = 'SELECT "foo".* FROM "foo" ORDER BY "c1" ASC, "c2" DESC';
         $internalTests25 = array(
             'processSelect' => array(array(array('"foo".*')), '"foo"'),
-            'processOrder'  => array(array(array('"c1"', Select::ORDER_ASCENDING), array('"c2"', Select::ORDER_DESENDING)))
+            'processOrder'  => array(array(array('"c1"', Select::ORDER_ASCENDING), array('"c2"', Select::ORDER_DESCENDING)))
         );
 
         // limit
@@ -625,7 +678,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr28 = 'SELECT "foo".*, "zac".* FROM "foo" INNER JOIN "zac" ON ("m" = "n" AND "c"."x") BETWEEN "x" AND "y"."z"';
         $internalTests28 = array(
             'processSelect' => array(array(array('"foo".*'), array('"zac".*')), '"foo"'),
-            'processJoin'   => array(array(array('INNER', '"zac"', '("m" = "n" AND "c"."x") BETWEEN "x" AND "y"."z"')))
+            'processJoins'   => array(array(array('INNER', '"zac"', '("m" = "n" AND "c"."x") BETWEEN "x" AND "y"."z"')))
         );
 
         // order with compound name
@@ -655,7 +708,53 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr31 = 'SELECT "foo".*, "zac".* FROM "foo" INNER JOIN "zac" ON (m = n AND c.x) BETWEEN x AND y.z';
         $internalTests31 = array(
             'processSelect' => array(array(array('"foo".*'), array('"zac".*')), '"foo"'),
-            'processJoin'   => array(array(array('INNER', '"zac"', '(m = n AND c.x) BETWEEN x AND y.z')))
+            'processJoins'   => array(array(array('INNER', '"zac"', '(m = n AND c.x) BETWEEN x AND y.z')))
+        );
+
+        $select32subselect = new Select;
+        $select32subselect->from('bar')->where->like('y', '%Foo%');
+        $select32 = new Select;
+        $select32->from(array('x' => $select32subselect));
+        $sqlPrep32 = 'SELECT "x".* FROM (SELECT "bar".* FROM "bar" WHERE "y" LIKE ?) AS "x"';
+        $sqlStr32 = 'SELECT "x".* FROM (SELECT "bar".* FROM "bar" WHERE "y" LIKE \'%Foo%\') AS "x"';
+        $internalTests32 = array(
+            'processSelect' => array(array(array('"x".*')), '(SELECT "bar".* FROM "bar" WHERE "y" LIKE ?) AS "x"'),
+        );
+
+        $select33 = new Select;
+        $select33->from('table')->columns(array('*'))->where(array(
+            'c1' => null,
+            'c2' => array(1, 2, 3),
+            new \Zend\Db\Sql\Predicate\IsNotNull('c3')
+        ));
+        $sqlPrep33 = 'SELECT "table".* FROM "table" WHERE "c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL';
+        $sqlStr33 = 'SELECT "table".* FROM "table" WHERE "c1" IS NULL AND "c2" IN (\'1\', \'2\', \'3\') AND "c3" IS NOT NULL';
+        $internalTests33 = array(
+            'processSelect' => array(array(array('"table".*')), '"table"'),
+            'processWhere'  => array('"c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL')
+        );
+
+        // @author Demian Katz
+        $select34 = new Select;
+        $select34->from('table')->order(array(
+            new Expression('isnull(?) DESC', array('name'), array(Expression::TYPE_IDENTIFIER)),
+            'name'
+        ));
+        $sqlPrep34 = 'SELECT "table".* FROM "table" ORDER BY isnull("name") DESC, "name" ASC';
+        $sqlStr34 = 'SELECT "table".* FROM "table" ORDER BY isnull("name") DESC, "name" ASC';
+        $internalTests34 = array(
+            'processOrder'  => array(array(array('isnull("name") DESC'), array('"name"', Select::ORDER_ASCENDING)))
+        );
+
+        // join with Expression object in COLUMNS part (ZF2-514)
+        // @co-author Koen Pieters (kpieters)
+        $select35 = new Select;
+        $select35->from('foo')->columns(array())->join('bar', 'm = n', array('thecount' => new Expression("COUNT(*)")));
+        $sqlPrep35 = // same
+        $sqlStr35 = 'SELECT COUNT(*) AS "thecount" FROM "foo" INNER JOIN "bar" ON "m" = "n"';
+        $internalTests35 = array(
+            'processSelect' => array(array(array('COUNT(*)', '"thecount"')), '"foo"'),
+            'processJoins'   => array(array(array('INNER', '"bar"', '"m" = "n"')))
         );
 
         /**
@@ -699,6 +798,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             array($select29, $sqlPrep29, array(),    $sqlStr29, $internalTests29),
             array($select30, $sqlPrep30, array(),    $sqlStr30, $internalTests30),
             array($select31, $sqlPrep31, array(),    $sqlStr31, $internalTests31),
+            array($select32, $sqlPrep32, array(),    $sqlStr32, $internalTests32),
+            array($select33, $sqlPrep33, array(),    $sqlStr33, $internalTests33),
+            array($select34, $sqlPrep34, array(),    $sqlStr34, $internalTests34),
+            array($select35, $sqlPrep35, array(),    $sqlStr35, $internalTests35),
         );
     }
 
