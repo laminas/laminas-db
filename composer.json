@@ -9,7 +9,7 @@
     "homepage": "https://github.com/zendframework/zend-db",
     "autoload": {
         "psr-4": {
-            "Zend\\Db": "src/"
+            "Zend\\Db\\": "src/"
         }
     },
     "require": {
