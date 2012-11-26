@@ -1,39 +1,26 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Db
- * @subpackage UnitTest
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Db
  */
 
 namespace ZendTest\Db\ResultSet;
 
-use ArrayObject,
-    ArrayIterator,
-    PHPUnit_Framework_TestCase as TestCase,
-    SplStack,
-    stdClass,
-    Zend\Db\ResultSet\ResultSet;
+use ArrayObject;
+use ArrayIterator;
+use PHPUnit_Framework_TestCase as TestCase;
+use SplStack;
+use stdClass;
+use Zend\Db\ResultSet\ResultSet;
 
 /**
  * @category   Zend
  * @package    Zend_Db
  * @subpackage UnitTest
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class ResultSetTest extends TestCase
 {
@@ -204,4 +191,27 @@ class ResultSetTest extends TestCase
         $test = $this->resultSet->toArray();
         $this->assertEquals($dataSource->getArrayCopy(), $test, var_export($test, 1));
     }
+
+    public function testBufferingCallsDatasourceCurrentOnce()
+    {
+        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockResult->expects($this->once())->method('current')->will($this->returnValue(array('foo' => 'bar')));
+
+        $this->resultSet->initialize($mockResult);
+        $this->resultSet->buffer();
+        $this->resultSet->current();
+
+        // assertion above will fail if this calls datasource current
+        $this->resultSet->current();
+    }
+
+    public function testCallingBufferAfterIterationThrowsException()
+    {
+        $this->resultSet->initialize($this->getMock('Zend\Db\Adapter\Driver\ResultInterface'));
+        $this->resultSet->current();
+
+        $this->setExpectedException('Zend\Db\ResultSet\Exception\RuntimeException', 'Buffering must be enabled before iteration is started');
+        $this->resultSet->buffer();
+    }
+
 }

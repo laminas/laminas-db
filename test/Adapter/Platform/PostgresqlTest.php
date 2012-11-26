@@ -1,4 +1,13 @@
 <?php
+/**
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Db
+ */
+
 namespace ZendTest\Db\Adapter\Platform;
 
 use Zend\Db\Adapter\Platform\Postgresql;
@@ -94,5 +103,14 @@ class PostgresqlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('"foo"."bar"', $this->platform->quoteIdentifierInFragment('foo.bar'));
         $this->assertEquals('"foo" as "bar"', $this->platform->quoteIdentifierInFragment('foo as bar'));
+    }
+
+    /**
+     * @group ZF2-386
+     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteIdentifierInFragment
+     */
+    public function testQuoteIdentifierInFragmentIgnoresSingleCharSafeWords()
+    {
+        $this->assertEquals('("foo"."bar" = "boo"."baz")', $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', array('(', ')', '=')));
     }
 }

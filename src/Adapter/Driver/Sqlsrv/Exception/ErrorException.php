@@ -8,29 +8,29 @@
  * @package   Zend_Db
  */
 
-namespace Zend\Db\Adapter\Driver\Sqlsrv;
+namespace Zend\Db\Adapter\Driver\Sqlsrv\Exception;
 
-use Zend\Db\Adapter\Exception\ErrorException as BaseErrorException;
+use Zend\Db\Adapter\Exception;
 
 /**
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Adapter
  */
-class ErrorException extends BaseErrorException
+class ErrorException extends Exception\ErrorException implements ExceptionInterface
 {
 
     /**
      * Errors
-     * 
+     *
      * @var array
      */
     protected $errors = array();
 
     /**
      * Construct
-     * 
-     * @param boolean $errors 
+     *
+     * @param boolean $errors
      */
     public function __construct($errors = false)
     {
