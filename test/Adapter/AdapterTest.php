@@ -1,4 +1,13 @@
 <?php
+/**
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Db
+ */
+
 namespace ZendTest\Db\Adapter;
 
 use Zend\Db\Adapter\Adapter;
@@ -55,6 +64,12 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
             unset($adapter);
         }
 
+        if (extension_loaded('pgsql')) {
+            $adapter = new Adapter(array('driver' => 'pgsql'), $this->mockPlatform);
+            $this->assertInstanceOf('Zend\Db\Adapter\Driver\Pgsql\Pgsql', $adapter->driver);
+            unset($adapter);
+        }
+
         if (extension_loaded('sqlsrv')) {
             $adapter = new Adapter(array('driver' => 'sqlsrv'), $this->mockPlatform);
             $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv', $adapter->driver);
@@ -87,6 +102,12 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         unset($adapter, $driver);
 
         $driver = clone $this->mockDriver;
+        $driver->expects($this->any())->method('getDatabasePlatformName')->will($this->returnValue('Postgresql'));
+        $adapter = new Adapter($driver);
+        $this->assertInstanceOf('Zend\Db\Adapter\Platform\Postgresql', $adapter->platform);
+        unset($adapter, $driver);
+
+        $driver = clone $this->mockDriver;
         $driver->expects($this->any())->method('getDatabasePlatformName')->will($this->returnValue('Sqlite'));
         $adapter = new Adapter($driver);
         $this->assertInstanceOf('Zend\Db\Adapter\Platform\Sqlite', $adapter->platform);
@@ -111,29 +132,6 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testdox unit test: Test setQueryMode() sets proper internal state and returns Adapter
-     * @covers Zend\Db\Adapter\Adapter::setQueryMode
-     */
-    public function testSetQueryMode()
-    {
-        $this->adapter->setQueryMode(Adapter::QUERY_MODE_EXECUTE);
-        $this->assertEquals(Adapter::QUERY_MODE_EXECUTE, $this->readAttribute($this->adapter, 'queryMode'));
-        $return = $this->adapter->setQueryMode(Adapter::QUERY_MODE_PREPARE);
-        $this->assertEquals(Adapter::QUERY_MODE_PREPARE, $this->readAttribute($this->adapter, 'queryMode'));
-        $this->assertEquals($this->adapter, $return);
-    }
-
-    /**
-     * @testdox unit test: Test setQueryMode() will throw excetion on unknown mode type
-     * @covers Zend\Db\Adapter\Adapter::setQueryMode
-     */
-    public function testSetQueryModeThrowsException()
-    {
-        $this->setExpectedException('InvalidArgumentException', 'Query Mode must be one of');
-        $this->adapter->setQueryMode('foo');
-    }
-
-    /**
      * @testdox unit test: Test getPlatform() returns platform object
      * @covers Zend\Db\Adapter\Adapter::getPlatform
      */
@@ -143,13 +141,22 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testdox unit test: Test getDefaultSchema() returns default schema from connection object
-     * @covers Zend\Db\Adapter\Adapter::getDefaultSchema
+     * @testdox unit test: Test getPlatform() returns platform object
+     * @covers Zend\Db\Adapter\Adapter::getQueryResultSetPrototype
      */
-    public function testGetDefaultSchema()
+    public function testGetQueryResultSetPrototype()
     {
-        $this->mockConnection->expects($this->any())->method('getDefaultSchema')->will($this->returnValue('FooSchema'));
-        $this->assertEquals('FooSchema', $this->adapter->getDefaultSchema());
+        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSetInterface', $this->adapter->getQueryResultSetPrototype());
+    }
+
+    /**
+     * @testdox unit test: Test getCurrentSchema() returns current schema from connection object
+     * @covers Zend\Db\Adapter\Adapter::getCurrentSchema
+     */
+    public function testGetCurrentSchema()
+    {
+        $this->mockConnection->expects($this->any())->method('getCurrentSchema')->will($this->returnValue('FooSchema'));
+        $this->assertEquals('FooSchema', $this->adapter->getCurrentSchema());
     }
 
     /**

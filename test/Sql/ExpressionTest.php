@@ -1,4 +1,13 @@
 <?php
+/**
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Db
+ */
+
 namespace ZendTest\Db\Sql;
 
 use Zend\Db\Sql\Expression;
@@ -25,6 +34,16 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Zend\Db\Sql\Expression::setExpression
+     */
+    public function testSetExpressionException()
+    {
+        $expression = new Expression();
+        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', 'Supplied expression must be a string.');
+        $return = $expression->setExpression(null);
+    }
+
+    /**
      * @covers Zend\Db\Sql\Expression::getExpression
      * @depends testSetExpression
      */
@@ -42,6 +61,17 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
         $return = $expression->setParameters('foo');
         $this->assertSame($expression, $return);
         return $return;
+    }
+
+    /**
+     * @covers Zend\Db\Sql\Expression::setParameters
+     */
+    public function testSetParametersException()
+    {
+        $expression = new Expression('','foo');
+
+        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', 'Expression parameters must be a scalar or array.');
+        $return = $expression->setParameters(null);
     }
 
     /**
