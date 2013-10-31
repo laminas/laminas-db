@@ -7,14 +7,10 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Db\Adapter\Profiler;
+namespace Zend\Db\Sql\Predicate;
 
-interface ProfilerInterface
+
+class NotLike extends Like
 {
-    /**
-     * @param string|\Zend\Db\Adapter\StatementContainerInterface $target
-     * @return mixed
-     */
-    public function profilerStart($target);
-    public function profilerFinish();
+    protected $specification = '%1$s NOT LIKE %2$s';
 }
