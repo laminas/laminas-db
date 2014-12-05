@@ -26,8 +26,7 @@
     },
     "suggest": {
         "zendframework/zend-eventmanager": "Zend\\EventManager component",
-        "zendframework/zend-servicemanager": "Zend\\ServiceManager component",
-        "zendframework/zend-stdlib": "Zend\\Stdlib component"
+        "zendframework/zend-servicemanager": "Zend\\ServiceManager component"
     },
     "extra": {
         "branch-alias": {
