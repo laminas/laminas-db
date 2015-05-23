@@ -14,12 +14,12 @@
     },
     "require": {
         "php": ">=5.3.23",
-        "zendframework/zend-stdlib": "self.version"
+        "zendframework/zend-stdlib": "~2.4"
     },
     "require-dev": {
-        "zendframework/zend-eventmanager": "self.version",
-        "zendframework/zend-servicemanager": "self.version",
-        "zendframework/zend-stdlib": "self.version",
+        "zendframework/zend-eventmanager": "~2.4",
+        "zendframework/zend-servicemanager": "~2.4",
+        "zendframework/zend-stdlib": "~2.4",
         "fabpot/php-cs-fixer": "1.7.*",
         "satooshi/php-coveralls": "dev-master",
         "phpunit/PHPUnit": "~4.0"
