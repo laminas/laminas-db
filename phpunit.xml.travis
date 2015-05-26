@@ -12,6 +12,11 @@
     <groups>
         <exclude>
             <group>disable</group>
+            <group>integration</group>
+            <group>integration-mysql</group>
+            <group>integration-postgres</group>
+            <group>integration-sqlserver</group>
+            <group>integration-ibm_db2</group>
         </exclude>
     </groups>
 
