@@ -33,7 +33,7 @@
              functionality works as expected. Such tests include those for
              Zend\Soap and Zend\Session, which require that headers not be sent
              in order to work. -->
-        <const name="TESTS_ZEND_OB_ENABLED" value="false" />
+        <env name="TESTS_ZEND_OB_ENABLED" value="false" />
 
         <!-- Note: the following is a FULL list of ALL POSSIBLE constants
              currently in use in ZF2 for ALL COMPONENTS; you should choose the
