@@ -32,52 +32,52 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
         if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME')) {
             if (extension_loaded('mysqli')) {
                 $this->adapters['mysqli'] = new \mysqli(
-                    getenv('ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
-                    getenv('ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
-                    getenv('ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD'),
-                    getenv('ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
+                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
+                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
+                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD'),
+                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
                 );
             }
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_mysql'] = new \Pdo(
-                    'mysql:host=' . getenv('ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME') . ';dbname=' . getenv('ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
-                    getenv('ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
-                    getenv('ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
+                    'mysql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME') . ';dbname=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
+                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
+                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
                 );
             }
         }
-        if (getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')) {
+        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')) {
             if (extension_loaded('pgsql')) {
                 $this->adapters['pgsql'] = pg_connect(
-                    'host=' . getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')
-                        . ' dbname=' . getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
-                        . ' user=' . getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME')
-                        . ' password=' . getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
+                    'host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')
+                        . ' dbname=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
+                        . ' user=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME')
+                        . ' password=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
                 );
             }
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_pgsql'] = new \Pdo(
-                    'pgsql:host=' . getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME') . ';dbname=' . getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE'),
-                    getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME'),
-                    getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
+                    'pgsql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME') . ';dbname=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE'),
+                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME'),
+                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
                 );
             }
         }
-        if (getenv('ZEND_DB_ADAPTER_DRIVER_SQLITE_MEMORY')) {
+        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLITE_MEMORY')) {
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_sqlite'] = new \Pdo(
                     'sqlite::memory:'
                 );
             }
         }
-        if (getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')) {
+        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')) {
             if (extension_loaded('sqlsrv')) {
                 $this->adapters['sqlsrv'] = sqlsrv_connect(
-                    getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'),
+                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'),
                     array(
-                        'UID' => getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
-                        'PWD' => getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
-                        'Database' => (getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
+                        'UID' => getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
+                        'PWD' => getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
+                        'Database' => (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
                             ? : null)
                     )
                 );
@@ -88,11 +88,11 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
             }
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_sqlsrv'] = new \Pdo(
-                    'sqlsrv:Server=' . getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
-                        . ';Database=' . (getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
+                    'sqlsrv:Server=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
+                        . ';Database=' . (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
                             ?  : null),
-                    getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
-                    getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD')
+                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
+                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD')
                 );
             }
         }

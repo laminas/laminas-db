@@ -15,9 +15,9 @@ abstract class AbstractIntegrationTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $variables = array(
-        'database' => 'ZEND_DB_ADAPTER_DRIVER_IBMDB2_DATABASE',
-        'username' => 'ZEND_DB_ADAPTER_DRIVER_IBMDB2_USERNAME',
-        'password' => 'ZEND_DB_ADAPTER_DRIVER_IBMDB2_PASSWORD',
+        'database' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_IBMDB2_DATABASE',
+        'username' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_IBMDB2_USERNAME',
+        'password' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_IBMDB2_PASSWORD',
     );
 
     /**
