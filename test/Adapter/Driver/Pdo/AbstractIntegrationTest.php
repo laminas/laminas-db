@@ -19,10 +19,10 @@
 //    protected function setUp()
 //    {
 //        foreach ($this->variables as $name => $value) {
-//            if (!isset($GLOBALS[$value])) {
-//                $this->fail('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
+//            if (!getenv($value)) {
+//                $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
 //            }
-//            $this->variables[$name] = $GLOBALS[$value];
+//            $this->variables[$name] = getenv($value);
 //        }
 //
 //        if (!extension_loaded('sqlsrv')) {
