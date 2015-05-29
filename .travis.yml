@@ -8,8 +8,6 @@ cache:
 
 env:
   global:
-    - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE=travis_ci_test
-    - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=localhost
     - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE=travis_ci_test
     - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME=localhost
     - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME=postgres
@@ -40,7 +38,6 @@ install:
   - travis_retry composer install --no-interaction --ignore-platform-reqs
 
 before_script:
-  - mysql -e 'create database myapp_test;'
   - psql -c 'create database travis_ci_test;' -U postgres
 
 script:
