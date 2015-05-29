@@ -46,7 +46,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
                 );
             }
         }
-        if (isset(getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME'))) {
+        if (getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')) {
             if (extension_loaded('pgsql')) {
                 $this->adapters['pgsql'] = pg_connect(
                     'host=' . getenv('ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')
@@ -63,22 +63,22 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
                 );
             }
         }
-        if (isset(getenv('ZEND_DB_ADAPTER_DRIVER_SQLITE_MEMORY'))) {
+        if (getenv('ZEND_DB_ADAPTER_DRIVER_SQLITE_MEMORY')) {
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_sqlite'] = new \Pdo(
                     'sqlite::memory:'
                 );
             }
         }
-        if (isset(getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'))) {
+        if (getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')) {
             if (extension_loaded('sqlsrv')) {
                 $this->adapters['sqlsrv'] = sqlsrv_connect(
                     getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'),
                     array(
                         'UID' => getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
                         'PWD' => getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
-                        'Database' => (isset(getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE'))
-                            ? getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE') : null)
+                        'Database' => (getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
+                            ? : null)
                     )
                 );
                 if (!$this->adapters['sqlsrv']) {
@@ -89,8 +89,8 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_sqlsrv'] = new \Pdo(
                     'sqlsrv:Server=' . getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
-                        . ';Database=' . (isset(getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE'))
-                            ? getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE') : null),
+                        . ';Database=' . (getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
+                            ?  : null),
                     getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
                     getenv('ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD')
                 );

@@ -21,7 +21,6 @@ class SqlServerIntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testQuoteValueWithSqlServer()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
         if (!$this->adapters['pdo_sqlsrv']) {
             $this->markTestSkipped('SQLServer (pdo_sqlsrv) not configured in unit test configuration file');
         }

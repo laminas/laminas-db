@@ -15,6 +15,10 @@
         </exclude>
     </groups>
 
+    <listeners>
+        <listener class="ZendTest\Db\IntegrationTestListener" file="./test/IntegrationTestListener.php" />
+    </listeners>
+
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
