@@ -5,7 +5,7 @@
 
 `Zend\Db` is a component that abstract the access to a Database using an object
 oriented API to build the queries. `Zend\Db` consumes different storage adapters
-to access different database vendors such as MySQL, PostreSQL, Oracle, IBM DB2,
+to access different database vendors such as MySQL, PostgreSQL, Oracle, IBM DB2,
 Microsoft Sql Server, PDO, etc.
 
 
