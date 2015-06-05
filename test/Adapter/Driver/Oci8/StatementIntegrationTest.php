@@ -18,11 +18,11 @@ use Zend\Db\Adapter\Driver\Oci8\Statement;
  */
 class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
 {
-    protected $variables = array(
+    protected $variables = [
         'hostname' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_OCI8_HOSTNAME',
         'username' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_OCI8_USERNAME',
         'password' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_OCI8_PASSWORD',
-    );
+    ];
 
     /**
      * Sets up the fixture, for example, opens a network connection.
