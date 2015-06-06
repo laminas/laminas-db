@@ -14,13 +14,6 @@ use Zend\Db\Adapter\Adapter;
 class Metadata implements MetadataInterface
 {
     /**
-     * Adapter
-     *
-     * @var Adapter
-     */
-    protected $adapter = null;
-
-    /**
      * @var MetadataInterface
      */
     protected $source = null;
@@ -32,7 +25,6 @@ class Metadata implements MetadataInterface
      */
     public function __construct(Adapter $adapter)
     {
-        $this->adapter = $adapter;
         $this->source = $this->createSourceFromAdapter($adapter);
     }
 
