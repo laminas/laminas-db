@@ -44,11 +44,11 @@ class Oci8 implements DriverInterface, DriverFeatureInterface, Profiler\Profiler
     /**
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
     /**
      * @var array
      */
-    protected $features = array();
+    protected $features = [];
 
     /**
      * @param array|Connection|\oci8 $connection
@@ -56,7 +56,7 @@ class Oci8 implements DriverInterface, DriverFeatureInterface, Profiler\Profiler
      * @param null|Result $resultPrototype
      * @param array $options
      */
-    public function __construct($connection, Statement $statementPrototype = null, Result $resultPrototype = null, array $options = array(), $features = self::FEATURES_DEFAULT)
+    public function __construct($connection, Statement $statementPrototype = null, Result $resultPrototype = null, array $options = [], $features = self::FEATURES_DEFAULT)
     {
         if (!$connection instanceof Connection) {
             $connection = new Connection($connection);
