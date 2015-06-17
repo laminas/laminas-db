@@ -7,9 +7,9 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 namespace ZendTest\Db\Adapter\Driver\Oci8\Feature;
+
 use PHPUnit_Framework_TestCase;
 use Zend\Db\Adapter\Driver\Oci8\Feature\RowCounter;
-use Zend\Db\Adapter\Driver\Oci8\Statement;
 class RowCounterTest extends PHPUnit_Framework_TestCase
 {
     /**
