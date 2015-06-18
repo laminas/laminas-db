@@ -139,7 +139,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::isPrepared   
+     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::isPrepared
      */
     public function testIsPrepared()
     {
