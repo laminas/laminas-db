@@ -56,6 +56,13 @@ class Oracle extends AbstractPlatform
         }
         throw new Exception\InvalidArgumentException('$driver must be a Oci8 or Oracle PDO Zend\Db\Adapter\Driver, Oci8 instance or Oci PDO instance');
     }
+    
+    /**
+     * @return null||\Zend\Db\Adapter\Driver\Pdo\Pdo||\PDO||\Zend\Db\Adapter\Driver\Oci8\Oci8||\Oci8
+     */
+    public function getDriver(){
+        return $this->resource;
+    }
 
     /**
      * {@inheritDoc}
