@@ -60,7 +60,8 @@ class Oracle extends AbstractPlatform
     /**
      * @return null||\Zend\Db\Adapter\Driver\Pdo\Pdo||\PDO||\Zend\Db\Adapter\Driver\Oci8\Oci8||\Oci8
      */
-    public function getDriver(){
+    public function getDriver()
+    {
         return $this->resource;
     }
 
