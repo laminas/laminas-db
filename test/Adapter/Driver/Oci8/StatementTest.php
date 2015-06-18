@@ -14,7 +14,7 @@ use Zend\Db\Adapter\Driver\Oci8\Oci8;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Profiler\Profiler;
 
-/** 
+/**
  * @group integrationOracle
  */
 class StatementTest extends \PHPUnit_Framework_TestCase
