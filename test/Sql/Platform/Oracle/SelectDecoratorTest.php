@@ -83,10 +83,41 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $select1 = new Select(['b' => $select1b]);
         $expectedSql1 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT "test".* FROM "test") "a") "b"';
         $expectedFormatParamCount1 = 0;
+        
+        $select2a = new Select('test');
+        $select2a->limit(2);
+        $select2b = new Select(['a' => $select2a]);
+        $select2 = new Select(['b' => $select2b]);
+        $expectedSql2_1 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b WHERE rownum <= (:offset2+:limit2)) WHERE b_rownum >= (:offset2 + 1)) "a") "b"';
+        $expectedSql2_2 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b WHERE rownum <= (0+2)) WHERE b_rownum >= (0 + 1)) "a") "b"';
+        $expectedFormatParamCount2 = 0;
+        $expectedParams2 = ['offset2' => 0, 'limit2' => 2];
+        
+        $select3a = new Select('test');
+        $select3a->offset(2);
+        $select3b = new Select(['a' => $select3a]);
+        $select3 = new Select(['b' => $select3b]);
+        $expectedSql3_1 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b ) WHERE b_rownum > (:offset2)) "a") "b"';
+        $expectedSql3_2 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b ) WHERE b_rownum > (2)) "a") "b"';
+        $expectedFormatParamCount3 = 0;
+        $expectedParams3 = ['offset2' => 2];
+        
+        $select4a = new Select('test');
+        $select4a->limit(2);
+        $select4a->offset(2);
+        $select4b = new Select(['a' => $select4a]);
+        $select4 = new Select(['b' => $select4b]);
+        $expectedSql4_1 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b WHERE rownum <= (:offset2+:limit2)) WHERE b_rownum >= (:offset2 + 1)) "a") "b"';
+        $expectedSql4_2 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b WHERE rownum <= (2+2)) WHERE b_rownum >= (2 + 1)) "a") "b"';
+        $expectedFormatParamCount4 = 0;
+        $expectedParams4 = ['offset2' => 2, 'limit2' => 2];
 
         return [
             [$select0, $expectedSql0, [], $expectedSql0, $expectedFormatParamCount0],
             [$select1, $expectedSql1, [], $expectedSql1, $expectedFormatParamCount1],
+            [$select2, $expectedSql2_1, $expectedParams2, $expectedSql2_2, $expectedFormatParamCount2],
+            [$select3, $expectedSql3_1, $expectedParams3, $expectedSql3_2, $expectedFormatParamCount3],
+            [$select4, $expectedSql4_1, $expectedParams4, $expectedSql4_2, $expectedFormatParamCount4],
         ];
     }
 }
