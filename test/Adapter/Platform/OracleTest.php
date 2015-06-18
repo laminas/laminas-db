@@ -26,30 +26,26 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     {
         $this->platform = new Oracle;
     }
-    
     /**
      * @covers Zend\Db\Adapter\Platform\Oracle::__construct
      */
     public function testContructWithOptions()
     {
         $this->assertEquals('"\'test\'.\'test\'"', $this->platform->quoteIdentifier('"test"."test"'));
-        
         $plataform1 = new Oracle(['quote_identifiers'=> false]);
         $this->assertEquals('"test"."test"', $plataform1->quoteIdentifier('"test"."test"'));
         $plataform2 = new Oracle(['quote_identifiers'=> 'false']);
         $this->assertEquals('"test"."test"', $plataform2->quoteIdentifier('"test"."test"'));
     }
-    
     /**
      * @covers Zend\Db\Adapter\Platform\Oracle::__construct
      */
     public function testContructWithDriver()
     {
         $mockDriver = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Oci8\Oci8', [[]], '', true, true, true, []);
-        $plataform = new Oracle([],$mockDriver);
+        $plataform = new Oracle([], $mockDriver);
         $this->assertEquals($mockDriver, $plataform->getDriver());
     }
-    
     /**
      * @covers Zend\Db\Adapter\Platform\Oracle::setDriver
      */
@@ -59,7 +55,6 @@ class OracleTest extends \PHPUnit_Framework_TestCase
         $plataform = $this->platform->setDriver($mockDriver);
         $this->assertEquals($mockDriver, $plataform->getDriver());
     }
-    
     /**
      * @covers Zend\Db\Adapter\Platform\Oracle::setDriver
      * @expectedException Zend\Db\Adapter\Exception\InvalidArgumentException
@@ -69,7 +64,6 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     {
         $this->platform->setDriver(null);
     }
-    
     /**
      * @covers Zend\Db\Adapter\Platform\Oracle::getDriver
      */
