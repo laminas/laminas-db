@@ -83,7 +83,7 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $select1 = new Select(['b' => $select1b]);
         $expectedSql1 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT "test".* FROM "test") "a") "b"';
         $expectedFormatParamCount1 = 0;
-        
+
         $select2a = new Select('test');
         $select2a->limit(2);
         $select2b = new Select(['a' => $select2a]);
@@ -92,7 +92,7 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $expectedSql2_2 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b WHERE rownum <= (0+2)) WHERE b_rownum >= (0 + 1)) "a") "b"';
         $expectedFormatParamCount2 = 0;
         $expectedParams2 = ['offset2' => 0, 'limit2' => 2];
-        
+
         $select3a = new Select('test');
         $select3a->offset(2);
         $select3b = new Select(['a' => $select3a]);
@@ -101,7 +101,7 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $expectedSql3_2 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b ) WHERE b_rownum > (2)) "a") "b"';
         $expectedFormatParamCount3 = 0;
         $expectedParams3 = ['offset2' => 2];
-        
+
         $select4a = new Select('test');
         $select4a->limit(2);
         $select4a->offset(2);
