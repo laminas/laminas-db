@@ -157,6 +157,16 @@ class PredicateTest extends TestCase
         $this->assertContains(['foo.bar', 1, 10], $parts[0]);
     }
 
+    public function testBetweenCreatesNotBetweenPredicate()
+    {
+        $predicate = new Predicate();
+        $predicate->notBetween('foo.bar', 1, 10);
+        $parts = $predicate->getExpressionData();
+        $this->assertEquals(1, count($parts));
+        $this->assertContains('%1$s NOT BETWEEN %2$s AND %3$s', $parts[0]);
+        $this->assertContains(['foo.bar', 1, 10], $parts[0]);
+    }
+
     public function testCanChainPredicateFactoriesBetweenOperators()
     {
         $predicate = new Predicate();
