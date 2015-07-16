@@ -383,6 +383,27 @@ class Predicate extends PredicateSet
     }
 
     /**
+     * Create "NOT BETWEEN" predicate
+     *
+     * Utilizes NotBetween predicate
+     *
+     * @param  string $identifier
+     * @param  int|float|string $minValue
+     * @param  int|float|string $maxValue
+     * @return Predicate
+     */
+    public function notBetween($identifier, $minValue, $maxValue)
+    {
+        $this->addPredicate(
+            new NotBetween($identifier, $minValue, $maxValue),
+            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+        );
+        $this->nextPredicateCombineOperator = null;
+
+        return $this;
+    }
+
+    /**
      * Use given predicate directly
      *
      * Contrary to {@link addPredicate()} this method respects formerly set
