@@ -40,9 +40,9 @@
 
         <!-- Integration Test Variables -->
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME" value="" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME" value="root" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD" value="" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE" value="" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE" value="zenddb_test" />
 
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME" value="" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME" value="" />
@@ -60,9 +60,9 @@
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_IBMDB2_DATABASE" value="" />
 
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME" value="" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME" value="postgres" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD" value="" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE" value="" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE" value="zenddb_test" />
 
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLITE_MEMORY" value="true" />
     </php>

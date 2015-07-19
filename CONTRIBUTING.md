@@ -75,6 +75,20 @@ To do so:
  -  Edit `phpunit.xml` to enable any specific functionality you
     want to test, as well as to provide test values to utilize.
 
+### Execute tests against real database servers
+
+This projects provides a [Vagrant](https://www.vagrantup.com/) virtual machine definition with a MySQL and PostgreSQL
+servers installed and configured.
+
+For to execute the tests against this server do the following steps (assume you have Vagrant > 1.6 installed)
+
+1. Run the virtual machine: `vagrant up`
+2. Copy `phpunit.xml.dist` file to `phpunit.xml`
+3. Enable online tests by setting the following config options:
+ 
+   * `TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME` value to `localhost`
+   * `TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME` value to `localhost`
+
 ## Running Coding Standards Checks
 
 This component uses [php-cs-fixer](http://cs.sensiolabs.org/) for coding
