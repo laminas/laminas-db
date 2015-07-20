@@ -90,7 +90,7 @@ For to execute the tests against this server do the following steps (assume you 
    * `TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME` value to `localhost`
 4. Run `./vendor/bin/phpunit`.
 
-When done, you can halt the LDAP server using `vagrant halt`.
+When done, you can halt the test servers using `vagrant halt`.
 
 > ### Alternate ports
 >
