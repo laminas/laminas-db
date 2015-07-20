@@ -11,6 +11,11 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+env:
+  global:
+    - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=localhost
+    - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME=localhost
+
 matrix:
   fast_finish: true
   include:
@@ -37,6 +42,10 @@ before_install:
 
 install:
   - travis_retry composer install --no-interaction --ignore-platform-reqs
+
+before_script:
+  - .ci/mysql_fixtures.sh
+  - .ci/pgsql_fixtures.sh
 
 script:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-clover clover.xml ; fi

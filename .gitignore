@@ -3,13 +3,13 @@
 .idea
 .project
 .settings/
+.vagrant/
 .*.sw*
 .*.un~
 nbproject
-tmp/
-
 clover.xml
 composer.lock
 coveralls-upload.json
 phpunit.xml
-vendor
+tmp/
+vendor/
