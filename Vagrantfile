@@ -29,10 +29,10 @@ Vagrant.configure(2) do |config|
   config.vm.box = 'chef/ubuntu-14.04'
 
   # MySQL port
-  config.vm.network 'forwarded_port', guest: 3306, host: 3306
+  config.vm.network 'forwarded_port', guest: 3306, host: 3306, auto_correct: true
 
   # PostgreSQL port
-  config.vm.network 'forwarded_port', guest: 5432, host: 5432
+  config.vm.network 'forwarded_port', guest: 5432, host: 5432, auto_correct: true
 
   config.vm.provision 'shell', inline: $install_software
   config.vm.provision 'shell', privileged: false, inline: '/vagrant/.ci/mysql_fixtures.sh'

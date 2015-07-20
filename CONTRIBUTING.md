@@ -77,17 +77,49 @@ To do so:
 
 ### Execute tests against real database servers
 
-This projects provides a [Vagrant](https://www.vagrantup.com/) virtual machine definition with a MySQL and PostgreSQL
-servers installed and configured.
+This projects provides a [Vagrant](https://www.vagrantup.com/) virtual machine definition with a
+MySQL and PostgreSQL servers installed and configured.
 
 For to execute the tests against this server do the following steps (assume you have Vagrant > 1.6 installed)
 
 1. Run the virtual machine: `vagrant up`
-2. Copy `phpunit.xml.dist` file to `phpunit.xml`
+2. Copy `phpunit.xml.dist` file to `phpunit.xml`.
 3. Enable online tests by setting the following config options:
  
    * `TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME` value to `localhost`
    * `TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME` value to `localhost`
+4. Run `./vendor/bin/phpunit`.
+
+When done, you can halt the LDAP server using `vagrant halt`.
+
+> ### Alternate ports
+>
+> Pay attention to the output from your `vagrant up` command. If you have MySQL or PostgreSQL
+> running locally, Vagrant will detect that the port is in use, and forward an alternate port to the
+> virtual machine's database server(s). You'll likely see output like the following:
+>
+> ```
+> ==> default: Forwarding ports...
+>     default: 3306 => 2200 (adapter 1)
+>     default: 5432 => 5432 (adapter 1)
+>     default: 22 => 2222 (adapter 1)
+> ```
+>
+> In the above example, local port 2200 is forwarded to guest 3306; in other words, for testing
+> MySQL, port 2200 should be used.
+>
+> To specify the alternate port, append it to the hostname, separated by a colon: `localhost:2200`.
+
+> ### Alternate testing approach
+>
+> The PHPUnit config file defines environment variables, which allows users on unix-like systems to
+> simplify steps 2-4 to:
+>
+> ```console
+> $ TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=localhost \
+> > TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME=localhost \
+> > ./vendor/bin/phpunit
+> ```
 
 ## Running Coding Standards Checks
 
