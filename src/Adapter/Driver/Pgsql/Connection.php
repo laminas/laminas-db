@@ -20,6 +20,11 @@ class Connection extends AbstractConnection
     protected $driver = null;
 
     /**
+     * @var resource
+     */
+    protected $resource = null;
+
+    /**
      * @var null|int PostgreSQL connection type
      */
     protected $type = null;
@@ -37,6 +42,20 @@ class Connection extends AbstractConnection
             $this->setResource($connectionInfo);
         }
     }
+
+    /**
+     * Set resource
+     *
+     * @param resource $resource
+     * @return self
+     */
+    public function setResource($resource)
+    {
+        $this->resource = $resource;
+
+        return $this;
+    }
+
 
     /**
      * Set driver
