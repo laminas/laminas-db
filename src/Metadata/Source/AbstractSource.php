@@ -58,11 +58,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get table names
-     *
-     * @param  string $schema
-     * @param  bool   $includeViews
-     * @return string[]
+     * {@inheritdoc}
      */
     public function getTableNames($schema = null, $includeViews = false)
     {
@@ -86,11 +82,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get tables
-     *
-     * @param  string $schema
-     * @param  bool   $includeViews
-     * @return Object\TableObject[]
+     * {@inheritdoc}
      */
     public function getTables($schema = null, $includeViews = false)
     {
@@ -106,11 +98,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get table
-     *
-     * @param  string $tableName
-     * @param  string $schema
-     * @return Object\TableObject
+     * {@inheritdoc}
      */
     public function getTable($tableName, $schema = null)
     {
@@ -144,10 +132,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get view names
-     *
-     * @param string $schema
-     * @return array
+     * {@inheritdoc}
      */
     public function getViewNames($schema = null)
     {
@@ -167,10 +152,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get views
-     *
-     * @param string $schema
-     * @return array
+     * {@inheritdoc}
      */
     public function getViews($schema = null)
     {
@@ -186,11 +168,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get view
-     *
-     * @param string $viewName
-     * @param string $schema
-     * @return \Zend\Db\Metadata\Object\TableObject
+     * {@inheritdoc}
      */
     public function getView($viewName, $schema = null)
     {
@@ -208,11 +186,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Gt column names
-     *
-     * @param  string $table
-     * @param  string $schema
-     * @return array
+     * {@inheritdoc}
      */
     public function getColumnNames($table, $schema = null)
     {
@@ -230,11 +204,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get columns
-     *
-     * @param  string $table
-     * @param  string $schema
-     * @return array
+     * {@inheritdoc}
      */
     public function getColumns($table, $schema = null)
     {
@@ -252,12 +222,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get column
-     *
-     * @param  string $columnName
-     * @param  string $table
-     * @param  string $schema
-     * @return Object\ColumnObject
+     * {@inheritdoc}
      */
     public function getColumn($columnName, $table, $schema = null)
     {
@@ -301,11 +266,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get constraints
-     *
-     * @param  string $table
-     * @param  string $schema
-     * @return array
+     * {@inheritdoc}
      */
     public function getConstraints($table, $schema = null)
     {
@@ -324,12 +285,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get constraint
-     *
-     * @param  string $constraintName
-     * @param  string $table
-     * @param  string $schema
-     * @return Object\ConstraintObject
+     * {@inheritdoc}
      */
     public function getConstraint($constraintName, $table, $schema = null)
     {
@@ -366,12 +322,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get constraint keys
-     *
-     * @param  string $constraint
-     * @param  string $table
-     * @param  string $schema
-     * @return array
+     * {@inheritdoc}
      */
     public function getConstraintKeys($constraint, $table, $schema = null)
     {
@@ -411,10 +362,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get trigger names
-     *
-     * @param string $schema
-     * @return array
+     * {@inheritdoc}
      */
     public function getTriggerNames($schema = null)
     {
@@ -428,10 +376,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get triggers
-     *
-     * @param string $schema
-     * @return array
+     * {@inheritdoc}
      */
     public function getTriggers($schema = null)
     {
@@ -447,11 +392,7 @@ abstract class AbstractSource implements MetadataInterface
     }
 
     /**
-     * Get trigger
-     *
-     * @param string $triggerName
-     * @param string $schema
-     * @return Object\TriggerObject
+     * {@inheritdoc}
      */
     public function getTrigger($triggerName, $schema = null)
     {

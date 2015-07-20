@@ -9,6 +9,11 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#15](https://github.com/zendframework/zend-db/pull/15) adds a new predicate,
   `Zend\Db\Sql\Predicate\NotBetween`, which can be invoked via `Sql`
   instances: `$sql->notBetween($field, $min, $max)`.
+- [#22](https://github.com/zendframework/zend-db/pull/22) extracts a factory,
+  `Zend\Db\Metadata\Source\Factory`, from `Zend\Db\Metadata\Metadata`,
+  removing the (non-public) `createSourceFromAdapter()` method from that
+  class. Additionally, it extracts `Zend\Db\Metadata\MetadataInterface`, to
+  allow creating alternate implementations.
 
 ### Deprecated
 

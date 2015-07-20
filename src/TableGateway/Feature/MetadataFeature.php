@@ -9,10 +9,10 @@
 
 namespace Zend\Db\TableGateway\Feature;
 
-use Zend\Db\Metadata\Metadata;
 use Zend\Db\Metadata\MetadataInterface;
 use Zend\Db\TableGateway\Exception;
 use Zend\Db\Metadata\Object\TableObject;
+use Zend\Db\Metadata\Source\Factory as SourceFactory;
 
 class MetadataFeature extends AbstractFeature
 {
@@ -40,7 +40,7 @@ class MetadataFeature extends AbstractFeature
     public function postInitialize()
     {
         if ($this->metadata === null) {
-            $this->metadata = new Metadata($this->tableGateway->adapter);
+            $this->metadata = SourceFactory::createSourceFromAdapter($this->tableGateway->adapter);
         }
 
         // localize variable for brevity
