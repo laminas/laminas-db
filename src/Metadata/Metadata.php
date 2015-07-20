@@ -11,6 +11,9 @@ namespace Zend\Db\Metadata;
 
 use Zend\Db\Adapter\Adapter;
 
+/**
+ * @deprecated Use Zend\Db\Metadata\Source\Factory::createSourceFromAdapter($adapter)
+ */
 class Metadata implements MetadataInterface
 {
     /**
@@ -25,34 +28,8 @@ class Metadata implements MetadataInterface
      */
     public function __construct(Adapter $adapter)
     {
-        $this->source = $this->createSourceFromAdapter($adapter);
+        $this->source = Source\Factory::createSourceFromAdapter($adapter);
     }
-
-    /**
-     * Create source from adapter
-     *
-     * @param  Adapter $adapter
-     * @return Source\AbstractSource
-     */
-    protected function createSourceFromAdapter(Adapter $adapter)
-    {
-        switch ($adapter->getPlatform()->getName()) {
-            case 'MySQL':
-                return new Source\MysqlMetadata($adapter);
-            case 'SQLServer':
-                return new Source\SqlServerMetadata($adapter);
-            case 'SQLite':
-                return new Source\SqliteMetadata($adapter);
-            case 'PostgreSQL':
-                return new Source\PostgresqlMetadata($adapter);
-            case 'Oracle':
-                return new Source\OracleMetadata($adapter);
-        }
-
-        throw new \Exception('cannot create source from adapter');
-    }
-
-    // @todo methods
 
     /**
      * Get base tables and views
