@@ -53,13 +53,11 @@ class Select extends AbstractPreparableSql
     /**#@-*/
 
     /**
-     * @const
      * @deprecated use JOIN_LEFT_OUTER instead
      */
     const JOIN_OUTER_LEFT  = 'outer left';
 
     /**
-     * @const
      * @deprecated use JOIN_LEFT_OUTER instead
      */
     const JOIN_OUTER_RIGHT = 'outer right';
