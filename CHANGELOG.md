@@ -17,7 +17,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Deprecated
 
-- Nothing.
+- [#27](https://github.com/zendframework/zend-db/pull/27) deprecates the
+  constants `JOIN_OUTER_LEFT` and `JOIN_OUTER_RIGHT` in favor of
+  `JOIN_LEFT_OUTER` and `JOIN_RIGHT_OUTER`.
 
 ### Removed
 
