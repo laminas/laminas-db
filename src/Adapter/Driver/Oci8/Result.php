@@ -18,7 +18,7 @@ class Result implements Iterator, ResultInterface
      */
     protected $resource = null;
     /**
-     * @var null
+     * @var null|int
      */
     protected $rowCount = null;
     /**
