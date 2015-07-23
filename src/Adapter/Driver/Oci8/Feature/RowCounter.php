@@ -13,7 +13,7 @@ use Zend\Db\Adapter\Driver\Feature\AbstractFeature;
 use Zend\Db\Adapter\Driver\Oci8\Statement;
 
 /**
- * Class for count of results of a select 
+ * Class for count of results of a select
  */
 class RowCounter extends AbstractFeature
 {
