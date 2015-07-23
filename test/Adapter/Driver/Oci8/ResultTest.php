@@ -72,7 +72,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testNext()
     {
         $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\Oci8\Result')
-                ->setMethods(array('loadData'))
+                ->setMethods(['loadData'])
                 ->getMock();
         $mockResult->expects($this->any())
                 ->method('loadData')
@@ -88,5 +88,4 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $result = new Result();
         $this->assertNull($result->rewind());
     }
-
 }
