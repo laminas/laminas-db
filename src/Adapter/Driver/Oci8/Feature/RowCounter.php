@@ -13,7 +13,7 @@ use Zend\Db\Adapter\Driver\Feature\AbstractFeature;
 use Zend\Db\Adapter\Driver\Oci8\Statement;
 
 /**
- * RowCounter
+ * Class for count of results of a select 
  */
 class RowCounter extends AbstractFeature
 {
@@ -27,7 +27,7 @@ class RowCounter extends AbstractFeature
     }
 
     /**
-     * @param \Zend\Db\Adapter\Driver\Oci8\Statement $statement
+     * @param Statement $statement
      * @return null|int
      */
     public function getCountForStatement(Statement $statement)
