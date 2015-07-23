@@ -12,9 +12,12 @@ namespace Zend\Db\Adapter\Driver\Oci8;
 use Zend\Db\Adapter\Driver\DriverInterface;
 use Zend\Db\Adapter\Exception;
 use Zend\Db\Adapter\Profiler;
+use Zend\Db\Adapter\Driver\Feature\AbstractFeature;
 
 class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
 {
+    const FEATURES_DEFAULT = 'default';
+
     /**
      * @var Connection
      */
@@ -36,19 +39,45 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     protected $profiler = null;
 
     /**
+     * @var array
+     */
+    protected $options = [];
+
+    /**
+     * @var array
+     */
+    protected $features = [];
+
+    /**
      * @param array|Connection|\oci8 $connection
      * @param null|Statement $statementPrototype
      * @param null|Result $resultPrototype
+     * @param array $options
      */
-    public function __construct($connection, Statement $statementPrototype = null, Result $resultPrototype = null)
-    {
+    public function __construct(
+        $connection,
+        Statement $statementPrototype = null,
+        Result $resultPrototype = null,
+        array $options = [],
+        $features = self::FEATURES_DEFAULT
+    ) {
         if (!$connection instanceof Connection) {
             $connection = new Connection($connection);
         }
 
+        $options = array_intersect_key(array_merge($this->options, $options), $this->options);
         $this->registerConnection($connection);
         $this->registerStatementPrototype(($statementPrototype) ?: new Statement());
         $this->registerResultPrototype(($resultPrototype) ?: new Result());
+        if (is_array($features)) {
+            foreach ($features as $name => $feature) {
+                $this->addFeature($name, $feature);
+            }
+        } elseif ($features instanceof AbstractFeature) {
+            $this->addFeature($features->getName(), $features);
+        } elseif ($features === self::FEATURES_DEFAULT) {
+            $this->setupDefaultFeatures();
+        }
     }
 
     /**
@@ -130,6 +159,48 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
+     * Add feature
+     *
+     * @param string $name
+     * @param AbstractFeature $feature
+     * @return self
+     */
+    public function addFeature($name, $feature)
+    {
+        if ($feature instanceof AbstractFeature) {
+            $name = $feature->getName(); // overwrite the name, just in case
+            $feature->setDriver($this);
+        }
+        $this->features[$name] = $feature;
+        return $this;
+    }
+
+    /**
+     * Setup the default features for Pdo
+     *
+     * @return self
+     */
+    public function setupDefaultFeatures()
+    {
+        $this->addFeature(null, new Feature\RowCounter());
+        return $this;
+    }
+
+    /**
+     * Get feature
+     *
+     * @param string $name
+     * @return AbstractFeature|false
+     */
+    public function getFeature($name)
+    {
+        if (isset($this->features[$name])) {
+            return $this->features[$name];
+        }
+        return false;
+    }
+
+    /**
      * Get database platform name
      *
      * @param  string $nameFormat
@@ -146,7 +217,9 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     public function checkEnvironment()
     {
         if (!extension_loaded('oci8')) {
-            throw new Exception\RuntimeException('The Oci8 extension is required for this adapter but the extension is not loaded');
+            throw new Exception\RuntimeException(
+                'The Oci8 extension is required for this adapter but the extension is not loaded'
+            );
         }
     }
 
@@ -185,13 +258,18 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
 
     /**
      * @param  resource $resource
-     * @param  null     $isBuffered
+     * @param  null     $context
      * @return Result
      */
-    public function createResult($resource, $isBuffered = null)
+    public function createResult($resource, $context = null)
     {
         $result = clone $this->resultPrototype;
-        $result->initialize($resource, $this->connection->getLastGeneratedValue(), $isBuffered);
+        $rowCount = null;
+        // special feature, oracle Oci counter
+        if ($context && ($rowCounter = $this->getFeature('RowCounter')) && oci_num_fields($resource) > 0) {
+            $rowCount = $rowCounter->getRowCountClosure($context);
+        }
+        $result->initialize($resource, $rowCount);
         return $result;
     }
 
