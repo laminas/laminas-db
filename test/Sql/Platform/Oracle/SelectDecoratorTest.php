@@ -16,16 +16,25 @@ use Zend\Db\Adapter\Platform\Oracle as OraclePlatform;
 
 class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
 {
+    //@codingStandardsIgnoreStart
     /**
      * @testdox integration test: Testing SelectDecorator will use Select to produce properly Oracle dialect prepared sql
      * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
      * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
      */
-    public function testPrepareStatement(Select $select, $expectedSql, $expectedParams, $notUsed, $expectedFormatParamCount)
-    {
+    //@codingStandardsIgnoreEnd
+    public function testPrepareStatement(
+        Select $select,
+        $expectedSql,
+        $expectedParams,
+        $notUsed,
+        $expectedFormatParamCount
+    ) {
         $driver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
-        $driver->expects($this->exactly($expectedFormatParamCount))->method('formatParameterName')->will($this->returnValue('?'));
+        $driver->expects($this->exactly($expectedFormatParamCount))
+            ->method('formatParameterName')
+            ->will($this->returnValue('?'));
 
         // test
         $adapter = $this->getMock(
@@ -39,7 +48,9 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
 
         $parameterContainer = new ParameterContainer;
         $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $statement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($parameterContainer));
+        $statement->expects($this->any())
+            ->method('getParameterContainer')
+            ->will($this->returnValue($parameterContainer));
 
         $statement->expects($this->once())->method('setSql')->with($expectedSql);
 
@@ -50,16 +61,20 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedParams, $parameterContainer->getNamedArray());
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * @testdox integration test: Testing SelectDecorator will use Select to produce properly Oracle dialect sql statements
      * @covers Zend\Db\Sql\Platform\Oracle\SelectDecorator::getSqlString
      * @dataProvider dataProvider
      */
+    // @codingStandardsIgnoreEnd
     public function testGetSqlString(Select $select, $ignored, $alsoIgnored, $expectedSql)
     {
         $parameterContainer = new ParameterContainer;
         $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $statement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($parameterContainer));
+        $statement->expects($this->any())
+            ->method('getParameterContainer')
+            ->will($this->returnValue($parameterContainer));
 
         $selectDecorator = new SelectDecorator;
         $selectDecorator->setSubject($select);
@@ -88,8 +103,10 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $select2a->limit(2);
         $select2b = new Select(['a' => $select2a]);
         $select2 = new Select(['b' => $select2b]);
+        // @codingStandardsIgnoreStart
         $expectedSql2_1 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b WHERE rownum <= (:offset2+:limit2)) WHERE b_rownum >= (:offset2 + 1)) "a") "b"';
         $expectedSql2_2 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b WHERE rownum <= (0+2)) WHERE b_rownum >= (0 + 1)) "a") "b"';
+        // @codingStandardsIgnoreEnd
         $expectedFormatParamCount2 = 0;
         $expectedParams2 = ['offset2' => 0, 'limit2' => 2];
 
@@ -97,8 +114,10 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $select3a->offset(2);
         $select3b = new Select(['a' => $select3a]);
         $select3 = new Select(['b' => $select3b]);
+        // @codingStandardsIgnoreStart
         $expectedSql3_1 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b ) WHERE b_rownum > (:offset2)) "a") "b"';
         $expectedSql3_2 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b ) WHERE b_rownum > (2)) "a") "b"';
+        // @codingStandardsIgnoreEnd
         $expectedFormatParamCount3 = 0;
         $expectedParams3 = ['offset2' => 2];
 
@@ -107,8 +126,10 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $select4a->offset(2);
         $select4b = new Select(['a' => $select4a]);
         $select4 = new Select(['b' => $select4b]);
+        // @codingStandardsIgnoreStart
         $expectedSql4_1 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b WHERE rownum <= (:offset2+:limit2)) WHERE b_rownum >= (:offset2 + 1)) "a") "b"';
         $expectedSql4_2 = 'SELECT "b".* FROM (SELECT "a".* FROM (SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "test".* FROM "test" ) b WHERE rownum <= (2+2)) WHERE b_rownum >= (2 + 1)) "a") "b"';
+        // @codingStandardsIgnoreEnd
         $expectedFormatParamCount4 = 0;
         $expectedParams4 = ['offset2' => 2, 'limit2' => 2];
 

@@ -16,9 +16,6 @@ use Zend\Db\Adapter\Driver\Feature\AbstractFeature;
 
 class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
 {
-     /**
-     * @const
-     */
     const FEATURES_DEFAULT = 'default';
 
     /**
@@ -57,8 +54,13 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
      * @param null|Result $resultPrototype
      * @param array $options
      */
-    public function __construct($connection, Statement $statementPrototype = null, Result $resultPrototype = null, array $options = [], $features = self::FEATURES_DEFAULT)
-    {
+    public function __construct(
+        $connection,
+        Statement $statementPrototype = null,
+        Result $resultPrototype = null,
+        array $options = [],
+        $features = self::FEATURES_DEFAULT
+    ) {
         if (!$connection instanceof Connection) {
             $connection = new Connection($connection);
         }
@@ -77,6 +79,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
             $this->setupDefaultFeatures();
         }
     }
+
     /**
      * @param Profiler\ProfilerInterface $profiler
      * @return Oci8
@@ -92,6 +95,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
         }
         return $this;
     }
+
     /**
      * @return null|Profiler\ProfilerInterface
      */
@@ -99,6 +103,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     {
         return $this->profiler;
     }
+
     /**
      * Register connection
      *
@@ -111,6 +116,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
         $this->connection->setDriver($this); // needs access to driver to createStatement()
         return $this;
     }
+
     /**
      * Register statement prototype
      *
@@ -123,6 +129,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
         $this->statementPrototype->setDriver($this); // needs access to driver to createResult()
         return $this;
     }
+
     /**
      * @return null|Statement
      */
@@ -130,6 +137,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     {
         return $this->statementPrototype;
     }
+
     /**
      * Register result prototype
      *
@@ -141,6 +149,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
         $this->resultPrototype = $resultPrototype;
         return $this;
     }
+
     /**
      * @return null|Result
      */
@@ -148,6 +157,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     {
         return $this->resultPrototype;
     }
+
     /**
      * Add feature
      *
@@ -164,6 +174,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
         $this->features[$name] = $feature;
         return $this;
     }
+
     /**
      * Setup the default features for Pdo
      *
@@ -174,6 +185,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
         $this->addFeature(null, new Feature\RowCounter());
         return $this;
     }
+
     /**
      * Get feature
      *
@@ -187,6 +199,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
         }
         return false;
     }
+
     /**
      * Get database platform name
      *
@@ -197,15 +210,19 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     {
         return 'Oracle';
     }
+
     /**
      * Check environment
      */
     public function checkEnvironment()
     {
         if (!extension_loaded('oci8')) {
-            throw new Exception\RuntimeException('The Oci8 extension is required for this adapter but the extension is not loaded');
+            throw new Exception\RuntimeException(
+                'The Oci8 extension is required for this adapter but the extension is not loaded'
+            );
         }
     }
+
     /**
      * @return Connection
      */
@@ -213,6 +230,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     {
         return $this->connection;
     }
+
     /**
      * @param string $sqlOrResource
      * @return Statement
@@ -237,6 +255,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
         }
         return $statement;
     }
+
     /**
      * @param  resource $resource
      * @param  null     $context
@@ -253,6 +272,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
         $result->initialize($resource, $rowCount);
         return $result;
     }
+
     /**
      * @return array
      */

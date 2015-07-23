@@ -17,7 +17,6 @@ use Zend\Db\Adapter\Driver\Oci8\Statement;
  */
 class RowCounter extends AbstractFeature
 {
-
     /**
      * @return string
      */
@@ -61,7 +60,7 @@ class RowCounter extends AbstractFeature
 
     /**
      * @param \Zend\Db\Adapter\Driver\Oci8\Statement|string $context
-     * @return closure
+     * @return callable
      */
     public function getRowCountClosure($context)
     {

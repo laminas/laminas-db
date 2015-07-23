@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Zend Framework (http://framework.zend.com/)
  *
@@ -14,13 +13,12 @@ use Zend\Db\Adapter\Driver\Oci8\Result;
 
 /**
  * Class ResultTest
- * @package ZendTest\Db\Adapter\Driver\Oci8
  *
+ * @package ZendTest\Db\Adapter\Driver\Oci8
  * @group result-oci8
  */
 class ResultTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @covers Zend\Db\Adapter\Driver\Oci8\Result::getResource
      */
@@ -72,11 +70,11 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testNext()
     {
         $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\Oci8\Result')
-                ->setMethods(['loadData'])
-                ->getMock();
+            ->setMethods(['loadData'])
+            ->getMock();
         $mockResult->expects($this->any())
-                ->method('loadData')
-                ->will($this->returnValue(true));
+            ->method('loadData')
+            ->will($this->returnValue(true));
         $this->assertTrue($mockResult->next());
     }
 

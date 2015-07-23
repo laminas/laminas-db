@@ -26,6 +26,7 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     {
         $this->platform = new Oracle;
     }
+
     /**
      * @covers Zend\Db\Adapter\Platform\Oracle::__construct
      */
@@ -37,24 +38,43 @@ class OracleTest extends \PHPUnit_Framework_TestCase
         $plataform2 = new Oracle(['quote_identifiers'=> 'false']);
         $this->assertEquals('"test"."test"', $plataform2->quoteIdentifier('"test"."test"'));
     }
+
     /**
      * @covers Zend\Db\Adapter\Platform\Oracle::__construct
      */
     public function testContructWithDriver()
     {
-        $mockDriver = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Oci8\Oci8', [[]], '', true, true, true, []);
-        $plataform = new Oracle([], $mockDriver);
-        $this->assertEquals($mockDriver, $plataform->getDriver());
+        $mockDriver = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Oci8\Oci8',
+            [[]],
+            '',
+            true,
+            true,
+            true,
+            []
+        );
+        $platform = new Oracle([], $mockDriver);
+        $this->assertEquals($mockDriver, $platform->getDriver());
     }
+
     /**
      * @covers Zend\Db\Adapter\Platform\Oracle::setDriver
      */
     public function testSetDriver()
     {
-        $mockDriver = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Oci8\Oci8', [[]], '', true, true, true, []);
-        $plataform = $this->platform->setDriver($mockDriver);
-        $this->assertEquals($mockDriver, $plataform->getDriver());
+        $mockDriver = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Oci8\Oci8',
+            [[]],
+            '',
+            true,
+            true,
+            true,
+            []
+        );
+        $platform = $this->platform->setDriver($mockDriver);
+        $this->assertEquals($mockDriver, $platform->getDriver());
     }
+
     /**
      * @covers Zend\Db\Adapter\Platform\Oracle::setDriver
      * @expectedException Zend\Db\Adapter\Exception\InvalidArgumentException
@@ -64,6 +84,7 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     {
         $this->platform->setDriver(null);
     }
+
     /**
      * @covers Zend\Db\Adapter\Platform\Oracle::getDriver
      */
@@ -129,7 +150,8 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'PHPUnit_Framework_Error_Notice',
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Oracle without extension/driver support can introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Zend\Db\Adapter\Platform\Oracle without '
+            . 'extension/driver support can introduce security vulnerabilities in a production environment'
         );
         $this->platform->quoteValue('value');
     }
@@ -141,8 +163,14 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals("'value'", @$this->platform->quoteValue('value'));
         $this->assertEquals("'Foo O''Bar'", @$this->platform->quoteValue("Foo O'Bar"));
-        $this->assertEquals('\'\'\'; DELETE FROM some_table; -- \'', @$this->platform->quoteValue('\'; DELETE FROM some_table; -- '));
-        $this->assertEquals("'\\''; DELETE FROM some_table; -- '", @$this->platform->quoteValue('\\\'; DELETE FROM some_table; -- '));
+        $this->assertEquals(
+            '\'\'\'; DELETE FROM some_table; -- \'',
+            @$this->platform->quoteValue('\'; DELETE FROM some_table; -- ')
+        );
+        $this->assertEquals(
+            "'\\''; DELETE FROM some_table; -- '",
+            @$this->platform->quoteValue('\\\'; DELETE FROM some_table; -- ')
+        );
     }
 
     /**
@@ -152,10 +180,16 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals("'value'", $this->platform->quoteTrustedValue('value'));
         $this->assertEquals("'Foo O''Bar'", $this->platform->quoteTrustedValue("Foo O'Bar"));
-        $this->assertEquals('\'\'\'; DELETE FROM some_table; -- \'', $this->platform->quoteTrustedValue('\'; DELETE FROM some_table; -- '));
+        $this->assertEquals(
+            '\'\'\'; DELETE FROM some_table; -- \'',
+            $this->platform->quoteTrustedValue('\'; DELETE FROM some_table; -- ')
+        );
 
         //                   '\\\'; DELETE FROM some_table; -- '  <- actual below
-        $this->assertEquals("'\\''; DELETE FROM some_table; -- '", $this->platform->quoteTrustedValue('\\\'; DELETE FROM some_table; -- '));
+        $this->assertEquals(
+            "'\\''; DELETE FROM some_table; -- '",
+            $this->platform->quoteTrustedValue('\\\'; DELETE FROM some_table; -- ')
+        );
     }
 
     /**
@@ -165,7 +199,8 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'PHPUnit_Framework_Error',
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Oracle without extension/driver support can introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Zend\Db\Adapter\Platform\Oracle without '
+            . 'extension/driver support can introduce security vulnerabilities in a production environment'
         );
         $this->assertEquals("'Foo O''Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
@@ -191,18 +226,27 @@ class OracleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo as bar', $platform->quoteIdentifierInFragment('foo as bar'));
 
         // single char words
-        $this->assertEquals('("foo"."bar" = "boo"."baz")', $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', ['(', ')', '=']));
+        $this->assertEquals(
+            '("foo"."bar" = "boo"."baz")',
+            $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', ['(', ')', '='])
+        );
 
         // case insensitive safe words
         $this->assertEquals(
             '("foo"."bar" = "boo"."baz") AND ("foo"."baz" = "boo"."baz")',
-            $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz) AND (foo.baz = boo.baz)', ['(', ')', '=', 'and'])
+            $this->platform->quoteIdentifierInFragment(
+                '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
+                ['(', ')', '=', 'and']
+            )
         );
 
         // case insensitive safe words in field
         $this->assertEquals(
             '("foo"."bar" = "boo".baz) AND ("foo".baz = "boo".baz)',
-            $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz) AND (foo.baz = boo.baz)', ['(', ')', '=', 'and', 'bAz'])
+            $this->platform->quoteIdentifierInFragment(
+                '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
+                ['(', ')', '=', 'and', 'bAz']
+            )
         );
     }
 }

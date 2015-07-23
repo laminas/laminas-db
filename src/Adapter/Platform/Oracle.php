@@ -16,8 +16,9 @@ use \Zend\Db\Adapter\Exception\InvalidArgumentException;
 
 class Oracle extends AbstractPlatform
 {
-
-    /** @var null|Pdo|Oci8 */
+    /**
+     * @var null|Pdo|Oci8
+     */
     protected $resource = null;
 
     /**
@@ -54,9 +55,13 @@ class Oracle extends AbstractPlatform
             $this->resource = $driver;
             return $this;
         }
-        throw new InvalidArgumentException('$driver must be a Oci8 or Oracle PDO Zend\Db\Adapter\Driver, '.
-        'Oci8 instance or Oci PDO instance');
+
+        throw new InvalidArgumentException(
+            '$driver must be a Oci8 or Oracle PDO Zend\Db\Adapter\Driver, '
+            . 'Oci8 instance, or Oci PDO instance'
+        );
     }
+
     /**
      * @return null|Pdo|Oci8
      */
@@ -98,16 +103,19 @@ class Oracle extends AbstractPlatform
             if ($this->resource instanceof PDO) {
                 return $this->resource->quote($value);
             }
+
             if (get_resource_type($this->resource) == 'oci8 connection'
-                || get_resource_type($this->resource) == 'oci8 persistent connection') {
+                || get_resource_type($this->resource) == 'oci8 persistent connection'
+            ) {
                 return "'" . addcslashes(str_replace("'", "''", $value), "\x00\n\r\"\x1a") . "'";
             }
         }
 
         trigger_error(
-            'Attempting to quote a value in ' . __CLASS__ . ' without extension/driver support '.
-            'can introduce security vulnerabilities in a production environment.'
+            'Attempting to quote a value in ' . __CLASS__ . ' without extension/driver support '
+            . 'can introduce security vulnerabilities in a production environment.'
         );
+
         return "'" . addcslashes(str_replace("'", "''", $value), "\x00\n\r\"\x1a") . "'";
     }
 

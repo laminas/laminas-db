@@ -6,49 +6,59 @@
  * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
+
 namespace Zend\Db\Adapter\Driver\Oci8;
 
 use Iterator;
 use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\Adapter\Exception;
+
 class Result implements Iterator, ResultInterface
 {
     /**
      * @var resource
      */
     protected $resource = null;
+
     /**
      * @var null|int
      */
     protected $rowCount = null;
+
     /**
      * Cursor position
      * @var int
      */
     protected $position = 0;
+
     /**
      * Number of known rows
      * @var int
      */
     protected $numberOfRows = -1;
+
     /**
      * Is the current() operation already complete for this pointer position?
      * @var bool
      */
     protected $currentComplete = false;
+    
     /**
      * @var bool
      */
     protected $currentData = false;
+
     /**
      *
      * @var array
      */
     protected $statementBindValues = ['keys' => null, 'values' => []];
+
     /**
      * @var mixed
      */
     protected $generatedValue = null;
+
     /**
      * Initialize
      * @param resource $resource
@@ -66,6 +76,7 @@ class Result implements Iterator, ResultInterface
         $this->rowCount = $rowCount;
         return $this;
     }
+
     /**
      * Force buffering at driver level
      *
@@ -77,6 +88,7 @@ class Result implements Iterator, ResultInterface
     {
         return;
     }
+
     /**
      * Is the result buffered?
      *
@@ -86,6 +98,7 @@ class Result implements Iterator, ResultInterface
     {
         return false;
     }
+
     /**
      * Return the resource
      * @return mixed
@@ -94,6 +107,7 @@ class Result implements Iterator, ResultInterface
     {
         return $this->resource;
     }
+
     /**
      * Is query result?
      *
@@ -103,6 +117,7 @@ class Result implements Iterator, ResultInterface
     {
         return (oci_num_fields($this->resource) > 0);
     }
+
     /**
      * Get affected rows
      * @return int
@@ -111,6 +126,7 @@ class Result implements Iterator, ResultInterface
     {
         return oci_num_rows($this->resource);
     }
+
     /**
      * Current
      * @return mixed
@@ -124,6 +140,7 @@ class Result implements Iterator, ResultInterface
         }
         return $this->currentData;
     }
+
     /**
      * Load from oci8 result
      *
@@ -139,6 +156,7 @@ class Result implements Iterator, ResultInterface
         }
         return false;
     }
+
     /**
      * Next
      */
@@ -146,6 +164,7 @@ class Result implements Iterator, ResultInterface
     {
         return $this->loadData();
     }
+
     /**
      * Key
      * @return mixed
@@ -154,6 +173,7 @@ class Result implements Iterator, ResultInterface
     {
         return $this->position;
     }
+
     /**
      * Rewind
      */
@@ -163,6 +183,7 @@ class Result implements Iterator, ResultInterface
             throw new Exception\RuntimeException('Oci8 results cannot be rewound for multiple iterations');
         }
     }
+
     /**
      * Valid
      * @return bool
@@ -174,6 +195,7 @@ class Result implements Iterator, ResultInterface
         }
         return $this->loadData();
     }
+
     /**
      * Count
      * @return null|int
@@ -183,12 +205,13 @@ class Result implements Iterator, ResultInterface
         if (is_int($this->rowCount)) {
             return $this->rowCount;
         }
-        if ($this->rowCount instanceof \Closure) {
+        if (is_callable($this->rowCount)) {
             $this->rowCount = (int) call_user_func($this->rowCount);
             return $this->rowCount;
         }
         return;
     }
+
     /**
      * @return int
      */
@@ -196,6 +219,7 @@ class Result implements Iterator, ResultInterface
     {
         return oci_num_fields($this->resource);
     }
+
     /**
      * @return null
      */
