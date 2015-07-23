@@ -12,7 +12,11 @@ namespace ZendTest\Db\Adapter\Driver\Oci8;
 use Zend\Db\Adapter\Driver\Oci8\Statement;
 use Zend\Db\Adapter\Driver\Oci8\Oci8;
 use Zend\Db\Adapter\ParameterContainer;
+use Zend\Db\Adapter\Profiler\Profiler;
 
+/**
+ * @group integrationOracle
+ */
 class StatementTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -46,6 +50,42 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::setProfiler
+     */
+    public function testSetProfiler()
+    {
+        $this->assertEquals($this->statement, $this->statement->setProfiler(new Profiler()));
+    }
+
+    /**
+     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::getProfiler
+     */
+    public function testGetProfiler()
+    {
+        $profiler = new Profiler();
+        $this->statement->setProfiler($profiler);
+        $this->assertEquals($profiler, $this->statement->getProfiler());
+    }
+
+    /**
+     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::initialize
+     */
+    public function testInitialize()
+    {
+        $oci8 = new Oci8([]);
+        $this->assertEquals($this->statement, $this->statement->initialize($oci8));
+    }
+
+    /**
+     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::setSql
+     */
+    public function testSetSql()
+    {
+        $this->assertEquals($this->statement, $this->statement->setSql('select * from table'));
+        $this->assertEquals('select * from table', $this->statement->getSql());
+    }
+
+    /**
      * @covers Zend\Db\Adapter\Driver\Oci8\Statement::setParameterContainer
      */
     public function testSetParameterContainer()
@@ -72,19 +112,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::setSql
-     * @todo   Implement testSetSql().
-     */
-    public function testSetSql()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 
@@ -94,10 +122,8 @@ class StatementTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSql()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->assertEquals($this->statement, $this->statement->setSql('select * from table'));
+        $this->assertEquals('select * from table', $this->statement->getSql());
     }
 
     /**
@@ -108,20 +134,16 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 
     /**
      * @covers Zend\Db\Adapter\Driver\Oci8\Statement::isPrepared
-     * @todo   Implement testIsPrepared().
      */
     public function testIsPrepared()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $this->assertFalse($this->statement->isPrepared());
     }
 
     /**
@@ -132,7 +154,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 }

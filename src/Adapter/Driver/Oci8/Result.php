@@ -21,9 +21,9 @@ class Result implements Iterator, ResultInterface
     protected $resource = null;
 
     /**
-     * @var bool
+     * @var null|int
      */
-    protected $isBuffered = null;
+    protected $rowCount = null;
 
     /**
      * Cursor position
@@ -42,7 +42,7 @@ class Result implements Iterator, ResultInterface
      * @var bool
      */
     protected $currentComplete = false;
-
+    
     /**
      * @var bool
      */
@@ -62,14 +62,18 @@ class Result implements Iterator, ResultInterface
     /**
      * Initialize
      * @param resource $resource
+     * @param null|int $generatedValue
+     * @param null|int $rowCount
      * @return Result
      */
-    public function initialize($resource /*, $generatedValue, $isBuffered = null*/)
+    public function initialize($resource, $generatedValue = null, $rowCount = null)
     {
         if (!is_resource($resource) && get_resource_type($resource) !== 'oci8 statement') {
             throw new Exception\InvalidArgumentException('Invalid resource provided.');
         }
         $this->resource = $resource;
+        $this->generatedValue = $generatedValue;
+        $this->rowCount = $rowCount;
         return $this;
     }
 
@@ -134,7 +138,6 @@ class Result implements Iterator, ResultInterface
                 return false;
             }
         }
-
         return $this->currentData;
     }
 
@@ -147,7 +150,6 @@ class Result implements Iterator, ResultInterface
     {
         $this->currentComplete = true;
         $this->currentData = oci_fetch_assoc($this->resource);
-
         if ($this->currentData !== false) {
             $this->position++;
             return true;
@@ -191,17 +193,22 @@ class Result implements Iterator, ResultInterface
         if ($this->currentComplete) {
             return ($this->currentData !== false);
         }
-
         return $this->loadData();
     }
 
     /**
      * Count
-     * @return int
+     * @return null|int
      */
     public function count()
     {
-        // @todo OCI8 row count in Driver Result
+        if (is_int($this->rowCount)) {
+            return $this->rowCount;
+        }
+        if (is_callable($this->rowCount)) {
+            $this->rowCount = (int) call_user_func($this->rowCount);
+            return $this->rowCount;
+        }
         return;
     }
 
@@ -214,7 +221,7 @@ class Result implements Iterator, ResultInterface
     }
 
     /**
-     * @return mixed|null
+     * @return null
      */
     public function getGeneratedValue()
     {

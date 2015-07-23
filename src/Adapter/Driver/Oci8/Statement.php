@@ -260,7 +260,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             throw new Exception\RuntimeException($e['message'], $e['code']);
         }
 
-        $result = $this->driver->createResult($this->resource);
+        $result = $this->driver->createResult($this->resource, $this);
         return $result;
     }
 
@@ -311,6 +311,19 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             }
 
             oci_bind_by_name($this->resource, $name, $value, $maxLength, $type);
+        }
+    }
+
+    /**
+     * Perform a deep clone
+     */
+    public function __clone()
+    {
+        $this->isPrepared = false;
+        $this->parametersBound = false;
+        $this->resource = null;
+        if ($this->parameterContainer) {
+            $this->parameterContainer = clone $this->parameterContainer;
         }
     }
 }
