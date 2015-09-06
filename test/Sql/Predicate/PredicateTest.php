@@ -228,6 +228,19 @@ class PredicateTest extends TestCase
             $predicate->getExpressionData()
         );
     }
+            
+    /**
+     * @testdox Unit test: Test expression() allows null $parameters
+     */
+    public function testExpressionNullParameters()
+    {
+        $predicate = new Predicate;
+
+        $predicate->expression('foo = bar');
+        $predicates = $predicate->getPredicates();
+        $expression = $predicates[0][1];
+        $this->assertEquals([null], $expression->getParameters());
+    }
 
     /**
      * @testdox Unit test: Test literal() is chainable, returns proper values, and is backwards compatible with 2.0.*
