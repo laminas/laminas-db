@@ -47,6 +47,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#34](https://github.com/zendframework/zend-db/pull/34) fixes retrieval of
+  constraint metadata in the Oracle adapter.
 - [#41](https://github.com/zendframework/zend-db/pull/41) removes hard dependency
   on EventManager in AbstractTableGateway.
 - [#17](https://github.com/zendframework/zend-db/pull/17) removes an executable
