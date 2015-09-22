@@ -42,7 +42,7 @@ class Result implements Iterator, ResultInterface
      * @var bool
      */
     protected $currentComplete = false;
-    
+
     /**
      * @var bool
      */
