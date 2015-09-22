@@ -41,8 +41,8 @@ class Select extends AbstractPreparableSql
     const JOIN_OUTER = 'outer';
     const JOIN_LEFT = 'left';
     const JOIN_RIGHT = 'right';
-    const JOIN_OUTER_RIGHT = 'outer right';
-    const JOIN_OUTER_LEFT  = 'outer left';
+    const JOIN_RIGHT_OUTER = 'right outer';
+    const JOIN_LEFT_OUTER  = 'left outer';
     const SQL_STAR = '*';
     const ORDER_ASCENDING = 'ASC';
     const ORDER_DESCENDING = 'DESC';
@@ -51,6 +51,16 @@ class Select extends AbstractPreparableSql
     const COMBINE_EXCEPT = 'except';
     const COMBINE_INTERSECT = 'intersect';
     /**#@-*/
+
+    /**
+     * @deprecated use JOIN_LEFT_OUTER instead
+     */
+    const JOIN_OUTER_LEFT  = 'outer left';
+
+    /**
+     * @deprecated use JOIN_LEFT_OUTER instead
+     */
+    const JOIN_OUTER_RIGHT = 'outer right';
 
     /**
      * @var array Specifications

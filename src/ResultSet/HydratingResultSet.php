@@ -10,8 +10,8 @@
 namespace Zend\Db\ResultSet;
 
 use ArrayObject;
-use Zend\Stdlib\Hydrator\ArraySerializable;
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Hydrator\ArraySerializable;
+use Zend\Hydrator\HydratorInterface;
 
 class HydratingResultSet extends AbstractResultSet
 {
