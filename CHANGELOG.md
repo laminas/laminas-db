@@ -41,7 +41,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#29](https://github.com/zendframework/zend-db/pull/29) removes the required
+  second argument to `Zend\Db\Predicate\Predicate::expression()`, allowing it to
+  be nullable, and mirroring the constructor of `Zend\Db\Predicate\Expression`.
 
 ### Fixed
 
