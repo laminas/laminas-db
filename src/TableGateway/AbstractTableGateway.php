@@ -19,7 +19,7 @@ use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\TableIdentifier;
 use Zend\Db\Sql\Update;
 use Zend\Db\Sql\Where;
-use Zend\Db\TableGateway\Feature\EventFeature;
+use Zend\Db\TableGateway\Feature\EventFeatureEventsInterface as EventFeature;
 
 /**
  *
@@ -512,8 +512,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         $this->sql = clone $this->sql;
         if (is_object($this->table)) {
             $this->table = clone $this->table;
-        } elseif (
-            is_array($this->table)
+        } elseif (is_array($this->table)
             && count($this->table) == 1
             && is_object(reset($this->table))
         ) {
