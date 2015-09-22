@@ -19,7 +19,7 @@ use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\TableIdentifier;
 use Zend\Db\Sql\Update;
 use Zend\Db\Sql\Where;
-use Zend\Db\TableGateway\Feature\EventFeatureEventsInterface as EventFeature;
+use Zend\Db\TableGateway\Feature\EventFeatureEventsInterface;
 
 /**
  *
@@ -95,7 +95,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         }
 
         $this->featureSet->setTableGateway($this);
-        $this->featureSet->apply(EventFeature::EVENT_PRE_INITIALIZE, []);
+        $this->featureSet->apply(EventFeatureEventsInterface::EVENT_PRE_INITIALIZE, []);
 
         if (!$this->adapter instanceof AdapterInterface) {
             throw new Exception\RuntimeException('This table does not have an Adapter setup');
@@ -113,7 +113,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
             $this->sql = new Sql($this->adapter, $this->table);
         }
 
-        $this->featureSet->apply(EventFeature::EVENT_POST_INITIALIZE, []);
+        $this->featureSet->apply(EventFeatureEventsInterface::EVENT_POST_INITIALIZE, []);
 
         $this->isInitialized = true;
     }
@@ -231,7 +231,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         }
 
         // apply preSelect features
-        $this->featureSet->apply(EventFeature::EVENT_PRE_SELECT, [$select]);
+        $this->featureSet->apply(EventFeatureEventsInterface::EVENT_PRE_SELECT, [$select]);
 
         // prepare and execute
         $statement = $this->sql->prepareStatementForSqlObject($select);
@@ -242,7 +242,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         $resultSet->initialize($result);
 
         // apply postSelect features
-        $this->featureSet->apply(EventFeature::EVENT_POST_SELECT, [$statement, $result, $resultSet]);
+        $this->featureSet->apply(EventFeatureEventsInterface::EVENT_POST_SELECT, [$statement, $result, $resultSet]);
 
         return $resultSet;
     }
@@ -292,7 +292,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         }
 
         // apply preInsert features
-        $this->featureSet->apply(EventFeature::EVENT_PRE_INSERT, [$insert]);
+        $this->featureSet->apply(EventFeatureEventsInterface::EVENT_PRE_INSERT, [$insert]);
 
         // Most RDBMS solutions do not allow using table aliases in INSERTs
         // See https://github.com/zendframework/zf2/issues/7311
@@ -308,7 +308,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         $this->lastInsertValue = $this->adapter->getDriver()->getConnection()->getLastGeneratedValue();
 
         // apply postInsert features
-        $this->featureSet->apply(EventFeature::EVENT_POST_INSERT, [$statement, $result]);
+        $this->featureSet->apply(EventFeatureEventsInterface::EVENT_POST_INSERT, [$statement, $result]);
 
         // Reset original table information in Insert instance, if necessary
         if ($unaliasedTable) {
@@ -369,13 +369,13 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         }
 
         // apply preUpdate features
-        $this->featureSet->apply(EventFeature::EVENT_PRE_UPDATE, [$update]);
+        $this->featureSet->apply(EventFeatureEventsInterface::EVENT_PRE_UPDATE, [$update]);
 
         $statement = $this->sql->prepareStatementForSqlObject($update);
         $result = $statement->execute();
 
         // apply postUpdate features
-        $this->featureSet->apply(EventFeature::EVENT_POST_UPDATE, [$statement, $result]);
+        $this->featureSet->apply(EventFeatureEventsInterface::EVENT_POST_UPDATE, [$statement, $result]);
 
         return $result->getAffectedRows();
     }
@@ -427,13 +427,13 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         }
 
         // pre delete update
-        $this->featureSet->apply(EventFeature::EVENT_PRE_DELETE, [$delete]);
+        $this->featureSet->apply(EventFeatureEventsInterface::EVENT_PRE_DELETE, [$delete]);
 
         $statement = $this->sql->prepareStatementForSqlObject($delete);
         $result = $statement->execute();
 
         // apply postDelete features
-        $this->featureSet->apply(EventFeature::EVENT_POST_DELETE, [$statement, $result]);
+        $this->featureSet->apply(EventFeatureEventsInterface::EVENT_POST_DELETE, [$statement, $result]);
 
         return $result->getAffectedRows();
     }
