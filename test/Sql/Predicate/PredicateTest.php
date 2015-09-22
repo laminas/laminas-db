@@ -228,7 +228,7 @@ class PredicateTest extends TestCase
             $predicate->getExpressionData()
         );
     }
-            
+
     /**
      * @testdox Unit test: Test expression() allows null $parameters
      */
