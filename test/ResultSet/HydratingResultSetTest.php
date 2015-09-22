@@ -10,6 +10,8 @@
 namespace ZendTest\Db\ResultSet;
 
 use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Hydrator\ArraySerializable;
+use Zend\Hydrator\ClassMethods;
 
 class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,7 +40,7 @@ class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
     public function testSetHydrator()
     {
         $hydratingRs = new HydratingResultSet;
-        $this->assertSame($hydratingRs, $hydratingRs->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods()));
+        $this->assertSame($hydratingRs, $hydratingRs->setHydrator(new ClassMethods()));
     }
 
     /**
@@ -47,7 +49,7 @@ class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
     public function testGetHydrator()
     {
         $hydratingRs = new HydratingResultSet;
-        $this->assertInstanceOf('Zend\Stdlib\Hydrator\ArraySerializable', $hydratingRs->getHydrator());
+        $this->assertInstanceOf(ArraySerializable::class, $hydratingRs->getHydrator());
     }
 
     /**
