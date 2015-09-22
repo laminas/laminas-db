@@ -45,6 +45,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#41](https://github.com/zendframework/zend-db/pull/41) removes hard dependency
+  on EventManager in AbstractTableGateway.
 - [#17](https://github.com/zendframework/zend-db/pull/17) removes an executable
   bit on a regular file.
 - [#3](https://github.com/zendframework/zend-db/pull/3) updates the code to use
