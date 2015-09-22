@@ -29,7 +29,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 2.5.2 - TBD
+## 2.5.2 - 2015-09-22
 
 ### Added
 
@@ -47,6 +47,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#40](https://github.com/zendframework/zend-db/pull/40) updates the
+  zend-stdlib dependency to reference `>=2.5.0,<2.7.0` to ensure hydrators
+  will work as expected following extraction of hydrators to the zend-hydrator
+  repository.
 - [#34](https://github.com/zendframework/zend-db/pull/34) fixes retrieval of
   constraint metadata in the Oracle adapter.
 - [#41](https://github.com/zendframework/zend-db/pull/41) removes hard dependency
