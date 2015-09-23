@@ -226,7 +226,7 @@ class Insert extends AbstractPreparableSql
      */
     public function __unset($name)
     {
-        if (!isset($this->columns[$name])) {
+        if (!$this->__isset($name)) {
             throw new Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
         }
 
@@ -257,7 +257,7 @@ class Insert extends AbstractPreparableSql
      */
     public function __get($name)
     {
-        if (!isset($this->columns[$name])) {
+        if (!$this->__isset($name)) {
             throw new Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
         }
         return $this->columns[$name];
