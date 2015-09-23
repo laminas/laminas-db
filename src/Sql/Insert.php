@@ -243,7 +243,7 @@ class Insert extends AbstractPreparableSql
      */
     public function __isset($name)
     {
-        return isset($this->columns[$name]);
+        return array_key_exists($name, $this->columns);
     }
 
     /**
