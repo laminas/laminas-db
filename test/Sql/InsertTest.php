@@ -243,6 +243,14 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         unset($this->insert->foo);
         $this->assertEquals([], $this->insert->getRawState('columns'));
         $this->assertEquals([], $this->insert->getRawState('values'));
+
+        $this->insert->foo = NULL;
+        $this->assertEquals(['foo'], $this->insert->getRawState('columns'));
+        $this->assertEquals([NULL], $this->insert->getRawState('values'));
+
+        unset($this->insert->foo);
+        $this->assertEquals([], $this->insert->getRawState('columns'));
+        $this->assertEquals([], $this->insert->getRawState('values'));
     }
 
     /**
@@ -251,6 +259,9 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     public function test__isset()
     {
         $this->insert->foo = 'bar';
+        $this->assertTrue(isset($this->insert->foo));
+
+        $this->insert->foo = NULL;
         $this->assertTrue(isset($this->insert->foo));
     }
 
@@ -261,6 +272,9 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     {
         $this->insert->foo = 'bar';
         $this->assertEquals('bar', $this->insert->foo);
+
+        $this->insert->foo = NULL;
+        $this->assertNull($this->insert->foo);
     }
 
     /**
