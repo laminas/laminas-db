@@ -36,7 +36,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#43](https://github.com/zendframework/zend-db/pull/43) unset and get during
+  an insert operation would throw an InvalidArgumentException during an insert.
 
 ## 2.6.0 - 2015-09-22
 
