@@ -21,7 +21,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#31](https://github.com/zendframework/zend-db/pull/31) fixes table gateway
   update when there is a table alias utilized.
 
-## 2.6.1 - TBD
+## 2.6.1 - 2015-10-14
 
 ### Added
 
