@@ -371,11 +371,23 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         // apply preUpdate features
         $this->featureSet->apply(EventFeatureEventsInterface::EVENT_PRE_UPDATE, [$update]);
 
+        $unaliasedTable = false;
+        if (is_array($updateState['table'])) {
+            $tableData      = array_values($updateState['table']);
+            $unaliasedTable = array_shift($tableData);
+            $update->table($unaliasedTable);
+        }
+
         $statement = $this->sql->prepareStatementForSqlObject($update);
         $result = $statement->execute();
 
         // apply postUpdate features
         $this->featureSet->apply(EventFeatureEventsInterface::EVENT_POST_UPDATE, [$statement, $result]);
+
+        // Reset original table information in Update instance, if necessary
+        if ($unaliasedTable) {
+            $update->table($updateState['table']);
+        }
 
         return $result->getAffectedRows();
     }
