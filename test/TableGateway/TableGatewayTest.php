@@ -13,6 +13,7 @@ use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\TableGateway\Feature;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Insert;
+use Zend\Db\Sql\Update;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\TableIdentifier;
 
@@ -194,6 +195,71 @@ class TableGatewayTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $state = $insert->getRawState();
+        $this->assertInternalType('array', $state['table']);
+        $this->assertEquals(
+            $tableValue,
+            $state['table']
+        );
+    }
+
+    /**
+     * @dataProvider aliasedTables
+     */
+    public function testUpdateShouldResetTableToUnaliasedTable($tableValue, $expected)
+    {
+        $phpunit = $this;
+
+        $update = new Update();
+        $update->table($tableValue);
+
+        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')
+            ->getMock();
+        $result->expects($this->once())
+            ->method('getAffectedRows')
+            ->will($this->returnValue(1));
+
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')
+            ->getMock();
+        $statement->expects($this->once())
+            ->method('execute')
+            ->will($this->returnValue($result));
+
+        $statementExpectation = function ($update) use ($phpunit, $expected, $statement) {
+            $state = $update->getRawState();
+            $phpunit->assertSame($expected, $state['table']);
+            return $statement;
+        };
+
+        $sql = $this->getMockBuilder('Zend\Db\Sql\Sql')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $sql->expects($this->atLeastOnce())
+            ->method('getTable')
+            ->will($this->returnValue($tableValue));
+        $sql->expects($this->once())
+            ->method('update')
+            ->will($this->returnValue($update));
+        $sql->expects($this->once())
+            ->method('prepareStatementForSqlObject')
+            ->with($this->equalTo($update))
+            ->will($this->returnCallback($statementExpectation));
+
+        $table = new TableGateway(
+            $tableValue,
+            $this->mockAdapter,
+            null,
+            null,
+            $sql
+        );
+
+        $result = $table->update([
+            'foo' => 'FOO',
+        ], [
+            'bar' => 'BAR'
+        ]);
+
+        $state = $update->getRawState();
+        var_dump($state);
         $this->assertInternalType('array', $state['table']);
         $this->assertEquals(
             $tableValue,
