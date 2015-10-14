@@ -259,7 +259,6 @@ class TableGatewayTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $state = $update->getRawState();
-        var_dump($state);
         $this->assertInternalType('array', $state['table']);
         $this->assertEquals(
             $tableValue,
