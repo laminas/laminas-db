@@ -199,6 +199,9 @@ class Connection extends AbstractConnection
                 case 'charset':
                     $charset    = (string) $value;
                     break;
+                case 'unix_socket':
+                    $unix_socket = (string) $value;
+                    break;
                 case 'driver_options':
                 case 'options':
                     $value = (array) $value;
@@ -236,6 +239,9 @@ class Connection extends AbstractConnection
                     }
                     if (isset($charset) && $pdoDriver != 'pgsql') {
                         $dsn[] = "charset={$charset}";
+                    }
+                    if (isset($unix_socket)) {
+                        $dsn[] = "unix_socket={$unix_socket}";
                     }
                     break;
             }
