@@ -4,7 +4,7 @@ The Table Gateway object is intended to provide an object that represents a tabl
 the methods of this object mirror the most common operations on a database table. In code, the
 interface for such an object looks like this:
 
-``` sourceCode
+```php
 interface Zend\Db\TableGateway\TableGatewayInterface
 {
     public function getTable();
@@ -31,7 +31,7 @@ order to be consumed and utilized to its fullest.
 The quickest way to get up and running with Zend\\Db\\TableGateway is to configure and utilize the
 concrete implementation of the `TableGateway`. The API of the concrete `TableGateway` is:
 
-``` sourceCode
+```php
 class TableGateway extends AbstractTableGateway
 {
  public $lastInsertValue;
@@ -71,7 +71,7 @@ Out of the box, this implementation makes no assumptions about table structure o
 `select()` is executed, a simple ResultSet object with the populated Adapter's Result (the
 datasource) will be returned and ready for iteration.
 
-``` sourceCode
+```php
 use Zend\Db\TableGateway\TableGateway;
 $projectTable = new TableGateway('project', $adapter);
 $rowset = $projectTable->select(array('type' => 'PHP'));
@@ -93,7 +93,7 @@ The `select()` method takes the same arguments as `Zend\Db\Sql\Select::where()` 
 also being able to accept a closure, which in turn, will be passed the current Select object that is
 being used to build the SELECT query. The following usage is possible:
 
-``` sourceCode
+```php
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Select;
 $artistTable = new TableGateway('artist', $adapter);
@@ -122,7 +122,7 @@ There are a number of features built-in and shipped with Zend\\Db:
 a `TableGateway` instance. This is more useful when you are extending the `AbstractTableGateway`
 implementation:
 
-``` sourceCode
+```php
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\Feature;
 
@@ -147,7 +147,7 @@ $table = new MyTableGateway(); // adapter is statically loaded
 - MasterSlaveFeature: the ability to use a master adapter for insert(), update(), and delete() while
 using a slave adapter for all select() operations.
 
-``` sourceCode
+```php
 $table = new TableGateway('artist', $adapter, new Feature\MasterSlaveFeature($slaveAdapter));
 ```
 
@@ -155,21 +155,21 @@ $table = new TableGateway('artist', $adapter, new Feature\MasterSlaveFeature($sl
 object. It will also store the primary key information in case RowGatewayFeature needs to consume
 this information.
 
-``` sourceCode
+```php
 $table = new TableGateway('artist', $adapter, new Feature\MetadataFeature());
 ```
 
 - EventFeature: the ability utilize a `TableGateway` object with Zend\\EventManager and to be able
 to subscribe to various events in a `TableGateway` lifecycle.
 
-``` sourceCode
+```php
 $table = new TableGateway('artist', $adapter, new Feature\EventFeature($eventManagerInstance));
 ```
 
 - RowGatewayFeature: the ability for `select()` to return a ResultSet object that upon iteration
 will return a `RowGateway` object for each row.
 
-``` sourceCode
+```php
 $table = new TableGateway('artist', $adapter, new Feature\RowGatewayFeature('id'));
 $results = $table->select(array('id' => 2));
 

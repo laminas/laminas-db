@@ -10,7 +10,7 @@ The interface for a Row Gateway object simply adds save() and delete() and this 
 that should be assumed when a component has a dependency that is expected to be an instance of a
 RowGateway object:
 
-``` sourceCode
+```php
 interface RowGatewayInterface
 {
     public function save();
@@ -25,7 +25,7 @@ producing objects, it is possible to use it standalone. To use it standalone, yo
 Adapter and a set of data to work with. The following use case demonstrates
 Zend\\Db\\RowGateway\\RowGateway usage in its simplest form:
 
-``` sourceCode
+```php
 use Zend\Db\RowGateway\RowGateway;
 
 // query the database
@@ -50,7 +50,7 @@ TableGateway feature. What this achieves is a Table Gateway object that when sel
 table, will produce a ResultSet that is then capable of producing valid Row Gateway objects. Its
 usage looks like this:
 
-``` sourceCode
+```php
 use Zend\Db\TableGateway\Feature\RowGatewayFeature;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -68,7 +68,7 @@ If you wish to have custom behaviour for your RowGateway objects (essentially ma
 similarly to the ActiveRecord pattern), pass a prototype object implementing the
 `RowGatewayInterface` to the `RowGatewayFeature` constructor instead of a primary key:
 
-``` sourceCode
+```php
 use Zend\Db\TableGateway\Feature\RowGatewayFeature;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\RowGateway\RowGatewayInterface;

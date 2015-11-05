@@ -13,7 +13,7 @@ Creating an adapter can simply be done by instantiating the `Zend\Db\Adapter\Ada
 most common use case, while not the most explicit, is to pass an array of configuration to the
 `Adapter`.
 
-``` sourceCode
+```php
 $adapter = new Zend\Db\Adapter\Adapter($configArray);
 ```
 
@@ -28,7 +28,7 @@ chose is up to you, but the above table represents the official abstraction name
 
 So, for example, a MySQL connection using ext/mysqli:
 
-``` sourceCode
+```php
 $adapter = new Zend\Db\Adapter\Adapter(array(
    'driver' => 'Mysqli',
    'database' => 'zend_db_example',
@@ -39,7 +39,7 @@ $adapter = new Zend\Db\Adapter\Adapter(array(
 
 Another example, of a Sqlite connection via PDO:
 
-``` sourceCode
+```php
 $adapter = new Zend\Db\Adapter\Adapter(array(
    'driver' => 'Pdo_Sqlite',
    'database' => 'path/to/sqlite.db'
@@ -67,7 +67,7 @@ The more expressive and explicit way of creating an adapter is by injecting all 
 front. `Zend\Db\Adapter\Adapter` uses constructor injection, and all required dependencies are
 injected through the constructor, which has the following signature (in pseudo-code):
 
-``` sourceCode
+```php
 use Zend\Db\Adapter\Platform\PlatformInterface;
 use Zend\Db\ResultSet\ResultSet;
 
@@ -93,7 +93,7 @@ This generally means that you will supply a SQL statement with the values substi
 placeholders, and then the parameters for those placeholders are supplied separately. An example of
 this workflow with `Zend\Db\Adapter\Adapter` is:
 
-``` sourceCode
+```php
 $adapter->query('SELECT * FROM `artist` WHERE `id` = ?', array(5));
 ```
 
@@ -116,7 +116,7 @@ sql instead of prepare and execute a sql statement, might be because you are att
 DDL statement (which in most extensions and vendor platforms), are un-preparable. An example of
 executing:
 
-``` sourceCode
+```php
 $adapter->query('ALTER TABLE ADD INDEX(`foo_index`) ON (`foo_column`)',
 Adapter::QUERY_MODE_EXECUTE);
 ```
@@ -132,7 +132,7 @@ greater control over the prepare-then-execute workflow. To do this, Adapter give
 called createStatement() that allows you to create a Driver specific Statement to use so you can
 manage your own prepare-then-execute workflow.
 
-``` sourceCode
+```php
 // with optional parameters to bind up-front
 $statement = $adapter->createStatement($sql, $optionalParameters);
 $result = $statement->execute();
@@ -160,7 +160,7 @@ instances are requested. The workflow looks like this:
 This driver is now ready to be called on when particular workflows are requested. Here is what the
 Driver API looks like:
 
-``` sourceCode
+```php
 namespace Zend\Db\Adapter\Driver;
 
  interface DriverInterface
@@ -196,7 +196,7 @@ parameters are named between extensions
 
 Statement objects generally look like this:
 
-``` sourceCode
+```php
 namespace Zend\Db\Adapter\Driver;
 
 interface StatementInterface extends StatementContainerInterface
@@ -216,7 +216,7 @@ interface StatementInterface extends StatementContainerInterface
 
 Result objects generally look like this:
 
-``` sourceCode
+```php
 namespace Zend\Db\Adapter\Driver;
 
 interface ResultInterface extends \Countable, \Iterator
@@ -237,7 +237,7 @@ SQL implementation of a particular vendor. Nuances such as how identifiers or va
 what the identifier separator character is are handled by this object. To get an idea of the
 capabilities, the interface for a platform object looks like this:
 
-``` sourceCode
+```php
 namespace Zend\Db\Adapter\Platform;
 
 interface PlatformInterface
@@ -258,7 +258,7 @@ While one can instantiate your own Platform object, generally speaking, it is ea
 proper Platform instance from the configured adapter (by default the Platform type will match the
 underlying driver implementation):
 
-``` sourceCode
+```php
 $platform = $adapter->getPlatform();
 // or
 $platform = $adapter->platform; // magic property access
@@ -266,7 +266,7 @@ $platform = $adapter->platform; // magic property access
 
 The following is a couple of example of Platform usage:
 
-``` sourceCode
+```php
 ```
 
 > linenos  
@@ -289,7 +289,7 @@ The ParameterContainer object is a container for the various parameters that nee
 a Statement object to fulfill all the various parameterized parts of the SQL statement. This object
 implements the ArrayAccess interface. Below is the ParameterContainer API:
 
-``` sourceCode
+```php
 namespace Zend\Db\Adapter;
 
  class ParameterContainer implements \Iterator, \ArrayAccess, \Countable {
@@ -336,14 +336,14 @@ namespace Zend\Db\Adapter;
 In addition to handling parameter names and values, the container will assist in tracking parameter
 types for PHP type to SQL type handling. For example, it might be important that:
 
-``` sourceCode
+```php
 $container->offsetSet('limit', 5);
 ```
 
 be bound as an integer. To achieve this, pass in the ParameterContainer::TYPE\_INTEGER constant as
 the 3rd parameter:
 
-``` sourceCode
+```php
 $container->offsetSet('limit', 5, $container::TYPE_INTEGER);
 ```
 
@@ -354,7 +354,7 @@ translated information will also be passed along to the actual php database driv
 
 Creating a Driver and Vendor portable Query, Preparing and Iterating Result
 
-``` sourceCode
+```php
 $adapter = new Zend\Db\Adapter\Adapter($driverConfig);
 
 $qi = function($name) use ($adapter) { return $adapter->platform->quoteIdentifier($name); };

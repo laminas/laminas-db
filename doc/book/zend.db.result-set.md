@@ -10,7 +10,7 @@ sub-components of Zend\\Db that return a ResultSet as part of their API will ass
 consuming object to clone a prototype of a ResultSet and return a specialized ResultSet with a
 specific data source injected. The interface of ResultSetInterface looks like this:
 
-``` sourceCode
+```php
 interface ResultSetInterface extends \Traversable, \Countable
 {
     public function initialize($dataSource);
@@ -28,7 +28,7 @@ will use a prototypical `Zend\Db\ResultSet\ResultSet` object for iterating when 
 The following is an example workflow similar to what one might find inside
 `Zend\Db\Adapter\Adapter::query()`:
 
-``` sourceCode
+```php
 use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\ResultSet\ResultSet;
 
@@ -52,7 +52,7 @@ For most purposes, either a instance of `Zend\Db\ResultSet\ResultSet` or a deriv
 `Zend\Db\ResultSet\AbstractResultSet` will be being used. The implementation of the
 `AbstractResultSet` offers the following core functionality:
 
-``` sourceCode
+```php
 abstract class AbstractResultSet implements Iterator, ResultSetInterface
 {
     public function initialize($dataSource)
@@ -85,7 +85,7 @@ In the example below, rows from the database will be iterated, and during iterat
 `HydratingRowSet` will use the Reflection based hydrator to inject the row data directly into the
 protected members of the cloned UserEntity object:
 
-``` sourceCode
+```php
 use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Stdlib\Hydrator\Reflection as ReflectionHydrator;
