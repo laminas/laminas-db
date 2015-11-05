@@ -17,7 +17,7 @@ Since these four tasks are so closely related, and generally used together withi
 application, `Zend\Db\Sql\Sql` objects help you create them and produce the result you are
 attempting to achieve.
 
-``` sourceCode
+```php
 use Zend\Db\Sql\Sql;
 $sql = new Sql($adapter);
 $select = $sql->select(); // @return Zend\Db\Sql\Select
@@ -32,7 +32,7 @@ prepared or executed.
 
 To prepare (using a Select object):
 
-``` sourceCode
+```php
 use Zend\Db\Sql\Sql;
 $sql = new Sql($adapter);
 $select = $sql->select();
@@ -45,7 +45,7 @@ $results = $statement->execute();
 
 To execute (using a Select object)
 
-``` sourceCode
+```php
 use Zend\Db\Sql\Sql;
 $sql = new Sql($adapter);
 $select = $sql->select();
@@ -59,7 +59,7 @@ $results = $adapter->query($selectString, $adapter::QUERY_MODE_EXECUTE);
 Zend\\Db\\Sql\\Sql objects can also be bound to a particular table so that in getting a select,
 insert, update, or delete object, they are all primarily seeded with the same table when produced.
 
-``` sourceCode
+```php
 use Zend\Db\Sql\Sql;
 $sql = new Sql($adapter, 'foo');
 $select = $sql->select();
@@ -70,7 +70,7 @@ $select->where(array('id' => 2)); // $select already has the from('foo') applied
 
 Each of these objects implements the following (2) interfaces:
 
-``` sourceCode
+```php
 interface PreparableSqlInterface {
      public function prepareStatement(Adapter $adapter, StatementInterface $statement);
 }
@@ -88,7 +88,7 @@ be executed.
 platform specific SQL SELECT queries. The class can be instantiated and consumed without
 `Zend\Db\Sql\Sql`:
 
-``` sourceCode
+```php
 use Zend\Db\Sql\Select;
 $select = new Select();
 // or, to produce a $select bound to a specific table
@@ -101,7 +101,7 @@ of the table.
 Once you have a valid Select object, the following API can be used to further specify various select
 statement parts:
 
-``` sourceCode
+```php
 class Select extends AbstractSql implements SqlInterface, PreparableSqlInterface
 {
     const JOIN_INNER = 'inner';
@@ -129,7 +129,7 @@ class Select extends AbstractSql implements SqlInterface, PreparableSqlInterface
 
 ### from():
 
-``` sourceCode
+```php
 // as a string:
 $select->from('foo');
 
@@ -146,7 +146,7 @@ $select->from(new TableIdentifier(array('t' => 'table')));
 
 ### columns():
 
-``` sourceCode
+```php
 // as array of names
 $select->columns(array('foo', 'bar'));
 
@@ -158,7 +158,7 @@ $select->columns(array('foo' => 'bar', 'baz' => 'bax'));
 
 ### join():
 
-``` sourceCode
+```php
 $select->join(
  'foo', // table name
  'id = bar.id', // expression to join on (will be quoted by platform object before insertion),
@@ -177,7 +177,7 @@ $select->from(array('f' => 'foo'))  // base table
 The `Zend\Db\Sql\Select` object provides bit of flexibility as it regards to what kind of parameters
 are acceptable when calling where() or having(). The method signature is listed as:
 
-``` sourceCode
+```php
 /**
  * Create where clause
  *
@@ -197,7 +197,7 @@ this object will be iterated to produce the WHERE or HAVING section of the SELEC
 If you provide a `Closure` to where() or having(), this function will be called with the Select's
 `Where` object as the only parameter. So the following is possible:
 
-``` sourceCode
+```php
 $spec = function (Where $where) {
     $where->like('username', 'ralph%');
 };
@@ -211,7 +211,7 @@ that there will be no quoting in the fragment provided.
 
 Consider the following code:
 
-``` sourceCode
+```php
 // SELECT "foo".* FROM "foo" WHERE x = 5
 $select->from('foo')->where('x = 5');
 ```
@@ -223,7 +223,7 @@ provided.
 
 Consider the following code:
 
-``` sourceCode
+```php
 // SELECT "foo".* FROM "foo" WHERE x = 5 AND y = z
 $select->from('foo')->where(array('x = 5', 'y = z'));
 ```
@@ -238,7 +238,7 @@ identifier, and the value will target value.
 
 Consider the following code:
 
-``` sourceCode
+```php
 // SELECT "foo".* FROM "foo" WHERE "c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL
 $select->from('foo')->where(array(
     'c1' => null,
@@ -249,7 +249,7 @@ $select->from('foo')->where(array(
 
 ### order():
 
-``` sourceCode
+```php
 $select = new Select;
 $select->order('id DESC'); // produces 'id' DESC
 
@@ -263,7 +263,7 @@ $select->order(array('name ASC', 'age DESC')); // produces 'name' ASC, 'age' DES
 
 ### limit() and offset():
 
-``` sourceCode
+```php
 $select = new Select;
 $select->limit(5); // always takes an integer/numeric
 $select->offset(10); // similarly takes an integer/numeric
@@ -273,7 +273,7 @@ $select->offset(10); // similarly takes an integer/numeric
 
 The Insert API:
 
-``` sourceCode
+```php
 class Insert implements SqlInterface, PreparableSqlInterface
 {
  const VALUES_MERGE = 'merge';
@@ -290,13 +290,13 @@ Similarly to Select objects, the table can be set at construction time or via in
 
 ### columns():
 
-``` sourceCode
+```php
 $insert->columns(array('foo', 'bar')); // set the valid columns
 ```
 
 ### values():
 
-``` sourceCode
+```php
 // default behavior of values is to set the values
 // successive calls will not preserve values from previous calls
 $insert->values(array(
@@ -305,14 +305,14 @@ $insert->values(array(
 ));
 ```
 
-``` sourceCode
+```php
 // merging values with previous calls
 $insert->values(array('col_2' => 'value2'), $insert::VALUES_MERGE);
 ```
 
 ## Zend\\Db\\Sql\\Update
 
-``` sourceCode
+```php
 class Update
 {
     const VALUES_MERGE = 'merge';
@@ -328,7 +328,7 @@ class Update
 
 ### set():
 
-``` sourceCode
+```php
 $update->set(array('foo' => 'bar', 'baz' => 'bax'));
 ```
 
@@ -338,7 +338,7 @@ See where section below.
 
 ## Zend\\Db\\Sql\\Delete
 
-``` sourceCode
+```php
 class Delete
 {
     public $where; // @param Where $where
@@ -380,7 +380,7 @@ Expression is processed during statement creation. In short, if you don't have p
 
 The Zend\\Db\\Sql\\Where (Predicate/PredicateSet) API:
 
-``` sourceCode
+```php
 // Where & Having:
 class Predicate extends PredicateSet
 {
@@ -431,7 +431,7 @@ type, described below, with the full API of the object:
 
 ### equalTo(), lessThan(), greaterThan(), lessThanOrEqualTo(), greaterThanOrEqualTo():
 
-``` sourceCode
+```php
 $where->equalTo('id', 5);
 
 // same as the following workflow
@@ -472,7 +472,7 @@ $leftType = self::TYPE_IDENTIFIER, $rightType = self::TYPE_VALUE);
 
 ### like($identifier, $like):
 
-``` sourceCode
+```php
 $where->like($identifier, $like):
 
 // same as
@@ -494,7 +494,7 @@ class Like implements PredicateInterface
 
 ### literal($literal);
 
-``` sourceCode
+```php
 $where->literal($literal);
 
 // same as
@@ -514,7 +514,7 @@ class Literal implements ExpressionInterface, PredicateInterface
 
 ### expression($expression, $parameter);
 
-``` sourceCode
+```php
 $where->expression($expression, $parameter);
 
 // same as
@@ -539,7 +539,7 @@ class Expression implements ExpressionInterface, PredicateInterface
 
 ### isNull($identifier);
 
-``` sourceCode
+```php
 $where->isNull($identifier);
 
 // same as
@@ -558,7 +558,7 @@ class IsNull implements PredicateInterface
 
 ### isNotNull($identifier);
 
-``` sourceCode
+```php
 $where->isNotNull($identifier);
 
 // same as
@@ -577,7 +577,7 @@ class IsNotNull implements PredicateInterface
 
 ### in($identifier, array $valueSet = array());
 
-``` sourceCode
+```php
 $where->in($identifier, array $valueSet = array());
 
 // same as
@@ -598,7 +598,7 @@ class In implements PredicateInterface
 
 ### between($identifier, $minValue, $maxValue);
 
-``` sourceCode
+```php
 $where->between($identifier, $minValue, $maxValue);
 
 // same as

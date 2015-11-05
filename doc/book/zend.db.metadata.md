@@ -4,7 +4,7 @@
 information about tables, columns, constraints, triggers, and other information from a database in a
 standardized way. The primary interface for the Metadata objects is:
 
-``` sourceCode
+```php
 interface MetadataInterface
 {
     public function getSchemas();
@@ -43,7 +43,7 @@ Metadata::get\*Names() methods will return an array of strings, while the other 
 specific value objects with the containing information. This is best demonstrated by the script
 below.
 
-``` sourceCode
+```php
 $metadata = new Zend\Db\Metadata\Metadata($adapter);
 
 // get the table names
@@ -94,7 +94,7 @@ metadata. Below is the API for the various value objects:
 
 The TableObject:
 
-``` sourceCode
+```php
 class Zend\Db\Metadata\Object\TableObject
 {
     public function __construct($name);
@@ -109,7 +109,7 @@ class Zend\Db\Metadata\Object\TableObject
 
 The ColumnObject:
 
-``` sourceCode
+```php
 class Zend\Db\Metadata\Object\ColumnObject {
     public function __construct($name, $tableName, $schemaName = null);
     public function setName($name);
@@ -147,7 +147,7 @@ class Zend\Db\Metadata\Object\ColumnObject {
 
 The ConstraintObject:
 
-``` sourceCode
+```php
 class Zend\Db\Metadata\Object\ConstraintObject
 {
     public function __construct($name, $tableName, $schemaName = null);
@@ -186,7 +186,7 @@ class Zend\Db\Metadata\Object\ConstraintObject
 
 The TriggerObject:
 
-``` sourceCode
+```php
 class Zend\Db\Metadata\Object\TriggerObject
 {
     public function getName();

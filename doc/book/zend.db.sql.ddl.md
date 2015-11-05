@@ -19,7 +19,7 @@ TABLE` is modeled by a `CreateTable` object; this is likewise the same for `ALTE
 namespace. To initiate the building of a DDL statement, such as `CreateTable`, one needs to
 instantiate the object. There are a couple of valid patterns for this:
 
-``` sourceCode
+```php
 use Zend\Db\Sql\Ddl;
 
 $table = new Ddl\CreateTable();
@@ -33,14 +33,14 @@ $table = new Ddl\CreateTable('bar', true);
 
 You can also set the table after instantiation:
 
-``` sourceCode
+```php
 $table->setTable('bar');
 ```
 
 Currently, columns are added by creating a column object, described in the data type table in the
 data type section below:
 
-``` sourceCode
+```php
 use Zend\Db\Sql\Ddl\Column;
 $table->addColumn(new Column\Integer('id'));
 $table->addColumn(new Column\Varchar('name', 255));
@@ -48,7 +48,7 @@ $table->addColumn(new Column\Varchar('name', 255));
 
 Beyond adding columns to a table, constraints can also be added:
 
-``` sourceCode
+```php
 use Zend\Db\Sql\Ddl\Constraint;
 $table->addConstraint(new Constraint\PrimaryKey('id'));
 $table->addConstraint(
@@ -60,7 +60,7 @@ $table->addConstraint(
 
 Similarly to `CreateTable`, you may also instantiate `AlterTable`:
 
-``` sourceCode
+```php
 use Zend\Db\Sql\Ddl;
 
 $table = new Ddl\AlterTable();
@@ -76,14 +76,14 @@ The primary difference between a `CreateTable` and `AlterTable` is that the `Alt
 account that the table and its assets already exist. Therefore, while you still have `addColumn()`
 and `addConstraint()`, you will also see the ability to change existing columns:
 
-``` sourceCode
+```php
 use Zend\Db\Sql\Ddl\Column;
 $table->changeColumn('name', Column\Varchar('new_name', 50));
 ```
 
 You may also drop existing columns or constraints:
 
-``` sourceCode
+```php
 $table->dropColumn('foo');
 $table->dropConstraint('my_index');
 ```
@@ -92,7 +92,7 @@ $table->dropConstraint('my_index');
 
 To drop a table, create a `DropTable` statement object:
 
-``` sourceCode
+```php
 $drop = new Ddl\DropTable('bar');
 ```
 
@@ -105,7 +105,7 @@ seeded `Sql` instance.
 The workflow looks something like this, with `$ddl` being a `CreateTable`, `AlterTable`, or
 `DropTable` instance:
 
-``` sourceCode
+```php
 use Zend\Db\Sql\Sql;
 
 // existence of $adapter is assumed
