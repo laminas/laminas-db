@@ -9,8 +9,8 @@
 
 namespace Zend\Db\Adapter;
 
-use Zend\ServiceManager\AbstractFactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\AbstractFactoryInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Database adapter abstract service factory.
@@ -27,14 +27,13 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Can we create an adapter by the requested name?
      *
-     * @param  ServiceLocatorInterface $services
-     * @param  string $name
+     * @param  ContainerInterface $container
      * @param  string $requestedName
      * @return bool
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $services, $name, $requestedName)
+    public function canCreateServiceWithName(ContainerInterface $container, $requestedName)
     {
-        $config = $this->getConfig($services);
+        $config = $this->getConfig($container);
         if (empty($config)) {
             return false;
         }
@@ -49,35 +48,35 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Create a DB adapter
      *
-     * @param  ServiceLocatorInterface $services
-     * @param  string $name
+     * @param  ContainerInterface $container
      * @param  string $requestedName
+     * @param  array $options
      * @return Adapter
      */
-    public function createServiceWithName(ServiceLocatorInterface $services, $name, $requestedName)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $this->getConfig($services);
+        $config = $this->getConfig($container);
         return new Adapter($config[$requestedName]);
     }
 
     /**
      * Get db configuration, if any
      *
-     * @param  ServiceLocatorInterface $services
+     * @param  ContainerInterface $container
      * @return array
      */
-    protected function getConfig(ServiceLocatorInterface $services)
+    protected function getConfig(ContainerInterface $container)
     {
         if ($this->config !== null) {
             return $this->config;
         }
 
-        if (!$services->has('Config')) {
+        if (!$container->has('Config')) {
             $this->config = [];
             return $this->config;
         }
 
-        $config = $services->get('Config');
+        $config = $container->get('Config');
         if (!isset($config['db'])
             || !is_array($config['db'])
         ) {
