@@ -14,6 +14,7 @@ use Zend\Db\TableGateway\Feature\MasterSlaveFeature;
 use Zend\Db\TableGateway\Feature\SequenceFeature;
 use Zend\Db\TableGateway\Feature\MetadataFeature;
 use Zend\Db\Metadata\Object\ConstraintObject;
+use \ReflectionClass;
 
 class FeatureSetTest extends \PHPUnit_Framework_TestCase
 {
@@ -156,7 +157,7 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $reflectionClass = new \ReflectionClass('Zend\Db\TableGateway\AbstractTableGateway');
+        $reflectionClass = new ReflectionClass('Zend\Db\TableGateway\AbstractTableGateway');
         $reflectionProperty = $reflectionClass->getProperty('adapter');
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($tableGatewayMock, $adapterMock);
