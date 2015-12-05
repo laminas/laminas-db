@@ -155,6 +155,6 @@ class FeatureSet
             }
         }
 
-        return null;
+        return;
     }
 }
