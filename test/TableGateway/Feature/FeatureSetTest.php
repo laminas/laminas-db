@@ -80,7 +80,7 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover FeatureSet::canCallMagicCall
+     * @covers Zend\Db\TableGateway\Feature\FeatureSet::canCallMagicCall
      */
     public function testCanCallMagicCallReturnsTrueForAddedMethodOfAddedFeature()
     {
@@ -95,7 +95,7 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover FeatureSet::canCallMagicCall
+     * @covers Zend\Db\TableGateway\Feature\FeatureSet::canCallMagicCall
      */
     public function testCanCallMagicCallReturnsFalseForAddedMethodOfAddedFeature()
     {
@@ -110,7 +110,7 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover FeatureSet::canCallMagicCall
+     * @covers Zend\Db\TableGateway\Feature\FeatureSet::canCallMagicCall
      */
     public function testCanCallMagicCallReturnsFalseWhenNoFeaturesHaveBeenAdded()
     {
@@ -121,7 +121,7 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @cover FeatureSet::callMagicCall
+     * @covers Zend\Db\TableGateway\Feature\FeatureSet::callMagicCall
      */
     public function testCallMagicCallSucceedsForValidMethodOfAddedFeature()
     {
