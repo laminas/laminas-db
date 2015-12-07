@@ -214,4 +214,18 @@ class ResultSetIntegrationTest extends TestCase
         $this->setExpectedException('Zend\Db\ResultSet\Exception\RuntimeException', 'Buffering must be enabled before iteration is started');
         $this->resultSet->buffer();
     }
+
+    /**
+     * @covers Zend\Db\ResultSet\AbstractResultSet::current
+     */
+    public function testCurrentReturnsNullForNonExistingValues()
+    {
+        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockResult->expects($this->once())->method('current')->will($this->returnValue("Not an Array"));
+
+        $this->resultSet->initialize($mockResult);
+        $this->resultSet->buffer();
+
+        $this->assertNull($this->resultSet->current());
+    }
 }
