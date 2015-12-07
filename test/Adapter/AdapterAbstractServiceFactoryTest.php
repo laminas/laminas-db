@@ -29,7 +29,7 @@ class AdapterAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
             'abstract_factories' => ['Zend\Db\Adapter\AdapterAbstractServiceFactory'],
         ]);
 
-        $this->serviceManager->setService('Config', [
+        $this->serviceManager->setService('config', [
             'db' => [
                 'adapters' => [
                     'Zend\Db\Adapter\Writer' => [

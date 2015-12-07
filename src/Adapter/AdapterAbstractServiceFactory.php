@@ -9,8 +9,8 @@
 
 namespace Zend\Db\Adapter;
 
-use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
 /**
  * Database adapter abstract service factory.
@@ -41,7 +41,7 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
         return (
             isset($config[$requestedName])
             && is_array($config[$requestedName])
-            && !empty($config[$requestedName])
+            && ! empty($config[$requestedName])
         );
     }
 
@@ -71,22 +71,22 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
             return $this->config;
         }
 
-        if (!$container->has('Config')) {
+        if (! $container->has('config')) {
             $this->config = [];
             return $this->config;
         }
 
-        $config = $container->get('Config');
-        if (!isset($config['db'])
-            || !is_array($config['db'])
+        $config = $container->get('config');
+        if (! isset($config['db'])
+            || ! is_array($config['db'])
         ) {
             $this->config = [];
             return $this->config;
         }
 
         $config = $config['db'];
-        if (!isset($config['adapters'])
-            || !is_array($config['adapters'])
+        if (! isset($config['adapters'])
+            || ! is_array($config['adapters'])
         ) {
             $this->config = [];
             return $this->config;
