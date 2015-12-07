@@ -9,8 +9,8 @@
 
 namespace Zend\Db\Adapter;
 
-use Zend\ServiceManager\AbstractFactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\AbstractFactoryInterface;
 
 /**
  * Database adapter abstract service factory.
@@ -27,14 +27,13 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Can we create an adapter by the requested name?
      *
-     * @param  ServiceLocatorInterface $services
-     * @param  string $name
+     * @param  ContainerInterface $container
      * @param  string $requestedName
      * @return bool
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $services, $name, $requestedName)
+    public function canCreateServiceWithName(ContainerInterface $container, $requestedName)
     {
-        $config = $this->getConfig($services);
+        $config = $this->getConfig($container);
         if (empty($config)) {
             return false;
         }
@@ -42,52 +41,52 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
         return (
             isset($config[$requestedName])
             && is_array($config[$requestedName])
-            && !empty($config[$requestedName])
+            && ! empty($config[$requestedName])
         );
     }
 
     /**
      * Create a DB adapter
      *
-     * @param  ServiceLocatorInterface $services
-     * @param  string $name
+     * @param  ContainerInterface $container
      * @param  string $requestedName
+     * @param  array $options
      * @return Adapter
      */
-    public function createServiceWithName(ServiceLocatorInterface $services, $name, $requestedName)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $this->getConfig($services);
+        $config = $this->getConfig($container);
         return new Adapter($config[$requestedName]);
     }
 
     /**
      * Get db configuration, if any
      *
-     * @param  ServiceLocatorInterface $services
+     * @param  ContainerInterface $container
      * @return array
      */
-    protected function getConfig(ServiceLocatorInterface $services)
+    protected function getConfig(ContainerInterface $container)
     {
         if ($this->config !== null) {
             return $this->config;
         }
 
-        if (!$services->has('Config')) {
+        if (! $container->has('config')) {
             $this->config = [];
             return $this->config;
         }
 
-        $config = $services->get('Config');
-        if (!isset($config['db'])
-            || !is_array($config['db'])
+        $config = $container->get('config');
+        if (! isset($config['db'])
+            || ! is_array($config['db'])
         ) {
             $this->config = [];
             return $this->config;
         }
 
         $config = $config['db'];
-        if (!isset($config['adapters'])
-            || !is_array($config['adapters'])
+        if (! isset($config['adapters'])
+            || ! is_array($config['adapters'])
         ) {
             $this->config = [];
             return $this->config;
