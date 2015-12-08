@@ -46,6 +46,17 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers Zend\Db\ResultSet\AbstractResultSet::initialize
+     */
+    public function testInitializeDoesNotCallCount()
+    {
+        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $result = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\ResultInterface');
+        $result->expects($this->never())->method('count');
+        $resultSet->initialize($result);
+    }
+
+    /**
      * @covers Zend\Db\ResultSet\AbstractResultSet::buffer
      */
     public function testBuffer()

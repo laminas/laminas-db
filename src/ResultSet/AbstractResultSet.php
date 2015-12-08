@@ -62,7 +62,6 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
         }
 
         if ($dataSource instanceof ResultInterface) {
-            $this->count = $dataSource->count();
             $this->fieldCount = $dataSource->getFieldCount();
             $this->dataSource = $dataSource;
             if ($dataSource->isBuffered()) {
@@ -78,7 +77,6 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
             // its safe to get numbers from an array
             $first = current($dataSource);
             reset($dataSource);
-            $this->count = count($dataSource);
             $this->fieldCount = count($first);
             $this->dataSource = new ArrayIterator($dataSource);
             $this->buffer = -1; // array's are a natural buffer
@@ -88,10 +86,6 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
             $this->dataSource = $dataSource;
         } else {
             throw new Exception\InvalidArgumentException('DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate');
-        }
-
-        if ($this->count === null && $this->dataSource instanceof Countable) {
-            $this->count = $this->dataSource->count();
         }
 
         return $this;
@@ -251,7 +245,11 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
         if ($this->count !== null) {
             return $this->count;
         }
-        $this->count = count($this->dataSource);
+
+        if ($this->dataSource instanceof Countable) {
+            $this->count = count($this->dataSource);
+        }
+
         return $this->count;
     }
 
