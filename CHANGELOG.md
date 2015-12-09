@@ -44,6 +44,8 @@ All notable changes to this project will be documented in this file, in reverse 
   AbstractResultSet::current now does validation to ensure an array.
 - [#58](https://github.com/zendframework/zend-db/pull/58) Fix unbuffered result
   on MySQLi.
+- [#59](https://github.com/zendframework/zend-db/pull/59) Allow unix_socket
+  parameter
 
 ## 2.6.1 - 2015-10-14
 
