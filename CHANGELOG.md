@@ -6,8 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#49](https://github.com/zendframework/zend-db/pull/49) Add docbook
-  documentation.
+- Nothing.
 
 ### Deprecated
 
@@ -21,7 +20,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 2.6.2 - TBD
+## 2.6.2 - 2015-12-09
 
 ### Added
 
