@@ -63,7 +63,6 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     {
         $this->connection->setConnectionParameters([
             'driver'  => 'pdo_mysql',
-            'host'    => '127.0.0.1',
             'charset' => 'utf8',
             'dbname'  => 'foo',
             'port'    => '3306',
@@ -76,10 +75,26 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $responseString = $this->connection->getDsn();
 
         $this->assertStringStartsWith('mysql:', $responseString);
-        $this->assertContains('host=127.0.0.1', $responseString);
         $this->assertContains('charset=utf8', $responseString);
         $this->assertContains('dbname=foo', $responseString);
         $this->assertContains('port=3306', $responseString);
         $this->assertContains('unix_socket=/var/run/mysqld/mysqld.sock', $responseString);
+    }
+
+    public function testHostnameAndUnixSocketThrowsInvalidConnectionParametersException()
+    {
+        $this->setExpectedException(
+            'Zend\Db\Adapter\Exception\InvalidConnectionParametersException',
+            'Ambiguous connection parameters, both hostname and unix_socket parameters were set'
+        );
+
+        $this->connection->setConnectionParameters([
+            'driver'  => 'pdo_mysql',
+            'host'    => '127.0.0.1',
+            'dbname'  => 'foo',
+            'port'    => '3306',
+            'unix_socket' => '/var/run/mysqld/mysqld.sock',
+        ]);
+        $this->connection->connect();
     }
 }

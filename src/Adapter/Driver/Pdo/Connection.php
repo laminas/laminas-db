@@ -213,6 +213,13 @@ class Connection extends AbstractConnection
             }
         }
 
+        if (isset($hostname) && isset($unix_socket)) {
+            throw new Exception\InvalidConnectionParametersException(
+                'Ambiguous connection parameters, both hostname and unix_socket parameters were set',
+                $this->connectionParameters
+            );
+        }
+
         if (!isset($dsn) && isset($pdoDriver)) {
             $dsn = [];
             switch ($pdoDriver) {
