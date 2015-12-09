@@ -23,6 +23,8 @@ All notable changes to this project will be documented in this file, in reverse 
   canCallMagicCall and callMagicCall methods
 - [#56](https://github.com/zendframework/zend-db/pull/56)
   AbstractResultSet::current now does validation to ensure an array.
+- [#58](https://github.com/zendframework/zend-db/pull/58) Fix unbuffered result
+  on MySQLi.
 
 ## 2.6.1 - 2015-10-14
 
