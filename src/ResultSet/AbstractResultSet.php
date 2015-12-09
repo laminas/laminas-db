@@ -190,7 +190,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     /**
      * Iterator: get current item
      *
-     * @return array
+     * @return array | null
      */
     public function current()
     {
@@ -203,7 +203,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
         if (is_array($this->buffer)) {
             $this->buffer[$this->position] = $data;
         }
-        return $data;
+        return is_array($data) ? $data : null;
     }
 
     /**
