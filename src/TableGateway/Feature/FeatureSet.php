@@ -125,22 +125,36 @@ class FeatureSet
     }
 
     /**
+     * Is the method requested available in one of the added features
      * @param string $method
      * @return bool
      */
     public function canCallMagicCall($method)
     {
+        if (!empty($this->features)) {
+            foreach ($this->features as $feature) {
+                if (method_exists($feature, $method)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
     /**
+     * Call method of on added feature as though it were a local method
      * @param string $method
      * @param array $arguments
      * @return mixed
      */
     public function callMagicCall($method, $arguments)
     {
-        $return = null;
-        return $return;
+        foreach ($this->features as $feature) {
+            if (method_exists($feature, $method)) {
+                return $feature->$method($arguments);
+            }
+        }
+
+        return;
     }
 }

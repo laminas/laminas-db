@@ -19,7 +19,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#55](https://github.com/zendframework/zend-db/pull/55) Implement FeatureSet
+  canCallMagicCall and callMagicCall methods
 
 ## 2.6.1 - 2015-10-14
 
