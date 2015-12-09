@@ -67,6 +67,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             'charset' => 'utf8',
             'dbname'  => 'foo',
             'port'    => '3306',
+            'unix_socket' => '/var/run/mysqld/mysqld.sock',
         ]);
         try {
             $this->connection->connect();
@@ -79,5 +80,6 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('charset=utf8', $responseString);
         $this->assertContains('dbname=foo', $responseString);
         $this->assertContains('port=3306', $responseString);
+        $this->assertContains('unix_socket=/var/run/mysqld/mysqld.sock', $responseString);
     }
 }
