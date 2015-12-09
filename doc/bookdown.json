@@ -1,0 +1,13 @@
+{
+    "title": "Zend\\Db",
+    "target": "html/",
+    "content": [
+        "book/zend.db.adapter.md",
+        "book/zend.db.result-set.md",
+        "book/zend.db.sql.md",
+        "book/zend.db.sql.ddl.md",
+        "book/zend.db.table-gateway.md",
+        "book/zend.db.row-gateway.md",
+        "book/zend.db.metadata.md"
+    ]
+}
