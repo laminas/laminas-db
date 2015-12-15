@@ -126,7 +126,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             'post'     => '5432',
             'dbname'   => 'zenddb_test',
             'username' => 'postgres',
-            'password' => '',
+            'password' => 'postgres',
             'charset'  => 'SQL_ASCII',
         ));
 
@@ -149,7 +149,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             'post'     => '5432',
             'dbname'   => 'zenddb_test',
             'username' => 'postgres',
-            'password' => '',
+            'password' => 'postgres',
             'charset'  => 'FOOBAR',
         ));
 
