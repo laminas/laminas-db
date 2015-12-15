@@ -120,7 +120,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('pgsql extension not loaded');
         }
 
-        $this->connection->setConnectionParameters(array(
+        $this->connection->setConnectionParameters([
             'driver'   => 'pgsql',
             'host'     => 'localhost',
             'post'     => '5432',
@@ -128,7 +128,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             'username' => 'postgres',
             'password' => 'postgres',
             'charset'  => 'SQL_ASCII',
-        ));
+        ]);
 
         $this->connection->connect();
 
@@ -143,7 +143,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('Zend\Db\Adapter\Exception\RuntimeException');
 
-        $this->connection->setConnectionParameters(array(
+        $this->connection->setConnectionParameters([
             'driver'   => 'pgsql',
             'host'     => 'localhost',
             'post'     => '5432',
@@ -151,7 +151,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             'username' => 'postgres',
             'password' => 'postgres',
             'charset'  => 'FOOBAR',
-        ));
+        ]);
 
         $this->connection->connect();
     }
