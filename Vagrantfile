@@ -26,7 +26,7 @@ fi
 SCRIPT
 
 Vagrant.configure(2) do |config|
-  config.vm.box = 'chef/ubuntu-14.04'
+  config.vm.box = 'bento/ubuntu-14.04'
 
   # MySQL port
   config.vm.network 'forwarded_port', guest: 3306, host: 3306, auto_correct: true
