@@ -49,8 +49,9 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      */
     public function testColumns()
     {
-        $this->insert->columns(['foo', 'bar']);
-        $this->assertEquals(['foo', 'bar'], $this->insert->getRawState('columns'));
+        $columns = ['foo', 'bar'];
+        $this->insert->columns($columns);
+        $this->assertEquals($columns, $this->insert->getRawState('columns'));
     }
 
     /**
@@ -218,8 +219,23 @@ class InsertTest extends \PHPUnit_Framework_TestCase
 
         // with Select and columns
         $this->insert->columns(['col1', 'col2']);
+        $this->assertEquals(
+            'INSERT INTO "foo" ("col1", "col2") SELECT "bar".* FROM "bar"',
+            $this->insert->getSqlString(new TrustingSql92Platform())
+        );
+    }
 
-        $this->assertEquals('INSERT INTO "foo" ("col1", "col2") SELECT "bar".* FROM "bar"', $this->insert->getSqlString(new TrustingSql92Platform()));
+    public function testGetSqlStringUsingColumnsAndValuesMethods()
+    {
+        // With columns() and values()
+        $this->insert
+            ->into('foo')
+            ->columns(['col1', 'col2', 'col3'])
+            ->values(['val1', 'val2', 'val3']);
+        $this->assertEquals(
+            'INSERT INTO "foo" ("col1", "col2", "col3") VALUES (\'val1\', \'val2\', \'val3\')',
+            $this->insert->getSqlString(new TrustingSql92Platform())
+        );
     }
 
     /**
