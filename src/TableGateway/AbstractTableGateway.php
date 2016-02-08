@@ -265,7 +265,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
 
     /**
      * @param Insert $insert
-     * @return mixed
+     * @return int
      */
     public function insertWith(Insert $insert)
     {
@@ -279,7 +279,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
      * @todo add $columns support
      *
      * @param Insert $insert
-     * @return mixed
+     * @return int
      * @throws Exception\RuntimeException
      */
     protected function executeInsert(Insert $insert)
@@ -315,8 +315,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
             $insert->into($insertState['table']);
         }
 
-        $return = $result->getAffectedRows();
-        return $return;
+        return $result->getAffectedRows();
     }
 
     /**
@@ -342,7 +341,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
 
     /**
      * @param \Zend\Db\Sql\Update $update
-     * @return mixed
+     * @return int
      */
     public function updateWith(Update $update)
     {
@@ -356,7 +355,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
      * @todo add $columns support
      *
      * @param Update $update
-     * @return mixed
+     * @return int
      * @throws Exception\RuntimeException
      */
     protected function executeUpdate(Update $update)
@@ -414,7 +413,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
 
     /**
      * @param Delete $delete
-     * @return mixed
+     * @return int
      */
     public function deleteWith(Delete $delete)
     {
@@ -426,7 +425,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
      * @todo add $columns support
      *
      * @param Delete $delete
-     * @return mixed
+     * @return int
      * @throws Exception\RuntimeException
      */
     protected function executeDelete(Delete $delete)
