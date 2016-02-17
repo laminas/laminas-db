@@ -370,7 +370,7 @@ identifiers (TYPE\_IDENTIFIER) and which of those is a value (TYPE\_VALUE). Ther
 use case type for literal values (TYPE\_LITERAL). These are all exposed via the
 `Zend\Db\Sql\ExpressionInterface` interface.
 
-> ## Note
+> ### Note
 In ZF 2.1, an actual `Literal` type was added. `Zend\Db\Sql` now makes the distinction that Literals
 will not have any parameters that need interpolating whereas it is expected that `Expression`
 objects *might* have parameters that need interpolating. In cases where there are parameters in an
