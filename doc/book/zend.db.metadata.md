@@ -75,7 +75,7 @@ foreach ($tableNames as $tableName) {
         }
         echo '            column: ' . implode(', ', $constraint->getColumns());
         if ($constraint->isForeignKey()) {
-            $fkCols = array();
+            $fkCols = [];
             foreach ($constraint->getReferencedColumns() as $refColumn) {
                 $fkCols[] = $constraint->getReferencedTableName() . '.' . $refColumn;
             }
