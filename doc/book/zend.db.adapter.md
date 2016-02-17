@@ -20,6 +20,16 @@ $adapter = new Zend\Db\Adapter\Adapter($configArray);
 This driver array is an abstraction for the extension level required parameters. Here is a table for
 the key-value pairs that should be in configuration array.
 
+Key      | Is Required?           | Value
+---------|------------------------|------
+driver   | required               | Mysqli, Sqlsrv, Pdo_Sqlite, Pdo_Mysql, Pdo=OtherPdoDriver
+database | generally required     | the name of the database (schema)
+username | generally required     | the connection username
+password | generally required     | the connection password
+hostname | not generally required | the IP address or hostname to connect to
+port     | not generally required | the port to connect to (if applicable)
+charset  | not generally required | the character set to use
+
 > ## Note
 Other names will work as well. Effectively, if the PHP manual uses a particular naming, this naming
 will be supported by our Driver. For example, dbname in most cases will also work for 'database'.
