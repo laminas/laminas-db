@@ -8,8 +8,8 @@ for a database/schema.
 
 The following platforms have platform specializations for DDL:
 
-- MySQL
-- All databases compatible with ANSI SQL92
+* MySQL
+* All databases compatible with ANSI SQL92
 
 ## Creating Tables
 

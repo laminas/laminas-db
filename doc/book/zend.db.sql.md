@@ -231,9 +231,9 @@ $select->from('foo')->where(array('x = 5', 'y = z'));
 If you provide an array who's values are keyed with a string, these values will be handled in the
 following:
 
-- PHP value nulls will be made into a `Predicate\IsNull` object
-- PHP value array()s will be made into a `Predicate\In` object
-- PHP value strings will be made into a `Predicate\Operator` object such that the string key will be
+* PHP value nulls will be made into a `Predicate\IsNull` object
+* PHP value array()s will be made into a `Predicate\In` object
+* PHP value strings will be made into a `Predicate\Operator` object such that the string key will be
 identifier, and the value will target value.
 
 Consider the following code:
