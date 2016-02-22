@@ -11,6 +11,7 @@ namespace Zend\Db\Adapter;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AdapterServiceFactory implements FactoryInterface
 {
@@ -24,5 +25,16 @@ class AdapterServiceFactory implements FactoryInterface
     {
         $config = $container->get('config');
         return new Adapter($config['db']);
+    }
+
+    /**
+     * Create db adapter service (v2)
+     *
+     * @param ServiceLocatorInterface $container
+     * @return Adapter
+     */
+    public function createService(ServiceLocatorInterface $container)
+    {
+        return $this($container, Adapter::class);
     }
 }
