@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.7.0 - TBD
+## 2.7.0 - 2016-02-22
 
 ### Added
 
@@ -18,7 +18,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#85](https://github.com/zendframework/zend-db/pull/85) and
+  [#87](https://github.com/zendframework/zend-db/pull/87) update the code base
+  to be forwards compatible with:
+  - zend-eventmanager v3
+  - zend-hydrator v2.1
+  - zend-servicemanager v3
+  - zend-stdlib v3
 
 ## 2.6.3 - TBD
 
