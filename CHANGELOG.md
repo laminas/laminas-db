@@ -26,24 +26,6 @@ All notable changes to this project will be documented in this file, in reverse 
   - zend-servicemanager v3
   - zend-stdlib v3
 
-## 2.6.3 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
 ## 2.6.2 - 2015-12-09
 
 ### Added
