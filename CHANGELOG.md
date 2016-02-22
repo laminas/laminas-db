@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.7.0 - 2016-02-22
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#85](https://github.com/zendframework/zend-db/pull/85) and
+  [#87](https://github.com/zendframework/zend-db/pull/87) update the code base
+  to be forwards compatible with:
+  - zend-eventmanager v3
+  - zend-hydrator v2.1
+  - zend-servicemanager v3
+  - zend-stdlib v3
+
 ## 2.6.3 - TBD
 
 ### Added
@@ -64,6 +88,25 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#31](https://github.com/zendframework/zend-db/pull/31) fixes table gateway
   update when there is a table alias utilized.
+
+## 2.6.1 - 2015-10-14
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#43](https://github.com/zendframework/zend-db/pull/43) unset and get during
+  an insert operation would throw an InvalidArgumentException during an insert.
 
 ## 2.6.0 - 2015-09-22
 

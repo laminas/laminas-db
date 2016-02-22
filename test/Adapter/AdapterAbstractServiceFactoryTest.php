@@ -10,7 +10,7 @@
 namespace ZendTest\Db\Adapter;
 
 use Zend\ServiceManager\ServiceManager;
-use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\ServiceManager\Config;
 
 class AdapterAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,11 +26,14 @@ class AdapterAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->serviceManager = new ServiceManager(new ServiceManagerConfig([
-            'abstract_factories' => ['Zend\Db\Adapter\AdapterAbstractServiceFactory'],
-        ]));
+        $this->serviceManager = new ServiceManager();
 
-        $this->serviceManager->setService('Config', [
+        $config = new Config([
+            'abstract_factories' => ['Zend\Db\Adapter\AdapterAbstractServiceFactory']
+        ]);
+        $config->configureServiceManager($this->serviceManager);
+
+        $this->serviceManager->setService('config', [
             'db' => [
                 'adapters' => [
                     'Zend\Db\Adapter\Writer' => [
