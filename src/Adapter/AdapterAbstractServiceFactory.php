@@ -10,7 +10,8 @@
 namespace Zend\Db\Adapter;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\AbstractFactoryInterface;
+use Zend\ServiceManager\AbstractFactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Database adapter abstract service factory.
@@ -31,7 +32,7 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
      * @param  string $requestedName
      * @return bool
      */
-    public function canCreateServiceWithName(ContainerInterface $container, $requestedName)
+    public function canCreate(ContainerInterface $container, $requestedName)
     {
         $config = $this->getConfig($container);
         if (empty($config)) {
@@ -46,6 +47,19 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
     }
 
     /**
+     * Determine if we can create a service with name (SM v2 compatibility)
+     *
+     * @param serviceLocator $serviceLocator
+     * @param string $name
+     * @param string $requestedName
+     * @return bool
+     */
+    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    {
+        return $this->canCreate($serviceLocator, $requestedName);
+    }
+
+    /**
      * Create a DB adapter
      *
      * @param  ContainerInterface $container
@@ -57,6 +71,19 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
     {
         $config = $this->getConfig($container);
         return new Adapter($config[$requestedName]);
+    }
+
+    /**
+     * Create service with name
+     *
+     * @param ServiceLocatorInterface $serviceLocator
+     * @param string $name
+     * @param string $requestedName
+     * @return Adapter
+     */
+    public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    {
+        return $this($serviceLocator, $requestedName);
     }
 
     /**
