@@ -10,7 +10,7 @@
 namespace Zend\Db\Adapter;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AdapterServiceFactory implements FactoryInterface
