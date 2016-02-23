@@ -6,5 +6,5 @@
 .travis.yml export-ignore
 .php_cs export-ignore
 phpunit.xml.dist export-ignore
-.ci export-ignore
+/.ci export-ignore
 Vagrantfile export-ignore
