@@ -269,7 +269,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
         if ($context && ($rowCounter = $this->getFeature('RowCounter')) && oci_num_fields($resource) > 0) {
             $rowCount = $rowCounter->getRowCountClosure($context);
         }
-        $result->initialize($resource, $rowCount);
+        $result->initialize($resource, null, $rowCount);
         return $result;
     }
 
