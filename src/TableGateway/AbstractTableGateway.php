@@ -345,7 +345,6 @@ abstract class AbstractTableGateway implements TableGatewayInterface
                     $update->join($join['name'], $join['on'], $type);
                 }
             }
-
         }
         return $this->executeUpdate($update);
     }

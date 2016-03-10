@@ -152,7 +152,7 @@ class Update extends AbstractPreparableSql
      */
     public function join($name, $on, $type = Join::JOIN_INNER)
     {
-        $this->joins->join($name, $on, array(), $type);
+        $this->joins->join($name, $on, [], $type);
 
         return $this;
     }
