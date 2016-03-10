@@ -326,7 +326,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
      * @param  string|array|\Closure $where
      * @return int
      */
-    public function update($set, $where = null)
+    public function update($set, $where = null, $joins = null)
     {
         if (!$this->isInitialized) {
             $this->initialize();
@@ -336,6 +336,16 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         $update->set($set);
         if ($where !== null) {
             $update->where($where);
+        }
+
+        if ($joins !== null) {
+            if (is_array($joins)) {
+                foreach ($joins as $join) {
+                    $type = isset($join['type']) ? $join['type'] : null;
+                    $update->join($join['name'], $join['on'], $type);
+                }
+            }
+
         }
         return $this->executeUpdate($update);
     }

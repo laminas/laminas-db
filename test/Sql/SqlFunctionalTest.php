@@ -255,6 +255,26 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                     ],
                 ],
             ],
+            'Update::processJoins()' => [
+                'sqlObject' => $this->update('foo')->set(['x' => 'y'])->where(['xx' => 'yy'])->join(
+                    'bar',
+                    'bar.barId = foo.barId'
+                ),
+                'expected'  => [
+                    'sql92'     => [
+                        'string' => 'UPDATE "foo" INNER JOIN "bar" ON "bar"."barId" = "foo"."barId" SET "x" = \'y\' WHERE "xx" = \'yy\'',
+                    ],
+                    'MySql'     => [
+                        'string' => 'UPDATE `foo` INNER JOIN `bar` ON `bar`.`barId` = `foo`.`barId` SET `x` = \'y\' WHERE `xx` = \'yy\'',
+                    ],
+                    'Oracle'     => [
+                        'string' => 'UPDATE "foo" INNER JOIN "bar" ON "bar"."barId" = "foo"."barId" SET "x" = \'y\' WHERE "xx" = \'yy\'',
+                    ],
+                    'SqlServer' => [
+                        'string' => 'UPDATE [foo] INNER JOIN [bar] ON [bar].[barId] = [foo].[barId] SET [x] = \'y\' WHERE [xx] = \'yy\'',
+                    ],
+                ],
+            ],
         ];
     }
 
