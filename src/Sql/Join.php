@@ -63,7 +63,7 @@ class Join implements \Iterator, \Countable
     /**
      * @param mixed $join
      */
-    public function join($name, $on, $columns = Select::SQL_STAR, $type = Join::JOIN_INNER)
+    public function join($name, $on, $columns = [Select::SQL_STAR], $type = Join::JOIN_INNER)
     {
         if (is_array($name) && (!is_string(key($name)) || count($name) !== 1)) {
             throw new Exception\InvalidArgumentException(
@@ -78,7 +78,7 @@ class Join implements \Iterator, \Countable
         $this->joins[] = [
             'name'    => $name,
             'on'      => $on,
-            'columns' => $columns ? $columns : Select::SQL_STAR,
+            'columns' => $columns ? $columns : [Select::SQL_STAR],
             'type'    => $type ? $type : Join::JOIN_INNER
         ];
 
