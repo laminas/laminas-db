@@ -40,7 +40,7 @@ class IbmDb2 extends AbstractPlatform
     {
         return 'IBM DB2';
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -69,7 +69,7 @@ class IbmDb2 extends AbstractPlatform
         }
         return $identifier;
     }
-    
+
     /**
      * {@inheritDoc}
      */
