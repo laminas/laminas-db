@@ -44,12 +44,12 @@ class IbmDb2 extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteIdentifierInFragment($identifier, array $safeWords = array())
+    public function quoteIdentifierInFragment($identifier, array $safeWords = [])
     {
         if (! $this->quoteIdentifiers) {
             return $identifier;
         }
-        $safeWordsInt = array('*' => true, ' ' => true, '.' => true, 'as' => true);
+        $safeWordsInt = ['*' => true, ' ' => true, '.' => true, 'as' => true];
         foreach ($safeWords as $sWord) {
             $safeWordsInt[strtolower($sWord)] = true;
         }
