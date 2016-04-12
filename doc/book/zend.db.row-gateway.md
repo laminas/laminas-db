@@ -29,7 +29,7 @@ Zend\\Db\\RowGateway\\RowGateway usage in its simplest form:
 use Zend\Db\RowGateway\RowGateway;
 
 // query the database
-$resultSet = $adapter->query('SELECT * FROM `user` WHERE `id` = ?', array(2));
+$resultSet = $adapter->query('SELECT * FROM `user` WHERE `id` = ?', [2]);
 
 // get array of data
 $rowData = $resultSet->current()->getArrayCopy();
@@ -55,7 +55,7 @@ use Zend\Db\TableGateway\Feature\RowGatewayFeature;
 use Zend\Db\TableGateway\TableGateway;
 
 $table = new TableGateway('artist', $adapter, new RowGatewayFeature('id'));
-$results = $table->select(array('id' => 2));
+$results = $table->select(['id' => 2]);
 
 $artistRow = $results->current();
 $artistRow->name = 'New Name';

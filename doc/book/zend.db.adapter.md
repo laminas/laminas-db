@@ -42,21 +42,21 @@ Key        | Is Required?           | Value
 So, for example, a MySQL connection using ext/mysqli:
 
 ```php
-$adapter = new Zend\Db\Adapter\Adapter(array(
-   'driver' => 'Mysqli',
-   'database' => 'zend_db_example',
-   'username' => 'developer',
-   'password' => 'developer-password'
-));
+$adapter = new Zend\Db\Adapter\Adapter([
+    'driver'   => 'Mysqli',
+    'database' => 'zend_db_example',
+    'username' => 'developer',
+    'password' => 'developer-password',
+]);
 ```
 
 Another example, of a Sqlite connection via PDO:
 
 ```php
-$adapter = new Zend\Db\Adapter\Adapter(array(
-   'driver' => 'Pdo_Sqlite',
-   'database' => 'path/to/sqlite.db'
-));
+$adapter = new Zend\Db\Adapter\Adapter([
+    'driver'   => 'Pdo_Sqlite',
+    'database' => 'path/to/sqlite.db',
+]);
 ```
 
 It is important to know that by using this style of adapter creation, the `Adapter` will attempt to
@@ -84,20 +84,24 @@ injected through the constructor, which has the following signature (in pseudo-c
 use Zend\Db\Adapter\Platform\PlatformInterface;
 use Zend\Db\ResultSet\ResultSet;
 
-class Zend\Db\Adapter\Adapter {
-    public function __construct($driver, PlatformInterface $platform = null, ResultSet
-$queryResultSetPrototype = null)
+class Zend\Db\Adapter\Adapter
+{
+    public function __construct(
+        $driver,
+        PlatformInterface $platform = null,
+        ResultSet $queryResultSetPrototype = null
+    )
 }
 ```
 
 What can be injected:
 
 - $driver - an array of connection parameters (see above) or an instance of
-`Zend\Db\Adapter\Driver\DriverInterface`
+  `Zend\Db\Adapter\Driver\DriverInterface`
 - $platform - (optional) an instance of `Zend\Db\Platform\PlatformInterface`, the default will be
-created based off the driver implementation
+  created based off the driver implementation
 - $queryResultSetPrototype - (optional) an instance of `Zend\Db\ResultSet\ResultSet`, to understand
-this object's role, see the section below on querying through the adapter
+  this object's role, see the section below on querying through the adapter
 
 ## Query Preparation Through Zend\\Db\\Adapter\\Adapter::query()
 
@@ -107,7 +111,7 @@ placeholders, and then the parameters for those placeholders are supplied separa
 this workflow with `Zend\Db\Adapter\Adapter` is:
 
 ```php
-$adapter->query('SELECT * FROM `artist` WHERE `id` = ?', array(5));
+$adapter->query('SELECT * FROM `artist` WHERE `id` = ?', [5]);
 ```
 
 The above example will go through the following steps:
@@ -117,9 +121,9 @@ The above example will go through the following steps:
 - inject the ParameterContainer into the Statement object
 - execute the Statement object, producing a Result object
 - check the Result object to check if the supplied sql was a "query", or a result set producing
-statement
+  statement
 - if it is a result set producing query, clone the ResultSet prototype, inject Result as datasource,
-return it
+  return it
 - else, return the Result
 
 ## Query Execution Through Zend\\Db\\Adapter\\Adapter::query()
@@ -130,8 +134,10 @@ DDL statement (which in most extensions and vendor platforms), are un-preparable
 executing:
 
 ```php
-$adapter->query('ALTER TABLE ADD INDEX(`foo_index`) ON (`foo_column`)',
-Adapter::QUERY_MODE_EXECUTE);
+$adapter->query(
+    'ALTER TABLE ADD INDEX(`foo_index`) ON (`foo_column`)',
+    Adapter::QUERY_MODE_EXECUTE
+);
 ```
 
 The primary difference to notice is that you must provide the Adapter::QUERY\_MODE\_EXECUTE
@@ -148,7 +154,7 @@ manage your own prepare-then-execute workflow.
 ```php
 // with optional parameters to bind up-front
 $statement = $adapter->createStatement($sql, $optionalParameters);
-$result = $statement->execute();
+$result    = $statement->execute();
 ```
 
 ## Using the Driver Object
@@ -176,35 +182,35 @@ Driver API looks like:
 ```php
 namespace Zend\Db\Adapter\Driver;
 
- interface DriverInterface
- {
-     const PARAMETERIZATION_POSITIONAL = 'positional';
-     const PARAMETERIZATION_NAMED = 'named';
-     const NAME_FORMAT_CAMELCASE = 'camelCase';
-     const NAME_FORMAT_NATURAL = 'natural';
-     public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE);
-     public function checkEnvironment();
-     public function getConnection();
-     public function createStatement($sqlOrResource = null);
-     public function createResult($resource);
-     public function getPrepareType();
-     public function formatParameterName($name, $type = null);
-     public function getLastGeneratedValue();
- }
+interface DriverInterface
+{
+    const PARAMETERIZATION_POSITIONAL = 'positional';
+    const PARAMETERIZATION_NAMED = 'named';
+    const NAME_FORMAT_CAMELCASE = 'camelCase';
+    const NAME_FORMAT_NATURAL = 'natural';
+    public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE);
+    public function checkEnvironment();
+    public function getConnection();
+    public function createStatement($sqlOrResource = null);
+    public function createResult($resource);
+    public function getPrepareType();
+    public function formatParameterName($name, $type = null);
+    public function getLastGeneratedValue();
+}
 ```
 
 From this DriverInterface, you can
 
 - Determine the name of the platform this driver supports (useful for choosing the proper platform
-object)
+  object)
 - Check that the environment can support this driver
 - Return the Connection object
 - Create a Statement object which is optionally seeded by an SQL statement (this will generally be a
-clone of a prototypical statement object)
+  clone of a prototypical statement object)
 - Create a Result object which is optionally seeded by a statement resource (this will generally be
-a clone of a prototypical result object)
+  a clone of a prototypical result object)
 - Format parameter names, important to distinguish the difference between the various ways
-parameters are named between extensions
+  parameters are named between extensions
 - Retrieve the overall last generated value (such as an auto-increment value)
 
 Statement objects generally look like this:
@@ -232,7 +238,10 @@ Result objects generally look like this:
 ```php
 namespace Zend\Db\Adapter\Driver;
 
-interface ResultInterface extends \Countable, \Iterator
+use Countable;
+use Iterator;
+
+interface ResultInterface extends Countable, Iterator
 {
     public function buffer();
     public function isQueryResult();
@@ -263,7 +272,7 @@ interface PlatformInterface
     public function quoteValue($value);
     public function quoteValueList($valueList);
     public function getIdentifierSeparator();
-    public function quoteIdentifierInFragment($identifier, array $additionalSafeWords = array());
+    public function quoteIdentifierInFragment($identifier, array $additionalSafeWords = []);
 }
 ```
 
@@ -280,21 +289,38 @@ $platform = $adapter->platform; // magic property access
 The following is a couple of example of Platform usage:
 
 ```php
-```
+/** @var $adapter Zend\Db\Adapter\Adapter */
+/** @var $platform Zend\Db\Adapter\Platform\Sql92 */
+$platform = $adapter->getPlatform();
 
-> linenos  
-/*\* @var $adapter ZendDbAdapterAdapter*/ /*\* @var $platform ZendDbAdapterPlatformSql92*/ $platform
-= $adapter-&gt;getPlatform();
-// "first\_name" echo $platform-&gt;quoteIdentifier('first\_name');
-// " echo $platform-&gt;getQuoteIdentifierSymbol();
-// "schema"."mytable" echo $platform-&gt;quoteIdentifierChain(array('schema','mytable')));
-// ' echo $platform-&gt;getQuoteValueSymbol();
-// 'myvalue' echo $platform-&gt;quoteValue('myvalue');
-// 'value', 'Foo O\\'Bar' echo $platform-&gt;quoteValueList(array('value',"Foo O'Bar")));
-// . echo $platform-&gt;getIdentifierSeparator();
-// "foo" as "bar" echo $platform-&gt;quoteIdentifierInFragment('foo as bar');
-// additionally, with some safe words: // ("foo"."bar" = "boo"."baz") echo
-$platform-&gt;quoteIdentifierInFragment('(foo.bar = boo.baz)', array('(', ')', '='));
+// "first_name"
+echo $platform->quoteIdentifier('first_name');
+
+// "
+echo $platform->getQuoteIdentifierSymbol();
+
+// "schema"."mytable"
+echo $platform->quoteIdentifierChain(['schema', 'mytable']);
+
+// '
+echo $platform->getQuoteValueSymbol();
+
+// 'myvalue'
+echo $platform->quoteValue('myvalue');
+
+// 'value', 'Foo O\\'Bar'
+echo $platform->quoteValueList(['value', "Foo O'Bar"]);
+
+// .
+echo $platform->getIdentifierSeparator();
+
+// "foo" as "bar"
+echo $platform->quoteIdentifierInFragment('foo as bar');
+
+// additionally, with some safe words:
+// ("foo"."bar" = "boo"."baz")
+echo $platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', ['(', ')', '=']);
+```
 
 ## Using The Parameter Container
 
@@ -305,45 +331,50 @@ implements the ArrayAccess interface. Below is the ParameterContainer API:
 ```php
 namespace Zend\Db\Adapter;
 
- class ParameterContainer implements \Iterator, \ArrayAccess, \Countable {
-     public function __construct(array $data = array())
+use ArrayAccess;
+use Countable;
+use Iterator;
 
-     /** methods to interact with values */
-     public function offsetExists($name)
-     public function offsetGet($name)
-     public function offsetSetReference($name, $from)
-     public function offsetSet($name, $value, $errata = null)
-     public function offsetUnset($name)
-
-     /** set values from array (will reset first) */
-     public function setFromArray(Array $data)
-
-     /** methods to interact with value errata */
-     public function offsetSetErrata($name, $errata)
-     public function offsetGetErrata($name)
-     public function offsetHasErrata($name)
-     public function offsetUnsetErrata($name)
-
-     /** errata only iterator */
-     public function getErrataIterator()
-
-     /** get array with named keys */
-     public function getNamedArray()
-
-     /** get array with int keys, ordered by position */
-     public function getPositionalArray()
-
-     /** iterator: */
-     public function count()
-     public function current()
-     public function next()
-     public function key()
-     public function valid()
-     public function rewind()
-
-     /** merge existing array of parameters with existing parameters */
-     public function merge($parameters)    
- }
+class ParameterContainer implements Iterator, ArrayAccess, Countable
+{
+    public function __construct(array $data = [])
+    
+    /** methods to interact with values */
+    public function offsetExists($name)
+    public function offsetGet($name)
+    public function offsetSetReference($name, $from)
+    public function offsetSet($name, $value, $errata = null)
+    public function offsetUnset($name)
+    
+    /** set values from array (will reset first) */
+    public function setFromArray(Array $data)
+    
+    /** methods to interact with value errata */
+    public function offsetSetErrata($name, $errata)
+    public function offsetGetErrata($name)
+    public function offsetHasErrata($name)
+    public function offsetUnsetErrata($name)
+    
+    /** errata only iterator */
+    public function getErrataIterator()
+    
+    /** get array with named keys */
+    public function getNamedArray()
+    
+    /** get array with int keys, ordered by position */
+    public function getPositionalArray()
+    
+    /** iterator: */
+    public function count()
+    public function current()
+    public function next()
+    public function key()
+    public function valid()
+    public function rewind()
+    
+    /** merge existing array of parameters with existing parameters */
+    public function merge($parameters)
+}
 ```
 
 In addition to handling parameter names and values, the container will assist in tracking parameter
@@ -370,8 +401,8 @@ Creating a Driver and Vendor portable Query, Preparing and Iterating Result
 ```php
 $adapter = new Zend\Db\Adapter\Adapter($driverConfig);
 
-$qi = function($name) use ($adapter) { return $adapter->platform->quoteIdentifier($name); };
-$fp = function($name) use ($adapter) { return $adapter->driver->formatParameterName($name); };
+$qi = function ($name) use ($adapter) { return $adapter->platform->quoteIdentifier($name); };
+$fp = function ($name) use ($adapter) { return $adapter->driver->formatParameterName($name); };
 
 $sql = 'UPDATE ' . $qi('artist')
     . ' SET ' . $qi('name') . ' = ' . $fp('name')
@@ -380,22 +411,22 @@ $sql = 'UPDATE ' . $qi('artist')
 /** @var $statement Zend\Db\Adapter\Driver\StatementInterface */
 $statement = $adapter->query($sql);
 
-$parameters = array(
+$parameters = [
     'name' => 'Updated Artist',
-    'id' => 1
-);
+    'id'   => 1,
+];
 
 $statement->execute($parameters);
 
 // DATA INSERTED, NOW CHECK
 
-/* @var $statement Zend\Db\Adapter\DriverStatementInterface */
+/** @var $statement Zend\Db\Adapter\DriverStatementInterface */
 $statement = $adapter->query('SELECT * FROM '
     . $qi('artist')
     . ' WHERE id = ' . $fp('id'));
 
-/* @var $results Zend\Db\ResultSet\ResultSet */
-$results = $statement->execute(array('id' => 1));
+/** @var $results Zend\Db\ResultSet\ResultSet */
+$results = $statement->execute(['id' => 1]);
 
 $row = $results->current();
 $name = $row['name'];
