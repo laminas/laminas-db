@@ -11,7 +11,10 @@ consuming object to clone a prototype of a ResultSet and return a specialized Re
 specific data source injected. The interface of ResultSetInterface looks like this:
 
 ```php
-interface ResultSetInterface extends \Traversable, \Countable
+use Countable;
+use Traversable;
+
+interface ResultSetInterface extends Traversable, Countable
 {
     public function initialize($dataSource);
     public function getFieldCount();
@@ -53,6 +56,10 @@ For most purposes, either a instance of `Zend\Db\ResultSet\ResultSet` or a deriv
 `AbstractResultSet` offers the following core functionality:
 
 ```php
+namespace Zend\Db\ResultSet;
+
+use Iterator;
+
 abstract class AbstractResultSet implements Iterator, ResultSetInterface
 {
     public function initialize($dataSource)
@@ -90,13 +97,30 @@ use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Stdlib\Hydrator\Reflection as ReflectionHydrator;
 
-class UserEntity {
+class UserEntity
+{
     protected $first_name;
     protected $last_name;
-    public function getFirstName() { return $this->first_name; }
-    public function getLastName() { return $this->last_name; }
-    public function setFirstName($first_name) { $this->first_name = $first_name; }
-    public function setLastName($last_name) { $this->last_name = $last_name; }
+
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    public function setFirstName($first_name)
+    {
+        $this->first_name = $first_name;
+    }
+
+    public function setLastName($last_name)
+    {
+        $this->last_name = $last_name;
+    }
 }
 
 $stmt = $driver->createStatement($sql);
@@ -113,5 +137,6 @@ if ($result instanceof ResultInterface && $result->isQueryResult()) {
 }
 ```
 
-For more information, see the `Zend\Stdlib\Hydrator` documentation to get a better sense of the
-different strategies that can be employed in order to populate a target object.
+For more information, see the [zend-hydrator](https://zendframework.github.io/zend-hydrator/)
+documentation to get a better sense of the different strategies that can be
+employed in order to populate a target object.
