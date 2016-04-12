@@ -39,6 +39,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#71](https://github.com/zendframework/zend-db/pull/71) updates the `Pgsql`
   adapter to allow passing the connection charset; this can be done with the
   `charset` option when creating your adapter.
+- [#76](https://github.com/zendframework/zend-db/pull/76) fixes the behavior of
+  `Zend\Db\Sql\Insert` when an array of names is used for columns to ensure the
+  string names are used, and not the array indices.
 
 ## 2.7.0 - 2016-02-22
 
