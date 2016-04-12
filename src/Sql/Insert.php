@@ -9,9 +9,9 @@
 
 namespace Zend\Db\Sql;
 
+use Zend\Db\Adapter\Driver\DriverInterface;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\Adapter\Driver\DriverInterface;
 
 class Insert extends AbstractPreparableSql
 {
@@ -106,6 +106,7 @@ class Insert extends AbstractPreparableSql
                 'values() expects an array of values or Zend\Db\Sql\Select instance'
             );
         }
+
         if ($this->select && $flag == self::VALUES_MERGE) {
             throw new Exception\InvalidArgumentException(
                 'An array of values cannot be provided with the merge flag when a Zend\Db\Sql\Select instance already exists as the value source'
@@ -113,13 +114,28 @@ class Insert extends AbstractPreparableSql
         }
 
         if ($flag == self::VALUES_SET) {
-            $this->columns = $values;
+            $this->columns = $this->isAssocativeArray($values)
+                ? $values
+                : array_combine(array_keys($this->columns), array_values($values));
         } else {
-            foreach ($values as $column=>$value) {
+            foreach ($values as $column => $value) {
                 $this->columns[$column] = $value;
             }
         }
         return $this;
+    }
+
+
+    /**
+     * Simple test for an associative array
+     *
+     * @link http://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
+     * @param array $array
+     * @return bool
+     */
+    private function isAssocativeArray(array $array)
+    {
+        return array_keys($array) !== range(0, count($array) - 1);
     }
 
     /**
@@ -160,7 +176,8 @@ class Insert extends AbstractPreparableSql
 
         $columns = [];
         $values  = [];
-        foreach ($this->columns as $column=>$value) {
+
+        foreach ($this->columns as $column => $value) {
             $columns[] = $platform->quoteIdentifier($column);
             if (is_scalar($value) && $parameterContainer) {
                 $values[] = $driver->formatParameterName($column);
