@@ -305,13 +305,22 @@ abstract class AbstractSql implements SqlInterface
         return $decorator->buildSqlString($platform, $driver, $parameterContainer);
     }
 
-    public function processJoin(
+    /**
+     * @param Join[] $joins
+     * @param PlatformInterface $platform
+     * @param null|DriverInterface $driver
+     * @param null|ParameterContainer $parameterContainer
+     * @return null|string[] Null if no joins present, array of JOIN statements
+     *     otherwise
+     * @throws Exception\InvalidArgumentException for invalid JOIN table names.
+     */
+    protected function processJoin(
         Join $joins,
         PlatformInterface $platform,
         DriverInterface $driver = null,
         ParameterContainer $parameterContainer = null
     ) {
-        if (!$joins->count()) {
+        if (! $joins->count()) {
             return;
         }
 

@@ -64,7 +64,7 @@ class Update extends AbstractPreparableSql
     protected $where = null;
 
     /**
-     * @var Join
+     * @var null|Join
      */
     protected $joins = null;
 
@@ -177,8 +177,7 @@ class Update extends AbstractPreparableSql
         );
     }
 
-    protected function processSet(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer
-    $parameterContainer = null)
+    protected function processSet(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
     {
         $setSql = [];
         foreach ($this->set as $column => $value) {
@@ -188,11 +187,11 @@ class Update extends AbstractPreparableSql
                 $parameterContainer->offsetSet($column, $value);
             } else {
                 $setSql[] = $prefix . $this->resolveColumnValue(
-                        $value,
-                        $platform,
-                        $driver,
-                        $parameterContainer
-                    );
+                    $value,
+                    $platform,
+                    $driver,
+                    $parameterContainer
+                );
             }
         }
 

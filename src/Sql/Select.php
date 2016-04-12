@@ -130,7 +130,7 @@ class Select extends AbstractPreparableSql
     protected $columns = [self::SQL_STAR];
 
     /**
-     * @var Join
+     * @var null|Join
      */
     protected $joins = null;
 
@@ -168,7 +168,6 @@ class Select extends AbstractPreparableSql
      * @var array
      */
     protected $combine = [];
-
 
     /**
      * Constructor

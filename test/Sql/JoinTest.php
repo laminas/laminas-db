@@ -1,17 +1,16 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @link      http://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace ZendTest\Db\Sql;
 
+use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Db\Sql\Join;
 
-class JoinTest extends \PHPUnit_Framework_TestCase
+class JoinTest extends TestCase
 {
     /**
      * @testdox unit test: Test join() returns Join object (is chainable)
