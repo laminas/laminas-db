@@ -27,6 +27,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#91](https://github.com/zendframework/zend-db/pull/91) fixes the behavior of
   the `Oci8` adapter when initializing a result set; previously, it was
   improperly assigning the count of affected rows to the generated value.
+- [#95](https://github.com/zendframework/zend-db/pull/95) fixes the `IbmDb2`
+  platform's `quoteIdentifier()` method to properly allow `#` characters in
+  identifiers (as they are commonly used on that platform).
 
 ## 2.7.0 - 2016-02-22
 
