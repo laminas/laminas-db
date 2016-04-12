@@ -370,13 +370,14 @@ identifiers (TYPE\_IDENTIFIER) and which of those is a value (TYPE\_VALUE). Ther
 use case type for literal values (TYPE\_LITERAL). These are all exposed via the
 `Zend\Db\Sql\ExpressionInterface` interface.
 
-> ## Note
-In ZF 2.1, an actual `Literal` type was added. `Zend\Db\Sql` now makes the distinction that Literals
-will not have any parameters that need interpolating whereas it is expected that `Expression`
-objects *might* have parameters that need interpolating. In cases where there are parameters in an
-`Expression`, `Zend\Db\Sql\AbstractSql` will do its best to identify placeholders when the
-Expression is processed during statement creation. In short, if you don't have parameters, use
-`Literal` objects.
+> ### Literals
+>
+> In ZF 2.1, an actual `Literal` type was added. `Zend\Db\Sql` now makes the distinction that Literals
+> will not have any parameters that need interpolating whereas it is expected that `Expression`
+> objects *might* have parameters that need interpolating. In cases where there are parameters in an
+> `Expression`, `Zend\Db\Sql\AbstractSql` will do its best to identify placeholders when the
+> Expression is processed during statement creation. In short, if you don't have parameters, use
+> `Literal` objects.
 
 The Zend\\Db\\Sql\\Where (Predicate/PredicateSet) API:
 
