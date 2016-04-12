@@ -19,7 +19,8 @@ attempting to achieve.
 
 ```php
 use Zend\Db\Sql\Sql;
-$sql = new Sql($adapter);
+
+$sql    = new Sql($adapter);
 $select = $sql->select(); // @return Zend\Db\Sql\Select
 $insert = $sql->insert(); // @return Zend\Db\Sql\Insert
 $update = $sql->update(); // @return Zend\Db\Sql\Update
@@ -34,10 +35,11 @@ To prepare (using a Select object):
 
 ```php
 use Zend\Db\Sql\Sql;
-$sql = new Sql($adapter);
+
+$sql    = new Sql($adapter);
 $select = $sql->select();
 $select->from('foo');
-$select->where(array('id' => 2));
+$select->where(['id' => 2]);
 
 $statement = $sql->prepareStatementForSqlObject($select);
 $results = $statement->execute();
@@ -47,10 +49,11 @@ To execute (using a Select object)
 
 ```php
 use Zend\Db\Sql\Sql;
-$sql = new Sql($adapter);
+
+$sql    = new Sql($adapter);
 $select = $sql->select();
 $select->from('foo');
-$select->where(array('id' => 2));
+$select->where(['id' => 2]);
 
 $selectString = $sql->buildSqlString($select);
 $results = $adapter->query($selectString, $adapter::QUERY_MODE_EXECUTE);
@@ -61,9 +64,10 @@ insert, update, or delete object, they are all primarily seeded with the same ta
 
 ```php
 use Zend\Db\Sql\Sql;
-$sql = new Sql($adapter, 'foo');
+
+$sql    = new Sql($adapter, 'foo');
 $select = $sql->select();
-$select->where(array('id' => 2)); // $select already has the from('foo') applied
+$select->where(['id' => 2]); // $select already has the from('foo') applied
 ```
 
 ## Zend\\Db\\Sql's Select, Insert, Update and Delete
@@ -71,10 +75,12 @@ $select->where(array('id' => 2)); // $select already has the from('foo') applied
 Each of these objects implements the following (2) interfaces:
 
 ```php
-interface PreparableSqlInterface {
+interface PreparableSqlInterface
+{
      public function prepareStatement(Adapter $adapter, StatementInterface $statement);
 }
-interface SqlInterface {
+interface SqlInterface
+{
      public function getSqlString(PlatformInterface $adapterPlatform = null);
 }
 ```
@@ -90,6 +96,7 @@ platform specific SQL SELECT queries. The class can be instantiated and consumed
 
 ```php
 use Zend\Db\Sql\Select;
+
 $select = new Select();
 // or, to produce a $select bound to a specific table
 $select = new Select('foo');
@@ -136,39 +143,38 @@ $select->from('foo');
 // as an array to specify an alias:
 // produces SELECT "t".* FROM "table" AS "t"
 
-$select->from(array('t' => 'table'));
+$select->from(['t' => 'table']);
 
 // using a Sql\TableIdentifier:
 // same output as above
 
-$select->from(new TableIdentifier(array('t' => 'table')));
+$select->from(new TableIdentifier(['t' => 'table']));
 ```
 
 ### columns():
 
 ```php
 // as array of names
-$select->columns(array('foo', 'bar'));
+$select->columns(['foo', 'bar']);
 
 // as an associative array with aliases as the keys:
 // produces 'bar' AS 'foo', 'bax' AS 'baz'
 
-$select->columns(array('foo' => 'bar', 'baz' => 'bax'));
+$select->columns(['foo' => 'bar', 'baz' => 'bax']);
 ```
 
 ### join():
 
 ```php
 $select->join(
- 'foo', // table name
- 'id = bar.id', // expression to join on (will be quoted by platform object before insertion),
- array('bar', 'baz'), // (optional) list of columns, same requirements as columns() above
- $select::JOIN_OUTER // (optional), one of inner, outer, left, right also represented by constants
-in the API
+    'foo', // table name
+    'id = bar.id', // expression to join on (will be quoted by platform object before insertion),
+    ['bar', 'baz'], // (optional) list of columns, same requirements as columns() above
+    $select::JOIN_OUTER // (optional), one of inner, outer, left, right also represented by constants in the API
 );
 
-$select->from(array('f' => 'foo'))  // base table
-    ->join(array('b' => 'bar'),     // join table with alias
+$select->from(['f' => 'foo'])  // base table
+    ->join(['b' => 'bar'],     // join table with alias
     'f.foo_id = b.foo_id');         // join expression
 ```
 
@@ -225,7 +231,7 @@ Consider the following code:
 
 ```php
 // SELECT "foo".* FROM "foo" WHERE x = 5 AND y = z
-$select->from('foo')->where(array('x = 5', 'y = z'));
+$select->from('foo')->where(['x = 5', 'y = z']);
 ```
 
 If you provide an array who's values are keyed with a string, these values will be handled in the
@@ -240,11 +246,13 @@ Consider the following code:
 
 ```php
 // SELECT "foo".* FROM "foo" WHERE "c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL
-$select->from('foo')->where(array(
-    'c1' => null,
-    'c2' => array(1, 2, 3),
-    new \Zend\Db\Sql\Predicate\IsNotNull('c3')
-));
+$select->from('foo')->where(
+    [
+        'c1' => null,
+        'c2' => [1, 2, 3],
+        new \Zend\Db\Sql\Predicate\IsNotNull('c3'),
+    ]
+);
 ```
 
 ### order():
@@ -258,7 +266,7 @@ $select->order('id DESC')
  ->order('name ASC, age DESC'); // produces 'id' DESC, 'name' ASC, 'age' DESC
 
 $select = new Select;
-$select->order(array('name ASC', 'age DESC')); // produces 'name' ASC, 'age' DESC
+$select->order(['name ASC', 'age DESC']); // produces 'name' ASC, 'age' DESC
 ```
 
 ### limit() and offset():
@@ -291,7 +299,7 @@ Similarly to Select objects, the table can be set at construction time or via in
 ### columns():
 
 ```php
-$insert->columns(array('foo', 'bar')); // set the valid columns
+$insert->columns(['foo', 'bar']); // set the valid columns
 ```
 
 ### values():
@@ -299,15 +307,17 @@ $insert->columns(array('foo', 'bar')); // set the valid columns
 ```php
 // default behavior of values is to set the values
 // successive calls will not preserve values from previous calls
-$insert->values(array(
- 'col_1' => 'value1',
- 'col_2' => 'value2'
-));
+$insert->values(
+    [
+        'col_1' => 'value1',
+        'col_2' => 'value2',
+    ]
+);
 ```
 
 ```php
 // merging values with previous calls
-$insert->values(array('col_2' => 'value2'), $insert::VALUES_MERGE);
+$insert->values(['col_2' => 'value2'], $insert::VALUES_MERGE);
 ```
 
 ## Zend\\Db\\Sql\\Update
@@ -329,7 +339,7 @@ class Update
 ### set():
 
 ```php
-$update->set(array('foo' => 'bar', 'baz' => 'bax'));
+$update->set(['foo' => 'bar', 'baz' => 'bax']);
 ```
 
 ### where():
@@ -412,7 +422,7 @@ $rightType = self::TYPE_VALUE);
      public function expression($expression, $parameter);
      public function isNull($identifier);
      public function isNotNull($identifier);
-     public function in($identifier, array $valueSet = array());
+     public function in($identifier, array $valueSet = []);
      public function between($identifier, $minValue, $maxValue);
 
 
@@ -576,10 +586,10 @@ class IsNotNull implements PredicateInterface
 }
 ```
 
-### in($identifier, array $valueSet = array());
+### in($identifier, array $valueSet = []);
 
 ```php
-$where->in($identifier, array $valueSet = array());
+$where->in($identifier, array $valueSet = []);
 
 // same as
 $where->addPredicate(
@@ -589,7 +599,7 @@ $where->addPredicate(
 // full API
 class In implements PredicateInterface
 {
-    public function __construct($identifier = null, array $valueSet = array());
+    public function __construct($identifier = null, array $valueSet = []);
     public function setIdentifier($identifier);
     public function getIdentifier();
     public function setValueSet(array $valueSet);

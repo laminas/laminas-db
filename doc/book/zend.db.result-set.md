@@ -90,7 +90,8 @@ use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Stdlib\Hydrator\Reflection as ReflectionHydrator;
 
-class UserEntity {
+class UserEntity
+{
     protected $first_name;
     protected $last_name;
     public function getFirstName() { return $this->first_name; }
