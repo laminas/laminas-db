@@ -114,13 +114,9 @@ class Insert extends AbstractPreparableSql
         }
 
         if ($flag == self::VALUES_SET) {
-            if (!$this->isAssocativeArray($values)) {
-                $this->columns = array_combine(
-                    array_keys($this->columns), array_values($values)
-                );
-            } else {
-                $this->columns = $values;
-            }
+            $this->columns = $this->isAssocativeArray($values)
+                ? $values
+                : array_combine(array_keys($this->columns), array_values($values));
         } else {
             foreach ($values as $column => $value) {
                 $this->columns[$column] = $value;
@@ -132,13 +128,14 @@ class Insert extends AbstractPreparableSql
 
     /**
      * Simple test for an associative array
+     *
      * @link http://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
-     * @param $arr
+     * @param array $array
      * @return bool
      */
-    private function isAssocativeArray($arr)
+    private function isAssocativeArray(array $array)
     {
-        return array_keys($arr) !== range(0, count($arr) - 1);
+        return array_keys($array) !== range(0, count($array) - 1);
     }
 
     /**
