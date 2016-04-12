@@ -67,12 +67,12 @@ utilized. Any of these objects can be injected, to do this, see the next section
 
 The list of officially supported drivers:
 
-- `Mysqli`: The ext/mysqli driver
-- `Pgsql`: The ext/pgsql driver
-- `Sqlsrv`: The ext/sqlsrv driver (from Microsoft)
-- `Pdo_Mysql`: MySQL through the PDO extension
-- `Pdo_Sqlite`: SQLite though the PDO extension
-- `Pdo_Pgsql`: PostgreSQL through the PDO extension
+* `Mysqli`: The ext/mysqli driver
+* `Pgsql`: The ext/pgsql driver
+* `Sqlsrv`: The ext/sqlsrv driver (from Microsoft)
+* `Pdo_Mysql`: MySQL through the PDO extension
+* `Pdo_Sqlite`: SQLite though the PDO extension
+* `Pdo_Pgsql`: PostgreSQL through the PDO extension
 
 ## Creating an Adapter Using Dependency Injection
 
@@ -164,17 +164,17 @@ level abstraction making it possible to use all of ZendDb's interfaces via the v
 ext/sqlsrv, PDO, and other PHP level drivers. To make this possible, each driver is composed of 3
 objects:
 
-- A connection: `Zend\Db\Adapter\Driver\ConnectionInterface`
-- A statement: `Zend\Db\Adapter\Driver\StatementInterface`
-- A result: `Zend\Db\Adapter\Driver\ResultInterface`
+* A connection: `Zend\Db\Adapter\Driver\ConnectionInterface`
+* A statement: `Zend\Db\Adapter\Driver\StatementInterface`
+* A result: `Zend\Db\Adapter\Driver\ResultInterface`
 
 Each of the built-in drivers practices "prototyping" as a means of creating objects when new
 instances are requested. The workflow looks like this:
 
-- An adapter is created with a set of connection parameters
-- The adapter chooses the proper driver to instantiate, for example `Zend\Db\Adapter\Driver\Mysqli`
-- That driver class is instantiated
-- If no connection, statement or result objects are injected, defaults are instantiated
+* An adapter is created with a set of connection parameters
+* The adapter chooses the proper driver to instantiate, for example `Zend\Db\Adapter\Driver\Mysqli`
+* That driver class is instantiated
+* If no connection, statement or result objects are injected, defaults are instantiated
 
 This driver is now ready to be called on when particular workflows are requested. Here is what the
 Driver API looks like:
