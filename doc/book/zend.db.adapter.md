@@ -20,7 +20,7 @@ $adapter = new Zend\Db\Adapter\Adapter($configArray);
 This driver array is an abstraction for the extension level required parameters. Here is a table for
 the key-value pairs that should be in configuration array.
 
-> ## Note
+> ### Note
 Other names will work as well. Effectively, if the PHP manual uses a particular naming, this naming
 will be supported by our Driver. For example, dbname in most cases will also work for 'database'.
 Another example is that in the case of Sqlsrv, UID will work in place of username. Which format you
