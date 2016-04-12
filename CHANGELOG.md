@@ -42,6 +42,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#76](https://github.com/zendframework/zend-db/pull/76) fixes the behavior of
   `Zend\Db\Sql\Insert` when an array of names is used for columns to ensure the
   string names are used, and not the array indices.
+- [#91](https://github.com/zendframework/zend-db/pull/91) fixes the behavior of
+  the `Oci8` adapter when initializing a result set; previously, it was
+  improperly assigning the count of affected rows to the generated value.
 
 ## 2.7.0 - 2016-02-22
 
