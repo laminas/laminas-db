@@ -28,7 +28,7 @@ order to be consumed and utilized to its fullest.
 
 ## Basic Usage
 
-The quickest way to get up and running with Zend\\Db\\TableGateway is to configure and utilize the
+The quickest way to get up and running with `Zend\Db\TableGateway` is to configure and utilize the
 concrete implementation of the `TableGateway`. The API of the concrete `TableGateway` is:
 
 ```php
@@ -38,8 +38,13 @@ class TableGateway extends AbstractTableGateway
     public $table;
     public $adapter;
 
-    public function __construct($table, Adapter $adapter, $features = null, ResultSet
-$resultSetPrototype = null, Sql $sql = null)
+    public function __construct(
+        $table,
+        Adapter $adapter,
+        $features = null,
+        ResultSet $resultSetPrototype = null,
+        Sql $sql = null
+    );
 
     /** Inherited from AbstractTableGateway */
 
@@ -121,8 +126,8 @@ array of Feature objects.
 There are a number of features built-in and shipped with Zend\\Db:
 
 - GlobalAdapterFeature: the ability to use a global/static adapter without needing to inject it into
-a `TableGateway` instance. This is more useful when you are extending the `AbstractTableGateway`
-implementation:
+  a `TableGateway` instance. This is more useful when you are extending the `AbstractTableGateway`
+  implementation:
 
 ```php
 use Zend\Db\TableGateway\AbstractTableGateway;
@@ -147,29 +152,29 @@ $table = new MyTableGateway(); // adapter is statically loaded
 ```
 
 - MasterSlaveFeature: the ability to use a master adapter for insert(), update(), and delete() while
-using a slave adapter for all select() operations.
+  using a slave adapter for all select() operations.
 
 ```php
 $table = new TableGateway('artist', $adapter, new Feature\MasterSlaveFeature($slaveAdapter));
 ```
 
 - MetadataFeature: the ability populate `TableGateway` with column information from a Metadata
-object. It will also store the primary key information in case RowGatewayFeature needs to consume
-this information.
+  object. It will also store the primary key information in case RowGatewayFeature needs to consume
+  this information.
 
 ```php
 $table = new TableGateway('artist', $adapter, new Feature\MetadataFeature());
 ```
 
 - EventFeature: the ability utilize a `TableGateway` object with Zend\\EventManager and to be able
-to subscribe to various events in a `TableGateway` lifecycle.
+  to subscribe to various events in a `TableGateway` lifecycle.
 
 ```php
 $table = new TableGateway('artist', $adapter, new Feature\EventFeature($eventManagerInstance));
 ```
 
 - RowGatewayFeature: the ability for `select()` to return a ResultSet object that upon iteration
-will return a `RowGateway` object for each row.
+  will return a `RowGateway` object for each row.
 
 ```php
 $table   = new TableGateway('artist', $adapter, new Feature\RowGatewayFeature('id'));

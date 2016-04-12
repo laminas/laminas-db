@@ -110,7 +110,8 @@ class Zend\Db\Metadata\Object\TableObject
 The ColumnObject:
 
 ```php
-class Zend\Db\Metadata\Object\ColumnObject {
+class Zend\Db\Metadata\Object\ColumnObject
+{
     public function __construct($name, $tableName, $schemaName = null);
     public function setName($name);
     public function getName();

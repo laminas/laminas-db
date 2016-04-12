@@ -59,7 +59,7 @@ $selectString = $sql->buildSqlString($select);
 $results = $adapter->query($selectString, $adapter::QUERY_MODE_EXECUTE);
 ```
 
-Zend\\Db\\Sql\\Sql objects can also be bound to a particular table so that in getting a select,
+`Zend\\Db\\Sql\\Sql` objects can also be bound to a particular table so that in getting a select,
 insert, update, or delete object, they are all primarily seeded with the same table when produced.
 
 ```php
@@ -79,6 +79,7 @@ interface PreparableSqlInterface
 {
      public function prepareStatement(Adapter $adapter, StatementInterface $statement);
 }
+
 interface SqlInterface
 {
      public function getSqlString(PlatformInterface $adapterPlatform = null);
@@ -90,7 +91,7 @@ be executed.
 
 ## Zend\\Db\\Sql\\Select
 
-`Zend\Db\Sql\Select` is an object who's primary function is to present a unified API for building
+`Zend\Db\Sql\Select` is an object with the primary function of presenting a unified API for building
 platform specific SQL SELECT queries. The class can be instantiated and consumed without
 `Zend\Db\Sql\Sql`:
 
@@ -102,7 +103,7 @@ $select = new Select();
 $select = new Select('foo');
 ```
 
-If a table is provided to the Select object, then from() cannot be called later to change the name
+If a table is provided to the Select object, then `from()` cannot be called later to change the name
 of the table.
 
 Once you have a valid Select object, the following API can be used to further specify various select
@@ -173,9 +174,12 @@ $select->join(
     $select::JOIN_OUTER // (optional), one of inner, outer, left, right also represented by constants in the API
 );
 
-$select->from(['f' => 'foo'])  // base table
-    ->join(['b' => 'bar'],     // join table with alias
-    'f.foo_id = b.foo_id');         // join expression
+$select
+    ->from(['f' => 'foo'])     // base table
+    ->join(
+        ['b' => 'bar'],        // join table with alias
+        'f.foo_id = b.foo_id'  // join expression
+    );
 ```
 
 ### where(), having():
@@ -234,25 +238,23 @@ Consider the following code:
 $select->from('foo')->where(['x = 5', 'y = z']);
 ```
 
-If you provide an array who's values are keyed with a string, these values will be handled in the
+If you provide an array with values keyed as strings, these values will be handled in the
 following:
 
 - PHP value nulls will be made into a `Predicate\IsNull` object
 - PHP value array()s will be made into a `Predicate\In` object
 - PHP value strings will be made into a `Predicate\Operator` object such that the string key will be
-identifier, and the value will target value.
+  identifier, and the value will target value.
 
 Consider the following code:
 
 ```php
 // SELECT "foo".* FROM "foo" WHERE "c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL
-$select->from('foo')->where(
-    [
-        'c1' => null,
-        'c2' => [1, 2, 3],
-        new \Zend\Db\Sql\Predicate\IsNotNull('c3'),
-    ]
-);
+$select->from('foo')->where([
+    'c1' => null,
+    'c2' => [1, 2, 3],
+    new \Zend\Db\Sql\Predicate\IsNotNull('c3'),
+]);
 ```
 
 ### order():
@@ -262,8 +264,9 @@ $select = new Select;
 $select->order('id DESC'); // produces 'id' DESC
 
 $select = new Select;
-$select->order('id DESC')
- ->order('name ASC, age DESC'); // produces 'id' DESC, 'name' ASC, 'age' DESC
+$select
+    ->order('id DESC')
+    ->order('name ASC, age DESC'); // produces 'id' DESC, 'name' ASC, 'age' DESC
 
 $select = new Select;
 $select->order(['name ASC', 'age DESC']); // produces 'name' ASC, 'age' DESC
@@ -284,13 +287,13 @@ The Insert API:
 ```php
 class Insert implements SqlInterface, PreparableSqlInterface
 {
- const VALUES_MERGE = 'merge';
- const VALUES_SET   = 'set';
+    const VALUES_MERGE = 'merge';
+    const VALUES_SET   = 'set';
 
- public function __construct($table = null);
- public function into($table);
- public function columns(array $columns);
- public function values(array $values, $flag = self::VALUES_SET);
+    public function __construct($table = null);
+    public function into($table);
+    public function columns(array $columns);
+    public function values(array $values, $flag = self::VALUES_SET);
 }
 ```
 
@@ -307,12 +310,10 @@ $insert->columns(['foo', 'bar']); // set the valid columns
 ```php
 // default behavior of values is to set the values
 // successive calls will not preserve values from previous calls
-$insert->values(
-    [
-        'col_1' => 'value1',
-        'col_2' => 'value2',
-    ]
-);
+$insert->values([
+    'col_1' => 'value1',
+    'col_2' => 'value2',
+]);
 ```
 
 ```php
@@ -395,45 +396,68 @@ The Zend\\Db\\Sql\\Where (Predicate/PredicateSet) API:
 // Where & Having:
 class Predicate extends PredicateSet
 {
-     public $and;
-     public $or;
-     public $AND;
-     public $OR;
-     public $NEST;
-     public $UNNEST;
+    public $and;
+    public $or;
+    public $AND;
+    public $OR;
+    public $NEST;
+    public $UNNEST;
 
-     public function nest();
-     public function setUnnest(Predicate $predicate);
-     public function unnest();
-     public function equalTo($left, $right, $leftType = self::TYPE_IDENTIFIER, $rightType =
-self::TYPE_VALUE);
-     public function notEqualTo($left, $right, $leftType = self::TYPE_IDENTIFIER, $rightType =
-self::TYPE_VALUE);
-     public function lessThan($left, $right, $leftType = self::TYPE_IDENTIFIER, $rightType =
-self::TYPE_VALUE);
-     public function greaterThan($left, $right, $leftType = self::TYPE_IDENTIFIER, $rightType =
-self::TYPE_VALUE);
-     public function lessThanOrEqualTo($left, $right, $leftType = self::TYPE_IDENTIFIER, $rightType
-= self::TYPE_VALUE);
-     public function greaterThanOrEqualTo($left, $right, $leftType = self::TYPE_IDENTIFIER,
-$rightType = self::TYPE_VALUE);
-     public function like($identifier, $like);
-     public function literal($literal);
-     public function expression($expression, $parameter);
-     public function isNull($identifier);
-     public function isNotNull($identifier);
-     public function in($identifier, array $valueSet = []);
-     public function between($identifier, $minValue, $maxValue);
+    public function nest();
+    public function setUnnest(Predicate $predicate);
+    public function unnest();
+    public function equalTo(
+        $left,
+        $right,
+        $leftType = self::TYPE_IDENTIFIER,
+        $rightType = self::TYPE_VALUE
+    );
+    public function notEqualTo(
+        $left,
+        $right,
+        $leftType = self::TYPE_IDENTIFIER,
+        $rightType = self::TYPE_VALUE
+    );
+    public function lessThan(
+        $left,
+        $right,
+        $leftType = self::TYPE_IDENTIFIER,
+        $rightType = self::TYPE_VALUE
+    );
+    public function greaterThan(
+        $left,
+        $right,
+        $leftType = self::TYPE_IDENTIFIER,
+        $rightType = self::TYPE_VALUE
+    );
+    public function lessThanOrEqualTo(
+        $left,
+        $right,
+        $leftType = self::TYPE_IDENTIFIER,
+        $rightType = self::TYPE_VALUE
+    );
+    public function greaterThanOrEqualTo(
+        $left,
+        $right,
+        $leftType = self::TYPE_IDENTIFIER,
+        $rightType = self::TYPE_VALUE
+    );
+    public function like($identifier, $like);
+    public function literal($literal);
+    public function expression($expression, $parameter);
+    public function isNull($identifier);
+    public function isNotNull($identifier);
+    public function in($identifier, array $valueSet = []);
+    public function between($identifier, $minValue, $maxValue);
 
+    // Inherited From PredicateSet
 
-     // Inherited From PredicateSet
-
-     public function addPredicate(PredicateInterface $predicate, $combination = null);
-     public function getPredicates();
-     public function orPredicate(PredicateInterface $predicate);
-     public function andPredicate(PredicateInterface $predicate);
-     public function getExpressionData();
-     public function count();
+    public function addPredicate(PredicateInterface $predicate, $combination = null);
+    public function getPredicates();
+    public function orPredicate(PredicateInterface $predicate);
+    public function andPredicate(PredicateInterface $predicate);
+    public function getExpressionData();
+    public function count();
 }
 ```
 
@@ -447,7 +471,7 @@ $where->equalTo('id', 5);
 
 // same as the following workflow
 $where->addPredicate(
- new Predicate\Operator($left, Operator::OPERATOR_EQUAL_TO, $right, $leftType, $rightType)
+    new Predicate\Operator($left, Operator::OPERATOR_EQUAL_TO, $right, $leftType, $rightType)
 );
 
 class Operator implements PredicateInterface
@@ -465,8 +489,13 @@ class Operator implements PredicateInterface
     const OPERATOR_GREATER_THAN_OR_EQUAL_TO  = '>=';
     const OP_GTE                             = '>=';
 
-    public function __construct($left = null, $operator = self::OPERATOR_EQUAL_TO, $right = null,
-$leftType = self::TYPE_IDENTIFIER, $rightType = self::TYPE_VALUE);
+    public function __construct(
+        $left = null,
+        $operator = self::OPERATOR_EQUAL_TO,
+        $right = null,
+        $leftType = self::TYPE_IDENTIFIER,
+        $rightType = self::TYPE_VALUE
+    );
     public function setLeft($left);
     public function getLeft();
     public function setLeftType($type);
@@ -488,7 +517,7 @@ $where->like($identifier, $like):
 
 // same as
 $where->addPredicate(
- new Predicate\Like($identifier, $like)
+    new Predicate\Like($identifier, $like)
 );
 
 // full API
@@ -537,8 +566,12 @@ $where->addPredicate(
 class Expression implements ExpressionInterface, PredicateInterface
 {
     const PLACEHOLDER = '?';
-    public function __construct($expression = null, $valueParameter = null /*[, $valueParameter, ...
-]*/);
+
+    public function __construct(
+        $expression = null,
+        $valueParameter = null
+        /* [, $valueParameter, ...  ] */
+    );
     public function setExpression($expression);
     public function getExpression();
     public function setParameters($parameters);
