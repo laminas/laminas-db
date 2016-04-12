@@ -190,7 +190,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 'columns' => [Select::SQL_STAR],
                 'type' => Select::JOIN_INNER
             ]],
-            $select->getRawState('joins')
+            $select->getRawState('joins')->getJoins()
         );
     }
 
@@ -601,9 +601,9 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         // joins
         $select->join('foo', 'id = boo');
-        $this->assertEquals([['name' => 'foo', 'on' => 'id = boo', 'columns' => ['*'], 'type' => 'inner']], $select->getRawState(Select::JOINS));
+        $this->assertEquals([['name' => 'foo', 'on' => 'id = boo', 'columns' => ['*'], 'type' => 'inner']], $select->getRawState(Select::JOINS)->getJoins());
         $select->reset(Select::JOINS);
-        $this->assertEmpty($select->getRawState(Select::JOINS));
+        $this->assertEmpty($select->getRawState(Select::JOINS)->getJoins());
 
         // where
         $select->where('foo = bar');
