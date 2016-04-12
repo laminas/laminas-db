@@ -132,72 +132,20 @@ These types exist in the `Zend\Db\Sql\Ddl\Column` namespace. Data types must imp
 
 In alphabetical order:
 
-<table>
-<colgroup>
-<col width="18%" />
-<col width="81%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Type</th>
-<th align="left">Arguments For Construction</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">BigInteger</td>
-<td align="left"><code>$name, $nullable = false, $default = null, array $options =
-array()</code></td>
-</tr>
-<tr class="even">
-<td align="left">Blob</td>
-<td align="left"><code>$name, $length, $nullable = false, $default = null, array $options =
-array()</code></td>
-</tr>
-<tr class="odd">
-<td align="left">Boolean</td>
-<td align="left"><code>$name</code></td>
-</tr>
-<tr class="even">
-<td align="left">Char</td>
-<td align="left"><code>$name, $length</code></td>
-</tr>
-<tr class="odd">
-<td align="left">Column (generic)</td>
-<td align="left"><code>$name = null</code></td>
-</tr>
-<tr class="even">
-<td align="left">Date</td>
-<td align="left"><code>$name</code></td>
-</tr>
-<tr class="odd">
-<td align="left">Decimal</td>
-<td align="left"><code>$name, $precision, $scale = null</code></td>
-</tr>
-<tr class="even">
-<td align="left">Float</td>
-<td align="left"><code>$name, $digits, $decimal</code> (Note: this class is deprecated as of 2.4.0;
-use Floating instead</td>
-</tr>
-<tr class="odd">
-<td align="left">Floating</td>
-<td align="left"><code>$name, $digits, $decimal</code></td>
-</tr>
-<tr class="even">
-<td align="left">Integer</td>
-<td align="left"><code>$name, $nullable = false, $default = null, array $options =
-array()</code></td>
-</tr>
-<tr class="odd">
-<td align="left">Time</td>
-<td align="left"><code>$name</code></td>
-</tr>
-<tr class="even">
-<td align="left">Varchar</td>
-<td align="left"><code>$name, $length</code></td>
-</tr>
-</tbody>
-</table>
+Type             | Arguments For Construction
+-----------------|---------------------------
+BigInteger       | `$name`, `$nullable = false`, `$default = null`, `array $options = array()`
+Blob             | `$name`, `$length`, `nullable = false`, `$default = null`, `array $options = array()`
+Boolean          | `$name`
+Char             | `$name`, `length`
+Column (generic) | `$name = null`
+Date             | `$name`
+Decimal          | `$name`, `$precision`, `$scale = null`
+Float            | `$name`, `$digits`, `$decimal` (Note: this class is deprecated as of 2.4.0; use Floating instead)
+Floating         | `$name`, `$digits`, `$decimal`
+Integer          | `$name`, `$nullable = false`, `default = null`, `array $options = array()`
+Time             | `$name`
+Varchar          | `$name`, `$length`
 
 Each of the above types can be utilized in any place that accepts a `Column\ColumnInterface`
 instance. Currently, this is primarily in `CreateTable::addColumn()` and `AlterTable`'s
@@ -210,37 +158,12 @@ These types exist in the `Zend\Db\Sql\Ddl\Constraint` namespace. Data types must
 
 In alphabetical order:
 
-<table>
-<colgroup>
-<col width="14%" />
-<col width="85%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Type</th>
-<th align="left">Arguments For Construction</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Check</td>
-<td align="left"><code>$expression, $name</code></td>
-</tr>
-<tr class="even">
-<td align="left">ForeignKey</td>
-<td align="left"><code>$name, $column, $referenceTable, $referenceColumn, $onDeleteRule = null,
-$onUpdateRule = null</code></td>
-</tr>
-<tr class="odd">
-<td align="left">PrimaryKey</td>
-<td align="left"><code>$columns</code></td>
-</tr>
-<tr class="even">
-<td align="left">UniqueKey</td>
-<td align="left"><code>$column, $name = null</code></td>
-</tr>
-</tbody>
-</table>
+Type       | Arguments For Construction
+-----------|---------------------------
+Check      | `$expression`, `$name`
+ForeignKey | `$name`, `$column`, `$referenceTable`, `$referenceColumn`, `$onDeleteRule = null`, `$onUpdateRule = null`
+PrimaryKey | `$columns`
+UniqueKey  | `$column`, `$name = null`
 
 Each of the above types can be utilized in any place that accepts a `Column\ConstraintInterface`
 instance. Currently, this is primarily in `CreateTable::addConstraint()` and
