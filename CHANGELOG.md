@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.8.0 - TBD
+
+### Added
+
+- [#92](https://github.com/zendframework/zend-db/pull/92) adds the class
+  `Zend\Db\Sql\Join` for creating and aggregating JOIN specifications. This is
+  now consumed by all `Zend\Db\Sql` implementations in order to represent JOIN
+  statements.
+- [#92](https://github.com/zendframework/zend-db/pull/92) adds support for JOIN
+  operations to UPDATE statements.
+- [#92](https://github.com/zendframework/zend-db/pull/92) adds support for joins
+  to `AbstractTableGateway::update`; you can now pass an array of
+  specifications via a third argument to the method.
+- [#96](https://github.com/zendframework/zend-db/pull/96) exposes the package as
+  config-provider/component, but adding:
+  - `Zend\Db\ConfigProvider`, which maps the `AdapterInterface` to the
+    `AdapterServiceFactory`, and enables the `AdapterAbstractServiceFactory`.
+  - `Zend\Db\Module`, which does the same, for a zend-mvc context.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 2.7.1 - 2016-04-12
 
 ### Added

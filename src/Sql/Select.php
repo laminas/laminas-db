@@ -37,12 +37,12 @@ class Select extends AbstractPreparableSql
     const OFFSET = 'offset';
     const QUANTIFIER_DISTINCT = 'DISTINCT';
     const QUANTIFIER_ALL = 'ALL';
-    const JOIN_INNER = 'inner';
-    const JOIN_OUTER = 'outer';
-    const JOIN_LEFT = 'left';
-    const JOIN_RIGHT = 'right';
-    const JOIN_RIGHT_OUTER = 'right outer';
-    const JOIN_LEFT_OUTER  = 'left outer';
+    const JOIN_INNER = Join::JOIN_INNER;
+    const JOIN_OUTER = Join::JOIN_OUTER;
+    const JOIN_LEFT = Join::JOIN_LEFT;
+    const JOIN_RIGHT = Join::JOIN_RIGHT;
+    const JOIN_RIGHT_OUTER = Join::JOIN_RIGHT_OUTER;
+    const JOIN_LEFT_OUTER  = Join::JOIN_LEFT_OUTER;
     const SQL_STAR = '*';
     const ORDER_ASCENDING = 'ASC';
     const ORDER_DESCENDING = 'DESC';
@@ -130,9 +130,9 @@ class Select extends AbstractPreparableSql
     protected $columns = [self::SQL_STAR];
 
     /**
-     * @var array
+     * @var null|Join
      */
-    protected $joins = [];
+    protected $joins = null;
 
     /**
      * @var Where
@@ -182,6 +182,7 @@ class Select extends AbstractPreparableSql
         }
 
         $this->where = new Where;
+        $this->joins = new Join;
         $this->having = new Having;
     }
 
@@ -262,20 +263,8 @@ class Select extends AbstractPreparableSql
      */
     public function join($name, $on, $columns = self::SQL_STAR, $type = self::JOIN_INNER)
     {
-        if (is_array($name) && (!is_string(key($name)) || count($name) !== 1)) {
-            throw new Exception\InvalidArgumentException(
-                sprintf("join() expects '%s' as an array is a single element associative array", array_shift($name))
-            );
-        }
-        if (!is_array($columns)) {
-            $columns = [$columns];
-        }
-        $this->joins[] = [
-            'name'    => $name,
-            'on'      => $on,
-            'columns' => $columns,
-            'type'    => $type
-        ];
+        $this->joins->join($name, $on, $columns, $type);
+
         return $this;
     }
 
@@ -430,7 +419,7 @@ class Select extends AbstractPreparableSql
                 $this->columns = [];
                 break;
             case self::JOINS:
-                $this->joins = [];
+                $this->joins = new Join;
                 break;
             case self::WHERE:
                 $this->where = new Where;
@@ -494,19 +483,6 @@ class Select extends AbstractPreparableSql
         return $this->tableReadOnly;
     }
 
-    /**
-     * Render table with alias in from/join parts
-     *
-     * @todo move TableIdentifier concatination here
-     * @param string $table
-     * @param string $alias
-     * @return string
-     */
-    protected function renderTable($table, $alias = null)
-    {
-        return $table . ($alias ? ' AS ' . $alias : '');
-    }
-
     protected function processStatementStart(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
     {
         if ($this->combine !== []) {
@@ -563,7 +539,7 @@ class Select extends AbstractPreparableSql
         }
 
         // process join columns
-        foreach ($this->joins as $join) {
+        foreach ($this->joins->getJoins() as $join) {
             $joinName = (is_array($join['name'])) ? key($join['name']) : $join['name'];
             $joinName = parent::resolveTable($joinName, $platform, $driver, $parameterContainer);
 
@@ -609,50 +585,7 @@ class Select extends AbstractPreparableSql
 
     protected function processJoins(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
     {
-        if (!$this->joins) {
-            return;
-        }
-
-        // process joins
-        $joinSpecArgArray = [];
-        foreach ($this->joins as $j => $join) {
-            $joinName = null;
-            $joinAs = null;
-
-            // table name
-            if (is_array($join['name'])) {
-                $joinName = current($join['name']);
-                $joinAs = $platform->quoteIdentifier(key($join['name']));
-            } else {
-                $joinName = $join['name'];
-            }
-
-            if ($joinName instanceof Expression) {
-                $joinName = $joinName->getExpression();
-            } elseif ($joinName instanceof TableIdentifier) {
-                $joinName = $joinName->getTableAndSchema();
-                $joinName = ($joinName[1] ? $platform->quoteIdentifier($joinName[1]) . $platform->getIdentifierSeparator() : '') . $platform->quoteIdentifier($joinName[0]);
-            } elseif ($joinName instanceof Select) {
-                $joinName = '(' . $this->processSubSelect($joinName, $platform, $driver, $parameterContainer) . ')';
-            } elseif (is_string($joinName) || (is_object($joinName) && is_callable([$joinName, '__toString']))) {
-                $joinName = $platform->quoteIdentifier($joinName);
-            } else {
-                throw new Exception\InvalidArgumentException(sprintf('Join name expected to be Expression|TableIdentifier|Select|string, "%s" given', gettype($joinName)));
-            }
-
-            $joinSpecArgArray[$j] = [
-                strtoupper($join['type']),
-                $this->renderTable($joinName, $joinAs),
-            ];
-
-            // on expression
-            // note: for Expression objects, pass them to processExpression with a prefix specific to each join (used for named parameters)
-            $joinSpecArgArray[$j][] = ($join['on'] instanceof ExpressionInterface)
-                ? $this->processExpression($join['on'], $platform, $driver, $parameterContainer, 'join' . ($j+1) . 'part')
-                : $platform->quoteIdentifierInFragment($join['on'], ['=', 'AND', 'OR', '(', ')', 'BETWEEN', '<', '>']); // on
-        }
-
-        return [$joinSpecArgArray];
+        return $this->processJoin($this->joins, $platform, $driver, $parameterContainer);
     }
 
     protected function processWhere(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
@@ -783,6 +716,8 @@ class Select extends AbstractPreparableSql
                 return $this->where;
             case 'having':
                 return $this->having;
+            case 'joins':
+                return $this->joins;
             default:
                 throw new Exception\InvalidArgumentException('Not a valid magic property for this object');
         }
@@ -798,6 +733,7 @@ class Select extends AbstractPreparableSql
     public function __clone()
     {
         $this->where  = clone $this->where;
+        $this->joins  = clone $this->joins;
         $this->having = clone $this->having;
     }
 

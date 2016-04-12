@@ -9,6 +9,7 @@
 
 namespace ZendTest\Db\Sql;
 
+use Zend\Db\Sql\Join;
 use Zend\Db\Sql\Update;
 use Zend\Db\Sql\Where;
 use Zend\Db\Sql\Expression;
@@ -331,6 +332,38 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('UPDATE IGNORE "sch"."foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y', $this->update->getSqlString(new TrustingSql92Platform()));
     }
+
+    /**
+     * @covers Zend\Db\Sql\Update::where
+     */
+    public function testJoin()
+    {
+        $this->update->table('Document');
+        $this->update->set(['x' => 'y'])
+            ->join(
+                'User', // table name
+                'User.UserId = Document.UserId' // expression to join on (will be quoted by platform object before insertion),
+                // default JOIN INNER
+            )
+            ->join(
+                'Category',
+                'Category.CategoryId = Document.CategoryId',
+                Join::JOIN_LEFT // (optional), one of inner, outer, left, right
+            );
+
+        $this->assertEquals('UPDATE "Document" INNER JOIN "User" ON "User"."UserId" = "Document"."UserId" LEFT JOIN "Category" ON "Category"."CategoryId" = "Document"."CategoryId" SET "x" = \'y\'',
+            $this->update->getSqlString(new TrustingSql92Platform()));
+    }
+
+    /**
+     * @testdox unit test: Test join() returns Update object (is chainable)
+     * @covers Zend\Db\Sql\Update::join
+     */
+    public function testJoinChainable()
+    {
+        $return = $this->update->join('baz', 'foo.fooId = baz.fooId', Join::JOIN_LEFT);
+        $this->assertSame($this->update, $return);
+    }
 }
 
 class UpdateIgnore extends Update
@@ -338,7 +371,8 @@ class UpdateIgnore extends Update
     const SPECIFICATION_UPDATE = 'updateIgnore';
 
     protected $specifications = [
-        self::SPECIFICATION_UPDATE => 'UPDATE IGNORE %1$s SET %2$s',
+        self::SPECIFICATION_UPDATE => 'UPDATE IGNORE %1$s',
+        self::SPECIFICATION_SET => 'SET %1$s',
         self::SPECIFICATION_WHERE  => 'WHERE %1$s'
     ];
 

@@ -57,7 +57,7 @@ class AbstractTableGatewayTest extends \PHPUnit_Framework_TestCase
         $this->mockSql = $this->getMock('Zend\Db\Sql\Sql', ['select', 'insert', 'update', 'delete'], [$this->mockAdapter, 'foo']);
         $this->mockSql->expects($this->any())->method('select')->will($this->returnValue($this->getMock('Zend\Db\Sql\Select', ['where', 'getRawSate'], ['foo'])));
         $this->mockSql->expects($this->any())->method('insert')->will($this->returnValue($this->getMock('Zend\Db\Sql\Insert', ['prepareStatement', 'values'], ['foo'])));
-        $this->mockSql->expects($this->any())->method('update')->will($this->returnValue($this->getMock('Zend\Db\Sql\Update', ['where'], ['foo'])));
+        $this->mockSql->expects($this->any())->method('update')->will($this->returnValue($this->getMock('Zend\Db\Sql\Update', ['where', 'join'], ['foo'])));
         $this->mockSql->expects($this->any())->method('delete')->will($this->returnValue($this->getMock('Zend\Db\Sql\Delete', ['where'], ['foo'])));
 
         $this->table = $this->getMockForAbstractClass(
@@ -243,6 +243,36 @@ class AbstractTableGatewayTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('id = 2'));
 
         $affectedRows = $this->table->update(['foo' => 'bar'], 'id = 2');
+        $this->assertEquals(5, $affectedRows);
+    }
+
+    /**
+     * @covers Zend\Db\TableGateway\AbstractTableGateway::update
+     * @covers Zend\Db\TableGateway\AbstractTableGateway::updateWith
+     * @covers Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
+     */
+    public function testUpdateWithJoin()
+    {
+        $mockUpdate = $this->mockSql->update();
+
+        $joins = [
+            [
+                'name' => 'baz',
+                'on'   => 'foo.fooId = baz.fooId',
+                'type' => Sql\Join::JOIN_LEFT
+            ]
+        ];
+
+        // assert select::from() is called
+        $mockUpdate->expects($this->once())
+            ->method('where')
+            ->with($this->equalTo('id = 2'));
+
+        $mockUpdate->expects($this->once())
+            ->method('join')
+            ->with($joins[0]['name'], $joins[0]['on'], $joins[0]['type']);
+
+        $affectedRows = $this->table->update(['foo.field' => 'bar'], 'id = 2', $joins);
         $this->assertEquals(5, $affectedRows);
     }
 

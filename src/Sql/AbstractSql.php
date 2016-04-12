@@ -78,7 +78,21 @@ abstract class AbstractSql implements SqlInterface
                 $sqls[$name] = $parameters[$name];
             }
         }
+
         return rtrim(implode(' ', $sqls), "\n ,");
+    }
+
+    /**
+     * Render table with alias in from/join parts
+     *
+     * @todo move TableIdentifier concatination here
+     * @param string $table
+     * @param string $alias
+     * @return string
+     */
+    protected function renderTable($table, $alias = null)
+    {
+        return $table . ($alias ? ' AS ' . $alias : '');
     }
 
     /**
@@ -289,6 +303,67 @@ abstract class AbstractSql implements SqlInterface
         }
 
         return $decorator->buildSqlString($platform, $driver, $parameterContainer);
+    }
+
+    /**
+     * @param Join[] $joins
+     * @param PlatformInterface $platform
+     * @param null|DriverInterface $driver
+     * @param null|ParameterContainer $parameterContainer
+     * @return null|string[] Null if no joins present, array of JOIN statements
+     *     otherwise
+     * @throws Exception\InvalidArgumentException for invalid JOIN table names.
+     */
+    protected function processJoin(
+        Join $joins,
+        PlatformInterface $platform,
+        DriverInterface $driver = null,
+        ParameterContainer $parameterContainer = null
+    ) {
+        if (! $joins->count()) {
+            return;
+        }
+
+        // process joins
+        $joinSpecArgArray = [];
+        foreach ($joins->getJoins() as $j => $join) {
+            $joinName = null;
+            $joinAs = null;
+
+            // table name
+            if (is_array($join['name'])) {
+                $joinName = current($join['name']);
+                $joinAs = $platform->quoteIdentifier(key($join['name']));
+            } else {
+                $joinName = $join['name'];
+            }
+
+            if ($joinName instanceof Expression) {
+                $joinName = $joinName->getExpression();
+            } elseif ($joinName instanceof TableIdentifier) {
+                $joinName = $joinName->getTableAndSchema();
+                $joinName = ($joinName[1] ? $platform->quoteIdentifier($joinName[1]) . $platform->getIdentifierSeparator() : '') . $platform->quoteIdentifier($joinName[0]);
+            } elseif ($joinName instanceof Select) {
+                $joinName = '(' . $this->processSubSelect($joinName, $platform, $driver, $parameterContainer) . ')';
+            } elseif (is_string($joinName) || (is_object($joinName) && is_callable([$joinName, '__toString']))) {
+                $joinName = $platform->quoteIdentifier($joinName);
+            } else {
+                throw new Exception\InvalidArgumentException(sprintf('Join name expected to be Expression|TableIdentifier|Select|string, "%s" given', gettype($joinName)));
+            }
+
+            $joinSpecArgArray[$j] = [
+                strtoupper($join['type']),
+                $this->renderTable($joinName, $joinAs),
+            ];
+
+            // on expression
+            // note: for Expression objects, pass them to processExpression with a prefix specific to each join (used for named parameters)
+            $joinSpecArgArray[$j][] = ($join['on'] instanceof ExpressionInterface)
+                ? $this->processExpression($join['on'], $platform, $driver, $parameterContainer, 'join' . ($j+1) . 'part')
+                : $platform->quoteIdentifierInFragment($join['on'], ['=', 'AND', 'OR', '(', ')', 'BETWEEN', '<', '>']); // on
+        }
+
+        return [$joinSpecArgArray];
     }
 
     /**
