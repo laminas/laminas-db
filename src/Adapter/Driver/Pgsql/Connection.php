@@ -136,6 +136,18 @@ class Connection extends AbstractConnection
             ));
         }
 
+        $p = $this->connectionParameters;
+
+        if (!empty($p['charset'])) {
+            if (-1 === pg_set_client_encoding($this->resource, $p['charset'])) {
+                throw new Exception\RuntimeException(sprintf(
+                    "%s: Unable to set client encoding '%s'",
+                    __METHOD__,
+                    $p['charset']
+                ));
+            }
+        }
+
         return $this;
     }
 

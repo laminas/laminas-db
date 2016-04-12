@@ -113,4 +113,46 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->connection->setType($type);
         $this->assertEquals($type, self::readAttribute($this->connection, 'type'));
     }
+
+    public function testSetCharset()
+    {
+        if (! extension_loaded('pgsql')) {
+            $this->markTestSkipped('pgsql extension not loaded');
+        }
+
+        $this->connection->setConnectionParameters([
+            'driver'   => 'pgsql',
+            'host'     => 'localhost',
+            'post'     => '5432',
+            'dbname'   => 'zenddb_test',
+            'username' => 'postgres',
+            'password' => 'postgres',
+            'charset'  => 'SQL_ASCII',
+        ]);
+
+        $this->connection->connect();
+
+        $this->assertEquals('SQL_ASCII', pg_client_encoding($this->connection->getResource()));
+    }
+
+    public function testSetInvalidCharset()
+    {
+        if (! extension_loaded('pgsql')) {
+            $this->markTestSkipped('pgsql extension not loaded');
+        }
+
+        $this->setExpectedException('Zend\Db\Adapter\Exception\RuntimeException');
+
+        $this->connection->setConnectionParameters([
+            'driver'   => 'pgsql',
+            'host'     => 'localhost',
+            'post'     => '5432',
+            'dbname'   => 'zenddb_test',
+            'username' => 'postgres',
+            'password' => 'postgres',
+            'charset'  => 'FOOBAR',
+        ]);
+
+        $this->connection->connect();
+    }
 }
