@@ -15,6 +15,11 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#92](https://github.com/zendframework/zend-db/pull/92) adds support for joins
   to `AbstractTableGateway::update`; you can now pass an array of
   specifications via a third argument to the method.
+- [#96](https://github.com/zendframework/zend-db/pull/96) exposes the package as
+  config-provider/component, but adding:
+  - `Zend\Db\ConfigProvider`, which maps the `AdapterInterface` to the
+    `AdapterServiceFactory`, and enables the `AdapterAbstractServiceFactory`.
+  - `Zend\Db\Module`, which does the same, for a zend-mvc context.
 
 ### Deprecated
 
