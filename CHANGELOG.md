@@ -18,7 +18,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#71](https://github.com/zendframework/zend-db/pull/71) updates the `Pgsql`
+  adapter to allow passing the connection charset; this can be done with the
+  `charset` option when creating your adapter.
 
 ## 2.7.0 - 2016-02-22
 
