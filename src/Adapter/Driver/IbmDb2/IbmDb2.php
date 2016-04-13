@@ -183,7 +183,7 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Get prepare type
      *
-     * @return array
+     * @return string
      */
     public function getPrepareType()
     {

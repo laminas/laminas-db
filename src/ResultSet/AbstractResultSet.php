@@ -184,7 +184,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     /**
      * Iterator: get current item
      *
-     * @return array | null
+     * @return array|null
      */
     public function current()
     {

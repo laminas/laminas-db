@@ -21,7 +21,7 @@ class HydratingResultSet extends AbstractResultSet
     protected $hydrator = null;
 
     /**
-     * @var null
+     * @var null|object
      */
     protected $objectPrototype = null;
 

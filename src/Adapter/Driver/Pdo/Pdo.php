@@ -283,7 +283,7 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getPrepareType()
     {

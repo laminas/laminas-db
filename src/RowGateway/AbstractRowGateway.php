@@ -27,12 +27,12 @@ abstract class AbstractRowGateway implements ArrayAccess, Countable, RowGatewayI
     protected $table = null;
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $primaryKeyColumn = null;
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $primaryKeyData = null;
 

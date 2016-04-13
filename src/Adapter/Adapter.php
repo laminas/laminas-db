@@ -308,10 +308,10 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param Driver\DriverInterface $driver
+     * @param array $parameters
      * @return Platform\PlatformInterface
      */
-    protected function createPlatform($parameters)
+    protected function createPlatform(array $parameters)
     {
         if (isset($parameters['platform'])) {
             $platformName = $parameters['platform'];
@@ -350,6 +350,12 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
         }
     }
 
+    /**
+     * 
+     * @param array $parameters
+     * @return Profiler\ProfilerInterface
+     * @throws Exception\InvalidArgumentException
+     */
     protected function createProfiler($parameters)
     {
         if ($parameters['profiler'] instanceof Profiler\ProfilerInterface) {
