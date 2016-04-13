@@ -208,7 +208,7 @@ abstract class AbstractSql implements SqlInterface
 
     /**
      * @param string|array $specifications
-     * @param string|array $parameters
+     * @param array $parameters
      *
      * @return string
      *
