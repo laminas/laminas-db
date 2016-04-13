@@ -125,18 +125,24 @@ class Join implements Iterator, Countable
                 sprintf("join() expects '%s' as a single element associative array", array_shift($name))
             );
         }
+        
+        if ($columns === [Select::SQL_STAR] || $columns == Select::SQL_STAR) {
+            $columns = [Select::SQL_STAR];
+        } elseif (!is_array($columns)) {
+            $columns = [$columns];
+        }
 
         if (! is_array($columns)) {
             $columns = [$columns];
         }
-
+        
         $this->joins[] = [
             'name'    => $name,
             'on'      => $on,
-            'columns' => $columns ? $columns : [Select::SQL_STAR],
+            'columns' => $columns,
             'type'    => $type ? $type : Join::JOIN_INNER
-        ];
-
+        ];        
+        
         return $this;
     }
 
