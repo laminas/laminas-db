@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.8.1 - TBD
+## 2.8.1 - 2016-04-14
 
 ### Added
 
@@ -20,6 +20,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#100](https://github.com/zendframework/zend-db/pull/100) fixes the JOIN
   behavior to re-allow selecting an empty column set from the joined table.
+- [#106](https://github.com/zendframework/zend-db/pull/106) fixes an issue in
+  the test suite when ext/pgsql is enabled, but no databases are avaiable.
 
 ## 2.8.0 - 2016-04-12
 
