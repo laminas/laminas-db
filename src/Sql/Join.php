@@ -133,7 +133,7 @@ class Join implements Iterator, Countable
         $this->joins[] = [
             'name'    => $name,
             'on'      => $on,
-            'columns' => $columns ? $columns : [Select::SQL_STAR],
+            'columns' => $columns,
             'type'    => $type ? $type : Join::JOIN_INNER
         ];
 

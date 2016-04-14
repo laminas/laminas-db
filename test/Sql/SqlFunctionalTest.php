@@ -101,6 +101,30 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                     ],
                 ],
             ],
+            // Github issue https://github.com/zendframework/zend-db/issues/98
+            'Select::processJoinNoJoinedColumns()' => [
+                'sqlObject' => $this->select('my_table')
+                                    ->join('joined_table2', 'my_table.id = joined_table2.id', $columns=[])
+                                    ->join('joined_table3', 'my_table.id = joined_table3.id', [\Zend\Db\Sql\Select::SQL_STAR])
+                                    ->columns([
+                                        'my_table_column',
+                                        'aliased_column' => new \Zend\Db\Sql\Expression('NOW()')
+                                    ]),
+                'expected' => [
+                    'sql92' => [
+                        'string' => 'SELECT "my_table"."my_table_column" AS "my_table_column", NOW() AS "aliased_column", "joined_table3".* FROM "my_table" INNER JOIN "joined_table2" ON "my_table"."id" = "joined_table2"."id" INNER JOIN "joined_table3" ON "my_table"."id" = "joined_table3"."id"',
+                    ],
+                    'MySql' => [
+                        'string' => 'SELECT `my_table`.`my_table_column` AS `my_table_column`, NOW() AS `aliased_column`, `joined_table3`.* FROM `my_table` INNER JOIN `joined_table2` ON `my_table`.`id` = `joined_table2`.`id` INNER JOIN `joined_table3` ON `my_table`.`id` = `joined_table3`.`id`',
+                    ],
+                    'Oracle' => [
+                        'string' => 'SELECT "my_table"."my_table_column" AS "my_table_column", NOW() AS "aliased_column", "joined_table3".* FROM "my_table" INNER JOIN "joined_table2" ON "my_table"."id" = "joined_table2"."id" INNER JOIN "joined_table3" ON "my_table"."id" = "joined_table3"."id"',
+                    ],
+                    'SqlServer' => [
+                        'string' => 'SELECT [my_table].[my_table_column] AS [my_table_column], NOW() AS [aliased_column], [joined_table3].* FROM [my_table] INNER JOIN [joined_table2] ON [my_table].[id] = [joined_table2].[id] INNER JOIN [joined_table3] ON [my_table].[id] = [joined_table3].[id]',
+                    ]
+                ]
+            ],
             'Select::processJoin()' => [
                 'sqlObject' => $this->select('a')->join(['b'=>$this->select('c')->where(['cc'=>10])], 'd=e')->where(['x'=>20]),
                 'expected'  => [

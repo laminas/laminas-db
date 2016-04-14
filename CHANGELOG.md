@@ -36,7 +36,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#100](https://github.com/zendframework/zend-db/pull/100) fixes the JOIN
+  behavior to re-allow selecting an empty column set from the joined table.
 
 ## 2.8.0 - 2016-04-12
 
