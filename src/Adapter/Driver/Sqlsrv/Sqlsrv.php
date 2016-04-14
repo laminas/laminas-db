@@ -184,7 +184,7 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getPrepareType()
     {

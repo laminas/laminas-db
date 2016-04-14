@@ -44,7 +44,7 @@ class Result implements Iterator, ResultInterface
     protected $currentComplete = false;
 
     /**
-     * @var bool
+     * @var bool|array
      */
     protected $currentData = false;
 

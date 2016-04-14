@@ -195,7 +195,7 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Get prepare Type
      *
-     * @return array
+     * @return string
      */
     public function getPrepareType()
     {
