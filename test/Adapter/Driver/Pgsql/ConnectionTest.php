@@ -114,6 +114,9 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($type, self::readAttribute($this->connection, 'type'));
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testSetCharset()
     {
         if (! extension_loaded('pgsql')) {
@@ -130,11 +133,18 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             'charset'  => 'SQL_ASCII',
         ]);
 
-        $this->connection->connect();
+        try {
+            $this->connection->connect();
+        } catch (AdapterException\RuntimeException $e) {
+            $this->markTestSkipped('Skipping pgsql charset test due to inability to connecto to database');
+        }
 
         $this->assertEquals('SQL_ASCII', pg_client_encoding($this->connection->getResource()));
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testSetInvalidCharset()
     {
         if (! extension_loaded('pgsql')) {
