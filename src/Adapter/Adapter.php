@@ -351,7 +351,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * 
+     *
      * @param array $parameters
      * @return Profiler\ProfilerInterface
      * @throws Exception\InvalidArgumentException
