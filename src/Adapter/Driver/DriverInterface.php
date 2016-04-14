@@ -57,7 +57,7 @@ interface DriverInterface
     /**
      * Get prepare type
      *
-     * @return array
+     * @return string
      */
     public function getPrepareType();
 
