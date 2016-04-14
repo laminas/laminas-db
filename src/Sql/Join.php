@@ -126,8 +126,8 @@ class Join implements Iterator, Countable
             );
         }
 
-        if (!is_array($columns)) {
-            $columns =  [$columns];
+        if (! is_array($columns)) {
+            $columns = [$columns];
         }
 
         $this->joins[] = [
