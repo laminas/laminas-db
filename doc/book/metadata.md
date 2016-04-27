@@ -1,47 +1,50 @@
-# Zend\\Db\\Metadata
+# RDBMS Metadata
 
-`Zend\Db\Metadata` is as sub-component of Zend\\Db that makes it possible to get metadata
-information about tables, columns, constraints, triggers, and other information from a database in a
-standardized way. The primary interface for the Metadata objects is:
+`Zend\Db\Metadata` is as sub-component of zend-db that makes it possible to get
+metadata information about tables, columns, constraints, triggers, and other
+information from a database in a standardized way. The primary interface for
+`Metadata` is:
 
 ```php
+namespace Zend\Db\Metadata;
+
 interface MetadataInterface
 {
     public function getSchemas();
 
-    public function getTableNames($schema = null, $includeViews = false);
-    public function getTables($schema = null, $includeViews = false);
-    public function getTable($tableName, $schema = null);
+    public function getTableNames(string $schema = null, bool $includeViews = false) : string[];
+    public function getTables(string $schema = null, bool $includeViews = false) : Object\TableObject[];
+    public function getTable(string $tableName, string $schema = null) : Object\TableObject;
 
-    public function getViewNames($schema = null);
-    public function getViews($schema = null);
-    public function getView($viewName, $schema = null);
+    public function getViewNames(string $schema = null) : string[];
+    public function getViews(string $schema = null) : Object\ViewObject[];
+    public function getView(string $viewName, string $schema = null) : Object\ViewObject;
 
-    public function getColumnNames($table, $schema = null);
-    public function getColumns($table, $schema = null);
-    public function getColumn($columnName, $table, $schema = null);
+    public function getColumnNames(string string $table, $schema = null) : string[];
+    public function getColumns(string $table, string $schema = null) : Object\ColumnObject[];
+    public function getColumn(string $columnName, string $table, string $schema = null) Object\ColumnObject;
 
-    public function getConstraints($table, $schema = null);
-    public function getConstraint($constraintName, $table, $schema = null);
-    public function getConstraintKeys($constraint, $table, $schema = null);
+    public function getConstraints(string $table, $string schema = null) : Object\ConstraintObject[];
+    public function getConstraint(string $constraintName, string $table, string $schema = null) : Object\ConstraintObject;
+    public function getConstraintKeys(string $constraint, string $table, string $schema = null) : Object\ConstraintKeyObject[];
 
-    public function getTriggerNames($schema = null);
-    public function getTriggers($schema = null);
-    public function getTrigger($triggerName, $schema = null);
+    public function getTriggerNames(string $schema = null) : string[];
+    public function getTriggers(string $schema = null) : Object\TriggerObject[];
+    public function getTrigger(string $triggerName, string $schema = null) : Object\TriggerObject;
 }
 ```
 
 ## Basic Usage
 
-Usage of `Zend\Db\Metadata` is very straight forward. The top level class
-Zend\\Db\\Metadata\\Metadata will, given an adapter, choose the best strategy (based on the database
-platform being used) for retrieving metadata. In most cases, information will come from querying the
-INFORMATION\_SCHEMA tables generally accessible to all database connections about the currently
-accessible schema.
+Usage of `Zend\Db\Metadata` involves:
 
-Metadata::get\*Names() methods will return an array of strings, while the other methods will return
-specific value objects with the containing information. This is best demonstrated by the script
-below.
+- Constructing a `Zend\Db\Metadata\Metadata` instance with an `Adapter`.
+- Choosing a strategy for retrieving metadata, based on the database platform
+  used. In most cases, information will come from querying the
+  `INFORMATION_SCHEMA` tables for the currently accessible schema.
+
+The `Metadata::get*Names()` methods will return arrays of strings, while the
+other methods will return value objects specific to the type queried.
 
 ```php
 $metadata = new Zend\Db\Metadata\Metadata($adapter);
@@ -54,7 +57,6 @@ foreach ($tableNames as $tableName) {
 
     $table = $metadata->getTable($tableName);
 
-
     echo '    With columns: ' . PHP_EOL;
     foreach ($table->getColumns() as $column) {
         echo '        ' . $column->getName()
@@ -66,13 +68,14 @@ foreach ($tableNames as $tableName) {
     echo '    With constraints: ' . PHP_EOL;
 
     foreach ($metadata->getConstraints($tableName) as $constraint) {
-        /** @var $constraint Zend\Db\Metadata\Object\ConstraintObject */
         echo '        ' . $constraint->getName()
             . ' -> ' . $constraint->getType()
             . PHP_EOL;
-        if (!$constraint->hasColumns()) {
+
+        if (! $constraint->hasColumns()) {
             continue;
         }
+
         echo '            column: ' . implode(', ', $constraint->getColumns());
         if ($constraint->isForeignKey()) {
             $fkCols = [];
@@ -81,18 +84,20 @@ foreach ($tableNames as $tableName) {
             }
             echo ' => ' . implode(', ', $fkCols);
         }
-        echo PHP_EOL;
 
+        echo PHP_EOL;
     }
 
     echo '----' . PHP_EOL;
 }
 ```
 
-Metadata returns value objects that provide an interface to help developers better explore the
-metadata. Below is the API for the various value objects:
+## Metadata value objects
 
-The TableObject:
+Metadata returns value objects that provide an interface to help developers
+better explore the metadata. Below is the API for the various value objects:
+
+### TableObject
 
 ```php
 class Zend\Db\Metadata\Object\TableObject
@@ -107,7 +112,7 @@ class Zend\Db\Metadata\Object\TableObject
 }
 ```
 
-The ColumnObject:
+### ColumnObject
 
 ```php
 class Zend\Db\Metadata\Object\ColumnObject
@@ -146,7 +151,7 @@ class Zend\Db\Metadata\Object\ColumnObject
 }
 ```
 
-The ConstraintObject:
+### ConstraintObject
 
 ```php
 class Zend\Db\Metadata\Object\ConstraintObject
@@ -185,7 +190,7 @@ class Zend\Db\Metadata\Object\ConstraintObject
 }
 ```
 
-The TriggerObject:
+### TriggerObject
 
 ```php
 class Zend\Db\Metadata\Object\TriggerObject
