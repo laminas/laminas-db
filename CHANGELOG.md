@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#110](https://github.com/zendframework/zend-db/pull/110) prepared the
+  documentation for publication at https://zendframework.github.io/zend-db/
 
 ### Deprecated
 
