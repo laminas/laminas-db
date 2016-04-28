@@ -11,5 +11,7 @@ clover.xml
 composer.lock
 coveralls-upload.json
 phpunit.xml
+doc/html/
 tmp/
 vendor/
+zf-mkdoc-theme/
