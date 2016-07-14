@@ -150,6 +150,7 @@ Floating         | `$name`, `$digits`, `$decimal`
 Integer          | `$name`, `$nullable = false`, `default = null`, `array $options = array()`
 Time             | `$name`
 Varchar          | `$name`, `$length`
+Text             | `$name`, `$length`, `nullable = false`, `$default = null`, `array $options = array()`
 
 Each of the above types can be utilized in any place that accepts a `Column\ColumnInterface`
 instance. Currently, this is primarily in `CreateTable::addColumn()` and `AlterTable`'s
