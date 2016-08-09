@@ -9,6 +9,7 @@
 
 namespace ZendTest\Db\Sql\Platform\SqlServer;
 
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Platform\SqlServer\SelectDecorator;
 use Zend\Db\Sql\Select;
 use Zend\Db\Adapter\ParameterContainer;
@@ -97,11 +98,19 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $expectedSql3 = 'SELECT [foo].* FROM [foo]';
         $expectedFormatParamCount3 = 0;
 
+        $select4 = new Select;
+        $select4->from('foo')->columns([new Expression('DISTINCT(bar) as bar')])->limit(5)->offset(10);
+        $expectedPrepareSql4 = 'SELECT DISTINCT(bar) as bar FROM ( SELECT DISTINCT(bar) as bar, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__ZEND_ROW_NUMBER] FROM [foo] ) AS [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?';
+        $expectedParams4 = ['offset' => 10, 'limit' => 5, 'offsetForSum' => 10];
+        $expectedSql4 = 'SELECT DISTINCT(bar) as bar FROM ( SELECT DISTINCT(bar) as bar, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__ZEND_ROW_NUMBER] FROM [foo] ) AS [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN 10+1 AND 5+10';
+        $expectedFormatParamCount4 = 3;
+
         return [
             [$select0, $expectedPrepareSql0, $expectedParams0, $expectedSql0, $expectedFormatParamCount0],
             [$select1, $expectedPrepareSql1, $expectedParams1, $expectedSql1, $expectedFormatParamCount1],
             [$select2, $expectedPrepareSql2, $expectedParams2, $expectedSql2, $expectedFormatParamCount2],
-            [$select3, $expectedPrepareSql3, $expectedParams3, $expectedSql3, $expectedFormatParamCount3]
+            [$select3, $expectedPrepareSql3, $expectedParams3, $expectedSql3, $expectedFormatParamCount3],
+            [$select4, $expectedPrepareSql4, $expectedParams4, $expectedSql4, $expectedFormatParamCount4],
         ];
     }
 }
