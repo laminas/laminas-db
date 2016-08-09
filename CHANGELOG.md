@@ -37,7 +37,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#154](https://github.com/zendframework/zend-db/pull/154) fixes the how the
+  COMBINE operator is applied to SQLite adapters, ensuring a valid UNION
+  statement is generated.
 
 ## 2.8.1 - 2016-04-14
 
