@@ -281,6 +281,35 @@ class AbstractTableGatewayTest extends \PHPUnit_Framework_TestCase
      * @covers Zend\Db\TableGateway\AbstractTableGateway::updateWith
      * @covers Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
      */
+    public function testUpdateWithJoinDefaultType()
+    {
+        $mockUpdate = $this->mockSql->update();
+
+        $joins = [
+            [
+                'name' => 'baz',
+                'on'   => 'foo.fooId = baz.fooId',
+            ]
+        ];
+
+        // assert select::from() is called
+        $mockUpdate->expects($this->once())
+            ->method('where')
+            ->with($this->equalTo('id = 2'));
+
+        $mockUpdate->expects($this->once())
+            ->method('join')
+            ->with($joins[0]['name'], $joins[0]['on'], Sql\Join::JOIN_INNER);
+
+        $affectedRows = $this->table->update(['foo.field' => 'bar'], 'id = 2', $joins);
+        $this->assertEquals(5, $affectedRows);
+    }
+
+    /**
+     * @covers Zend\Db\TableGateway\AbstractTableGateway::update
+     * @covers Zend\Db\TableGateway\AbstractTableGateway::updateWith
+     * @covers Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
+     */
     public function testUpdateWithNoCriteria()
     {
         $mockUpdate = $this->mockSql->update();
