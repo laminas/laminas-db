@@ -166,4 +166,10 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($expressionString, $expression->getExpression());
     }
+
+    public function testNumberOfReplacemensConsidersWhenSameVariableIsUsedManyTimes()
+    {
+        $expression = new Expression('uf.user_id = :user_id OR uf.friend_id = :user_id', ['user_id' => 1]);
+        $expression->getExpressionData();
+    }
 }
