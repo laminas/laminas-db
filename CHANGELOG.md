@@ -44,6 +44,8 @@ All notable changes to this project will be documented in this file, in reverse 
   statement is generated.
 - [#112](https://github.com/zendframework/zend-db/pull/112) fixes the test on
   the number of replacements when using the same variable name.
+- [#115](https://github.com/zendframework/zend-db/pull/115) TableGateway update
+  method was incorrect when specifying default join declaration.
 
 ## 2.8.1 - 2016-04-14
 
