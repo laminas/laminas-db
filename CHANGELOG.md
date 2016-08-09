@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#110](https://github.com/zendframework/zend-db/pull/110) prepared the
   documentation for publication at https://zendframework.github.io/zend-db/
+- [#114](https://github.com/zendframework/zend-db/pull/114) add
+  Adapter\Adapter::class to alias against Adapter\AdapterInterface::class
 
 ### Deprecated
 
