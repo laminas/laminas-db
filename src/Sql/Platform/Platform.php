@@ -36,11 +36,13 @@ class Platform extends AbstractPlatform
         $sqlServerPlatform = new SqlServer\SqlServer();
         $oraclePlatform    = new Oracle\Oracle();
         $ibmDb2Platform    = new IbmDb2\IbmDb2();
+        $sqlitePlatform    = new Sqlite\Sqlite();
 
         $this->decorators['mysql']     = $mySqlPlatform->getDecorators();
         $this->decorators['sqlserver'] = $sqlServerPlatform->getDecorators();
         $this->decorators['oracle']    = $oraclePlatform->getDecorators();
         $this->decorators['ibmdb2']    = $ibmDb2Platform->getDecorators();
+        $this->decorators['sqlite']    = $sqlitePlatform->getDecorators();
     }
 
     /**
