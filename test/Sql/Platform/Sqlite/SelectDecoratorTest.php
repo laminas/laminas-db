@@ -17,13 +17,13 @@ use Zend\Db\Adapter\Platform\Sqlite as SqlitePlatform;
 class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare a proper limit/offset sql statement
+     * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare a proper combine
+     * statement
      * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::prepareStatement
-     * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::processLimit
-     * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::processOffset
-     * @dataProvider dataProvider
+     * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::processCombine
+     * @dataProvider dataProviderUnionSyntaxFromCombine
      */
-    public function testPrepareStatement(Select $select, $expectedSql, $expectedParams)
+    public function testPrepareStatementPreparesUnionSyntaxFromCombine(Select $select, $expectedSql, $expectedParams)
     {
         $driver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
         $driver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
@@ -52,13 +52,13 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare a proper limit/offset sql statement
+     * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare a proper combine
+     * statement
      * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::getSqlString
-     * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::processLimit
-     * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::processOffset
-     * @dataProvider dataProvider
+     * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::processCombine
+     * @dataProvider dataProviderUnionSyntaxFromCombine
      */
-    public function testGetSqlString(Select $select, $ignore, $alsoIgnore, $expectedSql)
+    public function testGetSqlStringPreparesUnionSyntaxFromCombine(Select $select, $ignore, $alsoIgnore, $expectedSql)
     {
         $parameterContainer = new ParameterContainer;
         $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
@@ -69,7 +69,12 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedSql, $selectDecorator->getSqlString(new SqlitePlatform));
     }
 
-    public function dataProvider()
+    /**
+     * Create a data provider for union syntax that would come from combine
+     *
+     * @return mixed[]
+     */
+    public function dataProviderUnionSyntaxFromCombine()
     {
         $select0 = new Select;
         $select0->from('foo');

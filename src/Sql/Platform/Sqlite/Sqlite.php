@@ -13,6 +13,11 @@ use Zend\Db\Sql\Platform\AbstractPlatform;
 
 class Sqlite extends AbstractPlatform
 {
+    /**
+     * Constructor
+     *
+     * Registers the type decorator.
+     */
     public function __construct()
     {
         $this->setTypeDecorator('Zend\Db\Sql\Select', new SelectDecorator());

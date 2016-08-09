@@ -14,10 +14,10 @@ use Zend\Db\Sql\Platform\Sqlite\Sqlite;
 class SqliteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @testdox unit test / object test: Test Sqlite object has Select proxy
+     * @testdox unit test / object test: Test Sqlite constructor will register the decorator
      * @covers Zend\Db\Sql\Platform\Sqlite\Sqlite::__construct
      */
-    public function testConstruct()
+    public function testConstructorRegistersSqliteDecorator()
     {
         $mysql = new Sqlite;
         $decorators = $mysql->getDecorators();

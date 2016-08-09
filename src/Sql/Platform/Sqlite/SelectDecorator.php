@@ -23,24 +23,38 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
     protected $subject = null;
 
     /**
+     * Set Subject
+     *
      * @param Select $select
+     * @return self
      */
     public function setSubject($select)
     {
         $this->subject = $select;
+
+        return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function localizeVariables()
     {
         parent::localizeVariables();
         $this->specifications[self::COMBINE] = '%1$s %2$s';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function processStatementStart(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
     {
         return '';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function processStatementEnd(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
     {
         return '';
