@@ -48,6 +48,9 @@ All notable changes to this project will be documented in this file, in reverse 
   method was incorrect when specifying default join declaration.
 - [#145](https://github.com/zendframework/zend-db/pull/145) Fix MSSQL Select
   when encounting DISTINCT and OFFSET and LIMIT together.
+- [#153](https://github.com/zendframework/zend-db/pull/153) Runtime exception
+  threw fatal error due to incorrect spelling of the class when a DSN did not
+  exist.
 
 ## 2.8.1 - 2016-04-14
 
