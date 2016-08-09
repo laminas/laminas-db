@@ -143,9 +143,13 @@ class Expression extends AbstractExpression
 
         // assign locally, escaping % signs
         $expression = str_replace(self::PLACEHOLDER, '%s', $expression, $count);
-        if ($count !== $parametersCount) {
+
+        // test number of replacements without considering same variable begin used many times first, which is
+        // faster, if the test fails then resort to regex wich are slow and used rarely
+        if ($count !== $parametersCount && $parametersCount === preg_match_all('/\:[a-zA-Z0-9_]*/', $expression)) {
             throw new Exception\RuntimeException('The number of replacements in the expression does not match the number of parameters');
         }
+
         foreach ($parameters as $parameter) {
             list($values[], $types[]) = $this->normalizeArgument($parameter, self::TYPE_VALUE);
         }

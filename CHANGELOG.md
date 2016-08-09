@@ -40,6 +40,8 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#154](https://github.com/zendframework/zend-db/pull/154) fixes the how the
   COMBINE operator is applied to SQLite adapters, ensuring a valid UNION
   statement is generated.
+- [#112](https://github.com/zendframework/zend-db/pull/112) fixes the test on
+  the number of replacements when using the same variable name.
 
 ## 2.8.1 - 2016-04-14
 
