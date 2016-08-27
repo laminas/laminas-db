@@ -96,6 +96,9 @@ $table->dropConstraint('my_index');
 To drop a table, create a `DropTable` instance:
 
 ```php
+use Zend\Db\Sql\Ddl;
+
+// With a table name:
 $drop = new Ddl\DropTable('bar');
 ```
 
