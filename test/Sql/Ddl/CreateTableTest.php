@@ -12,6 +12,7 @@ namespace ZendTest\Db\Sql\Ddl;
 use Zend\Db\Sql\Ddl\Column\Column;
 use Zend\Db\Sql\Ddl\Constraint;
 use Zend\Db\Sql\Ddl\CreateTable;
+use Zend\Db\Sql\TableIdentifier;
 
 class CreateTableTest extends \PHPUnit_Framework_TestCase
 {
@@ -152,5 +153,13 @@ class CreateTableTest extends \PHPUnit_Framework_TestCase
         $ct->addConstraint(new Constraint\PrimaryKey('bar'));
         $ct->addConstraint(new Constraint\PrimaryKey('bat'));
         $this->assertEquals("CREATE TABLE \"foo\" ( \n    PRIMARY KEY (\"bar\"),\n    PRIMARY KEY (\"bat\") \n)", $ct->getSqlString());
+
+        $ct = new CreateTable(new TableIdentifier('foo'));
+        $ct->addColumn(new Column('bar'));
+        $this->assertEquals("CREATE TABLE \"foo\" ( \n    \"bar\" INTEGER NOT NULL \n)", $ct->getSqlString());
+
+        $ct = new CreateTable(new TableIdentifier('bar', 'foo'));
+        $ct->addColumn(new Column('baz'));
+        $this->assertEquals("CREATE TABLE \"foo\".\"bar\" ( \n    \"baz\" INTEGER NOT NULL \n)", $ct->getSqlString());
     }
 }

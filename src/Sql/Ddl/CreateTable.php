@@ -139,7 +139,7 @@ class CreateTable extends AbstractSql implements SqlInterface
     {
         return [
             $this->isTemporary ? 'TEMPORARY ' : '',
-            $adapterPlatform->quoteIdentifier($this->table),
+            $this->resolveTable($this->table, $adapterPlatform),
         ];
     }
 
