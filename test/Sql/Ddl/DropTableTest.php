@@ -10,6 +10,7 @@
 namespace ZendTest\Db\Sql\Ddl;
 
 use Zend\Db\Sql\Ddl\DropTable;
+use Zend\Db\Sql\TableIdentifier;
 
 class DropTableTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,5 +21,11 @@ class DropTableTest extends \PHPUnit_Framework_TestCase
     {
         $dt = new DropTable('foo');
         $this->assertEquals('DROP TABLE "foo"', $dt->getSqlString());
+
+        $dt = new DropTable(new TableIdentifier('foo'));
+        $this->assertEquals('DROP TABLE "foo"', $dt->getSqlString());
+
+        $dt = new DropTable(new TableIdentifier('bar', 'foo'));
+        $this->assertEquals('DROP TABLE "foo"."bar"', $dt->getSqlString());
     }
 }
