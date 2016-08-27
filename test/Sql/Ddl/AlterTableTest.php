@@ -12,6 +12,7 @@ namespace ZendTest\Db\Sql\Ddl;
 use Zend\Db\Sql\Ddl\AlterTable;
 use Zend\Db\Sql\Ddl\Column;
 use Zend\Db\Sql\Ddl\Constraint;
+use Zend\Db\Sql\TableIdentifier;
 
 class AlterTableTest extends \PHPUnit_Framework_TestCase
 {
@@ -108,5 +109,13 @@ EOS;
             str_replace(["\r", "\n"], "", $expected),
             str_replace(["\r", "\n"], "", $actual)
         );
+
+        $at = new AlterTable(new TableIdentifier('foo'));
+        $at->addColumn(new Column\Column('bar'));
+        $this->assertEquals("ALTER TABLE \"foo\"\n ADD COLUMN \"bar\" INTEGER NOT NULL", $at->getSqlString());
+
+        $at = new AlterTable(new TableIdentifier('bar', 'foo'));
+        $at->addColumn(new Column\Column('baz'));
+        $this->assertEquals("ALTER TABLE \"foo\".\"bar\"\n ADD COLUMN \"baz\" INTEGER NOT NULL", $at->getSqlString());
     }
 }

@@ -179,7 +179,7 @@ class AlterTable extends AbstractSql implements SqlInterface
 
     protected function processTable(PlatformInterface $adapterPlatform = null)
     {
-        return [$adapterPlatform->quoteIdentifier($this->table)];
+        return [$this->resolveTable($this->table, $adapterPlatform)];
     }
 
     protected function processAddColumns(PlatformInterface $adapterPlatform = null)
