@@ -24,7 +24,6 @@ env:
     - secure: "L1Tnu2NIZpYU/P2JvOQAyOjAR8X52yVxW18b6x0qxT8d3LxHpunCFHwI6VV5D4llKJCRwyGdgKsVKNfroE/+368P2LQ71m6REzWGpW6q4uRQKdNhy2yjyDRKr5dPow+mEYKgGP8jbcmI6rxVDFpJTtPMTn/6PTmKmiaF6H0GCUFohy5tuGWkoujwkY8T3UjoRHqFv86L47P+UXlj5KmnYPYKTuNsiQNHJcpI21uA5UIBeGlazUJdi3a2UmRktg1SbAJcPcr87WxWd2Xe29ZaQLmpS93cCgq3e7skfWWptjEzp4Sr+mql67ZOO13wgNHK+K6uA2jvtdes+TrUA9+XeONZ3JGoQGCcpGl+j78Oi8Zt8jrz2+shQip7RvnT1grX6WKquhtsGR9woFsEh4WGbE+4B53fTVUDWuOdn5ywBjR1fJd90GbwMuq6fjB4m+LRL7dfc9Wap/zFPzn6k9YsdAAZHJfgT1inK+xp7g4QypVFgpjm5OVbipbtt+N/Ag8bySYB9ykIjD/1xmfdLy/HOyQobi+jQX8ktxgFfQrWb6N8ZuJNzC6D1t8opzdFl5Gzd8PKAieArkXmtnr2BGTdzDPmbsJWoHZ2XGldWtqcr7yYOfyXd7+szlGae1w62kxy0k293EleheXScSn3mc5RLChj/IF5RpebIc31nDU6DQs="
 
 matrix:
-  fast_finish: true
   include:
     - php: 5.5
       env:
