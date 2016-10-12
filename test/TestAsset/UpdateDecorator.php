@@ -15,6 +15,10 @@ class UpdateDecorator extends Sql\Update implements Sql\Platform\PlatformDecorat
 {
     protected $subject = null;
 
+    /**
+     * @param $subject
+     * @return UpdateDecorator Provides a fluent interface
+     */
     public function setSubject($subject)
     {
         $this->subject = $subject;

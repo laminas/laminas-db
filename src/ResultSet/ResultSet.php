@@ -56,8 +56,8 @@ class ResultSet extends AbstractResultSet
      * Set the row object prototype
      *
      * @param  ArrayObject $arrayObjectPrototype
+     * @return ResultSet Provides a fluent interface
      * @throws Exception\InvalidArgumentException
-     * @return ResultSet
      */
     public function setArrayObjectPrototype($arrayObjectPrototype)
     {
