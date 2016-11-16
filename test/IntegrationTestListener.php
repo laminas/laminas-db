@@ -81,7 +81,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
                             ? : null)
                     ]
                 );
-                if (!$this->adapters['sqlsrv']) {
+                if (! $this->adapters['sqlsrv']) {
                     var_dump(sqlsrv_errors());
                     exit;
                 }
@@ -90,7 +90,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
                 $this->adapters['pdo_sqlsrv'] = new \Pdo(
                     'sqlsrv:Server=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
                         . ';Database=' . (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
-                            ?  : null),
+                            ? : null),
                     getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
                     getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD')
                 );

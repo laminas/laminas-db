@@ -108,7 +108,7 @@ abstract class AbstractSource implements MetadataInterface
 
         $this->loadTableNameData($schema);
 
-        if (!isset($this->data['table_names'][$schema][$tableName])) {
+        if (! isset($this->data['table_names'][$schema][$tableName])) {
             throw new \Exception('Table "' . $tableName . '" does not exist');
         }
 
@@ -196,7 +196,7 @@ abstract class AbstractSource implements MetadataInterface
 
         $this->loadColumnData($table, $schema);
 
-        if (!isset($this->data['columns'][$schema][$table])) {
+        if (! isset($this->data['columns'][$schema][$table])) {
             throw new \Exception('"' . $table . '" does not exist');
         }
 
@@ -232,7 +232,7 @@ abstract class AbstractSource implements MetadataInterface
 
         $this->loadColumnData($table, $schema);
 
-        if (!isset($this->data['columns'][$schema][$table][$columnName])) {
+        if (! isset($this->data['columns'][$schema][$table][$columnName])) {
             throw new \Exception('A column by that name was not found.');
         }
 
@@ -295,7 +295,7 @@ abstract class AbstractSource implements MetadataInterface
 
         $this->loadConstraintData($table, $schema);
 
-        if (!isset($this->data['constraints'][$schema][$table][$constraintName])) {
+        if (! isset($this->data['constraints'][$schema][$table][$constraintName])) {
             throw new \Exception('Cannot find a constraint by that name in this table');
         }
 
@@ -402,7 +402,7 @@ abstract class AbstractSource implements MetadataInterface
 
         $this->loadTriggerData($schema);
 
-        if (!isset($this->data['triggers'][$schema][$triggerName])) {
+        if (! isset($this->data['triggers'][$schema][$triggerName])) {
             throw new \Exception('Trigger "' . $triggerName . '" does not exist');
         }
 
@@ -439,7 +439,7 @@ abstract class AbstractSource implements MetadataInterface
     {
         $data = &$this->data;
         foreach (func_get_args() as $key) {
-            if (!isset($data[$key])) {
+            if (! isset($data[$key])) {
                 $data[$key] = [];
             }
             $data = &$data[$key];

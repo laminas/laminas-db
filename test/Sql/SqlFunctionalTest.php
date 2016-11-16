@@ -104,7 +104,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
             // Github issue https://github.com/zendframework/zend-db/issues/98
             'Select::processJoinNoJoinedColumns()' => [
                 'sqlObject' => $this->select('my_table')
-                                    ->join('joined_table2', 'my_table.id = joined_table2.id', $columns=[])
+                                    ->join('joined_table2', 'my_table.id = joined_table2.id', $columns = [])
                                     ->join('joined_table3', 'my_table.id = joined_table3.id', [\Zend\Db\Sql\Select::SQL_STAR])
                                     ->columns([
                                         'my_table_column',
@@ -126,27 +126,27 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'Select::processJoin()' => [
-                'sqlObject' => $this->select('a')->join(['b'=>$this->select('c')->where(['cc'=>10])], 'd=e')->where(['x'=>20]),
+                'sqlObject' => $this->select('a')->join(['b' => $this->select('c')->where(['cc' => 10])], 'd=e')->where(['x' => 20]),
                 'expected'  => [
                     'sql92' => [
                         'string'     => 'SELECT "a".*, "b".* FROM "a" INNER JOIN (SELECT "c".* FROM "c" WHERE "cc" = \'10\') AS "b" ON "d"="e" WHERE "x" = \'20\'',
                         'prepare'    => 'SELECT "a".*, "b".* FROM "a" INNER JOIN (SELECT "c".* FROM "c" WHERE "cc" = ?) AS "b" ON "d"="e" WHERE "x" = ?',
-                        'parameters' => ['subselect1where1'=>10, 'where1'=>20],
+                        'parameters' => ['subselect1where1' => 10, 'where1' => 20],
                     ],
                     'MySql' => [
                         'string'     => 'SELECT `a`.*, `b`.* FROM `a` INNER JOIN (SELECT `c`.* FROM `c` WHERE `cc` = \'10\') AS `b` ON `d`=`e` WHERE `x` = \'20\'',
                         'prepare'    => 'SELECT `a`.*, `b`.* FROM `a` INNER JOIN (SELECT `c`.* FROM `c` WHERE `cc` = ?) AS `b` ON `d`=`e` WHERE `x` = ?',
-                        'parameters' => ['subselect2where1'=>10, 'where2'=>20],
+                        'parameters' => ['subselect2where1' => 10, 'where2' => 20],
                     ],
                     'Oracle' => [
                         'string'     => 'SELECT "a".*, "b".* FROM "a" INNER JOIN (SELECT "c".* FROM "c" WHERE "cc" = \'10\') "b" ON "d"="e" WHERE "x" = \'20\'',
                         'prepare'    => 'SELECT "a".*, "b".* FROM "a" INNER JOIN (SELECT "c".* FROM "c" WHERE "cc" = ?) "b" ON "d"="e" WHERE "x" = ?',
-                        'parameters' => ['subselect2where1'=>10, 'where2'=>20],
+                        'parameters' => ['subselect2where1' => 10, 'where2' => 20],
                     ],
                     'SqlServer' => [
                         'string'     => 'SELECT [a].*, [b].* FROM [a] INNER JOIN (SELECT [c].* FROM [c] WHERE [cc] = \'10\') AS [b] ON [d]=[e] WHERE [x] = \'20\'',
                         'prepare'    => 'SELECT [a].*, [b].* FROM [a] INNER JOIN (SELECT [c].* FROM [c] WHERE [cc] = ?) AS [b] ON [d]=[e] WHERE [x] = ?',
-                        'parameters' => ['subselect2where1'=>10, 'where2'=>20],
+                        'parameters' => ['subselect2where1' => 10, 'where2' => 20],
                     ],
                 ],
             ],
@@ -171,7 +171,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'Select::processSubSelect()' => [
-                'sqlObject' => $this->select(['a' => $this->select(['b' => $this->select('c')->where(['cc'=>'CC'])])->where(['bb'=>'BB'])])->where(['aa'=>'AA']),
+                'sqlObject' => $this->select(['a' => $this->select(['b' => $this->select('c')->where(['cc' => 'CC'])])->where(['bb' => 'BB'])])->where(['aa' => 'AA']),
                 'expected'  => [
                     'sql92' => [
                         'string'     => 'SELECT "a".* FROM (SELECT "b".* FROM (SELECT "c".* FROM "c" WHERE "cc" = \'CC\') AS "b" WHERE "bb" = \'BB\') AS "a" WHERE "aa" = \'AA\'',
@@ -196,7 +196,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'Delete::processSubSelect()' => [
-                'sqlObject' => $this->delete('foo')->where(['x'=>$this->select('foo')->where(['x'=>'y'])]),
+                'sqlObject' => $this->delete('foo')->where(['x' => $this->select('foo')->where(['x' => 'y'])]),
                 'expected'  => [
                     'sql92'     => [
                         'string'     => 'DELETE FROM "foo" WHERE "x" = (SELECT "foo".* FROM "foo" WHERE "x" = \'y\')',
@@ -221,7 +221,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'Update::processSubSelect()' => [
-                'sqlObject' => $this->update('foo')->set(['x'=>$this->select('foo')]),
+                'sqlObject' => $this->update('foo')->set(['x' => $this->select('foo')]),
                 'expected'  => [
                     'sql92'     => 'UPDATE "foo" SET "x" = (SELECT "foo".* FROM "foo")',
                     'MySql'     => 'UPDATE `foo` SET `x` = (SELECT `foo`.* FROM `foo`)',
@@ -230,7 +230,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'Insert::processSubSelect()' => [
-                'sqlObject' => $this->insert('foo')->select($this->select('foo')->where(['x'=>'y'])),
+                'sqlObject' => $this->insert('foo')->select($this->select('foo')->where(['x' => 'y'])),
                 'expected'  => [
                     'sql92'     => [
                         'string'     => 'INSERT INTO "foo"  SELECT "foo".* FROM "foo" WHERE "x" = \'y\'',
@@ -255,7 +255,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'Update::processExpression()' => [
-                'sqlObject' => $this->update('foo')->set(['x'=>new Sql\Expression('?', [$this->select('foo')->where(['x'=>'y'])])]),
+                'sqlObject' => $this->update('foo')->set(['x' => new Sql\Expression('?', [$this->select('foo')->where(['x' => 'y'])])]),
                 'expected'  => [
                     'sql92'     => [
                         'string'     => 'UPDATE "foo" SET "x" = (SELECT "foo".* FROM "foo" WHERE "x" = \'y\')',
@@ -306,7 +306,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'RootDecorators::Select' => [
-                'sqlObject' => $this->select('foo')->where(['x'=>$this->select('bar')]),
+                'sqlObject' => $this->select('foo')->where(['x' => $this->select('bar')]),
                 'expected'  => [
                     'sql92'     => [
                         'decorators' => [
@@ -501,7 +501,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
         $sql = new Sql\Sql($this->resolveAdapter($platform));
 
         if (is_array($expected) && isset($expected['decorators'])) {
-            foreach ($expected['decorators'] as $type=>$decorator) {
+            foreach ($expected['decorators'] as $type => $decorator) {
                 $sql->getSqlPlatform()->setTypeDecorator($type, $this->resolveDecorator($decorator));
             }
         }
@@ -537,16 +537,27 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
     protected function resolveAdapter($platform)
     {
         switch ($platform) {
-            case 'sql92'     : $platform  = new TestAsset\TrustingSql92Platform();     break;
-            case 'MySql'     : $platform  = new TestAsset\TrustingMysqlPlatform();     break;
-            case 'Oracle'    : $platform  = new TestAsset\TrustingOraclePlatform();    break;
-            case 'SqlServer' : $platform  = new TestAsset\TrustingSqlServerPlatform(); break;
-            default : $platform = null;
+            case 'sql92':
+                $platform  = new TestAsset\TrustingSql92Platform();
+                break;
+            case 'MySql':
+                $platform  = new TestAsset\TrustingMysqlPlatform();
+                break;
+            case 'Oracle':
+                $platform  = new TestAsset\TrustingOraclePlatform();
+                break;
+            case 'SqlServer':
+                $platform  = new TestAsset\TrustingSqlServerPlatform();
+                break;
+            default:
+                $platform = null;
         }
 
         $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockDriver->expects($this->any())->method('createStatement')->will($this->returnCallback(function () {return new Adapter\StatementContainer;}));
+        $mockDriver->expects($this->any())->method('createStatement')->will($this->returnCallback(function () {
+            return new Adapter\StatementContainer;
+        }));
 
         return new Adapter\Adapter($mockDriver, $platform);
     }
@@ -555,12 +566,18 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
     {
         $arg0 = isset($arguments[0]) ? $arguments[0] : null;
         switch ($name) {
-            case 'select'       : return new Sql\Select($arg0);
-            case 'delete'       : return new Sql\Delete($arg0);
-            case 'update'       : return new Sql\Update($arg0);
-            case 'insert'       : return new Sql\Insert($arg0);
-            case 'createTable'  : return new Sql\Ddl\CreateTable($arg0);
-            case 'createColumn' : return new Sql\Ddl\Column\Column($arg0);
+            case 'select':
+                return new Sql\Select($arg0);
+            case 'delete':
+                return new Sql\Delete($arg0);
+            case 'update':
+                return new Sql\Update($arg0);
+            case 'insert':
+                return new Sql\Insert($arg0);
+            case 'createTable':
+                return new Sql\Ddl\CreateTable($arg0);
+            case 'createColumn':
+                return new Sql\Ddl\Column\Column($arg0);
         }
     }
 }

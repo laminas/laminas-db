@@ -44,7 +44,7 @@ class Expression extends AbstractExpression
 
         if ($types) { // should be deprecated and removed version 3.0.0
             if (is_array($parameters)) {
-                foreach ($parameters as $i=>$parameter) {
+                foreach ($parameters as $i => $parameter) {
                     $parameters[$i] = [
                         $parameter => isset($types[$i]) ? $types[$i] : self::TYPE_VALUE,
                     ];
@@ -68,7 +68,7 @@ class Expression extends AbstractExpression
      */
     public function setExpression($expression)
     {
-        if (!is_string($expression) || $expression == '') {
+        if (! is_string($expression) || $expression == '') {
             throw new Exception\InvalidArgumentException('Supplied expression must be a string.');
         }
         $this->expression = $expression;
@@ -90,7 +90,7 @@ class Expression extends AbstractExpression
      */
     public function setParameters($parameters)
     {
-        if (!is_scalar($parameters) && !is_array($parameters)) {
+        if (! is_scalar($parameters) && ! is_array($parameters)) {
             throw new Exception\InvalidArgumentException('Expression parameters must be a scalar or array.');
         }
         $this->parameters = $parameters;

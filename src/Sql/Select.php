@@ -199,11 +199,11 @@ class Select extends AbstractPreparableSql
             throw new Exception\InvalidArgumentException('Since this object was created with a table and/or schema in the constructor, it is read only.');
         }
 
-        if (!is_string($table) && !is_array($table) && !$table instanceof TableIdentifier) {
+        if (! is_string($table) && ! is_array($table) && ! $table instanceof TableIdentifier) {
             throw new Exception\InvalidArgumentException('$table must be a string, array, or an instance of TableIdentifier');
         }
 
-        if (is_array($table) && (!is_string(key($table)) || count($table) !== 1)) {
+        if (is_array($table) && (! is_string(key($table)) || count($table) !== 1)) {
             throw new Exception\InvalidArgumentException('from() expects $table as an array is a single element associative array');
         }
 
@@ -217,7 +217,7 @@ class Select extends AbstractPreparableSql
      */
     public function quantifier($quantifier)
     {
-        if (!is_string($quantifier) && !$quantifier instanceof ExpressionInterface) {
+        if (! is_string($quantifier) && ! $quantifier instanceof ExpressionInterface) {
             throw new Exception\InvalidArgumentException(
                 'Quantifier must be one of DISTINCT, ALL, or some platform specific object implementing ExpressionInterface'
             );
@@ -327,7 +327,7 @@ class Select extends AbstractPreparableSql
             } else {
                 $order = (array) $order;
             }
-        } elseif (!is_array($order)) {
+        } elseif (! is_array($order)) {
             $order = [$order];
         }
         foreach ($order as $k => $v) {
@@ -346,7 +346,7 @@ class Select extends AbstractPreparableSql
      */
     public function limit($limit)
     {
-        if (!is_numeric($limit)) {
+        if (! is_numeric($limit)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects parameter to be numeric, "%s" given',
                 __METHOD__,
@@ -364,7 +364,7 @@ class Select extends AbstractPreparableSql
      */
     public function offset($offset)
     {
-        if (!is_numeric($offset)) {
+        if (! is_numeric($offset)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects parameter to be numeric, "%s" given',
                 __METHOD__,
@@ -448,7 +448,7 @@ class Select extends AbstractPreparableSql
 
     public function setSpecification($index, $specification)
     {
-        if (!method_exists($this, 'process' . $index)) {
+        if (! method_exists($this, 'process' . $index)) {
             throw new Exception\InvalidArgumentException('Not a valid specification name.');
         }
         $this->specifications[$index] = $specification;
@@ -574,7 +574,7 @@ class Select extends AbstractPreparableSql
                     : $this->quantifier;
         }
 
-        if (!isset($table)) {
+        if (! isset($table)) {
             return [$columns];
         } elseif (isset($quantifier)) {
             return [$quantifier, $columns, $table];

@@ -20,7 +20,7 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
     /**
      * @var bool
      */
-    protected $isSelectContainDistinct= false;
+    protected $isSelectContainDistinct = false;
 
     /**
      * @var Select

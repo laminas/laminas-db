@@ -48,7 +48,7 @@ class PredicateSet implements PredicateInterface, Countable
      */
     public function addPredicate(PredicateInterface $predicate, $combination = null)
     {
-        if ($combination === null || !in_array($combination, [self::OP_AND, self::OP_OR])) {
+        if ($combination === null || ! in_array($combination, [self::OP_AND, self::OP_OR])) {
             $combination = $this->defaultCombination;
         }
 
@@ -180,8 +180,8 @@ class PredicateSet implements PredicateInterface, Countable
                 $parts[] = ')';
             }
 
-            if (isset($this->predicates[$i+1])) {
-                $parts[] = sprintf(' %s ', $this->predicates[$i+1][0]);
+            if (isset($this->predicates[$i + 1])) {
+                $parts[] = sprintf(' %s ', $this->predicates[$i + 1][0]);
             }
         }
         return $parts;

@@ -32,8 +32,8 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
         $this->statement = new Statement;
         $this->statement->setDriver($this->getMock('Zend\Db\Adapter\Driver\Pdo\Pdo', ['createResult'], [], '', false));
         $this->statement->initialize(new TestAsset\CtorlessPdo(
-            $this->pdoStatementMock = $this->getMock('PDOStatement', ['execute', 'bindParam']))
-        );
+            $this->pdoStatementMock = $this->getMock('PDOStatement', ['execute', 'bindParam'])
+        ));
     }
 
     /**

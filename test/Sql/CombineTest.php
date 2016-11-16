@@ -101,9 +101,9 @@ class CombineTest extends \PHPUnit_Framework_TestCase
     public function testPrepareStatementWithModifier()
     {
         $select1 = new Select('t1');
-        $select1->where(['x1'=>10]);
+        $select1->where(['x1' => 10]);
         $select2 = new Select('t2');
-        $select2->where(['x2'=>20]);
+        $select2->where(['x2' => 20]);
 
         $this->combine->combine([
             $select1,

@@ -182,7 +182,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         $this->insert
                 ->into('foo')
                 ->columns(['col1'])
-                ->select($select->where(['x'=>5]))
+                ->select($select->where(['x' => 5]))
                 ->prepareStatement($mockAdapter, $mockStatement);
 
         $this->assertEquals(
@@ -190,7 +190,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
             $mockStatement->getSql()
         );
         $parameters = $mockStatement->getParameterContainer()->getNamedArray();
-        $this->assertSame(['subselect1where1'=>5], $parameters);
+        $this->assertSame(['subselect1where1' => 5], $parameters);
     }
 
     /**
@@ -260,9 +260,9 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([], $this->insert->getRawState('columns'));
         $this->assertEquals([], $this->insert->getRawState('values'));
 
-        $this->insert->foo = NULL;
+        $this->insert->foo = null;
         $this->assertEquals(['foo'], $this->insert->getRawState('columns'));
-        $this->assertEquals([NULL], $this->insert->getRawState('values'));
+        $this->assertEquals([null], $this->insert->getRawState('values'));
 
         unset($this->insert->foo);
         $this->assertEquals([], $this->insert->getRawState('columns'));
@@ -277,7 +277,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         $this->insert->foo = 'bar';
         $this->assertTrue(isset($this->insert->foo));
 
-        $this->insert->foo = NULL;
+        $this->insert->foo = null;
         $this->assertTrue(isset($this->insert->foo));
     }
 
@@ -289,7 +289,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         $this->insert->foo = 'bar';
         $this->assertEquals('bar', $this->insert->foo);
 
-        $this->insert->foo = NULL;
+        $this->insert->foo = null;
         $this->assertNull($this->insert->foo);
     }
 

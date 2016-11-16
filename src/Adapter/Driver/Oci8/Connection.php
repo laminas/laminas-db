@@ -52,7 +52,7 @@ class Connection extends AbstractConnection
      */
     public function getCurrentSchema()
     {
-        if (!$this->isConnected()) {
+        if (! $this->isConnected()) {
             $this->connect();
         }
 
@@ -72,7 +72,7 @@ class Connection extends AbstractConnection
      */
     public function setResource($resource)
     {
-        if (!is_resource($resource) || get_resource_type($resource) !== 'oci8 connection') {
+        if (! is_resource($resource) || get_resource_type($resource) !== 'oci8 connection') {
             throw new Exception\InvalidArgumentException('A resource of type "oci8 connection" was expected');
         }
         $this->resource = $resource;
@@ -122,7 +122,7 @@ class Connection extends AbstractConnection
             $this->resource = oci_connect($username, $password, $connectionString, $characterSet, $sessionMode);
         }
 
-        if (!$this->resource) {
+        if (! $this->resource) {
             $e = oci_error();
             throw new Exception\RuntimeException(
                 'Connection error',
@@ -157,7 +157,7 @@ class Connection extends AbstractConnection
      */
     public function beginTransaction()
     {
-        if (!$this->isConnected()) {
+        if (! $this->isConnected()) {
             $this->connect();
         }
 
@@ -172,7 +172,7 @@ class Connection extends AbstractConnection
      */
     public function commit()
     {
-        if (!$this->isConnected()) {
+        if (! $this->isConnected()) {
             $this->connect();
         }
 
@@ -194,11 +194,11 @@ class Connection extends AbstractConnection
      */
     public function rollback()
     {
-        if (!$this->isConnected()) {
+        if (! $this->isConnected()) {
             throw new Exception\RuntimeException('Must be connected before you can rollback.');
         }
 
-        if (!$this->inTransaction()) {
+        if (! $this->inTransaction()) {
             throw new Exception\RuntimeException('Must call commit() before you can rollback.');
         }
 
@@ -218,7 +218,7 @@ class Connection extends AbstractConnection
      */
     public function execute($sql)
     {
-        if (!$this->isConnected()) {
+        if (! $this->isConnected()) {
             $this->connect();
         }
 

@@ -93,7 +93,7 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
      */
     public function getResource()
     {
-        if (!$this->isConnected()) {
+        if (! $this->isConnected()) {
             $this->connect();
         }
 

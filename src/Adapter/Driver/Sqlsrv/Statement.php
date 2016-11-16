@@ -206,7 +206,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
         $pRef = &$this->parameterReferences;
         for ($position = 0, $count = substr_count($sql, '?'); $position < $count; $position++) {
-            if (!isset($this->prepareParams[$position])) {
+            if (! isset($this->prepareParams[$position])) {
                 $pRef[$position] = ['', SQLSRV_PARAM_IN, null, null];
             } else {
                 $pRef[$position] = &$this->prepareParams[$position];
@@ -238,12 +238,12 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     public function execute($parameters = null)
     {
         /** END Standard ParameterContainer Merging Block */
-        if (!$this->isPrepared) {
+        if (! $this->isPrepared) {
             $this->prepare();
         }
 
         /** START Standard ParameterContainer Merging Block */
-        if (!$this->parameterContainer instanceof ParameterContainer) {
+        if (! $this->parameterContainer instanceof ParameterContainer) {
             if ($parameters instanceof ParameterContainer) {
                 $this->parameterContainer = $parameters;
                 $parameters = null;

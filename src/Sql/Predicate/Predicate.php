@@ -270,7 +270,7 @@ class Predicate extends PredicateSet
         }
 
         // normal workflow for "Literals" here
-        if (!isset($predicate)) {
+        if (! isset($predicate)) {
             $predicate = new Literal($literal);
         }
 

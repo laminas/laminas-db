@@ -32,7 +32,8 @@ class SqlSrvIntegrationTest extends AbstractIntegrationTest
         $driver = new Sqlsrv([]);
 
         $resource = sqlsrv_connect(
-            $this->variables['hostname'], [
+            $this->variables['hostname'],
+            [
                 'UID' => $this->variables['username'],
                 'PWD' => $this->variables['password']
             ]

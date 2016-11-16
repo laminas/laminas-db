@@ -741,7 +741,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessMethods(Select $select, $unused, $unused2, $unused3, $internalTests)
     {
-        if (!$internalTests) {
+        if (! $internalTests) {
             return;
         }
 

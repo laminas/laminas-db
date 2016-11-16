@@ -68,7 +68,7 @@ class Result implements Iterator, ResultInterface
      */
     public function initialize($resource, $generatedValue = null, $rowCount = null)
     {
-        if (!is_resource($resource) && get_resource_type($resource) !== 'oci8 statement') {
+        if (! is_resource($resource) && get_resource_type($resource) !== 'oci8 statement') {
             throw new Exception\InvalidArgumentException('Invalid resource provided.');
         }
         $this->resource = $resource;

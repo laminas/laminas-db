@@ -31,13 +31,13 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         foreach ($this->variables as $name => $value) {
-            if (!getenv($value)) {
+            if (! getenv($value)) {
                 $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
             }
             $this->variables[$name] = getenv($value);
         }
 
-        if (!extension_loaded('ibm_db2')) {
+        if (! extension_loaded('ibm_db2')) {
             $this->fail('The phpunit group integration-ibm_db2 was enabled, but the extension is not loaded.');
         }
     }

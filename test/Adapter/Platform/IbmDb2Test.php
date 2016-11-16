@@ -85,7 +85,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        if (!function_exists('db2_escape_string')) {
+        if (! function_exists('db2_escape_string')) {
             $this->setExpectedException(
                 'PHPUnit_Framework_Error_Notice',
                 'Attempting to quote a value in Zend\Db\Adapter\Platform\IbmDb2 without extension/driver support can introduce security vulnerabilities in a production environment'
@@ -121,7 +121,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueList()
     {
-        if (!function_exists('db2_escape_string')) {
+        if (! function_exists('db2_escape_string')) {
             $this->setExpectedException(
                 'PHPUnit_Framework_Error',
                 'Attempting to quote a value in Zend\Db\Adapter\Platform\IbmDb2 without extension/driver support can introduce security vulnerabilities in a production environment'

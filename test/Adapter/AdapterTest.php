@@ -216,7 +216,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testQueryWhenPreparedWithParameterArrayProducesResult()
     {
-        $parray = ['bar'=>'foo'];
+        $parray = ['bar' => 'foo'];
         $sql = 'SELECT foo, :bar';
         $statement = $this->getMock('\Zend\Db\Adapter\Driver\StatementInterface');
         $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');

@@ -151,8 +151,7 @@ class AbstractTableGatewayTest extends \PHPUnit_Framework_TestCase
             ->method('getRawState')
             ->will($this->returnValue([
                 'table' => $this->table->getTable(),
-                ])
-            );
+                ]));
 
         // assert select::from() is called
         $mockSelect->expects($this->once())

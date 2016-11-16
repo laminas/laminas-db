@@ -57,7 +57,7 @@ class Connection extends AbstractConnection
      */
     public function getCurrentSchema()
     {
-        if (!$this->isConnected()) {
+        if (! $this->isConnected()) {
             $this->connect();
         }
 
@@ -114,11 +114,11 @@ class Connection extends AbstractConnection
         $this->resource = new \mysqli();
         $this->resource->init();
 
-        if (!empty($p['driver_options'])) {
+        if (! empty($p['driver_options'])) {
             foreach ($p['driver_options'] as $option => $value) {
                 if (is_string($option)) {
                     $option = strtoupper($option);
-                    if (!defined($option)) {
+                    if (! defined($option)) {
                         continue;
                     }
                     $option = constant($option);
@@ -137,7 +137,7 @@ class Connection extends AbstractConnection
             );
         }
 
-        if (!empty($p['charset'])) {
+        if (! empty($p['charset'])) {
             $this->resource->set_charset($p['charset']);
         }
 
@@ -168,7 +168,7 @@ class Connection extends AbstractConnection
      */
     public function beginTransaction()
     {
-        if (!$this->isConnected()) {
+        if (! $this->isConnected()) {
             $this->connect();
         }
 
@@ -183,7 +183,7 @@ class Connection extends AbstractConnection
      */
     public function commit()
     {
-        if (!$this->isConnected()) {
+        if (! $this->isConnected()) {
             $this->connect();
         }
 
@@ -199,11 +199,11 @@ class Connection extends AbstractConnection
      */
     public function rollback()
     {
-        if (!$this->isConnected()) {
+        if (! $this->isConnected()) {
             throw new Exception\RuntimeException('Must be connected before you can rollback.');
         }
 
-        if (!$this->inTransaction) {
+        if (! $this->inTransaction) {
             throw new Exception\RuntimeException('Must call beginTransaction() before you can rollback.');
         }
 
@@ -221,7 +221,7 @@ class Connection extends AbstractConnection
      */
     public function execute($sql)
     {
-        if (!$this->isConnected()) {
+        if (! $this->isConnected()) {
             $this->connect();
         }
 

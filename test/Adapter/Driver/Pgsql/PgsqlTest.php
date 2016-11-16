@@ -32,7 +32,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckEnvironment()
     {
-        if (!extension_loaded('pgsql')) {
+        if (! extension_loaded('pgsql')) {
             $this->setExpectedException('Zend\Db\Adapter\Exception\RuntimeException');
         }
         $this->pgsql->checkEnvironment();
@@ -123,7 +123,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 
@@ -135,7 +135,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 
@@ -147,7 +147,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 }

@@ -93,16 +93,16 @@ class PlatformTest extends \PHPUnit_Framework_TestCase
         $platform = null;
 
         switch ($platformName) {
-            case 'sql92' :
+            case 'sql92':
                 $platform = new TestAsset\TrustingSql92Platform();
                 break;
-            case 'MySql' :
+            case 'MySql':
                 $platform = new TestAsset\TrustingMysqlPlatform();
                 break;
-            case 'Oracle' :
+            case 'Oracle':
                 $platform = new TestAsset\TrustingOraclePlatform();
                 break;
-            case 'SqlServer' :
+            case 'SqlServer':
                 $platform = new TestAsset\TrustingSqlServerPlatform();
                 break;
         }

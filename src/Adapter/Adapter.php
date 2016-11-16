@@ -78,7 +78,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
                 $profiler = $this->createProfiler($parameters);
             }
             $driver = $this->createDriver($parameters);
-        } elseif (!$driver instanceof Driver\DriverInterface) {
+        } elseif (! $driver instanceof Driver\DriverInterface) {
             throw new Exception\InvalidArgumentException(
                 'The supplied or instantiated driver object does not implement Zend\Db\Adapter\Driver\DriverInterface'
             );
@@ -209,26 +209,29 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     public function createStatement($initialSql = null, $initialParameters = null)
     {
         $statement = $this->driver->createStatement($initialSql);
-        if ($initialParameters === null || !$initialParameters instanceof ParameterContainer && is_array($initialParameters)) {
+        if ($initialParameters === null || ! $initialParameters instanceof ParameterContainer && is_array($initialParameters)) {
             $initialParameters = new ParameterContainer((is_array($initialParameters) ? $initialParameters : []));
         }
         $statement->setParameterContainer($initialParameters);
         return $statement;
     }
 
-    public function getHelpers(/* $functions */)
+    public function getHelpers()
     {
         $functions = [];
         $platform = $this->platform;
         foreach (func_get_args() as $arg) {
             switch ($arg) {
                 case self::FUNCTION_QUOTE_IDENTIFIER:
-                    $functions[] = function ($value) use ($platform) { return $platform->quoteIdentifier($value); };
+                    $functions[] = function ($value) use ($platform) {
+                        return $platform->quoteIdentifier($value);
+                    };
                     break;
                 case self::FUNCTION_QUOTE_VALUE:
-                    $functions[] = function ($value) use ($platform) { return $platform->quoteValue($value); };
+                    $functions[] = function ($value) use ($platform) {
+                        return $platform->quoteValue($value);
+                    };
                     break;
-
             }
         }
     }
@@ -258,7 +261,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
      */
     protected function createDriver($parameters)
     {
-        if (!isset($parameters['driver'])) {
+        if (! isset($parameters['driver'])) {
             throw new Exception\InvalidArgumentException(__FUNCTION__ . ' expects a "driver" key to be present inside the parameters');
         }
 
@@ -266,7 +269,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
             return $parameters['driver'];
         }
 
-        if (!is_string($parameters['driver'])) {
+        if (! is_string($parameters['driver'])) {
             throw new Exception\InvalidArgumentException(__FUNCTION__ . ' expects a "driver" to be a string or instance of DriverInterface');
         }
 
@@ -300,7 +303,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
                 }
         }
 
-        if (!isset($driver) || !$driver instanceof Driver\DriverInterface) {
+        if (! isset($driver) || ! $driver instanceof Driver\DriverInterface) {
             throw new Exception\InvalidArgumentException('DriverInterface expected', null, null);
         }
 

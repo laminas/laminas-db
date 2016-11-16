@@ -57,7 +57,7 @@ class Profiler implements ProfilerInterface
      */
     public function profilerFinish()
     {
-        if (!isset($this->profiles[$this->currentIndex])) {
+        if (! isset($this->profiles[$this->currentIndex])) {
             throw new Exception\RuntimeException('A profile must be started before ' . __FUNCTION__ . ' can be called.');
         }
         $current = &$this->profiles[$this->currentIndex];

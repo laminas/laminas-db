@@ -279,7 +279,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         $update2->table('foo')
             ->set(['bar' => 'baz'])
             ->where([
-                'id = ?'=>1
+                'id = ?' => 1
             ]);
         $this->assertEquals('UPDATE "foo" SET "bar" = \'baz\' WHERE id = \'1\'', $update2->getSqlString(new TrustingSql92Platform));
     }
@@ -351,8 +351,10 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
                 Join::JOIN_LEFT // (optional), one of inner, outer, left, right
             );
 
-        $this->assertEquals('UPDATE "Document" INNER JOIN "User" ON "User"."UserId" = "Document"."UserId" LEFT JOIN "Category" ON "Category"."CategoryId" = "Document"."CategoryId" SET "x" = \'y\'',
-            $this->update->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'UPDATE "Document" INNER JOIN "User" ON "User"."UserId" = "Document"."UserId" LEFT JOIN "Category" ON "Category"."CategoryId" = "Document"."CategoryId" SET "x" = \'y\'',
+            $this->update->getSqlString(new TrustingSql92Platform())
+        );
     }
 
     /**

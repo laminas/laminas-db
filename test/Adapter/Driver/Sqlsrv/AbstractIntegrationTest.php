@@ -24,13 +24,13 @@ abstract class AbstractIntegrationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         foreach ($this->variables as $name => $value) {
-            if (!getenv($value)) {
+            if (! getenv($value)) {
                 $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
             }
             $this->variables[$name] = getenv($value);
         }
 
-        if (!extension_loaded('sqlsrv')) {
+        if (! extension_loaded('sqlsrv')) {
             $this->fail('The phpunit group integration-sqlsrv was enabled, but the extension is not loaded.');
         }
     }

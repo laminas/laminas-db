@@ -84,8 +84,8 @@ class MasterSlaveFeatureTest extends \PHPUnit_Framework_TestCase
         );
         $this->mockSlaveAdapter->getDriver()->createStatement()
             ->expects($this->once())->method('execute')->will($this->returnValue(
-            $this->getMock('Zend\Db\ResultSet\ResultSet')
-        ));
+                $this->getMock('Zend\Db\ResultSet\ResultSet')
+            ));
 
         $masterSql = $table->getSql();
         $table->select('foo = bar');

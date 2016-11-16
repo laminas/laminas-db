@@ -190,7 +190,7 @@ class ConstraintObject
 
     public function hasColumns()
     {
-        return (!empty($this->columns));
+        return (! empty($this->columns));
     }
 
     /**

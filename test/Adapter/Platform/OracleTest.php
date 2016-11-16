@@ -33,9 +33,9 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     public function testContructWithOptions()
     {
         $this->assertEquals('"\'test\'.\'test\'"', $this->platform->quoteIdentifier('"test"."test"'));
-        $plataform1 = new Oracle(['quote_identifiers'=> false]);
+        $plataform1 = new Oracle(['quote_identifiers' => false]);
         $this->assertEquals('"test"."test"', $plataform1->quoteIdentifier('"test"."test"'));
-        $plataform2 = new Oracle(['quote_identifiers'=> 'false']);
+        $plataform2 = new Oracle(['quote_identifiers' => 'false']);
         $this->assertEquals('"test"."test"', $plataform2->quoteIdentifier('"test"."test"'));
     }
 

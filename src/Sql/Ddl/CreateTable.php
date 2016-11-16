@@ -182,7 +182,7 @@ class CreateTable extends AbstractSql implements SqlInterface
      */
     protected function processConstraints(PlatformInterface $adapterPlatform = null)
     {
-        if (!$this->constraints) {
+        if (! $this->constraints) {
             return;
         }
 
