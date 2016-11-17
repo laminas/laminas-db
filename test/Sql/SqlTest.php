@@ -36,7 +36,11 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
 
         // setup mock adapter
-        $this->mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver, new TestAsset\TrustingSql92Platform()]);
+        $this->mockAdapter = $this->getMock(
+            'Zend\Db\Adapter\Adapter',
+            null,
+            [$mockDriver, new TestAsset\TrustingSql92Platform()]
+        );
 
         $this->sql = new Sql($this->mockAdapter, 'foo');
     }
@@ -44,8 +48,10 @@ class SqlTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\Sql\Sql::__construct
      */
+    // @codingStandardsIgnoreStart
     public function test__construct()
     {
+        // @codingStandardsIgnoreEnd
         $sql = new Sql($this->mockAdapter);
 
         $this->assertFalse($sql->hasTable());
@@ -53,7 +59,10 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $sql->setTable('foo');
         $this->assertSame('foo', $sql->getTable());
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', 'Table must be a string, array or instance of TableIdentifier.');
+        $this->setExpectedException(
+            'Zend\Db\Sql\Exception\InvalidArgumentException',
+            'Table must be a string, array or instance of TableIdentifier.'
+        );
         $sql->setTable(null);
     }
 
@@ -176,8 +185,10 @@ class SqlTest extends \PHPUnit_Framework_TestCase
             'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b ) WHERE b_rownum > (10)',
             $this->sql->buildSqlString($select, $adapterOracle)
         );
+        // @codingStandardsIgnoreStart
         $adapterOracle->getDriver()->createStatement()->expects($this->any())->method('setSql')
                 ->with($this->equalTo('SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b ) WHERE b_rownum > (:offset)'));
+        // @codingStandardsIgnoreEnd
         $this->sql->prepareStatementForSqlObject($select, null, $adapterOracle);
 
         // SqlServer
@@ -186,7 +197,9 @@ class SqlTest extends \PHPUnit_Framework_TestCase
             $this->sql->buildSqlString($select, $adapterSqlServer)
         );
         $adapterSqlServer->getDriver()->createStatement()->expects($this->any())->method('setSql')
-                ->with($this->stringContains('WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?'));
+                ->with($this->stringContains(
+                    'WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?'
+                ));
         $this->sql->prepareStatementForSqlObject($select, null, $adapterSqlServer);
     }
 

@@ -25,7 +25,9 @@ abstract class AbstractIntegrationTest extends \PHPUnit_Framework_TestCase
     {
         foreach ($this->variables as $name => $value) {
             if (! getenv($value)) {
-                $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
+                $this->markTestSkipped(
+                    'Missing required variable ' . $value . ' from phpunit.xml for this integration test'
+                );
             }
             $this->variables[$name] = getenv($value);
         }

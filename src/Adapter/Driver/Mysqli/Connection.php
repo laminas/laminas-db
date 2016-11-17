@@ -37,7 +37,9 @@ class Connection extends AbstractConnection
         } elseif ($connectionInfo instanceof \mysqli) {
             $this->setResource($connectionInfo);
         } elseif (null !== $connectionInfo) {
-            throw new Exception\InvalidArgumentException('$connection must be an array of parameters, a mysqli object or null');
+            throw new Exception\InvalidArgumentException(
+                '$connection must be an array of parameters, a mysqli object or null'
+            );
         }
     }
 

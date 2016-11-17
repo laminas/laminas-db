@@ -398,7 +398,9 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
     public function merge($parameters)
     {
         if (! is_array($parameters) && ! $parameters instanceof ParameterContainer) {
-            throw new Exception\InvalidArgumentException('$parameters must be an array or an instance of ParameterContainer');
+            throw new Exception\InvalidArgumentException(
+                '$parameters must be an array or an instance of ParameterContainer'
+            );
         }
 
         if (count($parameters) == 0) {

@@ -47,7 +47,9 @@ class CombineTest extends \PHPUnit_Framework_TestCase
                 ->union(new Select('t4'));
 
         $this->assertEquals(
+            // @codingStandardsIgnoreStart
             '(SELECT "t1".* FROM "t1") INTERSECT (SELECT "t2".* FROM "t2") EXCEPT (SELECT "t3".* FROM "t3") UNION (SELECT "t4".* FROM "t4")',
+            // @codingStandardsIgnoreEnd
             $this->combine->getSqlString()
         );
     }
@@ -186,7 +188,8 @@ class CombineTest extends \PHPUnit_Framework_TestCase
         $parameterContainer = new ParameterContainer();
 
         $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($parameterContainer));
+        $mockStatement->expects($this->any())->method('getParameterContainer')
+            ->will($this->returnValue($parameterContainer));
 
 
         $setGetSqlFunction = function ($sql = null) use ($mockStatement) {

@@ -38,7 +38,8 @@ class SqliteRowCounterTest extends PHPUnit_Framework_TestCase
     public function testGetCountForStatement()
     {
         $statement = $this->getMockStatement('SELECT XXX', 5);
-        $statement->expects($this->once())->method('prepare')->with($this->equalTo('SELECT COUNT(*) as "count" FROM (SELECT XXX)'));
+        $statement->expects($this->once())->method('prepare')
+            ->with($this->equalTo('SELECT COUNT(*) as "count" FROM (SELECT XXX)'));
 
         $count = $this->rowCounter->getCountForStatement($statement);
         $this->assertEquals(5, $count);

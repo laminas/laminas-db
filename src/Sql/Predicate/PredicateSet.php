@@ -96,7 +96,8 @@ class PredicateSet implements PredicateInterface, Countable
                         // First, process strings that the abstraction replacement character ?
                         // as an Expression predicate
                         $predicates = new Expression($pkey, $pvalue);
-                    } elseif ($pvalue === null) { // Otherwise, if still a string, do something intelligent with the PHP type provided
+                    } elseif ($pvalue === null) {
+                        // Otherwise, if still a string, do something intelligent with the PHP type provided
                         // map PHP null to SQL IS NULL expression
                         $predicates = new IsNull($pkey);
                     } elseif (is_array($pvalue)) {

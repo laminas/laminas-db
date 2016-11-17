@@ -231,7 +231,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testdox unit test: Test where() will accept an array with a string key (containing ?) used as an expression with placeholder
+     * @testdox unit test: Test where() will accept an array with a string key (containing ?) used as an
+     *                     expression with placeholder
      * @covers Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsAssociativeArrayContainingReplacementCharacter()
@@ -250,7 +251,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testdox unit test: Test where() will accept any array with string key (without ?) to be used as Operator predicate
+     * @testdox unit test: Test where() will accept any array with string key (without ?) to be used
+     *                     as Operator predicate
      * @covers Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsAssociativeArrayNotContainingReplacementCharacter()
@@ -292,7 +294,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             'name' => new Predicate\Literal("name = 'Ralph'"),
             'age' => new Predicate\Expression('age = ?', 33),
         ];
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', 'Using Predicate must not use string keys');
+        $this->setExpectedException(
+            'Zend\Db\Sql\Exception\InvalidArgumentException',
+            'Using Predicate must not use string keys'
+        );
         $select->where($where);
     }
 
@@ -316,7 +321,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testdox unit test: Test where() will accept an indexed array to be used by joining string expressions, combined by OR
+     * @testdox unit test: Test where() will accept an indexed array to be used by joining string expressions,
+     *                     combined by OR
      * @covers Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsIndexedArrayArgument2IsOr()
@@ -450,7 +456,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     public function testLimitExceptionOnInvalidParameter()
     {
         $select = new Select;
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', 'Zend\Db\Sql\Select::limit expects parameter to be numeric');
+        $this->setExpectedException(
+            'Zend\Db\Sql\Exception\InvalidArgumentException',
+            'Zend\Db\Sql\Select::limit expects parameter to be numeric'
+        );
         $select->limit('foobar');
     }
 
@@ -482,7 +491,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     public function testOffsetExceptionOnInvalidParameter()
     {
         $select = new Select;
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', 'Zend\Db\Sql\Select::offset expects parameter to be numeric');
+        $this->setExpectedException(
+            'Zend\Db\Sql\Exception\InvalidArgumentException',
+            'Zend\Db\Sql\Select::offset expects parameter to be numeric'
+        );
         $select->offset('foobar');
     }
 
@@ -601,7 +613,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         // joins
         $select->join('foo', 'id = boo');
-        $this->assertEquals([['name' => 'foo', 'on' => 'id = boo', 'columns' => ['*'], 'type' => 'inner']], $select->getRawState(Select::JOINS)->getJoins());
+        $this->assertEquals(
+            [['name' => 'foo', 'on' => 'id = boo', 'columns' => ['*'], 'type' => 'inner']],
+            $select->getRawState(Select::JOINS)->getJoins()
+        );
         $select->reset(Select::JOINS);
         $this->assertEmpty($select->getRawState(Select::JOINS)->getJoins());
 
@@ -649,12 +664,19 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testdox unit test: Test prepareStatement() will produce expected sql and parameters based on a variety of provided arguments [uses data provider]
+     * @testdox unit test: Test prepareStatement() will produce expected sql and parameters based on
+     *                     a variety of provided arguments [uses data provider]
      * @covers Zend\Db\Sql\Select::prepareStatement
      * @dataProvider providerData
      */
-    public function testPrepareStatement(Select $select, $expectedSqlString, $expectedParameters, $unused1, $unused2, $useNamedParameters = false)
-    {
+    public function testPrepareStatement(
+        Select $select,
+        $expectedSqlString,
+        $expectedParameters,
+        $unused1,
+        $unused2,
+        $useNamedParameters = false
+    ) {
         $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnCallback(
             function ($name) use ($useNamedParameters) {
@@ -666,7 +688,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $parameterContainer = new ParameterContainer();
 
         $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($parameterContainer));
+        $mockStatement->expects($this->any())->method('getParameterContainer')
+            ->will($this->returnValue($parameterContainer));
         $mockStatement->expects($this->any())->method('setSql')->with($this->equalTo($expectedSqlString));
 
         $select->prepareStatement($mockAdapter, $mockStatement);
@@ -685,11 +708,15 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select->from(new TableIdentifier('foo'));
         $select->join(new TableIdentifier('bar'), 'foo.id = bar.fooid');
 
-        $this->assertEquals('SELECT "foo".*, "bar".* FROM "foo" INNER JOIN "bar" ON "foo"."id" = "bar"."fooid"', $select->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'SELECT "foo".*, "bar".* FROM "foo" INNER JOIN "bar" ON "foo"."id" = "bar"."fooid"',
+            $select->getSqlString(new TrustingSql92Platform())
+        );
     }
 
     /**
-     * @testdox unit test: Test getSqlString() will produce expected sql and parameters based on a variety of provided arguments [uses data provider]
+     * @testdox unit test: Test getSqlString() will produce expected sql and parameters based on
+     *                     a variety of provided arguments [uses data provider]
      * @covers Zend\Db\Sql\Select::getSqlString
      * @dataProvider providerData
      */
@@ -709,7 +736,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testdox unit test: Test __clone() will clone the where object so that this select can be used in multiple contexts
+     * @testdox unit test: Test __clone() will clone the where object so that this select can be used
+     *                     in multiple contexts
      * @covers Zend\Db\Sql\Select::__clone
      */
     public function testCloning()
@@ -727,7 +755,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @testdox unit test: Text process*() methods will return proper array when internally called, part of extension API
+     * @testdox unit test: Text process*() methods will return proper array when internally called,
+     *                     part of extension API
      * @dataProvider providerData
      * @covers Zend\Db\Sql\Select::processSelect
      * @covers Zend\Db\Sql\Select::processJoins
@@ -873,8 +902,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         // join with columns
         $select11 = new Select;
         $select11->from('foo')->join('zac', 'm = n', ['bar', 'baz']);
+        // @codingStandardsIgnoreStart
         $sqlPrep11 = // same
         $sqlStr11 = 'SELECT "foo".*, "zac"."bar" AS "bar", "zac"."baz" AS "baz" FROM "foo" INNER JOIN "zac" ON "m" = "n"';
+        // @codingStandardsIgnoreEnd
         $internalTests11 = [
             'processSelect' => [[['"foo".*'], ['"zac"."bar"', '"bar"'], ['"zac"."baz"', '"baz"']], '"foo"'],
             'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]]
@@ -883,8 +914,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         // join with alternate type
         $select12 = new Select;
         $select12->from('foo')->join('zac', 'm = n', ['bar', 'baz'], Select::JOIN_OUTER);
+        // @codingStandardsIgnoreStart
         $sqlPrep12 = // same
         $sqlStr12 = 'SELECT "foo".*, "zac"."bar" AS "bar", "zac"."baz" AS "baz" FROM "foo" OUTER JOIN "zac" ON "m" = "n"';
+        // @codingStandardsIgnoreEnd
         $internalTests12 = [
             'processSelect' => [[['"foo".*'], ['"zac"."bar"', '"bar"'], ['"zac"."baz"', '"baz"']], '"foo"'],
             'processJoins'   => [[['OUTER', '"zac"', '"m" = "n"']]]
@@ -893,8 +926,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         // join with column aliases
         $select13 = new Select;
         $select13->from('foo')->join('zac', 'm = n', ['BAR' => 'bar', 'BAZ' => 'baz']);
+        // @codingStandardsIgnoreStart
         $sqlPrep13 = // same
         $sqlStr13 = 'SELECT "foo".*, "zac"."bar" AS "BAR", "zac"."baz" AS "BAZ" FROM "foo" INNER JOIN "zac" ON "m" = "n"';
+        // @codingStandardsIgnoreEnd
         $internalTests13 = [
             'processSelect' => [[['"foo".*'], ['"zac"."bar"', '"BAR"'], ['"zac"."baz"', '"BAZ"']], '"foo"'],
             'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]]
@@ -1042,12 +1077,16 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         // joins with a few keywords in the on clause
         $select28 = new Select;
+        // @codingStandardsIgnoreStart
         $select28->from('foo')->join('zac', '(m = n AND c.x) BETWEEN x AND y.z OR (c.x < y.z AND c.x <= y.z AND c.x > y.z AND c.x >= y.z)');
         $sqlPrep28 = // same
         $sqlStr28 = 'SELECT "foo".*, "zac".* FROM "foo" INNER JOIN "zac" ON ("m" = "n" AND "c"."x") BETWEEN "x" AND "y"."z" OR ("c"."x" < "y"."z" AND "c"."x" <= "y"."z" AND "c"."x" > "y"."z" AND "c"."x" >= "y"."z")';
+        // @codingStandardsIgnoreEnd
         $internalTests28 = [
             'processSelect' => [[['"foo".*'], ['"zac".*']], '"foo"'],
+            // @codingStandardsIgnoreStart
             'processJoins'  => [[['INNER', '"zac"', '("m" = "n" AND "c"."x") BETWEEN "x" AND "y"."z" OR ("c"."x" < "y"."z" AND "c"."x" <= "y"."z" AND "c"."x" > "y"."z" AND "c"."x" >= "y"."z")']]]
+            // @codingStandardsIgnoreEnd
         ];
 
         // order with compound name
@@ -1097,7 +1136,9 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             new \Zend\Db\Sql\Predicate\IsNotNull('c3')
         ]);
         $sqlPrep33 = 'SELECT "table".* FROM "table" WHERE "c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL';
+        // @codingStandardsIgnoreStart
         $sqlStr33 = 'SELECT "table".* FROM "table" WHERE "c1" IS NULL AND "c2" IN (\'1\', \'2\', \'3\') AND "c3" IS NOT NULL';
+        // @codingStandardsIgnoreEnd
         $internalTests33 = [
             'processSelect' => [[['"table".*']], '"table"'],
             'processWhere'  => ['"c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL']
@@ -1160,7 +1201,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         // @link https://github.com/zendframework/zf2/issues/3294
         // Test TableIdentifier In Joins
         $select38 = new Select;
-        $select38->from('foo')->columns([])->join(new TableIdentifier('bar', 'baz'), 'm = n', ['thecount' => new Expression("COUNT(*)")]);
+        $select38->from('foo')->columns([])
+            ->join(new TableIdentifier('bar', 'baz'), 'm = n', ['thecount' => new Expression("COUNT(*)")]);
         $sqlPrep38 = // same
         $sqlStr38 = 'SELECT COUNT(*) AS "thecount" FROM "foo" INNER JOIN "baz"."bar" ON "m" = "n"';
         $internalTests38 = [
@@ -1173,10 +1215,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select39subselect->from('bar')->where->like('y', '%Foo%');
         $select39 = new Select;
         $select39->from('foo')->join(['z' => $select39subselect], 'z.foo = bar.id');
+        // @codingStandardsIgnoreStart
         $sqlPrep39 = 'SELECT "foo".*, "z".* FROM "foo" INNER JOIN (SELECT "bar".* FROM "bar" WHERE "y" LIKE ?) AS "z" ON "z"."foo" = "bar"."id"';
         $sqlStr39 = 'SELECT "foo".*, "z".* FROM "foo" INNER JOIN (SELECT "bar".* FROM "bar" WHERE "y" LIKE \'%Foo%\') AS "z" ON "z"."foo" = "bar"."id"';
+        // @codingStandardsIgnoreEnd
         $internalTests39 = [
-            'processJoins' => [[['INNER', '(SELECT "bar".* FROM "bar" WHERE "y" LIKE ?) AS "z"', '"z"."foo" = "bar"."id"']]]
+            'processJoins' => [
+                [['INNER', '(SELECT "bar".* FROM "bar" WHERE "y" LIKE ?) AS "z"', '"z"."foo" = "bar"."id"']]
+            ]
         ];
 
         // @link https://github.com/zendframework/zf2/issues/3294
@@ -1276,8 +1322,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $select48combined = new Select();
         $select48 = $select48combined->from(['sub' => $select48])->order('id DESC');
+        // @codingStandardsIgnoreStart
         $sqlPrep48 = // same
         $sqlStr48 = 'SELECT "sub".* FROM (( SELECT "foo".* FROM "foo" WHERE a = b ) UNION ( SELECT "bar".* FROM "bar" WHERE c = d )) AS "sub" ORDER BY "id" DESC';
+        // @codingStandardsIgnoreEnd
         $internalTests48 = [
             'processCombine' => null,
         ];
@@ -1286,8 +1334,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select49 = new Select;
         $select49->from(new TableIdentifier('foo'))
                 ->join(['bar' => new Expression('psql_function_which_returns_table')], 'foo.id = bar.fooid');
+        // @codingStandardsIgnoreStart
         $sqlPrep49 = // same
         $sqlStr49 = 'SELECT "foo".*, "bar".* FROM "foo" INNER JOIN psql_function_which_returns_table AS "bar" ON "foo"."id" = "bar"."fooid"';
+        // @codingStandardsIgnoreEnd
         $internalTests49 = [
             'processSelect' => [[['"foo".*'], ['"bar".*']], '"foo"'],
             'processJoins' => [[['INNER', 'psql_function_which_returns_table AS "bar"', '"foo"."id" = "bar"."fooid"']]]
@@ -1325,11 +1375,15 @@ class SelectTest extends \PHPUnit_Framework_TestCase
          */
         $select52 = new Select;
         $select52->from('foo')->join('zac', '(catalog_category_website.category_id = catalog_category.category_id)');
+        // @codingStandardsIgnoreStart
         $sqlPrep52 = // same
         $sqlStr52 = 'SELECT "foo".*, "zac".* FROM "foo" INNER JOIN "zac" ON ("catalog_category_website"."category_id" = "catalog_category"."category_id")';
+        // @codingStandardsIgnoreEnd
         $internalTests52 = [
             'processSelect' => [[['"foo".*'], ['"zac".*']], '"foo"'],
-            'processJoins'  => [[['INNER', '"zac"', '("catalog_category_website"."category_id" = "catalog_category"."category_id")']]]
+            'processJoins'  => [[
+                ['INNER', '"zac"', '("catalog_category_website"."category_id" = "catalog_category"."category_id")'],
+            ]],
         ];
 
         /**

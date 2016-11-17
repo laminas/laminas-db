@@ -109,7 +109,8 @@ class Insert extends AbstractPreparableSql
 
         if ($this->select && $flag == self::VALUES_MERGE) {
             throw new Exception\InvalidArgumentException(
-                'An array of values cannot be provided with the merge flag when a Zend\Db\Sql\Select instance already exists as the value source'
+                'An array of values cannot be provided with the merge flag when a Zend\Db\Sql\Select instance already '
+                . 'exists as the value source'
             );
         }
 
@@ -165,8 +166,11 @@ class Insert extends AbstractPreparableSql
         return (isset($key) && array_key_exists($key, $rawState)) ? $rawState[$key] : $rawState;
     }
 
-    protected function processInsert(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
-    {
+    protected function processInsert(
+        PlatformInterface $platform,
+        DriverInterface $driver = null,
+        ParameterContainer $parameterContainer = null
+    ) {
         if ($this->select) {
             return;
         }
@@ -199,8 +203,11 @@ class Insert extends AbstractPreparableSql
         );
     }
 
-    protected function processSelect(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
-    {
+    protected function processSelect(
+        PlatformInterface $platform,
+        DriverInterface $driver = null,
+        ParameterContainer $parameterContainer = null
+    ) {
         if (! $this->select) {
             return;
         }
@@ -244,7 +251,9 @@ class Insert extends AbstractPreparableSql
     public function __unset($name)
     {
         if (! array_key_exists($name, $this->columns)) {
-            throw new Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
+            throw new Exception\InvalidArgumentException(
+                'The key ' . $name . ' was not found in this objects column list'
+            );
         }
 
         unset($this->columns[$name]);
@@ -275,7 +284,9 @@ class Insert extends AbstractPreparableSql
     public function __get($name)
     {
         if (! array_key_exists($name, $this->columns)) {
-            throw new Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
+            throw new Exception\InvalidArgumentException(
+                'The key ' . $name . ' was not found in this objects column list'
+            );
         }
         return $this->columns[$name];
     }

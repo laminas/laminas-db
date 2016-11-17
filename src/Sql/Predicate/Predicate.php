@@ -186,8 +186,12 @@ class Predicate extends PredicateSet
      * @param  string $rightType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_VALUE {@see allowedTypes}
      * @return Predicate
      */
-    public function greaterThanOrEqualTo($left, $right, $leftType = self::TYPE_IDENTIFIER, $rightType = self::TYPE_VALUE)
-    {
+    public function greaterThanOrEqualTo(
+        $left,
+        $right,
+        $leftType = self::TYPE_IDENTIFIER,
+        $rightType = self::TYPE_VALUE
+    ) {
         $this->addPredicate(
             new Operator($left, Operator::OPERATOR_GREATER_THAN_OR_EQUAL_TO, $right, $leftType, $rightType),
             ($this->nextPredicateCombineOperator) ?: $this->defaultCombination

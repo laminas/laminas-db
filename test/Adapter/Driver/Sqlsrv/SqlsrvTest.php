@@ -32,7 +32,15 @@ class SqlsrvTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisterConnection()
     {
-        $mockConnection = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Sqlsrv\Connection', [[]], '', true, true, true, ['setDriver']);
+        $mockConnection = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Sqlsrv\Connection',
+            [[]],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->sqlsrv));
         $this->assertSame($this->sqlsrv, $this->sqlsrv->registerConnection($mockConnection));
     }
@@ -43,7 +51,15 @@ class SqlsrvTest extends \PHPUnit_Framework_TestCase
     public function testRegisterStatementPrototype()
     {
         $this->sqlsrv = new Sqlsrv([]);
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Sqlsrv\Statement', [], '', true, true, true, ['setDriver']);
+        $mockStatement = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Sqlsrv\Statement',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->sqlsrv));
         $this->assertSame($this->sqlsrv, $this->sqlsrv->registerStatementPrototype($mockStatement));
     }
@@ -54,7 +70,15 @@ class SqlsrvTest extends \PHPUnit_Framework_TestCase
     public function testRegisterResultPrototype()
     {
         $this->sqlsrv = new Sqlsrv([]);
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Sqlsrv\Result', [], '', true, true, true, ['setDriver']);
+        $mockStatement = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Sqlsrv\Result',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $this->assertSame($this->sqlsrv, $this->sqlsrv->registerResultPrototype($mockStatement));
     }
 

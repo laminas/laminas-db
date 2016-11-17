@@ -85,7 +85,9 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
         } elseif ($dataSource instanceof Iterator) {
             $this->dataSource = $dataSource;
         } else {
-            throw new Exception\InvalidArgumentException('DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate');
+            throw new Exception\InvalidArgumentException(
+                'DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate'
+            );
         }
 
         return $this;

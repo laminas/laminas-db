@@ -38,7 +38,10 @@ class PlatformTest extends \PHPUnit_Framework_TestCase
         $reflectionMethod->setAccessible(true);
 
         $this->assertEquals('mysql', $reflectionMethod->invoke($platform, new TestAsset\TrustingMysqlPlatform()));
-        $this->assertEquals('sqlserver', $reflectionMethod->invoke($platform, new TestAsset\TrustingSqlServerPlatform()));
+        $this->assertEquals('sqlserver', $reflectionMethod->invoke(
+            $platform,
+            new TestAsset\TrustingSqlServerPlatform()
+        ));
         $this->assertEquals('oracle', $reflectionMethod->invoke($platform, new TestAsset\TrustingOraclePlatform()));
         $this->assertEquals('sql92', $reflectionMethod->invoke($platform, new TestAsset\TrustingSql92Platform()));
     }

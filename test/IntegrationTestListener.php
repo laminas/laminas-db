@@ -40,7 +40,8 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
             }
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_mysql'] = new \Pdo(
-                    'mysql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME') . ';dbname=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
+                    'mysql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME') . ';dbname='
+                    . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
                     getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
                     getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
                 );
@@ -57,7 +58,8 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
             }
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_pgsql'] = new \Pdo(
-                    'pgsql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME') . ';dbname=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE'),
+                    'pgsql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME') . ';dbname='
+                    . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE'),
                     getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME'),
                     getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
                 );

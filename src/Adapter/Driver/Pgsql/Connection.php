@@ -84,7 +84,9 @@ class Connection extends AbstractConnection
         }
 
         if ($invalidConectionType) {
-            throw new Exception\InvalidArgumentException('Connection type is not valid. (See: http://php.net/manual/en/function.pg-connect.php)');
+            throw new Exception\InvalidArgumentException(
+                'Connection type is not valid. (See: http://php.net/manual/en/function.pg-connect.php)'
+            );
         }
         $this->type = $type;
         return $this;
@@ -269,7 +271,10 @@ class Connection extends AbstractConnection
         if ($name === null) {
             return;
         }
-        $result = pg_query($this->resource, 'SELECT CURRVAL(\'' . str_replace('\'', '\\\'', $name) . '\') as "currval"');
+        $result = pg_query(
+            $this->resource,
+            'SELECT CURRVAL(\'' . str_replace('\'', '\\\'', $name) . '\') as "currval"'
+        );
 
         return pg_fetch_result($result, 0, 'currval');
     }

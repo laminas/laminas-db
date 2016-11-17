@@ -137,7 +137,9 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
     public function checkEnvironment()
     {
         if (! extension_loaded('sqlsrv')) {
-            throw new Exception\RuntimeException('The Sqlsrv extension is required for this adapter but the extension is not loaded');
+            throw new Exception\RuntimeException(
+                'The Sqlsrv extension is required for this adapter but the extension is not loaded'
+            );
         }
     }
 
@@ -166,7 +168,9 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
             if (is_string($sqlOrResource)) {
                 $statement->setSql($sqlOrResource);
             } elseif ($sqlOrResource !== null) {
-                throw new Exception\InvalidArgumentException('createStatement() only accepts an SQL string or a Sqlsrv resource');
+                throw new Exception\InvalidArgumentException(
+                    'createStatement() only accepts an SQL string or a Sqlsrv resource'
+                );
             }
         }
         return $statement;

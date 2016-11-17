@@ -39,7 +39,10 @@ class RowGatewayTest extends PHPUnit_Framework_TestCase
 
     public function testEmptyPrimaryKey()
     {
-        $this->setExpectedException('Zend\Db\RowGateway\Exception\RuntimeException', 'This row object does not have a primary key column set.');
+        $this->setExpectedException(
+            'Zend\Db\RowGateway\Exception\RuntimeException',
+            'This row object does not have a primary key column set.'
+        );
         $this->rowGateway = new RowGateway('', 'foo', $this->mockAdapter);
     }
 }

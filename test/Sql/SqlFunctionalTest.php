@@ -23,8 +23,10 @@ use ZendTest\Db\TestAsset;
  */
 class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
 {
+    // @codingStandardsIgnoreStart
     protected function dataProvider_CommonProcessMethods()
     {
+        // @codingStandardsIgnoreend
         return [
             'Select::processOffset()' => [
                 'sqlObject' => $this->select('foo')->offset(10),
@@ -39,6 +41,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                         'prepare'    => 'SELECT `foo`.* FROM `foo` LIMIT 18446744073709551615 OFFSET ?',
                         'parameters' => ['offset' => 10],
                     ],
+                    // @codingStandardsIgnoreStart
                     'Oracle' => [
                         'string'     => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b ) WHERE b_rownum > (10)',
                         'prepare'    => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b ) WHERE b_rownum > (:offset)',
@@ -49,6 +52,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                         'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__ZEND_ROW_NUMBER] FROM [foo] ) AS [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
                         'parameters' => ['offset' => 10, 'limit' => null, 'offsetForSum' => 10],
                     ],
+                    // @codingStandardsIgnoreEnd
                 ],
             ],
             'Select::processLimit()' => [
@@ -64,6 +68,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                         'prepare'    => 'SELECT `foo`.* FROM `foo` LIMIT ?',
                         'parameters' => ['limit' => 10],
                     ],
+                    // @codingStandardsIgnoreStart
                     'Oracle' => [
                         'string'     => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b WHERE rownum <= (0+10)) WHERE b_rownum >= (0 + 1)',
                         'prepare'    => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b WHERE rownum <= (:offset+:limit)) WHERE b_rownum >= (:offset + 1)',
@@ -74,6 +79,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                         'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__ZEND_ROW_NUMBER] FROM [foo] ) AS [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
                         'parameters' => ['offset' => null, 'limit' => 10, 'offsetForSum' => null],
                     ],
+                    // @codingStandardsIgnoreEnd
                 ],
             ],
             'Select::processLimitOffset()' => [
@@ -89,6 +95,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                         'prepare'    => 'SELECT `foo`.* FROM `foo` LIMIT ? OFFSET ?',
                         'parameters' => ['limit' => 10, 'offset' => 5],
                     ],
+                    // @codingStandardsIgnoreStart
                     'Oracle' => [
                         'string'     => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b WHERE rownum <= (5+10)) WHERE b_rownum >= (5 + 1)',
                         'prepare'    => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b WHERE rownum <= (:offset+:limit)) WHERE b_rownum >= (:offset + 1)',
@@ -99,18 +106,28 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                         'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__ZEND_ROW_NUMBER] FROM [foo] ) AS [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
                         'parameters' => ['offset' => 5, 'limit' => 10, 'offsetForSum' => 5],
                     ],
+                    // @codingStandardsIgnoreEnd
                 ],
             ],
             // Github issue https://github.com/zendframework/zend-db/issues/98
             'Select::processJoinNoJoinedColumns()' => [
                 'sqlObject' => $this->select('my_table')
-                                    ->join('joined_table2', 'my_table.id = joined_table2.id', $columns = [])
-                                    ->join('joined_table3', 'my_table.id = joined_table3.id', [\Zend\Db\Sql\Select::SQL_STAR])
+                                    ->join(
+                                        'joined_table2',
+                                        'my_table.id = joined_table2.id',
+                                        $columns = []
+                                    )
+                                    ->join(
+                                        'joined_table3',
+                                        'my_table.id = joined_table3.id',
+                                        [\Zend\Db\Sql\Select::SQL_STAR]
+                                    )
                                     ->columns([
                                         'my_table_column',
                                         'aliased_column' => new \Zend\Db\Sql\Expression('NOW()')
                                     ]),
                 'expected' => [
+                    // @codingStandardsIgnoreStart
                     'sql92' => [
                         'string' => 'SELECT "my_table"."my_table_column" AS "my_table_column", NOW() AS "aliased_column", "joined_table3".* FROM "my_table" INNER JOIN "joined_table2" ON "my_table"."id" = "joined_table2"."id" INNER JOIN "joined_table3" ON "my_table"."id" = "joined_table3"."id"',
                     ],
@@ -123,11 +140,14 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                     'SqlServer' => [
                         'string' => 'SELECT [my_table].[my_table_column] AS [my_table_column], NOW() AS [aliased_column], [joined_table3].* FROM [my_table] INNER JOIN [joined_table2] ON [my_table].[id] = [joined_table2].[id] INNER JOIN [joined_table3] ON [my_table].[id] = [joined_table3].[id]',
                     ]
+                    // @codingStandardsIgnoreEnd
                 ]
             ],
             'Select::processJoin()' => [
-                'sqlObject' => $this->select('a')->join(['b' => $this->select('c')->where(['cc' => 10])], 'd=e')->where(['x' => 20]),
+                'sqlObject' => $this->select('a')
+                                    ->join(['b' => $this->select('c')->where(['cc' => 10])], 'd=e')->where(['x' => 20]),
                 'expected'  => [
+                    // @codingStandardsIgnoreStart
                     'sql92' => [
                         'string'     => 'SELECT "a".*, "b".* FROM "a" INNER JOIN (SELECT "c".* FROM "c" WHERE "cc" = \'10\') AS "b" ON "d"="e" WHERE "x" = \'20\'',
                         'prepare'    => 'SELECT "a".*, "b".* FROM "a" INNER JOIN (SELECT "c".* FROM "c" WHERE "cc" = ?) AS "b" ON "d"="e" WHERE "x" = ?',
@@ -148,17 +168,24 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                         'prepare'    => 'SELECT [a].*, [b].* FROM [a] INNER JOIN (SELECT [c].* FROM [c] WHERE [cc] = ?) AS [b] ON [d]=[e] WHERE [x] = ?',
                         'parameters' => ['subselect2where1' => 10, 'where2' => 20],
                     ],
+                    // @codingStandardsIgnoreEnd
                 ],
             ],
             'Ddl::CreateTable::processColumns()' => [
                 'sqlObject' => $this->createTable('foo')
-                                    ->addColumn($this->createColumn('col1')->setOption('identity', true)->setOption('comment', 'Comment1'))
-                                    ->addColumn($this->createColumn('col2')->setOption('identity', true)->setOption('comment', 'Comment2')),
+                                    ->addColumn($this->createColumn('col1')
+                                        ->setOption('identity', true)
+                                        ->setOption('comment', 'Comment1'))
+                                    ->addColumn($this->createColumn('col2')
+                                        ->setOption('identity', true)
+                                        ->setOption('comment', 'Comment2')),
                 'expected'  => [
+                    // @codingStandardsIgnoreStart
                     'sql92'     => "CREATE TABLE \"foo\" ( \n    \"col1\" INTEGER NOT NULL,\n    \"col2\" INTEGER NOT NULL \n)",
                     'MySql'     => "CREATE TABLE `foo` ( \n    `col1` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Comment1',\n    `col2` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Comment2' \n)",
                     'Oracle'    => "CREATE TABLE \"foo\" ( \n    \"col1\" INTEGER NOT NULL,\n    \"col2\" INTEGER NOT NULL \n)",
                     'SqlServer' => "CREATE TABLE [foo] ( \n    [col1] INTEGER NOT NULL,\n    [col2] INTEGER NOT NULL \n)",
+                    // @codingStandardsIgnoreend
                 ],
             ],
             'Ddl::CreateTable::processTable()' => [
@@ -171,8 +198,13 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'Select::processSubSelect()' => [
-                'sqlObject' => $this->select(['a' => $this->select(['b' => $this->select('c')->where(['cc' => 'CC'])])->where(['bb' => 'BB'])])->where(['aa' => 'AA']),
+                'sqlObject' => $this->select([
+                    'a' => $this->select([
+                        'b' => $this->select('c')->where(['cc' => 'CC'])
+                    ])->where(['bb' => 'BB'])
+                ])->where(['aa' => 'AA']),
                 'expected'  => [
+                    // @codingStandardsIgnoreStart
                     'sql92' => [
                         'string'     => 'SELECT "a".* FROM (SELECT "b".* FROM (SELECT "c".* FROM "c" WHERE "cc" = \'CC\') AS "b" WHERE "bb" = \'BB\') AS "a" WHERE "aa" = \'AA\'',
                         'prepare'    => 'SELECT "a".* FROM (SELECT "b".* FROM (SELECT "c".* FROM "c" WHERE "cc" = ?) AS "b" WHERE "bb" = ?) AS "a" WHERE "aa" = ?',
@@ -193,6 +225,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                         'prepare'    => 'SELECT [a].* FROM (SELECT [b].* FROM (SELECT [c].* FROM [c] WHERE [cc] = ?) AS [b] WHERE [bb] = ?) AS [a] WHERE [aa] = ?',
                         'parameters' => ['subselect4where1' => 'CC', 'subselect3where1' => 'BB', 'where2' => 'AA'],
                     ],
+                    // @codingStandardsIgnoreEnd
                 ],
             ],
             'Delete::processSubSelect()' => [
@@ -255,7 +288,9 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             'Update::processExpression()' => [
-                'sqlObject' => $this->update('foo')->set(['x' => new Sql\Expression('?', [$this->select('foo')->where(['x' => 'y'])])]),
+                'sqlObject' => $this->update('foo')->set(
+                    ['x' => new Sql\Expression('?', [$this->select('foo')->where(['x' => 'y'])])]
+                ),
                 'expected'  => [
                     'sql92'     => [
                         'string'     => 'UPDATE "foo" SET "x" = (SELECT "foo".* FROM "foo" WHERE "x" = \'y\')',
@@ -285,6 +320,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                     'bar.barId = foo.barId'
                 ),
                 'expected'  => [
+                    // @codingStandardsIgnoreStart
                     'sql92'     => [
                         'string' => 'UPDATE "foo" INNER JOIN "bar" ON "bar"."barId" = "foo"."barId" SET "x" = \'y\' WHERE "xx" = \'yy\'',
                     ],
@@ -297,13 +333,16 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                     'SqlServer' => [
                         'string' => 'UPDATE [foo] INNER JOIN [bar] ON [bar].[barId] = [foo].[barId] SET [x] = \'y\' WHERE [xx] = \'yy\'',
                     ],
+                    // @codingStandardsIgnoreEnd
                 ],
             ],
         ];
     }
 
+    // @codingStandardsIgnoreStart
     protected function dataProvider_Decorators()
     {
+        // @codingStandardsIgnoreEnd
         return [
             'RootDecorators::Select' => [
                 'sqlObject' => $this->select('foo')->where(['x' => $this->select('bar')]),
@@ -334,6 +373,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                     ],
                 ],
             ],
+            // @codingStandardsIgnoreStart
             /* TODO - should be implemeted
             'RootDecorators::Insert' => array(
                 'sqlObject' => $this->insert('foo')->select($this->select()),
@@ -467,6 +507,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                     ),
                 ),
             ),*/
+            // @codingStandardsIgnoreEnd
         ];
     }
 

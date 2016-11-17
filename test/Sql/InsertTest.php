@@ -13,6 +13,7 @@ use Zend\Db\Sql\Insert;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\TableIdentifier;
+use ZendTest\Db\TestAsset\Replace;
 use ZendTest\Db\TestAsset\TrustingSql92Platform;
 
 class InsertTest extends \PHPUnit_Framework_TestCase
@@ -109,7 +110,8 @@ class InsertTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             'Zend\Db\Sql\Exception\InvalidArgumentException',
-            'An array of values cannot be provided with the merge flag when a Zend\Db\Sql\Select instance already exists as the value source'
+            'An array of values cannot be provided with the merge flag when a Zend\Db\Sql\Select instance already '
+            . 'exists as the value source'
         );
         $this->insert->values(['foo' => 'bar'], Insert::VALUES_MERGE);
     }
@@ -201,21 +203,30 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         $this->insert->into('foo')
             ->values(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null]);
 
-        $this->assertEquals('INSERT INTO "foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)', $this->insert->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'INSERT INTO "foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)',
+            $this->insert->getSqlString(new TrustingSql92Platform())
+        );
 
         // with TableIdentifier
         $this->insert = new Insert;
         $this->insert->into(new TableIdentifier('foo', 'sch'))
             ->values(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null]);
 
-        $this->assertEquals('INSERT INTO "sch"."foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)', $this->insert->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'INSERT INTO "sch"."foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)',
+            $this->insert->getSqlString(new TrustingSql92Platform())
+        );
 
         // with Select
         $this->insert = new Insert;
         $select = new Select();
         $this->insert->into('foo')->select($select->from('bar'));
 
-        $this->assertEquals('INSERT INTO "foo"  SELECT "bar".* FROM "bar"', $this->insert->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'INSERT INTO "foo"  SELECT "bar".* FROM "bar"',
+            $this->insert->getSqlString(new TrustingSql92Platform())
+        );
 
         // with Select and columns
         $this->insert->columns(['col1', 'col2']);
@@ -241,8 +252,10 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\Sql\Insert::__set
      */
+    // @codingStandardsIgnoreStart
     public function test__set()
     {
+        // @codingStandardsIgnoreEnd
         $this->insert->foo = 'bar';
         $this->assertEquals(['foo'], $this->insert->getRawState('columns'));
         $this->assertEquals(['bar'], $this->insert->getRawState('values'));
@@ -251,8 +264,10 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\Sql\Insert::__unset
      */
+    // @codingStandardsIgnoreStart
     public function test__unset()
     {
+        // @codingStandardsIgnoreEnd
         $this->insert->foo = 'bar';
         $this->assertEquals(['foo'], $this->insert->getRawState('columns'));
         $this->assertEquals(['bar'], $this->insert->getRawState('values'));
@@ -272,8 +287,10 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\Sql\Insert::__isset
      */
+    // @codingStandardsIgnoreStart
     public function test__isset()
     {
+        // @codingStandardsIgnoreEnd
         $this->insert->foo = 'bar';
         $this->assertTrue(isset($this->insert->foo));
 
@@ -284,8 +301,10 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\Sql\Insert::__get
      */
+    // @codingStandardsIgnoreStart
     public function test__get()
     {
+        // @codingStandardsIgnoreEnd
         $this->insert->foo = 'bar';
         $this->assertEquals('bar', $this->insert->foo);
 
@@ -303,7 +322,10 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         $this->insert->into('foo')
             ->values(['qux' => 100], Insert::VALUES_MERGE);
 
-        $this->assertEquals('INSERT INTO "foo" ("bar", "boo", "bam", "qux") VALUES (\'baz\', NOW(), NULL, \'100\')', $this->insert->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'INSERT INTO "foo" ("bar", "boo", "bam", "qux") VALUES (\'baz\', NOW(), NULL, \'100\')',
+            $this->insert->getSqlString(new TrustingSql92Platform())
+        );
     }
 
     /**
@@ -360,28 +382,19 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         $replace->into('foo')
             ->values(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null]);
 
-        $this->assertEquals('REPLACE INTO "foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)', $replace->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'REPLACE INTO "foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)',
+            $replace->getSqlString(new TrustingSql92Platform())
+        );
 
         // with TableIdentifier
         $replace = new Replace();
         $replace->into(new TableIdentifier('foo', 'sch'))
             ->values(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null]);
 
-        $this->assertEquals('REPLACE INTO "sch"."foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)', $replace->getSqlString(new TrustingSql92Platform()));
-    }
-}
-
-class Replace extends Insert
-{
-    const SPECIFICATION_INSERT = 'replace';
-
-    protected $specifications = [
-        self::SPECIFICATION_INSERT => 'REPLACE INTO %1$s (%2$s) VALUES (%3$s)',
-        self::SPECIFICATION_SELECT => 'REPLACE INTO %1$s %2$s %3$s',
-    ];
-
-    protected function processreplace(\Zend\Db\Adapter\Platform\PlatformInterface $platform, \Zend\Db\Adapter\Driver\DriverInterface $driver = null, \Zend\Db\Adapter\ParameterContainer $parameterContainer = null)
-    {
-        return parent::processInsert($platform, $driver, $parameterContainer);
+        $this->assertEquals(
+            'REPLACE INTO "sch"."foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)',
+            $replace->getSqlString(new TrustingSql92Platform())
+        );
     }
 }

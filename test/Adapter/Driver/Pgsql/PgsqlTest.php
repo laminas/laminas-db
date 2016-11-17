@@ -44,7 +44,15 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisterConnection()
     {
-        $mockConnection = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Pgsql\Connection', [[]], '', true, true, true, ['setDriver']);
+        $mockConnection = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Pgsql\Connection',
+            [[]],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->pgsql));
         $this->assertSame($this->pgsql, $this->pgsql->registerConnection($mockConnection));
     }
@@ -55,7 +63,15 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     public function testRegisterStatementPrototype()
     {
         $this->pgsql = new Pgsql([]);
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Pgsql\Statement', [], '', true, true, true, ['setDriver']);
+        $mockStatement = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Pgsql\Statement',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->pgsql));
         $this->assertSame($this->pgsql, $this->pgsql->registerStatementPrototype($mockStatement));
     }
@@ -66,7 +82,15 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     public function testRegisterResultPrototype()
     {
         $this->pgsql = new Pgsql([]);
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Pgsql\Result', [], '', true, true, true, ['setDriver']);
+        $mockStatement = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Pgsql\Result',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $this->assertSame($this->pgsql, $this->pgsql->registerResultPrototype($mockStatement));
     }
 

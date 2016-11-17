@@ -32,7 +32,9 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     {
         foreach ($this->variables as $name => $value) {
             if (! getenv($value)) {
-                $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
+                $this->markTestSkipped(
+                    'Missing required variable ' . $value . ' from phpunit.xml for this integration test'
+                );
             }
             $this->variables[$name] = getenv($value);
         }
@@ -47,7 +49,10 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitialize()
     {
-        $sqlsrvResource = sqlsrv_connect($this->variables['hostname'], ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]);
+        $sqlsrvResource = sqlsrv_connect(
+            $this->variables['hostname'],
+            ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
+        );
 
         $statement = new Statement;
         $this->assertSame($statement, $statement->initialize($sqlsrvResource));
@@ -59,7 +64,10 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetResource()
     {
-        $sqlsrvResource = sqlsrv_connect($this->variables['hostname'], ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]);
+        $sqlsrvResource = sqlsrv_connect(
+            $this->variables['hostname'],
+            ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
+        );
 
         $statement = new Statement;
         $statement->initialize($sqlsrvResource);
@@ -75,7 +83,10 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepare()
     {
-        $sqlsrvResource = sqlsrv_connect($this->variables['hostname'], ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]);
+        $sqlsrvResource = sqlsrv_connect(
+            $this->variables['hostname'],
+            ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
+        );
 
         $statement = new Statement;
         $statement->initialize($sqlsrvResource);

@@ -124,7 +124,9 @@ abstract class AbstractSource implements MetadataInterface
                 $table->setIsUpdatable($data['is_updatable']);
                 break;
             default:
-                throw new \Exception('Table "' . $tableName . '" is of an unsupported type "' . $data['table_type'] . '"');
+                throw new \Exception(
+                    'Table "' . $tableName . '" is of an unsupported type "' . $data['table_type'] . '"'
+                );
         }
         $table->setColumns($this->getColumns($tableName, $schema));
         $table->setConstraints($this->getConstraints($tableName, $schema));

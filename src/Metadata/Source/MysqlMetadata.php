@@ -145,7 +145,13 @@ class MysqlMetadata extends AbstractSource
             $matches = [];
             if (preg_match('/^(?:enum|set)\((.+)\)$/i', $row['COLUMN_TYPE'], $matches)) {
                 $permittedValues = $matches[1];
-                if (preg_match_all("/\\s*'((?:[^']++|'')*+)'\\s*(?:,|\$)/", $permittedValues, $matches, PREG_PATTERN_ORDER)) {
+                if (preg_match_all(
+                    "/\\s*'((?:[^']++|'')*+)'\\s*(?:,|\$)/",
+                    $permittedValues,
+                    $matches,
+                    PREG_PATTERN_ORDER
+                )
+                ) {
                     $permittedValues = str_replace("''", "'", $matches[1]);
                 } else {
                     $permittedValues = [$permittedValues];

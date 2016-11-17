@@ -32,7 +32,9 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     {
         foreach ($this->variables as $name => $value) {
             if (! getenv($value)) {
-                $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
+                $this->markTestSkipped(
+                    'Missing required variable ' . $value . ' from phpunit.xml for this integration test'
+                );
             }
             $this->variables[$name] = getenv($value);
         }
@@ -47,7 +49,11 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitialize()
     {
-        $db2Resource = db2_connect($this->variables['database'], $this->variables['username'], $this->variables['password']);
+        $db2Resource = db2_connect(
+            $this->variables['database'],
+            $this->variables['username'],
+            $this->variables['password']
+        );
 
         $statement = new Statement;
         $this->assertSame($statement, $statement->initialize($db2Resource));
@@ -59,7 +65,11 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetResource()
     {
-        $db2Resource = db2_connect($this->variables['database'], $this->variables['username'], $this->variables['password']);
+        $db2Resource = db2_connect(
+            $this->variables['database'],
+            $this->variables['username'],
+            $this->variables['password']
+        );
 
         $statement = new Statement;
         $statement->initialize($db2Resource);
@@ -75,7 +85,11 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepare()
     {
-        $db2Resource = db2_connect($this->variables['database'], $this->variables['username'], $this->variables['password']);
+        $db2Resource = db2_connect(
+            $this->variables['database'],
+            $this->variables['username'],
+            $this->variables['password']
+        );
 
         $statement = new Statement;
         $statement->initialize($db2Resource);

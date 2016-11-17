@@ -352,7 +352,9 @@ abstract class AbstractRowGateway implements ArrayAccess, Countable, RowGatewayI
         $this->primaryKeyData = [];
         foreach ($this->primaryKeyColumn as $column) {
             if (! isset($this->data[$column])) {
-                throw new Exception\RuntimeException('While processing primary key data, a known key ' . $column . ' was not found in the data array');
+                throw new Exception\RuntimeException(
+                    'While processing primary key data, a known key ' . $column . ' was not found in the data array'
+                );
             }
             $this->primaryKeyData[$column] = $this->data[$column];
         }

@@ -54,11 +54,23 @@ class AbstractTableGatewayTest extends \PHPUnit_Framework_TestCase
         $mockDriver->expects($this->any())->method('getConnection')->will($this->returnValue($mockConnection));
 
         $this->mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver]);
-        $this->mockSql = $this->getMock('Zend\Db\Sql\Sql', ['select', 'insert', 'update', 'delete'], [$this->mockAdapter, 'foo']);
-        $this->mockSql->expects($this->any())->method('select')->will($this->returnValue($this->getMock('Zend\Db\Sql\Select', ['where', 'getRawSate'], ['foo'])));
-        $this->mockSql->expects($this->any())->method('insert')->will($this->returnValue($this->getMock('Zend\Db\Sql\Insert', ['prepareStatement', 'values'], ['foo'])));
-        $this->mockSql->expects($this->any())->method('update')->will($this->returnValue($this->getMock('Zend\Db\Sql\Update', ['where', 'join'], ['foo'])));
-        $this->mockSql->expects($this->any())->method('delete')->will($this->returnValue($this->getMock('Zend\Db\Sql\Delete', ['where'], ['foo'])));
+        $this->mockSql = $this->getMock(
+            'Zend\Db\Sql\Sql',
+            ['select', 'insert', 'update', 'delete'],
+            [$this->mockAdapter, 'foo']
+        );
+        $this->mockSql->expects($this->any())->method('select')->will($this->returnValue(
+            $this->getMock('Zend\Db\Sql\Select', ['where', 'getRawSate'], ['foo'])
+        ));
+        $this->mockSql->expects($this->any())->method('insert')->will($this->returnValue(
+            $this->getMock('Zend\Db\Sql\Insert', ['prepareStatement', 'values'], ['foo'])
+        ));
+        $this->mockSql->expects($this->any())->method('update')->will($this->returnValue(
+            $this->getMock('Zend\Db\Sql\Update', ['where', 'join'], ['foo'])
+        ));
+        $this->mockSql->expects($this->any())->method('delete')->will($this->returnValue(
+            $this->getMock('Zend\Db\Sql\Delete', ['where'], ['foo'])
+        ));
 
         $this->table = $this->getMockForAbstractClass(
             'Zend\Db\TableGateway\AbstractTableGateway'
@@ -347,8 +359,10 @@ class AbstractTableGatewayTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\TableGateway\AbstractTableGateway::__get
      */
+    // @codingStandardsIgnoreStart
     public function test__get()
     {
+        // @codingStandardsIgnoreEnd
         $this->table->insert(['foo']); // trigger last insert id update
 
         $this->assertEquals(10, $this->table->lastInsertValue);
@@ -359,8 +373,10 @@ class AbstractTableGatewayTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\TableGateway\AbstractTableGateway::__clone
      */
+    // @codingStandardsIgnoreStart
     public function test__clone()
     {
+        // @codingStandardsIgnoreEnd
         $cTable = clone $this->table;
         $this->assertSame($this->mockAdapter, $cTable->getAdapter());
     }

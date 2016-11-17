@@ -32,7 +32,9 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     {
         foreach ($this->variables as $name => $value) {
             if (! getenv($value)) {
-                $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
+                $this->markTestSkipped(
+                    'Missing required variable ' . $value . ' from phpunit.xml for this integration test'
+                );
             }
             $this->variables[$name] = getenv($value);
         }
@@ -47,7 +49,11 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitialize()
     {
-        $ociResource = oci_connect($this->variables['username'], $this->variables['password'], $this->variables['hostname']);
+        $ociResource = oci_connect(
+            $this->variables['username'],
+            $this->variables['password'],
+            $this->variables['hostname']
+        );
 
         $statement = new Statement;
         $this->assertSame($statement, $statement->initialize($ociResource));
@@ -59,7 +65,11 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetResource()
     {
-        $ociResource = oci_connect($this->variables['username'], $this->variables['password'], $this->variables['hostname']);
+        $ociResource = oci_connect(
+            $this->variables['username'],
+            $this->variables['password'],
+            $this->variables['hostname']
+        );
 
         $statement = new Statement;
         $statement->initialize($ociResource);
@@ -75,7 +85,11 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepare()
     {
-        $ociResource = oci_connect($this->variables['username'], $this->variables['password'], $this->variables['hostname']);
+        $ociResource = oci_connect(
+            $this->variables['username'],
+            $this->variables['password'],
+            $this->variables['hostname']
+        );
 
         $statement = new Statement;
         $statement->initialize($ociResource);

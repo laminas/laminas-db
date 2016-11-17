@@ -20,7 +20,12 @@ class AbstractSourceTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->abstractSourceMock = $this->getMockForAbstractClass('Zend\Db\Metadata\Source\AbstractSource', [], '', false);
+        $this->abstractSourceMock = $this->getMockForAbstractClass(
+            'Zend\Db\Metadata\Source\AbstractSource',
+            [],
+            '',
+            false
+        );
     }
 
     public function testGetConstraintKeys()
