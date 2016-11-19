@@ -283,7 +283,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $r);
 
         $r = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE, new TemporaryResultSet());
-        $this->assertInstanceOf('ZendTest\Db\Adapter\TemporaryResultSet', $r);
+        $this->assertInstanceOf('ZendTest\Db\TestAsset\TemporaryResultSet', $r);
     }
 
     /**

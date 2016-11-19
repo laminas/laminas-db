@@ -342,12 +342,9 @@ abstract class AbstractSql implements SqlInterface
                 $joinName = $joinName->getExpression();
             } elseif ($joinName instanceof TableIdentifier) {
                 $joinName = $joinName->getTableAndSchema();
-                if ($joinName[1]) {
-                    $joinName = $platform->quoteIdentifier($joinName[1]) . $platform->getIdentifierSeparator();
-                } else {
-                    $joinName = '';
-                }
-                $joinName .= $platform->quoteIdentifier($joinName[0]);
+                $joinName = ($joinName[1]
+                        ? $platform->quoteIdentifier($joinName[1]) . $platform->getIdentifierSeparator()
+                        : '') . $platform->quoteIdentifier($joinName[0]);
             } elseif ($joinName instanceof Select) {
                 $joinName = '(' . $this->processSubSelect($joinName, $platform, $driver, $parameterContainer) . ')';
             } elseif (is_string($joinName) || (is_object($joinName) && is_callable([$joinName, '__toString']))) {
