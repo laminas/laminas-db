@@ -10,14 +10,14 @@
 namespace ZendTest\Db\Sql;
 
 use ReflectionObject;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\Where;
-use Zend\Db\Sql\Having;
-use Zend\Db\Sql\Predicate;
-use Zend\Db\Sql\TableIdentifier;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\Sql92;
+use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Having;
+use Zend\Db\Sql\Predicate;
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\TableIdentifier;
+use Zend\Db\Sql\Where;
 use ZendTest\Db\TestAsset\TrustingSql92Platform;
 
 class SelectTest extends \PHPUnit_Framework_TestCase
@@ -398,6 +398,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select = new Select;
         $select->order(['name ASC', 'age DESC']);
         $this->assertEquals(['name ASC', 'age DESC'], $select->getRawState('order'));
+
+        $select = new Select;
+        $select->order('name  DESC');
+        $this->assertEquals(
+            'SELECT * ORDER BY "name" DESC',
+            $select->getSqlString(new TrustingSql92Platform())
+        );
 
         $select = new Select;
         $select->order(new Expression('RAND()'));
