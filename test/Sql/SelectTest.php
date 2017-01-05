@@ -400,13 +400,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['name ASC', 'age DESC'], $select->getRawState('order'));
 
         $select = new Select;
-        $select->order('name  DESC');
-        $this->assertEquals(
-            'SELECT * ORDER BY "name" DESC',
-            $select->getSqlString(new TrustingSql92Platform())
-        );
-
-        $select = new Select;
         $select->order(new Expression('RAND()'));
         $sr = new ReflectionObject($select);
         $method = $sr->getMethod('processOrder');
@@ -426,6 +419,16 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [[['"rating" < \'10\'']]],
             $method->invokeArgs($select, [new TrustingSql92Platform()])
+        );
+    }
+
+    public function testOrderCorrectlySplitsParameter()
+    {
+        $select = new Select;
+        $select->order('name  desc');
+        $this->assertEquals(
+            'SELECT * ORDER BY "name" DESC',
+            $select->getSqlString(new TrustingSql92Platform())
         );
     }
 
