@@ -422,6 +422,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @testdox unit test: Test order() correctly splits parameters.
+     * @covers Zend\Db\Sql\Select::order
+     */
     public function testOrderCorrectlySplitsParameter()
     {
         $select = new Select;
