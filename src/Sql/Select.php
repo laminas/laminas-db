@@ -254,7 +254,7 @@ class Select extends AbstractPreparableSql
     /**
      * Create join clause
      *
-     * @param  string|array $name
+     * @param  string|array|TableIdentifier $name
      * @param  string $on
      * @param  string|array $columns
      * @param  string $type one of the JOIN_* constants
