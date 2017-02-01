@@ -160,8 +160,12 @@ $select->from(new TableIdentifier(['t' => 'table']));
 $select->columns(['foo', 'bar']);
 
 // As an associative array with aliases as the keys
-// (produces 'bar' AS 'foo', 'bax' AS 'baz')
-$select->columns(['foo' => 'bar', 'baz' => 'bax']);
+// (produces 'bar' AS 'foo', 'bax' AS 'baz', CONCAT_WS('/', 'bar', 'bax') AS 'val')
+$select->columns([
+    'foo' => 'bar', 
+    'baz' => 'bax',
+    'val' => new \Zend\Db\Sql\Expression("CONCAT_WS('/', 'bar', 'bax')")
+]);
 ```
 
 ### join()
