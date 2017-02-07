@@ -160,11 +160,16 @@ $select->from(new TableIdentifier(['t' => 'table']));
 $select->columns(['foo', 'bar']);
 
 // As an associative array with aliases as the keys
-// (produces 'bar' AS 'foo', 'bax' AS 'baz', CONCAT_WS('/', 'bar', 'bax') AS 'val')
+// (produces 'bar' AS 'foo', 'bax' AS 'baz')
 $select->columns([
     'foo' => 'bar', 
-    'baz' => 'bax',
-    'val' => new \Zend\Db\Sql\Expression("CONCAT_WS('/', 'bar', 'bax')")
+    'baz' => 'bax'
+]);
+
+// Sql function call on the column
+// (produces CONCAT_WS('/', 'bar', 'bax') AS 'foo')
+$select->columns([
+    'foo' => new \Zend\Db\Sql\Expression("CONCAT_WS('/', 'bar', 'bax')")
 ]);
 ```
 
