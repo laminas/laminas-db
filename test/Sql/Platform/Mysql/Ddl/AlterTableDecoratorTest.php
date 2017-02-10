@@ -13,7 +13,6 @@ use Zend\Db\Adapter\Platform\Mysql;
 use Zend\Db\Sql\Ddl\AlterTable;
 use Zend\Db\Sql\Ddl\Column\Column;
 use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
-use Zend\Db\Sql\Ddl\CreateTable;
 use Zend\Db\Sql\Platform\Mysql\Ddl\AlterTableDecorator;
 
 class AlterTableDecoratorTest extends \PHPUnit_Framework_TestCase
