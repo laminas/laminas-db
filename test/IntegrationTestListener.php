@@ -29,7 +29,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
 
     public function __construct()
     {
-        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME')) {
+        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
             if (extension_loaded('mysqli')) {
                 $this->adapters['mysqli'] = new \mysqli(
                     getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
@@ -46,7 +46,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
                 );
             }
         }
-        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')) {
+        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL')) {
             if (extension_loaded('pgsql')) {
                 $this->adapters['pgsql'] = pg_connect(
                     'host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')
@@ -70,7 +70,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
                 );
             }
         }
-        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')) {
+        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV')) {
             if (extension_loaded('sqlsrv')) {
                 $this->adapters['sqlsrv'] = sqlsrv_connect(
                     getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'),

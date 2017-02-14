@@ -16,32 +16,8 @@ use Zend\Db\Adapter\Driver\Sqlsrv\Statement;
  * @group integration
  * @group integration-sqlserver
  */
-class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
+class StatementIntegrationTest extends AbstractIntegrationTest
 {
-    protected $variables = [
-        'hostname' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME',
-        'username' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME',
-        'password' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD',
-    ];
-
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-        foreach ($this->variables as $name => $value) {
-            if (!getenv($value)) {
-                $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
-            }
-            $this->variables[$name] = getenv($value);
-        }
-
-        if (!extension_loaded('sqlsrv')) {
-            $this->fail('The phpunit group integration-sqlsrv was enabled, but the extension is not loaded.');
-        }
-    }
-
     /**
      * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::initialize
      */
