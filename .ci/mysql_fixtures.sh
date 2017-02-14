@@ -2,4 +2,4 @@
 
 echo "Configure MySQL test database"
 
-mysql -u root -pPassword123 -e 'create database zenddb_test;'
+mysql --user=root --password=Password123 -e 'create database zenddb_test;'
