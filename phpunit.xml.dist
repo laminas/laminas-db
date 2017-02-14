@@ -39,27 +39,32 @@
              constants appropriate to the component you are migrating. -->
 
         <!-- Integration Test Variables -->
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL" value="false" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="192.168.20.20" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME" value="root" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD" value="" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD" value="Password123" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE" value="zenddb_test" />
 
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME" value="" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME" value="" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD" value="" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE" value="" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV" value="false" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME" value="192.168.20.20" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME" value="sa" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD" value="Password123" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE" value="zenddb_test" />
 
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_OCI8" value="false" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_OCI8_HOSTNAME" value="" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_OCI8_USERNAME" value="" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_OCI8_PASSWORD" value="" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_OCI8_DATABASE" value="" />
 
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_IBMDB2" value="false" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_IBMDB2_HOSTNAME" value="" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_IBMDB2_USERNAME" value="" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_IBMDB2_PASSWORD" value="" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_IBMDB2_DATABASE" value="" />
 
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL" value="false" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="192.168.20.20" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME" value="postgres" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD" value="postgres" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE" value="zenddb_test" />
