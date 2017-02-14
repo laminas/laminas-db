@@ -16,6 +16,7 @@ cache:
 env:
   global:
     - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=localhost
+    - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD=
     - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME=localhost
     - SITE_URL: https://zendframework.github.io/zend-db
     - GH_USER_NAME: "Matthew Weier O'Phinney"
@@ -81,7 +82,7 @@ install:
   - travis_retry composer install --no-interaction --ignore-platform-reqs
 
 before_script:
-  - .ci/mysql_fixtures.sh
+  - .ci/mysql_fixtures_travis.sh
   - .ci/pgsql_fixtures.sh
 
 script:
