@@ -19,7 +19,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#205](https://github.com/zendframework/zend-db/pull/205) fixes the spaces in
+  ORDER BY syntax.
 
 ## 2.8.3 - TBD
 
