@@ -276,11 +276,10 @@ class Result implements
      */
     public function rewind()
     {
-        if ($this->position !== 0) {
-            if ($this->isBuffered === false) {
-                throw new Exception\RuntimeException('Unbuffered results cannot be rewound for multiple iterations');
-            }
+        if (0 !== $this->position && false === $this->isBuffered) {
+            throw new Exception\RuntimeException('Unbuffered results cannot be rewound for multiple iterations');
         }
+
         $this->resource->data_seek(0); // works for both mysqli_result & mysqli_stmt
         $this->currentComplete = false;
         $this->position = 0;
