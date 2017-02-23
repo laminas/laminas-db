@@ -1,7 +1,7 @@
 # Table Gateways
 
 The Table Gateway subcomponent provides an object-oriented representation of a
-datbase table; its methods mirror the most common table operations. In code,
+database table; its methods mirror the most common table operations. In code,
 the interface resembles:
 
 ```php
