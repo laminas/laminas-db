@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#216](https://github.com/zendframework/zend-db/pull/216) added AFTER support
+  in ALTER TABLE syntax for MySQL
 
 ### Deprecated
 
