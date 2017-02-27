@@ -33,7 +33,7 @@ class In extends AbstractExpression implements PredicateInterface
         if ($identifier) {
             $this->setIdentifier($identifier);
         }
-        if ($valueSet) {
+        if ($valueSet !== null) {
             $this->setValueSet($valueSet);
         }
     }
