@@ -122,10 +122,10 @@ class In extends AbstractExpression implements PredicateInterface
             foreach ($values as $argument) {
                 list($replacements[], $types[]) = $this->normalizeArgument($argument, self::TYPE_VALUE);
             }
-            $values = count($values) > 0 ? array_fill(0, count($values), '%s') : [];
+            $valuePlaceholders = count($values) > 0 ? array_fill(0, count($values), '%s') : [];
             $specification = vsprintf(
                 $this->specification,
-                [$identifierSpecFragment, '(' . implode(', ', $values) . ')']
+                [$identifierSpecFragment, '(' . implode(', ', $valuePlaceholders) . ')']
             );
         }
 
