@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#216](https://github.com/zendframework/zend-db/pull/216) added AFTER support
   in ALTER TABLE syntax for MySQL
+- [#223](https://github.com/zendframework/zend-db/pull/223) added support for
+  empty values set with IN predicate
 
 ### Deprecated
 
