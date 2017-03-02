@@ -7,7 +7,7 @@ can be anything that is iterable, generally these will be populated from
 
 Result sets must implement the `Zend\Db\ResultSet\ResultSetInterface`, and all
 sub-components of zend-db that return a result set as part of their API will
-assume an instance of a `ResultSetInterface` should be returned. In most casts,
+assume an instance of a `ResultSetInterface` should be returned. In most cases,
 the prototype pattern will be used by consuming object to clone a prototype of
 a `ResultSet` and return a specialized `ResultSet` with a specific data source
 injected. `ResultSetInterface` is defined as follows:

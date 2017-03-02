@@ -72,7 +72,7 @@ this, see the next section.
 
 The list of officially supported drivers:
 
-- `IbmDb2`: The ext/ibm_db2 deriver
+- `IbmDb2`: The ext/ibm_db2 driver
 - `Mysqli`: The ext/mysqli driver
 - `Oci8`: The ext/oci8 driver
 - `Pgsql`: The ext/pgsql driver
