@@ -289,7 +289,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             }
 
             // parameter is named or positional, value is reference
-            $parameter = is_int($name) ? ($name + 1) : $name;
+            $parameter = is_int($name) ? ($name + 1) : $this->driver->formatParameterName($name);
             $this->resource->bindParam($parameter, $value, $type);
         }
     }

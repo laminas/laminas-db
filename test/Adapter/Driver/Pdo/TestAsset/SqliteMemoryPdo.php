@@ -13,8 +13,19 @@ class SqliteMemoryPdo extends \Pdo
 {
     protected $mockStatement;
 
-    public function __construct()
+    public function __construct($sql = null)
     {
         parent::__construct('sqlite::memory:');
+
+        // execute the sql statement if not empty
+        if (!empty($sql)) {
+            if (false === $this->exec($sql)) {
+                throw new \Exception(sprintf(
+                    "Error: %s, %s",
+                    $this->errorCode(),
+                    implode(",", $this->errorInfo())
+                ));
+            }
+        }
     }
 }

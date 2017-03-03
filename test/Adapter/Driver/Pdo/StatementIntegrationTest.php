@@ -47,7 +47,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     public function testStatementExecuteWillConvertPhpBoolToPdoBoolWhenBinding()
     {
         $this->pdoStatementMock->expects($this->any())->method('bindParam')->with(
-            $this->equalTo('foo'),
+            $this->equalTo(':foo'),
             $this->equalTo(false),
             $this->equalTo(\PDO::PARAM_BOOL)
         );
@@ -57,7 +57,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     public function testStatementExecuteWillUsePdoStrByDefaultWhenBinding()
     {
         $this->pdoStatementMock->expects($this->any())->method('bindParam')->with(
-            $this->equalTo('foo'),
+            $this->equalTo(':foo'),
             $this->equalTo('bar'),
             $this->equalTo(\PDO::PARAM_STR)
         );

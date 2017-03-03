@@ -38,4 +38,29 @@ class PdoTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('SqlServer', $this->pdo->getDatabasePlatformName());
         $this->assertEquals('SQLServer', $this->pdo->getDatabasePlatformName(DriverInterface::NAME_FORMAT_NATURAL));
     }
+
+    public function getParamsAndType()
+    {
+        return [
+            [ 'foo', null, ':foo'],
+            [ 'foo-', null, ':foo45'],
+            [ 'foo$', null, ':foo36'],
+            [ 1, null, '?' ],
+            [ '1', null, '?'],
+            [ 'foo', Pdo::PARAMETERIZATION_NAMED, ':foo'],
+            [ 'foo-', Pdo::PARAMETERIZATION_NAMED, ':foo45'],
+            [ 'foo$', Pdo::PARAMETERIZATION_NAMED, ':foo36'],
+            [ 1, Pdo::PARAMETERIZATION_NAMED, ':1'],
+            [ '1', Pdo::PARAMETERIZATION_NAMED, ':1'],
+        ];
+    }
+
+    /**
+     * @dataProvider getParamsAndType
+     */
+    public function testFormatParameterName($name, $type, $expected)
+    {
+        $result = $this->pdo->formatParameterName($name, $type);
+        $this->assertEquals($expected, $result);
+    }
 }
