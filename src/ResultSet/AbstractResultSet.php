@@ -51,7 +51,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      * Set the data source for the result set
      *
      * @param  array|Iterator|IteratorAggregate|ResultInterface $dataSource
-     * @return AbstractResultSet Provides a fluent interface
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function initialize($dataSource)
@@ -92,7 +92,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     }
 
     /**
-     * @return AbstractResultSet Provides a fluent interface
+     * @return self Provides a fluent interface
      * @throws Exception\RuntimeException
      */
     public function buffer()

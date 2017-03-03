@@ -44,7 +44,7 @@ class Like extends AbstractExpression implements PredicateInterface
 
     /**
      * @param  string $identifier
-     * @return Like Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setIdentifier($identifier)
     {
@@ -62,7 +62,7 @@ class Like extends AbstractExpression implements PredicateInterface
 
     /**
      * @param  string $like
-     * @return Like Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setLike($like)
     {
@@ -80,7 +80,7 @@ class Like extends AbstractExpression implements PredicateInterface
 
     /**
      * @param  string $specification
-     * @return Like Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setSpecification($specification)
     {

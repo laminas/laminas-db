@@ -38,7 +38,7 @@ class Connection extends AbstractConnection
 
     /**
      * @param  Oci8 $driver
-     * @return Connection Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setDriver(Oci8 $driver)
     {
@@ -68,7 +68,7 @@ class Connection extends AbstractConnection
      * Set resource
      *
      * @param  resource $resource
-     * @return Connection Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setResource($resource)
     {

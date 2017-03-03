@@ -20,7 +20,7 @@ trait AdapterAwareTrait
      * Set db adapter
      *
      * @param Adapter $adapter
-     * @return AdapterAwareTrait Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setDbAdapter(Adapter $adapter)
     {

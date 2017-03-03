@@ -40,7 +40,7 @@ class Postgresql extends AbstractPlatform
 
     /**
      * @param \Zend\Db\Adapter\Driver\Pgsql\Pgsql|\Zend\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
-     * @return Postgresql Provides a fluent interface
+     * @return self Provides a fluent interface
      * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
      */
     public function setDriver($driver)

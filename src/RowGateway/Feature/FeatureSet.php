@@ -42,7 +42,7 @@ class FeatureSet
 
     /**
      * @param AbstractRowGateway $rowGateway
-     * @return FeatureSet Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setRowGateway(AbstractRowGateway $rowGateway)
     {
@@ -67,7 +67,7 @@ class FeatureSet
 
     /**
      * @param array $features
-     * @return FeatureSet Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function addFeatures(array $features)
     {
@@ -79,7 +79,7 @@ class FeatureSet
 
     /**
      * @param AbstractFeature $feature
-     * @return FeatureSet Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function addFeature(AbstractFeature $feature)
     {

@@ -63,7 +63,7 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
 
     /**
      * @param Profiler\ProfilerInterface $profiler
-     * @return Pgsql Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
     {
@@ -89,7 +89,7 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
      * Register connection
      *
      * @param Connection $connection
-     * @return Pgsql Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function registerConnection(Connection $connection)
     {
@@ -102,7 +102,7 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
      * Register statement prototype
      *
      * @param Statement $statement
-     * @return Pgsql Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function registerStatementPrototype(Statement $statement)
     {
@@ -115,7 +115,7 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
      * Register result prototype
      *
      * @param Result $result
-     * @return Pgsql Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function registerResultPrototype(Result $result)
     {

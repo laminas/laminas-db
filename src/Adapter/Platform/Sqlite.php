@@ -42,7 +42,7 @@ class Sqlite extends AbstractPlatform
 
     /**
      * @param \Zend\Db\Adapter\Driver\Pdo\Pdo|\PDO $driver
-     * @return Sqlite Provides a fluent interface
+     * @return self Provides a fluent interface
      * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
      */
     public function setDriver($driver)

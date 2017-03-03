@@ -52,7 +52,7 @@ class Connection extends AbstractConnection
      * Set driver
      *
      * @param Pdo $driver
-     * @return Connection Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setDriver(Pdo $driver)
     {
@@ -137,7 +137,7 @@ class Connection extends AbstractConnection
      * Set resource
      *
      * @param  \PDO $resource
-     * @return Connection Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setResource(\PDO $resource)
     {

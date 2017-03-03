@@ -17,7 +17,7 @@ class InsertDecorator extends Sql\Insert implements Sql\Platform\PlatformDecorat
 
     /**
      * @param $subject
-     * @return InsertDecorator Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setSubject($subject)
     {

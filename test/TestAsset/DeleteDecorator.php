@@ -17,7 +17,7 @@ class DeleteDecorator extends Sql\Delete implements Sql\Platform\PlatformDecorat
 
     /**
      * @param $subject
-     * @return DeleteDecorator Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setSubject($subject)
     {

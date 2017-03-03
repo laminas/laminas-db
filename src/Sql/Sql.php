@@ -53,7 +53,7 @@ class Sql
 
     /**
      * @param string|array|TableIdentifier $table
-     * @return Sql Provides a fluent interface
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function setTable($table)

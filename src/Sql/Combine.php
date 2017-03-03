@@ -55,7 +55,7 @@ class Combine extends AbstractPreparableSql
      * @param string $type
      * @param string $modifier
      *
-     * @return Combine Provides a fluent interface
+     * @return self Provides a fluent interface
      *
      * @throws Exception\InvalidArgumentException
      */
@@ -160,7 +160,7 @@ class Combine extends AbstractPreparableSql
     }
 
     /**
-     * @return Combine Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function alignColumns()
     {

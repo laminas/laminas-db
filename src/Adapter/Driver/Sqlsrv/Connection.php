@@ -41,7 +41,7 @@ class Connection extends AbstractConnection
      * Set driver
      *
      * @param  Sqlsrv $driver
-     * @return Connection Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setDriver(Sqlsrv $driver)
     {
@@ -69,7 +69,7 @@ class Connection extends AbstractConnection
      * Set resource
      *
      * @param  resource $resource
-     * @return Connection Provides a fluent interface
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function setResource($resource)

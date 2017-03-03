@@ -72,7 +72,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Set driver
      *
      * @param  Mysqli $driver
-     * @return Statement Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setDriver(Mysqli $driver)
     {
@@ -82,7 +82,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
     /**
      * @param Profiler\ProfilerInterface $profiler
-     * @return Statement Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
     {
@@ -102,7 +102,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Initialize
      *
      * @param  \mysqli $mysqli
-     * @return Statement Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function initialize(\mysqli $mysqli)
     {
@@ -114,7 +114,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Set sql
      *
      * @param  string $sql
-     * @return Statement Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setSql($sql)
     {
@@ -126,7 +126,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Set Parameter container
      *
      * @param ParameterContainer $parameterContainer
-     * @return Statement Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setParameterContainer(ParameterContainer $parameterContainer)
     {
@@ -148,7 +148,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Set resource
      *
      * @param  \mysqli_stmt $mysqliStatement
-     * @return Statement Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setResource(\mysqli_stmt $mysqliStatement)
     {
@@ -191,7 +191,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Prepare
      *
      * @param string $sql
-     * @return Statement Provides a fluent interface
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidQueryException
      * @throws Exception\RuntimeException
      */

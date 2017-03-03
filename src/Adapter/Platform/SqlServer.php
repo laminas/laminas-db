@@ -42,7 +42,7 @@ class SqlServer extends AbstractPlatform
 
     /**
      * @param \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv|\Zend\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
-     * @return SqlServer Provides a fluent interface
+     * @return self Provides a fluent interface
      * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
      */
     public function setDriver($driver)

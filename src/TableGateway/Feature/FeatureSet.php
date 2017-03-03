@@ -37,7 +37,7 @@ class FeatureSet
 
     /**
      * @param AbstractTableGateway $tableGateway
-     * @return FeatureSet Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setTableGateway(AbstractTableGateway $tableGateway)
     {
@@ -62,7 +62,7 @@ class FeatureSet
 
     /**
      * @param array $features
-     * @return FeatureSet Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function addFeatures(array $features)
     {
@@ -74,7 +74,7 @@ class FeatureSet
 
     /**
      * @param AbstractFeature $feature
-     * @return FeatureSet Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function addFeature(AbstractFeature $feature)
     {

@@ -17,7 +17,7 @@ class UpdateDecorator extends Sql\Update implements Sql\Platform\PlatformDecorat
 
     /**
      * @param $subject
-     * @return UpdateDecorator Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setSubject($subject)
     {

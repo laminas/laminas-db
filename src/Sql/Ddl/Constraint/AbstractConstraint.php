@@ -51,7 +51,7 @@ abstract class AbstractConstraint implements ConstraintInterface
 
     /**
      * @param  string $name
-     * @return AbstractConstraint Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setName($name)
     {
@@ -69,7 +69,7 @@ abstract class AbstractConstraint implements ConstraintInterface
 
     /**
      * @param  null|string|array $columns
-     * @return AbstractConstraint Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setColumns($columns)
     {
@@ -80,7 +80,7 @@ abstract class AbstractConstraint implements ConstraintInterface
 
     /**
      * @param  string $column
-     * @return AbstractConstraint Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function addColumn($column)
     {

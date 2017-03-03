@@ -44,7 +44,7 @@ class PredicateSet implements PredicateInterface, Countable
      *
      * @param  PredicateInterface $predicate
      * @param  string $combination
-     * @return PredicateSet Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function addPredicate(PredicateInterface $predicate, $combination = null)
     {
@@ -66,7 +66,7 @@ class PredicateSet implements PredicateInterface, Countable
      *
      * @param PredicateInterface|\Closure|string|array $predicates
      * @param string $combination
-     * @return PredicateSet Provides a fluent interface
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function addPredicates($predicates, $combination = self::OP_AND)
@@ -139,7 +139,7 @@ class PredicateSet implements PredicateInterface, Countable
      * Add predicate using OR operator
      *
      * @param  PredicateInterface $predicate
-     * @return PredicateSet Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function orPredicate(PredicateInterface $predicate)
     {
@@ -151,7 +151,7 @@ class PredicateSet implements PredicateInterface, Countable
      * Add predicate using AND operator
      *
      * @param  PredicateInterface $predicate
-     * @return PredicateSet Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function andPredicate(PredicateInterface $predicate)
     {

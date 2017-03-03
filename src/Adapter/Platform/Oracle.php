@@ -41,7 +41,7 @@ class Oracle extends AbstractPlatform
 
     /**
      * @param Pdo|Oci8 $driver
-     * @return Oracle Provides a fluent interface
+     * @return self Provides a fluent interface
      * @throws InvalidArgumentException
      */
     public function setDriver($driver)
