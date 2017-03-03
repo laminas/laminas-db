@@ -301,7 +301,7 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
             return ':' . preg_replace_callback(
                 '/([^a-zA-Z0-9_])/',
                 function ($matches) {
-                    return ord($matches[0]);
+                    return '_' . ord($matches[0]) . '_';
                 },
                 $name
             );

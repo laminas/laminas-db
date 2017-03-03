@@ -137,7 +137,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
         $this->statement->setDriver(new Pdo(new Connection($testSqlite)));
         $this->statement->initialize($testSqlite);
 
-        $this->statement->prepare('INSERT INTO test (text_, text$) VALUES (:text_, :text36)');
+        $this->statement->prepare('INSERT INTO test (text_, text$) VALUES (:text_, :text_36_)');
         $result = $this->statement->execute([ 'text_' => 'foo', 'text$' => 'bar']);
         $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->valid());

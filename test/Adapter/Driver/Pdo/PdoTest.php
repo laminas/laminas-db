@@ -43,13 +43,13 @@ class PdoTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [ 'foo', null, ':foo'],
-            [ 'foo-', null, ':foo45'],
-            [ 'foo$', null, ':foo36'],
+            [ 'foo-', null, ':foo_45_'],
+            [ 'foo$', null, ':foo_36_'],
             [ 1, null, '?' ],
             [ '1', null, '?'],
             [ 'foo', Pdo::PARAMETERIZATION_NAMED, ':foo'],
-            [ 'foo-', Pdo::PARAMETERIZATION_NAMED, ':foo45'],
-            [ 'foo$', Pdo::PARAMETERIZATION_NAMED, ':foo36'],
+            [ 'foo-', Pdo::PARAMETERIZATION_NAMED, ':foo_45_'],
+            [ 'foo$', Pdo::PARAMETERIZATION_NAMED, ':foo_36_'],
             [ 1, Pdo::PARAMETERIZATION_NAMED, ':1'],
             [ '1', Pdo::PARAMETERIZATION_NAMED, ':1'],
         ];
