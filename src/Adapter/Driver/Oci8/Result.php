@@ -64,7 +64,7 @@ class Result implements Iterator, ResultInterface
      * @param resource $resource
      * @param null|int $generatedValue
      * @param null|int $rowCount
-     * @return Result
+     * @return self Provides a fluent interface
      */
     public function initialize($resource, $generatedValue = null, $rowCount = null)
     {
