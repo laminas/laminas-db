@@ -115,7 +115,7 @@ class Join implements Iterator, Countable
      *     of column names, or (a) specification(s) such as SQL_STAR representing
      *     the columns to join.
      * @param string $type The JOIN type to use; see the JOIN_* constants.
-     * @return self Implements a fluent interface.
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException for invalid $name values.
      */
     public function join($name, $on, $columns = [Select::SQL_STAR], $type = Join::JOIN_INNER)
@@ -143,7 +143,7 @@ class Join implements Iterator, Countable
     /**
      * Reset to an empty list of JOIN specifications.
      *
-     * @return self Implements a fluent interface.
+     * @return self Provides a fluent interface
      */
     public function reset()
     {

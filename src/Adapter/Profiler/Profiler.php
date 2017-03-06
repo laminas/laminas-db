@@ -26,8 +26,8 @@ class Profiler implements ProfilerInterface
 
     /**
      * @param string|StatementContainerInterface $target
+     * @return self Provides a fluent interface
      * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
-     * @return Profiler
      */
     public function profilerStart($target)
     {
@@ -53,7 +53,7 @@ class Profiler implements ProfilerInterface
     }
 
     /**
-     * @return Profiler
+     * @return self Provides a fluent interface
      */
     public function profilerFinish()
     {

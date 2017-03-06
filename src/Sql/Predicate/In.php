@@ -42,7 +42,7 @@ class In extends AbstractExpression implements PredicateInterface
      * Set identifier for comparison
      *
      * @param  string|array $identifier
-     * @return In
+     * @return self Provides a fluent interface
      */
     public function setIdentifier($identifier)
     {
@@ -65,8 +65,8 @@ class In extends AbstractExpression implements PredicateInterface
      * Set set of values for IN comparison
      *
      * @param  array|Select                       $valueSet
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
-     * @return In
      */
     public function setValueSet($valueSet)
     {

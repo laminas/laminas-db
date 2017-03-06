@@ -51,6 +51,11 @@ class Sql
         return ($this->table !== null);
     }
 
+    /**
+     * @param string|array|TableIdentifier $table
+     * @return self Provides a fluent interface
+     * @throws Exception\InvalidArgumentException
+     */
     public function setTable($table)
     {
         if (is_string($table) || is_array($table) || $table instanceof TableIdentifier) {

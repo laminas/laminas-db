@@ -55,7 +55,9 @@ class Combine extends AbstractPreparableSql
      * @param string $type
      * @param string $modifier
      *
-     * @return self
+     * @return self Provides a fluent interface
+     *
+     * @throws Exception\InvalidArgumentException
      */
     public function combine($select, $type = self::COMBINE_UNION, $modifier = '')
     {
@@ -158,7 +160,7 @@ class Combine extends AbstractPreparableSql
     }
 
     /**
-     * @return $this
+     * @return self Provides a fluent interface
      */
     public function alignColumns()
     {
