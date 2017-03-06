@@ -49,7 +49,7 @@ abstract class AbstractPrecisionColumn extends AbstractLengthColumn
 
     /**
      * @param int|null $decimal
-     * @return self
+     * @return self Provides a fluent interface
      */
     public function setDecimal($decimal)
     {

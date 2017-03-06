@@ -37,7 +37,7 @@ class AlterTableDecorator extends AlterTable implements PlatformDecoratorInterfa
 
     /**
      * @param AlterTable $subject
-     * @return \Zend\Db\Sql\Platform\PlatformDecoratorInterface
+     * @return self Provides a fluent interface
      */
     public function setSubject($subject)
     {

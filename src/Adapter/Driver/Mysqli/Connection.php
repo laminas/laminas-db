@@ -43,7 +43,7 @@ class Connection extends AbstractConnection
 
     /**
      * @param  Mysqli $driver
-     * @return self
+     * @return self Provides a fluent interface
      */
     public function setDriver(Mysqli $driver)
     {
@@ -72,7 +72,7 @@ class Connection extends AbstractConnection
      * Set resource
      *
      * @param  \mysqli $resource
-     * @return self
+     * @return self Provides a fluent interface
      */
     public function setResource(\mysqli $resource)
     {
