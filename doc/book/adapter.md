@@ -75,7 +75,7 @@ $adapter = new Zend\Db\Adapter\Adapter([
     ],
     'username' => '__USER__',
     'password' => '__PASS__',
-    'persistent' => true,
+    // 'persistent' => true,
     'platform' => 'IbmDb2',
     'platform_options' => ['quote_identifiers' => false],
 ]);
@@ -88,7 +88,7 @@ $adapter = new Zend\Db\Adapter\Adapter([
     'dsn' => 'ibm:DB_NAME', // DB_NAME is from WRKRDBDIRE, may be serial #
     'driver' => 'pdo',
     'driver_options' => [
-        PDO::ATTR_PERSISTENT => true,
+        // PDO::ATTR_PERSISTENT => true,
         PDO::ATTR_AUTOCOMMIT => true,
         PDO::I5_ATTR_DBC_SYS_NAMING => true,
         PDO::I5_ATTR_DBC_CURLIB => '',
