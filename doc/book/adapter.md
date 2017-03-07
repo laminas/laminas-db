@@ -62,6 +62,25 @@ $adapter = new Zend\Db\Adapter\Adapter([
 ]);
 ```
 
+Another example, of an IBM i DB2 connection via IbmDb2:
+
+```php
+$adapter = new Zend\Db\Adapter\Adapter([
+    'database' => '*LOCAL', // or name from WRKRDBDIRE, may be serial #
+    'driver' => 'IbmDb2',
+    'driver_options' => [
+        'autocommit' => DB2_AUTOCOMMIT_ON,
+        'i5_naming' => DB2_I5_NAMING_ON,
+        'i5_libl' => 'SCHEMA1 SCHEMA2 SCHEMA3',
+    ],
+    'username' => '__USER__',
+    'password' => '__PASS__',
+    'persistent' => true,
+    'platform' => 'IbmDb2',
+    'platform_options' => ['quote_identifiers' => false],
+]);
+```
+
 Another example, of an IBM i DB2 connection via PDO:
 
 ```php
