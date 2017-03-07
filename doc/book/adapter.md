@@ -62,6 +62,26 @@ $adapter = new Zend\Db\Adapter\Adapter([
 ]);
 ```
 
+Another example, of an IBM i DB2 connection via PDO:
+
+```php
+$adapter = new Zend\Db\Adapter\Adapter([
+    'dsn' => 'ibm:DB_NAME', // DB_NAME is from WRKRDBDIRE, may be serial #
+    'driver' => 'pdo',
+    'driver_options' => [
+        PDO::ATTR_PERSISTENT => true,
+        PDO::ATTR_AUTOCOMMIT => true,
+        PDO::I5_ATTR_DBC_SYS_NAMING => true,
+        PDO::I5_ATTR_DBC_CURLIB => '',
+        PDO::I5_ATTR_DBC_LIBL => 'SCHEMA1 SCHEMA2 SCHEMA3',
+    ],
+    'username' => '__USER__',
+    'password' => '__PASS__',
+    'platform' => 'IbmDb2',
+    'platform_options' => ['quote_identifiers' => false],
+]);
+```
+
 It is important to know that by using this style of adapter creation, the
 `Adapter` will attempt to create any dependencies that were not explicitly
 provided. A `Driver` object will be created from the configuration array
