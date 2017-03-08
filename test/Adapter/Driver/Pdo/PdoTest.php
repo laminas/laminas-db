@@ -42,16 +42,16 @@ class PdoTest extends \PHPUnit_Framework_TestCase
     public function getParamsAndType()
     {
         return [
-            [ 'foo', null, ':foo'],
-            [ 'foo-', null, ':foo_45_'],
-            [ 'foo$', null, ':foo_36_'],
+            [ 'foo', null, ':' . md5('foo')],
+            [ 'foo-', null, ':' . md5('foo-')],
+            [ 'foo$', null, ':' . md5('foo$')],
             [ 1, null, '?' ],
             [ '1', null, '?'],
-            [ 'foo', Pdo::PARAMETERIZATION_NAMED, ':foo'],
-            [ 'foo-', Pdo::PARAMETERIZATION_NAMED, ':foo_45_'],
-            [ 'foo$', Pdo::PARAMETERIZATION_NAMED, ':foo_36_'],
-            [ 1, Pdo::PARAMETERIZATION_NAMED, ':1'],
-            [ '1', Pdo::PARAMETERIZATION_NAMED, ':1'],
+            [ 'foo', Pdo::PARAMETERIZATION_NAMED, ':' . md5('foo')],
+            [ 'foo-', Pdo::PARAMETERIZATION_NAMED, ':' . md5('foo-')],
+            [ 'foo$', Pdo::PARAMETERIZATION_NAMED, ':' . md5('foo$')],
+            [ 1, Pdo::PARAMETERIZATION_NAMED, ':' . md5('1')],
+            [ '1', Pdo::PARAMETERIZATION_NAMED, ':' . md5('1')],
         ];
     }
 

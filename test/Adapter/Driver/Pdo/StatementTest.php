@@ -129,7 +129,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @see https://github.com/zendframework/zend-db/pull/178
+     * @see https://github.com/zendframework/zend-db/pull/224
      */
     public function testExecuteWithSpecialCharInBindParam()
     {
@@ -137,7 +137,13 @@ class StatementTest extends \PHPUnit_Framework_TestCase
         $this->statement->setDriver(new Pdo(new Connection($testSqlite)));
         $this->statement->initialize($testSqlite);
 
-        $this->statement->prepare('INSERT INTO test (text_, text$) VALUES (:text_, :text_36_)');
+        $this->statement->prepare(
+            'INSERT INTO test (text_, text$) VALUES (:' .
+            md5('text_') .
+            ', :' .
+            md5('text$') .
+            ')'
+        );
         $result = $this->statement->execute([ 'text_' => 'foo', 'text$' => 'bar']);
         $this->assertInstanceOf(Result::class, $result);
         $this->assertTrue($result->valid());

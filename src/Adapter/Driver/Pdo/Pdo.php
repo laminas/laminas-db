@@ -298,13 +298,8 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     public function formatParameterName($name, $type = null)
     {
         if ($type === null && !is_numeric($name) || $type == self::PARAMETERIZATION_NAMED) {
-            return ':' . preg_replace_callback(
-                '/([^a-zA-Z0-9_])/',
-                function ($matches) {
-                    return '_' . ord($matches[0]) . '_';
-                },
-                $name
-            );
+            // using MD5 because of the PDO restriction [A-Za-z0-9_] for bindParam name
+            return ':' . md5($name);
         }
 
         return '?';
