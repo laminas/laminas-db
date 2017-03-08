@@ -266,8 +266,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
     /**
      * Bind parameters from container
-     *
-     * @param ParameterContainer $pContainer
      */
     protected function bindParametersFromContainer()
     {
