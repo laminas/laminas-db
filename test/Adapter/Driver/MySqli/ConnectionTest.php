@@ -75,7 +75,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $params = [
             'hostname' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME"),
             'username' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME"),
-            'password' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD"),
+            'password' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD") ?: null,
             'database' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE"),
         ];
 
