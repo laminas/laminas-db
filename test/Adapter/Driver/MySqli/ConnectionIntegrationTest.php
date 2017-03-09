@@ -1,9 +1,4 @@
 <?php
-/**
- * @copyright 2017, Loft Digital, www.loftdigital.com
- * User: zdenek
- * Date: 08/03/17
- */
 
 namespace ZendTest\Db\Adapter\Driver\Mysqli;
 
@@ -11,9 +6,35 @@ use Zend\Db\Adapter\Driver\Mysqli\Connection;
 
 /**
  * @group integration
+ * @group integration-mysqli
  */
 class ConnectionIntegrationTest extends \PHPUnit_Framework_TestCase
 {
+
+    protected $variables = [
+        'hostname' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME',
+        'username' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME',
+        'password' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD',
+        'database' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE',
+    ];
+
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp()
+    {
+        foreach ($this->variables as $name => $value) {
+            if (!getenv($value)) {
+                $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
+            }
+            $this->variables[$name] = getenv($value);
+        }
+
+        if (!extension_loaded('mysqli')) {
+            $this->fail('The phpunit group integration-mysqli was enabled, but the extension is not loaded.');
+        }
+    }
 
     public function testConnectionOk()
     {
@@ -24,7 +45,7 @@ class ConnectionIntegrationTest extends \PHPUnit_Framework_TestCase
             'database' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE"),
         ];
 
-        $connection = new Connection($params);
+        $connection = new Connection($this->variables);
         $connection->connect();
 
         $this->assertTrue($connection->isConnected());
