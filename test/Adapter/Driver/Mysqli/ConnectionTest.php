@@ -25,6 +25,9 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        if (!getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
+            $this->markTestSkipped('Mysqli test disabled');
+        }
         $this->connection = new Connection([]);
     }
 
