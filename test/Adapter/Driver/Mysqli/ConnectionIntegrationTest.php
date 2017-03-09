@@ -48,5 +48,4 @@ class ConnectionIntegrationTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($connection->isConnected());
         $connection->disconnect();
     }
-
 }
