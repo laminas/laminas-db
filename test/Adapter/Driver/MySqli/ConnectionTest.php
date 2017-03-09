@@ -60,28 +60,4 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->connection->setConnectionParameters(['foo' => 'bar']);
         $this->assertEquals(['foo' => 'bar'], $this->connection->getConnectionParameters());
     }
-
-    /**
-     * @expectedException Zend\Db\Adapter\Exception\RuntimeException
-     * @expectedExceptionMessage Connection error
-     */
-    public function testConnectionFails()
-    {
-        $this->connection->connect();
-    }
-
-    public function testConnectionOk()
-    {
-        $params = [
-            'hostname' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME"),
-            'username' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME"),
-            'password' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD") ?: null,
-            'database' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE"),
-        ];
-
-        $connection = new Connection($params);
-        $connection->connect();
-
-        $this->assertTrue($connection->isConnected());
-    }
 }
