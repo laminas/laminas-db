@@ -49,13 +49,4 @@ class ConnectionIntegrationTest extends \PHPUnit_Framework_TestCase
         $connection->disconnect();
     }
 
-    /**
-     * @expectedException \Zend\Db\Adapter\Exception\RuntimeException
-     * @expectedExceptionMessage Connection error
-     */
-    public function testConnectionFails()
-    {
-        $connection = new Connection([]);
-        $connection->connect();
-    }
 }
