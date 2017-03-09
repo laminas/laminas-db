@@ -38,13 +38,6 @@ class ConnectionIntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testConnectionOk()
     {
-        $params = [
-            'hostname' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME"),
-            'username' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME"),
-            'password' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD"),
-            'database' => getenv("TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE"),
-        ];
-
         $connection = new Connection($this->variables);
         $connection->connect();
 
@@ -53,7 +46,7 @@ class ConnectionIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Zend\Db\Adapter\Exception\RuntimeException
+     * @expectedException \Zend\Db\Adapter\Exception\RuntimeException
      * @expectedExceptionMessage Connection error
      */
     public function testConnectionFails()
