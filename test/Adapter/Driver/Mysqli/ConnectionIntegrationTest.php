@@ -24,23 +24,20 @@ class ConnectionIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        if(getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')){
-
+        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
             if (!extension_loaded('mysqli')) {
                 $this->fail('The phpunit group integration-mysqli was enabled, but the extension is not loaded.');
             }
 
-        foreach ($this->variables as $name => $value) {
-            if (!getenv($value)) {
-                $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
+            foreach ($this->variables as $name => $value) {
+                if (!getenv($value)) {
+                    $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
+                }
+                $this->variables[$name] = getenv($value);
             }
-            $this->variables[$name] = getenv($value);
-        }
-        }
-        else{
+        } else {
             $this->markTestSkipped('Mysqli integration test disabled');
         }
-
     }
 
     public function testConnectionOk()
