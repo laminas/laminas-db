@@ -150,7 +150,7 @@ $select->from(['t' => 'table']);
 
 // Using a Sql\TableIdentifier:
 // (same output as above)
-$select->from(new TableIdentifier(['t' => 'table']));
+$select->from(['t' => new TableIdentifier('table')]);
 ```
 
 ### columns()
