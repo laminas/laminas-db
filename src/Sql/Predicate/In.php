@@ -81,7 +81,7 @@ class In extends AbstractExpression implements PredicateInterface
     }
 
     /**
-     * Gets set of values in IN comparision
+     * Gets set of values in IN comparison
      *
      * @return array|Select
      */
