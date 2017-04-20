@@ -258,6 +258,23 @@ $select->from('foo')->where([
 ]);
 ```
 
+As another example of complex queries with nested conditions e.g.
+
+```sql
+SELECT * WHERE (column1 is null or column1 = 2) AND (column2 = 3)
+```
+
+you need to use the `nest()` and `unnest()` methods, as follows:
+
+```php
+$select->where->nest() // bracket opened
+    ->isNull('column1')
+    ->or
+    ->equalTo('column1', '2')
+    ->unnest();  // bracket closed
+    ->equalTo('column2', '3');
+```
+
 ### order()
 
 ```php
