@@ -334,7 +334,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                     ],
                 ],
             ],
-            /* TODO - should be implemeted
+            /* TODO - should be implemented
             'RootDecorators::Insert' => array(
                 'sqlObject' => $this->insert('foo')->select($this->select()),
                 'expected'  => array(

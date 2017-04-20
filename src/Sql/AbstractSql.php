@@ -85,7 +85,7 @@ abstract class AbstractSql implements SqlInterface
     /**
      * Render table with alias in from/join parts
      *
-     * @todo move TableIdentifier concatination here
+     * @todo move TableIdentifier concatenation here
      * @param string $table
      * @param string $alias
      * @return string
