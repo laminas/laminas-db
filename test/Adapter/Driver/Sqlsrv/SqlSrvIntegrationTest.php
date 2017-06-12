@@ -23,15 +23,7 @@ class SqlSrvIntegrationTest extends AbstractIntegrationTest
     public function setUp()
     {
         parent::setUp();
-        $this->resource = sqlsrv_connect(
-            $this->variables['hostname'], [
-                'UID' => $this->variables['username'],
-                'PWD' => $this->variables['password']
-            ]
-        );
-        if ($this->resource === false) {
-            $this->markTestSkipped('Could not connect to sql server');
-        }
+        $this->resource = $this->adapters['sqlsrv'];
         $this->driver = new Sqlsrv($this->resource);
     }
 
