@@ -50,4 +50,22 @@ class SqlSrvIntegrationTest extends AbstractIntegrationTest
         $this->setExpectedException('Zend\Db\Adapter\Exception\InvalidArgumentException', 'only accepts an SQL string or a Sqlsrv resource');
         $driver->createStatement(new \stdClass);
     }
+
+    public function testParameterizedQuery()
+    {
+        $driver = new Sqlsrv([]);
+
+        $resource = sqlsrv_connect(
+            $this->variables['hostname'], [
+                'UID' => $this->variables['username'],
+                'PWD' => $this->variables['password']
+            ]
+        );
+
+        $driver->getConnection()->setResource($resource);
+        $stmt = $driver->createStatement('SELECT ? as col_one');
+        $result = $stmt->execute(['a']);
+        $row = $result->current();
+        $this->assertEquals('a', $row['col_one']);
+    }
 }
