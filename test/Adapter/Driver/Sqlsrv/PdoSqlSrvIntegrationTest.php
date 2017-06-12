@@ -19,14 +19,13 @@ class PdoSqlSrvIntegrationTest extends AbstractIntegrationTest
 {
     public function testParameterizedQuery()
     {
-        $driver = new Pdo([], null);
-
-        $resource = new \PDO(sprintf('sqlsrv:Server=%s', $this->variables['hostname']),
-                $this->variables['username'],
-                $this->variables['password']
+        $resource = new \PDO(
+            sprintf('sqlsrv:Server=%s', $this->variables['hostname']),
+            $this->variables['username'],
+            $this->variables['password']
         );
+        $driver = new Pdo($resource);
 
-        $driver->getConnection()->setResource($resource);
         $stmt = $driver->createStatement('SELECT ? as col_one');
         $result = $stmt->execute(['a']);
         $row = $result->current();
