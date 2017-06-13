@@ -74,6 +74,11 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     protected $prepareOptions = [];
 
     /**
+     * @var array
+     */
+    protected $parameterReferenceValues = [];
+
+    /**
      * Set driver
      *
      * @param  Sqlsrv $driver
@@ -207,7 +212,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         $pRef = &$this->parameterReferences;
         for ($position = 0, $count = substr_count($sql, '?'); $position < $count; $position++) {
             if (!isset($this->prepareParams[$position])) {
-                $pRef[$position] = ['', SQLSRV_PARAM_IN, null, null];
+                $pRef[$position] = [&$this->parameterReferenceValues[$position], SQLSRV_PARAM_IN, null, null];
             } else {
                 $pRef[$position] = &$this->prepareParams[$position];
             }
