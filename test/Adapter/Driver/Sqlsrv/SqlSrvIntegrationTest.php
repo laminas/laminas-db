@@ -17,7 +17,14 @@ use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
  */
 class SqlSrvIntegrationTest extends AbstractIntegrationTest
 {
+    /**
+     * @var Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv
+     */
     private $driver;
+
+    /**
+     * @var resource SQL Server Connection
+     */
     private $resource;
 
     public function setUp()
