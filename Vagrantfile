@@ -31,7 +31,7 @@ curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 curl -s https://packages.microsoft.com/config/ubuntu/16.04/mssql-server.list > /etc/apt/sources.list.d/mssql-server.list
 apt-get -yq update
 apt-get -yq install mssql-server
-printf "YES\nPassword123\nPassword123\ny\ny" | /opt/mssql/bin/sqlservr-setup
+printf "YES\nPassword123\nPassword123\ny\ny" | /opt/mssql/bin/mssql-conf setup
 
 curl -s https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-tools.list
 apt-get -yq update
