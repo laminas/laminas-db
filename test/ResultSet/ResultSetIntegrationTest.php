@@ -95,7 +95,7 @@ class ResultSetIntegrationTest extends TestCase
         $this->resultSet->initialize($dataSource);
         $this->assertEquals($dataSource[0], (array) $this->resultSet->current());
 
-        $returnType = new ReturnType();
+        $returnType = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
         $dataSource = [$returnType];
         $this->resultSet->setArrayObjectPrototype($returnType);
         $this->resultSet->initialize($dataSource);
