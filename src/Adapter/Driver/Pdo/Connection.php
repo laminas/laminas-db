@@ -411,7 +411,8 @@ class Connection extends AbstractConnection
      */
     public function getLastGeneratedValue($name = null)
     {
-        if ($name === null && $this->driverName == 'pgsql') {
+        if ($name === null
+            && ($this->driverName == 'pgsql' || $this->driverName == 'firebird')) {
             return;
         }
 
