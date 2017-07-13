@@ -50,6 +50,12 @@ matrix:
         - EVENT_MANAGER_VERSION='^2.6.2'
         - HYDRATOR_VERSION='^1.1'
         - SERVICE_MANAGER_VERSION='^2.7.5'
+    - php: 7.1
+    - php: 7.1
+      env:
+        - EVENT_MANAGER_VERSION='^2.6.2'
+        - HYDRATOR_VERSION='^1.1'
+        - SERVICE_MANAGER_VERSION='^2.7.5'
     - php: nightly
     - php: nightly
       env:
