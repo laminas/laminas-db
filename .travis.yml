@@ -56,14 +56,14 @@ matrix:
         - EVENT_MANAGER_VERSION='^2.6.2'
         - HYDRATOR_VERSION='^1.1'
         - SERVICE_MANAGER_VERSION='^2.7.5'
-    - php: nightly
-    - php: nightly
+    - php: 7.2
+    - php: 7.2
       env:
         - EVENT_MANAGER_VERSION='^2.6.2'
         - HYDRATOR_VERSION='^1.1'
         - SERVICE_MANAGER_VERSION='^2.7.5'
   allow_failures:
-    - php: nightly
+    - php: 7.2
 
 notifications:
   email: false
