@@ -56,7 +56,7 @@ $table->addConstraint(
     new Constraint\UniqueKey(['name', 'foo'], 'my_unique_key')
 );
 ```
-You can also use the `AUTO_INCREMENT` for MySQL:
+You can also use the `AUTO_INCREMENT` attribute for MySQL:
 ```php
 use Zend\Db\Sql\Ddl\Column;
 
@@ -146,21 +146,17 @@ In alphabetical order:
 Type             | Arguments For Construction
 -----------------|---------------------------
 BigInteger       | `$name`, `$nullable = false`, `$default = null`, `array $options = array()`
-Binary           | `$name`, `$length`, `nullable = false`, `$default = null`, `array $options = array()`
 Blob             | `$name`, `$length`, `nullable = false`, `$default = null`, `array $options = array()`
 Boolean          | `$name`
 Char             | `$name`, `length`
 Column (generic) | `$name = null`
 Date             | `$name`
-DateTime         | `$name`
 Decimal          | `$name`, `$precision`, `$scale = null`
 Float            | `$name`, `$digits`, `$decimal` (Note: this class is deprecated as of 2.4.0; use Floating instead)
 Floating         | `$name`, `$digits`, `$decimal`
 Integer          | `$name`, `$nullable = false`, `default = null`, `array $options = array()`
 Text             | `$name`, `$length`, `nullable = false`, `$default = null`, `array $options = array()`
 Time             | `$name`
-Timestamp        | `$name`
-Varbinary        | `$name`, `$length`
 Varchar          | `$name`, `$length`
 
 Each of the above types can be utilized in any place that accepts a `Column\ColumnInterface`
