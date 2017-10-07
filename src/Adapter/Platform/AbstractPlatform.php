@@ -27,6 +27,11 @@ abstract class AbstractPlatform implements PlatformInterface
     protected $quoteIdentifiers = true;
 
     /**
+     * @var string
+     */
+    protected $quoteIdentifierFragmentPattern = '/([^0-9,a-z,A-Z$_:])/i';
+
+    /**
      * {@inheritDoc}
      */
     public function quoteIdentifierInFragment($identifier, array $safeWords = [])
@@ -42,7 +47,7 @@ abstract class AbstractPlatform implements PlatformInterface
         }
 
         $parts = preg_split(
-            '/([^0-9,a-z,A-Z$_:])/i',
+            $this->quoteIdentifierFragmentPattern,
             $identifier,
             -1,
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
