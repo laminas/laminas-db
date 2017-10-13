@@ -255,7 +255,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      *
      * @return callable
      */
-    private function createErrorHandler() : callable
+    private function createErrorHandler()
     {
         /**
          * @param int $errno
@@ -265,7 +265,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
          * @return void
          * @throws ErrorException if error is not within the error_reporting mask.
          */
-        return function (int $errno, string $errstr, string $errfile, int $errline) : void {
+        return function ($errno, $errstr, $errfile, $errline) {
             if (! (error_reporting() & $errno)) {
                 // error_reporting does not include this error
                 return;
