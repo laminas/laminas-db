@@ -64,7 +64,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
 
         $statement = new Statement;
         $statement->initialize($db2Resource);
-        $statement->prepare("SELECT 'foo'");
+        $statement->prepare("SELECT 'foo' FROM sysibm.sysdummy1");
         $resource = $statement->getResource();
         $this->assertEquals('DB2 Statement', get_resource_type($resource));
         unset($resource, $db2Resource);
@@ -88,11 +88,10 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @expectedException RuntimeException
      */
     public function testPrepareThrowsAnExceptionOnFailure()
     {
-        $this->expectException(RuntimeException::class);
-
         $db2Resource = db2_connect(
             $this->variables['database'],
             $this->variables['username'],
