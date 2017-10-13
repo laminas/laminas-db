@@ -9,6 +9,8 @@
 
 namespace Zend\Db\Adapter\Driver\IbmDb2;
 
+use ErrorException;
+use Throwable;
 use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Exception;
 use Zend\Db\Adapter\ParameterContainer;
@@ -172,7 +174,14 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             $sql = $this->sql;
         }
 
-        $this->resource = db2_prepare($this->db2, $sql);
+        try {
+            set_error_handler($this->createErrorHandler());
+            $this->resource = db2_prepare($this->db2, $sql);
+        } catch (Throwable $e) {
+            throw new Exception\RuntimeException($e->getMessage() . '. ' . db2_stmt_errormsg(), db2_stmt_error(), $e);
+        } finally {
+            restore_error_handler();
+        }
 
         if ($this->resource === false) {
             throw new Exception\RuntimeException(db2_stmt_errormsg(), db2_stmt_error());
@@ -237,5 +246,32 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
         $result = $this->driver->createResult($this->resource);
         return $result;
+    }
+
+    /**
+     * Creates and returns a callable error handler that raises exceptions.
+     *
+     * Only raises exceptions for errors that are within the error_reporting mask.
+     *
+     * @return callable
+     */
+    private function createErrorHandler() : callable
+    {
+        /**
+         * @param int $errno
+         * @param string $errstr
+         * @param string $errfile
+         * @param int $errline
+         * @return void
+         * @throws ErrorException if error is not within the error_reporting mask.
+         */
+        return function (int $errno, string $errstr, string $errfile, int $errline) : void {
+            if (! (error_reporting() & $errno)) {
+                // error_reporting does not include this error
+                return;
+            }
+
+            throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+        };
     }
 }
