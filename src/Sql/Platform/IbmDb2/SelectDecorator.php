@@ -108,13 +108,17 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
             // Note: db2_prepare/db2_execute fails with positional parameters, for LIMIT & OFFSET
             $limit = (int)$this->limit;
             $offset = (int)$this->offset;
-            if ($this->limit) {
-                if ($this->offset) {
-                    array_push($sqls, sprintf("LIMIT %s OFFSET %s", $limit, $offset));
-                } else {
-                    array_push($sqls, sprintf("LIMIT %s", $limit));
-                }
+
+            if (! $limit) {
+                return;
             }
+
+            if ($offset) {
+                array_push($sqls, sprintf("LIMIT %s OFFSET %s", $limit, $offset));
+                return;
+            }
+
+            array_push($sqls, sprintf("LIMIT %s", $limit));
             return;
         }
 
