@@ -88,7 +88,6 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
-     * @expectedException RuntimeException
      */
     public function testPrepareThrowsAnExceptionOnFailure()
     {
@@ -99,6 +98,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
         );
         $statement = new Statement;
         $statement->initialize($db2Resource);
+        $this->setExpectedException(RuntimeException::class);
         $statement->prepare("SELECT");
         unset($resource, $db2Resource);
     }
