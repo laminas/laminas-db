@@ -100,7 +100,6 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
         $statement->initialize($db2Resource);
         $this->setExpectedException(RuntimeException::class);
         $statement->prepare("SELECT");
-        unset($resource, $db2Resource);
     }
 
     /**
