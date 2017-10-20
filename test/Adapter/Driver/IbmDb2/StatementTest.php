@@ -29,6 +29,9 @@ class StatementTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        // store current error_reporting value as we may change it
+        // in a test
+        $this->currentErrorReporting = error_reporting();
         $this->statement = new Statement;
     }
 
@@ -38,6 +41,8 @@ class StatementTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
+        // ensure error_reporting is set back to correct value
+        error_reporting($this->currentErrorReporting);
     }
 
     /**
@@ -157,7 +162,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareThrowsRuntimeExceptionOnInvalidSqlWithErrorReportingDisabled()
     {
-        $currentErrorReporting = error_reporting(0);
+        error_reporting(0);
         $sql = "INVALID SQL";
         $this->statement->setSql($sql);
 
@@ -166,8 +171,6 @@ class StatementTest extends \PHPUnit_Framework_TestCase
             'Error message'
         );
         $this->statement->prepare();
-
-        error_reporting($currentErrorReporting);
     }
 
     /**
