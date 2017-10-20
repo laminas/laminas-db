@@ -177,7 +177,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         try {
             set_error_handler($this->createErrorHandler());
             $this->resource = db2_prepare($this->db2, $sql);
-        } catch (Throwable $e) {
+        } catch (ErrorException $e) {
             throw new Exception\RuntimeException($e->getMessage() . '. ' . db2_stmt_errormsg(), db2_stmt_error(), $e);
         } finally {
             restore_error_handler();
