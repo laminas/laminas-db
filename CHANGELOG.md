@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file, in reverse 
   in ALTER TABLE syntax for MySQL
 - [#223](https://github.com/zendframework/zend-db/pull/223) added support for
   empty values set with IN predicate
+- [#280](https://github.com/zendframework/zend-db/pull/280) added version dsn
+  parameter for pdo_dblib
 
 ### Deprecated
 
@@ -22,9 +24,9 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Fixed
 
 - [#205](https://github.com/zendframework/zend-db/pull/205) fixes the spaces in
-  ORDER BY syntax.
+  ORDER BY syntax
 - [#261](https://github.com/zendframework/zend-db/pull/261) fixes Exception in
-  Firebird driver doesn't support lastInsertId.  
+  Firebird driver doesn't support lastInsertId 
 
 ## 2.8.3 - TBD
 
