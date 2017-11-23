@@ -27,7 +27,13 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
      */
     protected $subject = null;
 
-    /**
+     /**
+     * @var bool
+     */
+    protected $supportsLimitOffset = false;
+
+
+   /**
      * @return bool
      */
     public function getIsSelectContainDistinct()
@@ -49,6 +55,22 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
     public function setSubject($select)
     {
         $this->subject = $select;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSupportsLimitOffset()
+    {
+        return $this->supportsLimitOffset;
+    }
+
+    /**
+     * @param bool $supportsLimitOffset
+     */
+    public function setSupportsLimitOffset($supportsLimitOffset)
+    {
+        $this->supportsLimitOffset = $supportsLimitOffset;
     }
 
     /**
@@ -79,6 +101,23 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
     protected function processLimitOffset(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null, &$sqls, &$parameters)
     {
         if ($this->limit === null && $this->offset === null) {
+            return;
+        }
+
+        if ($this->supportsLimitOffset) {
+            // Note: db2_prepare/db2_execute fails with positional parameters, for LIMIT & OFFSET
+            $limit = (int) $this->limit;
+            if (! $limit) {
+                return;
+            }
+
+            $offset = (int) $this->offset;
+            if ($offset) {
+                array_push($sqls, sprintf("LIMIT %s OFFSET %s", $limit, $offset));
+                return;
+            }
+
+            array_push($sqls, sprintf("LIMIT %s", $limit));
             return;
         }
 
