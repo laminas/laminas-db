@@ -202,6 +202,9 @@ class Connection extends AbstractConnection
                 case 'unix_socket':
                     $unix_socket = (string) $value;
                     break;
+                case 'version':
+                    $version = (string) $value;
+                    break;
                 case 'driver_options':
                 case 'options':
                     $value = (array) $value;
@@ -249,6 +252,9 @@ class Connection extends AbstractConnection
                     }
                     if (isset($unix_socket)) {
                         $dsn[] = "unix_socket={$unix_socket}";
+                    }
+                    if (isset($version)) {
+                        $dsn[] = "version={$version}";
                     }
                     break;
             }
