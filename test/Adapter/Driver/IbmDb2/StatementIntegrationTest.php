@@ -11,6 +11,7 @@ namespace ZendTest\Db\Adapter\Driver\IbmDb2;
 
 use Zend\Db\Adapter\Driver\IbmDb2\IbmDb2;
 use Zend\Db\Adapter\Driver\IbmDb2\Statement;
+use Zend\Db\Adapter\Exception\RuntimeException;
 
 /**
  * @group integration
@@ -63,7 +64,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
 
         $statement = new Statement;
         $statement->initialize($db2Resource);
-        $statement->prepare("SELECT 'foo'");
+        $statement->prepare("SELECT 'foo' FROM sysibm.sysdummy1");
         $resource = $statement->getResource();
         $this->assertEquals('DB2 Statement', get_resource_type($resource));
         unset($resource, $db2Resource);
@@ -83,6 +84,22 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($statement, $statement->prepare("SELECT 'foo' FROM SYSIBM.SYSDUMMY1"));
         $this->assertTrue($statement->isPrepared());
         unset($resource, $db2Resource);
+    }
+
+    /**
+     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     */
+    public function testPrepareThrowsAnExceptionOnFailure()
+    {
+        $db2Resource = db2_connect(
+            $this->variables['database'],
+            $this->variables['username'],
+            $this->variables['password']
+        );
+        $statement = new Statement;
+        $statement->initialize($db2Resource);
+        $this->setExpectedException(RuntimeException::class);
+        $statement->prepare("SELECT");
     }
 
     /**
