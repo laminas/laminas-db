@@ -24,7 +24,7 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
      * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
      */
-    public function testPrepareStatement(Select $select, $expectedPrepareSql, $expectedParams, $notUsed)
+    public function testPrepareStatement(Select $select, $expectedPrepareSql, $expectedParams, $notUsed, $supportsLimitOffset)
     {
         $driver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
         $driver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
@@ -47,6 +47,7 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
 
         $selectDecorator = new SelectDecorator;
         $selectDecorator->setSubject($select);
+        $selectDecorator->setSupportsLimitOffset($supportsLimitOffset);
         $selectDecorator->prepareStatement($adapter, $statement);
 
         $this->assertEquals($expectedParams, $parameterContainer->getNamedArray());
@@ -57,7 +58,7 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
      * @covers Zend\Db\Sql\Platform\IbmDb2\SelectDecorator::getSqlString
      * @dataProvider dataProvider
      */
-    public function testGetSqlString(Select $select, $ignored0, $ignored1, $expectedSql)
+    public function testGetSqlString(Select $select, $ignored0, $ignored1, $expectedSql, $supportsLimitOffset)
     {
         $parameterContainer = new ParameterContainer;
         $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
@@ -65,6 +66,7 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
 
         $selectDecorator = new SelectDecorator;
         $selectDecorator->setSubject($select);
+        $selectDecorator->setSupportsLimitOffset($supportsLimitOffset);
 
         $this->assertEquals($expectedSql, @$selectDecorator->getSqlString(new IbmDb2Platform));
     }
@@ -109,12 +111,26 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $expectedPrepareSql4 = 'SELECT * FROM ( SELECT "x".*, ROW_NUMBER() OVER () AS ZEND_DB_ROWNUM FROM "foo" "x" WHERE "x"."id" > ? AND "x"."id" < ? ) AS ZEND_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION WHERE ZEND_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION.ZEND_DB_ROWNUM BETWEEN ? AND ?';
         $expectedSql4 = 'SELECT * FROM ( SELECT "x".*, ROW_NUMBER() OVER () AS ZEND_DB_ROWNUM FROM "foo" "x" WHERE "x"."id" > \'10\' AND "x"."id" < \'31\' ) AS ZEND_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION WHERE ZEND_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION.ZEND_DB_ROWNUM BETWEEN 0 AND 5';
 
+        $select5 = new Select;
+        $select5->from(['x' => 'foo'])->limit(5);
+        $expectedParams5 = [];
+        $expectedPrepareSql5 = 'SELECT "x".* FROM "foo" "x" LIMIT 5';
+        $expectedSql5 = 'SELECT "x".* FROM "foo" "x" LIMIT 5';
+
+        $select6 = new Select;
+        $select6->columns([new Expression('DISTINCT(id) as id')])->from(['x' => 'foo'])->limit(5)->offset(10);
+        $expectedParams6 = [];
+        $expectedPrepareSql6 = 'SELECT DISTINCT(id) as id FROM "foo" "x" LIMIT 5 OFFSET 10';
+        $expectedSql6 = 'SELECT DISTINCT(id) as id FROM "foo" "x" LIMIT 5 OFFSET 10';
+
         return [
-            [$select0, $expectedPrepareSql0, $expectedParams0, $expectedSql0],
-            [$select1, $expectedPrepareSql1, $expectedParams1, $expectedSql1],
-            [$select2, $expectedPrepareSql2, $expectedParams2, $expectedSql2],
-            [$select3, $expectedPrepareSql3, $expectedParams3, $expectedSql3],
-            [$select4, $expectedPrepareSql4, $expectedParams4, $expectedSql4],
+            [$select0, $expectedPrepareSql0, $expectedParams0, $expectedSql0, false],
+            [$select1, $expectedPrepareSql1, $expectedParams1, $expectedSql1, false],
+            [$select2, $expectedPrepareSql2, $expectedParams2, $expectedSql2, false],
+            [$select3, $expectedPrepareSql3, $expectedParams3, $expectedSql3, false],
+            [$select4, $expectedPrepareSql4, $expectedParams4, $expectedSql4, false],
+            [$select5, $expectedPrepareSql5, $expectedParams5, $expectedSql5, true],
+            [$select6, $expectedPrepareSql6, $expectedParams6, $expectedSql6, true],
         ];
     }
 }
