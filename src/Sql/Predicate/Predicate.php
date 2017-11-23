@@ -202,7 +202,7 @@ class Predicate extends PredicateSet
      *
      * Utilizes Like predicate
      *
-     * @param  string $identifier
+     * @param  string|Expression $identifier
      * @param  string $like
      * @return self Provides a fluent interface
      */
@@ -221,7 +221,7 @@ class Predicate extends PredicateSet
      *
      * Utilizes In predicate
      *
-     * @param  string $identifier
+     * @param  string|Expression $identifier
      * @param  string $notLike
      * @return self Provides a fluent interface
      */
@@ -288,7 +288,7 @@ class Predicate extends PredicateSet
      *
      * Utilizes IsNull predicate
      *
-     * @param  string $identifier
+     * @param  string|Expression $identifier
      * @return self Provides a fluent interface
      */
     public function isNull($identifier)
@@ -307,7 +307,7 @@ class Predicate extends PredicateSet
      *
      * Utilizes IsNotNull predicate
      *
-     * @param  string $identifier
+     * @param  string|Expression $identifier
      * @return self Provides a fluent interface
      */
     public function isNotNull($identifier)
@@ -326,7 +326,7 @@ class Predicate extends PredicateSet
      *
      * Utilizes In predicate
      *
-     * @param  string $identifier
+     * @param  string|Expression $identifier
      * @param  array|\Zend\Db\Sql\Select $valueSet
      * @return self Provides a fluent interface
      */
@@ -346,7 +346,7 @@ class Predicate extends PredicateSet
      *
      * Utilizes NotIn predicate
      *
-     * @param  string $identifier
+     * @param  string|Expression $identifier
      * @param  array|\Zend\Db\Sql\Select $valueSet
      * @return self Provides a fluent interface
      */
@@ -366,7 +366,7 @@ class Predicate extends PredicateSet
      *
      * Utilizes Between predicate
      *
-     * @param  string $identifier
+     * @param  string|Expression $identifier
      * @param  int|float|string $minValue
      * @param  int|float|string $maxValue
      * @return self Provides a fluent interface
@@ -387,7 +387,7 @@ class Predicate extends PredicateSet
      *
      * Utilizes NotBetween predicate
      *
-     * @param  string $identifier
+     * @param  string|Expression $identifier
      * @param  int|float|string $minValue
      * @param  int|float|string $maxValue
      * @return self Provides a fluent interface
