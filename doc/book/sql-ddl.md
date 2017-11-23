@@ -56,6 +56,13 @@ $table->addConstraint(
     new Constraint\UniqueKey(['name', 'foo'], 'my_unique_key')
 );
 ```
+You can also use the `AUTO_INCREMENT` attribute for MySQL:
+```php
+use Zend\Db\Sql\Ddl\Column;
+
+$column = new Column\Integer('id');
+$column->setOption('AUTO_INCREMENT', true);
+```
 
 ## Altering Tables
 
