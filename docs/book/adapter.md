@@ -397,32 +397,32 @@ use Iterator;
 class ParameterContainer implements Iterator, ArrayAccess, Countable
 {
     public function __construct(array $data = [])
-    
+
     /** methods to interact with values */
     public function offsetExists(string|int $name) : bool;
     public function offsetGet(string|int $name) : mixed;
     public function offsetSetReference(string|int $name, string|int $from) : void;
     public function offsetSet(string|int $name, mixed $value, mixed $errata = null, int $maxLength = null) : void;
     public function offsetUnset(string|int $name) : void;
-    
+
     /** set values from array (will reset first) */
     public function setFromArray(array $data) : ParameterContainer;
-    
+
     /** methods to interact with value errata */
     public function offsetSetErrata(string|int $name, mixed $errata) : void;
     public function offsetGetErrata(string|int $name) : mixed;
     public function offsetHasErrata(string|int $name) : bool;
     public function offsetUnsetErrata(string|int $name) : void;
-    
+
     /** errata only iterator */
     public function getErrataIterator() : ArrayIterator;
-    
+
     /** get array with named keys */
     public function getNamedArray() : array;
-    
+
     /** get array with int keys, ordered by position */
     public function getPositionalArray() : array;
-    
+
     /** iterator: */
     public function count() : int;
     public function current() : mixed;
@@ -430,7 +430,7 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
     public function key() : string|int;
     public function valid() : bool;
     public function rewind() : void;
-    
+
     /** merge existing array of parameters with existing parameters */
     public function merge(array $parameters) : ParameterContainer;
 }

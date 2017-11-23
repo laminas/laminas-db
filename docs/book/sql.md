@@ -236,7 +236,7 @@ If you provide an array with integer indices, the value can be one of:
 
 - a string; this will be used to build a `Predicate\Expression`.
 - any object implementing `Predicate\PredicateInterface`.
-    
+
 In either case, the instances are pushed onto the `Where` stack with the
 `$combination` provided (defaulting to `AND`).
 
