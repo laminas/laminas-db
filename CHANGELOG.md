@@ -23,6 +23,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#205](https://github.com/zendframework/zend-db/pull/205) fixes the spaces in
   ORDER BY syntax.
+- [#261](https://github.com/zendframework/zend-db/pull/261) fixes Exception in
+  Firebird driver doesn't support lastInsertId.  
 
 ## 2.8.3 - TBD
 
