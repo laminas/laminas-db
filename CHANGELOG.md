@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file, in reverse 
   in ALTER TABLE syntax for MySQL
 - [#223](https://github.com/zendframework/zend-db/pull/223) added support for
   empty values set with IN predicate
+- [#271](https://github.com/zendframework/zend-db/pull/271) added support for
+  dash character on MySQL identifier 
 - [#273](https://github.com/zendframework/zend-db/pull/273) added support for
   implementing an error handler for db2_prepare
 - [#275](https://github.com/zendframework/zend-db/pull/275) added support for
