@@ -29,7 +29,7 @@ class SqlsrvTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerConnection
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerConnection
      */
     public function testRegisterConnection()
     {
@@ -47,7 +47,7 @@ class SqlsrvTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerStatementPrototype
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerStatementPrototype
      */
     public function testRegisterStatementPrototype()
     {
@@ -66,7 +66,7 @@ class SqlsrvTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerResultPrototype
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerResultPrototype
      */
     public function testRegisterResultPrototype()
     {
@@ -84,7 +84,7 @@ class SqlsrvTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getDatabasePlatformName
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {
@@ -95,7 +95,7 @@ class SqlsrvTest extends TestCase
 
     /**
      * @depends testRegisterConnection
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getConnection
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getConnection
      */
     public function testGetConnection($mockConnection)
     {
@@ -105,7 +105,7 @@ class SqlsrvTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::createStatement
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::createStatement
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateStatement()
@@ -117,7 +117,7 @@ class SqlsrvTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::createResult
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::createResult
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateResult()
@@ -129,7 +129,7 @@ class SqlsrvTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getPrepareType
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getPrepareType
      * @todo   Implement testGetPrepareType().
      */
     public function testGetPrepareType()
@@ -141,7 +141,7 @@ class SqlsrvTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::formatParameterName
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::formatParameterName
      * @todo   Implement testFormatParameterName().
      */
     public function testFormatParameterName()
@@ -153,7 +153,7 @@ class SqlsrvTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getLastGeneratedValue
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getLastGeneratedValue
      * @todo   Implement testGetLastGeneratedValue().
      */
     public function testGetLastGeneratedValue()

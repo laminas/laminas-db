@@ -30,7 +30,7 @@ class ProfilerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Profiler\Profiler::profilerStart
+     * @covers \Zend\Db\Adapter\Profiler\Profiler::profilerStart
      */
     public function testProfilerStart()
     {
@@ -45,7 +45,7 @@ class ProfilerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Profiler\Profiler::profilerFinish
+     * @covers \Zend\Db\Adapter\Profiler\Profiler::profilerFinish
      */
     public function testProfilerFinish()
     {
@@ -60,7 +60,7 @@ class ProfilerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Profiler\Profiler::getLastProfile
+     * @covers \Zend\Db\Adapter\Profiler\Profiler::getLastProfile
      */
     public function testGetLastProfile()
     {
@@ -75,7 +75,7 @@ class ProfilerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Profiler\Profiler::getProfiles
+     * @covers \Zend\Db\Adapter\Profiler\Profiler::getProfiles
      */
     public function testGetProfiles()
     {

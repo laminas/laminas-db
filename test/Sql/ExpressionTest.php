@@ -21,7 +21,7 @@ use Zend\Db\Sql\Expression;
 class ExpressionTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Expression::setExpression
+     * @covers \Zend\Db\Sql\Expression::setExpression
      * @return Expression
      */
     public function testSetExpression()
@@ -33,7 +33,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::setExpression
+     * @covers \Zend\Db\Sql\Expression::setExpression
      */
     public function testSetExpressionException()
     {
@@ -44,7 +44,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::getExpression
+     * @covers \Zend\Db\Sql\Expression::getExpression
      * @depends testSetExpression
      */
     public function testGetExpression(Expression $expression)
@@ -53,7 +53,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::setParameters
+     * @covers \Zend\Db\Sql\Expression::setParameters
      */
     public function testSetParameters()
     {
@@ -64,7 +64,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::setParameters
+     * @covers \Zend\Db\Sql\Expression::setParameters
      */
     public function testSetParametersException()
     {
@@ -76,7 +76,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::getParameters
+     * @covers \Zend\Db\Sql\Expression::getParameters
      * @depends testSetParameters
      */
     public function testGetParameters(Expression $expression)
@@ -85,7 +85,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::setTypes
+     * @covers \Zend\Db\Sql\Expression::setTypes
      */
     public function testSetTypes()
     {
@@ -100,7 +100,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::getTypes
+     * @covers \Zend\Db\Sql\Expression::getTypes
      * @depends testSetTypes
      */
     public function testGetTypes(Expression $expression)
@@ -112,7 +112,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::getExpressionData
+     * @covers \Zend\Db\Sql\Expression::getExpressionData
      */
     public function testGetExpressionData()
     {

@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Constraint\Check;
 class CheckTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\Check::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Constraint\Check::getExpressionData
      */
     public function testGetExpressionData()
     {

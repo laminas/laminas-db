@@ -21,8 +21,8 @@ class SelectDecoratorTest extends TestCase
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare
      *                            a proper limit/offset sql statement
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
      */
     public function testPrepareStatement(
@@ -62,8 +62,8 @@ class SelectDecoratorTest extends TestCase
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare
      *                            a proper limit/offset sql statement
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::getSqlString
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::getSqlString
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
      */
     public function testGetSqlString(Select $select, $ignored, $alsoIgnored, $expectedSql)

@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Time;
 class TimeTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Time::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Time::getExpressionData
      */
     public function testGetExpressionData()
     {

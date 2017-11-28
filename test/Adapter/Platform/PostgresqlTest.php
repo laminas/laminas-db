@@ -30,7 +30,7 @@ class PostgresqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::getName
+     * @covers \Zend\Db\Adapter\Platform\Postgresql::getName
      */
     public function testGetName()
     {
@@ -38,7 +38,7 @@ class PostgresqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::getQuoteIdentifierSymbol
+     * @covers \Zend\Db\Adapter\Platform\Postgresql::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -46,7 +46,7 @@ class PostgresqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteIdentifier
+     * @covers \Zend\Db\Adapter\Platform\Postgresql::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -58,7 +58,7 @@ class PostgresqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteIdentifierChain
+     * @covers \Zend\Db\Adapter\Platform\Postgresql::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -72,7 +72,7 @@ class PostgresqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::getQuoteValueSymbol
+     * @covers \Zend\Db\Adapter\Platform\Postgresql::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -80,7 +80,7 @@ class PostgresqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\Postgresql::quoteValue
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
@@ -93,7 +93,7 @@ class PostgresqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\Postgresql::quoteValue
      */
     public function testQuoteValue()
     {
@@ -110,7 +110,7 @@ class PostgresqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteTrustedValue
+     * @covers \Zend\Db\Adapter\Platform\Postgresql::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -129,7 +129,7 @@ class PostgresqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteValueList
+     * @covers \Zend\Db\Adapter\Platform\Postgresql::quoteValueList
      */
     public function testQuoteValueList()
     {
@@ -142,7 +142,7 @@ class PostgresqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::getIdentifierSeparator
+     * @covers \Zend\Db\Adapter\Platform\Postgresql::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -150,7 +150,7 @@ class PostgresqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteIdentifierInFragment
+     * @covers \Zend\Db\Adapter\Platform\Postgresql::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {

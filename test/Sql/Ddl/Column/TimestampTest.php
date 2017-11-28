@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Timestamp;
 class TimestampTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Timestamp::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Timestamp::getExpressionData
      */
     public function testGetExpressionData()
     {

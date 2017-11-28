@@ -30,7 +30,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test offsetExists() returns proper values via method call and isset()
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetExists
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetExists
      */
     public function testOffsetExists()
     {
@@ -42,7 +42,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test offsetGet() returns proper values via method call and array access
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetGet
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetGet
      */
     public function testOffsetGet()
     {
@@ -55,7 +55,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test offsetSet() works via method call and array access
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetSet
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetSet
      */
     public function testOffsetSet()
     {
@@ -106,7 +106,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test offsetUnset() works via method call and array access
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetUnset
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetUnset
      */
     public function testOffsetUnset()
     {
@@ -120,7 +120,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test setFromArray() will populate the container
-     * @covers Zend\Db\Adapter\ParameterContainer::setFromArray
+     * @covers \Zend\Db\Adapter\ParameterContainer::setFromArray
      */
     public function testSetFromArray()
     {
@@ -130,9 +130,9 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test offsetSetMaxLength() will persist errata data
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetSetMaxLength
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetSetMaxLength
      * @testdox unit test: Test offsetGetMaxLength() return persisted errata data, if it exists
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetGetMaxLength
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetGetMaxLength
      */
     public function testOffsetSetAndGetMaxLength()
     {
@@ -142,7 +142,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test offsetHasMaxLength() will check if errata exists for a particular key
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetHasMaxLength
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetHasMaxLength
      */
     public function testOffsetHasMaxLength()
     {
@@ -152,7 +152,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test offsetUnsetMaxLength() will unset data for a particular key
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetUnsetMaxLength
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetUnsetMaxLength
      */
     public function testOffsetUnsetMaxLength()
     {
@@ -163,7 +163,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test getMaxLengthIterator() will return an iterator for the errata data
-     * @covers Zend\Db\Adapter\ParameterContainer::getMaxLengthIterator
+     * @covers \Zend\Db\Adapter\ParameterContainer::getMaxLengthIterator
      */
     public function testGetMaxLengthIterator()
     {
@@ -174,7 +174,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test offsetSetErrata() will persist errata data
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetSetErrata
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetSetErrata
      */
     public function testOffsetSetErrata()
     {
@@ -184,7 +184,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test offsetGetErrata() return persisted errata data, if it exists
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetGetErrata
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetGetErrata
      */
     public function testOffsetGetErrata()
     {
@@ -194,7 +194,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test offsetHasErrata() will check if errata exists for a particular key
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetHasErrata
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetHasErrata
      */
     public function testOffsetHasErrata()
     {
@@ -204,7 +204,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test offsetUnsetErrata() will unset data for a particular key
-     * @covers Zend\Db\Adapter\ParameterContainer::offsetUnsetErrata
+     * @covers \Zend\Db\Adapter\ParameterContainer::offsetUnsetErrata
      */
     public function testOffsetUnsetErrata()
     {
@@ -215,7 +215,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test getErrataIterator() will return an iterator for the errata data
-     * @covers Zend\Db\Adapter\ParameterContainer::getErrataIterator
+     * @covers \Zend\Db\Adapter\ParameterContainer::getErrataIterator
      */
     public function testGetErrataIterator()
     {
@@ -226,7 +226,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test getNamedArray()
-     * @covers Zend\Db\Adapter\ParameterContainer::getNamedArray
+     * @covers \Zend\Db\Adapter\ParameterContainer::getNamedArray
      */
     public function testGetNamedArray()
     {
@@ -236,7 +236,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test count() returns the proper count
-     * @covers Zend\Db\Adapter\ParameterContainer::count
+     * @covers \Zend\Db\Adapter\ParameterContainer::count
      */
     public function testCount()
     {
@@ -245,7 +245,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test current() returns the current element when used as an iterator
-     * @covers Zend\Db\Adapter\ParameterContainer::current
+     * @covers \Zend\Db\Adapter\ParameterContainer::current
      */
     public function testCurrent()
     {
@@ -255,7 +255,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test next() increases the pointer when used as an iterator
-     * @covers Zend\Db\Adapter\ParameterContainer::next
+     * @covers \Zend\Db\Adapter\ParameterContainer::next
      */
     public function testNext()
     {
@@ -266,7 +266,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test key() returns the name of the current item's name
-     * @covers Zend\Db\Adapter\ParameterContainer::key
+     * @covers \Zend\Db\Adapter\ParameterContainer::key
      */
     public function testKey()
     {
@@ -275,7 +275,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test valid() returns whether the iterators current position is valid
-     * @covers Zend\Db\Adapter\ParameterContainer::valid
+     * @covers \Zend\Db\Adapter\ParameterContainer::valid
      */
     public function testValid()
     {
@@ -286,7 +286,7 @@ class ParameterContainerTest extends TestCase
 
     /**
      * @testdox unit test: Test rewind() resets the iterators pointer
-     * @covers Zend\Db\Adapter\ParameterContainer::rewind
+     * @covers \Zend\Db\Adapter\ParameterContainer::rewind
      */
     public function testRewind()
     {

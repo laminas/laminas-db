@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Text;
 class TextTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Text::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Text::getExpressionData
      */
     public function testGetExpressionData()
     {

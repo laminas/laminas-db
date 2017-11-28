@@ -28,7 +28,7 @@ class AbstractResultSetIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::current
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::current
      */
     public function testCurrentCallsDataSourceCurrentAsManyTimesWithoutBuffer()
     {
@@ -42,7 +42,7 @@ class AbstractResultSetIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::current
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::current
      */
     public function testCurrentCallsDataSourceCurrentOnceWithBuffer()
     {

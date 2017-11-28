@@ -17,7 +17,7 @@ use Zend\Hydrator\ClassMethods;
 class HydratingResultSetTest extends TestCase
 {
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::setObjectPrototype
+     * @covers \Zend\Db\ResultSet\HydratingResultSet::setObjectPrototype
      */
     public function testSetObjectPrototype()
     {
@@ -27,7 +27,7 @@ class HydratingResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::getObjectPrototype
+     * @covers \Zend\Db\ResultSet\HydratingResultSet::getObjectPrototype
      */
     public function testGetObjectPrototype()
     {
@@ -36,7 +36,7 @@ class HydratingResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::setHydrator
+     * @covers \Zend\Db\ResultSet\HydratingResultSet::setHydrator
      */
     public function testSetHydrator()
     {
@@ -45,7 +45,7 @@ class HydratingResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::getHydrator
+     * @covers \Zend\Db\ResultSet\HydratingResultSet::getHydrator
      */
     public function testGetHydrator()
     {
@@ -54,7 +54,7 @@ class HydratingResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::current
+     * @covers \Zend\Db\ResultSet\HydratingResultSet::current
      */
     public function testCurrent()
     {
@@ -67,7 +67,7 @@ class HydratingResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::toArray
+     * @covers \Zend\Db\ResultSet\HydratingResultSet::toArray
      * @todo   Implement testToArray().
      */
     public function testToArray()

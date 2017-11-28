@@ -117,7 +117,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::getTable
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::getTable
      */
     public function testGetTable()
     {
@@ -125,7 +125,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::getAdapter
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::getAdapter
      */
     public function testGetAdapter()
     {
@@ -133,7 +133,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::getSql
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::getSql
      */
     public function testGetSql()
     {
@@ -141,7 +141,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::getResultSetPrototype
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::getResultSetPrototype
      */
     public function testGetSelectResultPrototype()
     {
@@ -149,9 +149,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::select
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::selectWith
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::executeSelect
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::select
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::selectWith
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeSelect
      */
     public function testSelectWithNoWhere()
     {
@@ -163,9 +163,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::select
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::selectWith
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::executeSelect
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::select
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::selectWith
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeSelect
      */
     public function testSelectWithWhereString()
     {
@@ -187,9 +187,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::select
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::selectWith
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::executeSelect
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::select
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::selectWith
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeSelect
      *
      * This is a test for the case when a valid $select is built using an aliased table name, then used
      * with AbstractTableGateway::selectWith (or AbstractTableGateway::select).
@@ -231,9 +231,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::insert
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::insertWith
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::executeInsert
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::insert
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::insertWith
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeInsert
      */
     public function testInsert()
     {
@@ -253,9 +253,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::update
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::updateWith
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::update
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::updateWith
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
      */
     public function testUpdate()
     {
@@ -271,9 +271,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::update
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::updateWith
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::update
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::updateWith
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
      */
     public function testUpdateWithJoin()
     {
@@ -301,9 +301,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::update
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::updateWith
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::update
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::updateWith
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
      */
     public function testUpdateWithJoinDefaultType()
     {
@@ -330,9 +330,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::update
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::updateWith
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::update
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::updateWith
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
      */
     public function testUpdateWithNoCriteria()
     {
@@ -343,9 +343,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::delete
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::deleteWith
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::executeDelete
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::delete
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::deleteWith
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeDelete
      */
     public function testDelete()
     {
@@ -361,7 +361,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::getLastInsertValue
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::getLastInsertValue
      */
     public function testGetLastInsertValue()
     {
@@ -370,7 +370,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::__get
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::__get
      */
     // @codingStandardsIgnoreStart
     public function test__get()
@@ -384,7 +384,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\TableGateway\AbstractTableGateway::__clone
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::__clone
      */
     // @codingStandardsIgnoreStart
     public function test__clone()

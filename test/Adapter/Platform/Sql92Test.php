@@ -30,7 +30,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sql92::getName
+     * @covers \Zend\Db\Adapter\Platform\Sql92::getName
      */
     public function testGetName()
     {
@@ -38,7 +38,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sql92::getQuoteIdentifierSymbol
+     * @covers \Zend\Db\Adapter\Platform\Sql92::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -46,7 +46,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sql92::quoteIdentifier
+     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -54,7 +54,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sql92::quoteIdentifierChain
+     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -64,7 +64,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sql92::getQuoteValueSymbol
+     * @covers \Zend\Db\Adapter\Platform\Sql92::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -72,7 +72,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sql92::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteValue
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
@@ -85,7 +85,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sql92::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteValue
      */
     public function testQuoteValue()
     {
@@ -102,7 +102,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sql92::quoteTrustedValue
+     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -121,7 +121,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sql92::quoteValueList
+     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteValueList
      */
     public function testQuoteValueList()
     {
@@ -134,7 +134,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sql92::getIdentifierSeparator
+     * @covers \Zend\Db\Adapter\Platform\Sql92::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -142,7 +142,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sql92::quoteIdentifierInFragment
+     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {

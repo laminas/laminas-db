@@ -29,7 +29,7 @@ class Oci8Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::registerConnection
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::registerConnection
      */
     public function testRegisterConnection()
     {
@@ -47,7 +47,7 @@ class Oci8Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::registerStatementPrototype
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::registerStatementPrototype
      */
     public function testRegisterStatementPrototype()
     {
@@ -66,7 +66,7 @@ class Oci8Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::registerResultPrototype
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::registerResultPrototype
      */
     public function testRegisterResultPrototype()
     {
@@ -84,7 +84,7 @@ class Oci8Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::getDatabasePlatformName
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {
@@ -95,7 +95,7 @@ class Oci8Test extends TestCase
 
     /**
      * @depends testRegisterConnection
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::getConnection
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::getConnection
      */
     public function testGetConnection($mockConnection)
     {
@@ -105,7 +105,7 @@ class Oci8Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::createStatement
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::createStatement
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateStatement()
@@ -117,7 +117,7 @@ class Oci8Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::createResult
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::createResult
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateResult()
@@ -129,7 +129,7 @@ class Oci8Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::getPrepareType
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::getPrepareType
      * @todo   Implement testGetPrepareType().
      */
     public function testGetPrepareType()
@@ -141,7 +141,7 @@ class Oci8Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::formatParameterName
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::formatParameterName
      * @todo   Implement testFormatParameterName().
      */
     public function testFormatParameterName()
@@ -153,7 +153,7 @@ class Oci8Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::getLastGeneratedValue
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::getLastGeneratedValue
      * @todo   Implement testGetLastGeneratedValue().
      */
     public function testGetLastGeneratedValue()

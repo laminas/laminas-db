@@ -22,7 +22,7 @@ class AbstractConstraintTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\AbstractConstraint::setColumns
+     * @covers \Zend\Db\Sql\Ddl\Constraint\AbstractConstraint::setColumns
      */
     public function testSetColumns()
     {
@@ -31,7 +31,7 @@ class AbstractConstraintTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\AbstractConstraint::addColumn
+     * @covers \Zend\Db\Sql\Ddl\Constraint\AbstractConstraint::addColumn
      */
     public function testAddColumn()
     {
@@ -40,7 +40,7 @@ class AbstractConstraintTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\AbstractConstraint::getColumns
+     * @covers \Zend\Db\Sql\Ddl\Constraint\AbstractConstraint::getColumns
      */
     public function testGetColumns()
     {

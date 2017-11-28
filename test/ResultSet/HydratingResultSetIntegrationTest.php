@@ -15,7 +15,7 @@ use Zend\Db\ResultSet\HydratingResultSet;
 class HydratingResultSetIntegrationTest extends TestCase
 {
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::current
+     * @covers \Zend\Db\ResultSet\HydratingResultSet::current
      */
     public function testCurrentWillReturnBufferedRow()
     {

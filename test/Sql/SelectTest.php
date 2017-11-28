@@ -24,7 +24,7 @@ use ZendTest\Db\TestAsset\TrustingSql92Platform;
 class SelectTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Select::__construct
+     * @covers \Zend\Db\Sql\Select::__construct
      */
     public function testConstruct()
     {
@@ -34,7 +34,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test from() returns Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::from
+     * @covers \Zend\Db\Sql\Select::from
      */
     public function testFrom()
     {
@@ -47,7 +47,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via from()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testFrom
      */
     public function testGetRawStateViaFrom(Select $select)
@@ -57,7 +57,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test quantifier() returns Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::quantifier
+     * @covers \Zend\Db\Sql\Select::quantifier
      */
     public function testQuantifier()
     {
@@ -69,7 +69,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via quantifier()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testQuantifier
      */
     public function testGetRawStateViaQuantifier(Select $select)
@@ -79,7 +79,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test quantifier() accepts expression
-     * @covers Zend\Db\Sql\Select::quantifier
+     * @covers \Zend\Db\Sql\Select::quantifier
      */
     public function testQuantifierParameterExpressionInterface()
     {
@@ -94,7 +94,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test columns() returns Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::columns
+     * @covers \Zend\Db\Sql\Select::columns
      */
     public function testColumns()
     {
@@ -107,7 +107,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test isTableReadOnly() returns correct state for read only
-     * @covers Zend\Db\Sql\Select::isTableReadOnly
+     * @covers \Zend\Db\Sql\Select::isTableReadOnly
      */
     public function testIsTableReadOnly()
     {
@@ -120,7 +120,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via columns()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testColumns
      */
     public function testGetRawStateViaColumns(Select $select)
@@ -130,7 +130,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test join() returns same Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::join
+     * @covers \Zend\Db\Sql\Select::join
      */
     public function testJoin()
     {
@@ -143,7 +143,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test join() exception with bad join
-     * @covers Zend\Db\Sql\Select::join
+     * @covers \Zend\Db\Sql\Select::join
      */
     public function testBadJoin()
     {
@@ -155,7 +155,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test processJoins() exception with bad join name
-     * @covers Zend\Db\Sql\Select::processJoins
+     * @covers \Zend\Db\Sql\Select::processJoins
      */
     public function testBadJoinName()
     {
@@ -182,7 +182,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via join()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testJoin
      */
     public function testGetRawStateViaJoin(Select $select)
@@ -200,7 +200,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test where() returns Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereReturnsSameSelectObject()
     {
@@ -210,7 +210,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test where() will accept a string for the predicate to create an expression predicate
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsString()
     {
@@ -220,7 +220,7 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertEquals(1, count($predicates));
+        $this->assertCount(1, $predicates);
         $this->assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[0][1]);
         $this->assertEquals(Where::OP_AND, $predicates[0][0]);
         $this->assertEquals('x = ?', $predicates[0][1]->getExpression());
@@ -237,7 +237,7 @@ class SelectTest extends TestCase
     /**
      * @testdox unit test: Test where() will accept an array with a string key (containing ?) used as an
      *                     expression with placeholder
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsAssociativeArrayContainingReplacementCharacter()
     {
@@ -247,7 +247,7 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertEquals(1, count($predicates));
+        $this->assertCount(1, $predicates);
         $this->assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[0][1]);
         $this->assertEquals(Where::OP_AND, $predicates[0][0]);
         $this->assertEquals('foo > ?', $predicates[0][1]->getExpression());
@@ -257,7 +257,7 @@ class SelectTest extends TestCase
     /**
      * @testdox unit test: Test where() will accept any array with string key (without ?) to be used
      *                     as Operator predicate
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsAssociativeArrayNotContainingReplacementCharacter()
     {
@@ -267,7 +267,7 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertEquals(2, count($predicates));
+        $this->assertCount(2, $predicates);
 
         $this->assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[0][1]);
         $this->assertEquals(Where::OP_AND, $predicates[0][0]);
@@ -289,7 +289,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test where() will accept any array with string key (without ?) with Predicate throw Exception
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsAssociativeArrayIsPredicate()
     {
@@ -305,7 +305,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test where() will accept an indexed array to be used by joining string expressions
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsIndexedArray()
     {
@@ -315,7 +315,7 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertEquals(1, count($predicates));
+        $this->assertCount(1, $predicates);
 
         $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
         $this->assertEquals(Where::OP_AND, $predicates[0][0]);
@@ -325,7 +325,7 @@ class SelectTest extends TestCase
     /**
      * @testdox unit test: Test where() will accept an indexed array to be used by joining string expressions,
      *                     combined by OR
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsIndexedArrayArgument2IsOr()
     {
@@ -335,7 +335,7 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertEquals(1, count($predicates));
+        $this->assertCount(1, $predicates);
 
         $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
         $this->assertEquals(Where::OP_OR, $predicates[0][0]);
@@ -344,7 +344,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test where() will accept a closure to be executed with Where object as argument
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsClosure()
     {
@@ -358,7 +358,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test where() will accept any Predicate object as-is
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsPredicate()
     {
@@ -377,7 +377,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test where() will accept a Where object
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsWhereObject()
     {
@@ -389,7 +389,7 @@ class SelectTest extends TestCase
     /**
      * @author Rob Allen
      * @testdox unit test: Test order()
-     * @covers Zend\Db\Sql\Select::order
+     * @covers \Zend\Db\Sql\Select::order
      */
     public function testOrder()
     {
@@ -435,7 +435,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test order() correctly splits parameters.
-     * @covers Zend\Db\Sql\Select::order
+     * @covers \Zend\Db\Sql\Select::order
      */
     public function testOrderCorrectlySplitsParameter()
     {
@@ -449,7 +449,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox: unit test: test limit()
-     * @covers Zend\Db\Sql\Select::limit
+     * @covers \Zend\Db\Sql\Select::limit
      */
     public function testLimit()
     {
@@ -460,7 +460,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox: unit test: Test getRawState() returns information populated via limit()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testLimit
      */
     public function testGetRawStateViaLimit(Select $select)
@@ -470,7 +470,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox: unit test: test limit() throws execption when invalid parameter passed
-     * @covers Zend\Db\Sql\Select::limit
+     * @covers \Zend\Db\Sql\Select::limit
      */
     public function testLimitExceptionOnInvalidParameter()
     {
@@ -482,7 +482,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox: unit test: test offset()
-     * @covers Zend\Db\Sql\Select::offset
+     * @covers \Zend\Db\Sql\Select::offset
      */
     public function testOffset()
     {
@@ -493,7 +493,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox: unit test: Test getRawState() returns information populated via offset()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testOffset
      */
     public function testGetRawStateViaOffset(Select $select)
@@ -503,7 +503,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox: unit test: test offset() throws exception when invalid parameter passed
-     * @covers Zend\Db\Sql\Select::offset
+     * @covers \Zend\Db\Sql\Select::offset
      */
     public function testOffsetExceptionOnInvalidParameter()
     {
@@ -516,7 +516,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test group() returns same Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::group
+     * @covers \Zend\Db\Sql\Select::group
      */
     public function testGroup()
     {
@@ -529,7 +529,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via group()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testGroup
      */
     public function testGetRawStateViaGroup(Select $select)
@@ -542,7 +542,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test having() returns same Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::having
+     * @covers \Zend\Db\Sql\Select::having
      */
     public function testHaving()
     {
@@ -555,7 +555,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test having() returns same Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::having
+     * @covers \Zend\Db\Sql\Select::having
      */
     public function testHavingArgument1IsHavingObject()
     {
@@ -570,7 +570,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via having()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testHaving
      */
     public function testGetRawStateViaHaving(Select $select)
@@ -580,7 +580,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test combine() returns same Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::combine
+     * @covers \Zend\Db\Sql\Select::combine
      */
     public function testCombine()
     {
@@ -594,7 +594,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via combine()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testCombine
      */
     public function testGetRawStateViaCombine(Select $select)
@@ -608,7 +608,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test reset() resets internal stat of Select object, based on input
-     * @covers Zend\Db\Sql\Select::reset
+     * @covers \Zend\Db\Sql\Select::reset
      */
     public function testReset()
     {
@@ -681,7 +681,7 @@ class SelectTest extends TestCase
     /**
      * @testdox unit test: Test prepareStatement() will produce expected sql and parameters based on
      *                     a variety of provided arguments [uses data provider]
-     * @covers Zend\Db\Sql\Select::prepareStatement
+     * @covers \Zend\Db\Sql\Select::prepareStatement
      * @dataProvider providerData
      */
     public function testPrepareStatement(
@@ -735,7 +735,7 @@ class SelectTest extends TestCase
     /**
      * @testdox unit test: Test getSqlString() will produce expected sql and parameters based on
      *                     a variety of provided arguments [uses data provider]
-     * @covers Zend\Db\Sql\Select::getSqlString
+     * @covers \Zend\Db\Sql\Select::getSqlString
      * @dataProvider providerData
      */
     public function testGetSqlString(Select $select, $unused, $unused2, $expectedSqlString)
@@ -745,7 +745,7 @@ class SelectTest extends TestCase
 
     /**
      * @testdox unit test: Test __get() returns expected objects magically
-     * @covers Zend\Db\Sql\Select::__get
+     * @covers \Zend\Db\Sql\Select::__get
      */
     public function testMagicAccessor()
     {
@@ -756,7 +756,7 @@ class SelectTest extends TestCase
     /**
      * @testdox unit test: Test __clone() will clone the where object so that this select can be used
      *                     in multiple contexts
-     * @covers Zend\Db\Sql\Select::__clone
+     * @covers \Zend\Db\Sql\Select::__clone
      */
     public function testCloning()
     {
@@ -776,15 +776,15 @@ class SelectTest extends TestCase
      * @testdox unit test: Text process*() methods will return proper array when internally called,
      *                     part of extension API
      * @dataProvider providerData
-     * @covers Zend\Db\Sql\Select::processSelect
-     * @covers Zend\Db\Sql\Select::processJoins
-     * @covers Zend\Db\Sql\Select::processWhere
-     * @covers Zend\Db\Sql\Select::processGroup
-     * @covers Zend\Db\Sql\Select::processHaving
-     * @covers Zend\Db\Sql\Select::processOrder
-     * @covers Zend\Db\Sql\Select::processLimit
-     * @covers Zend\Db\Sql\Select::processOffset
-     * @covers Zend\Db\Sql\Select::processCombine
+     * @covers \Zend\Db\Sql\Select::processSelect
+     * @covers \Zend\Db\Sql\Select::processJoins
+     * @covers \Zend\Db\Sql\Select::processWhere
+     * @covers \Zend\Db\Sql\Select::processGroup
+     * @covers \Zend\Db\Sql\Select::processHaving
+     * @covers \Zend\Db\Sql\Select::processOrder
+     * @covers \Zend\Db\Sql\Select::processLimit
+     * @covers \Zend\Db\Sql\Select::processOffset
+     * @covers \Zend\Db\Sql\Select::processCombine
      */
     public function testProcessMethods(Select $select, $unused, $unused2, $unused3, $internalTests)
     {

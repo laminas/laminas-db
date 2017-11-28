@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Boolean;
 class BooleanTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Boolean::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Boolean::getExpressionData
      */
     public function testGetExpressionData()
     {
@@ -27,7 +27,7 @@ class BooleanTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Boolean
+     * @covers \Zend\Db\Sql\Ddl\Column\Boolean
      *
      * @group 6257
      */

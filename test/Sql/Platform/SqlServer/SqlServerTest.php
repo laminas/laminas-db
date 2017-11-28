@@ -16,7 +16,7 @@ class SqlServerTest extends TestCase
 {
     /**
      * @testdox unit test / object test: Test SqlServer object has Select proxy
-     * @covers Zend\Db\Sql\Platform\SqlServer\SqlServer::__construct
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SqlServer::__construct
      */
     public function testConstruct()
     {

@@ -30,7 +30,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::getName
+     * @covers \Zend\Db\Adapter\Platform\Mysql::getName
      */
     public function testGetName()
     {
@@ -38,7 +38,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::getQuoteIdentifierSymbol
+     * @covers \Zend\Db\Adapter\Platform\Mysql::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -46,7 +46,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteIdentifier
+     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -56,7 +56,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteIdentifierChain
+     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -73,7 +73,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::getQuoteValueSymbol
+     * @covers \Zend\Db\Adapter\Platform\Mysql::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -81,7 +81,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteValue
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
@@ -94,7 +94,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteValue
      */
     public function testQuoteValue()
     {
@@ -111,7 +111,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteTrustedValue
+     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -130,7 +130,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteValueList
+     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteValueList
      */
     public function testQuoteValueList()
     {
@@ -143,7 +143,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::getIdentifierSeparator
+     * @covers \Zend\Db\Adapter\Platform\Mysql::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -151,7 +151,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteIdentifierInFragment
+     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {

@@ -30,7 +30,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::getName
+     * @covers \Zend\Db\Adapter\Platform\IbmDb2::getName
      */
     public function testGetName()
     {
@@ -38,7 +38,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::getQuoteIdentifierSymbol
+     * @covers \Zend\Db\Adapter\Platform\IbmDb2::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -46,7 +46,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteIdentifier
+     * @covers \Zend\Db\Adapter\Platform\IbmDb2::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -57,7 +57,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteIdentifierChain
+     * @covers \Zend\Db\Adapter\Platform\IbmDb2::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -75,7 +75,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::getQuoteValueSymbol
+     * @covers \Zend\Db\Adapter\Platform\IbmDb2::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -83,7 +83,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\IbmDb2::quoteValue
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
@@ -98,7 +98,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\IbmDb2::quoteValue
      */
     public function testQuoteValue()
     {
@@ -115,7 +115,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteTrustedValue
+     * @covers \Zend\Db\Adapter\Platform\IbmDb2::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -132,7 +132,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteValueList
+     * @covers \Zend\Db\Adapter\Platform\IbmDb2::quoteValueList
      */
     public function testQuoteValueList()
     {
@@ -147,7 +147,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::getIdentifierSeparator
+     * @covers \Zend\Db\Adapter\Platform\IbmDb2::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -158,7 +158,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteIdentifierInFragment
+     * @covers \Zend\Db\Adapter\Platform\IbmDb2::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {

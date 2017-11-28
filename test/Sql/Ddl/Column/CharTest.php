@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Char;
 class CharTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Char::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Char::getExpressionData
      */
     public function testGetExpressionData()
     {

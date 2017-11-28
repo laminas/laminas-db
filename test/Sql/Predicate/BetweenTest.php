@@ -25,10 +25,10 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::__construct
-     * @covers Zend\Db\Sql\Predicate\Between::getIdentifier
-     * @covers Zend\Db\Sql\Predicate\Between::getMinValue
-     * @covers Zend\Db\Sql\Predicate\Between::getMaxValue
+     * @covers \Zend\Db\Sql\Predicate\Between::__construct
+     * @covers \Zend\Db\Sql\Predicate\Between::getIdentifier
+     * @covers \Zend\Db\Sql\Predicate\Between::getMinValue
+     * @covers \Zend\Db\Sql\Predicate\Between::getMaxValue
      */
     public function testConstructorYieldsNullIdentifierMinimumAndMaximumValues()
     {
@@ -38,10 +38,10 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::__construct
-     * @covers Zend\Db\Sql\Predicate\Between::getIdentifier
-     * @covers Zend\Db\Sql\Predicate\Between::getMinValue
-     * @covers Zend\Db\Sql\Predicate\Between::getMaxValue
+     * @covers \Zend\Db\Sql\Predicate\Between::__construct
+     * @covers \Zend\Db\Sql\Predicate\Between::getIdentifier
+     * @covers \Zend\Db\Sql\Predicate\Between::getMinValue
+     * @covers \Zend\Db\Sql\Predicate\Between::getMaxValue
      */
     public function testConstructorCanPassIdentifierMinimumAndMaximumValues()
     {
@@ -62,7 +62,7 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::getSpecification
+     * @covers \Zend\Db\Sql\Predicate\Between::getSpecification
      */
     public function testSpecificationHasSaneDefaultValue()
     {
@@ -72,8 +72,8 @@ class BetweenTest extends TestCase
 
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::setIdentifier
-     * @covers Zend\Db\Sql\Predicate\Between::getIdentifier
+     * @covers \Zend\Db\Sql\Predicate\Between::setIdentifier
+     * @covers \Zend\Db\Sql\Predicate\Between::getIdentifier
      */
     public function testIdentifierIsMutable()
     {
@@ -82,8 +82,8 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::setMinValue
-     * @covers Zend\Db\Sql\Predicate\Between::getMinValue
+     * @covers \Zend\Db\Sql\Predicate\Between::setMinValue
+     * @covers \Zend\Db\Sql\Predicate\Between::getMinValue
      */
     public function testMinValueIsMutable()
     {
@@ -92,8 +92,8 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::setMaxValue
-     * @covers Zend\Db\Sql\Predicate\Between::getMaxValue
+     * @covers \Zend\Db\Sql\Predicate\Between::setMaxValue
+     * @covers \Zend\Db\Sql\Predicate\Between::getMaxValue
      */
     public function testMaxValueIsMutable()
     {
@@ -102,8 +102,8 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::setSpecification
-     * @covers Zend\Db\Sql\Predicate\Between::getSpecification
+     * @covers \Zend\Db\Sql\Predicate\Between::setSpecification
+     * @covers \Zend\Db\Sql\Predicate\Between::getSpecification
      */
     public function testSpecificationIsMutable()
     {
@@ -112,7 +112,7 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::getExpressionData
+     * @covers \Zend\Db\Sql\Predicate\Between::getExpressionData
      */
     public function testRetrievingWherePartsReturnsSpecificationArrayOfIdentifierAndValuesAndArrayOfTypes()
     {

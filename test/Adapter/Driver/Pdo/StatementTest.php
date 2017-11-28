@@ -40,7 +40,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::setDriver
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Statement::setDriver
      */
     public function testSetDriver()
     {
@@ -48,7 +48,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::setParameterContainer
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Statement::setParameterContainer
      */
     public function testSetParameterContainer()
     {
@@ -56,7 +56,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::getParameterContainer
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Statement::getParameterContainer
      * @todo   Implement testGetParameterContainer().
      */
     public function testGetParameterContainer()
@@ -67,7 +67,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::getResource
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Statement::getResource
      */
     public function testGetResource()
     {
@@ -79,7 +79,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::setSql
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Statement::setSql
      */
     public function testSetSql()
     {
@@ -88,7 +88,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::getSql
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Statement::getSql
      */
     public function testGetSql()
     {
@@ -97,7 +97,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Statement::prepare
      * @todo   Implement testPrepare().
      */
     public function testPrepare()
@@ -107,7 +107,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::isPrepared
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Statement::isPrepared
      */
     public function testIsPrepared()
     {
@@ -118,7 +118,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::execute
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Statement::execute
      */
     public function testExecute()
     {

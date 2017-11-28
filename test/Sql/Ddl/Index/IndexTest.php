@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Index\Index;
 class IndexTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Index\Index::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Index\Index::getExpressionData
      */
     public function testGetExpressionData()
     {
@@ -31,7 +31,7 @@ class IndexTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Index\Index::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Index\Index::getExpressionData
      */
     public function testGetExpressionDataWithLength()
     {
@@ -47,7 +47,7 @@ class IndexTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Index\Index::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Index\Index::getExpressionData
      */
     public function testGetExpressionDataWithLengthUnmatched()
     {

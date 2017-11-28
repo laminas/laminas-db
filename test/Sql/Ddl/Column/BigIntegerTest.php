@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\BigInteger;
 class BigIntegerTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\BigInteger::__construct
+     * @covers \Zend\Db\Sql\Ddl\Column\BigInteger::__construct
      */
     public function testObjectConstruction()
     {
@@ -24,7 +24,7 @@ class BigIntegerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::getExpressionData
      */
     public function testGetExpressionData()
     {

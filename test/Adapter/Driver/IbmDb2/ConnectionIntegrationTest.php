@@ -19,7 +19,7 @@ use Zend\Db\Adapter\Driver\IbmDb2\IbmDb2;
 class ConnectionIntegrationTest extends AbstractIntegrationTest
 {
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::getCurrentSchema
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::getCurrentSchema
      */
     public function testGetCurrentSchema()
     {
@@ -28,7 +28,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::setResource
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::setResource
      */
     public function testSetResource()
     {
@@ -46,7 +46,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::getResource
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::getResource
      */
     public function testGetResource()
     {
@@ -59,7 +59,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::connect
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::connect
      */
     public function testConnect()
     {
@@ -72,7 +72,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::isConnected
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::isConnected
      */
     public function testIsConnected()
     {
@@ -86,7 +86,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::disconnect
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::disconnect
      */
     public function testDisconnect()
     {
@@ -98,7 +98,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::beginTransaction
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::beginTransaction
      */
     public function testBeginTransaction()
     {
@@ -114,7 +114,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::commit
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::commit
      */
     public function testCommit()
     {
@@ -135,7 +135,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::rollback
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::rollback
      */
     public function testRollback()
     {
@@ -171,7 +171,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::execute
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::execute
      */
     public function testExecute()
     {
@@ -183,7 +183,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::getLastGeneratedValue
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::getLastGeneratedValue
      */
     public function testGetLastGeneratedValue()
     {

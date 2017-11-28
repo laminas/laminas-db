@@ -95,10 +95,7 @@ class CombineTest extends TestCase
 
     public function testGetSqlStringEmpty()
     {
-        $this->assertSame(
-            null,
-            $this->combine->getSqlString()
-        );
+        $this->assertNull($this->combine->getSqlString());
     }
 
     public function testPrepareStatementWithModifier()

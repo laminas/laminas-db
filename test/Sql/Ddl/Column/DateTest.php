@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Date;
 class DateTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Date::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Date::getExpressionData
      */
     public function testGetExpressionData()
     {

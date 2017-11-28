@@ -28,7 +28,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::initialize
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::initialize
      */
     public function testInitialize()
     {
@@ -48,7 +48,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::initialize
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::initialize
      */
     public function testInitializeDoesNotCallCount()
     {
@@ -59,7 +59,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::buffer
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::buffer
      */
     public function testBuffer()
     {
@@ -79,7 +79,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::isBuffered
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::isBuffered
      */
     public function testIsBuffered()
     {
@@ -90,7 +90,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::getDataSource
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::getDataSource
      */
     public function testGetDataSource()
     {
@@ -104,7 +104,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::getFieldCount
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::getFieldCount
      */
     public function testGetFieldCount()
     {
@@ -116,7 +116,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::next
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::next
      */
     public function testNext()
     {
@@ -130,7 +130,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::key
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::key
      */
     public function testKey()
     {
@@ -149,7 +149,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::current
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::current
      */
     public function testCurrent()
     {
@@ -163,7 +163,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::valid
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::valid
      */
     public function testValid()
     {
@@ -181,7 +181,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::rewind
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::rewind
      */
     public function testRewind()
     {
@@ -195,7 +195,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::count
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::count
      */
     public function testCount()
     {
@@ -209,7 +209,7 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::toArray
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::toArray
      */
     public function testToArray()
     {

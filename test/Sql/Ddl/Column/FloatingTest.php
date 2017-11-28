@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Floating;
 class FloatingTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Floating::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Floating::getExpressionData
      */
     public function testGetExpressionData()
     {

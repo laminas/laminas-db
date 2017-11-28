@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Varchar;
 class VarcharTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Varchar::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Varchar::getExpressionData
      */
     public function testGetExpressionData()
     {

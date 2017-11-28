@@ -33,7 +33,7 @@ class ConnectionTest extends TestCase
     /**
      * Test getResource method if it tries to connect to the database.
      *
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Connection::getResource
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Connection::getResource
      */
     public function testResource()
     {

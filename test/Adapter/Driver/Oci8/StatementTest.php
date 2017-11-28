@@ -43,7 +43,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::setDriver
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::setDriver
      */
     public function testSetDriver()
     {
@@ -51,7 +51,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::setProfiler
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::setProfiler
      */
     public function testSetProfiler()
     {
@@ -59,7 +59,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::getProfiler
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::getProfiler
      */
     public function testGetProfiler()
     {
@@ -69,7 +69,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::initialize
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::initialize
      */
     public function testInitialize()
     {
@@ -78,7 +78,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::setSql
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::setSql
      */
     public function testSetSql()
     {
@@ -87,7 +87,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::setParameterContainer
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::setParameterContainer
      */
     public function testSetParameterContainer()
     {
@@ -95,7 +95,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::getParameterContainer
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::getParameterContainer
      * @todo   Implement testGetParameterContainer().
      */
     public function testGetParameterContainer()
@@ -106,7 +106,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::getResource
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::getResource
      * @todo   Implement testGetResource().
      */
     public function testGetResource()
@@ -118,7 +118,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::getSql
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::getSql
      * @todo   Implement testGetSql().
      */
     public function testGetSql()
@@ -128,7 +128,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::prepare
      * @todo   Implement testPrepare().
      */
     public function testPrepare()
@@ -140,7 +140,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::isPrepared
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::isPrepared
      */
     public function testIsPrepared()
     {
@@ -148,7 +148,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::execute
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::execute
      * @todo   Implement testExecute().
      */
     public function testExecute()

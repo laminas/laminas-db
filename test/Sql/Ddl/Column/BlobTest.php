@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Blob;
 class BlobTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Blob::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Blob::getExpressionData
      */
     public function testGetExpressionData()
     {

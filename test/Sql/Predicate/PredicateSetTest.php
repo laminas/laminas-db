@@ -18,7 +18,7 @@ class PredicateSetTest extends TestCase
     public function testEmptyConstructorYieldsCountOfZero()
     {
         $predicateSet = new PredicateSet();
-        $this->assertEquals(0, count($predicateSet));
+        $this->assertCount(0, $predicateSet);
     }
 
     public function testCombinationIsAndByDefault()
@@ -27,7 +27,7 @@ class PredicateSetTest extends TestCase
         $predicateSet->addPredicate(new IsNull('foo'))
                   ->addPredicate(new IsNull('bar'));
         $parts = $predicateSet->getExpressionData();
-        $this->assertEquals(3, count($parts));
+        $this->assertCount(3, $parts);
         $this->assertContains('AND', $parts[1]);
         $this->assertNotContains('OR', $parts[1]);
     }
@@ -40,7 +40,7 @@ class PredicateSetTest extends TestCase
             new IsNull('bar'),
         ], 'OR');
         $parts = $set->getExpressionData();
-        $this->assertEquals(3, count($parts));
+        $this->assertCount(3, $parts);
         $this->assertContains('OR', $parts[1]);
         $this->assertNotContains('AND', $parts[1]);
     }
@@ -53,7 +53,7 @@ class PredicateSetTest extends TestCase
                   ->addPredicate(new IsNull('baz'), 'OR')
                   ->addPredicate(new IsNull('bat'), 'AND');
         $parts = $predicateSet->getExpressionData();
-        $this->assertEquals(7, count($parts));
+        $this->assertCount(7, $parts);
 
         $this->assertNotContains('OR', $parts[1], var_export($parts, 1));
         $this->assertContains('AND', $parts[1]);
@@ -73,7 +73,7 @@ class PredicateSetTest extends TestCase
                   ->orPredicate(new IsNull('baz'))
                   ->andPredicate(new IsNull('bat'));
         $parts = $predicateSet->getExpressionData();
-        $this->assertEquals(7, count($parts));
+        $this->assertCount(7, $parts);
 
         $this->assertNotContains('OR', $parts[1], var_export($parts, 1));
         $this->assertContains('AND', $parts[1]);
@@ -86,7 +86,7 @@ class PredicateSetTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\PredicateSet::addPredicates
+     * @covers \Zend\Db\Sql\Predicate\PredicateSet::addPredicates
      */
     public function testAddPredicates()
     {

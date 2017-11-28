@@ -25,7 +25,7 @@ class SqliteRowCounterTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getName
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getName
      */
     public function testGetName()
     {
@@ -33,7 +33,7 @@ class SqliteRowCounterTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getCountForStatement
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getCountForStatement
      */
     public function testGetCountForStatement()
     {
@@ -46,7 +46,7 @@ class SqliteRowCounterTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getCountForSql
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getCountForSql
      */
     public function testGetCountForSql()
     {
@@ -56,7 +56,7 @@ class SqliteRowCounterTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getRowCountClosure
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getRowCountClosure
      */
     public function testGetRowCountClosure()
     {

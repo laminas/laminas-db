@@ -17,7 +17,7 @@ use Zend\Db\Sql\Platform\SqlServer\Ddl\CreateTableDecorator;
 class CreateTableDecoratorTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Platform\SqlServer\Ddl\CreateTableDecorator::getSqlString
+     * @covers \Zend\Db\Sql\Platform\SqlServer\Ddl\CreateTableDecorator::getSqlString
      */
     public function testGetSqlString()
     {

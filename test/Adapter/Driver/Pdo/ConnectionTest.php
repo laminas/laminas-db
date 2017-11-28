@@ -31,7 +31,7 @@ class ConnectionTest extends TestCase
     /**
      * Test getResource method tries to connect to  the database, it should never return null
      *
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::getResource
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::getResource
      */
     public function testResource()
     {
@@ -42,7 +42,7 @@ class ConnectionTest extends TestCase
     /**
      * Test getConnectedDsn returns a DSN string if it has been set
      *
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::getDsn
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::getDsn
      */
     public function testGetDsn()
     {

@@ -34,7 +34,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::into
+     * @covers \Zend\Db\Sql\Insert::into
      */
     public function testInto()
     {
@@ -47,7 +47,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::columns
+     * @covers \Zend\Db\Sql\Insert::columns
      */
     public function testColumns()
     {
@@ -57,7 +57,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::values
+     * @covers \Zend\Db\Sql\Insert::values
      */
     public function testValues()
     {
@@ -77,7 +77,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::values
+     * @covers \Zend\Db\Sql\Insert::values
      */
     public function testValuesThrowsExceptionWhenNotArrayOrSelect()
     {
@@ -87,7 +87,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::values
+     * @covers \Zend\Db\Sql\Insert::values
      */
     public function testValuesThrowsExceptionWhenSelectMergeOverArray()
     {
@@ -99,7 +99,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::values
+     * @covers \Zend\Db\Sql\Insert::values
      */
     public function testValuesThrowsExceptionWhenArrayMergeOverSelect()
     {
@@ -114,7 +114,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::values
+     * @covers \Zend\Db\Sql\Insert::values
      * @group ZF2-4926
      */
     public function testEmptyArrayValues()
@@ -124,7 +124,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::prepareStatement
+     * @covers \Zend\Db\Sql\Insert::prepareStatement
      */
     public function testPrepareStatement()
     {
@@ -172,7 +172,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::prepareStatement
+     * @covers \Zend\Db\Sql\Insert::prepareStatement
      */
     public function testPrepareStatementWithSelect()
     {
@@ -202,7 +202,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::getSqlString
+     * @covers \Zend\Db\Sql\Insert::getSqlString
      */
     public function testGetSqlString()
     {
@@ -256,7 +256,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::__set
+     * @covers \Zend\Db\Sql\Insert::__set
      */
     // @codingStandardsIgnoreStart
     public function test__set()
@@ -268,7 +268,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::__unset
+     * @covers \Zend\Db\Sql\Insert::__unset
      */
     // @codingStandardsIgnoreStart
     public function test__unset()
@@ -291,7 +291,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::__isset
+     * @covers \Zend\Db\Sql\Insert::__isset
      */
     // @codingStandardsIgnoreStart
     public function test__isset()
@@ -305,7 +305,7 @@ class InsertTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::__get
+     * @covers \Zend\Db\Sql\Insert::__get
      */
     // @codingStandardsIgnoreStart
     public function test__get()

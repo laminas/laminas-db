@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class AbstractLengthColumnTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractLengthColumn::setLength
+     * @covers \Zend\Db\Sql\Ddl\Column\AbstractLengthColumn::setLength
      */
     public function testSetLength()
     {
@@ -27,7 +27,7 @@ class AbstractLengthColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractLengthColumn::getLength
+     * @covers \Zend\Db\Sql\Ddl\Column\AbstractLengthColumn::getLength
      */
     public function testGetLength()
     {
@@ -38,7 +38,7 @@ class AbstractLengthColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractLengthColumn::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\AbstractLengthColumn::getExpressionData
      */
     public function testGetExpressionData()
     {

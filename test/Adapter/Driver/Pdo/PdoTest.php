@@ -30,7 +30,7 @@ class PdoTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Pdo::getDatabasePlatformName
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Pdo::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {

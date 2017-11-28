@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\DropTable;
 class DropTableTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\DropTable::getSqlString
+     * @covers \Zend\Db\Sql\Ddl\DropTable::getSqlString
      */
     public function testGetSqlString()
     {

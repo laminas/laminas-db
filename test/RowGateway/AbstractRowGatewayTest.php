@@ -51,7 +51,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::offsetSet
+     * @covers \Zend\Db\RowGateway\RowGateway::offsetSet
      */
     public function testOffsetSet()
     {
@@ -62,7 +62,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::__set
+     * @covers \Zend\Db\RowGateway\RowGateway::__set
      */
     // @codingStandardsIgnoreStart
     public function test__set()
@@ -75,7 +75,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::__isset
+     * @covers \Zend\Db\RowGateway\RowGateway::__isset
      */
     // @codingStandardsIgnoreStart
     public function test__isset()
@@ -88,7 +88,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::offsetExists
+     * @covers \Zend\Db\RowGateway\RowGateway::offsetExists
      */
     public function testOffsetExists()
     {
@@ -99,7 +99,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::__unset
+     * @covers \Zend\Db\RowGateway\RowGateway::__unset
      */
     // @codingStandardsIgnoreStart
     public function test__unset()
@@ -113,7 +113,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::offsetUnset
+     * @covers \Zend\Db\RowGateway\RowGateway::offsetUnset
      */
     public function testOffsetUnset()
     {
@@ -125,7 +125,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::offsetGet
+     * @covers \Zend\Db\RowGateway\RowGateway::offsetGet
      */
     public function testOffsetGet()
     {
@@ -136,7 +136,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::__get
+     * @covers \Zend\Db\RowGateway\RowGateway::__get
      */
     // @codingStandardsIgnoreStart
     public function test__get()
@@ -149,7 +149,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::save
+     * @covers \Zend\Db\RowGateway\RowGateway::save
      */
     public function testSaveInsert()
     {
@@ -164,7 +164,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::save
+     * @covers \Zend\Db\RowGateway\RowGateway::save
      */
     public function testSaveInsertMultiKey()
     {
@@ -200,7 +200,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::save
+     * @covers \Zend\Db\RowGateway\RowGateway::save
      */
     public function testSaveUpdate()
     {
@@ -213,7 +213,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::save
+     * @covers \Zend\Db\RowGateway\RowGateway::save
      */
     public function testSaveUpdateChangingPrimaryKey()
     {
@@ -249,7 +249,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::delete
+     * @covers \Zend\Db\RowGateway\RowGateway::delete
      */
     public function testDelete()
     {
@@ -260,8 +260,8 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::populate
-     * @covers Zend\Db\RowGateway\RowGateway::rowExistsInDatabase
+     * @covers \Zend\Db\RowGateway\RowGateway::populate
+     * @covers \Zend\Db\RowGateway\RowGateway::rowExistsInDatabase
      */
     public function testPopulate()
     {
@@ -275,7 +275,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::processPrimaryKeyData
+     * @covers \Zend\Db\RowGateway\RowGateway::processPrimaryKeyData
      */
     public function testProcessPrimaryKeyData()
     {
@@ -287,7 +287,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::count
+     * @covers \Zend\Db\RowGateway\RowGateway::count
      */
     public function testCount()
     {
@@ -296,7 +296,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::toArray
+     * @covers \Zend\Db\RowGateway\RowGateway::toArray
      */
     public function testToArray()
     {

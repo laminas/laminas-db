@@ -25,7 +25,7 @@ class ResultTest extends TestCase
     /**
      * Tests current method returns same data on consecutive calls.
      *
-     * @covers Zend\Db\Adapter\Driver\Pdo\Result::current
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Result::current
      */
     public function testCurrent()
     {

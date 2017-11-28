@@ -29,7 +29,7 @@ class PgsqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::checkEnvironment
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::checkEnvironment
      */
     public function testCheckEnvironment()
     {
@@ -41,7 +41,7 @@ class PgsqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerConnection
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerConnection
      */
     public function testRegisterConnection()
     {
@@ -59,7 +59,7 @@ class PgsqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerStatementPrototype
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerStatementPrototype
      */
     public function testRegisterStatementPrototype()
     {
@@ -78,7 +78,7 @@ class PgsqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerResultPrototype
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerResultPrototype
      */
     public function testRegisterResultPrototype()
     {
@@ -96,7 +96,7 @@ class PgsqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getDatabasePlatformName
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {
@@ -107,7 +107,7 @@ class PgsqlTest extends TestCase
 
     /**
      * @depends testRegisterConnection
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getConnection
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::getConnection
      */
     public function testGetConnection($mockConnection)
     {
@@ -117,7 +117,7 @@ class PgsqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::createStatement
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::createStatement
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateStatement()
@@ -129,7 +129,7 @@ class PgsqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::createResult
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::createResult
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateResult()
@@ -141,7 +141,7 @@ class PgsqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getPrepareType
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::getPrepareType
      * @todo   Implement testGetPrepareType().
      */
     public function testGetPrepareType()
@@ -153,7 +153,7 @@ class PgsqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::formatParameterName
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::formatParameterName
      * @todo   Implement testFormatParameterName().
      */
     public function testFormatParameterName()
@@ -165,7 +165,7 @@ class PgsqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getLastGeneratedValue
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::getLastGeneratedValue
      * @todo   Implement testGetLastGeneratedValue().
      */
     public function testGetLastGeneratedValue()

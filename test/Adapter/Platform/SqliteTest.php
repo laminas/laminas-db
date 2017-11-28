@@ -30,7 +30,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::getName
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::getName
      */
     public function testGetName()
     {
@@ -38,7 +38,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::getQuoteIdentifierSymbol
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -46,7 +46,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteIdentifier
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -54,7 +54,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteIdentifierChain
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -64,7 +64,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::getQuoteValueSymbol
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -72,7 +72,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteValue
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
@@ -85,7 +85,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteValue
      */
     public function testQuoteValue()
     {
@@ -102,7 +102,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteTrustedValue
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -121,7 +121,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteValueList
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteValueList
      */
     public function testQuoteValueList()
     {
@@ -134,7 +134,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::getIdentifierSeparator
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -142,7 +142,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteIdentifierInFragment
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {
@@ -175,8 +175,8 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteValue
-     * @covers Zend\Db\Adapter\Platform\Sqlite::quoteTrustedValue
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteTrustedValue
      */
     public function testCanCloseConnectionAfterQuoteValue()
     {

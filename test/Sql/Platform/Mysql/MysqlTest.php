@@ -16,7 +16,7 @@ class MysqlTest extends TestCase
 {
     /**
      * @testdox unit test / object test: Test Mysql object has Select proxy
-     * @covers Zend\Db\Sql\Platform\Mysql\Mysql::__construct
+     * @covers \Zend\Db\Sql\Platform\Mysql\Mysql::__construct
      */
     public function testConstruct()
     {

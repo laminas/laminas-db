@@ -30,7 +30,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::__construct
+     * @covers \Zend\Db\Adapter\Platform\Oracle::__construct
      */
     public function testContructWithOptions()
     {
@@ -42,7 +42,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::__construct
+     * @covers \Zend\Db\Adapter\Platform\Oracle::__construct
      */
     public function testContructWithDriver()
     {
@@ -60,7 +60,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::setDriver
+     * @covers \Zend\Db\Adapter\Platform\Oracle::setDriver
      */
     public function testSetDriver()
     {
@@ -78,7 +78,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::setDriver
+     * @covers \Zend\Db\Adapter\Platform\Oracle::setDriver
      */
     public function testSetDriverInvalid()
     {
@@ -90,7 +90,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::getDriver
+     * @covers \Zend\Db\Adapter\Platform\Oracle::getDriver
      */
     public function testGetDriver()
     {
@@ -98,7 +98,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::getName
+     * @covers \Zend\Db\Adapter\Platform\Oracle::getName
      */
     public function testGetName()
     {
@@ -106,7 +106,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::getQuoteIdentifierSymbol
+     * @covers \Zend\Db\Adapter\Platform\Oracle::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -114,7 +114,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteIdentifier
+     * @covers \Zend\Db\Adapter\Platform\Oracle::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -125,7 +125,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteIdentifierChain
+     * @covers \Zend\Db\Adapter\Platform\Oracle::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -140,7 +140,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::getQuoteValueSymbol
+     * @covers \Zend\Db\Adapter\Platform\Oracle::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -148,7 +148,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\Oracle::quoteValue
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
@@ -161,7 +161,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\Oracle::quoteValue
      */
     public function testQuoteValue()
     {
@@ -178,7 +178,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteTrustedValue
+     * @covers \Zend\Db\Adapter\Platform\Oracle::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -197,7 +197,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteValueList
+     * @covers \Zend\Db\Adapter\Platform\Oracle::quoteValueList
      */
     public function testQuoteValueList()
     {
@@ -210,7 +210,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::getIdentifierSeparator
+     * @covers \Zend\Db\Adapter\Platform\Oracle::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -218,7 +218,7 @@ class OracleTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteIdentifierInFragment
+     * @covers \Zend\Db\Adapter\Platform\Oracle::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {

@@ -43,7 +43,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::table
+     * @covers \Zend\Db\Sql\Update::table
      */
     public function testTable()
     {
@@ -56,7 +56,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::__construct
+     * @covers \Zend\Db\Sql\Update::__construct
      */
     public function testConstruct()
     {
@@ -65,7 +65,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::set
+     * @covers \Zend\Db\Sql\Update::set
      */
     public function testSet()
     {
@@ -74,7 +74,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::set
+     * @covers \Zend\Db\Sql\Update::set
      */
     public function testSortableSet()
     {
@@ -95,7 +95,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::where
+     * @covers \Zend\Db\Sql\Update::where
      */
     public function testWhere()
     {
@@ -145,7 +145,7 @@ class UpdateTest extends TestCase
 
     /**
      * @group ZF2-240
-     * @covers Zend\Db\Sql\Update::where
+     * @covers \Zend\Db\Sql\Update::where
      */
     public function testPassingMultipleKeyValueInWhereClause()
     {
@@ -160,7 +160,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::getRawState
+     * @covers \Zend\Db\Sql\Update::getRawState
      */
     public function testGetRawState()
     {
@@ -175,7 +175,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::prepareStatement
+     * @covers \Zend\Db\Sql\Update::prepareStatement
      */
     public function testPrepareStatement()
     {
@@ -227,7 +227,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::getSqlString
+     * @covers \Zend\Db\Sql\Update::getSqlString
      */
     public function testGetSqlString()
     {
@@ -269,7 +269,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::__get
+     * @covers \Zend\Db\Sql\Update::__get
      */
     public function testGetUpdate()
     {
@@ -278,7 +278,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::__get
+     * @covers \Zend\Db\Sql\Update::__get
      */
     public function testGetUpdateFails()
     {
@@ -287,7 +287,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::__clone
+     * @covers \Zend\Db\Sql\Update::__clone
      */
     public function testCloneUpdate()
     {
@@ -367,7 +367,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::where
+     * @covers \Zend\Db\Sql\Update::where
      */
     public function testJoin()
     {
@@ -393,7 +393,7 @@ class UpdateTest extends TestCase
 
     /**
      * @testdox unit test: Test join() returns Update object (is chainable)
-     * @covers Zend\Db\Sql\Update::join
+     * @covers \Zend\Db\Sql\Update::join
      */
     public function testJoinChainable()
     {

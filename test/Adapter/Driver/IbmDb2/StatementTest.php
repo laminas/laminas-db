@@ -39,7 +39,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::setDriver
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::setDriver
      */
     public function testSetDriver()
     {
@@ -47,7 +47,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::setParameterContainer
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::setParameterContainer
      */
     public function testSetParameterContainer()
     {
@@ -55,7 +55,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::getParameterContainer
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::getParameterContainer
      * @todo   Implement testGetParameterContainer().
      */
     public function testGetParameterContainer()
@@ -66,7 +66,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::getResource
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::getResource
      * @todo   Implement testGetResource().
      */
     public function testGetResource()
@@ -78,7 +78,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::setSql
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::setSql
      * @todo   Implement testSetSql().
      */
     public function testSetSql()
@@ -90,7 +90,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::getSql
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::getSql
      * @todo   Implement testGetSql().
      */
     public function testGetSql()
@@ -102,7 +102,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
      * @todo   Implement testPrepare().
      */
     public function testPrepare()
@@ -114,7 +114,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::isPrepared
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::isPrepared
      * @todo   Implement testIsPrepared().
      */
     public function testIsPrepared()
@@ -126,7 +126,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::execute
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::execute
      * @todo   Implement testExecute().
      */
     public function testExecute()

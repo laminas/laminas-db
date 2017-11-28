@@ -84,7 +84,7 @@ class JoinTest extends TestCase
 
     /**
      * @testdox unit test: Test join() returns Join object (is chainable)
-     * @covers Zend\Db\Sql\Join::join
+     * @covers \Zend\Db\Sql\Join::join
      */
     public function testJoin()
     {
@@ -104,8 +104,8 @@ class JoinTest extends TestCase
 
     /**
      * @testdox unit test: Test count() returns correct count
-     * @covers Zend\Db\Sql\Join::count
-     * @covers Zend\Db\Sql\Join::join
+     * @covers \Zend\Db\Sql\Join::count
+     * @covers \Zend\Db\Sql\Join::join
      */
     public function testCount()
     {
@@ -114,14 +114,14 @@ class JoinTest extends TestCase
         $join->join('bar', 'foo.fooId = bar.fooId', Join::JOIN_LEFT);
 
         $this->assertEquals(2, $join->count());
-        $this->assertEquals(count($join->getJoins()), $join->count());
+        $this->assertCount($join->count(), $join->getJoins());
     }
 
     /**
      * @testdox unit test: Test reset() resets the joins
-     * @covers Zend\Db\Sql\Join::count
-     * @covers Zend\Db\Sql\Join::join
-     * @covers Zend\Db\Sql\Join::reset
+     * @covers \Zend\Db\Sql\Join::count
+     * @covers \Zend\Db\Sql\Join::join
+     * @covers \Zend\Db\Sql\Join::reset
      */
     public function testReset()
     {

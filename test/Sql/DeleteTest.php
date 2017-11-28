@@ -41,7 +41,7 @@ class DeleteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Delete::from
+     * @covers \Zend\Db\Sql\Delete::from
      */
     public function testFrom()
     {
@@ -54,7 +54,7 @@ class DeleteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Delete::where
+     * @covers \Zend\Db\Sql\Delete::where
      *
      * @todo REMOVE THIS IN 3.x
      */
@@ -108,7 +108,7 @@ class DeleteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Delete::prepareStatement
+     * @covers \Zend\Db\Sql\Delete::prepareStatement
      */
     public function testPrepareStatement()
     {
@@ -148,7 +148,7 @@ class DeleteTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Delete::getSqlString
+     * @covers \Zend\Db\Sql\Delete::getSqlString
      */
     public function testGetSqlString()
     {

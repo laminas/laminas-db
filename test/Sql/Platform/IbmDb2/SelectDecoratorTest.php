@@ -22,8 +22,8 @@ class SelectDecoratorTest extends TestCase
     /**
      * @testdox integration test: Testing SelectDecorator will use Select to produce properly IBM Db2
      *                            dialect prepared sql
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
      */
     public function testPrepareStatement(Select $select, $expectedPrepareSql, $expectedParams, $notUsed)
@@ -57,7 +57,7 @@ class SelectDecoratorTest extends TestCase
     /**
      * @testdox integration test: Testing SelectDecorator will use Select to produce properly Ibm DB2
      *                            dialect sql statements
-     * @covers Zend\Db\Sql\Platform\IbmDb2\SelectDecorator::getSqlString
+     * @covers \Zend\Db\Sql\Platform\IbmDb2\SelectDecorator::getSqlString
      * @dataProvider dataProvider
      */
     public function testGetSqlString(Select $select, $ignored0, $ignored1, $expectedSql)

@@ -25,7 +25,7 @@ class NotBetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\NotBetween::getSpecification
+     * @covers \Zend\Db\Sql\Predicate\NotBetween::getSpecification
      */
     public function testSpecificationHasSameDefaultValue()
     {
@@ -33,7 +33,7 @@ class NotBetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\NotBetween::getExpressionData
+     * @covers \Zend\Db\Sql\Predicate\NotBetween::getExpressionData
      */
     public function testRetrievingWherePartsReturnsSpecificationArrayOfIdentifierAndValuesAndArrayOfTypes()
     {

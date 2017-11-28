@@ -188,8 +188,8 @@ class ResultSetIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::current
-     * @covers Zend\Db\ResultSet\AbstractResultSet::buffer
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::current
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::buffer
      */
     public function testCurrentWithBufferingCallsDataSourceCurrentOnce()
     {
@@ -205,8 +205,8 @@ class ResultSetIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::current
-     * @covers Zend\Db\ResultSet\AbstractResultSet::buffer
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::current
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::buffer
      */
     public function testBufferCalledAfterIterationThrowsException()
     {
@@ -221,7 +221,7 @@ class ResultSetIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::current
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::current
      */
     public function testCurrentReturnsNullForNonExistingValues()
     {

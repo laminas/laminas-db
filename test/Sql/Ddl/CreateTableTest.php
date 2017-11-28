@@ -18,7 +18,7 @@ class CreateTableTest extends TestCase
 {
     /**
      * test object construction
-     * @covers Zend\Db\Sql\Ddl\CreateTable::__construct
+     * @covers \Zend\Db\Sql\Ddl\CreateTable::__construct
      */
     public function testObjectConstruction()
     {
@@ -28,7 +28,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\CreateTable::setTemporary
+     * @covers \Zend\Db\Sql\Ddl\CreateTable::setTemporary
      */
     public function testSetTemporary()
     {
@@ -44,7 +44,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\CreateTable::isTemporary
+     * @covers \Zend\Db\Sql\Ddl\CreateTable::isTemporary
      */
     public function testIsTemporary()
     {
@@ -55,7 +55,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\CreateTable::setTable
+     * @covers \Zend\Db\Sql\Ddl\CreateTable::setTable
      */
     public function testSetTable()
     {
@@ -66,7 +66,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\CreateTable::getRawState
+     * @covers \Zend\Db\Sql\Ddl\CreateTable::getRawState
      * @depends testSetTable
      */
     public function testRawStateViaTable(CreateTable $ct)
@@ -75,7 +75,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\CreateTable::addColumn
+     * @covers \Zend\Db\Sql\Ddl\CreateTable::addColumn
      */
     public function testAddColumn()
     {
@@ -86,7 +86,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\CreateTable::getRawState
+     * @covers \Zend\Db\Sql\Ddl\CreateTable::getRawState
      * @depends testAddColumn
      */
     public function testRawStateViaColumn(CreateTable $ct)
@@ -98,7 +98,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\CreateTable::addConstraint
+     * @covers \Zend\Db\Sql\Ddl\CreateTable::addConstraint
      */
     public function testAddConstraint()
     {
@@ -109,7 +109,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\CreateTable::getRawState
+     * @covers \Zend\Db\Sql\Ddl\CreateTable::getRawState
      * @depends testAddConstraint
      */
     public function testRawStateViaConstraint(CreateTable $ct)
@@ -121,7 +121,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\CreateTable::getSqlString
+     * @covers \Zend\Db\Sql\Ddl\CreateTable::getSqlString
      */
     public function testGetSqlString()
     {

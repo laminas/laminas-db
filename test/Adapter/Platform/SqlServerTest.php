@@ -31,7 +31,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::getName
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::getName
      */
     public function testGetName()
     {
@@ -39,7 +39,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::getQuoteIdentifierSymbol
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -47,7 +47,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteIdentifier
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -55,7 +55,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteIdentifierChain
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -65,7 +65,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::getQuoteValueSymbol
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -73,7 +73,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::quoteValue
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
@@ -86,7 +86,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteValue
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::quoteValue
      */
     public function testQuoteValue()
     {
@@ -103,7 +103,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteTrustedValue
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -120,7 +120,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteValueList
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::quoteValueList
      */
     public function testQuoteValueList()
     {
@@ -133,7 +133,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::getIdentifierSeparator
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -141,7 +141,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteIdentifierInFragment
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {
@@ -174,7 +174,7 @@ class SqlServerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::setDriver
+     * @covers \Zend\Db\Adapter\Platform\SqlServer::setDriver
      */
     public function testSetDriver()
     {

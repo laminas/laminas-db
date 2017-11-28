@@ -21,7 +21,7 @@ use Zend\Db\Adapter\Driver\Oci8\Result;
 class ResultTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Result::getResource
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::getResource
      */
     public function testGetResource()
     {
@@ -30,7 +30,7 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Result::buffer
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::buffer
      */
     public function testBuffer()
     {
@@ -39,7 +39,7 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Result::isBuffered
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::isBuffered
      */
     public function testIsBuffered()
     {
@@ -48,7 +48,7 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Result::getGeneratedValue
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::getGeneratedValue
      */
     public function testGetGeneratedValue()
     {
@@ -57,7 +57,7 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Result::key
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::key
      */
     public function testKey()
     {
@@ -66,7 +66,7 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Result::next
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::next
      */
     public function testNext()
     {
@@ -80,7 +80,7 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Result::rewind
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::rewind
      */
     public function testRewind()
     {

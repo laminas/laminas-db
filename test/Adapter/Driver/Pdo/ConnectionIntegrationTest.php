@@ -22,7 +22,7 @@ class ConnectionIntegrationTest extends TestCase
     protected $variables = ['pdodriver' => 'sqlite', 'database' => ':memory:'];
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::getCurrentSchema
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::getCurrentSchema
      */
     public function testGetCurrentSchema()
     {
@@ -31,7 +31,7 @@ class ConnectionIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::setResource
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::setResource
      */
     public function testSetResource()
     {
@@ -45,7 +45,7 @@ class ConnectionIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::getResource
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::getResource
      */
     public function testGetResource()
     {
@@ -58,7 +58,7 @@ class ConnectionIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::connect
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::connect
      */
     public function testConnect()
     {
@@ -71,7 +71,7 @@ class ConnectionIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::isConnected
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::isConnected
      */
     public function testIsConnected()
     {
@@ -85,7 +85,7 @@ class ConnectionIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::disconnect
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::disconnect
      */
     public function testDisconnect()
     {
@@ -97,7 +97,7 @@ class ConnectionIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::beginTransaction
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::beginTransaction
      * @todo   Implement testBeginTransaction().
      */
     public function testBeginTransaction()
@@ -109,7 +109,7 @@ class ConnectionIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::commit
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::commit
      * @todo   Implement testCommit().
      */
     public function testCommit()
@@ -121,7 +121,7 @@ class ConnectionIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::rollback
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::rollback
      * @todo   Implement testRollback().
      */
     public function testRollback()
@@ -133,7 +133,7 @@ class ConnectionIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::execute
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::execute
      */
     public function testExecute()
     {
@@ -145,7 +145,7 @@ class ConnectionIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::prepare
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::prepare
      */
     public function testPrepare()
     {
@@ -157,7 +157,7 @@ class ConnectionIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::getLastGeneratedValue
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::getLastGeneratedValue
      */
     public function testGetLastGeneratedValue()
     {

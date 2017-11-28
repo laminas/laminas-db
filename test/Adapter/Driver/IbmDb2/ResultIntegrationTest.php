@@ -41,7 +41,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::initialize
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::initialize
      * @todo   Implement testInitialize().
      */
     public function testInitialize()
@@ -53,7 +53,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::buffer
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::buffer
      * @todo   Implement testBuffer().
      */
     public function testBuffer()
@@ -65,7 +65,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::getResource
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::getResource
      * @todo   Implement testGetResource().
      */
     public function testGetResource()
@@ -77,7 +77,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::current
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::current
      * @todo   Implement testCurrent().
      */
     public function testCurrent()
@@ -89,7 +89,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::next
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::next
      * @todo   Implement testNext().
      */
     public function testNext()
@@ -101,7 +101,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::key
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::key
      * @todo   Implement testKey().
      */
     public function testKey()
@@ -113,7 +113,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::rewind
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::rewind
      * @todo   Implement testRewind().
      */
     public function testRewind()
@@ -125,7 +125,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::valid
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::valid
      * @todo   Implement testValid().
      */
     public function testValid()
@@ -137,7 +137,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::count
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::count
      * @todo   Implement testCount().
      */
     public function testCount()
@@ -149,7 +149,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::getFieldCount
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::getFieldCount
      * @todo   Implement testGetFieldCount().
      */
     public function testGetFieldCount()
@@ -161,7 +161,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::isQueryResult
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::isQueryResult
      * @todo   Implement testIsQueryResult().
      */
     public function testIsQueryResult()
@@ -173,7 +173,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::getAffectedRows
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::getAffectedRows
      * @todo   Implement testGetAffectedRows().
      */
     public function testGetAffectedRows()
@@ -185,7 +185,7 @@ class ResultIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Result::getGeneratedValue
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Result::getGeneratedValue
      * @todo   Implement testGetGeneratedValue().
      */
     public function testGetGeneratedValue()

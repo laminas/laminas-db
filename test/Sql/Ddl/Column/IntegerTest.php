@@ -16,7 +16,7 @@ use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
 class IntegerTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Integer::__construct
+     * @covers \Zend\Db\Sql\Ddl\Column\Integer::__construct
      */
     public function testObjectConstruction()
     {
@@ -25,7 +25,7 @@ class IntegerTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::getExpressionData
      */
     public function testGetExpressionData()
     {

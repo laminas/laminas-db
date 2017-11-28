@@ -19,7 +19,7 @@ class SqlSrvIntegrationTest extends AbstractIntegrationTest
 {
     /**
      * @group integration-sqlserver
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::checkEnvironment
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::checkEnvironment
      */
     public function testCheckEnvironment()
     {

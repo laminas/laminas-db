@@ -29,7 +29,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::registerConnection
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::registerConnection
      */
     public function testRegisterConnection()
     {
@@ -47,7 +47,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::registerStatementPrototype
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::registerStatementPrototype
      */
     public function testRegisterStatementPrototype()
     {
@@ -66,7 +66,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::registerResultPrototype
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::registerResultPrototype
      */
     public function testRegisterResultPrototype()
     {
@@ -84,7 +84,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getDatabasePlatformName
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {
@@ -95,7 +95,7 @@ class IbmDb2Test extends TestCase
 
     /**
      * @depends testRegisterConnection
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getConnection
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getConnection
      */
     public function testGetConnection($mockConnection)
     {
@@ -105,7 +105,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::createStatement
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::createStatement
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateStatement()
@@ -117,7 +117,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::createResult
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::createResult
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateResult()
@@ -129,7 +129,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getPrepareType
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getPrepareType
      * @todo   Implement testGetPrepareType().
      */
     public function testGetPrepareType()
@@ -141,7 +141,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::formatParameterName
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::formatParameterName
      * @todo   Implement testFormatParameterName().
      */
     public function testFormatParameterName()
@@ -153,7 +153,7 @@ class IbmDb2Test extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getLastGeneratedValue
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getLastGeneratedValue
      * @todo   Implement testGetLastGeneratedValue().
      */
     public function testGetLastGeneratedValue()

@@ -19,7 +19,7 @@ use Zend\Db\Adapter\Driver\Sqlsrv\Statement;
 class StatementIntegrationTest extends AbstractIntegrationTest
 {
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::initialize
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Statement::initialize
      */
     public function testInitialize()
     {
@@ -34,7 +34,7 @@ class StatementIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::getResource
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Statement::getResource
      */
     public function testGetResource()
     {
@@ -52,8 +52,8 @@ class StatementIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::prepare
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::isPrepared
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Statement::isPrepared
      */
     public function testPrepare()
     {
@@ -71,7 +71,7 @@ class StatementIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::execute
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Statement::execute
      */
     public function testExecute()
     {

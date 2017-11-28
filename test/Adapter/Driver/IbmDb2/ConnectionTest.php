@@ -38,7 +38,7 @@ class ConnectionTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::setDriver
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::setDriver
      */
     public function testSetDriver()
     {
@@ -46,7 +46,7 @@ class ConnectionTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::setConnectionParameters
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::setConnectionParameters
      */
     public function testSetConnectionParameters()
     {
@@ -54,7 +54,7 @@ class ConnectionTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::getConnectionParameters
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Connection::getConnectionParameters
      */
     public function testGetConnectionParameters()
     {

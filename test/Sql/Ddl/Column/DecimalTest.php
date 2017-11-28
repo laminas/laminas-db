@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Decimal;
 class DecimalTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Decimal::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Decimal::getExpressionData
      */
     public function testGetExpressionData()
     {

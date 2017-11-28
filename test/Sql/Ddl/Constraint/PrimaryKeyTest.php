@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
 class PrimaryKeyTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\PrimaryKey::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Constraint\PrimaryKey::getExpressionData
      */
     public function testGetExpressionData()
     {

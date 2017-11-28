@@ -17,7 +17,7 @@ use Zend\Db\Sql\Ddl\Constraint;
 class AlterTableTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\AlterTable::setTable
+     * @covers \Zend\Db\Sql\Ddl\AlterTable::setTable
      */
     public function testSetTable()
     {
@@ -28,7 +28,7 @@ class AlterTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\AlterTable::addColumn
+     * @covers \Zend\Db\Sql\Ddl\AlterTable::addColumn
      */
     public function testAddColumn()
     {
@@ -40,7 +40,7 @@ class AlterTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\AlterTable::changeColumn
+     * @covers \Zend\Db\Sql\Ddl\AlterTable::changeColumn
      */
     public function testChangeColumn()
     {
@@ -52,7 +52,7 @@ class AlterTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\AlterTable::dropColumn
+     * @covers \Zend\Db\Sql\Ddl\AlterTable::dropColumn
      */
     public function testDropColumn()
     {
@@ -62,7 +62,7 @@ class AlterTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\AlterTable::dropConstraint
+     * @covers \Zend\Db\Sql\Ddl\AlterTable::dropConstraint
      */
     public function testDropConstraint()
     {
@@ -72,7 +72,7 @@ class AlterTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\AlterTable::addConstraint
+     * @covers \Zend\Db\Sql\Ddl\AlterTable::addConstraint
      */
     public function testAddConstraint()
     {
@@ -84,7 +84,7 @@ class AlterTableTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\AlterTable::getSqlString
+     * @covers \Zend\Db\Sql\Ddl\AlterTable::getSqlString
      * @todo   Implement testGetSqlString().
      */
     public function testGetSqlString()

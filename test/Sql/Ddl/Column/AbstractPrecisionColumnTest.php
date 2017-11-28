@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class AbstractPrecisionColumnTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::setDigits
+     * @covers \Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::setDigits
      */
     public function testSetDigits()
     {
@@ -27,7 +27,7 @@ class AbstractPrecisionColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getDigits
+     * @covers \Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getDigits
      */
     public function testGetDigits()
     {
@@ -38,7 +38,7 @@ class AbstractPrecisionColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::setDecimal
+     * @covers \Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::setDecimal
      */
     public function testSetDecimal()
     {
@@ -51,7 +51,7 @@ class AbstractPrecisionColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getDecimal
+     * @covers \Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getDecimal
      */
     public function testGetDecimal()
     {
@@ -62,7 +62,7 @@ class AbstractPrecisionColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getExpressionData
      */
     public function testGetExpressionData()
     {

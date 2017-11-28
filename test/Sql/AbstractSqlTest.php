@@ -45,7 +45,7 @@ class AbstractSqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\AbstractSql::processExpression
+     * @covers \Zend\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWithoutParameterContainer()
     {
@@ -56,7 +56,7 @@ class AbstractSqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\AbstractSql::processExpression
+     * @covers \Zend\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWithParameterContainerAndParameterizationTypeNamed()
     {
@@ -91,7 +91,7 @@ class AbstractSqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\AbstractSql::processExpression
+     * @covers \Zend\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWorksWithExpressionContainingStringParts()
     {
@@ -104,7 +104,7 @@ class AbstractSqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\AbstractSql::processExpression
+     * @covers \Zend\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWorksWithExpressionContainingSelectObject()
     {

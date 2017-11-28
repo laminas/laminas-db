@@ -46,7 +46,7 @@ class SqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Sql::__construct
+     * @covers \Zend\Db\Sql\Sql::__construct
      */
     // @codingStandardsIgnoreStart
     public function test__construct()
@@ -65,7 +65,7 @@ class SqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Sql::select
+     * @covers \Zend\Db\Sql\Sql::select
      */
     public function testSelect()
     {
@@ -81,7 +81,7 @@ class SqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Sql::insert
+     * @covers \Zend\Db\Sql\Sql::insert
      */
     public function testInsert()
     {
@@ -97,7 +97,7 @@ class SqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Sql::update
+     * @covers \Zend\Db\Sql\Sql::update
      */
     public function testUpdate()
     {
@@ -113,7 +113,7 @@ class SqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Sql::delete
+     * @covers \Zend\Db\Sql\Sql::delete
      */
     public function testDelete()
     {
@@ -130,7 +130,7 @@ class SqlTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Sql::prepareStatementForSqlObject
+     * @covers \Zend\Db\Sql\Sql::prepareStatementForSqlObject
      */
     public function testPrepareStatementForSqlObject()
     {

@@ -25,7 +25,7 @@ class OracleRowCounterTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getName
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getName
      */
     public function testGetName()
     {
@@ -33,7 +33,7 @@ class OracleRowCounterTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getCountForStatement
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getCountForStatement
      */
     public function testGetCountForStatement()
     {
@@ -46,7 +46,7 @@ class OracleRowCounterTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getCountForSql
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getCountForSql
      */
     public function testGetCountForSql()
     {
@@ -56,7 +56,7 @@ class OracleRowCounterTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getRowCountClosure
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getRowCountClosure
      */
     public function testGetRowCountClosure()
     {

@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Varbinary;
 class VarbinaryTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Varbinary::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Varbinary::getExpressionData
      */
     public function testGetExpressionData()
     {

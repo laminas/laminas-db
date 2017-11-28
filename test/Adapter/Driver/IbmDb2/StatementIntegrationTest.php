@@ -46,7 +46,7 @@ class StatementIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::initialize
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::initialize
      */
     public function testInitialize()
     {
@@ -62,7 +62,7 @@ class StatementIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::getResource
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::getResource
      */
     public function testGetResource()
     {
@@ -81,8 +81,8 @@ class StatementIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::isPrepared
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::isPrepared
      */
     public function testPrepare()
     {
@@ -101,7 +101,7 @@ class StatementIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::execute
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::execute
      */
     public function testExecute()
     {

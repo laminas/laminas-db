@@ -20,8 +20,8 @@ class SelectDecoratorTest extends TestCase
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare a proper combine
      * statement
-     * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::prepareStatement
-     * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::processCombine
+     * @covers \Zend\Db\Sql\Platform\Sqlite\SelectDecorator::prepareStatement
+     * @covers \Zend\Db\Sql\Platform\Sqlite\SelectDecorator::processCombine
      * @dataProvider dataProviderUnionSyntaxFromCombine
      */
     public function testPrepareStatementPreparesUnionSyntaxFromCombine(Select $select, $expectedSql, $expectedParams)
@@ -55,8 +55,8 @@ class SelectDecoratorTest extends TestCase
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare a proper combine
      * statement
-     * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::getSqlString
-     * @covers Zend\Db\Sql\Platform\Sqlite\SelectDecorator::processCombine
+     * @covers \Zend\Db\Sql\Platform\Sqlite\SelectDecorator::getSqlString
+     * @covers \Zend\Db\Sql\Platform\Sqlite\SelectDecorator::processCombine
      * @dataProvider dataProviderUnionSyntaxFromCombine
      */
     public function testGetSqlStringPreparesUnionSyntaxFromCombine(Select $select, $ignore, $alsoIgnore, $expectedSql)

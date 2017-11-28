@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Column\Column;
 class ColumnTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::setName
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::setName
      */
     public function testSetName()
     {
@@ -25,7 +25,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::getName
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::getName
      * @depends testSetName
      */
     public function testGetName(Column $column)
@@ -34,7 +34,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::setNullable
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::setNullable
      */
     public function testSetNullable()
     {
@@ -44,7 +44,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::isNullable
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::isNullable
      * @depends testSetNullable
      */
     public function testIsNullable(Column $column)
@@ -55,7 +55,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::setDefault
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::setDefault
      */
     public function testSetDefault()
     {
@@ -65,7 +65,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::getDefault
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::getDefault
      * @depends testSetDefault
      */
     public function testGetDefault(Column $column)
@@ -74,7 +74,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::setOptions
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::setOptions
      */
     public function testSetOptions()
     {
@@ -84,7 +84,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::setOption
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::setOption
      */
     public function testSetOption()
     {
@@ -93,7 +93,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::getOptions
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::getOptions
      * @depends testSetOptions
      */
     public function testGetOptions(Column $column)
@@ -102,7 +102,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\Column::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Column\Column::getExpressionData
      */
     public function testGetExpressionData()
     {

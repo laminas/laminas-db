@@ -15,7 +15,7 @@ use Zend\Db\Sql\Ddl\Constraint\ForeignKey;
 class ForeignKeyTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setName
+     * @covers \Zend\Db\Sql\Ddl\Constraint\ForeignKey::setName
      */
     public function testSetName()
     {
@@ -25,7 +25,7 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getName
+     * @covers \Zend\Db\Sql\Ddl\Constraint\ForeignKey::getName
      * @depends testSetName
      */
     public function testGetName(ForeignKey $fk)
@@ -34,7 +34,7 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setReferenceTable
+     * @covers \Zend\Db\Sql\Ddl\Constraint\ForeignKey::setReferenceTable
      */
     public function testSetReferenceTable()
     {
@@ -44,7 +44,7 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getReferenceTable
+     * @covers \Zend\Db\Sql\Ddl\Constraint\ForeignKey::getReferenceTable
      * @depends testSetReferenceTable
      */
     public function testGetReferenceTable(ForeignKey $fk)
@@ -53,7 +53,7 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setReferenceColumn
+     * @covers \Zend\Db\Sql\Ddl\Constraint\ForeignKey::setReferenceColumn
      */
     public function testSetReferenceColumn()
     {
@@ -63,7 +63,7 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getReferenceColumn
+     * @covers \Zend\Db\Sql\Ddl\Constraint\ForeignKey::getReferenceColumn
      * @depends testSetReferenceColumn
      */
     public function testGetReferenceColumn(ForeignKey $fk)
@@ -72,7 +72,7 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setOnDeleteRule
+     * @covers \Zend\Db\Sql\Ddl\Constraint\ForeignKey::setOnDeleteRule
      */
     public function testSetOnDeleteRule()
     {
@@ -82,7 +82,7 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getOnDeleteRule
+     * @covers \Zend\Db\Sql\Ddl\Constraint\ForeignKey::getOnDeleteRule
      * @depends testSetOnDeleteRule
      */
     public function testGetOnDeleteRule(ForeignKey $fk)
@@ -91,7 +91,7 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setOnUpdateRule
+     * @covers \Zend\Db\Sql\Ddl\Constraint\ForeignKey::setOnUpdateRule
      */
     public function testSetOnUpdateRule()
     {
@@ -101,7 +101,7 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getOnUpdateRule
+     * @covers \Zend\Db\Sql\Ddl\Constraint\ForeignKey::getOnUpdateRule
      * @depends testSetOnUpdateRule
      */
     public function testGetOnUpdateRule(ForeignKey $fk)
@@ -110,7 +110,7 @@ class ForeignKeyTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getExpressionData
+     * @covers \Zend\Db\Sql\Ddl\Constraint\ForeignKey::getExpressionData
      */
     public function testGetExpressionData()
     {

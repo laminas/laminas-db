@@ -16,7 +16,7 @@ class OracleTest extends TestCase
 {
     /**
      * @testdox unit test / object test: Test Mysql object has Select proxy
-     * @covers Zend\Db\Sql\Platform\Oracle\Oracle::__construct
+     * @covers \Zend\Db\Sql\Platform\Oracle\Oracle::__construct
      */
     public function testConstruct()
     {

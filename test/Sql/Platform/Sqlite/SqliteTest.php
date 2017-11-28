@@ -16,7 +16,7 @@ class SqliteTest extends TestCase
 {
     /**
      * @testdox unit test / object test: Test Sqlite constructor will register the decorator
-     * @covers Zend\Db\Sql\Platform\Sqlite\Sqlite::__construct
+     * @covers \Zend\Db\Sql\Platform\Sqlite\Sqlite::__construct
      */
     public function testConstructorRegistersSqliteDecorator()
     {

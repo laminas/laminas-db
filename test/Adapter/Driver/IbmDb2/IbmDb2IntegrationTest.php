@@ -19,7 +19,7 @@ class IbmDb2IntegrationTest extends AbstractIntegrationTest
 {
     /**
      * @group integration-ibm_db2
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::checkEnvironment
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::checkEnvironment
      */
     public function testCheckEnvironment()
     {

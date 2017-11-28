@@ -20,8 +20,8 @@ class SelectDecoratorTest extends TestCase
     /**
      * @testdox integration test: Testing SelectDecorator will use Select to produce properly Oracle
      *                            dialect prepared sql
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
      */
     public function testPrepareStatement(
@@ -64,7 +64,7 @@ class SelectDecoratorTest extends TestCase
     /**
      * @testdox integration test: Testing SelectDecorator will use Select to produce properly Oracle
      *                            dialect sql statements
-     * @covers Zend\Db\Sql\Platform\Oracle\SelectDecorator::getSqlString
+     * @covers \Zend\Db\Sql\Platform\Oracle\SelectDecorator::getSqlString
      * @dataProvider dataProvider
      */
     // @codingStandardsIgnoreEnd

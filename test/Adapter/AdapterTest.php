@@ -58,7 +58,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test setProfiler() will store profiler
-     * @covers Zend\Db\Adapter\Adapter::setProfiler
+     * @covers \Zend\Db\Adapter\Adapter::setProfiler
      */
     public function testSetProfiler()
     {
@@ -68,7 +68,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test getProfiler() will store profiler
-     * @covers Zend\Db\Adapter\Adapter::getProfiler
+     * @covers \Zend\Db\Adapter\Adapter::getProfiler
      */
     public function testGetProfiler()
     {
@@ -81,7 +81,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test createDriverFromParameters() will create proper driver type
-     * @covers Zend\Db\Adapter\Adapter::createDriver
+     * @covers \Zend\Db\Adapter\Adapter::createDriver
      */
     public function testCreateDriver()
     {
@@ -112,7 +112,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test createPlatformFromDriver() will create proper platform from driver
-     * @covers Zend\Db\Adapter\Adapter::createPlatform
+     * @covers \Zend\Db\Adapter\Adapter::createPlatform
      */
     public function testCreatePlatform()
     {
@@ -173,7 +173,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test getDriver() will return driver object
-     * @covers Zend\Db\Adapter\Adapter::getDriver
+     * @covers \Zend\Db\Adapter\Adapter::getDriver
      */
     public function testGetDriver()
     {
@@ -182,7 +182,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test getPlatform() returns platform object
-     * @covers Zend\Db\Adapter\Adapter::getPlatform
+     * @covers \Zend\Db\Adapter\Adapter::getPlatform
      */
     public function testGetPlatform()
     {
@@ -191,7 +191,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test getPlatform() returns platform object
-     * @covers Zend\Db\Adapter\Adapter::getQueryResultSetPrototype
+     * @covers \Zend\Db\Adapter\Adapter::getQueryResultSetPrototype
      */
     public function testGetQueryResultSetPrototype()
     {
@@ -200,7 +200,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test getCurrentSchema() returns current schema from connection object
-     * @covers Zend\Db\Adapter\Adapter::getCurrentSchema
+     * @covers \Zend\Db\Adapter\Adapter::getCurrentSchema
      */
     public function testGetCurrentSchema()
     {
@@ -210,7 +210,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test query() in prepare mode produces a statement object
-     * @covers Zend\Db\Adapter\Adapter::query
+     * @covers \Zend\Db\Adapter\Adapter::query
      */
     public function testQueryWhenPreparedProducesStatement()
     {
@@ -220,7 +220,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test query() in prepare mode, with array of parameters, produces a result object
-     * @covers Zend\Db\Adapter\Adapter::query
+     * @covers \Zend\Db\Adapter\Adapter::query
      */
     public function testQueryWhenPreparedWithParameterArrayProducesResult()
     {
@@ -238,7 +238,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test query() in prepare mode, with ParameterContainer, produces a result object
-     * @covers Zend\Db\Adapter\Adapter::query
+     * @covers \Zend\Db\Adapter\Adapter::query
      */
     public function testQueryWhenPreparedWithParameterContainerProducesResult()
     {
@@ -256,7 +256,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test query() in execute mode produces a driver result object
-     * @covers Zend\Db\Adapter\Adapter::query
+     * @covers \Zend\Db\Adapter\Adapter::query
      */
     public function testQueryWhenExecutedProducesAResult()
     {
@@ -270,7 +270,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test query() in execute mode produces a resultset object
-     * @covers Zend\Db\Adapter\Adapter::query
+     * @covers \Zend\Db\Adapter\Adapter::query
      */
     public function testQueryWhenExecutedProducesAResultSetObjectWhenResultIsQuery()
     {
@@ -289,7 +289,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test createStatement() produces a statement object
-     * @covers Zend\Db\Adapter\Adapter::createStatement
+     * @covers \Zend\Db\Adapter\Adapter::createStatement
      */
     public function testCreateStatement()
     {
@@ -298,7 +298,7 @@ class AdapterTest extends TestCase
 
     /**
      * @testdox unit test: Test __get() works
-     * @covers Zend\Db\Adapter\Adapter::__get
+     * @covers \Zend\Db\Adapter\Adapter::__get
      */
     // @codingStandardsIgnoreStart
     public function test__get()
