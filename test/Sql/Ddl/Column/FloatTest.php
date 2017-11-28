@@ -14,7 +14,7 @@ use Zend\Db\Sql\Ddl\Column\Float as FloatColumn;
 
 class FloatTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         if (version_compare(PHP_VERSION, '7.0', '>=')) {
             $this->markTestSkipped('Cannot test Float column under PHP 7; reserved keyword');

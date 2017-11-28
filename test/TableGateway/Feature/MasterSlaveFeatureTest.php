@@ -27,7 +27,7 @@ class MasterSlaveFeatureTest extends TestCase
     /** @var \Zend\Db\TableGateway\TableGateway */
     protected $table;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->mockMasterAdapter = $this->getMockBuilder('Zend\Db\Adapter\AdapterInterface')->getMock();
 

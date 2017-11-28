@@ -22,7 +22,7 @@ class TableGatewayTest extends TestCase
 {
     protected $mockAdapter;
 
-    public function setUp()
+    protected function setUp()
     {
         // mock the adapter, driver, and parts
         $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();

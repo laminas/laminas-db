@@ -17,7 +17,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AdapterServiceFactoryTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         if (! extension_loaded('pdo_sqlite')) {
             $this->markTestSkipped('Adapter factory tests require pdo_sqlite');

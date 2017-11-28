@@ -19,7 +19,7 @@ class SqliteRowCounterTest extends TestCase
      */
     protected $rowCounter;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->rowCounter = new SqliteRowCounter();
     }

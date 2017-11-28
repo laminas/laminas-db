@@ -19,7 +19,7 @@ class RowCounterTest extends TestCase
      */
     protected $rowCounter;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->rowCounter = new RowCounter();
     }
