@@ -2,13 +2,14 @@
 
 namespace ZendTest\Db\Adapter\Driver\Mysqli;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Mysqli\Connection;
 
 /**
  * @group integration
  * @group integration-mysqli
  */
-class ConnectionIntegrationTest extends \PHPUnit_Framework_TestCase
+class ConnectionIntegrationTest extends TestCase
 {
 
     protected $variables = [
@@ -24,17 +25,20 @@ class ConnectionIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        if (!getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
+        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
             $this->markTestSkipped('Mysqli integration test disabled');
         }
 
-        if (!extension_loaded('mysqli')) {
+        if (! extension_loaded('mysqli')) {
             $this->fail('The phpunit group integration-mysqli was enabled, but the extension is not loaded.');
         }
 
         foreach ($this->variables as $name => $value) {
-            if (!getenv($value)) {
-                $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
+            if (! getenv($value)) {
+                $this->markTestSkipped(sprintf(
+                    'Missing required variable %s from phpunit.xml for this integration test',
+                    $value
+                ));
             }
             $this->variables[$name] = getenv($value);
         }

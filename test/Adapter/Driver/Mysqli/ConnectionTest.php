@@ -9,10 +9,11 @@
 
 namespace ZendTest\Db\Adapter\Driver\Mysqli;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Mysqli\Connection;
 use Zend\Db\Adapter\Driver\Mysqli\Mysqli;
 
-class ConnectionTest extends \PHPUnit_Framework_TestCase
+class ConnectionTest extends TestCase
 {
     /**
      * @var Connection
@@ -25,7 +26,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        if (!getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
+        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
             $this->markTestSkipped('Mysqli test disabled');
         }
         $this->connection = new Connection([]);
@@ -40,7 +41,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Mysqli\Connection::setDriver
+     * @covers \Zend\Db\Adapter\Driver\Mysqli\Connection::setDriver
      */
     public function testSetDriver()
     {
@@ -48,7 +49,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Mysqli\Connection::setConnectionParameters
+     * @covers \Zend\Db\Adapter\Driver\Mysqli\Connection::setConnectionParameters
      */
     public function testSetConnectionParameters()
     {
@@ -56,7 +57,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Mysqli\Connection::getConnectionParameters
+     * @covers \Zend\Db\Adapter\Driver\Mysqli\Connection::getConnectionParameters
      */
     public function testGetConnectionParameters()
     {
@@ -64,13 +65,12 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['foo' => 'bar'], $this->connection->getConnectionParameters());
     }
 
-    /**
-     * @expectedException \Zend\Db\Adapter\Exception\RuntimeException
-     * @expectedExceptionMessage Connection error
-     */
     public function testConnectionFails()
     {
         $connection = new Connection([]);
+
+        $this->expectException('\Zend\Db\Adapter\Exception\RuntimeException');
+        $this->expectExceptionMessage('Connection error');
         $connection->connect();
     }
 }

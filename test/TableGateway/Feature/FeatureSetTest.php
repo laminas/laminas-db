@@ -20,7 +20,7 @@ use Zend\Db\TableGateway\Feature\SequenceFeature;
 class FeatureSetTest extends TestCase
 {
     /**
-     * @cover FeatureSet::addFeature
+     * @covers FeatureSet::addFeature
      * @group ZF2-4993
      */
     public function testAddFeatureThatFeatureDoesNotHaveTableGatewayButFeatureSetHas()
@@ -61,7 +61,7 @@ class FeatureSetTest extends TestCase
     }
 
     /**
-     * @cover FeatureSet::addFeature
+     * @covers FeatureSet::addFeature
      * @group ZF2-4993
      */
     public function testAddFeatureThatFeatureHasTableGatewayButFeatureSetDoesNotHave()
