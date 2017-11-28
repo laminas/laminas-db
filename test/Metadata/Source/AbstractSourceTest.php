@@ -17,7 +17,7 @@ class AbstractSourceTest extends TestCase
     /**
      * @var AbstractSource
      */
-    protected $abstractSourceMock = null;
+    protected $abstractSourceMock;
 
     public function setup()
     {

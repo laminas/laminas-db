@@ -14,12 +14,12 @@ use Zend\Db\RowGateway\RowGateway;
 
 class AbstractRowGatewayTest extends TestCase
 {
-    protected $mockAdapter = null;
+    protected $mockAdapter;
 
     /** @var RowGateway */
-    protected $rowGateway = null;
+    protected $rowGateway;
 
-    protected $mockResult = null;
+    protected $mockResult;
 
     public function setup()
     {

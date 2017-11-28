@@ -13,7 +13,7 @@ use Zend\Db\Sql;
 
 class UpdateDecorator extends Sql\Update implements Sql\Platform\PlatformDecoratorInterface
 {
-    protected $subject = null;
+    protected $subject;
 
     /**
      * @param $subject

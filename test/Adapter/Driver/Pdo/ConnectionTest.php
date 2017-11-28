@@ -17,7 +17,7 @@ class ConnectionTest extends TestCase
     /**
      * @var Connection
      */
-    protected $connection = null;
+    protected $connection;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

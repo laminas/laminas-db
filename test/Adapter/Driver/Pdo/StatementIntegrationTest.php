@@ -22,7 +22,7 @@ class StatementIntegrationTest extends TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $pdoStatementMock = null;
+    protected $pdoStatementMock;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

@@ -16,13 +16,13 @@ use ZendTest\Db\TestAsset;
 
 class SqlTest extends TestCase
 {
-    protected $mockAdapter = null;
+    protected $mockAdapter;
 
     /**
      * Sql object
      * @var Sql
      */
-    protected $sql = null;
+    protected $sql;
 
     public function setup()
     {

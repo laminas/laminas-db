@@ -17,7 +17,7 @@ class Oci8Test extends TestCase
     /**
      * @var Oci8
      */
-    protected $oci8 = null;
+    protected $oci8;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

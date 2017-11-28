@@ -17,7 +17,7 @@ class NotBetweenTest extends TestCase
     /**
      * @var NotBetween
      */
-    protected $notBetween = null;
+    protected $notBetween;
 
     public function setUp()
     {

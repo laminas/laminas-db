@@ -19,12 +19,12 @@ class AbstractTableGatewayTest extends TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_Generator
      */
-    protected $mockAdapter = null;
+    protected $mockAdapter;
 
     /**
      * @var \PHPUnit_Framework_MockObject_Generator
      */
-    protected $mockSql = null;
+    protected $mockSql;
 
     /**
      * @var AbstractTableGateway

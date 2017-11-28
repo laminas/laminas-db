@@ -17,7 +17,7 @@ class PgsqlTest extends TestCase
     /**
      * @var Pgsql
      */
-    protected $pgsql = null;
+    protected $pgsql;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

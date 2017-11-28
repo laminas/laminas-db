@@ -17,7 +17,7 @@ class IbmDb2Test extends TestCase
     /**
      * @var IbmDb2
      */
-    protected $ibmdb2 = null;
+    protected $ibmdb2;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

@@ -17,7 +17,7 @@ class SqlsrvTest extends TestCase
     /**
      * @var Sqlsrv
      */
-    protected $sqlsrv = null;
+    protected $sqlsrv;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

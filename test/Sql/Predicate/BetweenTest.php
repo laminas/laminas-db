@@ -17,7 +17,7 @@ class BetweenTest extends TestCase
     /**
      * @var Between
      */
-    protected $between = null;
+    protected $between;
 
     public function setUp()
     {

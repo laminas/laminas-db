@@ -15,10 +15,10 @@ use Zend\Db\TableGateway\Feature\SequenceFeature;
 class SequenceFeatureTest extends TestCase
 {
     /** @var SequenceFeature */
-    protected $feature = null;
+    protected $feature;
 
     /** @var \Zend\Db\TableGateway\TableGateway */
-    protected $tableGateway = null;
+    protected $tableGateway;
 
     /**  @var string primary key name */
     protected $primaryKeyField = 'id';

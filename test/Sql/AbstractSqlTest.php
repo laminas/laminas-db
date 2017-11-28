@@ -23,9 +23,9 @@ class AbstractSqlTest extends TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $abstractSql = null;
+    protected $abstractSql;
 
-    protected $mockDriver = null;
+    protected $mockDriver;
 
     public function setup()
     {

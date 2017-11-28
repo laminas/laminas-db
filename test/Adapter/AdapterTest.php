@@ -19,22 +19,22 @@ class AdapterTest extends TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockDriver = null;
+    protected $mockDriver;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockPlatform = null;
+    protected $mockPlatform;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockConnection = null;
+    protected $mockConnection;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $mockStatement = null;
+    protected $mockStatement;
 
     /**
      * @var Adapter

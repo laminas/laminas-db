@@ -16,15 +16,15 @@ use Zend\EventManager\EventManager;
 class EventFeatureTest extends TestCase
 {
     /** @var EventManager */
-    protected $eventManager = null;
+    protected $eventManager;
 
     /** @var EventFeature */
-    protected $feature = null;
+    protected $feature;
 
-    protected $event = null;
+    protected $event;
 
     /** @var \Zend\Db\TableGateway\TableGateway */
-    protected $tableGateway = null;
+    protected $tableGateway;
 
     public function setup()
     {

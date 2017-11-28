@@ -20,7 +20,7 @@ use Zend\Db\TableGateway\TableGateway;
 
 class TableGatewayTest extends TestCase
 {
-    protected $mockAdapter = null;
+    protected $mockAdapter;
 
     public function setup()
     {
