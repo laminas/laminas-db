@@ -49,13 +49,15 @@ class SqlServer extends AbstractPlatform
     {
         // handle Zend\Db drivers
         if (($driver instanceof Pdo\Pdo && in_array($driver->getDatabasePlatformName(), ['SqlServer', 'Dblib']))
-            || (($driver instanceof \PDO && in_array($driver->getAttribute(\PDO::ATTR_DRIVER_NAME), ['sqlsrv', 'dblib'])))
+            || ($driver instanceof \PDO && in_array($driver->getAttribute(\PDO::ATTR_DRIVER_NAME), ['sqlsrv', 'dblib']))
         ) {
             $this->resource = $driver;
             return $this;
         }
 
-        throw new Exception\InvalidArgumentException('$driver must be a Sqlsrv PDO Zend\Db\Adapter\Driver or Sqlsrv PDO instance');
+        throw new Exception\InvalidArgumentException(
+            '$driver must be a Sqlsrv PDO Zend\Db\Adapter\Driver or Sqlsrv PDO instance'
+        );
     }
 
     /**

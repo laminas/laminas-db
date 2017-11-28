@@ -31,13 +31,15 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         foreach ($this->variables as $name => $value) {
-            if (!getenv($value)) {
-                $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
+            if (! getenv($value)) {
+                $this->markTestSkipped(
+                    'Missing required variable ' . $value . ' from phpunit.xml for this integration test'
+                );
             }
             $this->variables[$name] = getenv($value);
         }
 
-        if (!extension_loaded('ibm_db2')) {
+        if (! extension_loaded('ibm_db2')) {
             $this->fail('The phpunit group integration-ibm_db2 was enabled, but the extension is not loaded.');
         }
     }
@@ -47,7 +49,11 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitialize()
     {
-        $db2Resource = db2_connect($this->variables['database'], $this->variables['username'], $this->variables['password']);
+        $db2Resource = db2_connect(
+            $this->variables['database'],
+            $this->variables['username'],
+            $this->variables['password']
+        );
 
         $statement = new Statement;
         $this->assertSame($statement, $statement->initialize($db2Resource));
@@ -59,7 +65,11 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetResource()
     {
-        $db2Resource = db2_connect($this->variables['database'], $this->variables['username'], $this->variables['password']);
+        $db2Resource = db2_connect(
+            $this->variables['database'],
+            $this->variables['username'],
+            $this->variables['password']
+        );
 
         $statement = new Statement;
         $statement->initialize($db2Resource);
@@ -75,7 +85,11 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepare()
     {
-        $db2Resource = db2_connect($this->variables['database'], $this->variables['username'], $this->variables['password']);
+        $db2Resource = db2_connect(
+            $this->variables['database'],
+            $this->variables['username'],
+            $this->variables['password']
+        );
 
         $statement = new Statement;
         $statement->initialize($db2Resource);

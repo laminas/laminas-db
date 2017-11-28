@@ -70,7 +70,7 @@ class In extends AbstractExpression implements PredicateInterface
      */
     public function setValueSet($valueSet)
     {
-        if (!is_array($valueSet) && !$valueSet instanceof Select) {
+        if (! is_array($valueSet) && ! $valueSet instanceof Select) {
             throw new Exception\InvalidArgumentException(
                 '$valueSet must be either an array or a Zend\Db\Sql\Select object, ' . gettype($valueSet) . ' given'
             );

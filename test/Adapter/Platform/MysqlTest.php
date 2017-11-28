@@ -64,7 +64,10 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('`ident``ifier`', $this->platform->quoteIdentifierChain('ident`ifier'));
         $this->assertEquals('`ident``ifier`', $this->platform->quoteIdentifierChain(['ident`ifier']));
-        $this->assertEquals('`schema`.`ident``ifier`', $this->platform->quoteIdentifierChain(['schema', 'ident`ifier']));
+        $this->assertEquals(
+            '`schema`.`ident``ifier`',
+            $this->platform->quoteIdentifierChain(['schema', 'ident`ifier'])
+        );
     }
 
     /**
@@ -82,7 +85,8 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'PHPUnit_Framework_Error_Notice',
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Mysql without extension/driver support can introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Zend\Db\Adapter\Platform\Mysql without extension/driver support can '
+            . 'introduce security vulnerabilities in a production environment'
         );
         $this->platform->quoteValue('value');
     }
@@ -94,8 +98,14 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals("'value'", @$this->platform->quoteValue('value'));
         $this->assertEquals("'Foo O\\'Bar'", @$this->platform->quoteValue("Foo O'Bar"));
-        $this->assertEquals('\'\\\'; DELETE FROM some_table; -- \'', @$this->platform->quoteValue('\'; DELETE FROM some_table; -- '));
-        $this->assertEquals("'\\\\\\'; DELETE FROM some_table; -- '", @$this->platform->quoteValue('\\\'; DELETE FROM some_table; -- '));
+        $this->assertEquals(
+            '\'\\\'; DELETE FROM some_table; -- \'',
+            @$this->platform->quoteValue('\'; DELETE FROM some_table; -- ')
+        );
+        $this->assertEquals(
+            "'\\\\\\'; DELETE FROM some_table; -- '",
+            @$this->platform->quoteValue('\\\'; DELETE FROM some_table; -- ')
+        );
     }
 
     /**
@@ -105,10 +115,16 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals("'value'", $this->platform->quoteTrustedValue('value'));
         $this->assertEquals("'Foo O\\'Bar'", $this->platform->quoteTrustedValue("Foo O'Bar"));
-        $this->assertEquals('\'\\\'; DELETE FROM some_table; -- \'', $this->platform->quoteTrustedValue('\'; DELETE FROM some_table; -- '));
+        $this->assertEquals(
+            '\'\\\'; DELETE FROM some_table; -- \'',
+            $this->platform->quoteTrustedValue('\'; DELETE FROM some_table; -- ')
+        );
 
         //                   '\\\'; DELETE FROM some_table; -- '  <- actual below
-        $this->assertEquals("'\\\\\\'; DELETE FROM some_table; -- '", $this->platform->quoteTrustedValue('\\\'; DELETE FROM some_table; -- '));
+        $this->assertEquals(
+            "'\\\\\\'; DELETE FROM some_table; -- '",
+            $this->platform->quoteTrustedValue('\\\'; DELETE FROM some_table; -- ')
+        );
     }
 
     /**
@@ -118,7 +134,8 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'PHPUnit_Framework_Error',
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Mysql without extension/driver support can introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Zend\Db\Adapter\Platform\Mysql without extension/driver support can '
+            . 'introduce security vulnerabilities in a production environment'
         );
         $this->assertEquals("'Foo O\\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
@@ -139,23 +156,38 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('`foo`.`bar`', $this->platform->quoteIdentifierInFragment('foo.bar'));
         $this->assertEquals('`foo` as `bar`', $this->platform->quoteIdentifierInFragment('foo as bar'));
         $this->assertEquals('`$TableName`.`bar`', $this->platform->quoteIdentifierInFragment('$TableName.bar'));
-        $this->assertEquals('`cmis:$TableName` as `cmis:TableAlias`', $this->platform->quoteIdentifierInFragment('cmis:$TableName as cmis:TableAlias'));
+        $this->assertEquals(
+            '`cmis:$TableName` as `cmis:TableAlias`',
+            $this->platform->quoteIdentifierInFragment('cmis:$TableName as cmis:TableAlias')
+        );
 
         // single char words
-        $this->assertEquals('(`foo`.`bar` = `boo`.`baz`)', $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', ['(', ')', '=']));
-        $this->assertEquals('(`foo`.`bar`=`boo`.`baz`)', $this->platform->quoteIdentifierInFragment('(foo.bar=boo.baz)', ['(', ')', '=']));
+        $this->assertEquals(
+            '(`foo`.`bar` = `boo`.`baz`)',
+            $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', ['(', ')', '='])
+        );
+        $this->assertEquals(
+            '(`foo`.`bar`=`boo`.`baz`)',
+            $this->platform->quoteIdentifierInFragment('(foo.bar=boo.baz)', ['(', ')', '='])
+        );
         $this->assertEquals('`foo`=`bar`', $this->platform->quoteIdentifierInFragment('foo=bar', ['=']));
 
         // case insensitive safe words
         $this->assertEquals(
             '(`foo`.`bar` = `boo`.`baz`) AND (`foo`.`baz` = `boo`.`baz`)',
-            $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz) AND (foo.baz = boo.baz)', ['(', ')', '=', 'and'])
+            $this->platform->quoteIdentifierInFragment(
+                '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
+                ['(', ')', '=', 'and']
+            )
         );
 
         // case insensitive safe words in field
         $this->assertEquals(
             '(`foo`.`bar` = `boo`.baz) AND (`foo`.baz = `boo`.baz)',
-            $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz) AND (foo.baz = boo.baz)', ['(', ')', '=', 'and', 'bAz'])
+            $this->platform->quoteIdentifierInFragment(
+                '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
+                ['(', ')', '=', 'and', 'bAz']
+            )
         );
     }
 }

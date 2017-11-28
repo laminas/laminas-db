@@ -30,7 +30,11 @@ class Oci8IntegrationTest extends AbstractIntegrationTest
     public function testCreateStatement()
     {
         $driver = new Oci8([]);
-        $resource = oci_connect($this->variables['username'], $this->variables['password'], $this->variables['hostname']);
+        $resource = oci_connect(
+            $this->variables['username'],
+            $this->variables['password'],
+            $this->variables['hostname']
+        );
 
         $driver->getConnection()->setResource($resource);
 
@@ -39,7 +43,10 @@ class Oci8IntegrationTest extends AbstractIntegrationTest
         $stmt = $driver->createStatement();
         $this->assertInstanceOf('Zend\Db\Adapter\Driver\Oci8\Statement', $stmt);
 
-        $this->setExpectedException('Zend\Db\Adapter\Exception\InvalidArgumentException', 'only accepts an SQL string or an oci8 resource');
+        $this->setExpectedException(
+            'Zend\Db\Adapter\Exception\InvalidArgumentException',
+            'only accepts an SQL string or an oci8 resource'
+        );
         $driver->createStatement(new \stdClass);
     }
 }

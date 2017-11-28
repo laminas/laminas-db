@@ -23,7 +23,10 @@ class StatementIntegrationTest extends AbstractIntegrationTest
      */
     public function testInitialize()
     {
-        $sqlsrvResource = sqlsrv_connect($this->variables['hostname'], ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]);
+        $sqlsrvResource = sqlsrv_connect(
+            $this->variables['hostname'],
+            ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
+        );
 
         $statement = new Statement;
         $this->assertSame($statement, $statement->initialize($sqlsrvResource));
@@ -35,7 +38,10 @@ class StatementIntegrationTest extends AbstractIntegrationTest
      */
     public function testGetResource()
     {
-        $sqlsrvResource = sqlsrv_connect($this->variables['hostname'], ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]);
+        $sqlsrvResource = sqlsrv_connect(
+            $this->variables['hostname'],
+            ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
+        );
 
         $statement = new Statement;
         $statement->initialize($sqlsrvResource);
@@ -51,7 +57,10 @@ class StatementIntegrationTest extends AbstractIntegrationTest
      */
     public function testPrepare()
     {
-        $sqlsrvResource = sqlsrv_connect($this->variables['hostname'], ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]);
+        $sqlsrvResource = sqlsrv_connect(
+            $this->variables['hostname'],
+            ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
+        );
 
         $statement = new Statement;
         $statement->initialize($sqlsrvResource);

@@ -62,7 +62,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
         array $options = [],
         $features = self::FEATURES_DEFAULT
     ) {
-        if (!$connection instanceof Connection) {
+        if (! $connection instanceof Connection) {
             $connection = new Connection($connection);
         }
 
@@ -217,7 +217,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
      */
     public function checkEnvironment()
     {
-        if (!extension_loaded('oci8')) {
+        if (! extension_loaded('oci8')) {
             throw new Exception\RuntimeException(
                 'The Oci8 extension is required for this adapter but the extension is not loaded'
             );
@@ -249,7 +249,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
                     'Oci8 only accepts an SQL string or an oci8 resource in ' . __FUNCTION__
                 );
             }
-            if (!$this->connection->isConnected()) {
+            if (! $this->connection->isConnected()) {
                 $this->connection->connect();
             }
             $statement->initialize($this->connection->getResource());

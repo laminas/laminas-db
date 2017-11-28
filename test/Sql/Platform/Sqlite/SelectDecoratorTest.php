@@ -40,7 +40,8 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
 
         $parameterContainer = new ParameterContainer;
         $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $statement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($parameterContainer));
+        $statement->expects($this->any())->method('getParameterContainer')
+            ->will($this->returnValue($parameterContainer));
 
         $statement->expects($this->once())->method('setSql')->with($expectedSql);
 
@@ -62,7 +63,8 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $parameterContainer = new ParameterContainer;
         $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $statement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($parameterContainer));
+        $statement->expects($this->any())->method('getParameterContainer')
+            ->will($this->returnValue($parameterContainer));
 
         $selectDecorator = new SelectDecorator;
         $selectDecorator->setSubject($select);

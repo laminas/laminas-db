@@ -58,7 +58,9 @@ class Mysql extends AbstractPlatform
             return $this;
         }
 
-        throw new Exception\InvalidArgumentException('$driver must be a Mysqli or Mysql PDO Zend\Db\Adapter\Driver, Mysqli instance or MySQL PDO instance');
+        throw new Exception\InvalidArgumentException(
+            '$driver must be a Mysqli or Mysql PDO Zend\Db\Adapter\Driver, Mysqli instance or MySQL PDO instance'
+        );
     }
 
     /**

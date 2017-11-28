@@ -134,8 +134,8 @@ class Between extends AbstractExpression implements PredicateInterface
     public function getExpressionData()
     {
         list($values[], $types[]) = $this->normalizeArgument($this->identifier, self::TYPE_IDENTIFIER);
-        list($values[], $types[]) = $this->normalizeArgument($this->minValue,   self::TYPE_VALUE);
-        list($values[], $types[]) = $this->normalizeArgument($this->maxValue,   self::TYPE_VALUE);
+        list($values[], $types[]) = $this->normalizeArgument($this->minValue, self::TYPE_VALUE);
+        list($values[], $types[]) = $this->normalizeArgument($this->maxValue, self::TYPE_VALUE);
         return [
             [
                 $this->getSpecification(),

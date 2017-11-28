@@ -26,7 +26,11 @@ class VarcharTest extends \PHPUnit_Framework_TestCase
 
         $column->setDefault('bar');
         $this->assertEquals(
-            [['%s %s NOT NULL DEFAULT %s', ['foo', 'VARCHAR(20)', 'bar'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL, $column::TYPE_VALUE]]],
+            [[
+                '%s %s NOT NULL DEFAULT %s',
+                ['foo', 'VARCHAR(20)', 'bar'],
+                [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL, $column::TYPE_VALUE]
+            ]],
             $column->getExpressionData()
         );
     }

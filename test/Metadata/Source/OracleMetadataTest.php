@@ -34,7 +34,7 @@ class OracleMetadataTest extends AbstractIntegrationTest
      */
     protected function setUp()
     {
-        if (!extension_loaded('oci8')) {
+        if (! extension_loaded('oci8')) {
             $this->markTestSkipped('I cannot test without the oci8 extension');
         }
         parent::setUp();

@@ -48,7 +48,7 @@ class PredicateSet implements PredicateInterface, Countable
      */
     public function addPredicate(PredicateInterface $predicate, $combination = null)
     {
-        if ($combination === null || !in_array($combination, [self::OP_AND, self::OP_OR])) {
+        if ($combination === null || ! in_array($combination, [self::OP_AND, self::OP_OR])) {
             $combination = $this->defaultCombination;
         }
 
@@ -97,7 +97,8 @@ class PredicateSet implements PredicateInterface, Countable
                         // First, process strings that the abstraction replacement character ?
                         // as an Expression predicate
                         $predicates = new Expression($pkey, $pvalue);
-                    } elseif ($pvalue === null) { // Otherwise, if still a string, do something intelligent with the PHP type provided
+                    } elseif ($pvalue === null) {
+                        // Otherwise, if still a string, do something intelligent with the PHP type provided
                         // map PHP null to SQL IS NULL expression
                         $predicates = new IsNull($pkey);
                     } elseif (is_array($pvalue)) {
@@ -181,8 +182,8 @@ class PredicateSet implements PredicateInterface, Countable
                 $parts[] = ')';
             }
 
-            if (isset($this->predicates[$i+1])) {
-                $parts[] = sprintf(' %s ', $this->predicates[$i+1][0]);
+            if (isset($this->predicates[$i + 1])) {
+                $parts[] = sprintf(' %s ', $this->predicates[$i + 1][0]);
             }
         }
         return $parts;

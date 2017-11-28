@@ -102,7 +102,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testBeginTransaction()
     {
-        if (!$this->isTransactionEnabled()) {
+        if (! $this->isTransactionEnabled()) {
             $this->markTestIncomplete(
                 'I cannot test without the DB2 transactions enabled'
             );
@@ -118,7 +118,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testCommit()
     {
-        if (!$this->isTransactionEnabled()) {
+        if (! $this->isTransactionEnabled()) {
             $this->markTestIncomplete(
                 'I cannot test without the DB2 transactions enabled'
             );
@@ -139,7 +139,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testRollback()
     {
-        if (!$this->isTransactionEnabled()) {
+        if (! $this->isTransactionEnabled()) {
             $this->markTestIncomplete(
                 'I cannot test without the DB2 transactions enabled'
             );

@@ -197,7 +197,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         // get oci8 statement resource
         $this->resource = oci_parse($this->oci8, $sql);
 
-        if (!$this->resource) {
+        if (! $this->resource) {
             $e = oci_error($this->oci8);
             throw new Exception\InvalidQueryException(
                 'Statement couldn\'t be produced with sql: ' . $sql,
@@ -218,12 +218,12 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      */
     public function execute($parameters = null)
     {
-        if (!$this->isPrepared) {
+        if (! $this->isPrepared) {
             $this->prepare();
         }
 
         /** START Standard ParameterContainer Merging Block */
-        if (!$this->parameterContainer instanceof ParameterContainer) {
+        if (! $this->parameterContainer instanceof ParameterContainer) {
             if ($parameters instanceof ParameterContainer) {
                 $this->parameterContainer = $parameters;
                 $parameters = null;

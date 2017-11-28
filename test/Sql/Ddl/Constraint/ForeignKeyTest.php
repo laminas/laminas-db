@@ -118,7 +118,14 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
             [[
                 'CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s) ON DELETE %s ON UPDATE %s',
                 ['foo', 'bar', 'baz', 'bam', 'CASCADE', 'SET NULL'],
-                [$fk::TYPE_IDENTIFIER, $fk::TYPE_IDENTIFIER, $fk::TYPE_IDENTIFIER, $fk::TYPE_IDENTIFIER, $fk::TYPE_LITERAL, $fk::TYPE_LITERAL]
+                [
+                    $fk::TYPE_IDENTIFIER,
+                    $fk::TYPE_IDENTIFIER,
+                    $fk::TYPE_IDENTIFIER,
+                    $fk::TYPE_IDENTIFIER,
+                    $fk::TYPE_LITERAL,
+                    $fk::TYPE_LITERAL
+                ]
             ]],
             $fk->getExpressionData()
         );

@@ -32,7 +32,9 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
             $mockStatement
         ));
         $mockMasterAdapter->expects($this->any())->method('getDriver')->will($this->returnValue($mockDriver));
-        $mockMasterAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(new \Zend\Db\Adapter\Platform\Sql92()));
+        $mockMasterAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(
+            new \Zend\Db\Adapter\Platform\Sql92()
+        ));
 
         $mockSlaveAdapter = $this->getMock('Zend\Db\Adapter\AdapterInterface');
 
@@ -42,7 +44,9 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
             $mockStatement
         ));
         $mockSlaveAdapter->expects($this->any())->method('getDriver')->will($this->returnValue($mockDriver));
-        $mockSlaveAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(new \Zend\Db\Adapter\Platform\Sql92()));
+        $mockSlaveAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(
+            new \Zend\Db\Adapter\Platform\Sql92()
+        ));
 
         $tableGatewayMock = $this->getMockForAbstractClass('Zend\Db\TableGateway\AbstractTableGateway');
 

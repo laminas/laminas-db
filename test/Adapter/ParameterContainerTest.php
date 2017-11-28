@@ -90,7 +90,14 @@ class ParameterContainerTest extends \PHPUnit_Framework_TestCase
         $this->parameterContainer[] = 'Second To Last';
         $this->parameterContainer[] = 'Last';
         $this->assertEquals(
-            ['foo' => 'Zero', 'boo' => 'One', '1' => 'book', 'buffer' => 'A buffer Element', '4' => 'Second To Last', '5' => 'Last'],
+            [
+                'foo' => 'Zero',
+                'boo' => 'One',
+                '1' => 'book',
+                'buffer' => 'A buffer Element',
+                '4' => 'Second To Last',
+                '5' => 'Last'
+            ],
             $this->parameterContainer->getNamedArray()
         );
         $this->assertEquals(

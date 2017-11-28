@@ -138,9 +138,12 @@ class Combine extends AbstractPreparableSql
      *
      * @return string
      */
-    protected function buildSqlString(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
-    {
-        if (!$this->combine) {
+    protected function buildSqlString(
+        PlatformInterface $platform,
+        DriverInterface $driver = null,
+        ParameterContainer $parameterContainer = null
+    ) {
+        if (! $this->combine) {
             return;
         }
 
@@ -164,7 +167,7 @@ class Combine extends AbstractPreparableSql
      */
     public function alignColumns()
     {
-        if (!$this->combine) {
+        if (! $this->combine) {
             return $this;
         }
 

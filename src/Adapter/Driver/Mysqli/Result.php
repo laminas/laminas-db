@@ -77,7 +77,10 @@ class Result implements
      */
     public function initialize($resource, $generatedValue, $isBuffered = null)
     {
-        if (!$resource instanceof \mysqli && !$resource instanceof \mysqli_result && !$resource instanceof \mysqli_stmt) {
+        if (! $resource instanceof \mysqli
+            && ! $resource instanceof \mysqli_result
+            && ! $resource instanceof \mysqli_stmt
+        ) {
             throw new Exception\InvalidArgumentException('Invalid resource provided.');
         }
 
@@ -203,7 +206,7 @@ class Result implements
         }
 
         if (($r = $this->resource->fetch()) === null) {
-            if (!$this->isBuffered) {
+            if (! $this->isBuffered) {
                 $this->resource->close();
             }
             return false;

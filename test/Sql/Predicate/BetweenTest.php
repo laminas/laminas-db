@@ -126,9 +126,9 @@ class BetweenTest extends TestCase
         ]];
         $this->assertEquals($expected, $this->between->getExpressionData());
 
-        $this->between->setIdentifier([10=>Between::TYPE_VALUE])
-                      ->setMinValue(['foo.bar'=>Between::TYPE_IDENTIFIER])
-                      ->setMaxValue(['foo.baz'=>Between::TYPE_IDENTIFIER]);
+        $this->between->setIdentifier([10 => Between::TYPE_VALUE])
+                      ->setMinValue(['foo.bar' => Between::TYPE_IDENTIFIER])
+                      ->setMaxValue(['foo.baz' => Between::TYPE_IDENTIFIER]);
         $expected = [[
             $this->between->getSpecification(),
             [10, 'foo.bar', 'foo.baz'],

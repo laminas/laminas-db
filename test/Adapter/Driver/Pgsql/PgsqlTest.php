@@ -32,7 +32,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckEnvironment()
     {
-        if (!extension_loaded('pgsql')) {
+        if (! extension_loaded('pgsql')) {
             $this->setExpectedException('Zend\Db\Adapter\Exception\RuntimeException');
         }
         $this->pgsql->checkEnvironment();
@@ -44,7 +44,15 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisterConnection()
     {
-        $mockConnection = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Pgsql\Connection', [[]], '', true, true, true, ['setDriver']);
+        $mockConnection = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Pgsql\Connection',
+            [[]],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->pgsql));
         $this->assertSame($this->pgsql, $this->pgsql->registerConnection($mockConnection));
     }
@@ -55,7 +63,15 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     public function testRegisterStatementPrototype()
     {
         $this->pgsql = new Pgsql([]);
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Pgsql\Statement', [], '', true, true, true, ['setDriver']);
+        $mockStatement = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Pgsql\Statement',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->pgsql));
         $this->assertSame($this->pgsql, $this->pgsql->registerStatementPrototype($mockStatement));
     }
@@ -66,7 +82,15 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     public function testRegisterResultPrototype()
     {
         $this->pgsql = new Pgsql([]);
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Pgsql\Result', [], '', true, true, true, ['setDriver']);
+        $mockStatement = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Pgsql\Result',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $this->assertSame($this->pgsql, $this->pgsql->registerResultPrototype($mockStatement));
     }
 
@@ -123,7 +147,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 
@@ -135,7 +159,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 
@@ -147,7 +171,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 }

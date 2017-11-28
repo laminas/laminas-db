@@ -23,7 +23,7 @@ class PostgresqlIntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testQuoteValueWithPgsql()
     {
-        if (!is_resource($this->adapters['pgsql'])) {
+        if (! is_resource($this->adapters['pgsql'])) {
             $this->markTestSkipped('Postgres (pgsql) not configured in unit test configuration file');
         }
         $pgsql = new Postgresql($this->adapters['pgsql']);
@@ -37,7 +37,7 @@ class PostgresqlIntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testQuoteValueWithPdoPgsql()
     {
-        if (!$this->adapters['pdo_pgsql'] instanceof \PDO) {
+        if (! $this->adapters['pdo_pgsql'] instanceof \PDO) {
             $this->markTestSkipped('Postgres (PDO_PGSQL) not configured in unit test configuration file');
         }
         $pgsql = new Postgresql($this->adapters['pdo_pgsql']);

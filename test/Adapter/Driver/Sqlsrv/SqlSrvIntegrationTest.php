@@ -32,7 +32,8 @@ class SqlSrvIntegrationTest extends AbstractIntegrationTest
         $driver = new Sqlsrv([]);
 
         $resource = sqlsrv_connect(
-            $this->variables['hostname'], [
+            $this->variables['hostname'],
+            [
                 'UID' => $this->variables['username'],
                 'PWD' => $this->variables['password']
             ]
@@ -47,7 +48,10 @@ class SqlSrvIntegrationTest extends AbstractIntegrationTest
         $stmt = $driver->createStatement();
         $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
 
-        $this->setExpectedException('Zend\Db\Adapter\Exception\InvalidArgumentException', 'only accepts an SQL string or a Sqlsrv resource');
+        $this->setExpectedException(
+            'Zend\Db\Adapter\Exception\InvalidArgumentException',
+            'only accepts an SQL string or a Sqlsrv resource'
+        );
         $driver->createStatement(new \stdClass);
     }
 }

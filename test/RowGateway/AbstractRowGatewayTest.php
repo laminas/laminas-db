@@ -60,8 +60,10 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\RowGateway\RowGateway::__set
      */
+    // @codingStandardsIgnoreStart
     public function test__set()
     {
+        // @codingStandardsIgnoreEnd
         // If we set with a property, both getters should retrieve the same value:
         $this->rowGateway->testColumn = 'test';
         $this->assertEquals('test', $this->rowGateway->testColumn);
@@ -71,8 +73,10 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\RowGateway\RowGateway::__isset
      */
+    // @codingStandardsIgnoreStart
     public function test__isset()
     {
+        // @codingStandardsIgnoreEnd
         // Test isset before and after assigning to a property:
         $this->assertFalse(isset($this->rowGateway->foo));
         $this->rowGateway->foo = 'bar';
@@ -93,8 +97,10 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\RowGateway\RowGateway::__unset
      */
+    // @codingStandardsIgnoreStart
     public function test__unset()
     {
+        // @codingStandardsIgnoreEnd
         $this->rowGateway->foo = 'bar';
         $this->assertEquals('bar', $this->rowGateway->foo);
         unset($this->rowGateway->foo);
@@ -128,8 +134,10 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\RowGateway\RowGateway::__get
      */
+    // @codingStandardsIgnoreStart
     public function test__get()
     {
+        // @codingStandardsIgnoreEnd
         // If we set with a property, both getters should retrieve the same value:
         $this->rowGateway->testColumn = 'test';
         $this->assertEquals('test', $this->rowGateway->testColumn);
@@ -142,7 +150,8 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     public function testSaveInsert()
     {
         // test insert
-        $this->mockResult->expects($this->any())->method('current')->will($this->returnValue(['id' => 5, 'name' => 'foo']));
+        $this->mockResult->expects($this->any())->method('current')
+            ->will($this->returnValue(['id' => 5, 'name' => 'foo']));
         $this->mockResult->expects($this->any())->method('getGeneratedValue')->will($this->returnValue(5));
         $this->rowGateway->populate(['name' => 'foo']);
         $this->rowGateway->save();
@@ -167,7 +176,8 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
         $this->setRowGatewayState($rgPropertyValues);
 
         // test insert
-        $this->mockResult->expects($this->any())->method('current')->will($this->returnValue(['one' => 'foo', 'two' => 'bar']));
+        $this->mockResult->expects($this->any())->method('current')
+            ->will($this->returnValue(['one' => 'foo', 'two' => 'bar']));
 
         // @todo Need to assert that $where was filled in
 
@@ -191,7 +201,8 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     public function testSaveUpdate()
     {
         // test update
-        $this->mockResult->expects($this->any())->method('current')->will($this->returnValue(['id' => 6, 'name' => 'foo']));
+        $this->mockResult->expects($this->any())->method('current')
+            ->will($this->returnValue(['id' => 6, 'name' => 'foo']));
         $this->rowGateway->populate(['id' => 6, 'name' => 'foo'], true);
         $this->rowGateway->save();
         $this->assertEquals(6, $this->rowGateway['id']);

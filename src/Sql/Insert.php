@@ -101,7 +101,7 @@ class Insert extends AbstractPreparableSql
             return $this;
         }
 
-        if (!is_array($values)) {
+        if (! is_array($values)) {
             throw new Exception\InvalidArgumentException(
                 'values() expects an array of values or Zend\Db\Sql\Select instance'
             );
@@ -109,7 +109,8 @@ class Insert extends AbstractPreparableSql
 
         if ($this->select && $flag == self::VALUES_MERGE) {
             throw new Exception\InvalidArgumentException(
-                'An array of values cannot be provided with the merge flag when a Zend\Db\Sql\Select instance already exists as the value source'
+                'An array of values cannot be provided with the merge flag when a Zend\Db\Sql\Select instance already '
+                . 'exists as the value source'
             );
         }
 
@@ -165,12 +166,15 @@ class Insert extends AbstractPreparableSql
         return (isset($key) && array_key_exists($key, $rawState)) ? $rawState[$key] : $rawState;
     }
 
-    protected function processInsert(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
-    {
+    protected function processInsert(
+        PlatformInterface $platform,
+        DriverInterface $driver = null,
+        ParameterContainer $parameterContainer = null
+    ) {
         if ($this->select) {
             return;
         }
-        if (!$this->columns) {
+        if (! $this->columns) {
             throw new Exception\InvalidArgumentException('values or select should be present');
         }
 
@@ -199,9 +203,12 @@ class Insert extends AbstractPreparableSql
         );
     }
 
-    protected function processSelect(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
-    {
-        if (!$this->select) {
+    protected function processSelect(
+        PlatformInterface $platform,
+        DriverInterface $driver = null,
+        ParameterContainer $parameterContainer = null
+    ) {
+        if (! $this->select) {
             return;
         }
         $selectSql = $this->processSubSelect($this->select, $platform, $driver, $parameterContainer);
@@ -243,8 +250,10 @@ class Insert extends AbstractPreparableSql
      */
     public function __unset($name)
     {
-        if (!array_key_exists($name, $this->columns)) {
-            throw new Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
+        if (! array_key_exists($name, $this->columns)) {
+            throw new Exception\InvalidArgumentException(
+                'The key ' . $name . ' was not found in this objects column list'
+            );
         }
 
         unset($this->columns[$name]);
@@ -274,8 +283,10 @@ class Insert extends AbstractPreparableSql
      */
     public function __get($name)
     {
-        if (!array_key_exists($name, $this->columns)) {
-            throw new Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
+        if (! array_key_exists($name, $this->columns)) {
+            throw new Exception\InvalidArgumentException(
+                'The key ' . $name . ' was not found in this objects column list'
+            );
         }
         return $this->columns[$name];
     }

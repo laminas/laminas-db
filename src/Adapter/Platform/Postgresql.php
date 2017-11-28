@@ -54,7 +54,10 @@ class Postgresql extends AbstractPlatform
             return $this;
         }
 
-        throw new Exception\InvalidArgumentException('$driver must be a Pgsql or Postgresql PDO Zend\Db\Adapter\Driver, pgsql link resource or Postgresql PDO instance');
+        throw new Exception\InvalidArgumentException(
+            '$driver must be a Pgsql or Postgresql PDO Zend\Db\Adapter\Driver, pgsql link resource or Postgresql PDO '
+            . 'instance'
+        );
     }
 
     /**

@@ -32,7 +32,15 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
      */
     public function testRegisterConnection()
     {
-        $mockConnection = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\IbmDb2\Connection', [[]], '', true, true, true, ['setDriver']);
+        $mockConnection = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\IbmDb2\Connection',
+            [[]],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->ibmdb2));
         $this->assertSame($this->ibmdb2, $this->ibmdb2->registerConnection($mockConnection));
     }
@@ -43,7 +51,15 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     public function testRegisterStatementPrototype()
     {
         $this->ibmdb2 = new IbmDb2([]);
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\IbmDb2\Statement', [], '', true, true, true, ['setDriver']);
+        $mockStatement = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\IbmDb2\Statement',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->ibmdb2));
         $this->assertSame($this->ibmdb2, $this->ibmdb2->registerStatementPrototype($mockStatement));
     }
@@ -54,7 +70,15 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     public function testRegisterResultPrototype()
     {
         $this->ibmdb2 = new IbmDb2([]);
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\IbmDb2\Result', [], '', true, true, true, ['setDriver']);
+        $mockStatement = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\IbmDb2\Result',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $this->assertSame($this->ibmdb2, $this->ibmdb2->registerResultPrototype($mockStatement));
     }
 
@@ -111,7 +135,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 
@@ -123,7 +147,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 
@@ -135,7 +159,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 }

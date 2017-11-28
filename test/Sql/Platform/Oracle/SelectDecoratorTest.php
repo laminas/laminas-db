@@ -18,7 +18,8 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
 {
     //@codingStandardsIgnoreStart
     /**
-     * @testdox integration test: Testing SelectDecorator will use Select to produce properly Oracle dialect prepared sql
+     * @testdox integration test: Testing SelectDecorator will use Select to produce properly Oracle
+     *                            dialect prepared sql
      * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
      * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
@@ -63,7 +64,8 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
 
     // @codingStandardsIgnoreStart
     /**
-     * @testdox integration test: Testing SelectDecorator will use Select to produce properly Oracle dialect sql statements
+     * @testdox integration test: Testing SelectDecorator will use Select to produce properly Oracle
+     *                            dialect sql statements
      * @covers Zend\Db\Sql\Platform\Oracle\SelectDecorator::getSqlString
      * @dataProvider dataProvider
      */
