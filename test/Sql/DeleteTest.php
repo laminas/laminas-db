@@ -9,13 +9,14 @@
 
 namespace ZendTest\Db\Sql;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Delete;
 use Zend\Db\Sql\Predicate\IsNotNull;
 use Zend\Db\Sql\TableIdentifier;
 use Zend\Db\Sql\Where;
 use ZendTest\Db\TestAsset\DeleteIgnore;
 
-class DeleteTest extends \PHPUnit\Framework\TestCase
+class DeleteTest extends TestCase
 {
     /**
      * @var Delete

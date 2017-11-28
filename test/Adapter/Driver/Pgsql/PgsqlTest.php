@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Driver\Pgsql;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Pgsql\Pgsql;
 
-class PgsqlTest extends \PHPUnit\Framework\TestCase
+class PgsqlTest extends TestCase
 {
     /**
      * @var Pgsql

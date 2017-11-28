@@ -9,10 +9,11 @@
 
 namespace ZendTest\Db\TableGateway\Feature;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\TableGateway\Feature\MasterSlaveFeature;
 
-class MasterSlaveFeatureTest extends \PHPUnit\Framework\TestCase
+class MasterSlaveFeatureTest extends TestCase
 {
     /** @var AdapterInterface */
     protected $mockMasterAdapter;

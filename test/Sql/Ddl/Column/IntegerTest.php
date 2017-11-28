@@ -9,10 +9,11 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\Integer;
 use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
 
-class IntegerTest extends \PHPUnit\Framework\TestCase
+class IntegerTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Integer::__construct

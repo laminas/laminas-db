@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Platform\IbmDb2;
 
-class IbmDb2Test extends \PHPUnit\Framework\TestCase
+class IbmDb2Test extends TestCase
 {
     /**
      * @var IbmDb2

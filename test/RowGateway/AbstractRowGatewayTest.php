@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\RowGateway;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\RowGateway\RowGateway;
 
-class AbstractRowGatewayTest extends \PHPUnit\Framework\TestCase
+class AbstractRowGatewayTest extends TestCase
 {
     protected $mockAdapter = null;
 

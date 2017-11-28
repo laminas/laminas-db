@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Constraint;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Constraint\UniqueKey;
 
-class UniqueKeyTest extends \PHPUnit\Framework\TestCase
+class UniqueKeyTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Constraint\UniqueKey::getExpressionData

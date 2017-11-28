@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\Blob;
 
-class BlobTest extends \PHPUnit\Framework\TestCase
+class BlobTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Blob::getExpressionData

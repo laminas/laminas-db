@@ -9,11 +9,12 @@
 
 namespace ZendTest\Db\Sql\Ddl;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\AlterTable;
 use Zend\Db\Sql\Ddl\Column;
 use Zend\Db\Sql\Ddl\Constraint;
 
-class AlterTableTest extends \PHPUnit\Framework\TestCase
+class AlterTableTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\AlterTable::setTable

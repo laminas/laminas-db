@@ -9,13 +9,14 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Platform\SqlServer;
 
 /**
  * @group integration
  * @group integration-sqlserver
  */
-class SqlServerIntegrationTest extends \PHPUnit\Framework\TestCase
+class SqlServerIntegrationTest extends TestCase
 {
     public $adapters = [];
 

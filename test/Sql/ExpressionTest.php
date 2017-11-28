@@ -9,6 +9,7 @@
 
 namespace ZendTest\Db\Sql;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Expression;
 
 /**
@@ -17,7 +18,7 @@ use Zend\Db\Sql\Expression;
  *
  * Expression is a value object with no dependencies/collaborators, therefore, no fixure needed
  */
-class ExpressionTest extends \PHPUnit\Framework\TestCase
+class ExpressionTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Expression::setExpression

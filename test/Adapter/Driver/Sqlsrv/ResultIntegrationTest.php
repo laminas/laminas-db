@@ -9,13 +9,14 @@
 
 namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Sqlsrv\Result;
 
 /**
  * @group integration
  * @group integration-sqlsrv
  */
-class ResultIntegrationTest extends \PHPUnit\Framework\TestCase
+class ResultIntegrationTest extends TestCase
 {
     /**
      * @var Result

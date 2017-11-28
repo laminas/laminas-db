@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Platform\SqlServer;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Platform\SqlServer\SqlServer;
 
-class SqlServerTest extends \PHPUnit\Framework\TestCase
+class SqlServerTest extends TestCase
 {
     /**
      * @testdox unit test / object test: Test SqlServer object has Select proxy

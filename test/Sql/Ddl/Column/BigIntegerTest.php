@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\BigInteger;
 
-class BigIntegerTest extends \PHPUnit\Framework\TestCase
+class BigIntegerTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\BigInteger::__construct

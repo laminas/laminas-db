@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Platform\Sql92;
 
-class Sql92Test extends \PHPUnit\Framework\TestCase
+class Sql92Test extends TestCase
 {
     /**
      * @var Sql92

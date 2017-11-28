@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Platform\Oracle;
 
-class OracleTest extends \PHPUnit\Framework\TestCase
+class OracleTest extends TestCase
 {
     /**
      * @var Oracle

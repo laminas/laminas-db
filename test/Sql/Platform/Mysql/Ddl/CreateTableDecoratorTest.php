@@ -9,13 +9,14 @@
 
 namespace ZendTest\Db\Sql\Platform\Mysql\Ddl;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Platform\Mysql;
 use Zend\Db\Sql\Ddl\Column\Column;
 use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
 use Zend\Db\Sql\Ddl\CreateTable;
 use Zend\Db\Sql\Platform\Mysql\Ddl\CreateTableDecorator;
 
-class CreateTableDecoratorTest extends \PHPUnit\Framework\TestCase
+class CreateTableDecoratorTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Platform\Mysql\Ddl\CreateTableDecorator::setSubject

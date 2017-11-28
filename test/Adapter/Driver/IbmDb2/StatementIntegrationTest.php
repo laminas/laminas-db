@@ -9,6 +9,7 @@
 
 namespace ZendTest\Db\Adapter\Driver\IbmDb2;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\IbmDb2\IbmDb2;
 use Zend\Db\Adapter\Driver\IbmDb2\Statement;
 
@@ -16,7 +17,7 @@ use Zend\Db\Adapter\Driver\IbmDb2\Statement;
  * @group integration
  * @group integration-ibm_db2
  */
-class StatementIntegrationTest extends \PHPUnit\Framework\TestCase
+class StatementIntegrationTest extends TestCase
 {
     protected $variables = [
         'database' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_IBMDB2_DATABASE',

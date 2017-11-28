@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\Datetime;
 
-class DatetimeTest extends \PHPUnit\Framework\TestCase
+class DatetimeTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Datetime::getExpressionData

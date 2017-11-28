@@ -9,11 +9,12 @@
 
 namespace ZendTest\Db\Adapter\Driver\Pgsql;
 
+use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use Zend\Db\Adapter\Driver\Pgsql\Connection;
 use Zend\Db\Adapter\Exception as AdapterException;
 
-class ConnectionTest extends \PHPUnit\Framework\TestCase
+class ConnectionTest extends TestCase
 {
     /**
      * @var Connection

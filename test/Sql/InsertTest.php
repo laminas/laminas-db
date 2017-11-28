@@ -9,14 +9,15 @@
 
 namespace ZendTest\Db\Sql;
 
+use PHPUnit\Framework\TestCase;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Insert;
 use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\TableIdentifier;
 use ZendTest\Db\TestAsset\Replace;
 use ZendTest\Db\TestAsset\TrustingSql92Platform;
 
-class InsertTest extends \PHPUnit\Framework\TestCase
+class InsertTest extends TestCase
 {
     /**
      * @var Insert

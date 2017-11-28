@@ -9,11 +9,12 @@
 
 namespace ZendTest\Db\Adapter;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Adapter\Profiler;
 use ZendTest\Db\TestAsset\TemporaryResultSet;
 
-class AdapterTest extends \PHPUnit\Framework\TestCase
+class AdapterTest extends TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject

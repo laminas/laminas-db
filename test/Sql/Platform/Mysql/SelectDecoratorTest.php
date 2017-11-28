@@ -9,12 +9,13 @@
 
 namespace ZendTest\Db\Sql\Platform\Mysql;
 
-use Zend\Db\Sql\Platform\Mysql\SelectDecorator;
-use Zend\Db\Sql\Select;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\Mysql as MysqlPlatform;
+use Zend\Db\Sql\Platform\Mysql\SelectDecorator;
+use Zend\Db\Sql\Select;
 
-class SelectDecoratorTest extends \PHPUnit\Framework\TestCase
+class SelectDecoratorTest extends TestCase
 {
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare

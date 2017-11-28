@@ -11,7 +11,6 @@ namespace ZendTest\Db\Sql\Predicate;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\Predicate\IsNull;
 use Zend\Db\Sql\Predicate\Predicate;
 
 class PredicateTest extends TestCase

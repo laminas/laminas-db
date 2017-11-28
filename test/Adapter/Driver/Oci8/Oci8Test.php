@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Driver\Oci8;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Oci8\Oci8;
 
-class Oci8Test extends \PHPUnit\Framework\TestCase
+class Oci8Test extends TestCase
 {
     /**
      * @var Oci8

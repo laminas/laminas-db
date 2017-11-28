@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\ResultSet;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\ResultSet\HydratingResultSet;
 
-class HydratingResultSetIntegrationTest extends \PHPUnit\Framework\TestCase
+class HydratingResultSetIntegrationTest extends TestCase
 {
     /**
      * @covers Zend\Db\ResultSet\HydratingResultSet::current

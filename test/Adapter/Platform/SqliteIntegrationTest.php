@@ -9,14 +9,15 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Platform\Sqlite;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Pdo;
+use Zend\Db\Adapter\Platform\Sqlite;
 
 /**
  * @group integration
  * @group integration-sqlite
  */
-class SqliteIntegrationTest extends \PHPUnit\Framework\TestCase
+class SqliteIntegrationTest extends TestCase
 {
     public $adapters = [];
 

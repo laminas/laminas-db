@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Constraint;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
 
-class PrimaryKeyTest extends \PHPUnit\Framework\TestCase
+class PrimaryKeyTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Constraint\PrimaryKey::getExpressionData

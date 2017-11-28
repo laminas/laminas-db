@@ -9,13 +9,14 @@
 
 namespace ZendTest\Db\Sql\Platform;
 
+use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
-use Zend\Db\Adapter\StatementContainer;
-use ZendTest\Db\TestAsset;
-use Zend\Db\Sql\Platform\Platform;
 use Zend\Db\Adapter\Adapter;
+use Zend\Db\Adapter\StatementContainer;
+use Zend\Db\Sql\Platform\Platform;
+use ZendTest\Db\TestAsset;
 
-class PlatformTest extends \PHPUnit\Framework\TestCase
+class PlatformTest extends TestCase
 {
     public function testResolveDefaultPlatform()
     {

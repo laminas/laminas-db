@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 
-class SqlsrvTest extends \PHPUnit\Framework\TestCase
+class SqlsrvTest extends TestCase
 {
     /**
      * @var Sqlsrv

@@ -9,14 +9,15 @@
 
 namespace ZendTest\Db\Adapter\Driver\Pdo;
 
-use Zend\Db\Adapter\Driver\Pdo\Pdo;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Pdo\Connection;
+use Zend\Db\Adapter\Driver\Pdo\Pdo;
 
 /**
  * @group integration
  * @group integration-pdo
  */
-class ConnectionIntegrationTest extends \PHPUnit\Framework\TestCase
+class ConnectionIntegrationTest extends TestCase
 {
     protected $variables = ['pdodriver' => 'sqlite', 'database' => ':memory:'];
 

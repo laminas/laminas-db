@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Literal;
 
-class LiteralTest extends \PHPUnit\Framework\TestCase
+class LiteralTest extends TestCase
 {
     public function testSetLiteral()
     {

@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Constraint;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Constraint\ForeignKey;
 
-class ForeignKeyTest extends \PHPUnit\Framework\TestCase
+class ForeignKeyTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setName

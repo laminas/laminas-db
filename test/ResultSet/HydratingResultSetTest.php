@@ -9,11 +9,12 @@
 
 namespace ZendTest\Db\ResultSet;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Hydrator\ArraySerializable;
 use Zend\Hydrator\ClassMethods;
 
-class HydratingResultSetTest extends \PHPUnit\Framework\TestCase
+class HydratingResultSetTest extends TestCase
 {
     /**
      * @covers Zend\Db\ResultSet\HydratingResultSet::setObjectPrototype

@@ -9,15 +9,16 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Platform\Postgresql;
-use Zend\Db\Adapter\Driver\Pgsql;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Pdo;
+use Zend\Db\Adapter\Driver\Pgsql;
+use Zend\Db\Adapter\Platform\Postgresql;
 
 /**
  * @group integration
  * @group integration-postgres
  */
-class PostgresqlIntegrationTest extends \PHPUnit\Framework\TestCase
+class PostgresqlIntegrationTest extends TestCase
 {
     public $adapters = [];
 

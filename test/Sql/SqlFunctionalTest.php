@@ -9,8 +9,9 @@
 
 namespace ZendTest\Db\Sql;
 
-use Zend\Db\Sql;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter;
+use Zend\Db\Sql;
 use ZendTest\Db\TestAsset;
 
 /**
@@ -21,7 +22,7 @@ use ZendTest\Db\TestAsset;
  * @method \Zend\Db\Sql\Ddl\CreateTable createTable(null|string $table)
  * @method \Zend\Db\Sql\Ddl\Column\Column createColumn(null|string $name)
  */
-class SqlFunctionalTest extends \PHPUnit\Framework\TestCase
+class SqlFunctionalTest extends TestCase
 {
     protected function dataProviderCommonProcessMethods()
     {

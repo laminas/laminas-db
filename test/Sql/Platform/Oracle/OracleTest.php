@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Platform\Oracle;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Platform\Oracle\Oracle;
 
-class OracleTest extends \PHPUnit\Framework\TestCase
+class OracleTest extends TestCase
 {
     /**
      * @testdox unit test / object test: Test Mysql object has Select proxy

@@ -9,13 +9,14 @@
 
 namespace ZendTest\Db\Adapter\Driver\Oci8;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Oci8\Result;
 
 /**
  * @group integration
  * @group integration-oracle
  */
-class ResultIntegrationTest extends \PHPUnit\Framework\TestCase
+class ResultIntegrationTest extends TestCase
 {
     /**
      * @var Result

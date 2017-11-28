@@ -9,15 +9,16 @@
 
 namespace ZendTest\Db\Sql;
 
+use PHPUnit\Framework\TestCase;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Join;
+use Zend\Db\Sql\TableIdentifier;
 use Zend\Db\Sql\Update;
 use Zend\Db\Sql\Where;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\TableIdentifier;
 use ZendTest\Db\TestAsset\TrustingSql92Platform;
 use ZendTest\Db\TestAsset\UpdateIgnore;
 
-class UpdateTest extends \PHPUnit\Framework\TestCase
+class UpdateTest extends TestCase
 {
     /**
      * @var Update

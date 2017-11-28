@@ -9,11 +9,12 @@
 
 namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
 
-use Zend\Db\Adapter\Driver\Sqlsrv\Statement;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
+use Zend\Db\Adapter\Driver\Sqlsrv\Statement;
 use Zend\Db\Adapter\ParameterContainer;
 
-class StatementTest extends \PHPUnit\Framework\TestCase
+class StatementTest extends TestCase
 {
     /**
      * @var Statement

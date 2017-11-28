@@ -9,14 +9,15 @@
 
 namespace ZendTest\Db\Sql\Platform\IbmDb2;
 
-use Zend\Db\Sql\Platform\IbmDb2\SelectDecorator;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Where;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\IbmDb2 as IbmDb2Platform;
 use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Platform\IbmDb2\SelectDecorator;
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Where;
 
-class SelectDecoratorTest extends \PHPUnit\Framework\TestCase
+class SelectDecoratorTest extends TestCase
 {
     /**
      * @testdox integration test: Testing SelectDecorator will use Select to produce properly IBM Db2

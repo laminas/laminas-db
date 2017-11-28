@@ -9,10 +9,11 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Pdo\Pdo;
 use Zend\Db\Adapter\Platform\SqlServer;
 
-class SqlServerTest extends \PHPUnit\Framework\TestCase
+class SqlServerTest extends TestCase
 {
     /**
      * @var SqlServer

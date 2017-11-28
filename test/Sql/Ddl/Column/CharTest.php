@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\Char;
 
-class CharTest extends \PHPUnit\Framework\TestCase
+class CharTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Char::getExpressionData

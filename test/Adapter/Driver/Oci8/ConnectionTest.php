@@ -9,10 +9,11 @@
 
 namespace ZendTest\Db\Adapter\Driver\Oci8;
 
-use Zend\Db\Adapter\Driver\Oci8\Oci8;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Oci8\Connection;
+use Zend\Db\Adapter\Driver\Oci8\Oci8;
 
-class ConnectionTest extends \PHPUnit\Framework\TestCase
+class ConnectionTest extends TestCase
 {
     /**
      * @var Connection

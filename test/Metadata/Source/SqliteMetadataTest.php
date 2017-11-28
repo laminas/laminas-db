@@ -9,13 +9,14 @@
 
 namespace ZendTest\Db\Metadata\Source;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Metadata\Source\SqliteMetadata;
 
 /**
  * @requires extension pdo_sqlite
  */
-class SqliteMetadataTest extends \PHPUnit\Framework\TestCase
+class SqliteMetadataTest extends TestCase
 {
     /**
      * @var SqliteMetadata

@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Platform\Mysql;
 
-class MysqlTest extends \PHPUnit\Framework\TestCase
+class MysqlTest extends TestCase
 {
     /**
      * @var Mysql

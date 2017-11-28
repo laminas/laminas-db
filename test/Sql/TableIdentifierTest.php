@@ -9,6 +9,7 @@
 
 namespace ZendTest\Db\Sql;
 
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Zend\Db\Sql\TableIdentifier;
 
@@ -17,7 +18,7 @@ use Zend\Db\Sql\TableIdentifier;
  *
  * @covers \Zend\Db\Sql\TableIdentifier
  */
-class TableIdentifierTest extends \PHPUnit\Framework\TestCase
+class TableIdentifierTest extends TestCase
 {
     public function testGetTable()
     {

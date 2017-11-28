@@ -9,7 +9,9 @@
 
 namespace ZendTest\Db\ResultSet;
 
-class AbstractResultSetIntegrationTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractResultSetIntegrationTest extends TestCase
 {
     /**
      * @var \Zend\Db\ResultSet\AbstractResultSet|\PHPUnit_Framework_MockObject_MockObject

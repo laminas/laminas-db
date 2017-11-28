@@ -9,6 +9,7 @@
 
 namespace ZendTest\Db\Adapter\Driver\Pdo;
 
+use PHPUnit\Framework\TestCase;
 use ZendTest\Db\TestAsset\ConnectionWrapper;
 
 /**
@@ -17,7 +18,7 @@ use ZendTest\Db\TestAsset\ConnectionWrapper;
  * @covers \Zend\Db\Adapter\Driver\Pdo\Connection
  * @covers \Zend\Db\Adapter\Driver\AbstractConnection
  */
-class ConnectionTransactionsTest extends \PHPUnit\Framework\TestCase
+class ConnectionTransactionsTest extends TestCase
 {
     /**
      * @var Wrapper

@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Predicate;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Predicate\NotLike;
 
-class NotLikeTest extends \PHPUnit\Framework\TestCase
+class NotLikeTest extends TestCase
 {
     public function testConstructEmptyArgs()
     {

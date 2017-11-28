@@ -9,10 +9,11 @@
 
 namespace ZendTest\Db\Adapter\Profiler;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Profiler\Profiler;
 use Zend\Db\Adapter\StatementContainer;
 
-class ProfilerTest extends \PHPUnit\Framework\TestCase
+class ProfilerTest extends TestCase
 {
     /**
      * @var Profiler

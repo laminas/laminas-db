@@ -9,15 +9,16 @@
 
 namespace ZendTest\Db\Adapter\Driver\Oci8;
 
-use Zend\Db\Adapter\Driver\Oci8\Statement;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Oci8\Oci8;
+use Zend\Db\Adapter\Driver\Oci8\Statement;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Profiler\Profiler;
 
 /**
  * @group integrationOracle
  */
-class StatementTest extends \PHPUnit\Framework\TestCase
+class StatementTest extends TestCase
 {
     /**
      * @var Statement

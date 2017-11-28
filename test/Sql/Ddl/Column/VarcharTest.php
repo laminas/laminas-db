@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\Varchar;
 
-class VarcharTest extends \PHPUnit\Framework\TestCase
+class VarcharTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Varchar::getExpressionData

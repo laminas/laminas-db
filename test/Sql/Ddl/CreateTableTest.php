@@ -9,11 +9,12 @@
 
 namespace ZendTest\Db\Sql\Ddl;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\Column;
 use Zend\Db\Sql\Ddl\Constraint;
 use Zend\Db\Sql\Ddl\CreateTable;
 
-class CreateTableTest extends \PHPUnit\Framework\TestCase
+class CreateTableTest extends TestCase
 {
     /**
      * test object construction

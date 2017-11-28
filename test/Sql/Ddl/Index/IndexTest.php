@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Index;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Index\Index;
 
-class IndexTest extends \PHPUnit\Framework\TestCase
+class IndexTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Index\Index::getExpressionData

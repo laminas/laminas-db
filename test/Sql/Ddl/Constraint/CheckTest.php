@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Constraint;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Constraint\Check;
 
-class CheckTest extends \PHPUnit\Framework\TestCase
+class CheckTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Constraint\Check::getExpressionData

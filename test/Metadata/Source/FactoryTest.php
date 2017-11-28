@@ -9,10 +9,11 @@
 
 namespace ZendTest\Db\Metadata\Source;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Metadata\Source\Factory;
 
-class FactoryTest extends \PHPUnit\Framework\TestCase
+class FactoryTest extends TestCase
 {
     /**
      * @dataProvider validAdapterProvider

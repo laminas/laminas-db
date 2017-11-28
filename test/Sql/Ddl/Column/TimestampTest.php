@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\Timestamp;
 
-class TimestampTest extends \PHPUnit\Framework\TestCase
+class TimestampTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Timestamp::getExpressionData

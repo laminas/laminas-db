@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Platform\Postgresql;
 
-class PostgresqlTest extends \PHPUnit\Framework\TestCase
+class PostgresqlTest extends TestCase
 {
     /**
      * @var Postgresql

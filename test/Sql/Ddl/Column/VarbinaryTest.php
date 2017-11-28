@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\Varbinary;
 
-class VarbinaryTest extends \PHPUnit\Framework\TestCase
+class VarbinaryTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Varbinary::getExpressionData

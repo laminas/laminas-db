@@ -9,11 +9,12 @@
 
 namespace ZendTest\Db\Sql;
 
+use PHPUnit\Framework\TestCase;
+use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Sql;
 use ZendTest\Db\TestAsset;
-use Zend\Db\Adapter\Adapter;
 
-class SqlTest extends \PHPUnit\Framework\TestCase
+class SqlTest extends TestCase
 {
     protected $mockAdapter = null;
 

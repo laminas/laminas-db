@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Metadata\Source;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Metadata\Source\AbstractSource;
 
-class AbstractSourceTest extends \PHPUnit\Framework\TestCase
+class AbstractSourceTest extends TestCase
 {
     /**
      * @var AbstractSource

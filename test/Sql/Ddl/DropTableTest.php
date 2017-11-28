@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\DropTable;
 
-class DropTableTest extends \PHPUnit\Framework\TestCase
+class DropTableTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\DropTable::getSqlString

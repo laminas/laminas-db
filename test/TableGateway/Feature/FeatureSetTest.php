@@ -9,14 +9,15 @@
 
 namespace ZendTest\Db\TableGateway\Feature;
 
+use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use Zend\Db\Metadata\Object\ConstraintObject;
 use Zend\Db\TableGateway\Feature\FeatureSet;
 use Zend\Db\TableGateway\Feature\MasterSlaveFeature;
-use Zend\Db\TableGateway\Feature\SequenceFeature;
 use Zend\Db\TableGateway\Feature\MetadataFeature;
-use Zend\Db\Metadata\Object\ConstraintObject;
+use Zend\Db\TableGateway\Feature\SequenceFeature;
 
-class FeatureSetTest extends \PHPUnit\Framework\TestCase
+class FeatureSetTest extends TestCase
 {
     /**
      * @cover FeatureSet::addFeature

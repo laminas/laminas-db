@@ -9,14 +9,14 @@
 
 namespace ZendTest\Db\Sql\Platform\Oracle;
 
-use Zend\Db\Sql\Platform\Oracle\SelectDecorator;
-use Zend\Db\Sql\Select;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\Oracle as OraclePlatform;
+use Zend\Db\Sql\Platform\Oracle\SelectDecorator;
+use Zend\Db\Sql\Select;
 
-class SelectDecoratorTest extends \PHPUnit\Framework\TestCase
+class SelectDecoratorTest extends TestCase
 {
-    //@codingStandardsIgnoreStart
     /**
      * @testdox integration test: Testing SelectDecorator will use Select to produce properly Oracle
      *                            dialect prepared sql
@@ -24,7 +24,6 @@ class SelectDecoratorTest extends \PHPUnit\Framework\TestCase
      * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
      */
-    //@codingStandardsIgnoreEnd
     public function testPrepareStatement(
         Select $select,
         $expectedSql,

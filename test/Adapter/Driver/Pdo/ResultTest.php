@@ -9,6 +9,7 @@
 
 namespace ZendTest\Db\Adapter\Driver\Pdo;
 
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Zend\Db\Adapter\Driver\Pdo\Result;
 
@@ -18,7 +19,7 @@ use Zend\Db\Adapter\Driver\Pdo\Result;
  *
  * @group result-pdo
  */
-class ResultTest extends \PHPUnit\Framework\TestCase
+class ResultTest extends TestCase
 {
 
     /**

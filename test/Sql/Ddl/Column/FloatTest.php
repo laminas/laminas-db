@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\Float as FloatColumn;
 
-class FloatTest extends \PHPUnit\Framework\TestCase
+class FloatTest extends TestCase
 {
     public function setUp()
     {

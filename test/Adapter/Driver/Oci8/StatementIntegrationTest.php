@@ -9,6 +9,7 @@
 
 namespace ZendTest\Db\Adapter\Driver\Oci8;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Oci8\Oci8;
 use Zend\Db\Adapter\Driver\Oci8\Statement;
 
@@ -16,7 +17,7 @@ use Zend\Db\Adapter\Driver\Oci8\Statement;
  * @group integration
  * @group integration-oracle
  */
-class StatementIntegrationTest extends \PHPUnit\Framework\TestCase
+class StatementIntegrationTest extends TestCase
 {
     protected $variables = [
         'hostname' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_OCI8_HOSTNAME',

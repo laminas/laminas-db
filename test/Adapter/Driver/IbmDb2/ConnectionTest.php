@@ -9,10 +9,11 @@
 
 namespace ZendTest\Db\Adapter\Driver\IbmDb2;
 
-use Zend\Db\Adapter\Driver\IbmDb2\IbmDb2;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\IbmDb2\Connection;
+use Zend\Db\Adapter\Driver\IbmDb2\IbmDb2;
 
-class ConnectionTest extends \PHPUnit\Framework\TestCase
+class ConnectionTest extends TestCase
 {
     /**
      * @var Connection

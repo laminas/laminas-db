@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Platform\Sqlite;
 
-class SqliteTest extends \PHPUnit\Framework\TestCase
+class SqliteTest extends TestCase
 {
     /**
      * @var Sqlite

@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Driver\Pdo;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Pdo\Statement;
 
-class StatementIntegrationTest extends \PHPUnit\Framework\TestCase
+class StatementIntegrationTest extends TestCase
 {
     /**
      * @var Statement

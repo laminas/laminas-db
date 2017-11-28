@@ -9,10 +9,11 @@
 
 namespace ZendTest\Db\Adapter;
 
-use Zend\ServiceManager\ServiceManager;
+use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\Config;
+use Zend\ServiceManager\ServiceManager;
 
-class AdapterAbstractServiceFactoryTest extends \PHPUnit\Framework\TestCase
+class AdapterAbstractServiceFactoryTest extends TestCase
 {
     /**
      * @var \Zend\ServiceManager\ServiceLocatorInterface

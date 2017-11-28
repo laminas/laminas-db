@@ -9,13 +9,14 @@
 
 namespace ZendTest\Db\Adapter\Driver\IbmDb2;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\IbmDb2\Result;
 
 /**
  * @group integration
  * @group integration-ibm_db2
  */
-class ResultIntegrationTest extends \PHPUnit\Framework\TestCase
+class ResultIntegrationTest extends TestCase
 {
     /**
      * @var Result

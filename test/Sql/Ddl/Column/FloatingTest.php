@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\Floating;
 
-class FloatingTest extends \PHPUnit\Framework\TestCase
+class FloatingTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Floating::getExpressionData

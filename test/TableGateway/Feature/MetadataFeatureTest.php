@@ -10,8 +10,8 @@
 namespace ZendTest\Db\TableGateway\Feature;
 
 use PHPUnit\Framework\TestCase;
-use Zend\Db\TableGateway\Feature\MetadataFeature;
 use Zend\Db\Metadata\Object\ConstraintObject;
+use Zend\Db\TableGateway\Feature\MetadataFeature;
 
 class MetadataFeatureTest extends TestCase
 {
