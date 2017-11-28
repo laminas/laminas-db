@@ -9,7 +9,7 @@
 
 namespace ZendTest\Db\Sql\Predicate;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Predicate\IsNull;
 use Zend\Db\Sql\Predicate\PredicateSet;
 
@@ -126,7 +126,8 @@ class PredicateSetTest extends TestCase
             $this->assertSame($predicateSet, $what);
         });
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', 'Predicate cannot be null');
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Predicate cannot be null');
         $predicateSet->addPredicates(null);
     }
 }

@@ -13,7 +13,7 @@ use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Hydrator\ArraySerializable;
 use Zend\Hydrator\ClassMethods;
 
-class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
+class HydratingResultSetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\ResultSet\HydratingResultSet::setObjectPrototype

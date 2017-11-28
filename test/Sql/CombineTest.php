@@ -15,7 +15,7 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Predicate\Expression;
 use Zend\Db\Adapter\StatementContainer;
 
-class CombineTest extends \PHPUnit_Framework_TestCase
+class CombineTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Combine
@@ -33,7 +33,7 @@ class CombineTest extends \PHPUnit_Framework_TestCase
 
     public function testRejectsInvalidStatement()
     {
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
 
         $this->combine->combine('foo');
     }
@@ -187,7 +187,7 @@ class CombineTest extends \PHPUnit_Framework_TestCase
     {
         $parameterContainer = new ParameterContainer();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $mockStatement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
 
@@ -203,10 +203,13 @@ class CombineTest extends \PHPUnit_Framework_TestCase
         $mockStatement->expects($this->any())->method('setSql')->will($this->returnCallback($setGetSqlFunction));
         $mockStatement->expects($this->any())->method('getSql')->will($this->returnCallback($setGetSqlFunction));
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
 
-        return $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver]);
+        return $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([$mockDriver])
+            ->getMock();
     }
 }

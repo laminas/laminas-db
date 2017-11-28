@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Ddl\Column;
 
 use Zend\Db\Sql\Ddl\Column\Float as FloatColumn;
 
-class FloatTest extends \PHPUnit_Framework_TestCase
+class FloatTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {
@@ -22,7 +22,7 @@ class FloatTest extends \PHPUnit_Framework_TestCase
 
     public function testRaisesDeprecationNoticeOnInstantiation()
     {
-        $this->setExpectedException('PHPUnit_Framework_Error_Deprecated');
+        $this->expectException('PHPUnit_Framework_Error_Deprecated');
         new FloatColumn('foo', 10, 5);
     }
 }

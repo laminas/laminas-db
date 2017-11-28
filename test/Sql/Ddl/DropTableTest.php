@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Ddl;
 
 use Zend\Db\Sql\Ddl\DropTable;
 
-class DropTableTest extends \PHPUnit_Framework_TestCase
+class DropTableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\DropTable::getSqlString

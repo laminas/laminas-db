@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Ddl\Constraint;
 
 use Zend\Db\Sql\Ddl\Constraint\ForeignKey;
 
-class ForeignKeyTest extends \PHPUnit_Framework_TestCase
+class ForeignKeyTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setName

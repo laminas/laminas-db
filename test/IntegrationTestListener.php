@@ -79,8 +79,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
                     [
                         'UID' => getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
                         'PWD' => getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
-                        'Database' => (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
-                            ? : null)
+                        'Database' => (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE') ? : null),
                     ]
                 );
                 if (! $this->adapters['sqlsrv']) {
@@ -91,8 +90,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_sqlsrv'] = new \Pdo(
                     'sqlsrv:Server=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
-                        . ';Database=' . (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
-                            ? : null),
+                        . ';Database=' . (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE') ? : null),
                     getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
                     getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD')
                 );
@@ -104,21 +102,27 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
     }
+
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
     }
+
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
     }
+
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
     }
+
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
     }
+
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
     }
+
     public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
     } // Support PHPUnit 3.8+
@@ -130,7 +134,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        /** @var $test \PHPUnit_Framework_TestCase */
+        /** @var $test \PHPUnit\Framework\TestCase */
         $testcase = get_class($test);
         if (strpos($testcase, 'ZendTest\Db') === 0 && strpos($testcase, 'Integration')) {
             $refObj = new \ReflectionObject($test);
@@ -150,7 +154,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        /** @var $test \PHPUnit_Framework_TestCase */
+        /** @var $test \PHPUnit\Framework\TestCase */
         $testcase = get_class($test);
         if (strpos($testcase, 'ZendTest\Db') === 0 && strpos($testcase, 'Integration')) {
             $refObj = new \ReflectionObject($test);

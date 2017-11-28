@@ -9,7 +9,7 @@
 
 namespace ZendTest\Db\ResultSet;
 
-class AbstractResultSetIntegrationTest extends \PHPUnit_Framework_TestCase
+class AbstractResultSetIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \Zend\Db\ResultSet\AbstractResultSet|\PHPUnit_Framework_MockObject_MockObject
@@ -30,7 +30,7 @@ class AbstractResultSetIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testCurrentCallsDataSourceCurrentAsManyTimesWithoutBuffer()
     {
-        $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
         $this->resultSet->initialize($result);
         $result->expects($this->exactly(3))->method('current')->will($this->returnValue(['foo' => 'bar']));
         $value1 = $this->resultSet->current();
@@ -44,7 +44,7 @@ class AbstractResultSetIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     public function testCurrentCallsDataSourceCurrentOnceWithBuffer()
     {
-        $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
         $this->resultSet->buffer();
         $this->resultSet->initialize($result);
         $result->expects($this->once())->method('current')->will($this->returnValue(['foo' => 'bar']));

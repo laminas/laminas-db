@@ -11,7 +11,7 @@ namespace ZendTest\Db\ResultSet;
 
 use Zend\Db\ResultSet\HydratingResultSet;
 
-class HydratingResultSetIntegrationTest extends \PHPUnit_Framework_TestCase
+class HydratingResultSetIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\ResultSet\HydratingResultSet::current

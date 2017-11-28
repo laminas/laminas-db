@@ -9,7 +9,7 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
-class AbstractLengthColumnTest extends \PHPUnit_Framework_TestCase
+class AbstractLengthColumnTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\AbstractLengthColumn::setLength

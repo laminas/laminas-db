@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Ddl\Column;
 
 use Zend\Db\Sql\Ddl\Column\Timestamp;
 
-class TimestampTest extends \PHPUnit_Framework_TestCase
+class TimestampTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Timestamp::getExpressionData

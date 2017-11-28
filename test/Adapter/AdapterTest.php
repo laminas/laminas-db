@@ -13,7 +13,7 @@ use Zend\Db\Adapter\Adapter;
 use Zend\Db\Adapter\Profiler;
 use ZendTest\Db\TestAsset\TemporaryResultSet;
 
-class AdapterTest extends \PHPUnit_Framework_TestCase
+class AdapterTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -42,13 +42,13 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
-        $this->mockConnection = $this->getMock('Zend\Db\Adapter\Driver\ConnectionInterface');
+        $this->mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
+        $this->mockConnection = $this->getMockBuilder('Zend\Db\Adapter\Driver\ConnectionInterface')->getMock();
         $this->mockDriver->expects($this->any())->method('checkEnvironment')->will($this->returnValue(true));
         $this->mockDriver->expects($this->any())->method('getConnection')
             ->will($this->returnValue($this->mockConnection));
-        $this->mockPlatform = $this->getMock('Zend\Db\Adapter\Platform\PlatformInterface');
-        $this->mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $this->mockPlatform = $this->getMockBuilder('Zend\Db\Adapter\Platform\PlatformInterface')->getMock();
+        $this->mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $this->mockDriver->expects($this->any())->method('createStatement')
             ->will($this->returnValue($this->mockStatement));
 
@@ -225,8 +225,8 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     {
         $parray = ['bar' => 'foo'];
         $sql = 'SELECT foo, :bar';
-        $statement = $this->getMock('\Zend\Db\Adapter\Driver\StatementInterface');
-        $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $statement = $this->getMockBuilder('\Zend\Db\Adapter\Driver\StatementInterface')->getMock();
+        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
         $this->mockDriver->expects($this->any())->method('createStatement')
             ->with($sql)->will($this->returnValue($statement));
         $this->mockStatement->expects($this->any())->method('execute')->will($this->returnValue($result));
@@ -242,8 +242,8 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     public function testQueryWhenPreparedWithParameterContainerProducesResult()
     {
         $sql = 'SELECT foo';
-        $parameterContainer = $this->getMock('Zend\Db\Adapter\ParameterContainer');
-        $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $parameterContainer = $this->getMockBuilder('Zend\Db\Adapter\ParameterContainer')->getMock();
+        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
         $this->mockDriver->expects($this->any())->method('createStatement')
             ->with($sql)->will($this->returnValue($this->mockStatement));
         $this->mockStatement->expects($this->any())->method('execute')->will($this->returnValue($result));
@@ -260,7 +260,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     public function testQueryWhenExecutedProducesAResult()
     {
         $sql = 'SELECT foo';
-        $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
         $this->mockConnection->expects($this->any())->method('execute')->with($sql)->will($this->returnValue($result));
 
         $r = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
@@ -275,7 +275,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     {
         $sql = 'SELECT foo';
 
-        $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
         $this->mockConnection->expects($this->any())->method('execute')->with($sql)->will($this->returnValue($result));
         $result->expects($this->any())->method('isQueryResult')->will($this->returnValue(true));
 
@@ -308,7 +308,8 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->mockPlatform, $this->adapter->PlatForm);
         $this->assertSame($this->mockPlatform, $this->adapter->platform);
 
-        $this->setExpectedException('InvalidArgumentException', 'Invalid magic');
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid magic');
         $this->adapter->foo;
     }
 }

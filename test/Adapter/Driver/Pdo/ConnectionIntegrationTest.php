@@ -16,7 +16,7 @@ use Zend\Db\Adapter\Driver\Pdo\Connection;
  * @group integration
  * @group integration-pdo
  */
-class ConnectionIntegrationTest extends \PHPUnit_Framework_TestCase
+class ConnectionIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     protected $variables = ['pdodriver' => 'sqlite', 'database' => ':memory:'];
 

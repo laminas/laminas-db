@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql;
 
 use Zend\Db\Sql\Literal;
 
-class LiteralTest extends \PHPUnit_Framework_TestCase
+class LiteralTest extends \PHPUnit\Framework\TestCase
 {
     public function testSetLiteral()
     {

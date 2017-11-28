@@ -9,10 +9,10 @@
 
 namespace ZendTest\Db\TableGateway\Feature;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\TableGateway\Feature\SequenceFeature;
 
-class SequenceFeatureTest extends PHPUnit_Framework_TestCase
+class SequenceFeatureTest extends TestCase
 {
     /** @var SequenceFeature */
     protected $feature = null;
@@ -43,7 +43,10 @@ class SequenceFeatureTest extends PHPUnit_Framework_TestCase
         $platform->expects($this->any())
             ->method('quoteIdentifier')
             ->will($this->returnValue($this->sequenceName));
-        $adapter = $this->getMock('Zend\Db\Adapter\Adapter', ['getPlatform', 'createStatement'], [], '', false);
+        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods(['getPlatform', 'createStatement'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $adapter->expects($this->any())
             ->method('getPlatform')
             ->will($this->returnValue($platform));

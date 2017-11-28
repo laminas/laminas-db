@@ -9,7 +9,7 @@
 
 namespace ZendTest\Db\Sql\Ddl\Column;
 
-class AbstractPrecisionColumnTest extends \PHPUnit_Framework_TestCase
+class AbstractPrecisionColumnTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::setDigits

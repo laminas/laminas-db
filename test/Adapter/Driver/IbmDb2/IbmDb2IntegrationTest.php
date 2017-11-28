@@ -48,10 +48,8 @@ class IbmDb2IntegrationTest extends AbstractIntegrationTest
         $stmt = $driver->createStatement();
         $this->assertInstanceOf('Zend\Db\Adapter\Driver\IbmDb2\Statement', $stmt);
 
-        $this->setExpectedException(
-            'Zend\Db\Adapter\Exception\InvalidArgumentException',
-            'only accepts an SQL string or an ibm_db2 resource'
-        );
+        $this->expectException('Zend\Db\Adapter\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('only accepts an SQL string or an ibm_db2 resource');
         $driver->createStatement(new \stdClass);
     }
 }

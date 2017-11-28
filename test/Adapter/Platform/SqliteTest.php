@@ -11,7 +11,7 @@ namespace ZendTest\Db\Adapter\Platform;
 
 use Zend\Db\Adapter\Platform\Sqlite;
 
-class SqliteTest extends \PHPUnit_Framework_TestCase
+class SqliteTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Sqlite
@@ -74,8 +74,8 @@ class SqliteTest extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        $this->setExpectedException(
-            'PHPUnit_Framework_Error_Notice',
+        $this->expectException('PHPUnit_Framework_Error_Notice');
+        $this->expectExceptionMessage(
             'Attempting to quote a value in Zend\Db\Adapter\Platform\Sqlite without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
         );
@@ -123,8 +123,8 @@ class SqliteTest extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueList()
     {
-        $this->setExpectedException(
-            'PHPUnit_Framework_Error',
+        $this->expectException('PHPUnit_Framework_Error');
+        $this->expectExceptionMessage(
             'Attempting to quote a value in Zend\Db\Adapter\Platform\Sqlite without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
         );

@@ -12,7 +12,7 @@ namespace ZendTest\Db\Adapter\Driver\IbmDb2;
 use Zend\Db\Adapter\Driver\IbmDb2\IbmDb2;
 use Zend\Db\Adapter\Driver\IbmDb2\Connection;
 
-class ConnectionTest extends \PHPUnit_Framework_TestCase
+class ConnectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Connection

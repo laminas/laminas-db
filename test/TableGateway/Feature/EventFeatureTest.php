@@ -9,11 +9,11 @@
 
 namespace ZendTest\Db\TableGateway\Feature;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\EventManager\EventManager;
 use Zend\Db\TableGateway\Feature\EventFeature;
 
-class EventFeatureTest extends PHPUnit_Framework_TestCase
+class EventFeatureTest extends TestCase
 {
     /** @var EventManager */
     protected $eventManager = null;
@@ -93,7 +93,7 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
             $closureHasRun = true;
         });
 
-        $this->feature->preSelect($select = $this->getMock('Zend\Db\Sql\Select'));
+        $this->feature->preSelect($select = $this->getMockBuilder('Zend\Db\Sql\Select')->getMock());
         $this->assertTrue($closureHasRun);
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals(EventFeature::EVENT_PRE_SELECT, $event->getName());
@@ -112,9 +112,9 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
         });
 
         $this->feature->postSelect(
-            ($stmt = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface')),
-            ($result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface')),
-            ($resultset = $this->getMock('Zend\Db\ResultSet\ResultSet'))
+            ($stmt = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock()),
+            ($result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock()),
+            ($resultset = $this->getMockBuilder('Zend\Db\ResultSet\ResultSet')->getMock())
         );
         $this->assertTrue($closureHasRun);
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
@@ -135,7 +135,7 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
             $closureHasRun = true;
         });
 
-        $this->feature->preInsert($insert = $this->getMock('Zend\Db\Sql\Insert'));
+        $this->feature->preInsert($insert = $this->getMockBuilder('Zend\Db\Sql\Insert')->getMock());
         $this->assertTrue($closureHasRun);
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals(EventFeature::EVENT_PRE_INSERT, $event->getName());
@@ -154,8 +154,8 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
         });
 
         $this->feature->postInsert(
-            ($stmt = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface')),
-            ($result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface'))
+            ($stmt = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock()),
+            ($result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock())
         );
         $this->assertTrue($closureHasRun);
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
@@ -175,7 +175,7 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
             $closureHasRun = true;
         });
 
-        $this->feature->preUpdate($update = $this->getMock('Zend\Db\Sql\Update'));
+        $this->feature->preUpdate($update = $this->getMockBuilder('Zend\Db\Sql\Update')->getMock());
         $this->assertTrue($closureHasRun);
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals(EventFeature::EVENT_PRE_UPDATE, $event->getName());
@@ -194,8 +194,8 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
         });
 
         $this->feature->postUpdate(
-            ($stmt = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface')),
-            ($result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface'))
+            ($stmt = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock()),
+            ($result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock())
         );
         $this->assertTrue($closureHasRun);
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
@@ -215,7 +215,7 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
             $closureHasRun = true;
         });
 
-        $this->feature->preDelete($delete = $this->getMock('Zend\Db\Sql\Delete'));
+        $this->feature->preDelete($delete = $this->getMockBuilder('Zend\Db\Sql\Delete')->getMock());
         $this->assertTrue($closureHasRun);
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals(EventFeature::EVENT_PRE_DELETE, $event->getName());
@@ -234,8 +234,8 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
         });
 
         $this->feature->postDelete(
-            ($stmt = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface')),
-            ($result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface'))
+            ($stmt = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock()),
+            ($result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock())
         );
         $this->assertTrue($closureHasRun);
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());

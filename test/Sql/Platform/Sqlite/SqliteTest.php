@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Platform\Sqlite;
 
 use Zend\Db\Sql\Platform\Sqlite\Sqlite;
 
-class SqliteTest extends \PHPUnit_Framework_TestCase
+class SqliteTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testdox unit test / object test: Test Sqlite constructor will register the decorator

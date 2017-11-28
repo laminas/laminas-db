@@ -16,7 +16,7 @@ use Zend\Db\Adapter\Driver\Pdo;
  * @group integration
  * @group integration-sqlite
  */
-class SqliteIntegrationTest extends \PHPUnit_Framework_TestCase
+class SqliteIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     public $adapters = [];
 

@@ -13,7 +13,7 @@ use ReflectionMethod;
 use Zend\Db\Adapter\Driver\Pgsql\Connection;
 use Zend\Db\Adapter\Exception as AdapterException;
 
-class ConnectionTest extends \PHPUnit_Framework_TestCase
+class ConnectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Connection
@@ -46,7 +46,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             $this->assertInternalType('resource', $resource);
         } catch (AdapterException\RuntimeException $exc) {
             // If it throws an exception it has failed to connect
-            $this->setExpectedException('Zend\Db\Adapter\Exception\RuntimeException');
+            $this->expectException('Zend\Db\Adapter\Exception\RuntimeException');
             throw $exc;
         }
     }
@@ -90,14 +90,13 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \Zend\Db\Adapter\Exception\InvalidArgumentException
-     */
     public function testSetConnectionTypeException()
     {
         if (! extension_loaded('pgsql')) {
             $this->markTestSkipped('pgsql extension not loaded');
         }
+
+        $this->expectException('\Zend\Db\Adapter\Exception\InvalidArgumentException');
         $this->connection->setType(3);
     }
 
@@ -151,7 +150,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('pgsql extension not loaded');
         }
 
-        $this->setExpectedException('Zend\Db\Adapter\Exception\RuntimeException');
+        $this->expectException('Zend\Db\Adapter\Exception\RuntimeException');
 
         $this->connection->setConnectionParameters([
             'driver'   => 'pgsql',

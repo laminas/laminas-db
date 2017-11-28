@@ -18,7 +18,7 @@ use Zend\Db\Adapter\Driver\Pdo\Result;
  *
  * @group result-pdo
  */
-class ResultTest extends \PHPUnit_Framework_TestCase
+class ResultTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -28,7 +28,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
      */
     public function testCurrent()
     {
-        $stub = $this->getMock('PDOStatement');
+        $stub = $this->getMockBuilder('PDOStatement')->getMock();
         $stub->expects($this->any())
             ->method('fetch')
             ->will($this->returnCallback(function () {
@@ -41,12 +41,11 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->current(), $result->current());
     }
 
-    /**
-     * @expectedException \Zend\Db\Adapter\Exception\InvalidArgumentException
-     */
     public function testFetchModeException()
     {
         $result = new Result();
+
+        $this->expectException('\Zend\Db\Adapter\Exception\InvalidArgumentException');
         $result->setFetchMode(11);
     }
 
@@ -55,7 +54,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
      */
     public function testFetchModeAnonymousObject()
     {
-        $stub = $this->getMock('PDOStatement');
+        $stub = $this->getMockBuilder('PDOStatement')->getMock();
         $stub->expects($this->any())
             ->method('fetch')
             ->will($this->returnCallback(function () {

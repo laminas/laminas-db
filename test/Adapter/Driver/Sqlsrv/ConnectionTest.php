@@ -12,7 +12,7 @@ namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
 use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 use Zend\Db\Adapter\Driver\Sqlsrv\Connection;
 
-class ConnectionTest extends \PHPUnit_Framework_TestCase
+class ConnectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Connection

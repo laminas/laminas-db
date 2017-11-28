@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Ddl\Column;
 
 use Zend\Db\Sql\Ddl\Column\Varbinary;
 
-class VarbinaryTest extends \PHPUnit_Framework_TestCase
+class VarbinaryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Varbinary::getExpressionData

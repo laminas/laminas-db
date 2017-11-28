@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Ddl\Index;
 
 use Zend\Db\Sql\Ddl\Index\Index;
 
-class IndexTest extends \PHPUnit_Framework_TestCase
+class IndexTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Index\Index::getExpressionData

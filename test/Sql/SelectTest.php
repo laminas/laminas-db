@@ -20,7 +20,7 @@ use Zend\Db\Sql\TableIdentifier;
 use Zend\Db\Sql\Where;
 use ZendTest\Db\TestAsset\TrustingSql92Platform;
 
-class SelectTest extends \PHPUnit_Framework_TestCase
+class SelectTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Select::__construct
@@ -82,7 +82,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testQuantifierParameterExpressionInterface()
     {
-        $expr = $this->getMock('Zend\Db\Sql\ExpressionInterface');
+        $expr = $this->getMockBuilder('Zend\Db\Sql\ExpressionInterface')->getMock();
         $select = new Select;
         $select->quantifier($expr);
         $this->assertSame(
@@ -147,7 +147,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     public function testBadJoin()
     {
         $select = new Select;
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', "expects 'foo' as");
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage("expects 'foo' as");
         $select->join(['foo'], 'x = y', Select::SQL_STAR, Select::JOIN_INNER);
     }
 
@@ -157,8 +158,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadJoinName()
     {
-        $mockExpression = $this->getMock('Zend\Db\Sql\ExpressionInterface', [], ['bar']);
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockExpression = $this->getMockBuilder('Zend\Db\Sql\ExpressionInterface')
+            ->setConstructorArgs(['bar'])
+            ->getMock();
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $parameterContainer = new ParameterContainer();
 
@@ -171,7 +174,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $mr->setAccessible(true);
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
 
         $mr->invokeArgs($select, [new Sql92, $mockDriver, $parameterContainer]);
     }
@@ -294,10 +297,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             'name' => new Predicate\Literal("name = 'Ralph'"),
             'age' => new Predicate\Expression('age = ?', 33),
         ];
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
-            'Using Predicate must not use string keys'
-        );
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Using Predicate must not use string keys');
         $select->where($where);
     }
 
@@ -417,7 +418,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $select = new Select;
         $select->order(
-            $this->getMock('Zend\Db\Sql\Predicate\Operator', null, ['rating', '<', '10'])
+            $this->getMockBuilder('Zend\Db\Sql\Predicate\Operator')
+                ->setMethods()
+                ->setConstructorArgs(['rating', '<', '10'])
+                ->getMock()
         );
         $sr = new ReflectionObject($select);
         $method = $sr->getMethod('processOrder');
@@ -470,10 +474,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     public function testLimitExceptionOnInvalidParameter()
     {
         $select = new Select;
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
-            'Zend\Db\Sql\Select::limit expects parameter to be numeric'
-        );
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Zend\Db\Sql\Select::limit expects parameter to be numeric');
         $select->limit('foobar');
     }
 
@@ -505,10 +507,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     public function testOffsetExceptionOnInvalidParameter()
     {
         $select = new Select;
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
-            'Zend\Db\Sql\Select::offset expects parameter to be numeric'
-        );
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Zend\Db\Sql\Select::offset expects parameter to be numeric');
         $select->offset('foobar');
     }
 
@@ -691,17 +691,20 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $unused2,
         $useNamedParameters = false
     ) {
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnCallback(
             function ($name) use ($useNamedParameters) {
                 return (($useNamedParameters) ? ':' . $name : '?');
             }
         ));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver]);
+        $mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([$mockDriver])
+            ->getMock();
 
         $parameterContainer = new ParameterContainer();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $mockStatement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
         $mockStatement->expects($this->any())->method('setSql')->with($this->equalTo($expectedSqlString));
@@ -788,7 +791,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             return;
         }
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $parameterContainer = new ParameterContainer();
 

@@ -11,7 +11,7 @@ namespace ZendTest\Db\Adapter\Driver\Pgsql;
 
 use Zend\Db\Adapter\Driver\Pgsql\Pgsql;
 
-class PgsqlTest extends \PHPUnit_Framework_TestCase
+class PgsqlTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Pgsql
@@ -33,7 +33,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     public function testCheckEnvironment()
     {
         if (! extension_loaded('pgsql')) {
-            $this->setExpectedException('Zend\Db\Adapter\Exception\RuntimeException');
+            $this->expectException('Zend\Db\Adapter\Exception\RuntimeException');
         }
         $this->pgsql->checkEnvironment();
         $this->assertTrue(true, 'No exception was thrown');

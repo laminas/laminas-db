@@ -15,7 +15,7 @@ use Zend\Db\Adapter\Driver\Sqlsrv\Result;
  * @group integration
  * @group integration-sqlsrv
  */
-class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
+class ResultIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Result

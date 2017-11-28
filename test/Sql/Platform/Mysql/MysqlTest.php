@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Platform\Mysql;
 
 use Zend\Db\Sql\Platform\Mysql\Mysql;
 
-class MysqlTest extends \PHPUnit_Framework_TestCase
+class MysqlTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testdox unit test / object test: Test Mysql object has Select proxy

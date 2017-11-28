@@ -9,10 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Driver\Pdo\Feature;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter;
 
-class SqliteRowCounterTest extends PHPUnit_Framework_TestCase
+class SqliteRowCounterTest extends TestCase
 {
     /**
      * @var SqliteRowCounter
@@ -71,16 +71,21 @@ class SqliteRowCounterTest extends PHPUnit_Framework_TestCase
     protected function getMockStatement($sql, $returnValue)
     {
         /** @var \Zend\Db\Adapter\Driver\Pdo\Statement|\PHPUnit_Framework_MockObject_MockObject $statement */
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\Pdo\Statement', ['prepare', 'execute'], [], '', false);
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\Pdo\Statement')
+            ->setMethods(['prepare', 'execute'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
         // mock PDOStatement with stdClass
-        $resource = $this->getMock('stdClass', ['fetch']);
+        $resource = $this->getMockBuilder('stdClass')
+            ->setMethods(['fetch'])
+            ->getMock();
         $resource->expects($this->once())
             ->method('fetch')
             ->will($this->returnValue(['count' => $returnValue]));
 
         // mock the result
-        $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
         $result->expects($this->once())
             ->method('getResource')
             ->will($this->returnValue($resource));
@@ -95,22 +100,30 @@ class SqliteRowCounterTest extends PHPUnit_Framework_TestCase
 
     protected function getMockDriver($returnValue)
     {
-        $pdoStatement = $this->getMock('stdClass', ['fetch'], [], '', false); // stdClass can be used here
+        $pdoStatement = $this->getMockBuilder('stdClass')
+            ->setMethods(['fetch'])
+            ->disableOriginalConstructor()
+            ->getMock(); // stdClass can be used here
         $pdoStatement->expects($this->once())
             ->method('fetch')
             ->will($this->returnValue(['count' => $returnValue]));
 
-        $pdoConnection = $this->getMock('stdClass', ['query']);
+        $pdoConnection = $this->getMockBuilder('stdClass')
+            ->setMethods(['query'])
+            ->getMock();
         $pdoConnection->expects($this->once())
             ->method('query')
             ->will($this->returnValue($pdoStatement));
 
-        $connection = $this->getMock('Zend\Db\Adapter\Driver\ConnectionInterface');
+        $connection = $this->getMockBuilder('Zend\Db\Adapter\Driver\ConnectionInterface')->getMock();
         $connection->expects($this->once())
             ->method('getResource')
             ->will($this->returnValue($pdoConnection));
 
-        $driver = $this->getMock('Zend\Db\Adapter\Driver\Pdo\Pdo', ['getConnection'], [], '', false);
+        $driver = $this->getMockBuilder('Zend\Db\Adapter\Driver\Pdo\Pdo')
+            ->setMethods(['getConnection'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $driver->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($connection));

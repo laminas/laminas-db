@@ -12,7 +12,7 @@ namespace ZendTest\Db\Metadata\Source;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Metadata\Source\Factory;
 
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider validAdapterProvider
@@ -31,7 +31,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function validAdapterProvider()
     {
         $createAdapterForPlatform = function ($platformName) {
-            $platform = $this->getMock('Zend\Db\Adapter\Platform\PlatformInterface');
+            $platform = $this->getMockBuilder('Zend\Db\Adapter\Platform\PlatformInterface')->getMock();
             $platform
                 ->expects($this->any())
                 ->method('getName')

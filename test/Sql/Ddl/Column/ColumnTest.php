@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Ddl\Column;
 
 use Zend\Db\Sql\Ddl\Column\Column;
 
-class ColumnTest extends \PHPUnit_Framework_TestCase
+class ColumnTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Column::setName

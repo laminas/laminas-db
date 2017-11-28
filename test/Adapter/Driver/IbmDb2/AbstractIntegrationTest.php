@@ -9,7 +9,7 @@
 
 namespace ZendTest\Db\Adapter\Driver\IbmDb2;
 
-abstract class AbstractIntegrationTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var array

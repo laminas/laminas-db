@@ -15,7 +15,7 @@ use Zend\Db\Adapter\Driver\IbmDb2\Result;
  * @group integration
  * @group integration-ibm_db2
  */
-class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
+class ResultIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Result

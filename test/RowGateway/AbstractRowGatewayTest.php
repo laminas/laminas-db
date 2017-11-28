@@ -11,7 +11,7 @@ namespace ZendTest\Db\RowGateway;
 
 use Zend\Db\RowGateway\RowGateway;
 
-class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
+class AbstractRowGatewayTest extends \PHPUnit\Framework\TestCase
 {
     protected $mockAdapter = null;
 
@@ -23,18 +23,21 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     public function setup()
     {
         // mock the adapter, driver, and parts
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
         $mockResult->expects($this->any())->method('getAffectedRows')->will($this->returnValue(1));
         $this->mockResult = $mockResult;
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockConnection = $this->getMock('Zend\Db\Adapter\Driver\ConnectionInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockConnection = $this->getMockBuilder('Zend\Db\Adapter\Driver\ConnectionInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockDriver->expects($this->any())->method('getConnection')->will($this->returnValue($mockConnection));
 
         // setup mock adapter
-        $this->mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver]);
+        $this->mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([$mockDriver])
+            ->getMock();
 
         $this->rowGateway = $this->getMockForAbstractClass('Zend\Db\RowGateway\AbstractRowGateway');
 
@@ -214,13 +217,18 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     public function testSaveUpdateChangingPrimaryKey()
     {
         // this mock is the select to be used to re-fresh the rowobject's data
-        $selectMock = $this->getMock('Zend\Db\Sql\Select', ['where']);
+        $selectMock = $this->getMockBuilder('Zend\Db\Sql\Select')
+            ->setMethods(['where'])
+            ->getMock();
         $selectMock->expects($this->once())
             ->method('where')
             ->with($this->equalTo(['id' => 7]))
             ->will($this->returnValue($selectMock));
 
-        $sqlMock = $this->getMock('Zend\Db\Sql\Sql', ['select'], [$this->mockAdapter]);
+        $sqlMock = $this->getMockBuilder('Zend\Db\Sql\Sql')
+            ->setMethods(['select'])
+            ->setConstructorArgs([$this->mockAdapter])
+            ->getMock();
         $sqlMock->expects($this->any())
             ->method('select')
             ->will($this->returnValue($selectMock));
@@ -272,7 +280,8 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     {
         $this->rowGateway->populate(['id' => 5, 'name' => 'foo'], true);
 
-        $this->setExpectedException('Zend\Db\RowGateway\Exception\RuntimeException', 'a known key id was not found');
+        $this->expectException('Zend\Db\RowGateway\Exception\RuntimeException');
+        $this->expectExceptionMessage('a known key id was not found');
         $this->rowGateway->populate(['boo' => 5, 'name' => 'foo'], true);
     }
 

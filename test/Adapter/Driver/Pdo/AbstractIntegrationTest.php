@@ -9,7 +9,7 @@
 //
 //namespace ZendTest\Db\Adapter\Driver\Pdo;
 //
-//abstract class AbstractIntegrationTest extends \PHPUnit_Framework_TestCase
+//abstract class AbstractIntegrationTest extends \PHPUnit\Framework\TestCase
 //{
 //
 //    /**

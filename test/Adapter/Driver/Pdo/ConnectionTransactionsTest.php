@@ -17,7 +17,7 @@ use ZendTest\Db\TestAsset\ConnectionWrapper;
  * @covers \Zend\Db\Adapter\Driver\Pdo\Connection
  * @covers \Zend\Db\Adapter\Driver\AbstractConnection
  */
-class ConnectionTransactionsTest extends \PHPUnit_Framework_TestCase
+class ConnectionTransactionsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Wrapper
@@ -141,12 +141,13 @@ class ConnectionTransactionsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::rollback()
-     * @expectedException \Zend\Db\Adapter\Exception\RuntimeException
-     * @expectedExceptionMessage Must be connected before you can rollback
      */
     public function testRollbackDisconnectedThrowsException()
     {
         $this->wrapper->disconnect();
+
+        $this->expectException('\Zend\Db\Adapter\Exception\RuntimeException');
+        $this->expectExceptionMessage('Must be connected before you can rollback');
         $this->wrapper->rollback();
     }
 
@@ -172,11 +173,11 @@ class ConnectionTransactionsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::rollback()
-     * @expectedException \Zend\Db\Adapter\Exception\RuntimeException
-     * @expectedExceptionMessage Must call beginTransaction() before you can rollback
      */
     public function testRollbackWithoutBeginThrowsException()
     {
+        $this->expectException('\Zend\Db\Adapter\Exception\RuntimeException');
+        $this->expectExceptionMessage('Must call beginTransaction() before you can rollback');
         $this->wrapper->rollback();
     }
 

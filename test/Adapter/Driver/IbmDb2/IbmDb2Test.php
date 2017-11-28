@@ -11,7 +11,7 @@ namespace ZendTest\Db\Adapter\Driver\IbmDb2;
 
 use Zend\Db\Adapter\Driver\IbmDb2\IbmDb2;
 
-class IbmDb2Test extends \PHPUnit_Framework_TestCase
+class IbmDb2Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var IbmDb2

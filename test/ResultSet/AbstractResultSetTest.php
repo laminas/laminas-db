@@ -9,7 +9,7 @@
 
 namespace ZendTest\Db\ResultSet;
 
-class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
+class AbstractResultSetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -38,8 +38,8 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
             ['id' => 3, 'name' => 'three'],
         ]));
 
-        $this->setExpectedException(
-            'Zend\Db\ResultSet\Exception\InvalidArgumentException',
+        $this->expectException('Zend\Db\ResultSet\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage(
             'DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate'
         );
         $resultSet->initialize('foo');
@@ -71,10 +71,8 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
                 ['id' => 3, 'name' => 'three'],
         ]));
         $resultSet->next(); // start iterator
-        $this->setExpectedException(
-            'Zend\Db\ResultSet\Exception\RuntimeException',
-            'Buffering must be enabled before iteration is started'
-        );
+        $this->expectException('Zend\Db\ResultSet\Exception\RuntimeException');
+        $this->expectExceptionMessage('Buffering must be enabled before iteration is started');
         $resultSet->buffer();
     }
 

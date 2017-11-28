@@ -11,7 +11,7 @@ namespace ZendTest\Db\ResultSet;
 
 use ArrayObject;
 use ArrayIterator;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use SplStack;
 use stdClass;
 use Zend\Db\ResultSet\ResultSet;
@@ -74,7 +74,7 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testSettingInvalidReturnTypeRaisesException($type)
     {
-        $this->setExpectedException('Zend\Db\ResultSet\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Db\ResultSet\Exception\InvalidArgumentException');
         new ResultSet(ResultSet::TYPE_ARRAYOBJECT, $type);
     }
 
@@ -92,7 +92,10 @@ class ResultSetIntegrationTest extends TestCase
 
     public function testCanProvideIteratorAggregateAsDataSource()
     {
-        $iteratorAggregate = $this->getMock('IteratorAggregate', ['getIterator'], [new SplStack]);
+        $iteratorAggregate = $this->getMockBuilder('IteratorAggregate')
+            ->setMethods(['getIterator'])
+            ->setConstructorArgs([new SplStack])
+            ->getMock();
         $iteratorAggregate->expects($this->any())->method('getIterator')->will($this->returnValue($iteratorAggregate));
         $this->resultSet->initialize($iteratorAggregate);
         $this->assertSame($iteratorAggregate->getIterator(), $this->resultSet->getDataSource());
@@ -107,7 +110,7 @@ class ResultSetIntegrationTest extends TestCase
             // this is valid
             return;
         }
-        $this->setExpectedException('Zend\Db\ResultSet\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Db\ResultSet\Exception\InvalidArgumentException');
         $this->resultSet->initialize($dataSource);
     }
 
@@ -172,7 +175,7 @@ class ResultSetIntegrationTest extends TestCase
             $dataSource[$index] = (object) $row;
         }
         $this->resultSet->initialize($dataSource);
-        $this->setExpectedException('Zend\Db\ResultSet\Exception\RuntimeException');
+        $this->expectException('Zend\Db\ResultSet\Exception\RuntimeException');
         $this->resultSet->toArray();
     }
 
@@ -191,7 +194,7 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testCurrentWithBufferingCallsDataSourceCurrentOnce()
     {
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
         $mockResult->expects($this->once())->method('current')->will($this->returnValue(['foo' => 'bar']));
 
         $this->resultSet->initialize($mockResult);
@@ -208,13 +211,13 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testBufferCalledAfterIterationThrowsException()
     {
-        $this->resultSet->initialize($this->getMock('Zend\Db\Adapter\Driver\ResultInterface'));
+        $this->resultSet->initialize(
+            $this->prophesize('Zend\Db\Adapter\Driver\ResultInterface')->reveal()
+        );
         $this->resultSet->current();
 
-        $this->setExpectedException(
-            'Zend\Db\ResultSet\Exception\RuntimeException',
-            'Buffering must be enabled before iteration is started'
-        );
+        $this->expectException('Zend\Db\ResultSet\Exception\RuntimeException');
+        $this->expectExceptionMessage('Buffering must be enabled before iteration is started');
         $this->resultSet->buffer();
     }
 
@@ -223,7 +226,7 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testCurrentReturnsNullForNonExistingValues()
     {
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
         $mockResult->expects($this->once())->method('current')->will($this->returnValue("Not an Array"));
 
         $this->resultSet->initialize($mockResult);

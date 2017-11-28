@@ -16,7 +16,7 @@ use Zend\Db\TableGateway\Feature\SequenceFeature;
 use Zend\Db\TableGateway\Feature\MetadataFeature;
 use Zend\Db\Metadata\Object\ConstraintObject;
 
-class FeatureSetTest extends \PHPUnit_Framework_TestCase
+class FeatureSetTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @cover FeatureSet::addFeature
@@ -24,10 +24,10 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddFeatureThatFeatureDoesNotHaveTableGatewayButFeatureSetHas()
     {
-        $mockMasterAdapter = $this->getMock('Zend\Db\Adapter\AdapterInterface');
+        $mockMasterAdapter = $this->getMockBuilder('Zend\Db\Adapter\AdapterInterface')->getMock();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue(
             $mockStatement
         ));
@@ -36,10 +36,10 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
             new \Zend\Db\Adapter\Platform\Sql92()
         ));
 
-        $mockSlaveAdapter = $this->getMock('Zend\Db\Adapter\AdapterInterface');
+        $mockSlaveAdapter = $this->getMockBuilder('Zend\Db\Adapter\AdapterInterface')->getMock();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue(
             $mockStatement
         ));
@@ -67,7 +67,7 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
     {
         $tableGatewayMock = $this->getMockForAbstractClass('Zend\Db\TableGateway\AbstractTableGateway');
 
-        $metadataMock = $this->getMock('Zend\Db\Metadata\MetadataInterface');
+        $metadataMock = $this->getMockBuilder('Zend\Db\Metadata\MetadataInterface')->getMock();
         $metadataMock->expects($this->any())->method('getColumnNames')->will($this->returnValue(['id', 'name']));
 
         $constraintObject = new ConstraintObject('id_pk', 'table');
@@ -132,16 +132,16 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
     {
         $sequenceName = 'table_sequence';
 
-        $platformMock = $this->getMock('Zend\Db\Adapter\Platform\Postgresql');
+        $platformMock = $this->getMockBuilder('Zend\Db\Adapter\Platform\Postgresql')->getMock();
         $platformMock->expects($this->any())
             ->method('getName')->will($this->returnValue('PostgreSQL'));
 
-        $resultMock = $this->getMock('Zend\Db\Adapter\Driver\Pgsql\Result');
+        $resultMock = $this->getMockBuilder('Zend\Db\Adapter\Driver\Pgsql\Result')->getMock();
         $resultMock->expects($this->any())
             ->method('current')
             ->will($this->returnValue(['currval' => 1]));
 
-        $statementMock = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statementMock = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $statementMock->expects($this->any())
             ->method('prepare')
             ->with('SELECT CURRVAL(\'' . $sequenceName . '\')');

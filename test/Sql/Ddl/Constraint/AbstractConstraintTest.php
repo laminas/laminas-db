@@ -9,7 +9,7 @@
 
 namespace ZendTest\Db\Sql\Ddl\Constraint;
 
-class AbstractConstraintTest extends \PHPUnit_Framework_TestCase
+class AbstractConstraintTest extends \PHPUnit\Framework\TestCase
 {
     /** @var \Zend\Db\Sql\Ddl\Constraint\AbstractConstraint */
     protected $ac;

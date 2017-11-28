@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Predicate;
 
 use Zend\Db\Sql\Predicate\NotLike;
 
-class NotLikeTest extends \PHPUnit_Framework_TestCase
+class NotLikeTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructEmptyArgs()
     {

@@ -17,7 +17,7 @@ use Zend\Db\Adapter\Profiler\Profiler;
 /**
  * @group integrationOracle
  */
-class StatementTest extends \PHPUnit_Framework_TestCase
+class StatementTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Statement

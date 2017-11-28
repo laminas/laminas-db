@@ -14,7 +14,7 @@ use Zend\Db\Adapter\Driver\Pdo\Statement;
 use Zend\Db\Adapter\Driver\Pdo\Pdo;
 use Zend\Db\Adapter\ParameterContainer;
 
-class StatementTest extends \PHPUnit_Framework_TestCase
+class StatementTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Statement

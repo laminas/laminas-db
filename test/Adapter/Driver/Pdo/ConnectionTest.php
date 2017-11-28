@@ -11,7 +11,7 @@ namespace ZendTest\Db\Adapter\Driver\Pdo;
 
 use Zend\Db\Adapter\Driver\Pdo\Connection;
 
-class ConnectionTest extends \PHPUnit_Framework_TestCase
+class ConnectionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Connection
@@ -34,7 +34,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testResource()
     {
-        $this->setExpectedException('Zend\Db\Adapter\Exception\InvalidConnectionParametersException');
+        $this->expectException('Zend\Db\Adapter\Exception\InvalidConnectionParametersException');
         $this->connection->getResource();
     }
 
@@ -83,8 +83,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
 
     public function testHostnameAndUnixSocketThrowsInvalidConnectionParametersException()
     {
-        $this->setExpectedException(
-            'Zend\Db\Adapter\Exception\InvalidConnectionParametersException',
+        $this->expectException('Zend\Db\Adapter\Exception\InvalidConnectionParametersException');
+        $this->expectExceptionMessage(
             'Ambiguous connection parameters, both hostname and unix_socket parameters were set'
         );
 

@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Ddl\Constraint;
 
 use Zend\Db\Sql\Ddl\Constraint\Check;
 
-class CheckTest extends \PHPUnit_Framework_TestCase
+class CheckTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Constraint\Check::getExpressionData

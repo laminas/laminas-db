@@ -7,7 +7,7 @@
 
 namespace ZendTest\Db\Sql;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Join;
 use Zend\Db\Sql\Select;
 
@@ -93,13 +93,12 @@ class JoinTest extends TestCase
         $this->assertSame($join, $return);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage join() expects '' as a single element associative array
-     */
     public function testJoinWillThrowAnExceptionIfNameIsNoValid()
     {
         $join = new Join();
+
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage("join() expects '' as a single element associative array");
         $join->join([], false);
     }
 

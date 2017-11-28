@@ -21,7 +21,7 @@ use ZendTest\Db\TestAsset;
  * @method \Zend\Db\Sql\Ddl\CreateTable createTable(null|string $table)
  * @method \Zend\Db\Sql\Ddl\Column\Column createColumn(null|string $name)
  */
-class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
+class SqlFunctionalTest extends \PHPUnit\Framework\TestCase
 {
     protected function dataProviderCommonProcessMethods()
     {
@@ -561,7 +561,10 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
     protected function resolveDecorator($decorator)
     {
         if (is_array($decorator)) {
-            $decoratorMock = $this->getMock($decorator[0], ['buildSqlString'], [null]);
+            $decoratorMock = $this->getMockBuilder($decorator[0])
+                ->setMethods(['buildSqlString'])
+                ->setConstructorArgs([null])
+                ->getMock();
             $decoratorMock->expects($this->any())->method('buildSqlString')->will($this->returnValue($decorator[1]));
             return $decoratorMock;
         }
@@ -590,7 +593,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 $platform = null;
         }
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnCallback(function () {
             return new Adapter\StatementContainer;

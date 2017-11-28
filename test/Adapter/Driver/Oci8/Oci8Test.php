@@ -11,7 +11,7 @@ namespace ZendTest\Db\Adapter\Driver\Oci8;
 
 use Zend\Db\Adapter\Driver\Oci8\Oci8;
 
-class Oci8Test extends \PHPUnit_Framework_TestCase
+class Oci8Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Oci8

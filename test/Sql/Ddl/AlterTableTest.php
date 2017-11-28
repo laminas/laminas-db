@@ -13,7 +13,7 @@ use Zend\Db\Sql\Ddl\AlterTable;
 use Zend\Db\Sql\Ddl\Column;
 use Zend\Db\Sql\Ddl\Constraint;
 
-class AlterTableTest extends \PHPUnit_Framework_TestCase
+class AlterTableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\AlterTable::setTable
@@ -33,7 +33,7 @@ class AlterTableTest extends \PHPUnit_Framework_TestCase
     {
         $at = new AlterTable();
         /** @var \Zend\Db\Sql\Ddl\Column\ColumnInterface $colMock */
-        $colMock = $this->getMock('Zend\Db\Sql\Ddl\Column\ColumnInterface');
+        $colMock = $this->getMockBuilder('Zend\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
         $this->assertSame($at, $at->addColumn($colMock));
         $this->assertEquals([$colMock], $at->getRawState($at::ADD_COLUMNS));
     }
@@ -45,7 +45,7 @@ class AlterTableTest extends \PHPUnit_Framework_TestCase
     {
         $at = new AlterTable();
         /** @var \Zend\Db\Sql\Ddl\Column\ColumnInterface $colMock */
-        $colMock = $this->getMock('Zend\Db\Sql\Ddl\Column\ColumnInterface');
+        $colMock = $this->getMockBuilder('Zend\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
         $this->assertSame($at, $at->changeColumn('newname', $colMock));
         $this->assertEquals(['newname' => $colMock], $at->getRawState($at::CHANGE_COLUMNS));
     }
@@ -77,7 +77,7 @@ class AlterTableTest extends \PHPUnit_Framework_TestCase
     {
         $at = new AlterTable();
         /** @var \Zend\Db\Sql\Ddl\Constraint\ConstraintInterface $conMock */
-        $conMock = $this->getMock('Zend\Db\Sql\Ddl\Constraint\ConstraintInterface');
+        $conMock = $this->getMockBuilder('Zend\Db\Sql\Ddl\Constraint\ConstraintInterface')->getMock();
         $this->assertSame($at, $at->addConstraint($conMock));
         $this->assertEquals([$conMock], $at->getRawState($at::ADD_CONSTRAINTS));
     }

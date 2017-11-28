@@ -10,7 +10,7 @@ namespace ZendTest\Db;
 use Zend\Db\Adapter;
 use Zend\Db\ConfigProvider;
 
-class ConfigProviderTest extends \PHPUnit_Framework_TestCase
+class ConfigProviderTest extends \PHPUnit\Framework\TestCase
 {
     private $config = [
         'abstract_factories' => [

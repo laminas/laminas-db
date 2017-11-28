@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Ddl\Column;
 
 use Zend\Db\Sql\Ddl\Column\Binary;
 
-class BinaryTest extends \PHPUnit_Framework_TestCase
+class BinaryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Binary::getExpressionData

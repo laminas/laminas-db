@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Ddl\Constraint;
 
 use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
 
-class PrimaryKeyTest extends \PHPUnit_Framework_TestCase
+class PrimaryKeyTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Constraint\PrimaryKey::getExpressionData

@@ -17,7 +17,7 @@ use Zend\Db\Adapter\Driver\Pdo;
  * @group integration
  * @group integration-mysql
  */
-class MysqlIntegrationTest extends \PHPUnit_Framework_TestCase
+class MysqlIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     public $adapters = [];
 

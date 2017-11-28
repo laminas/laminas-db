@@ -14,7 +14,7 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\Mysql as MysqlPlatform;
 
-class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
+class SelectDecoratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare
@@ -26,21 +26,20 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareStatement(Select $select, $expectedSql, $expectedParams)
     {
-        $driver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $driver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
 
         // test
-        $adapter = $this->getMock(
-            'Zend\Db\Adapter\Adapter',
-            null,
-            [
+        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([
                 $driver,
-                new MysqlPlatform()
-            ]
-        );
+                new MysqlPlatform(),
+            ])
+            ->getMock();
 
         $parameterContainer = new ParameterContainer;
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $statement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
 
@@ -64,7 +63,7 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
     public function testGetSqlString(Select $select, $ignore, $alsoIgnore, $expectedSql)
     {
         $parameterContainer = new ParameterContainer;
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $statement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
 

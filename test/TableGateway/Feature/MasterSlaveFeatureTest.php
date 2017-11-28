@@ -12,7 +12,7 @@ namespace ZendTest\Db\TableGateway\Feature;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\TableGateway\Feature\MasterSlaveFeature;
 
-class MasterSlaveFeatureTest extends \PHPUnit_Framework_TestCase
+class MasterSlaveFeatureTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AdapterInterface */
     protected $mockMasterAdapter;
@@ -28,10 +28,10 @@ class MasterSlaveFeatureTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->mockMasterAdapter = $this->getMock('Zend\Db\Adapter\AdapterInterface');
+        $this->mockMasterAdapter = $this->getMockBuilder('Zend\Db\Adapter\AdapterInterface')->getMock();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue(
             $mockStatement
         ));
@@ -40,10 +40,10 @@ class MasterSlaveFeatureTest extends \PHPUnit_Framework_TestCase
             new \Zend\Db\Adapter\Platform\Sql92()
         ));
 
-        $this->mockSlaveAdapter = $this->getMock('Zend\Db\Adapter\AdapterInterface');
+        $this->mockSlaveAdapter = $this->getMockBuilder('Zend\Db\Adapter\AdapterInterface')->getMock();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue(
             $mockStatement
         ));
@@ -75,7 +75,7 @@ class MasterSlaveFeatureTest extends \PHPUnit_Framework_TestCase
 
         $this->mockSlaveAdapter->getDriver()->createStatement()
             ->expects($this->once())->method('execute')->will($this->returnValue(
-                $this->getMock('Zend\Db\ResultSet\ResultSet')
+                $this->getMockBuilder('Zend\Db\ResultSet\ResultSet')->getMock()
             ));
         $table->select('foo = bar');
     }
@@ -88,7 +88,7 @@ class MasterSlaveFeatureTest extends \PHPUnit_Framework_TestCase
         );
         $this->mockSlaveAdapter->getDriver()->createStatement()
             ->expects($this->once())->method('execute')->will($this->returnValue(
-                $this->getMock('Zend\Db\ResultSet\ResultSet')
+                $this->getMockBuilder('Zend\Db\ResultSet\ResultSet')->getMock()
             ));
 
         $masterSql = $table->getSql();

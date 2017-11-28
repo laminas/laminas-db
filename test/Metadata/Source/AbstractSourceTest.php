@@ -11,7 +11,7 @@ namespace ZendTest\Db\Metadata\Source;
 
 use Zend\Db\Metadata\Source\AbstractSource;
 
-class AbstractSourceTest extends \PHPUnit_Framework_TestCase
+class AbstractSourceTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var AbstractSource

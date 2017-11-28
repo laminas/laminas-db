@@ -15,7 +15,7 @@ use Zend\Db\Adapter\Platform\SqlServer;
  * @group integration
  * @group integration-sqlserver
  */
-class SqlServerIntegrationTest extends \PHPUnit_Framework_TestCase
+class SqlServerIntegrationTest extends \PHPUnit\Framework\TestCase
 {
     public $adapters = [];
 

@@ -16,7 +16,7 @@ use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\IbmDb2 as IbmDb2Platform;
 use Zend\Db\Sql\Expression;
 
-class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
+class SelectDecoratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @testdox integration test: Testing SelectDecorator will use Select to produce properly IBM Db2
@@ -27,21 +27,20 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareStatement(Select $select, $expectedPrepareSql, $expectedParams, $notUsed)
     {
-        $driver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $driver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
 
         // test
-        $adapter = $this->getMock(
-            'Zend\Db\Adapter\Adapter',
-            null,
-            [
+        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([
                 $driver,
-                new IbmDb2Platform()
-            ]
-        );
+                new IbmDb2Platform(),
+            ])
+            ->getMock();
 
         $parameterContainer = new ParameterContainer;
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
 
         $statement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
@@ -63,7 +62,7 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
     public function testGetSqlString(Select $select, $ignored0, $ignored1, $expectedSql)
     {
         $parameterContainer = new ParameterContainer;
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $statement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
 

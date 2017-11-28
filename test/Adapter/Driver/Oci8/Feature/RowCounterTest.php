@@ -9,10 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Driver\Oci8\Feature;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Oci8\Feature\RowCounter;
 
-class RowCounterTest extends PHPUnit_Framework_TestCase
+class RowCounterTest extends TestCase
 {
     /**
      * @var RowCounter
@@ -69,16 +69,15 @@ class RowCounterTest extends PHPUnit_Framework_TestCase
 
     protected function getMockStatement($sql, $returnValue)
     {
-        $statement = $this->getMock(
-            'Zend\Db\Adapter\Driver\Oci8\Statement',
-            ['prepare', 'execute'],
-            [],
-            '',
-            false
-        );
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\Oci8\Statement')
+            ->setMethods(['prepare', 'execute'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
         // mock the result
-        $result = $this->getMock('stdClass', ['current']);
+        $result = $this->getMockBuilder('stdClass')
+            ->setMethods(['current'])
+            ->getMock();
         $result->expects($this->once())
             ->method('current')
             ->will($this->returnValue(['count' => $returnValue]));
@@ -91,15 +90,21 @@ class RowCounterTest extends PHPUnit_Framework_TestCase
 
     protected function getMockDriver($returnValue)
     {
-        $oci8Statement = $this->getMock('stdClass', ['current'], [], '', false); // stdClass can be used here
+        $oci8Statement = $this->getMockBuilder('stdClass')
+            ->setMethods(['current'])
+            ->disableOriginalConstructor()
+            ->getMock(); // stdClass can be used here
         $oci8Statement->expects($this->once())
             ->method('current')
             ->will($this->returnValue(['count' => $returnValue]));
-        $connection = $this->getMock('Zend\Db\Adapter\Driver\ConnectionInterface');
+        $connection = $this->getMockBuilder('Zend\Db\Adapter\Driver\ConnectionInterface')->getMock();
         $connection->expects($this->once())
             ->method('execute')
             ->will($this->returnValue($oci8Statement));
-        $driver = $this->getMock('Zend\Db\Adapter\Driver\Oci8\Oci8', ['getConnection'], [], '', false);
+        $driver = $this->getMockBuilder('Zend\Db\Adapter\Driver\Oci8\Oci8')
+            ->setMethods(['getConnection'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $driver->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($connection));

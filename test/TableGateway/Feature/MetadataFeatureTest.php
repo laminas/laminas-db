@@ -9,11 +9,11 @@
 
 namespace ZendTest\Db\TableGateway\Feature;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\TableGateway\Feature\MetadataFeature;
 use Zend\Db\Metadata\Object\ConstraintObject;
 
-class MetadataFeatureTest extends PHPUnit_Framework_TestCase
+class MetadataFeatureTest extends TestCase
 {
     /**
      * @group integration-test
@@ -22,7 +22,7 @@ class MetadataFeatureTest extends PHPUnit_Framework_TestCase
     {
         $tableGatewayMock = $this->getMockForAbstractClass('Zend\Db\TableGateway\AbstractTableGateway');
 
-        $metadataMock = $this->getMock('Zend\Db\Metadata\MetadataInterface');
+        $metadataMock = $this->getMockBuilder('Zend\Db\Metadata\MetadataInterface')->getMock();
         $metadataMock->expects($this->any())->method('getColumnNames')->will($this->returnValue(['id', 'name']));
 
         $constraintObject = new ConstraintObject('id_pk', 'table');

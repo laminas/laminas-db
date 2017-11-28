@@ -17,7 +17,7 @@ use Zend\Db\Sql\TableIdentifier;
  *
  * @covers \Zend\Db\Sql\TableIdentifier
  */
-class TableIdentifierTest extends \PHPUnit_Framework_TestCase
+class TableIdentifierTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetTable()
     {
@@ -42,7 +42,7 @@ class TableIdentifierTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTableFromObjectStringCast()
     {
-        $table = $this->getMock('stdClass', ['__toString']);
+        $table = $this->getMockBuilder('stdClass')->setMethods(['__toString'])->getMock();
 
         $table->expects($this->once())->method('__toString')->will($this->returnValue('castResult'));
 
@@ -54,7 +54,7 @@ class TableIdentifierTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSchemaFromObjectStringCast()
     {
-        $schema = $this->getMock('stdClass', ['__toString']);
+        $schema = $this->getMockBuilder('stdClass')->setMethods(['__toString'])->getMock();
 
         $schema->expects($this->once())->method('__toString')->will($this->returnValue('castResult'));
 
@@ -71,7 +71,7 @@ class TableIdentifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testRejectsInvalidTable($invalidTable)
     {
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
 
         new TableIdentifier($invalidTable);
     }
@@ -83,7 +83,7 @@ class TableIdentifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testRejectsInvalidSchema($invalidSchema)
     {
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
 
         new TableIdentifier('foo', $invalidSchema);
     }

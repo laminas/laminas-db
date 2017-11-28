@@ -13,7 +13,7 @@ use Zend\Db\Sql\Ddl\Column\Column;
 use Zend\Db\Sql\Ddl\Constraint;
 use Zend\Db\Sql\Ddl\CreateTable;
 
-class CreateTableTest extends \PHPUnit_Framework_TestCase
+class CreateTableTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * test object construction
@@ -78,7 +78,7 @@ class CreateTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddColumn()
     {
-        $column = $this->getMock('Zend\Db\Sql\Ddl\Column\ColumnInterface');
+        $column = $this->getMockBuilder('Zend\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
         $ct = new CreateTable;
         $this->assertSame($ct, $ct->addColumn($column));
         return $ct;
@@ -101,7 +101,7 @@ class CreateTableTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddConstraint()
     {
-        $constraint = $this->getMock('Zend\Db\Sql\Ddl\Constraint\ConstraintInterface');
+        $constraint = $this->getMockBuilder('Zend\Db\Sql\Ddl\Constraint\ConstraintInterface')->getMock();
         $ct = new CreateTable;
         $this->assertSame($ct, $ct->addConstraint($constraint));
         return $ct;

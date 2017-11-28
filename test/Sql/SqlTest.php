@@ -13,7 +13,7 @@ use Zend\Db\Sql\Sql;
 use ZendTest\Db\TestAsset;
 use Zend\Db\Adapter\Adapter;
 
-class SqlTest extends \PHPUnit_Framework_TestCase
+class SqlTest extends \PHPUnit\Framework\TestCase
 {
     protected $mockAdapter = null;
 
@@ -26,21 +26,20 @@ class SqlTest extends \PHPUnit_Framework_TestCase
     public function setup()
     {
         // mock the adapter, driver, and parts
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockConnection = $this->getMock('Zend\Db\Adapter\Driver\ConnectionInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockConnection = $this->getMockBuilder('Zend\Db\Adapter\Driver\ConnectionInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockDriver->expects($this->any())->method('getConnection')->will($this->returnValue($mockConnection));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
 
         // setup mock adapter
-        $this->mockAdapter = $this->getMock(
-            'Zend\Db\Adapter\Adapter',
-            null,
-            [$mockDriver, new TestAsset\TrustingSql92Platform()]
-        );
+        $this->mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([$mockDriver, new TestAsset\TrustingSql92Platform()])
+            ->getMock();
 
         $this->sql = new Sql($this->mockAdapter, 'foo');
     }
@@ -59,10 +58,8 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $sql->setTable('foo');
         $this->assertSame('foo', $sql->getTable());
 
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
-            'Table must be a string, array or instance of TableIdentifier.'
-        );
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Table must be a string, array or instance of TableIdentifier.');
         $sql->setTable(null);
     }
 
@@ -75,8 +72,8 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
         $this->assertSame('foo', $select->getRawState('table'));
 
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
         $this->sql->select('bar');
@@ -91,8 +88,8 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Db\Sql\Insert', $insert);
         $this->assertSame('foo', $insert->getRawState('table'));
 
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
         $this->sql->insert('bar');
@@ -107,8 +104,8 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Db\Sql\Update', $update);
         $this->assertSame('foo', $update->getRawState('table'));
 
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
         $this->sql->update('bar');
@@ -124,8 +121,8 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Db\Sql\Delete', $delete);
         $this->assertSame('foo', $delete->getRawState('table'));
 
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
         $this->sql->delete('bar');
@@ -229,8 +226,8 @@ class SqlTest extends \PHPUnit_Framework_TestCase
                 $platform = null;
         }
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
 

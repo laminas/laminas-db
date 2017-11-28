@@ -11,7 +11,7 @@ namespace ZendTest\Db\Adapter\Platform;
 
 use Zend\Db\Adapter\Platform\Sql92;
 
-class Sql92Test extends \PHPUnit_Framework_TestCase
+class Sql92Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Sql92
@@ -74,8 +74,8 @@ class Sql92Test extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        $this->setExpectedException(
-            'PHPUnit_Framework_Error_Notice',
+        $this->expectException('PHPUnit_Framework_Error_Notice');
+        $this->expectExceptionMessage(
             'Attempting to quote a value without specific driver level support can introduce security vulnerabilities '
             . 'in a production environment.'
         );
@@ -123,8 +123,8 @@ class Sql92Test extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueList()
     {
-        $this->setExpectedException(
-            'PHPUnit_Framework_Error',
+        $this->expectException('PHPUnit_Framework_Error');
+        $this->expectExceptionMessage(
             'Attempting to quote a value without specific driver level support can introduce security vulnerabilities '
             . 'in a production environment.'
         );

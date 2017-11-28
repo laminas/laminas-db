@@ -16,7 +16,7 @@ use Zend\Db\Sql\TableIdentifier;
 use ZendTest\Db\TestAsset\Replace;
 use ZendTest\Db\TestAsset\TrustingSql92Platform;
 
-class InsertTest extends \PHPUnit_Framework_TestCase
+class InsertTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Insert
@@ -80,10 +80,8 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      */
     public function testValuesThrowsExceptionWhenNotArrayOrSelect()
     {
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
-            'values() expects an array of values or Zend\Db\Sql\Select instance'
-        );
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('values() expects an array of values or Zend\Db\Sql\Select instance');
         $this->insert->values(5);
     }
 
@@ -94,10 +92,8 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     {
         $this->insert->values(['foo' => 'bar']);
 
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
-            'A Zend\Db\Sql\Select instance cannot be provided with the merge flag'
-        );
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('A Zend\Db\Sql\Select instance cannot be provided with the merge flag');
         $this->insert->values(new Select, Insert::VALUES_MERGE);
     }
 
@@ -108,8 +104,8 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     {
         $this->insert->values(new Select);
 
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage(
             'An array of values cannot be provided with the merge flag when a Zend\Db\Sql\Select instance already '
             . 'exists as the value source'
         );
@@ -131,12 +127,15 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareStatement()
     {
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver]);
+        $mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([$mockDriver])
+            ->getMock();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $pContainer = new \Zend\Db\Adapter\ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
         $mockStatement->expects($this->at(1))
@@ -150,12 +149,15 @@ class InsertTest extends \PHPUnit_Framework_TestCase
 
         // with TableIdentifier
         $this->insert = new Insert;
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver]);
+        $mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([$mockDriver])
+            ->getMock();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $pContainer = new \Zend\Db\Adapter\ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
         $mockStatement->expects($this->at(1))
@@ -173,10 +175,13 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareStatementWithSelect()
     {
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver]);
+        $mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([$mockDriver])
+            ->getMock();
 
         $mockStatement = new \Zend\Db\Adapter\StatementContainer();
 
@@ -335,12 +340,15 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     {
         $replace = new Replace();
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver]);
+        $mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([$mockDriver])
+            ->getMock();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $pContainer = new \Zend\Db\Adapter\ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
         $mockStatement->expects($this->at(1))
@@ -355,12 +363,15 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         // with TableIdentifier
         $replace = new Replace();
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver]);
+        $mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([$mockDriver])
+            ->getMock();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $pContainer = new \Zend\Db\Adapter\ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
         $mockStatement->expects($this->at(1))

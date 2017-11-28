@@ -13,7 +13,7 @@ use Zend\Db\Sql\Ddl\CreateTable;
 use Zend\Db\Sql\Platform\SqlServer\Ddl\CreateTableDecorator;
 use Zend\Db\Sql\Ddl\Column\Column;
 
-class CreateTableDecoratorTest extends \PHPUnit_Framework_TestCase
+class CreateTableDecoratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Platform\SqlServer\Ddl\CreateTableDecorator::getSqlString

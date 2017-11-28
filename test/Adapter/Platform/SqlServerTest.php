@@ -12,7 +12,7 @@ namespace ZendTest\Db\Adapter\Platform;
 use Zend\Db\Adapter\Driver\Pdo\Pdo;
 use Zend\Db\Adapter\Platform\SqlServer;
 
-class SqlServerTest extends \PHPUnit_Framework_TestCase
+class SqlServerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var SqlServer
@@ -75,8 +75,8 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        $this->setExpectedException(
-            'PHPUnit_Framework_Error_Notice',
+        $this->expectException('PHPUnit_Framework_Error_Notice');
+        $this->expectExceptionMessage(
             'Attempting to quote a value in Zend\Db\Adapter\Platform\SqlServer without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
         );
@@ -122,8 +122,8 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueList()
     {
-        $this->setExpectedException(
-            'PHPUnit_Framework_Error',
+        $this->expectException('PHPUnit_Framework_Error');
+        $this->expectExceptionMessage(
             'Attempting to quote a value in Zend\Db\Adapter\Platform\SqlServer without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
         );

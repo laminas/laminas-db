@@ -15,7 +15,7 @@ use ZendTest\Db\TestAsset;
 use Zend\Db\Sql\Platform\Platform;
 use Zend\Db\Adapter\Adapter;
 
-class PlatformTest extends \PHPUnit_Framework_TestCase
+class PlatformTest extends \PHPUnit\Framework\TestCase
 {
     public function testResolveDefaultPlatform()
     {
@@ -61,7 +61,8 @@ class PlatformTest extends \PHPUnit_Framework_TestCase
 
         $reflectionMethod->setAccessible(true);
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\RuntimeException', '$this->defaultPlatform was not set');
+        $this->expectException('Zend\Db\Sql\Exception\RuntimeException');
+        $this->expectExceptionMessage('$this->defaultPlatform was not set');
 
         $reflectionMethod->invoke($platform, null);
     }
@@ -81,7 +82,8 @@ class PlatformTest extends \PHPUnit_Framework_TestCase
 
         $reflectionMethod->setAccessible(true);
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\RuntimeException', '$this->defaultPlatform was not set');
+        $this->expectException('Zend\Db\Sql\Exception\RuntimeException');
+        $this->expectExceptionMessage('$this->defaultPlatform was not set');
 
         $platform->getDecorators();
     }
@@ -111,7 +113,7 @@ class PlatformTest extends \PHPUnit_Framework_TestCase
         }
 
         /* @var $mockDriver \Zend\Db\Adapter\Driver\DriverInterface|\PHPUnit_Framework_MockObject_MockObject */
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
 
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnCallback(function () {

@@ -11,7 +11,7 @@ namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
 
 use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 
-class SqlsrvTest extends \PHPUnit_Framework_TestCase
+class SqlsrvTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Sqlsrv

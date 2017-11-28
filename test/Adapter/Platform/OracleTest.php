@@ -11,7 +11,7 @@ namespace ZendTest\Db\Adapter\Platform;
 
 use Zend\Db\Adapter\Platform\Oracle;
 
-class OracleTest extends \PHPUnit_Framework_TestCase
+class OracleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Oracle
@@ -77,11 +77,13 @@ class OracleTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers Zend\Db\Adapter\Platform\Oracle::setDriver
-     * @expectedException Zend\Db\Adapter\Exception\InvalidArgumentException
-     * @expectedMessage $driver must be a Oci8 or Oracle PDO Zend\Db\Adapter\Driver, Oci8 instance or Oci PDO instance
      */
     public function testSetDriverInvalid()
     {
+        $this->expectException('Zend\Db\Adapter\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage(
+            '$driver must be a Oci8 or Oracle PDO Zend\Db\Adapter\Driver, Oci8 instance, or Oci PDO instance'
+        );
         $this->platform->setDriver(null);
     }
 
@@ -148,8 +150,8 @@ class OracleTest extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        $this->setExpectedException(
-            'PHPUnit_Framework_Error_Notice',
+        $this->expectException('PHPUnit_Framework_Error_Notice');
+        $this->expectExceptionMessage(
             'Attempting to quote a value in Zend\Db\Adapter\Platform\Oracle without '
             . 'extension/driver support can introduce security vulnerabilities in a production environment'
         );
@@ -197,8 +199,8 @@ class OracleTest extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueList()
     {
-        $this->setExpectedException(
-            'PHPUnit_Framework_Error',
+        $this->expectException('PHPUnit_Framework_Error');
+        $this->expectExceptionMessage(
             'Attempting to quote a value in Zend\Db\Adapter\Platform\Oracle without '
             . 'extension/driver support can introduce security vulnerabilities in a production environment'
         );

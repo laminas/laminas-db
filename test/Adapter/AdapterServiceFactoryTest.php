@@ -10,7 +10,7 @@
 namespace ZendTest\Db\Adapter;
 
 use Interop\Container\ContainerInterface;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Adapter\AdapterServiceFactory;
 use Zend\ServiceManager\ServiceLocatorInterface;

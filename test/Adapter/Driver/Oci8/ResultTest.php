@@ -17,7 +17,7 @@ use Zend\Db\Adapter\Driver\Oci8\Result;
  * @package ZendTest\Db\Adapter\Driver\Oci8
  * @group result-oci8
  */
-class ResultTest extends \PHPUnit_Framework_TestCase
+class ResultTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Adapter\Driver\Oci8\Result::getResource

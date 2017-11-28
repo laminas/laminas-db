@@ -12,7 +12,7 @@ namespace ZendTest\Db\Adapter\Driver\Pdo;
 use Zend\Db\Adapter\Driver\DriverInterface;
 use Zend\Db\Adapter\Driver\Pdo\Pdo;
 
-class PdoTest extends \PHPUnit_Framework_TestCase
+class PdoTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Pdo

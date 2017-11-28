@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Predicate;
 
 use Zend\Db\Sql\Predicate\Like;
 
-class LikeTest extends \PHPUnit_Framework_TestCase
+class LikeTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructEmptyArgs()
     {

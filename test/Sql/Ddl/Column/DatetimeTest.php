@@ -11,7 +11,7 @@ namespace ZendTest\Db\Sql\Ddl\Column;
 
 use Zend\Db\Sql\Ddl\Column\Datetime;
 
-class DatetimeTest extends \PHPUnit_Framework_TestCase
+class DatetimeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Zend\Db\Sql\Ddl\Column\Datetime::getExpressionData

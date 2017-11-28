@@ -17,7 +17,7 @@ use Zend\Db\Sql\Select;
 use ZendTest\Db\TestAsset\TrustingSql92Platform;
 use Zend\Db\Adapter\ParameterContainer;
 
-class AbstractSqlTest extends \PHPUnit_Framework_TestCase
+class AbstractSqlTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -30,7 +30,7 @@ class AbstractSqlTest extends \PHPUnit_Framework_TestCase
     {
         $this->abstractSql = $this->getMockForAbstractClass('Zend\Db\Sql\AbstractSql');
 
-        $this->mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $this->mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $this->mockDriver
             ->expects($this->any())
             ->method('getPrepareType')
