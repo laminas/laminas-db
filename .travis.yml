@@ -15,22 +15,12 @@ env:
   global:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="satooshi/php-coveralls"
-    - LEGACY_DEPS="zendframework/zend-eventmanager zendframework/zend-hydrator zendframework/zend-servicemanager zendframework/zend-stdlib"
     - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=localhost
     - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD=
     - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME=localhost
 
 matrix:
   include:
-    - php: 5.5
-      env:
-        - DEPS=lowest
-    - php: 5.5
-      env:
-        - DEPS=locked
-    - php: 5.5
-      env:
-        - DEPS=latest
     - php: 5.6
       env:
         - DEPS=lowest
@@ -69,16 +59,12 @@ matrix:
     - php: 7.2
       env:
         - DEPS=latest
-  allow_failures:
-    - php: 7.2
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
-  - travis_retry composer self-update
 
 install:
   - travis_retry composer install $COMPOSER_ARGS --ignore-platform-reqs
-  - if [[ $TRAVIS_PHP_VERSION =~ ^5.5  ]]; then travis_retry composer update $COMPOSER_ARGS --with-dependencies $LEGACY_DEPS ; fi
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS ; fi
