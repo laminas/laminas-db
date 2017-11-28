@@ -35,9 +35,9 @@ class ProfilerTest extends TestCase
     public function testProfilerStart()
     {
         $ret = $this->profiler->profilerStart('SELECT * FROM FOO');
-        $this->assertSame($this->profiler, $ret);
+        self::assertSame($this->profiler, $ret);
         $ret = $this->profiler->profilerStart(new StatementContainer());
-        $this->assertSame($this->profiler, $ret);
+        self::assertSame($this->profiler, $ret);
 
         $this->expectException('Zend\Db\Adapter\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('profilerStart takes either a StatementContainer or a string');
@@ -51,7 +51,7 @@ class ProfilerTest extends TestCase
     {
         $this->profiler->profilerStart('SELECT * FROM FOO');
         $ret = $this->profiler->profilerFinish();
-        $this->assertSame($this->profiler, $ret);
+        self::assertSame($this->profiler, $ret);
 
         $profiler = new Profiler;
         $this->expectException('Zend\Db\Adapter\Exception\RuntimeException');
@@ -67,11 +67,11 @@ class ProfilerTest extends TestCase
         $this->profiler->profilerStart('SELECT * FROM FOO');
         $this->profiler->profilerFinish();
         $profile = $this->profiler->getLastProfile();
-        $this->assertEquals('SELECT * FROM FOO', $profile['sql']);
-        $this->assertNull($profile['parameters']);
-        $this->assertInternalType('float', $profile['start']);
-        $this->assertInternalType('float', $profile['end']);
-        $this->assertInternalType('float', $profile['elapse']);
+        self::assertEquals('SELECT * FROM FOO', $profile['sql']);
+        self::assertNull($profile['parameters']);
+        self::assertInternalType('float', $profile['start']);
+        self::assertInternalType('float', $profile['end']);
+        self::assertInternalType('float', $profile['elapse']);
     }
 
     /**
@@ -84,6 +84,6 @@ class ProfilerTest extends TestCase
         $this->profiler->profilerStart('SELECT * FROM FOO2');
         $this->profiler->profilerFinish();
 
-        $this->assertCount(2, $this->profiler->getProfiles());
+        self::assertCount(2, $this->profiler->getProfiles());
     }
 }

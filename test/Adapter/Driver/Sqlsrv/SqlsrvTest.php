@@ -43,7 +43,7 @@ class SqlsrvTest extends TestCase
             ['setDriver']
         );
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->sqlsrv));
-        $this->assertSame($this->sqlsrv, $this->sqlsrv->registerConnection($mockConnection));
+        self::assertSame($this->sqlsrv, $this->sqlsrv->registerConnection($mockConnection));
     }
 
     /**
@@ -62,7 +62,7 @@ class SqlsrvTest extends TestCase
             ['setDriver']
         );
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->sqlsrv));
-        $this->assertSame($this->sqlsrv, $this->sqlsrv->registerStatementPrototype($mockStatement));
+        self::assertSame($this->sqlsrv, $this->sqlsrv->registerStatementPrototype($mockStatement));
     }
 
     /**
@@ -80,7 +80,7 @@ class SqlsrvTest extends TestCase
             true,
             ['setDriver']
         );
-        $this->assertSame($this->sqlsrv, $this->sqlsrv->registerResultPrototype($mockStatement));
+        self::assertSame($this->sqlsrv, $this->sqlsrv->registerResultPrototype($mockStatement));
     }
 
     /**
@@ -89,8 +89,8 @@ class SqlsrvTest extends TestCase
     public function testGetDatabasePlatformName()
     {
         $this->sqlsrv = new Sqlsrv([]);
-        $this->assertEquals('SqlServer', $this->sqlsrv->getDatabasePlatformName());
-        $this->assertEquals('SQLServer', $this->sqlsrv->getDatabasePlatformName(Sqlsrv::NAME_FORMAT_NATURAL));
+        self::assertEquals('SqlServer', $this->sqlsrv->getDatabasePlatformName());
+        self::assertEquals('SQLServer', $this->sqlsrv->getDatabasePlatformName(Sqlsrv::NAME_FORMAT_NATURAL));
     }
 
     /**
@@ -101,7 +101,7 @@ class SqlsrvTest extends TestCase
     {
         $conn = new \Zend\Db\Adapter\Driver\Sqlsrv\Connection([]);
         $this->sqlsrv->registerConnection($conn);
-        $this->assertSame($conn, $this->sqlsrv->getConnection());
+        self::assertSame($conn, $this->sqlsrv->getConnection());
     }
 
     /**

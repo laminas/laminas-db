@@ -47,7 +47,7 @@ class CombineTest extends TestCase
                 ->except(new Select('t3'))
                 ->union(new Select('t4'));
 
-        $this->assertEquals(
+        self::assertEquals(
             // @codingStandardsIgnoreStart
             '(SELECT "t1".* FROM "t1") INTERSECT (SELECT "t2".* FROM "t2") EXCEPT (SELECT "t3".* FROM "t3") UNION (SELECT "t4".* FROM "t4")',
             // @codingStandardsIgnoreEnd
@@ -61,7 +61,7 @@ class CombineTest extends TestCase
                 ->union(new Select('t1'))
                 ->union(new Select('t2'), 'ALL');
 
-        $this->assertEquals(
+        self::assertEquals(
             '(SELECT "t1".* FROM "t1") UNION ALL (SELECT "t2".* FROM "t2")',
             $this->combine->getSqlString()
         );
@@ -75,7 +75,7 @@ class CombineTest extends TestCase
             [new Select('t3'), Combine::COMBINE_EXCEPT],
         ]);
 
-        $this->assertEquals(
+        self::assertEquals(
             '(SELECT "t1".* FROM "t1") INTERSECT ALL (SELECT "t2".* FROM "t2") EXCEPT (SELECT "t3".* FROM "t3")',
             $this->combine->getSqlString()
         );
@@ -87,7 +87,7 @@ class CombineTest extends TestCase
             new Select('t3'),
         ]);
 
-        $this->assertEquals(
+        self::assertEquals(
             '(SELECT "t1".* FROM "t1") UNION (SELECT "t2".* FROM "t2") UNION (SELECT "t3".* FROM "t3")',
             $this->combine->getSqlString()
         );
@@ -95,7 +95,7 @@ class CombineTest extends TestCase
 
     public function testGetSqlStringEmpty()
     {
-        $this->assertNull($this->combine->getSqlString());
+        self::assertNull($this->combine->getSqlString());
     }
 
     public function testPrepareStatementWithModifier()
@@ -113,8 +113,8 @@ class CombineTest extends TestCase
         $adapter = $this->getMockAdapter();
 
         $statement = $this->combine->prepareStatement($adapter, new StatementContainer);
-        $this->assertInstanceOf('Zend\Db\Adapter\StatementContainerInterface', $statement);
-        $this->assertEquals(
+        self::assertInstanceOf('Zend\Db\Adapter\StatementContainerInterface', $statement);
+        self::assertEquals(
             '(SELECT "t1".* FROM "t1" WHERE "x1" = ?) UNION (SELECT "t2".* FROM "t2" WHERE "x2" = ?)',
             $statement->getSql()
         );
@@ -137,7 +137,7 @@ class CombineTest extends TestCase
                 ->union([$select1, $select2])
                 ->alignColumns();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'c0' => 'c0',
                 'c1' => 'c1',
@@ -146,7 +146,7 @@ class CombineTest extends TestCase
             $select1->getRawState('columns')
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'c0' => new Expression('NULL'),
                 'c1' => 'c1',
@@ -160,7 +160,7 @@ class CombineTest extends TestCase
     {
         $select = new Select('t1');
         $this->combine->combine($select);
-        $this->assertSame(
+        self::assertSame(
             [
                 'combine' => [
                     [

@@ -26,7 +26,7 @@ class ResultTest extends TestCase
     public function testGetResource()
     {
         $result = new Result();
-        $this->assertNull($result->getResource());
+        self::assertNull($result->getResource());
     }
 
     /**
@@ -35,7 +35,7 @@ class ResultTest extends TestCase
     public function testBuffer()
     {
         $result = new Result();
-        $this->assertNull($result->buffer());
+        self::assertNull($result->buffer());
     }
 
     /**
@@ -44,7 +44,7 @@ class ResultTest extends TestCase
     public function testIsBuffered()
     {
         $result = new Result();
-        $this->assertFalse($result->isBuffered());
+        self::assertFalse($result->isBuffered());
     }
 
     /**
@@ -53,7 +53,7 @@ class ResultTest extends TestCase
     public function testGetGeneratedValue()
     {
         $result = new Result();
-        $this->assertNull($result->getGeneratedValue());
+        self::assertNull($result->getGeneratedValue());
     }
 
     /**
@@ -62,7 +62,7 @@ class ResultTest extends TestCase
     public function testKey()
     {
         $result = new Result();
-        $this->assertEquals(0, $result->key());
+        self::assertEquals(0, $result->key());
     }
 
     /**
@@ -76,7 +76,7 @@ class ResultTest extends TestCase
         $mockResult->expects($this->any())
             ->method('loadData')
             ->will($this->returnValue(true));
-        $this->assertTrue($mockResult->next());
+        self::assertTrue($mockResult->next());
     }
 
     /**
@@ -85,6 +85,6 @@ class ResultTest extends TestCase
     public function testRewind()
     {
         $result = new Result();
-        $this->assertNull($result->rewind());
+        self::assertNull($result->rewind());
     }
 }

@@ -27,6 +27,6 @@ class SqlServerIntegrationTest extends TestCase
         }
         $sqlite = new SqlServer($this->adapters['pdo_sqlsrv']);
         $value = $sqlite->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
     }
 }

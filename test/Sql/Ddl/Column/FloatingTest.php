@@ -20,7 +20,7 @@ class FloatingTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Floating('foo', 10, 5);
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 '%s %s NOT NULL',
                 ['foo', 'FLOAT(10,5)'],

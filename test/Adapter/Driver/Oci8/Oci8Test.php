@@ -43,7 +43,7 @@ class Oci8Test extends TestCase
             ['setDriver']
         );
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->oci8));
-        $this->assertSame($this->oci8, $this->oci8->registerConnection($mockConnection));
+        self::assertSame($this->oci8, $this->oci8->registerConnection($mockConnection));
     }
 
     /**
@@ -62,7 +62,7 @@ class Oci8Test extends TestCase
             ['setDriver']
         );
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->oci8));
-        $this->assertSame($this->oci8, $this->oci8->registerStatementPrototype($mockStatement));
+        self::assertSame($this->oci8, $this->oci8->registerStatementPrototype($mockStatement));
     }
 
     /**
@@ -80,7 +80,7 @@ class Oci8Test extends TestCase
             true,
             ['setDriver']
         );
-        $this->assertSame($this->oci8, $this->oci8->registerResultPrototype($mockStatement));
+        self::assertSame($this->oci8, $this->oci8->registerResultPrototype($mockStatement));
     }
 
     /**
@@ -89,8 +89,8 @@ class Oci8Test extends TestCase
     public function testGetDatabasePlatformName()
     {
         $this->oci8 = new Oci8([]);
-        $this->assertEquals('Oracle', $this->oci8->getDatabasePlatformName());
-        $this->assertEquals('Oracle', $this->oci8->getDatabasePlatformName(Oci8::NAME_FORMAT_NATURAL));
+        self::assertEquals('Oracle', $this->oci8->getDatabasePlatformName());
+        self::assertEquals('Oracle', $this->oci8->getDatabasePlatformName(Oci8::NAME_FORMAT_NATURAL));
     }
 
     /**
@@ -101,7 +101,7 @@ class Oci8Test extends TestCase
     {
         $conn = new \Zend\Db\Adapter\Driver\Oci8\Connection([]);
         $this->oci8->registerConnection($conn);
-        $this->assertSame($conn, $this->oci8->getConnection());
+        self::assertSame($conn, $this->oci8->getConnection());
     }
 
     /**

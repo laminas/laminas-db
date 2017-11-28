@@ -20,7 +20,7 @@ class DateTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Date('foo');
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'DATE'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );

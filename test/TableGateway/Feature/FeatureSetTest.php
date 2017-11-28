@@ -57,7 +57,7 @@ class FeatureSetTest extends TestCase
         $featureSet = new FeatureSet;
         $featureSet->setTableGateway($tableGatewayMock);
 
-        $this->assertInstanceOf('Zend\Db\TableGateway\Feature\FeatureSet', $featureSet->addFeature($feature));
+        self::assertInstanceOf('Zend\Db\TableGateway\Feature\FeatureSet', $featureSet->addFeature($feature));
     }
 
     /**
@@ -82,7 +82,7 @@ class FeatureSetTest extends TestCase
         $feature->setTableGateway($tableGatewayMock);
 
         $featureSet = new FeatureSet;
-        $this->assertInstanceOf('Zend\Db\TableGateway\Feature\FeatureSet', $featureSet->addFeature($feature));
+        self::assertInstanceOf('Zend\Db\TableGateway\Feature\FeatureSet', $featureSet->addFeature($feature));
     }
 
     /**
@@ -94,7 +94,7 @@ class FeatureSetTest extends TestCase
         $featureSet = new FeatureSet;
         $featureSet->addFeature($feature);
 
-        $this->assertTrue(
+        self::assertTrue(
             $featureSet->canCallMagicCall('lastSequenceId'),
             "Should have been able to call lastSequenceId from the Sequence Feature"
         );
@@ -109,7 +109,7 @@ class FeatureSetTest extends TestCase
         $featureSet = new FeatureSet;
         $featureSet->addFeature($feature);
 
-        $this->assertFalse(
+        self::assertFalse(
             $featureSet->canCallMagicCall('postInitialize'),
             "Should have been able to call postInitialize from the MetaData Feature"
         );
@@ -121,7 +121,7 @@ class FeatureSetTest extends TestCase
     public function testCanCallMagicCallReturnsFalseWhenNoFeaturesHaveBeenAdded()
     {
         $featureSet = new FeatureSet;
-        $this->assertFalse(
+        self::assertFalse(
             $featureSet->canCallMagicCall('lastSequenceId')
         );
     }
@@ -171,6 +171,6 @@ class FeatureSetTest extends TestCase
         $feature->setTableGateway($tableGatewayMock);
         $featureSet = new FeatureSet;
         $featureSet->addFeature($feature);
-        $this->assertEquals(1, $featureSet->callMagicCall('lastSequenceId', null));
+        self::assertEquals(1, $featureSet->callMagicCall('lastSequenceId', null));
     }
 }

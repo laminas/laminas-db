@@ -25,7 +25,7 @@ class CreateTableDecoratorTest extends TestCase
     {
         $ctd = new CreateTableDecorator();
         $ct = new CreateTable;
-        $this->assertSame($ctd, $ctd->setSubject($ct));
+        self::assertSame($ctd, $ctd->setSubject($ct));
     }
 
     /**
@@ -47,7 +47,7 @@ class CreateTableDecoratorTest extends TestCase
         $col->addConstraint(new PrimaryKey());
         $ct->addColumn($col);
 
-        $this->assertEquals(
+        self::assertEquals(
             // @codingStandardsIgnoreStart
             "CREATE TABLE `foo` ( \n    `bar` INTEGER UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'baz' COLUMN_FORMAT FIXED STORAGE MEMORY \n)",
             // @codingStandardsIgnoreEnd

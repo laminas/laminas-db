@@ -43,7 +43,7 @@ class IbmDb2Test extends TestCase
             ['setDriver']
         );
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->ibmdb2));
-        $this->assertSame($this->ibmdb2, $this->ibmdb2->registerConnection($mockConnection));
+        self::assertSame($this->ibmdb2, $this->ibmdb2->registerConnection($mockConnection));
     }
 
     /**
@@ -62,7 +62,7 @@ class IbmDb2Test extends TestCase
             ['setDriver']
         );
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->ibmdb2));
-        $this->assertSame($this->ibmdb2, $this->ibmdb2->registerStatementPrototype($mockStatement));
+        self::assertSame($this->ibmdb2, $this->ibmdb2->registerStatementPrototype($mockStatement));
     }
 
     /**
@@ -80,7 +80,7 @@ class IbmDb2Test extends TestCase
             true,
             ['setDriver']
         );
-        $this->assertSame($this->ibmdb2, $this->ibmdb2->registerResultPrototype($mockStatement));
+        self::assertSame($this->ibmdb2, $this->ibmdb2->registerResultPrototype($mockStatement));
     }
 
     /**
@@ -89,8 +89,8 @@ class IbmDb2Test extends TestCase
     public function testGetDatabasePlatformName()
     {
         $this->ibmdb2 = new IbmDb2([]);
-        $this->assertEquals('IbmDb2', $this->ibmdb2->getDatabasePlatformName());
-        $this->assertEquals('IBM DB2', $this->ibmdb2->getDatabasePlatformName(IbmDb2::NAME_FORMAT_NATURAL));
+        self::assertEquals('IbmDb2', $this->ibmdb2->getDatabasePlatformName());
+        self::assertEquals('IBM DB2', $this->ibmdb2->getDatabasePlatformName(IbmDb2::NAME_FORMAT_NATURAL));
     }
 
     /**
@@ -101,7 +101,7 @@ class IbmDb2Test extends TestCase
     {
         $conn = new \Zend\Db\Adapter\Driver\IbmDb2\Connection([]);
         $this->ibmdb2->registerConnection($conn);
-        $this->assertSame($conn, $this->ibmdb2->getConnection());
+        self::assertSame($conn, $this->ibmdb2->getConnection());
     }
 
     /**

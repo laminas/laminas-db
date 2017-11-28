@@ -23,7 +23,7 @@ class HydratingResultSetTest extends TestCase
     {
         $prototype = new \stdClass;
         $hydratingRs = new HydratingResultSet;
-        $this->assertSame($hydratingRs, $hydratingRs->setObjectPrototype($prototype));
+        self::assertSame($hydratingRs, $hydratingRs->setObjectPrototype($prototype));
     }
 
     /**
@@ -32,7 +32,7 @@ class HydratingResultSetTest extends TestCase
     public function testGetObjectPrototype()
     {
         $hydratingRs = new HydratingResultSet;
-        $this->assertInstanceOf('ArrayObject', $hydratingRs->getObjectPrototype());
+        self::assertInstanceOf('ArrayObject', $hydratingRs->getObjectPrototype());
     }
 
     /**
@@ -41,7 +41,7 @@ class HydratingResultSetTest extends TestCase
     public function testSetHydrator()
     {
         $hydratingRs = new HydratingResultSet;
-        $this->assertSame($hydratingRs, $hydratingRs->setHydrator(new ClassMethods()));
+        self::assertSame($hydratingRs, $hydratingRs->setHydrator(new ClassMethods()));
     }
 
     /**
@@ -50,7 +50,7 @@ class HydratingResultSetTest extends TestCase
     public function testGetHydrator()
     {
         $hydratingRs = new HydratingResultSet;
-        $this->assertInstanceOf(ArraySerializable::class, $hydratingRs->getHydrator());
+        self::assertInstanceOf(ArraySerializable::class, $hydratingRs->getHydrator());
     }
 
     /**
@@ -63,7 +63,7 @@ class HydratingResultSetTest extends TestCase
             ['id' => 1, 'name' => 'one']
         ]);
         $obj = $hydratingRs->current();
-        $this->assertInstanceOf('ArrayObject', $obj);
+        self::assertInstanceOf('ArrayObject', $obj);
     }
 
     /**
@@ -77,6 +77,6 @@ class HydratingResultSetTest extends TestCase
             ['id' => 1, 'name' => 'one']
         ]);
         $obj = $hydratingRs->toArray();
-        $this->assertInternalType('array', $obj);
+        self::assertInternalType('array', $obj);
     }
 }

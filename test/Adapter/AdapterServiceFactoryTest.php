@@ -39,7 +39,7 @@ class AdapterServiceFactoryTest extends TestCase
         ]);
 
         $adapter = $this->factory->createService($this->services->reveal());
-        $this->assertInstanceOf(Adapter::class, $adapter);
+        self::assertInstanceOf(Adapter::class, $adapter);
     }
 
     public function testV3FactoryReturnsAdapter()
@@ -52,6 +52,6 @@ class AdapterServiceFactoryTest extends TestCase
         ]);
 
         $adapter = $this->factory->__invoke($this->services->reveal(), Adapter::class);
-        $this->assertInstanceOf(Adapter::class, $adapter);
+        self::assertInstanceOf(Adapter::class, $adapter);
     }
 }

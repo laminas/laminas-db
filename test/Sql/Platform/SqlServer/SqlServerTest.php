@@ -24,7 +24,7 @@ class SqlServerTest extends TestCase
         $decorators = $sqlServer->getDecorators();
 
         list($type, $decorator) = each($decorators);
-        $this->assertEquals('Zend\Db\Sql\Select', $type);
-        $this->assertInstanceOf('Zend\Db\Sql\Platform\SqlServer\SelectDecorator', $decorator);
+        self::assertEquals('Zend\Db\Sql\Select', $type);
+        self::assertInstanceOf('Zend\Db\Sql\Platform\SqlServer\SelectDecorator', $decorator);
     }
 }

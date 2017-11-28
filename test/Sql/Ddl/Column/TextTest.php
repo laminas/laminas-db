@@ -20,7 +20,7 @@ class TextTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Text('foo');
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'TEXT'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );

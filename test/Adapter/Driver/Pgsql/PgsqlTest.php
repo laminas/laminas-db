@@ -37,7 +37,7 @@ class PgsqlTest extends TestCase
             $this->expectException('Zend\Db\Adapter\Exception\RuntimeException');
         }
         $this->pgsql->checkEnvironment();
-        $this->assertTrue(true, 'No exception was thrown');
+        self::assertTrue(true, 'No exception was thrown');
     }
 
     /**
@@ -55,7 +55,7 @@ class PgsqlTest extends TestCase
             ['setDriver']
         );
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->pgsql));
-        $this->assertSame($this->pgsql, $this->pgsql->registerConnection($mockConnection));
+        self::assertSame($this->pgsql, $this->pgsql->registerConnection($mockConnection));
     }
 
     /**
@@ -74,7 +74,7 @@ class PgsqlTest extends TestCase
             ['setDriver']
         );
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->pgsql));
-        $this->assertSame($this->pgsql, $this->pgsql->registerStatementPrototype($mockStatement));
+        self::assertSame($this->pgsql, $this->pgsql->registerStatementPrototype($mockStatement));
     }
 
     /**
@@ -92,7 +92,7 @@ class PgsqlTest extends TestCase
             true,
             ['setDriver']
         );
-        $this->assertSame($this->pgsql, $this->pgsql->registerResultPrototype($mockStatement));
+        self::assertSame($this->pgsql, $this->pgsql->registerResultPrototype($mockStatement));
     }
 
     /**
@@ -101,8 +101,8 @@ class PgsqlTest extends TestCase
     public function testGetDatabasePlatformName()
     {
         $this->pgsql = new Pgsql([]);
-        $this->assertEquals('Postgresql', $this->pgsql->getDatabasePlatformName());
-        $this->assertEquals('PostgreSQL', $this->pgsql->getDatabasePlatformName(Pgsql::NAME_FORMAT_NATURAL));
+        self::assertEquals('Postgresql', $this->pgsql->getDatabasePlatformName());
+        self::assertEquals('PostgreSQL', $this->pgsql->getDatabasePlatformName(Pgsql::NAME_FORMAT_NATURAL));
     }
 
     /**
@@ -113,7 +113,7 @@ class PgsqlTest extends TestCase
     {
         $conn = new \Zend\Db\Adapter\Driver\Pgsql\Connection([]);
         $this->pgsql->registerConnection($conn);
-        $this->assertSame($conn, $this->pgsql->getConnection());
+        self::assertSame($conn, $this->pgsql->getConnection());
     }
 
     /**

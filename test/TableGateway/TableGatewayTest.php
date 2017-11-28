@@ -51,11 +51,11 @@ class TableGatewayTest extends TestCase
             $this->mockAdapter
         );
 
-        $this->assertEquals('foo', $table->getTable());
-        $this->assertSame($this->mockAdapter, $table->getAdapter());
-        $this->assertInstanceOf('Zend\Db\TableGateway\Feature\FeatureSet', $table->getFeatureSet());
-        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $table->getResultSetPrototype());
-        $this->assertInstanceOf('Zend\Db\Sql\Sql', $table->getSql());
+        self::assertEquals('foo', $table->getTable());
+        self::assertSame($this->mockAdapter, $table->getAdapter());
+        self::assertInstanceOf('Zend\Db\TableGateway\Feature\FeatureSet', $table->getFeatureSet());
+        self::assertInstanceOf('Zend\Db\ResultSet\ResultSet', $table->getResultSetPrototype());
+        self::assertInstanceOf('Zend\Db\Sql\Sql', $table->getSql());
 
         // injecting all args
         $table = new TableGateway(
@@ -66,11 +66,11 @@ class TableGatewayTest extends TestCase
             $sql = new Sql($this->mockAdapter, 'foo')
         );
 
-        $this->assertEquals('foo', $table->getTable());
-        $this->assertSame($this->mockAdapter, $table->getAdapter());
-        $this->assertSame($featureSet, $table->getFeatureSet());
-        $this->assertSame($resultSet, $table->getResultSetPrototype());
-        $this->assertSame($sql, $table->getSql());
+        self::assertEquals('foo', $table->getTable());
+        self::assertSame($this->mockAdapter, $table->getAdapter());
+        self::assertSame($featureSet, $table->getFeatureSet());
+        self::assertSame($resultSet, $table->getResultSetPrototype());
+        self::assertSame($sql, $table->getSql());
 
         // constructor expects exception
         $this->expectException('Zend\Db\TableGateway\Exception\InvalidArgumentException');
@@ -94,7 +94,7 @@ class TableGatewayTest extends TestCase
             $this->mockAdapter
         );
 
-        $this->assertEquals($ti, $table->getTable());
+        self::assertEquals($ti, $table->getTable());
     }
 
     /**
@@ -110,7 +110,7 @@ class TableGatewayTest extends TestCase
             $this->mockAdapter
         );
 
-        $this->assertEquals($ti, $table->getTable());
+        self::assertEquals($ti, $table->getTable());
     }
 
     /**
@@ -126,7 +126,7 @@ class TableGatewayTest extends TestCase
             $this->mockAdapter
         );
 
-        $this->assertEquals($aliasedTI, $table->getTable());
+        self::assertEquals($aliasedTI, $table->getTable());
     }
 
     public function aliasedTables()
@@ -161,7 +161,7 @@ class TableGatewayTest extends TestCase
 
         $statementExpectation = function ($insert) use ($expected, $statement) {
             $state = $insert->getRawState();
-            $this->assertSame($expected, $state['table']);
+            self::assertSame($expected, $state['table']);
             return $statement;
         };
 
@@ -192,8 +192,8 @@ class TableGatewayTest extends TestCase
         ]);
 
         $state = $insert->getRawState();
-        $this->assertInternalType('array', $state['table']);
-        $this->assertEquals(
+        self::assertInternalType('array', $state['table']);
+        self::assertEquals(
             $tableValue,
             $state['table']
         );
@@ -221,7 +221,7 @@ class TableGatewayTest extends TestCase
 
         $statementExpectation = function ($update) use ($expected, $statement) {
             $state = $update->getRawState();
-            $this->assertSame($expected, $state['table']);
+            self::assertSame($expected, $state['table']);
             return $statement;
         };
 
@@ -254,8 +254,8 @@ class TableGatewayTest extends TestCase
         ]);
 
         $state = $update->getRawState();
-        $this->assertInternalType('array', $state['table']);
-        $this->assertEquals(
+        self::assertInternalType('array', $state['table']);
+        self::assertEquals(
             $tableValue,
             $state['table']
         );

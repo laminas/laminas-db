@@ -20,7 +20,7 @@ class IndexTest extends TestCase
     public function testGetExpressionData()
     {
         $uk = new Index('foo', 'my_uk');
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 'INDEX %s(%s)',
                 ['my_uk', 'foo'],
@@ -36,7 +36,7 @@ class IndexTest extends TestCase
     public function testGetExpressionDataWithLength()
     {
         $key = new Index(['foo', 'bar'], 'my_uk', [10, 5]);
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 'INDEX %s(%s(10), %s(5))',
                 ['my_uk', 'foo', 'bar'],
@@ -52,7 +52,7 @@ class IndexTest extends TestCase
     public function testGetExpressionDataWithLengthUnmatched()
     {
         $key = new Index(['foo', 'bar'], 'my_uk', [10]);
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 'INDEX %s(%s(10), %s)',
                 ['my_uk', 'foo', 'bar'],

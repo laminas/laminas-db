@@ -28,10 +28,10 @@ class SqliteIntegrationTest extends TestCase
         }
         $sqlite = new Sqlite($this->adapters['pdo_sqlite']);
         $value = $sqlite->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
 
         $sqlite = new Sqlite(new Pdo\Pdo(new Pdo\Connection($this->adapters['pdo_sqlite'])));
         $value = $sqlite->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
     }
 }

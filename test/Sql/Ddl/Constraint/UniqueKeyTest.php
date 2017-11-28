@@ -20,7 +20,7 @@ class UniqueKeyTest extends TestCase
     public function testGetExpressionData()
     {
         $uk = new UniqueKey('foo', 'my_uk');
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 'CONSTRAINT %s UNIQUE (%s)',
                 ['my_uk', 'foo'],

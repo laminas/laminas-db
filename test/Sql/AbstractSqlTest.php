@@ -52,7 +52,7 @@ class AbstractSqlTest extends TestCase
         $expression = new Expression('? > ? AND y < ?', ['x', 5, 10], [Expression::TYPE_IDENTIFIER]);
         $sqlAndParams = $this->invokeProcessExpressionMethod($expression);
 
-        $this->assertEquals("\"x\" > '5' AND y < '10'", $sqlAndParams);
+        self::assertEquals("\"x\" > '5' AND y < '10'", $sqlAndParams);
     }
 
     /**
@@ -66,17 +66,17 @@ class AbstractSqlTest extends TestCase
 
         $parameters = $parameterContainer->getNamedArray();
 
-        $this->assertRegExp('#"x" > :expr\d\d\d\dParam1 AND y < :expr\d\d\d\dParam2#', $sqlAndParams);
+        self::assertRegExp('#"x" > :expr\d\d\d\dParam1 AND y < :expr\d\d\d\dParam2#', $sqlAndParams);
 
         // test keys and values
         preg_match('#expr(\d\d\d\d)Param1#', key($parameters), $matches);
         $expressionNumber = $matches[1];
 
-        $this->assertRegExp('#expr\d\d\d\dParam1#', key($parameters));
-        $this->assertEquals(5, current($parameters));
+        self::assertRegExp('#expr\d\d\d\dParam1#', key($parameters));
+        self::assertEquals(5, current($parameters));
         next($parameters);
-        $this->assertRegExp('#expr\d\d\d\dParam2#', key($parameters));
-        $this->assertEquals(10, current($parameters));
+        self::assertRegExp('#expr\d\d\d\dParam2#', key($parameters));
+        self::assertEquals(10, current($parameters));
 
         // ensure next invocation increases number by 1
         $parameterContainer = new ParameterContainer;
@@ -87,7 +87,7 @@ class AbstractSqlTest extends TestCase
         preg_match('#expr(\d\d\d\d)Param1#', key($parameters), $matches);
         $expressionNumberNext = $matches[1];
 
-        $this->assertEquals(1, (int) $expressionNumberNext - (int) $expressionNumber);
+        self::assertEquals(1, (int) $expressionNumberNext - (int) $expressionNumber);
     }
 
     /**
@@ -100,7 +100,7 @@ class AbstractSqlTest extends TestCase
         $predicateSet = new Predicate\PredicateSet([new Predicate\PredicateSet([$expression])]);
         $sqlAndParams = $this->invokeProcessExpressionMethod($predicateSet);
 
-        $this->assertEquals("(x = '5')", $sqlAndParams);
+        self::assertEquals("(x = '5')", $sqlAndParams);
     }
 
     /**
@@ -115,7 +115,7 @@ class AbstractSqlTest extends TestCase
         $predicateSet = new Predicate\PredicateSet([new Predicate\PredicateSet([$expression])]);
         $sqlAndParams = $this->invokeProcessExpressionMethod($predicateSet);
 
-        $this->assertEquals('("x" IN (SELECT "x".* FROM "x" WHERE "bar" LIKE \'Foo%\'))', $sqlAndParams);
+        self::assertEquals('("x" IN (SELECT "x".* FROM "x" WHERE "bar" LIKE \'Foo%\'))', $sqlAndParams);
     }
 
     public function testProcessExpressionWorksWithExpressionContainingExpressionObject()
@@ -127,7 +127,7 @@ class AbstractSqlTest extends TestCase
         );
 
         $sqlAndParams = $this->invokeProcessExpressionMethod($expression);
-        $this->assertEquals('"release_date" = FROM_UNIXTIME(\'100000000\')', $sqlAndParams);
+        self::assertEquals('"release_date" = FROM_UNIXTIME(\'100000000\')', $sqlAndParams);
     }
 
     /**
@@ -139,7 +139,7 @@ class AbstractSqlTest extends TestCase
         $expression       = new Expression($expressionString);
         $sqlString        = $this->invokeProcessExpressionMethod($expression);
 
-        $this->assertSame($expressionString, $sqlString);
+        self::assertSame($expressionString, $sqlString);
     }
 
     public function testProcessExpressionWorksWithNamedParameterPrefix()
@@ -149,7 +149,7 @@ class AbstractSqlTest extends TestCase
         $expression = new Expression('FROM_UNIXTIME(?)', [10000000]);
         $this->invokeProcessExpressionMethod($expression, $parameterContainer, $namedParameterPrefix);
 
-        $this->assertSame($namedParameterPrefix . '1', key($parameterContainer->getNamedArray()));
+        self::assertSame($namedParameterPrefix . '1', key($parameterContainer->getNamedArray()));
     }
 
     public function testProcessExpressionWorksWithNamedParameterPrefixContainingWhitespace()
@@ -159,7 +159,7 @@ class AbstractSqlTest extends TestCase
         $expression = new Expression('FROM_UNIXTIME(?)', [10000000]);
         $this->invokeProcessExpressionMethod($expression, $parameterContainer, $namedParameterPrefix);
 
-        $this->assertSame('string__containing__white__space1', key($parameterContainer->getNamedArray()));
+        self::assertSame('string__containing__white__space1', key($parameterContainer->getNamedArray()));
     }
 
     /**

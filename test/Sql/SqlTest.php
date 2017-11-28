@@ -54,10 +54,10 @@ class SqlTest extends TestCase
         // @codingStandardsIgnoreEnd
         $sql = new Sql($this->mockAdapter);
 
-        $this->assertFalse($sql->hasTable());
+        self::assertFalse($sql->hasTable());
 
         $sql->setTable('foo');
-        $this->assertSame('foo', $sql->getTable());
+        self::assertSame('foo', $sql->getTable());
 
         $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Table must be a string, array or instance of TableIdentifier.');
@@ -70,8 +70,8 @@ class SqlTest extends TestCase
     public function testSelect()
     {
         $select = $this->sql->select();
-        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
-        $this->assertSame('foo', $select->getRawState('table'));
+        self::assertInstanceOf('Zend\Db\Sql\Select', $select);
+        self::assertSame('foo', $select->getRawState('table'));
 
         $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage(
@@ -86,8 +86,8 @@ class SqlTest extends TestCase
     public function testInsert()
     {
         $insert = $this->sql->insert();
-        $this->assertInstanceOf('Zend\Db\Sql\Insert', $insert);
-        $this->assertSame('foo', $insert->getRawState('table'));
+        self::assertInstanceOf('Zend\Db\Sql\Insert', $insert);
+        self::assertSame('foo', $insert->getRawState('table'));
 
         $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage(
@@ -102,8 +102,8 @@ class SqlTest extends TestCase
     public function testUpdate()
     {
         $update = $this->sql->update();
-        $this->assertInstanceOf('Zend\Db\Sql\Update', $update);
-        $this->assertSame('foo', $update->getRawState('table'));
+        self::assertInstanceOf('Zend\Db\Sql\Update', $update);
+        self::assertSame('foo', $update->getRawState('table'));
 
         $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage(
@@ -119,8 +119,8 @@ class SqlTest extends TestCase
     {
         $delete = $this->sql->delete();
 
-        $this->assertInstanceOf('Zend\Db\Sql\Delete', $delete);
-        $this->assertSame('foo', $delete->getRawState('table'));
+        self::assertInstanceOf('Zend\Db\Sql\Delete', $delete);
+        self::assertSame('foo', $delete->getRawState('table'));
 
         $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage(
@@ -136,7 +136,7 @@ class SqlTest extends TestCase
     {
         $insert = $this->sql->insert()->columns(['foo'])->values(['foo' => 'bar']);
         $stmt = $this->sql->prepareStatementForSqlObject($insert);
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\StatementInterface', $stmt);
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\StatementInterface', $stmt);
     }
 
     /**
@@ -152,7 +152,7 @@ class SqlTest extends TestCase
         $select = $this->sql->select()->offset(10);
 
         // Default
-        $this->assertEquals(
+        self::assertEquals(
             'SELECT "foo".* FROM "foo" OFFSET \'10\'',
             $this->sql->buildSqlString($select)
         );
@@ -161,7 +161,7 @@ class SqlTest extends TestCase
         $this->sql->prepareStatementForSqlObject($select);
 
         // Sql92
-        $this->assertEquals(
+        self::assertEquals(
             'SELECT "foo".* FROM "foo" OFFSET \'10\'',
             $this->sql->buildSqlString($select, $adapterSql92)
         );
@@ -170,7 +170,7 @@ class SqlTest extends TestCase
         $this->sql->prepareStatementForSqlObject($select, null, $adapterSql92);
 
         // MySql
-        $this->assertEquals(
+        self::assertEquals(
             'SELECT `foo`.* FROM `foo` LIMIT 18446744073709551615 OFFSET 10',
             $this->sql->buildSqlString($select, $adapterMySql)
         );
@@ -179,7 +179,7 @@ class SqlTest extends TestCase
         $this->sql->prepareStatementForSqlObject($select, null, $adapterMySql);
 
         // Oracle
-        $this->assertEquals(
+        self::assertEquals(
             'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b ) WHERE b_rownum > (10)',
             $this->sql->buildSqlString($select, $adapterOracle)
         );
@@ -190,7 +190,7 @@ class SqlTest extends TestCase
         $this->sql->prepareStatementForSqlObject($select, null, $adapterOracle);
 
         // SqlServer
-        $this->assertContains(
+        self::assertContains(
             'WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN 10+1 AND 0+10',
             $this->sql->buildSqlString($select, $adapterSqlServer)
         );

@@ -34,11 +34,11 @@ class OracleTest extends TestCase
      */
     public function testContructWithOptions()
     {
-        $this->assertEquals('"\'test\'.\'test\'"', $this->platform->quoteIdentifier('"test"."test"'));
+        self::assertEquals('"\'test\'.\'test\'"', $this->platform->quoteIdentifier('"test"."test"'));
         $plataform1 = new Oracle(['quote_identifiers' => false]);
-        $this->assertEquals('"test"."test"', $plataform1->quoteIdentifier('"test"."test"'));
+        self::assertEquals('"test"."test"', $plataform1->quoteIdentifier('"test"."test"'));
         $plataform2 = new Oracle(['quote_identifiers' => 'false']);
-        $this->assertEquals('"test"."test"', $plataform2->quoteIdentifier('"test"."test"'));
+        self::assertEquals('"test"."test"', $plataform2->quoteIdentifier('"test"."test"'));
     }
 
     /**
@@ -56,7 +56,7 @@ class OracleTest extends TestCase
             []
         );
         $platform = new Oracle([], $mockDriver);
-        $this->assertEquals($mockDriver, $platform->getDriver());
+        self::assertEquals($mockDriver, $platform->getDriver());
     }
 
     /**
@@ -74,7 +74,7 @@ class OracleTest extends TestCase
             []
         );
         $platform = $this->platform->setDriver($mockDriver);
-        $this->assertEquals($mockDriver, $platform->getDriver());
+        self::assertEquals($mockDriver, $platform->getDriver());
     }
 
     /**
@@ -94,7 +94,7 @@ class OracleTest extends TestCase
      */
     public function testGetDriver()
     {
-        $this->assertNull($this->platform->getDriver());
+        self::assertNull($this->platform->getDriver());
     }
 
     /**
@@ -102,7 +102,7 @@ class OracleTest extends TestCase
      */
     public function testGetName()
     {
-        $this->assertEquals('Oracle', $this->platform->getName());
+        self::assertEquals('Oracle', $this->platform->getName());
     }
 
     /**
@@ -110,7 +110,7 @@ class OracleTest extends TestCase
      */
     public function testGetQuoteIdentifierSymbol()
     {
-        $this->assertEquals('"', $this->platform->getQuoteIdentifierSymbol());
+        self::assertEquals('"', $this->platform->getQuoteIdentifierSymbol());
     }
 
     /**
@@ -118,10 +118,10 @@ class OracleTest extends TestCase
      */
     public function testQuoteIdentifier()
     {
-        $this->assertEquals('"identifier"', $this->platform->quoteIdentifier('identifier'));
+        self::assertEquals('"identifier"', $this->platform->quoteIdentifier('identifier'));
 
         $platform = new Oracle(['quote_identifiers' => false]);
-        $this->assertEquals('identifier', $platform->quoteIdentifier('identifier'));
+        self::assertEquals('identifier', $platform->quoteIdentifier('identifier'));
     }
 
     /**
@@ -129,14 +129,14 @@ class OracleTest extends TestCase
      */
     public function testQuoteIdentifierChain()
     {
-        $this->assertEquals('"identifier"', $this->platform->quoteIdentifierChain('identifier'));
-        $this->assertEquals('"identifier"', $this->platform->quoteIdentifierChain(['identifier']));
-        $this->assertEquals('"schema"."identifier"', $this->platform->quoteIdentifierChain(['schema', 'identifier']));
+        self::assertEquals('"identifier"', $this->platform->quoteIdentifierChain('identifier'));
+        self::assertEquals('"identifier"', $this->platform->quoteIdentifierChain(['identifier']));
+        self::assertEquals('"schema"."identifier"', $this->platform->quoteIdentifierChain(['schema', 'identifier']));
 
         $platform = new Oracle(['quote_identifiers' => false]);
-        $this->assertEquals('identifier', $platform->quoteIdentifierChain('identifier'));
-        $this->assertEquals('identifier', $platform->quoteIdentifierChain(['identifier']));
-        $this->assertEquals('schema.identifier', $platform->quoteIdentifierChain(['schema', 'identifier']));
+        self::assertEquals('identifier', $platform->quoteIdentifierChain('identifier'));
+        self::assertEquals('identifier', $platform->quoteIdentifierChain(['identifier']));
+        self::assertEquals('schema.identifier', $platform->quoteIdentifierChain(['schema', 'identifier']));
     }
 
     /**
@@ -144,7 +144,7 @@ class OracleTest extends TestCase
      */
     public function testGetQuoteValueSymbol()
     {
-        $this->assertEquals("'", $this->platform->getQuoteValueSymbol());
+        self::assertEquals("'", $this->platform->getQuoteValueSymbol());
     }
 
     /**
@@ -165,13 +165,13 @@ class OracleTest extends TestCase
      */
     public function testQuoteValue()
     {
-        $this->assertEquals("'value'", @$this->platform->quoteValue('value'));
-        $this->assertEquals("'Foo O''Bar'", @$this->platform->quoteValue("Foo O'Bar"));
-        $this->assertEquals(
+        self::assertEquals("'value'", @$this->platform->quoteValue('value'));
+        self::assertEquals("'Foo O''Bar'", @$this->platform->quoteValue("Foo O'Bar"));
+        self::assertEquals(
             '\'\'\'; DELETE FROM some_table; -- \'',
             @$this->platform->quoteValue('\'; DELETE FROM some_table; -- ')
         );
-        $this->assertEquals(
+        self::assertEquals(
             "'\\''; DELETE FROM some_table; -- '",
             @$this->platform->quoteValue('\\\'; DELETE FROM some_table; -- ')
         );
@@ -182,15 +182,15 @@ class OracleTest extends TestCase
      */
     public function testQuoteTrustedValue()
     {
-        $this->assertEquals("'value'", $this->platform->quoteTrustedValue('value'));
-        $this->assertEquals("'Foo O''Bar'", $this->platform->quoteTrustedValue("Foo O'Bar"));
-        $this->assertEquals(
+        self::assertEquals("'value'", $this->platform->quoteTrustedValue('value'));
+        self::assertEquals("'Foo O''Bar'", $this->platform->quoteTrustedValue("Foo O'Bar"));
+        self::assertEquals(
             '\'\'\'; DELETE FROM some_table; -- \'',
             $this->platform->quoteTrustedValue('\'; DELETE FROM some_table; -- ')
         );
 
         //                   '\\\'; DELETE FROM some_table; -- '  <- actual below
-        $this->assertEquals(
+        self::assertEquals(
             "'\\''; DELETE FROM some_table; -- '",
             $this->platform->quoteTrustedValue('\\\'; DELETE FROM some_table; -- ')
         );
@@ -206,7 +206,7 @@ class OracleTest extends TestCase
             'Attempting to quote a value in Zend\Db\Adapter\Platform\Oracle without '
             . 'extension/driver support can introduce security vulnerabilities in a production environment'
         );
-        $this->assertEquals("'Foo O''Bar'", $this->platform->quoteValueList("Foo O'Bar"));
+        self::assertEquals("'Foo O''Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
 
     /**
@@ -214,7 +214,7 @@ class OracleTest extends TestCase
      */
     public function testGetIdentifierSeparator()
     {
-        $this->assertEquals('.', $this->platform->getIdentifierSeparator());
+        self::assertEquals('.', $this->platform->getIdentifierSeparator());
     }
 
     /**
@@ -222,21 +222,21 @@ class OracleTest extends TestCase
      */
     public function testQuoteIdentifierInFragment()
     {
-        $this->assertEquals('"foo"."bar"', $this->platform->quoteIdentifierInFragment('foo.bar'));
-        $this->assertEquals('"foo" as "bar"', $this->platform->quoteIdentifierInFragment('foo as bar'));
+        self::assertEquals('"foo"."bar"', $this->platform->quoteIdentifierInFragment('foo.bar'));
+        self::assertEquals('"foo" as "bar"', $this->platform->quoteIdentifierInFragment('foo as bar'));
 
         $platform = new Oracle(['quote_identifiers' => false]);
-        $this->assertEquals('foo.bar', $platform->quoteIdentifierInFragment('foo.bar'));
-        $this->assertEquals('foo as bar', $platform->quoteIdentifierInFragment('foo as bar'));
+        self::assertEquals('foo.bar', $platform->quoteIdentifierInFragment('foo.bar'));
+        self::assertEquals('foo as bar', $platform->quoteIdentifierInFragment('foo as bar'));
 
         // single char words
-        $this->assertEquals(
+        self::assertEquals(
             '("foo"."bar" = "boo"."baz")',
             $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', ['(', ')', '='])
         );
 
         // case insensitive safe words
-        $this->assertEquals(
+        self::assertEquals(
             '("foo"."bar" = "boo"."baz") AND ("foo"."baz" = "boo"."baz")',
             $this->platform->quoteIdentifierInFragment(
                 '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
@@ -245,7 +245,7 @@ class OracleTest extends TestCase
         );
 
         // case insensitive safe words in field
-        $this->assertEquals(
+        self::assertEquals(
             '("foo"."bar" = "boo".baz) AND ("foo".baz = "boo".baz)',
             $this->platform->quoteIdentifierInFragment(
                 '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',

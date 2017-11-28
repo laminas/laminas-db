@@ -121,7 +121,7 @@ class AbstractTableGatewayTest extends TestCase
      */
     public function testGetTable()
     {
-        $this->assertEquals('foo', $this->table->getTable());
+        self::assertEquals('foo', $this->table->getTable());
     }
 
     /**
@@ -129,7 +129,7 @@ class AbstractTableGatewayTest extends TestCase
      */
     public function testGetAdapter()
     {
-        $this->assertSame($this->mockAdapter, $this->table->getAdapter());
+        self::assertSame($this->mockAdapter, $this->table->getAdapter());
     }
 
     /**
@@ -137,7 +137,7 @@ class AbstractTableGatewayTest extends TestCase
      */
     public function testGetSql()
     {
-        $this->assertInstanceOf('Zend\Db\Sql\Sql', $this->table->getSql());
+        self::assertInstanceOf('Zend\Db\Sql\Sql', $this->table->getSql());
     }
 
     /**
@@ -145,7 +145,7 @@ class AbstractTableGatewayTest extends TestCase
      */
     public function testGetSelectResultPrototype()
     {
-        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $this->table->getResultSetPrototype());
+        self::assertInstanceOf('Zend\Db\ResultSet\ResultSet', $this->table->getResultSetPrototype());
     }
 
     /**
@@ -158,8 +158,8 @@ class AbstractTableGatewayTest extends TestCase
         $resultSet = $this->table->select();
 
         // check return types
-        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $resultSet);
-        $this->assertNotSame($this->table->getResultSetPrototype(), $resultSet);
+        self::assertInstanceOf('Zend\Db\ResultSet\ResultSet', $resultSet);
+        self::assertNotSame($this->table->getResultSetPrototype(), $resultSet);
     }
 
     /**
@@ -215,7 +215,7 @@ class AbstractTableGatewayTest extends TestCase
                 'columns' => null,
             ]));
         $return = $this->table->selectWith($select1);
-        $this->assertNotNull($return);
+        self::assertNotNull($return);
 
         // Case 2
 
@@ -227,7 +227,7 @@ class AbstractTableGatewayTest extends TestCase
                 'columns' => null,
             ]));
         $return = $this->table->selectWith($select1);
-        $this->assertNotNull($return);
+        self::assertNotNull($return);
     }
 
     /**
@@ -249,7 +249,7 @@ class AbstractTableGatewayTest extends TestCase
             ->with($this->equalTo(['foo' => 'bar']));
 
         $affectedRows = $this->table->insert(['foo' => 'bar']);
-        $this->assertEquals(5, $affectedRows);
+        self::assertEquals(5, $affectedRows);
     }
 
     /**
@@ -267,7 +267,7 @@ class AbstractTableGatewayTest extends TestCase
             ->with($this->equalTo('id = 2'));
 
         $affectedRows = $this->table->update(['foo' => 'bar'], 'id = 2');
-        $this->assertEquals(5, $affectedRows);
+        self::assertEquals(5, $affectedRows);
     }
 
     /**
@@ -297,7 +297,7 @@ class AbstractTableGatewayTest extends TestCase
             ->with($joins[0]['name'], $joins[0]['on'], $joins[0]['type']);
 
         $affectedRows = $this->table->update(['foo.field' => 'bar'], 'id = 2', $joins);
-        $this->assertEquals(5, $affectedRows);
+        self::assertEquals(5, $affectedRows);
     }
 
     /**
@@ -326,7 +326,7 @@ class AbstractTableGatewayTest extends TestCase
             ->with($joins[0]['name'], $joins[0]['on'], Sql\Join::JOIN_INNER);
 
         $affectedRows = $this->table->update(['foo.field' => 'bar'], 'id = 2', $joins);
-        $this->assertEquals(5, $affectedRows);
+        self::assertEquals(5, $affectedRows);
     }
 
     /**
@@ -339,7 +339,7 @@ class AbstractTableGatewayTest extends TestCase
         $mockUpdate = $this->mockSql->update();
 
         $affectedRows = $this->table->update(['foo' => 'bar']);
-        $this->assertEquals(5, $affectedRows);
+        self::assertEquals(5, $affectedRows);
     }
 
     /**
@@ -357,7 +357,7 @@ class AbstractTableGatewayTest extends TestCase
             ->with($this->equalTo('foo'));
 
         $affectedRows = $this->table->delete('foo');
-        $this->assertEquals(5, $affectedRows);
+        self::assertEquals(5, $affectedRows);
     }
 
     /**
@@ -366,7 +366,7 @@ class AbstractTableGatewayTest extends TestCase
     public function testGetLastInsertValue()
     {
         $this->table->insert(['foo' => 'bar']);
-        $this->assertEquals(10, $this->table->getLastInsertValue());
+        self::assertEquals(10, $this->table->getLastInsertValue());
     }
 
     /**
@@ -378,9 +378,9 @@ class AbstractTableGatewayTest extends TestCase
         // @codingStandardsIgnoreEnd
         $this->table->insert(['foo']); // trigger last insert id update
 
-        $this->assertEquals(10, $this->table->lastInsertValue);
-        $this->assertSame($this->mockAdapter, $this->table->adapter);
-        //$this->assertEquals('foo', $this->table->table);
+        self::assertEquals(10, $this->table->lastInsertValue);
+        self::assertSame($this->mockAdapter, $this->table->adapter);
+        //self::assertEquals('foo', $this->table->table);
     }
 
     /**
@@ -391,6 +391,6 @@ class AbstractTableGatewayTest extends TestCase
     {
         // @codingStandardsIgnoreEnd
         $cTable = clone $this->table;
-        $this->assertSame($this->mockAdapter, $cTable->getAdapter());
+        self::assertSame($this->mockAdapter, $cTable->getAdapter());
     }
 }

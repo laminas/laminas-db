@@ -24,7 +24,7 @@ class SqliteTest extends TestCase
         $decorators = $mysql->getDecorators();
 
         list($type, $decorator) = each($decorators);
-        $this->assertEquals('Zend\Db\Sql\Select', $type);
-        $this->assertInstanceOf('Zend\Db\Sql\Platform\Sqlite\SelectDecorator', $decorator);
+        self::assertEquals('Zend\Db\Sql\Select', $type);
+        self::assertInstanceOf('Zend\Db\Sql\Platform\Sqlite\SelectDecorator', $decorator);
     }
 }

@@ -39,11 +39,11 @@ class InsertTest extends TestCase
     public function testInto()
     {
         $this->insert->into('table', 'schema');
-        $this->assertEquals('table', $this->insert->getRawState('table'));
+        self::assertEquals('table', $this->insert->getRawState('table'));
 
         $tableIdentifier = new TableIdentifier('table', 'schema');
         $this->insert->into($tableIdentifier);
-        $this->assertEquals($tableIdentifier, $this->insert->getRawState('table'));
+        self::assertEquals($tableIdentifier, $this->insert->getRawState('table'));
     }
 
     /**
@@ -53,7 +53,7 @@ class InsertTest extends TestCase
     {
         $columns = ['foo', 'bar'];
         $this->insert->columns($columns);
-        $this->assertEquals($columns, $this->insert->getRawState('columns'));
+        self::assertEquals($columns, $this->insert->getRawState('columns'));
     }
 
     /**
@@ -62,18 +62,18 @@ class InsertTest extends TestCase
     public function testValues()
     {
         $this->insert->values(['foo' => 'bar']);
-        $this->assertEquals(['foo'], $this->insert->getRawState('columns'));
-        $this->assertEquals(['bar'], $this->insert->getRawState('values'));
+        self::assertEquals(['foo'], $this->insert->getRawState('columns'));
+        self::assertEquals(['bar'], $this->insert->getRawState('values'));
 
         // test will merge cols and values of previously set stuff
         $this->insert->values(['foo' => 'bax'], Insert::VALUES_MERGE);
         $this->insert->values(['boom' => 'bam'], Insert::VALUES_MERGE);
-        $this->assertEquals(['foo', 'boom'], $this->insert->getRawState('columns'));
-        $this->assertEquals(['bax', 'bam'], $this->insert->getRawState('values'));
+        self::assertEquals(['foo', 'boom'], $this->insert->getRawState('columns'));
+        self::assertEquals(['bax', 'bam'], $this->insert->getRawState('values'));
 
         $this->insert->values(['foo' => 'bax']);
-        $this->assertEquals(['foo'], $this->insert->getRawState('columns'));
-        $this->assertEquals(['bax'], $this->insert->getRawState('values'));
+        self::assertEquals(['foo'], $this->insert->getRawState('columns'));
+        self::assertEquals(['bax'], $this->insert->getRawState('values'));
     }
 
     /**
@@ -120,7 +120,7 @@ class InsertTest extends TestCase
     public function testEmptyArrayValues()
     {
         $this->insert->values([]);
-        $this->assertEquals([], $this->readAttribute($this->insert, 'columns'));
+        self::assertEquals([], $this->readAttribute($this->insert, 'columns'));
     }
 
     /**
@@ -193,12 +193,12 @@ class InsertTest extends TestCase
                 ->select($select->where(['x' => 5]))
                 ->prepareStatement($mockAdapter, $mockStatement);
 
-        $this->assertEquals(
+        self::assertEquals(
             'INSERT INTO "foo" ("col1") SELECT "bar".* FROM "bar" WHERE "x" = ?',
             $mockStatement->getSql()
         );
         $parameters = $mockStatement->getParameterContainer()->getNamedArray();
-        $this->assertSame(['subselect1where1' => 5], $parameters);
+        self::assertSame(['subselect1where1' => 5], $parameters);
     }
 
     /**
@@ -209,7 +209,7 @@ class InsertTest extends TestCase
         $this->insert->into('foo')
             ->values(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null]);
 
-        $this->assertEquals(
+        self::assertEquals(
             'INSERT INTO "foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)',
             $this->insert->getSqlString(new TrustingSql92Platform())
         );
@@ -219,7 +219,7 @@ class InsertTest extends TestCase
         $this->insert->into(new TableIdentifier('foo', 'sch'))
             ->values(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null]);
 
-        $this->assertEquals(
+        self::assertEquals(
             'INSERT INTO "sch"."foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)',
             $this->insert->getSqlString(new TrustingSql92Platform())
         );
@@ -229,14 +229,14 @@ class InsertTest extends TestCase
         $select = new Select();
         $this->insert->into('foo')->select($select->from('bar'));
 
-        $this->assertEquals(
+        self::assertEquals(
             'INSERT INTO "foo"  SELECT "bar".* FROM "bar"',
             $this->insert->getSqlString(new TrustingSql92Platform())
         );
 
         // with Select and columns
         $this->insert->columns(['col1', 'col2']);
-        $this->assertEquals(
+        self::assertEquals(
             'INSERT INTO "foo" ("col1", "col2") SELECT "bar".* FROM "bar"',
             $this->insert->getSqlString(new TrustingSql92Platform())
         );
@@ -249,7 +249,7 @@ class InsertTest extends TestCase
             ->into('foo')
             ->columns(['col1', 'col2', 'col3'])
             ->values(['val1', 'val2', 'val3']);
-        $this->assertEquals(
+        self::assertEquals(
             'INSERT INTO "foo" ("col1", "col2", "col3") VALUES (\'val1\', \'val2\', \'val3\')',
             $this->insert->getSqlString(new TrustingSql92Platform())
         );
@@ -263,8 +263,8 @@ class InsertTest extends TestCase
     {
         // @codingStandardsIgnoreEnd
         $this->insert->foo = 'bar';
-        $this->assertEquals(['foo'], $this->insert->getRawState('columns'));
-        $this->assertEquals(['bar'], $this->insert->getRawState('values'));
+        self::assertEquals(['foo'], $this->insert->getRawState('columns'));
+        self::assertEquals(['bar'], $this->insert->getRawState('values'));
     }
 
     /**
@@ -275,19 +275,19 @@ class InsertTest extends TestCase
     {
         // @codingStandardsIgnoreEnd
         $this->insert->foo = 'bar';
-        $this->assertEquals(['foo'], $this->insert->getRawState('columns'));
-        $this->assertEquals(['bar'], $this->insert->getRawState('values'));
+        self::assertEquals(['foo'], $this->insert->getRawState('columns'));
+        self::assertEquals(['bar'], $this->insert->getRawState('values'));
         unset($this->insert->foo);
-        $this->assertEquals([], $this->insert->getRawState('columns'));
-        $this->assertEquals([], $this->insert->getRawState('values'));
+        self::assertEquals([], $this->insert->getRawState('columns'));
+        self::assertEquals([], $this->insert->getRawState('values'));
 
         $this->insert->foo = null;
-        $this->assertEquals(['foo'], $this->insert->getRawState('columns'));
-        $this->assertEquals([null], $this->insert->getRawState('values'));
+        self::assertEquals(['foo'], $this->insert->getRawState('columns'));
+        self::assertEquals([null], $this->insert->getRawState('values'));
 
         unset($this->insert->foo);
-        $this->assertEquals([], $this->insert->getRawState('columns'));
-        $this->assertEquals([], $this->insert->getRawState('values'));
+        self::assertEquals([], $this->insert->getRawState('columns'));
+        self::assertEquals([], $this->insert->getRawState('values'));
     }
 
     /**
@@ -298,10 +298,10 @@ class InsertTest extends TestCase
     {
         // @codingStandardsIgnoreEnd
         $this->insert->foo = 'bar';
-        $this->assertTrue(isset($this->insert->foo));
+        self::assertTrue(isset($this->insert->foo));
 
         $this->insert->foo = null;
-        $this->assertTrue(isset($this->insert->foo));
+        self::assertTrue(isset($this->insert->foo));
     }
 
     /**
@@ -312,10 +312,10 @@ class InsertTest extends TestCase
     {
         // @codingStandardsIgnoreEnd
         $this->insert->foo = 'bar';
-        $this->assertEquals('bar', $this->insert->foo);
+        self::assertEquals('bar', $this->insert->foo);
 
         $this->insert->foo = null;
-        $this->assertNull($this->insert->foo);
+        self::assertNull($this->insert->foo);
     }
 
     /**
@@ -328,7 +328,7 @@ class InsertTest extends TestCase
         $this->insert->into('foo')
             ->values(['qux' => 100], Insert::VALUES_MERGE);
 
-        $this->assertEquals(
+        self::assertEquals(
             'INSERT INTO "foo" ("bar", "boo", "bam", "qux") VALUES (\'baz\', NOW(), NULL, \'100\')',
             $this->insert->getSqlString(new TrustingSql92Platform())
         );
@@ -394,7 +394,7 @@ class InsertTest extends TestCase
         $replace->into('foo')
             ->values(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null]);
 
-        $this->assertEquals(
+        self::assertEquals(
             'REPLACE INTO "foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)',
             $replace->getSqlString(new TrustingSql92Platform())
         );
@@ -404,7 +404,7 @@ class InsertTest extends TestCase
         $replace->into(new TableIdentifier('foo', 'sch'))
             ->values(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null]);
 
-        $this->assertEquals(
+        self::assertEquals(
             'REPLACE INTO "sch"."foo" ("bar", "boo", "bam") VALUES (\'baz\', NOW(), NULL)',
             $replace->getSqlString(new TrustingSql92Platform())
         );

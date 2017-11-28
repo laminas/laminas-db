@@ -20,13 +20,13 @@ class VarcharTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Varchar('foo', 20);
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'VARCHAR(20)'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );
 
         $column->setDefault('bar');
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 '%s %s NOT NULL DEFAULT %s',
                 ['foo', 'VARCHAR(20)', 'bar'],

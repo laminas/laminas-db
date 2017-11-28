@@ -21,7 +21,7 @@ class IntegerTest extends TestCase
     public function testObjectConstruction()
     {
         $integer = new Integer('foo');
-        $this->assertEquals('foo', $integer->getName());
+        self::assertEquals('foo', $integer->getName());
     }
 
     /**
@@ -30,14 +30,14 @@ class IntegerTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Integer('foo');
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'INTEGER'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );
 
         $column = new Integer('foo');
         $column->addConstraint(new PrimaryKey());
-        $this->assertEquals(
+        self::assertEquals(
             [
                 ['%s %s NOT NULL', ['foo', 'INTEGER'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]],
                 ' ',

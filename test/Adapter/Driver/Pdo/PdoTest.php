@@ -36,7 +36,7 @@ class PdoTest extends TestCase
     {
         // Test platform name for SqlServer
         $this->pdo->getConnection()->setConnectionParameters(['pdodriver' => 'sqlsrv']);
-        $this->assertEquals('SqlServer', $this->pdo->getDatabasePlatformName());
-        $this->assertEquals('SQLServer', $this->pdo->getDatabasePlatformName(DriverInterface::NAME_FORMAT_NATURAL));
+        self::assertEquals('SqlServer', $this->pdo->getDatabasePlatformName());
+        self::assertEquals('SQLServer', $this->pdo->getDatabasePlatformName(DriverInterface::NAME_FORMAT_NATURAL));
     }
 }

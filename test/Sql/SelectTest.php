@@ -29,7 +29,7 @@ class SelectTest extends TestCase
     public function testConstruct()
     {
         $select = new Select('foo');
-        $this->assertEquals('foo', $select->getRawState('table'));
+        self::assertEquals('foo', $select->getRawState('table'));
     }
 
     /**
@@ -40,7 +40,7 @@ class SelectTest extends TestCase
     {
         $select = new Select;
         $return = $select->from('foo', 'bar');
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $return;
     }
@@ -52,7 +52,7 @@ class SelectTest extends TestCase
      */
     public function testGetRawStateViaFrom(Select $select)
     {
-        $this->assertEquals('foo', $select->getRawState('table'));
+        self::assertEquals('foo', $select->getRawState('table'));
     }
 
     /**
@@ -63,7 +63,7 @@ class SelectTest extends TestCase
     {
         $select = new Select;
         $return = $select->quantifier($select::QUANTIFIER_DISTINCT);
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
         return $return;
     }
 
@@ -74,7 +74,7 @@ class SelectTest extends TestCase
      */
     public function testGetRawStateViaQuantifier(Select $select)
     {
-        $this->assertEquals(Select::QUANTIFIER_DISTINCT, $select->getRawState('quantifier'));
+        self::assertEquals(Select::QUANTIFIER_DISTINCT, $select->getRawState('quantifier'));
     }
 
     /**
@@ -86,7 +86,7 @@ class SelectTest extends TestCase
         $expr = $this->getMockBuilder('Zend\Db\Sql\ExpressionInterface')->getMock();
         $select = new Select;
         $select->quantifier($expr);
-        $this->assertSame(
+        self::assertSame(
             $expr,
             $select->getRawState(Select::QUANTIFIER)
         );
@@ -100,7 +100,7 @@ class SelectTest extends TestCase
     {
         $select = new Select;
         $return = $select->columns(['foo', 'bar']);
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $select;
     }
@@ -112,10 +112,10 @@ class SelectTest extends TestCase
     public function testIsTableReadOnly()
     {
         $select = new Select('foo');
-        $this->assertTrue($select->isTableReadOnly());
+        self::assertTrue($select->isTableReadOnly());
 
         $select = new Select;
-        $this->assertFalse($select->isTableReadOnly());
+        self::assertFalse($select->isTableReadOnly());
     }
 
     /**
@@ -125,7 +125,7 @@ class SelectTest extends TestCase
      */
     public function testGetRawStateViaColumns(Select $select)
     {
-        $this->assertEquals(['foo', 'bar'], $select->getRawState('columns'));
+        self::assertEquals(['foo', 'bar'], $select->getRawState('columns'));
     }
 
     /**
@@ -136,7 +136,7 @@ class SelectTest extends TestCase
     {
         $select = new Select;
         $return = $select->join('foo', 'x = y', Select::SQL_STAR, Select::JOIN_INNER);
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $return;
     }
@@ -187,7 +187,7 @@ class SelectTest extends TestCase
      */
     public function testGetRawStateViaJoin(Select $select)
     {
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 'name' => 'foo',
                 'on' => 'x = y',
@@ -205,7 +205,7 @@ class SelectTest extends TestCase
     public function testWhereReturnsSameSelectObject()
     {
         $select = new Select;
-        $this->assertSame($select, $select->where('x = y'));
+        self::assertSame($select, $select->where('x = y'));
     }
 
     /**
@@ -220,10 +220,10 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertCount(1, $predicates);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[0][1]);
-        $this->assertEquals(Where::OP_AND, $predicates[0][0]);
-        $this->assertEquals('x = ?', $predicates[0][1]->getExpression());
+        self::assertCount(1, $predicates);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[0][1]);
+        self::assertEquals(Where::OP_AND, $predicates[0][0]);
+        self::assertEquals('x = ?', $predicates[0][1]->getExpression());
 
         $select = new Select;
         $select->where('x = y');
@@ -231,7 +231,7 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
     }
 
     /**
@@ -247,11 +247,11 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertCount(1, $predicates);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[0][1]);
-        $this->assertEquals(Where::OP_AND, $predicates[0][0]);
-        $this->assertEquals('foo > ?', $predicates[0][1]->getExpression());
-        $this->assertEquals([5], $predicates[0][1]->getParameters());
+        self::assertCount(1, $predicates);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[0][1]);
+        self::assertEquals(Where::OP_AND, $predicates[0][0]);
+        self::assertEquals('foo > ?', $predicates[0][1]->getExpression());
+        self::assertEquals([5], $predicates[0][1]->getParameters());
     }
 
     /**
@@ -267,24 +267,24 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertCount(2, $predicates);
+        self::assertCount(2, $predicates);
 
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[0][1]);
-        $this->assertEquals(Where::OP_AND, $predicates[0][0]);
-        $this->assertEquals('name', $predicates[0][1]->getLeft());
-        $this->assertEquals('Ralph', $predicates[0][1]->getRight());
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[0][1]);
+        self::assertEquals(Where::OP_AND, $predicates[0][0]);
+        self::assertEquals('name', $predicates[0][1]->getLeft());
+        self::assertEquals('Ralph', $predicates[0][1]->getRight());
 
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[1][1]);
-        $this->assertEquals(Where::OP_AND, $predicates[1][0]);
-        $this->assertEquals('age', $predicates[1][1]->getLeft());
-        $this->assertEquals(33, $predicates[1][1]->getRight());
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[1][1]);
+        self::assertEquals(Where::OP_AND, $predicates[1][0]);
+        self::assertEquals('age', $predicates[1][1]->getLeft());
+        self::assertEquals(33, $predicates[1][1]->getRight());
 
         $select = new Select;
         $select->where(['x = y']);
 
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
     }
 
     /**
@@ -315,11 +315,11 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertCount(1, $predicates);
+        self::assertCount(1, $predicates);
 
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
-        $this->assertEquals(Where::OP_AND, $predicates[0][0]);
-        $this->assertEquals('name = "Ralph"', $predicates[0][1]->getLiteral());
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertEquals(Where::OP_AND, $predicates[0][0]);
+        self::assertEquals('name = "Ralph"', $predicates[0][1]->getLiteral());
     }
 
     /**
@@ -335,11 +335,11 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertCount(1, $predicates);
+        self::assertCount(1, $predicates);
 
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
-        $this->assertEquals(Where::OP_OR, $predicates[0][0]);
-        $this->assertEquals('name = "Ralph"', $predicates[0][1]->getLiteral());
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertEquals(Where::OP_OR, $predicates[0][0]);
+        self::assertEquals('name = "Ralph"', $predicates[0][1]->getLiteral());
     }
 
     /**
@@ -352,7 +352,7 @@ class SelectTest extends TestCase
         $where = $select->getRawState('where');
 
         $select->where(function ($what) use ($where) {
-            $this->assertSame($where, $what);
+            self::assertSame($where, $what);
         });
     }
 
@@ -372,7 +372,7 @@ class SelectTest extends TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertSame($predicate, $predicates[0][1]);
+        self::assertSame($predicate, $predicates[0][1]);
     }
 
     /**
@@ -383,7 +383,7 @@ class SelectTest extends TestCase
     {
         $select = new Select;
         $select->where($newWhere = new Where);
-        $this->assertSame($newWhere, $select->getRawState('where'));
+        self::assertSame($newWhere, $select->getRawState('where'));
     }
 
     /**
@@ -395,24 +395,24 @@ class SelectTest extends TestCase
     {
         $select = new Select;
         $return = $select->order('id DESC');
-        $this->assertSame($select, $return); // test fluent interface
-        $this->assertEquals(['id DESC'], $select->getRawState('order'));
+        self::assertSame($select, $return); // test fluent interface
+        self::assertEquals(['id DESC'], $select->getRawState('order'));
 
         $select = new Select;
         $select->order('id DESC')
             ->order('name ASC, age DESC');
-        $this->assertEquals(['id DESC', 'name ASC', 'age DESC'], $select->getRawState('order'));
+        self::assertEquals(['id DESC', 'name ASC', 'age DESC'], $select->getRawState('order'));
 
         $select = new Select;
         $select->order(['name ASC', 'age DESC']);
-        $this->assertEquals(['name ASC', 'age DESC'], $select->getRawState('order'));
+        self::assertEquals(['name ASC', 'age DESC'], $select->getRawState('order'));
 
         $select = new Select;
         $select->order(new Expression('RAND()'));
         $sr = new ReflectionObject($select);
         $method = $sr->getMethod('processOrder');
         $method->setAccessible(true);
-        $this->assertEquals(
+        self::assertEquals(
             [[['RAND()']]],
             $method->invokeArgs($select, [new TrustingSql92Platform()])
         );
@@ -427,7 +427,7 @@ class SelectTest extends TestCase
         $sr = new ReflectionObject($select);
         $method = $sr->getMethod('processOrder');
         $method->setAccessible(true);
-        $this->assertEquals(
+        self::assertEquals(
             [[['"rating" < \'10\'']]],
             $method->invokeArgs($select, [new TrustingSql92Platform()])
         );
@@ -441,7 +441,7 @@ class SelectTest extends TestCase
     {
         $select = new Select;
         $select->order('name  desc');
-        $this->assertEquals(
+        self::assertEquals(
             'SELECT * ORDER BY "name" DESC',
             $select->getSqlString(new TrustingSql92Platform())
         );
@@ -454,7 +454,7 @@ class SelectTest extends TestCase
     public function testLimit()
     {
         $select = new Select;
-        $this->assertSame($select, $select->limit(5));
+        self::assertSame($select, $select->limit(5));
         return $select;
     }
 
@@ -465,7 +465,7 @@ class SelectTest extends TestCase
      */
     public function testGetRawStateViaLimit(Select $select)
     {
-        $this->assertEquals(5, $select->getRawState($select::LIMIT));
+        self::assertEquals(5, $select->getRawState($select::LIMIT));
     }
 
     /**
@@ -487,7 +487,7 @@ class SelectTest extends TestCase
     public function testOffset()
     {
         $select = new Select;
-        $this->assertSame($select, $select->offset(10));
+        self::assertSame($select, $select->offset(10));
         return $select;
     }
 
@@ -498,7 +498,7 @@ class SelectTest extends TestCase
      */
     public function testGetRawStateViaOffset(Select $select)
     {
-        $this->assertEquals(10, $select->getRawState($select::OFFSET));
+        self::assertEquals(10, $select->getRawState($select::OFFSET));
     }
 
     /**
@@ -522,7 +522,7 @@ class SelectTest extends TestCase
     {
         $select = new Select;
         $return = $select->group(['col1', 'col2']);
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $return;
     }
@@ -534,7 +534,7 @@ class SelectTest extends TestCase
      */
     public function testGetRawStateViaGroup(Select $select)
     {
-        $this->assertEquals(
+        self::assertEquals(
             ['col1', 'col2'],
             $select->getRawState('group')
         );
@@ -548,7 +548,7 @@ class SelectTest extends TestCase
     {
         $select = new Select;
         $return = $select->having(['x = ?' => 5]);
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $return;
     }
@@ -562,8 +562,8 @@ class SelectTest extends TestCase
         $select = new Select;
         $having = new Having();
         $return = $select->having($having);
-        $this->assertSame($select, $return);
-        $this->assertSame($having, $select->getRawState('having'));
+        self::assertSame($select, $return);
+        self::assertSame($having, $select->getRawState('having'));
 
         return $return;
     }
@@ -575,7 +575,7 @@ class SelectTest extends TestCase
      */
     public function testGetRawStateViaHaving(Select $select)
     {
-        $this->assertInstanceOf('Zend\Db\Sql\Having', $select->getRawState('having'));
+        self::assertInstanceOf('Zend\Db\Sql\Having', $select->getRawState('having'));
     }
 
     /**
@@ -587,7 +587,7 @@ class SelectTest extends TestCase
         $select = new Select;
         $combine = new Select;
         $return = $select->combine($combine, $select::COMBINE_UNION, 'ALL');
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $return;
     }
@@ -600,10 +600,10 @@ class SelectTest extends TestCase
     public function testGetRawStateViaCombine(Select $select)
     {
         $state = $select->getRawState('combine');
-        $this->assertInstanceOf('Zend\Db\Sql\Select', $state['select']);
-        $this->assertNotSame($select, $state['select']);
-        $this->assertEquals(Select::COMBINE_UNION, $state['type']);
-        $this->assertEquals('ALL', $state['modifier']);
+        self::assertInstanceOf('Zend\Db\Sql\Select', $state['select']);
+        self::assertNotSame($select, $state['select']);
+        self::assertEquals(Select::COMBINE_UNION, $state['type']);
+        self::assertEquals('ALL', $state['modifier']);
     }
 
     /**
@@ -616,66 +616,66 @@ class SelectTest extends TestCase
 
         // table
         $select->from('foo');
-        $this->assertEquals('foo', $select->getRawState(Select::TABLE));
+        self::assertEquals('foo', $select->getRawState(Select::TABLE));
         $select->reset(Select::TABLE);
-        $this->assertNull($select->getRawState(Select::TABLE));
+        self::assertNull($select->getRawState(Select::TABLE));
 
         // columns
         $select->columns(['foo']);
-        $this->assertEquals(['foo'], $select->getRawState(Select::COLUMNS));
+        self::assertEquals(['foo'], $select->getRawState(Select::COLUMNS));
         $select->reset(Select::COLUMNS);
-        $this->assertEmpty($select->getRawState(Select::COLUMNS));
+        self::assertEmpty($select->getRawState(Select::COLUMNS));
 
         // joins
         $select->join('foo', 'id = boo');
-        $this->assertEquals(
+        self::assertEquals(
             [['name' => 'foo', 'on' => 'id = boo', 'columns' => ['*'], 'type' => 'inner']],
             $select->getRawState(Select::JOINS)->getJoins()
         );
         $select->reset(Select::JOINS);
-        $this->assertEmpty($select->getRawState(Select::JOINS)->getJoins());
+        self::assertEmpty($select->getRawState(Select::JOINS)->getJoins());
 
         // where
         $select->where('foo = bar');
         $where1 = $select->getRawState(Select::WHERE);
-        $this->assertEquals(1, $where1->count());
+        self::assertEquals(1, $where1->count());
         $select->reset(Select::WHERE);
         $where2 = $select->getRawState(Select::WHERE);
-        $this->assertEquals(0, $where2->count());
-        $this->assertNotSame($where1, $where2);
+        self::assertEquals(0, $where2->count());
+        self::assertNotSame($where1, $where2);
 
         // group
         $select->group(['foo']);
-        $this->assertEquals(['foo'], $select->getRawState(Select::GROUP));
+        self::assertEquals(['foo'], $select->getRawState(Select::GROUP));
         $select->reset(Select::GROUP);
-        $this->assertEmpty($select->getRawState(Select::GROUP));
+        self::assertEmpty($select->getRawState(Select::GROUP));
 
         // having
         $select->having('foo = bar');
         $having1 = $select->getRawState(Select::HAVING);
-        $this->assertEquals(1, $having1->count());
+        self::assertEquals(1, $having1->count());
         $select->reset(Select::HAVING);
         $having2 = $select->getRawState(Select::HAVING);
-        $this->assertEquals(0, $having2->count());
-        $this->assertNotSame($having1, $having2);
+        self::assertEquals(0, $having2->count());
+        self::assertNotSame($having1, $having2);
 
         // limit
         $select->limit(5);
-        $this->assertEquals(5, $select->getRawState(Select::LIMIT));
+        self::assertEquals(5, $select->getRawState(Select::LIMIT));
         $select->reset(Select::LIMIT);
-        $this->assertNull($select->getRawState(Select::LIMIT));
+        self::assertNull($select->getRawState(Select::LIMIT));
 
         // offset
         $select->offset(10);
-        $this->assertEquals(10, $select->getRawState(Select::OFFSET));
+        self::assertEquals(10, $select->getRawState(Select::OFFSET));
         $select->reset(Select::OFFSET);
-        $this->assertNull($select->getRawState(Select::OFFSET));
+        self::assertNull($select->getRawState(Select::OFFSET));
 
         // order
         $select->order('foo asc');
-        $this->assertEquals(['foo asc'], $select->getRawState(Select::ORDER));
+        self::assertEquals(['foo asc'], $select->getRawState(Select::ORDER));
         $select->reset(Select::ORDER);
-        $this->assertEmpty($select->getRawState(Select::ORDER));
+        self::assertEmpty($select->getRawState(Select::ORDER));
     }
 
     /**
@@ -713,7 +713,7 @@ class SelectTest extends TestCase
         $select->prepareStatement($mockAdapter, $mockStatement);
 
         if ($expectedParameters) {
-            $this->assertEquals($expectedParameters, $parameterContainer->getNamedArray());
+            self::assertEquals($expectedParameters, $parameterContainer->getNamedArray());
         }
     }
 
@@ -726,7 +726,7 @@ class SelectTest extends TestCase
         $select->from(new TableIdentifier('foo'));
         $select->join(new TableIdentifier('bar'), 'foo.id = bar.fooid');
 
-        $this->assertEquals(
+        self::assertEquals(
             'SELECT "foo".*, "bar".* FROM "foo" INNER JOIN "bar" ON "foo"."id" = "bar"."fooid"',
             $select->getSqlString(new TrustingSql92Platform())
         );
@@ -740,7 +740,7 @@ class SelectTest extends TestCase
      */
     public function testGetSqlString(Select $select, $unused, $unused2, $expectedSqlString)
     {
-        $this->assertEquals($expectedSqlString, $select->getSqlString(new TrustingSql92Platform()));
+        self::assertEquals($expectedSqlString, $select->getSqlString(new TrustingSql92Platform()));
     }
 
     /**
@@ -750,7 +750,7 @@ class SelectTest extends TestCase
     public function testMagicAccessor()
     {
         $select = new Select;
-        $this->assertInstanceOf('Zend\Db\Sql\Where', $select->where);
+        self::assertInstanceOf('Zend\Db\Sql\Where', $select->where);
     }
 
     /**
@@ -765,11 +765,11 @@ class SelectTest extends TestCase
         $select1->where('id = foo');
         $select1->having('id = foo');
 
-        $this->assertEquals(0, $select->where->count());
-        $this->assertEquals(1, $select1->where->count());
+        self::assertEquals(0, $select->where->count());
+        self::assertEquals(1, $select1->where->count());
 
-        $this->assertEquals(0, $select->having->count());
-        $this->assertEquals(1, $select1->having->count());
+        self::assertEquals(0, $select->having->count());
+        self::assertEquals(1, $select1->having->count());
     }
 
     /**
@@ -802,7 +802,7 @@ class SelectTest extends TestCase
             $mr = $sr->getMethod($method);
             $mr->setAccessible(true);
             $return = $mr->invokeArgs($select, [new Sql92, $mockDriver, $parameterContainer]);
-            $this->assertEquals($expected, $return);
+            self::assertEquals($expected, $return);
         }
     }
 

@@ -25,7 +25,7 @@ class NotInTest extends TestCase
             ['foo.bar', 1, 2, 3],
             [NotIn::TYPE_IDENTIFIER, NotIn::TYPE_VALUE, NotIn::TYPE_VALUE, NotIn::TYPE_VALUE],
         ]];
-        $this->assertEquals($expected, $in->getExpressionData());
+        self::assertEquals($expected, $in->getExpressionData());
     }
 
     public function testGetExpressionDataWithSubselect()
@@ -37,7 +37,7 @@ class NotInTest extends TestCase
             ['foo', $select],
             [$in::TYPE_IDENTIFIER, $in::TYPE_VALUE]
         ]];
-        $this->assertEquals($expected, $in->getExpressionData());
+        self::assertEquals($expected, $in->getExpressionData());
     }
 
     public function testGetExpressionDataWithSubselectAndIdentifier()
@@ -49,7 +49,7 @@ class NotInTest extends TestCase
             ['foo', $select],
             [$in::TYPE_IDENTIFIER, $in::TYPE_VALUE]
         ]];
-        $this->assertEquals($expected, $in->getExpressionData());
+        self::assertEquals($expected, $in->getExpressionData());
     }
 
     public function testGetExpressionDataWithSubselectAndArrayIdentifier()
@@ -61,6 +61,6 @@ class NotInTest extends TestCase
             ['foo', 'bar', $select],
             [$in::TYPE_IDENTIFIER, $in::TYPE_IDENTIFIER, $in::TYPE_VALUE]
         ]];
-        $this->assertEquals($expected, $in->getExpressionData());
+        self::assertEquals($expected, $in->getExpressionData());
     }
 }

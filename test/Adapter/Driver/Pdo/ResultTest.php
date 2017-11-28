@@ -39,7 +39,7 @@ class ResultTest extends TestCase
         $result = new Result();
         $result->initialize($stub, null);
 
-        $this->assertEquals($result->current(), $result->current());
+        self::assertEquals($result->current(), $result->current());
     }
 
     public function testFetchModeException()
@@ -66,7 +66,7 @@ class ResultTest extends TestCase
         $result->initialize($stub, null);
         $result->setFetchMode(\PDO::FETCH_OBJ);
 
-        $this->assertEquals(5, $result->getFetchMode());
-        $this->assertInstanceOf('stdClass', $result->current());
+        self::assertEquals(5, $result->getFetchMode());
+        self::assertInstanceOf('stdClass', $result->current());
     }
 }

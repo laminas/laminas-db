@@ -20,7 +20,7 @@ class VarbinaryTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Varbinary('foo', 20);
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'VARBINARY(20)'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );

@@ -28,7 +28,7 @@ class ConfigProviderTest extends TestCase
     public function testProvidesExpectedConfiguration()
     {
         $provider = new ConfigProvider();
-        $this->assertEquals($this->config, $provider->getDependencyConfig());
+        self::assertEquals($this->config, $provider->getDependencyConfig());
         return $provider;
     }
 
@@ -37,6 +37,6 @@ class ConfigProviderTest extends TestCase
      */
     public function testInvocationProvidesDependencyConfiguration(ConfigProvider $provider)
     {
-        $this->assertEquals(['dependencies' => $provider->getDependencyConfig()], $provider());
+        self::assertEquals(['dependencies' => $provider->getDependencyConfig()], $provider());
     }
 }

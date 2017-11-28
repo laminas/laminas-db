@@ -20,7 +20,7 @@ class DatetimeTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Datetime('foo');
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'DATETIME'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );

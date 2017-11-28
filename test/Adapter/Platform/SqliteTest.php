@@ -34,7 +34,7 @@ class SqliteTest extends TestCase
      */
     public function testGetName()
     {
-        $this->assertEquals('SQLite', $this->platform->getName());
+        self::assertEquals('SQLite', $this->platform->getName());
     }
 
     /**
@@ -42,7 +42,7 @@ class SqliteTest extends TestCase
      */
     public function testGetQuoteIdentifierSymbol()
     {
-        $this->assertEquals('"', $this->platform->getQuoteIdentifierSymbol());
+        self::assertEquals('"', $this->platform->getQuoteIdentifierSymbol());
     }
 
     /**
@@ -50,7 +50,7 @@ class SqliteTest extends TestCase
      */
     public function testQuoteIdentifier()
     {
-        $this->assertEquals('"identifier"', $this->platform->quoteIdentifier('identifier'));
+        self::assertEquals('"identifier"', $this->platform->quoteIdentifier('identifier'));
     }
 
     /**
@@ -58,9 +58,9 @@ class SqliteTest extends TestCase
      */
     public function testQuoteIdentifierChain()
     {
-        $this->assertEquals('"identifier"', $this->platform->quoteIdentifierChain('identifier'));
-        $this->assertEquals('"identifier"', $this->platform->quoteIdentifierChain(['identifier']));
-        $this->assertEquals('"schema"."identifier"', $this->platform->quoteIdentifierChain(['schema', 'identifier']));
+        self::assertEquals('"identifier"', $this->platform->quoteIdentifierChain('identifier'));
+        self::assertEquals('"identifier"', $this->platform->quoteIdentifierChain(['identifier']));
+        self::assertEquals('"schema"."identifier"', $this->platform->quoteIdentifierChain(['schema', 'identifier']));
     }
 
     /**
@@ -68,7 +68,7 @@ class SqliteTest extends TestCase
      */
     public function testGetQuoteValueSymbol()
     {
-        $this->assertEquals("'", $this->platform->getQuoteValueSymbol());
+        self::assertEquals("'", $this->platform->getQuoteValueSymbol());
     }
 
     /**
@@ -89,13 +89,13 @@ class SqliteTest extends TestCase
      */
     public function testQuoteValue()
     {
-        $this->assertEquals("'value'", @$this->platform->quoteValue('value'));
-        $this->assertEquals("'Foo O\\'Bar'", @$this->platform->quoteValue("Foo O'Bar"));
-        $this->assertEquals(
+        self::assertEquals("'value'", @$this->platform->quoteValue('value'));
+        self::assertEquals("'Foo O\\'Bar'", @$this->platform->quoteValue("Foo O'Bar"));
+        self::assertEquals(
             '\'\\\'; DELETE FROM some_table; -- \'',
             @$this->platform->quoteValue('\'; DELETE FROM some_table; -- ')
         );
-        $this->assertEquals(
+        self::assertEquals(
             "'\\\\\\'; DELETE FROM some_table; -- '",
             @$this->platform->quoteValue('\\\'; DELETE FROM some_table; -- ')
         );
@@ -106,15 +106,15 @@ class SqliteTest extends TestCase
      */
     public function testQuoteTrustedValue()
     {
-        $this->assertEquals("'value'", $this->platform->quoteTrustedValue('value'));
-        $this->assertEquals("'Foo O\\'Bar'", $this->platform->quoteTrustedValue("Foo O'Bar"));
-        $this->assertEquals(
+        self::assertEquals("'value'", $this->platform->quoteTrustedValue('value'));
+        self::assertEquals("'Foo O\\'Bar'", $this->platform->quoteTrustedValue("Foo O'Bar"));
+        self::assertEquals(
             '\'\\\'; DELETE FROM some_table; -- \'',
             $this->platform->quoteTrustedValue('\'; DELETE FROM some_table; -- ')
         );
 
         //                   '\\\'; DELETE FROM some_table; -- '  <- actual below
-        $this->assertEquals(
+        self::assertEquals(
             "'\\\\\\'; DELETE FROM some_table; -- '",
             $this->platform->quoteTrustedValue('\\\'; DELETE FROM some_table; -- ')
         );
@@ -130,7 +130,7 @@ class SqliteTest extends TestCase
             'Attempting to quote a value in Zend\Db\Adapter\Platform\Sqlite without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
         );
-        $this->assertEquals("'Foo O\\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
+        self::assertEquals("'Foo O\\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
 
     /**
@@ -138,7 +138,7 @@ class SqliteTest extends TestCase
      */
     public function testGetIdentifierSeparator()
     {
-        $this->assertEquals('.', $this->platform->getIdentifierSeparator());
+        self::assertEquals('.', $this->platform->getIdentifierSeparator());
     }
 
     /**
@@ -146,17 +146,17 @@ class SqliteTest extends TestCase
      */
     public function testQuoteIdentifierInFragment()
     {
-        $this->assertEquals('"foo"."bar"', $this->platform->quoteIdentifierInFragment('foo.bar'));
-        $this->assertEquals('"foo" as "bar"', $this->platform->quoteIdentifierInFragment('foo as bar'));
+        self::assertEquals('"foo"."bar"', $this->platform->quoteIdentifierInFragment('foo.bar'));
+        self::assertEquals('"foo" as "bar"', $this->platform->quoteIdentifierInFragment('foo as bar'));
 
         // single char words
-        $this->assertEquals(
+        self::assertEquals(
             '("foo"."bar" = "boo"."baz")',
             $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', ['(', ')', '='])
         );
 
         // case insensitive safe words
-        $this->assertEquals(
+        self::assertEquals(
             '("foo"."bar" = "boo"."baz") AND ("foo"."baz" = "boo"."baz")',
             $this->platform->quoteIdentifierInFragment(
                 '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
@@ -165,7 +165,7 @@ class SqliteTest extends TestCase
         );
 
         // case insensitive safe words in field
-        $this->assertEquals(
+        self::assertEquals(
             '("foo"."bar" = "boo".baz) AND ("foo".baz = "boo".baz)',
             $this->platform->quoteIdentifierInFragment(
                 '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
@@ -201,6 +201,6 @@ class SqliteTest extends TestCase
 
         @unlink($filePath);
 
-        $this->assertFileNotExists($filePath);
+        self::assertFileNotExists($filePath);
     }
 }

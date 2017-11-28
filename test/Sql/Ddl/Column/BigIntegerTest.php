@@ -20,7 +20,7 @@ class BigIntegerTest extends TestCase
     public function testObjectConstruction()
     {
         $integer = new BigInteger('foo');
-        $this->assertEquals('foo', $integer->getName());
+        self::assertEquals('foo', $integer->getName());
     }
 
     /**
@@ -29,7 +29,7 @@ class BigIntegerTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new BigInteger('foo');
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'BIGINT'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );

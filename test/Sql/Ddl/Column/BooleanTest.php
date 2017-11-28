@@ -20,7 +20,7 @@ class BooleanTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Boolean('foo');
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'BOOLEAN'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );
@@ -35,10 +35,10 @@ class BooleanTest extends TestCase
     {
         $column = new Boolean('foo', true);
 
-        $this->assertFalse($column->isNullable());
+        self::assertFalse($column->isNullable());
 
         $column->setNullable(true);
 
-        $this->assertFalse($column->isNullable());
+        self::assertFalse($column->isNullable());
     }
 }

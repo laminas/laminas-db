@@ -43,7 +43,7 @@ class StatementTest extends TestCase
      */
     public function testSetDriver()
     {
-        $this->assertEquals($this->statement, $this->statement->setDriver(new IbmDb2([])));
+        self::assertEquals($this->statement, $this->statement->setDriver(new IbmDb2([])));
     }
 
     /**
@@ -51,7 +51,7 @@ class StatementTest extends TestCase
      */
     public function testSetParameterContainer()
     {
-        $this->assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
+        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
     }
 
     /**
@@ -62,7 +62,7 @@ class StatementTest extends TestCase
     {
         $container = new ParameterContainer;
         $this->statement->setParameterContainer($container);
-        $this->assertSame($container, $this->statement->getParameterContainer());
+        self::assertSame($container, $this->statement->getParameterContainer());
     }
 
     /**

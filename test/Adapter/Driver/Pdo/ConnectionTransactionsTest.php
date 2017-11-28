@@ -38,7 +38,7 @@ class ConnectionTransactionsTest extends TestCase
      */
     public function testBeginTransactionReturnsInstanceOfConnection()
     {
-        $this->assertInstanceOf('\Zend\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->beginTransaction());
+        self::assertInstanceOf('\Zend\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->beginTransaction());
     }
 
     /**
@@ -48,7 +48,7 @@ class ConnectionTransactionsTest extends TestCase
     public function testBeginTransactionSetsInTransactionAtTrue()
     {
         $this->wrapper->beginTransaction();
-        $this->assertTrue($this->wrapper->inTransaction());
+        self::assertTrue($this->wrapper->inTransaction());
     }
 
     /**
@@ -57,7 +57,7 @@ class ConnectionTransactionsTest extends TestCase
     public function testCommitReturnsInstanceOfConnection()
     {
         $this->wrapper->beginTransaction();
-        $this->assertInstanceOf('\Zend\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->commit());
+        self::assertInstanceOf('\Zend\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->commit());
     }
 
     /**
@@ -68,7 +68,7 @@ class ConnectionTransactionsTest extends TestCase
     {
         $this->wrapper->beginTransaction();
         $this->wrapper->commit();
-        $this->assertFalse($this->wrapper->inTransaction());
+        self::assertFalse($this->wrapper->inTransaction());
     }
 
     /**
@@ -78,7 +78,7 @@ class ConnectionTransactionsTest extends TestCase
      */
     public function testCommitWithoutBeginReturnsInstanceOfConnection()
     {
-        $this->assertInstanceOf('\Zend\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->commit());
+        self::assertInstanceOf('\Zend\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->commit());
     }
 
     /**
@@ -90,27 +90,27 @@ class ConnectionTransactionsTest extends TestCase
     {
         $nested = 0;
 
-        $this->assertFalse($this->wrapper->inTransaction());
+        self::assertFalse($this->wrapper->inTransaction());
 
         // 1st transaction
         $this->wrapper->beginTransaction();
-        $this->assertTrue($this->wrapper->inTransaction());
-        $this->assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertTrue($this->wrapper->inTransaction());
+        self::assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
 
         // 2nd transaction
         $this->wrapper->beginTransaction();
-        $this->assertTrue($this->wrapper->inTransaction());
-        $this->assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertTrue($this->wrapper->inTransaction());
+        self::assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
 
         // 1st commit
         $this->wrapper->commit();
-        $this->assertTrue($this->wrapper->inTransaction());
-        $this->assertSame(-- $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertTrue($this->wrapper->inTransaction());
+        self::assertSame(-- $nested, $this->wrapper->getNestedTransactionsCount());
 
         // 2nd commit
         $this->wrapper->commit();
-        $this->assertFalse($this->wrapper->inTransaction());
-        $this->assertSame(-- $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertFalse($this->wrapper->inTransaction());
+        self::assertSame(-- $nested, $this->wrapper->getNestedTransactionsCount());
     }
 
     /**
@@ -122,22 +122,22 @@ class ConnectionTransactionsTest extends TestCase
     {
         $nested = 0;
 
-        $this->assertFalse($this->wrapper->inTransaction());
+        self::assertFalse($this->wrapper->inTransaction());
 
         // 1st transaction
         $this->wrapper->beginTransaction();
-        $this->assertTrue($this->wrapper->inTransaction());
-        $this->assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertTrue($this->wrapper->inTransaction());
+        self::assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
 
         // 2nd transaction
         $this->wrapper->beginTransaction();
-        $this->assertTrue($this->wrapper->inTransaction());
-        $this->assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertTrue($this->wrapper->inTransaction());
+        self::assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
 
         // Rollback
         $this->wrapper->rollback();
-        $this->assertFalse($this->wrapper->inTransaction());
-        $this->assertSame(0, $this->wrapper->getNestedTransactionsCount());
+        self::assertFalse($this->wrapper->inTransaction());
+        self::assertSame(0, $this->wrapper->getNestedTransactionsCount());
     }
 
     /**
@@ -158,7 +158,7 @@ class ConnectionTransactionsTest extends TestCase
     public function testRollbackReturnsInstanceOfConnection()
     {
         $this->wrapper->beginTransaction();
-        $this->assertInstanceOf('\Zend\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->rollback());
+        self::assertInstanceOf('\Zend\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->rollback());
     }
 
     /**
@@ -169,7 +169,7 @@ class ConnectionTransactionsTest extends TestCase
     {
         $this->wrapper->beginTransaction();
         $this->wrapper->rollback();
-        $this->assertFalse($this->wrapper->inTransaction());
+        self::assertFalse($this->wrapper->inTransaction());
     }
 
     /**
@@ -190,12 +190,12 @@ class ConnectionTransactionsTest extends TestCase
      */
     public function testStandaloneCommit()
     {
-        $this->assertFalse($this->wrapper->inTransaction());
-        $this->assertSame(0, $this->wrapper->getNestedTransactionsCount());
+        self::assertFalse($this->wrapper->inTransaction());
+        self::assertSame(0, $this->wrapper->getNestedTransactionsCount());
 
         $this->wrapper->commit();
 
-        $this->assertFalse($this->wrapper->inTransaction());
-        $this->assertSame(0, $this->wrapper->getNestedTransactionsCount());
+        self::assertFalse($this->wrapper->inTransaction());
+        self::assertSame(0, $this->wrapper->getNestedTransactionsCount());
     }
 }

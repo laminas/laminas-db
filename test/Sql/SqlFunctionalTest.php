@@ -547,14 +547,14 @@ class SqlFunctionalTest extends TestCase
         $expectedString = is_string($expected) ? $expected : (isset($expected['string']) ? $expected['string'] : null);
         if ($expectedString) {
             $actual = $sql->getSqlStringForSqlObject($sqlObject);
-            $this->assertEquals($expectedString, $actual, "getSqlString()");
+            self::assertEquals($expectedString, $actual, "getSqlString()");
         }
         if (is_array($expected) && isset($expected['prepare'])) {
             $actual = $sql->prepareStatementForSqlObject($sqlObject);
-            $this->assertEquals($expected['prepare'], $actual->getSql(), "prepareStatement()");
+            self::assertEquals($expected['prepare'], $actual->getSql(), "prepareStatement()");
             if (isset($expected['parameters'])) {
                 $actual = $actual->getParameterContainer()->getNamedArray();
-                $this->assertSame($expected['parameters'], $actual, "parameterContainer()");
+                self::assertSame($expected['parameters'], $actual, "parameterContainer()");
             }
         }
     }

@@ -54,7 +54,7 @@ class ConnectionTest extends TestCase
         }
         $responseString = $this->connection->getDsn();
 
-        $this->assertEquals($dsn, $responseString);
+        self::assertEquals($dsn, $responseString);
     }
 
     /**
@@ -75,11 +75,11 @@ class ConnectionTest extends TestCase
         }
         $responseString = $this->connection->getDsn();
 
-        $this->assertStringStartsWith('mysql:', $responseString);
-        $this->assertContains('charset=utf8', $responseString);
-        $this->assertContains('dbname=foo', $responseString);
-        $this->assertContains('port=3306', $responseString);
-        $this->assertContains('unix_socket=/var/run/mysqld/mysqld.sock', $responseString);
+        self::assertStringStartsWith('mysql:', $responseString);
+        self::assertContains('charset=utf8', $responseString);
+        self::assertContains('dbname=foo', $responseString);
+        self::assertContains('port=3306', $responseString);
+        self::assertContains('unix_socket=/var/run/mysqld/mysqld.sock', $responseString);
     }
 
     public function testHostnameAndUnixSocketThrowsInvalidConnectionParametersException()

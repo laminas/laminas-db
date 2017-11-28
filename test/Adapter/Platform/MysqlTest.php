@@ -34,7 +34,7 @@ class MysqlTest extends TestCase
      */
     public function testGetName()
     {
-        $this->assertEquals('MySQL', $this->platform->getName());
+        self::assertEquals('MySQL', $this->platform->getName());
     }
 
     /**
@@ -42,7 +42,7 @@ class MysqlTest extends TestCase
      */
     public function testGetQuoteIdentifierSymbol()
     {
-        $this->assertEquals('`', $this->platform->getQuoteIdentifierSymbol());
+        self::assertEquals('`', $this->platform->getQuoteIdentifierSymbol());
     }
 
     /**
@@ -50,9 +50,9 @@ class MysqlTest extends TestCase
      */
     public function testQuoteIdentifier()
     {
-        $this->assertEquals('`identifier`', $this->platform->quoteIdentifier('identifier'));
-        $this->assertEquals('`ident``ifier`', $this->platform->quoteIdentifier('ident`ifier'));
-        $this->assertEquals('`namespace:$identifier`', $this->platform->quoteIdentifier('namespace:$identifier'));
+        self::assertEquals('`identifier`', $this->platform->quoteIdentifier('identifier'));
+        self::assertEquals('`ident``ifier`', $this->platform->quoteIdentifier('ident`ifier'));
+        self::assertEquals('`namespace:$identifier`', $this->platform->quoteIdentifier('namespace:$identifier'));
     }
 
     /**
@@ -60,13 +60,13 @@ class MysqlTest extends TestCase
      */
     public function testQuoteIdentifierChain()
     {
-        $this->assertEquals('`identifier`', $this->platform->quoteIdentifierChain('identifier'));
-        $this->assertEquals('`identifier`', $this->platform->quoteIdentifierChain(['identifier']));
-        $this->assertEquals('`schema`.`identifier`', $this->platform->quoteIdentifierChain(['schema', 'identifier']));
+        self::assertEquals('`identifier`', $this->platform->quoteIdentifierChain('identifier'));
+        self::assertEquals('`identifier`', $this->platform->quoteIdentifierChain(['identifier']));
+        self::assertEquals('`schema`.`identifier`', $this->platform->quoteIdentifierChain(['schema', 'identifier']));
 
-        $this->assertEquals('`ident``ifier`', $this->platform->quoteIdentifierChain('ident`ifier'));
-        $this->assertEquals('`ident``ifier`', $this->platform->quoteIdentifierChain(['ident`ifier']));
-        $this->assertEquals(
+        self::assertEquals('`ident``ifier`', $this->platform->quoteIdentifierChain('ident`ifier'));
+        self::assertEquals('`ident``ifier`', $this->platform->quoteIdentifierChain(['ident`ifier']));
+        self::assertEquals(
             '`schema`.`ident``ifier`',
             $this->platform->quoteIdentifierChain(['schema', 'ident`ifier'])
         );
@@ -77,7 +77,7 @@ class MysqlTest extends TestCase
      */
     public function testGetQuoteValueSymbol()
     {
-        $this->assertEquals("'", $this->platform->getQuoteValueSymbol());
+        self::assertEquals("'", $this->platform->getQuoteValueSymbol());
     }
 
     /**
@@ -98,13 +98,13 @@ class MysqlTest extends TestCase
      */
     public function testQuoteValue()
     {
-        $this->assertEquals("'value'", @$this->platform->quoteValue('value'));
-        $this->assertEquals("'Foo O\\'Bar'", @$this->platform->quoteValue("Foo O'Bar"));
-        $this->assertEquals(
+        self::assertEquals("'value'", @$this->platform->quoteValue('value'));
+        self::assertEquals("'Foo O\\'Bar'", @$this->platform->quoteValue("Foo O'Bar"));
+        self::assertEquals(
             '\'\\\'; DELETE FROM some_table; -- \'',
             @$this->platform->quoteValue('\'; DELETE FROM some_table; -- ')
         );
-        $this->assertEquals(
+        self::assertEquals(
             "'\\\\\\'; DELETE FROM some_table; -- '",
             @$this->platform->quoteValue('\\\'; DELETE FROM some_table; -- ')
         );
@@ -115,15 +115,15 @@ class MysqlTest extends TestCase
      */
     public function testQuoteTrustedValue()
     {
-        $this->assertEquals("'value'", $this->platform->quoteTrustedValue('value'));
-        $this->assertEquals("'Foo O\\'Bar'", $this->platform->quoteTrustedValue("Foo O'Bar"));
-        $this->assertEquals(
+        self::assertEquals("'value'", $this->platform->quoteTrustedValue('value'));
+        self::assertEquals("'Foo O\\'Bar'", $this->platform->quoteTrustedValue("Foo O'Bar"));
+        self::assertEquals(
             '\'\\\'; DELETE FROM some_table; -- \'',
             $this->platform->quoteTrustedValue('\'; DELETE FROM some_table; -- ')
         );
 
         //                   '\\\'; DELETE FROM some_table; -- '  <- actual below
-        $this->assertEquals(
+        self::assertEquals(
             "'\\\\\\'; DELETE FROM some_table; -- '",
             $this->platform->quoteTrustedValue('\\\'; DELETE FROM some_table; -- ')
         );
@@ -139,7 +139,7 @@ class MysqlTest extends TestCase
             'Attempting to quote a value in Zend\Db\Adapter\Platform\Mysql without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
         );
-        $this->assertEquals("'Foo O\\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
+        self::assertEquals("'Foo O\\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
 
     /**
@@ -147,7 +147,7 @@ class MysqlTest extends TestCase
      */
     public function testGetIdentifierSeparator()
     {
-        $this->assertEquals('.', $this->platform->getIdentifierSeparator());
+        self::assertEquals('.', $this->platform->getIdentifierSeparator());
     }
 
     /**
@@ -155,27 +155,27 @@ class MysqlTest extends TestCase
      */
     public function testQuoteIdentifierInFragment()
     {
-        $this->assertEquals('`foo`.`bar`', $this->platform->quoteIdentifierInFragment('foo.bar'));
-        $this->assertEquals('`foo` as `bar`', $this->platform->quoteIdentifierInFragment('foo as bar'));
-        $this->assertEquals('`$TableName`.`bar`', $this->platform->quoteIdentifierInFragment('$TableName.bar'));
-        $this->assertEquals(
+        self::assertEquals('`foo`.`bar`', $this->platform->quoteIdentifierInFragment('foo.bar'));
+        self::assertEquals('`foo` as `bar`', $this->platform->quoteIdentifierInFragment('foo as bar'));
+        self::assertEquals('`$TableName`.`bar`', $this->platform->quoteIdentifierInFragment('$TableName.bar'));
+        self::assertEquals(
             '`cmis:$TableName` as `cmis:TableAlias`',
             $this->platform->quoteIdentifierInFragment('cmis:$TableName as cmis:TableAlias')
         );
 
         // single char words
-        $this->assertEquals(
+        self::assertEquals(
             '(`foo`.`bar` = `boo`.`baz`)',
             $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', ['(', ')', '='])
         );
-        $this->assertEquals(
+        self::assertEquals(
             '(`foo`.`bar`=`boo`.`baz`)',
             $this->platform->quoteIdentifierInFragment('(foo.bar=boo.baz)', ['(', ')', '='])
         );
-        $this->assertEquals('`foo`=`bar`', $this->platform->quoteIdentifierInFragment('foo=bar', ['=']));
+        self::assertEquals('`foo`=`bar`', $this->platform->quoteIdentifierInFragment('foo=bar', ['=']));
 
         // case insensitive safe words
-        $this->assertEquals(
+        self::assertEquals(
             '(`foo`.`bar` = `boo`.`baz`) AND (`foo`.`baz` = `boo`.`baz`)',
             $this->platform->quoteIdentifierInFragment(
                 '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
@@ -184,7 +184,7 @@ class MysqlTest extends TestCase
         );
 
         // case insensitive safe words in field
-        $this->assertEquals(
+        self::assertEquals(
             '(`foo`.`bar` = `boo`.baz) AND (`foo`.baz = `boo`.baz)',
             $this->platform->quoteIdentifierInFragment(
                 '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',

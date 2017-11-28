@@ -57,7 +57,7 @@ class SelectDecoratorTest extends TestCase
         $selectDecorator->setSubject($select);
         $selectDecorator->prepareStatement($adapter, $statement);
 
-        $this->assertEquals($expectedParams, $parameterContainer->getNamedArray());
+        self::assertEquals($expectedParams, $parameterContainer->getNamedArray());
     }
 
     // @codingStandardsIgnoreStart
@@ -78,7 +78,7 @@ class SelectDecoratorTest extends TestCase
 
         $selectDecorator = new SelectDecorator;
         $selectDecorator->setSubject($select);
-        $this->assertEquals($expectedSql, $selectDecorator->getSqlString(new OraclePlatform));
+        self::assertEquals($expectedSql, $selectDecorator->getSqlString(new OraclePlatform));
     }
 
     /**

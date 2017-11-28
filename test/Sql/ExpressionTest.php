@@ -28,7 +28,7 @@ class ExpressionTest extends TestCase
     {
         $expression = new Expression();
         $return = $expression->setExpression('Foo Bar');
-        $this->assertSame($expression, $return);
+        self::assertSame($expression, $return);
         return $return;
     }
 
@@ -49,7 +49,7 @@ class ExpressionTest extends TestCase
      */
     public function testGetExpression(Expression $expression)
     {
-        $this->assertEquals('Foo Bar', $expression->getExpression());
+        self::assertEquals('Foo Bar', $expression->getExpression());
     }
 
     /**
@@ -59,7 +59,7 @@ class ExpressionTest extends TestCase
     {
         $expression = new Expression();
         $return = $expression->setParameters('foo');
-        $this->assertSame($expression, $return);
+        self::assertSame($expression, $return);
         return $return;
     }
 
@@ -81,7 +81,7 @@ class ExpressionTest extends TestCase
      */
     public function testGetParameters(Expression $expression)
     {
-        $this->assertEquals('foo', $expression->getParameters());
+        self::assertEquals('foo', $expression->getParameters());
     }
 
     /**
@@ -95,7 +95,7 @@ class ExpressionTest extends TestCase
             Expression::TYPE_VALUE,
             Expression::TYPE_LITERAL
         ]);
-        $this->assertSame($expression, $return);
+        self::assertSame($expression, $return);
         return $expression;
     }
 
@@ -105,7 +105,7 @@ class ExpressionTest extends TestCase
      */
     public function testGetTypes(Expression $expression)
     {
-        $this->assertEquals(
+        self::assertEquals(
             [Expression::TYPE_IDENTIFIER, Expression::TYPE_VALUE, Expression::TYPE_LITERAL],
             $expression->getTypes()
         );
@@ -122,7 +122,7 @@ class ExpressionTest extends TestCase
             [Expression::TYPE_IDENTIFIER, Expression::TYPE_VALUE, Expression::TYPE_LITERAL]
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 'X SAME AS %s AND Y = %s BUT LITERALLY %s',
                 ['foo', 5, 'FUNC(FF%X)'],
@@ -145,13 +145,13 @@ class ExpressionTest extends TestCase
             [Expression::TYPE_IDENTIFIER, Expression::TYPE_VALUE, Expression::TYPE_LITERAL]
         ]];
 
-        $this->assertEquals($expected, $expression->getExpressionData());
+        self::assertEquals($expected, $expression->getExpressionData());
     }
 
     public function testGetExpressionDataWillEscapePercent()
     {
         $expression = new Expression('X LIKE "foo%"');
-        $this->assertEquals(
+        self::assertEquals(
             ['X LIKE "foo%%"'],
             $expression->getExpressionData()
         );
@@ -160,7 +160,7 @@ class ExpressionTest extends TestCase
     public function testConstructorWithLiteralZero()
     {
         $expression = new Expression('0');
-        $this->assertSame('0', $expression->getExpression());
+        self::assertSame('0', $expression->getExpression());
     }
 
     /**
@@ -171,7 +171,7 @@ class ExpressionTest extends TestCase
         $expressionString = 'FROM_UNIXTIME(date, "%Y-%m")';
         $expression       = new Expression($expressionString);
 
-        $this->assertSame($expressionString, $expression->getExpression());
+        self::assertSame($expressionString, $expression->getExpression());
     }
 
     public function testNumberOfReplacemensConsidersWhenSameVariableIsUsedManyTimes()

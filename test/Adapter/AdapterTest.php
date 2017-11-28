@@ -63,7 +63,7 @@ class AdapterTest extends TestCase
     public function testSetProfiler()
     {
         $ret = $this->adapter->setProfiler(new Profiler\Profiler());
-        $this->assertSame($this->adapter, $ret);
+        self::assertSame($this->adapter, $ret);
     }
 
     /**
@@ -73,10 +73,10 @@ class AdapterTest extends TestCase
     public function testGetProfiler()
     {
         $this->adapter->setProfiler($profiler = new Profiler\Profiler());
-        $this->assertSame($profiler, $this->adapter->getProfiler());
+        self::assertSame($profiler, $this->adapter->getProfiler());
 
         $adapter = new Adapter(['driver' => $this->mockDriver, 'profiler' => true], $this->mockPlatform);
-        $this->assertInstanceOf('Zend\Db\Adapter\Profiler\Profiler', $adapter->getProfiler());
+        self::assertInstanceOf('Zend\Db\Adapter\Profiler\Profiler', $adapter->getProfiler());
     }
 
     /**
@@ -87,25 +87,25 @@ class AdapterTest extends TestCase
     {
         if (extension_loaded('mysqli')) {
             $adapter = new Adapter(['driver' => 'mysqli'], $this->mockPlatform);
-            $this->assertInstanceOf('Zend\Db\Adapter\Driver\Mysqli\Mysqli', $adapter->driver);
+            self::assertInstanceOf('Zend\Db\Adapter\Driver\Mysqli\Mysqli', $adapter->driver);
             unset($adapter);
         }
 
         if (extension_loaded('pgsql')) {
             $adapter = new Adapter(['driver' => 'pgsql'], $this->mockPlatform);
-            $this->assertInstanceOf('Zend\Db\Adapter\Driver\Pgsql\Pgsql', $adapter->driver);
+            self::assertInstanceOf('Zend\Db\Adapter\Driver\Pgsql\Pgsql', $adapter->driver);
             unset($adapter);
         }
 
         if (extension_loaded('sqlsrv')) {
             $adapter = new Adapter(['driver' => 'sqlsrv'], $this->mockPlatform);
-            $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv', $adapter->driver);
+            self::assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv', $adapter->driver);
             unset($adapter);
         }
 
         if (extension_loaded('pdo')) {
             $adapter = new Adapter(['driver' => 'pdo_sqlite'], $this->mockPlatform);
-            $this->assertInstanceOf('Zend\Db\Adapter\Driver\Pdo\Pdo', $adapter->driver);
+            self::assertInstanceOf('Zend\Db\Adapter\Driver\Pdo\Pdo', $adapter->driver);
             unset($adapter);
         }
     }
@@ -119,43 +119,43 @@ class AdapterTest extends TestCase
         $driver = clone $this->mockDriver;
         $driver->expects($this->any())->method('getDatabasePlatformName')->will($this->returnValue('Mysql'));
         $adapter = new Adapter($driver);
-        $this->assertInstanceOf('Zend\Db\Adapter\Platform\Mysql', $adapter->platform);
+        self::assertInstanceOf('Zend\Db\Adapter\Platform\Mysql', $adapter->platform);
         unset($adapter, $driver);
 
         $driver = clone $this->mockDriver;
         $driver->expects($this->any())->method('getDatabasePlatformName')->will($this->returnValue('SqlServer'));
         $adapter = new Adapter($driver);
-        $this->assertInstanceOf('Zend\Db\Adapter\Platform\SqlServer', $adapter->platform);
+        self::assertInstanceOf('Zend\Db\Adapter\Platform\SqlServer', $adapter->platform);
         unset($adapter, $driver);
 
         $driver = clone $this->mockDriver;
         $driver->expects($this->any())->method('getDatabasePlatformName')->will($this->returnValue('Postgresql'));
         $adapter = new Adapter($driver);
-        $this->assertInstanceOf('Zend\Db\Adapter\Platform\Postgresql', $adapter->platform);
+        self::assertInstanceOf('Zend\Db\Adapter\Platform\Postgresql', $adapter->platform);
         unset($adapter, $driver);
 
         $driver = clone $this->mockDriver;
         $driver->expects($this->any())->method('getDatabasePlatformName')->will($this->returnValue('Sqlite'));
         $adapter = new Adapter($driver);
-        $this->assertInstanceOf('Zend\Db\Adapter\Platform\Sqlite', $adapter->platform);
+        self::assertInstanceOf('Zend\Db\Adapter\Platform\Sqlite', $adapter->platform);
         unset($adapter, $driver);
 
         $driver = clone $this->mockDriver;
         $driver->expects($this->any())->method('getDatabasePlatformName')->will($this->returnValue('IbmDb2'));
         $adapter = new Adapter($driver);
-        $this->assertInstanceOf('Zend\Db\Adapter\Platform\IbmDb2', $adapter->platform);
+        self::assertInstanceOf('Zend\Db\Adapter\Platform\IbmDb2', $adapter->platform);
         unset($adapter, $driver);
 
         $driver = clone $this->mockDriver;
         $driver->expects($this->any())->method('getDatabasePlatformName')->will($this->returnValue('Oracle'));
         $adapter = new Adapter($driver);
-        $this->assertInstanceOf('Zend\Db\Adapter\Platform\Oracle', $adapter->platform);
+        self::assertInstanceOf('Zend\Db\Adapter\Platform\Oracle', $adapter->platform);
         unset($adapter, $driver);
 
         $driver = clone $this->mockDriver;
         $driver->expects($this->any())->method('getDatabasePlatformName')->will($this->returnValue('Foo'));
         $adapter = new Adapter($driver);
-        $this->assertInstanceOf('Zend\Db\Adapter\Platform\Sql92', $adapter->platform);
+        self::assertInstanceOf('Zend\Db\Adapter\Platform\Sql92', $adapter->platform);
         unset($adapter, $driver);
 
         // ensure platform can created via string, and also that it passed in options to platform object
@@ -165,8 +165,8 @@ class AdapterTest extends TestCase
             'platform_options' => ['quote_identifiers' => false]
         ];
         $adapter = new Adapter($driver);
-        $this->assertInstanceOf('Zend\Db\Adapter\Platform\Oracle', $adapter->platform);
-        $this->assertEquals('foo', $adapter->getPlatform()->quoteIdentifier('foo'));
+        self::assertInstanceOf('Zend\Db\Adapter\Platform\Oracle', $adapter->platform);
+        self::assertEquals('foo', $adapter->getPlatform()->quoteIdentifier('foo'));
         unset($adapter, $driver);
     }
 
@@ -177,7 +177,7 @@ class AdapterTest extends TestCase
      */
     public function testGetDriver()
     {
-        $this->assertSame($this->mockDriver, $this->adapter->getDriver());
+        self::assertSame($this->mockDriver, $this->adapter->getDriver());
     }
 
     /**
@@ -186,7 +186,7 @@ class AdapterTest extends TestCase
      */
     public function testGetPlatform()
     {
-        $this->assertSame($this->mockPlatform, $this->adapter->getPlatform());
+        self::assertSame($this->mockPlatform, $this->adapter->getPlatform());
     }
 
     /**
@@ -195,7 +195,7 @@ class AdapterTest extends TestCase
      */
     public function testGetQueryResultSetPrototype()
     {
-        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSetInterface', $this->adapter->getQueryResultSetPrototype());
+        self::assertInstanceOf('Zend\Db\ResultSet\ResultSetInterface', $this->adapter->getQueryResultSetPrototype());
     }
 
     /**
@@ -205,7 +205,7 @@ class AdapterTest extends TestCase
     public function testGetCurrentSchema()
     {
         $this->mockConnection->expects($this->any())->method('getCurrentSchema')->will($this->returnValue('FooSchema'));
-        $this->assertEquals('FooSchema', $this->adapter->getCurrentSchema());
+        self::assertEquals('FooSchema', $this->adapter->getCurrentSchema());
     }
 
     /**
@@ -215,7 +215,7 @@ class AdapterTest extends TestCase
     public function testQueryWhenPreparedProducesStatement()
     {
         $s = $this->adapter->query('SELECT foo');
-        $this->assertSame($this->mockStatement, $s);
+        self::assertSame($this->mockStatement, $s);
     }
 
     /**
@@ -233,7 +233,7 @@ class AdapterTest extends TestCase
         $this->mockStatement->expects($this->any())->method('execute')->will($this->returnValue($result));
 
         $r = $this->adapter->query($sql, $parray);
-        $this->assertSame($result, $r);
+        self::assertSame($result, $r);
     }
 
     /**
@@ -251,7 +251,7 @@ class AdapterTest extends TestCase
         $result->expects($this->any())->method('isQueryResult')->will($this->returnValue(true));
 
         $r = $this->adapter->query($sql, $parameterContainer);
-        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $r);
+        self::assertInstanceOf('Zend\Db\ResultSet\ResultSet', $r);
     }
 
     /**
@@ -265,7 +265,7 @@ class AdapterTest extends TestCase
         $this->mockConnection->expects($this->any())->method('execute')->with($sql)->will($this->returnValue($result));
 
         $r = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
-        $this->assertSame($result, $r);
+        self::assertSame($result, $r);
     }
 
     /**
@@ -281,10 +281,10 @@ class AdapterTest extends TestCase
         $result->expects($this->any())->method('isQueryResult')->will($this->returnValue(true));
 
         $r = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
-        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $r);
+        self::assertInstanceOf('Zend\Db\ResultSet\ResultSet', $r);
 
         $r = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE, new TemporaryResultSet());
-        $this->assertInstanceOf('ZendTest\Db\TestAsset\TemporaryResultSet', $r);
+        self::assertInstanceOf('ZendTest\Db\TestAsset\TemporaryResultSet', $r);
     }
 
     /**
@@ -293,7 +293,7 @@ class AdapterTest extends TestCase
      */
     public function testCreateStatement()
     {
-        $this->assertSame($this->mockStatement, $this->adapter->createStatement());
+        self::assertSame($this->mockStatement, $this->adapter->createStatement());
     }
 
     /**
@@ -304,10 +304,10 @@ class AdapterTest extends TestCase
     public function test__get()
     {
         // @codingStandardsIgnoreEnd
-        $this->assertSame($this->mockDriver, $this->adapter->driver);
-        $this->assertSame($this->mockDriver, $this->adapter->DrivER);
-        $this->assertSame($this->mockPlatform, $this->adapter->PlatForm);
-        $this->assertSame($this->mockPlatform, $this->adapter->platform);
+        self::assertSame($this->mockDriver, $this->adapter->driver);
+        self::assertSame($this->mockDriver, $this->adapter->DrivER);
+        self::assertSame($this->mockPlatform, $this->adapter->PlatForm);
+        self::assertSame($this->mockPlatform, $this->adapter->platform);
 
         $this->expectException('InvalidArgumentException');
         $this->expectExceptionMessage('Invalid magic');

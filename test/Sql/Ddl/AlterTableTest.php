@@ -22,9 +22,9 @@ class AlterTableTest extends TestCase
     public function testSetTable()
     {
         $at = new AlterTable();
-        $this->assertEquals('', $at->getRawState('table'));
-        $this->assertSame($at, $at->setTable('test'));
-        $this->assertEquals('test', $at->getRawState('table'));
+        self::assertEquals('', $at->getRawState('table'));
+        self::assertSame($at, $at->setTable('test'));
+        self::assertEquals('test', $at->getRawState('table'));
     }
 
     /**
@@ -35,8 +35,8 @@ class AlterTableTest extends TestCase
         $at = new AlterTable();
         /** @var \Zend\Db\Sql\Ddl\Column\ColumnInterface $colMock */
         $colMock = $this->getMockBuilder('Zend\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
-        $this->assertSame($at, $at->addColumn($colMock));
-        $this->assertEquals([$colMock], $at->getRawState($at::ADD_COLUMNS));
+        self::assertSame($at, $at->addColumn($colMock));
+        self::assertEquals([$colMock], $at->getRawState($at::ADD_COLUMNS));
     }
 
     /**
@@ -47,8 +47,8 @@ class AlterTableTest extends TestCase
         $at = new AlterTable();
         /** @var \Zend\Db\Sql\Ddl\Column\ColumnInterface $colMock */
         $colMock = $this->getMockBuilder('Zend\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
-        $this->assertSame($at, $at->changeColumn('newname', $colMock));
-        $this->assertEquals(['newname' => $colMock], $at->getRawState($at::CHANGE_COLUMNS));
+        self::assertSame($at, $at->changeColumn('newname', $colMock));
+        self::assertEquals(['newname' => $colMock], $at->getRawState($at::CHANGE_COLUMNS));
     }
 
     /**
@@ -57,8 +57,8 @@ class AlterTableTest extends TestCase
     public function testDropColumn()
     {
         $at = new AlterTable();
-        $this->assertSame($at, $at->dropColumn('foo'));
-        $this->assertEquals(['foo'], $at->getRawState($at::DROP_COLUMNS));
+        self::assertSame($at, $at->dropColumn('foo'));
+        self::assertEquals(['foo'], $at->getRawState($at::DROP_COLUMNS));
     }
 
     /**
@@ -67,8 +67,8 @@ class AlterTableTest extends TestCase
     public function testDropConstraint()
     {
         $at = new AlterTable();
-        $this->assertSame($at, $at->dropConstraint('foo'));
-        $this->assertEquals(['foo'], $at->getRawState($at::DROP_CONSTRAINTS));
+        self::assertSame($at, $at->dropConstraint('foo'));
+        self::assertEquals(['foo'], $at->getRawState($at::DROP_CONSTRAINTS));
     }
 
     /**
@@ -79,8 +79,8 @@ class AlterTableTest extends TestCase
         $at = new AlterTable();
         /** @var \Zend\Db\Sql\Ddl\Constraint\ConstraintInterface $conMock */
         $conMock = $this->getMockBuilder('Zend\Db\Sql\Ddl\Constraint\ConstraintInterface')->getMock();
-        $this->assertSame($at, $at->addConstraint($conMock));
-        $this->assertEquals([$conMock], $at->getRawState($at::ADD_CONSTRAINTS));
+        self::assertSame($at, $at->addConstraint($conMock));
+        self::assertEquals([$conMock], $at->getRawState($at::ADD_CONSTRAINTS));
     }
 
     /**
@@ -105,7 +105,7 @@ ALTER TABLE "foo"
 EOS;
 
         $actual = $at->getSqlString();
-        $this->assertEquals(
+        self::assertEquals(
             str_replace(["\r", "\n"], "", $expected),
             str_replace(["\r", "\n"], "", $actual)
         );

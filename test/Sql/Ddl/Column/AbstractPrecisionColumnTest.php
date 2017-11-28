@@ -21,9 +21,9 @@ class AbstractPrecisionColumnTest extends TestCase
         $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
             'foo', 10
         ]);
-        $this->assertEquals(10, $column->getDigits());
-        $this->assertSame($column, $column->setDigits(12));
-        $this->assertEquals(12, $column->getDigits());
+        self::assertEquals(10, $column->getDigits());
+        self::assertSame($column, $column->setDigits(12));
+        self::assertEquals(12, $column->getDigits());
     }
 
     /**
@@ -34,7 +34,7 @@ class AbstractPrecisionColumnTest extends TestCase
         $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
             'foo', 10
         ]);
-        $this->assertEquals(10, $column->getDigits());
+        self::assertEquals(10, $column->getDigits());
     }
 
     /**
@@ -45,9 +45,9 @@ class AbstractPrecisionColumnTest extends TestCase
         $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
             'foo', 10, 5
         ]);
-        $this->assertEquals(5, $column->getDecimal());
-        $this->assertSame($column, $column->setDecimal(2));
-        $this->assertEquals(2, $column->getDecimal());
+        self::assertEquals(5, $column->getDecimal());
+        self::assertSame($column, $column->setDecimal(2));
+        self::assertEquals(2, $column->getDecimal());
     }
 
     /**
@@ -58,7 +58,7 @@ class AbstractPrecisionColumnTest extends TestCase
         $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
             'foo', 10, 5
         ]);
-        $this->assertEquals(5, $column->getDecimal());
+        self::assertEquals(5, $column->getDecimal());
     }
 
     /**
@@ -70,7 +70,7 @@ class AbstractPrecisionColumnTest extends TestCase
             'foo', 10, 5
         ]);
 
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'INTEGER(10,5)'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );

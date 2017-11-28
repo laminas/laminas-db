@@ -24,7 +24,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     public function testGetCurrentSchema()
     {
         $connection = new Connection($this->variables);
-        $this->assertInternalType('string', $connection->getCurrentSchema());
+        self::assertInternalType('string', $connection->getCurrentSchema());
     }
 
     /**
@@ -38,7 +38,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
             $this->variables['password']
         );
         $connection = new Connection([]);
-        $this->assertSame($connection, $connection->setResource($resource));
+        self::assertSame($connection, $connection->setResource($resource));
 
         $connection->disconnect();
         unset($connection);
@@ -52,7 +52,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     {
         $connection = new Connection($this->variables);
         $connection->connect();
-        $this->assertInternalType('resource', $connection->getResource());
+        self::assertInternalType('resource', $connection->getResource());
 
         $connection->disconnect();
         unset($connection);
@@ -64,8 +64,8 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     public function testConnect()
     {
         $connection = new Connection($this->variables);
-        $this->assertSame($connection, $connection->connect());
-        $this->assertTrue($connection->isConnected());
+        self::assertSame($connection, $connection->connect());
+        self::assertTrue($connection->isConnected());
 
         $connection->disconnect();
         unset($connection);
@@ -77,9 +77,9 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     public function testIsConnected()
     {
         $connection = new Connection($this->variables);
-        $this->assertFalse($connection->isConnected());
-        $this->assertSame($connection, $connection->connect());
-        $this->assertTrue($connection->isConnected());
+        self::assertFalse($connection->isConnected());
+        self::assertSame($connection, $connection->connect());
+        self::assertTrue($connection->isConnected());
 
         $connection->disconnect();
         unset($connection);
@@ -92,9 +92,9 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     {
         $connection = new Connection($this->variables);
         $connection->connect();
-        $this->assertTrue($connection->isConnected());
+        self::assertTrue($connection->isConnected());
         $connection->disconnect();
-        $this->assertFalse($connection->isConnected());
+        self::assertFalse($connection->isConnected());
     }
 
     /**
@@ -109,8 +109,8 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
         }
         $connection = new Connection($this->variables);
         $connection->beginTransaction();
-        $this->assertTrue($connection->inTransaction());
-        $this->assertEquals(0, db2_autocommit($connection->getResource()));
+        self::assertTrue($connection->inTransaction());
+        self::assertEquals(0, db2_autocommit($connection->getResource()));
     }
 
     /**
@@ -128,10 +128,10 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
 
         $oldValue = db2_autocommit($connection->getResource());
         $connection->beginTransaction();
-        $this->assertTrue($connection->inTransaction());
+        self::assertTrue($connection->inTransaction());
         $connection->commit();
-        $this->assertFalse($connection->inTransaction());
-        $this->assertEquals($oldValue, db2_autocommit($connection->getResource()));
+        self::assertFalse($connection->inTransaction());
+        self::assertEquals($oldValue, db2_autocommit($connection->getResource()));
     }
 
     /**
@@ -149,10 +149,10 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
 
         $oldValue = db2_autocommit($connection->getResource());
         $connection->beginTransaction();
-        $this->assertTrue($connection->inTransaction());
+        self::assertTrue($connection->inTransaction());
         $connection->rollback();
-        $this->assertFalse($connection->inTransaction());
-        $this->assertEquals($oldValue, db2_autocommit($connection->getResource()));
+        self::assertFalse($connection->inTransaction());
+        self::assertEquals($oldValue, db2_autocommit($connection->getResource()));
     }
 
     /**
@@ -179,7 +179,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
         $connection = $ibmdb2->getConnection();
 
         $result = $connection->execute('SELECT \'foo\' FROM SYSIBM.SYSDUMMY1');
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\IbmDb2\Result', $result);
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\IbmDb2\Result', $result);
     }
 
     /**
@@ -204,7 +204,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
         );
         $connection = new Connection([]);
         $connection->setResource($resource);
-        $this->assertSame($connection, $connection->connect());
+        self::assertSame($connection, $connection->connect());
 
         $connection->disconnect();
         unset($connection);

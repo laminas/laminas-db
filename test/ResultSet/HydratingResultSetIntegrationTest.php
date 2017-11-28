@@ -28,6 +28,6 @@ class HydratingResultSetIntegrationTest extends TestCase
         $obj1 = $hydratingRs->current();
         $hydratingRs->rewind();
         $obj2 = $hydratingRs->current();
-        $this->assertSame($obj1, $obj2);
+        self::assertSame($obj1, $obj2);
     }
 }

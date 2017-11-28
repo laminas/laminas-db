@@ -20,7 +20,7 @@ class DecimalTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Decimal('foo', 10, 5);
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'DECIMAL(10,5)'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );

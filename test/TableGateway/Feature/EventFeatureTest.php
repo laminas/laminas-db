@@ -40,12 +40,12 @@ class EventFeatureTest extends TestCase
 
     public function testGetEventManager()
     {
-        $this->assertSame($this->eventManager, $this->feature->getEventManager());
+        self::assertSame($this->eventManager, $this->feature->getEventManager());
     }
 
     public function testGetEvent()
     {
-        $this->assertSame($this->event, $this->feature->getEvent());
+        self::assertSame($this->event, $this->feature->getEvent());
     }
 
     public function testPreInitialize()
@@ -60,9 +60,9 @@ class EventFeatureTest extends TestCase
         });
 
         $this->feature->preInitialize();
-        $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
-        $this->assertEquals(EventFeature::EVENT_PRE_INITIALIZE, $event->getName());
+        self::assertTrue($closureHasRun);
+        self::assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertEquals(EventFeature::EVENT_PRE_INITIALIZE, $event->getName());
     }
 
     public function testPostInitialize()
@@ -77,9 +77,9 @@ class EventFeatureTest extends TestCase
         });
 
         $this->feature->postInitialize();
-        $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
-        $this->assertEquals(EventFeature::EVENT_POST_INITIALIZE, $event->getName());
+        self::assertTrue($closureHasRun);
+        self::assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertEquals(EventFeature::EVENT_POST_INITIALIZE, $event->getName());
     }
 
     public function testPreSelect()
@@ -94,10 +94,10 @@ class EventFeatureTest extends TestCase
         });
 
         $this->feature->preSelect($select = $this->getMockBuilder('Zend\Db\Sql\Select')->getMock());
-        $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
-        $this->assertEquals(EventFeature::EVENT_PRE_SELECT, $event->getName());
-        $this->assertSame($select, $event->getParam('select'));
+        self::assertTrue($closureHasRun);
+        self::assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertEquals(EventFeature::EVENT_PRE_SELECT, $event->getName());
+        self::assertSame($select, $event->getParam('select'));
     }
 
     public function testPostSelect()
@@ -116,12 +116,12 @@ class EventFeatureTest extends TestCase
             ($result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock()),
             ($resultset = $this->getMockBuilder('Zend\Db\ResultSet\ResultSet')->getMock())
         );
-        $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
-        $this->assertEquals(EventFeature::EVENT_POST_SELECT, $event->getName());
-        $this->assertSame($stmt, $event->getParam('statement'));
-        $this->assertSame($result, $event->getParam('result'));
-        $this->assertSame($resultset, $event->getParam('result_set'));
+        self::assertTrue($closureHasRun);
+        self::assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertEquals(EventFeature::EVENT_POST_SELECT, $event->getName());
+        self::assertSame($stmt, $event->getParam('statement'));
+        self::assertSame($result, $event->getParam('result'));
+        self::assertSame($resultset, $event->getParam('result_set'));
     }
 
     public function testPreInsert()
@@ -136,10 +136,10 @@ class EventFeatureTest extends TestCase
         });
 
         $this->feature->preInsert($insert = $this->getMockBuilder('Zend\Db\Sql\Insert')->getMock());
-        $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
-        $this->assertEquals(EventFeature::EVENT_PRE_INSERT, $event->getName());
-        $this->assertSame($insert, $event->getParam('insert'));
+        self::assertTrue($closureHasRun);
+        self::assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertEquals(EventFeature::EVENT_PRE_INSERT, $event->getName());
+        self::assertSame($insert, $event->getParam('insert'));
     }
 
     public function testPostInsert()
@@ -157,11 +157,11 @@ class EventFeatureTest extends TestCase
             ($stmt = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock()),
             ($result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock())
         );
-        $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
-        $this->assertEquals(EventFeature::EVENT_POST_INSERT, $event->getName());
-        $this->assertSame($stmt, $event->getParam('statement'));
-        $this->assertSame($result, $event->getParam('result'));
+        self::assertTrue($closureHasRun);
+        self::assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertEquals(EventFeature::EVENT_POST_INSERT, $event->getName());
+        self::assertSame($stmt, $event->getParam('statement'));
+        self::assertSame($result, $event->getParam('result'));
     }
 
     public function testPreUpdate()
@@ -176,10 +176,10 @@ class EventFeatureTest extends TestCase
         });
 
         $this->feature->preUpdate($update = $this->getMockBuilder('Zend\Db\Sql\Update')->getMock());
-        $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
-        $this->assertEquals(EventFeature::EVENT_PRE_UPDATE, $event->getName());
-        $this->assertSame($update, $event->getParam('update'));
+        self::assertTrue($closureHasRun);
+        self::assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertEquals(EventFeature::EVENT_PRE_UPDATE, $event->getName());
+        self::assertSame($update, $event->getParam('update'));
     }
 
     public function testPostUpdate()
@@ -197,11 +197,11 @@ class EventFeatureTest extends TestCase
             ($stmt = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock()),
             ($result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock())
         );
-        $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
-        $this->assertEquals(EventFeature::EVENT_POST_UPDATE, $event->getName());
-        $this->assertSame($stmt, $event->getParam('statement'));
-        $this->assertSame($result, $event->getParam('result'));
+        self::assertTrue($closureHasRun);
+        self::assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertEquals(EventFeature::EVENT_POST_UPDATE, $event->getName());
+        self::assertSame($stmt, $event->getParam('statement'));
+        self::assertSame($result, $event->getParam('result'));
     }
 
     public function testPreDelete()
@@ -216,10 +216,10 @@ class EventFeatureTest extends TestCase
         });
 
         $this->feature->preDelete($delete = $this->getMockBuilder('Zend\Db\Sql\Delete')->getMock());
-        $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
-        $this->assertEquals(EventFeature::EVENT_PRE_DELETE, $event->getName());
-        $this->assertSame($delete, $event->getParam('delete'));
+        self::assertTrue($closureHasRun);
+        self::assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertEquals(EventFeature::EVENT_PRE_DELETE, $event->getName());
+        self::assertSame($delete, $event->getParam('delete'));
     }
 
     public function testPostDelete()
@@ -237,10 +237,10 @@ class EventFeatureTest extends TestCase
             ($stmt = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock()),
             ($result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock())
         );
-        $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
-        $this->assertEquals(EventFeature::EVENT_POST_DELETE, $event->getName());
-        $this->assertSame($stmt, $event->getParam('statement'));
-        $this->assertSame($result, $event->getParam('result'));
+        self::assertTrue($closureHasRun);
+        self::assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertEquals(EventFeature::EVENT_POST_DELETE, $event->getName());
+        self::assertSame($stmt, $event->getParam('statement'));
+        self::assertSame($result, $event->getParam('result'));
     }
 }

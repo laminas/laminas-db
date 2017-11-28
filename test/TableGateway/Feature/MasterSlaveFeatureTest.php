@@ -64,7 +64,7 @@ class MasterSlaveFeatureTest extends TestCase
             ['foo', $this->mockMasterAdapter, $this->feature]
         );
         // postInitialize is run
-        $this->assertSame($this->mockSlaveAdapter, $this->feature->getSlaveSql()->getAdapter());
+        self::assertSame($this->mockSlaveAdapter, $this->feature->getSlaveSql()->getAdapter());
     }
 
     public function testPreSelect()
@@ -96,6 +96,6 @@ class MasterSlaveFeatureTest extends TestCase
         $table->select('foo = bar');
 
         // test that the sql object is restored
-        $this->assertSame($masterSql, $table->getSql());
+        self::assertSame($masterSql, $table->getSql());
     }
 }

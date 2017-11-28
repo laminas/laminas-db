@@ -20,7 +20,7 @@ class PrimaryKeyTest extends TestCase
     public function testGetExpressionData()
     {
         $pk = new PrimaryKey('foo');
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 'PRIMARY KEY (%s)',
                 ['foo'],

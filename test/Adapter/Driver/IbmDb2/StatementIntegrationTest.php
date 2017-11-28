@@ -57,7 +57,7 @@ class StatementIntegrationTest extends TestCase
         );
 
         $statement = new Statement;
-        $this->assertSame($statement, $statement->initialize($db2Resource));
+        self::assertSame($statement, $statement->initialize($db2Resource));
         unset($stmtResource, $db2Resource);
     }
 
@@ -76,7 +76,7 @@ class StatementIntegrationTest extends TestCase
         $statement->initialize($db2Resource);
         $statement->prepare("SELECT 'foo'");
         $resource = $statement->getResource();
-        $this->assertEquals('DB2 Statement', get_resource_type($resource));
+        self::assertEquals('DB2 Statement', get_resource_type($resource));
         unset($resource, $db2Resource);
     }
 
@@ -94,9 +94,9 @@ class StatementIntegrationTest extends TestCase
 
         $statement = new Statement;
         $statement->initialize($db2Resource);
-        $this->assertFalse($statement->isPrepared());
-        $this->assertSame($statement, $statement->prepare("SELECT 'foo' FROM SYSIBM.SYSDUMMY1"));
-        $this->assertTrue($statement->isPrepared());
+        self::assertFalse($statement->isPrepared());
+        self::assertSame($statement, $statement->prepare("SELECT 'foo' FROM SYSIBM.SYSDUMMY1"));
+        self::assertTrue($statement->isPrepared());
         unset($resource, $db2Resource);
     }
 
@@ -107,10 +107,10 @@ class StatementIntegrationTest extends TestCase
     {
         $ibmdb2 = new IbmDb2($this->variables);
         $statement = $ibmdb2->createStatement("SELECT 'foo' FROM SYSIBM.SYSDUMMY1");
-        $this->assertSame($statement, $statement->prepare());
+        self::assertSame($statement, $statement->prepare());
 
         $result = $statement->execute();
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\IbmDb2\Result', $result);
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\IbmDb2\Result', $result);
 
         unset($resource, $ibmdb2);
     }

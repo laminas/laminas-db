@@ -72,7 +72,7 @@ class AdapterAbstractServiceFactoryTest extends TestCase
     public function testValidService($service)
     {
         $actual = $this->serviceManager->get($service);
-        $this->assertInstanceOf('Zend\Db\Adapter\Adapter', $actual);
+        self::assertInstanceOf('Zend\Db\Adapter\Adapter', $actual);
     }
 
     /**

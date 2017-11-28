@@ -34,7 +34,7 @@ class AbstractResultSetTest extends TestCase
     {
         $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
 
-        $this->assertSame($resultSet, $resultSet->initialize([
+        self::assertSame($resultSet, $resultSet->initialize([
             ['id' => 1, 'name' => 'one'],
             ['id' => 2, 'name' => 'two'],
             ['id' => 3, 'name' => 'three'],
@@ -64,7 +64,7 @@ class AbstractResultSetTest extends TestCase
     public function testBuffer()
     {
         $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
-        $this->assertSame($resultSet, $resultSet->buffer());
+        self::assertSame($resultSet, $resultSet->buffer());
 
         $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator([
@@ -84,9 +84,9 @@ class AbstractResultSetTest extends TestCase
     public function testIsBuffered()
     {
         $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
-        $this->assertFalse($resultSet->isBuffered());
+        self::assertFalse($resultSet->isBuffered());
         $resultSet->buffer();
-        $this->assertTrue($resultSet->isBuffered());
+        self::assertTrue($resultSet->isBuffered());
     }
 
     /**
@@ -100,7 +100,7 @@ class AbstractResultSetTest extends TestCase
             ['id' => 2, 'name' => 'two'],
             ['id' => 3, 'name' => 'three'],
         ]));
-        $this->assertInstanceOf('\ArrayIterator', $resultSet->getDataSource());
+        self::assertInstanceOf('\ArrayIterator', $resultSet->getDataSource());
     }
 
     /**
@@ -112,7 +112,7 @@ class AbstractResultSetTest extends TestCase
         $resultSet->initialize(new \ArrayIterator([
             ['id' => 1, 'name' => 'one'],
         ]));
-        $this->assertEquals(2, $resultSet->getFieldCount());
+        self::assertEquals(2, $resultSet->getFieldCount());
     }
 
     /**
@@ -126,7 +126,7 @@ class AbstractResultSetTest extends TestCase
             ['id' => 2, 'name' => 'two'],
             ['id' => 3, 'name' => 'three'],
         ]));
-        $this->assertNull($resultSet->next());
+        self::assertNull($resultSet->next());
     }
 
     /**
@@ -141,11 +141,11 @@ class AbstractResultSetTest extends TestCase
             ['id' => 3, 'name' => 'three'],
         ]));
         $resultSet->next();
-        $this->assertEquals(1, $resultSet->key());
+        self::assertEquals(1, $resultSet->key());
         $resultSet->next();
-        $this->assertEquals(2, $resultSet->key());
+        self::assertEquals(2, $resultSet->key());
         $resultSet->next();
-        $this->assertEquals(3, $resultSet->key());
+        self::assertEquals(3, $resultSet->key());
     }
 
     /**
@@ -159,7 +159,7 @@ class AbstractResultSetTest extends TestCase
             ['id' => 2, 'name' => 'two'],
             ['id' => 3, 'name' => 'three'],
         ]));
-        $this->assertEquals(['id' => 1, 'name' => 'one'], $resultSet->current());
+        self::assertEquals(['id' => 1, 'name' => 'one'], $resultSet->current());
     }
 
     /**
@@ -173,11 +173,11 @@ class AbstractResultSetTest extends TestCase
             ['id' => 2, 'name' => 'two'],
             ['id' => 3, 'name' => 'three'],
         ]));
-        $this->assertTrue($resultSet->valid());
+        self::assertTrue($resultSet->valid());
         $resultSet->next();
         $resultSet->next();
         $resultSet->next();
-        $this->assertFalse($resultSet->valid());
+        self::assertFalse($resultSet->valid());
     }
 
     /**
@@ -191,7 +191,7 @@ class AbstractResultSetTest extends TestCase
             ['id' => 2, 'name' => 'two'],
             ['id' => 3, 'name' => 'three'],
         ]));
-        $this->assertNull($resultSet->rewind());
+        self::assertNull($resultSet->rewind());
     }
 
     /**
@@ -205,7 +205,7 @@ class AbstractResultSetTest extends TestCase
             ['id' => 2, 'name' => 'two'],
             ['id' => 3, 'name' => 'three'],
         ]));
-        $this->assertEquals(3, $resultSet->count());
+        self::assertEquals(3, $resultSet->count());
     }
 
     /**
@@ -219,7 +219,7 @@ class AbstractResultSetTest extends TestCase
             ['id' => 2, 'name' => 'two'],
             ['id' => 3, 'name' => 'three'],
         ]));
-        $this->assertEquals(
+        self::assertEquals(
             [
                 ['id' => 1, 'name' => 'one'],
                 ['id' => 2, 'name' => 'two'],
@@ -244,19 +244,19 @@ class AbstractResultSetTest extends TestCase
         $resultSet->buffer();
 
         $data = $resultSet->current();
-        $this->assertEquals(1, $data['id']);
+        self::assertEquals(1, $data['id']);
         $resultSet->next();
         $data = $resultSet->current();
-        $this->assertEquals(2, $data['id']);
+        self::assertEquals(2, $data['id']);
 
         $resultSet->rewind();
         $data = $resultSet->current();
-        $this->assertEquals(1, $data['id']);
+        self::assertEquals(1, $data['id']);
         $resultSet->next();
         $data = $resultSet->current();
-        $this->assertEquals(2, $data['id']);
+        self::assertEquals(2, $data['id']);
         $resultSet->next();
         $data = $resultSet->current();
-        $this->assertEquals(3, $data['id']);
+        self::assertEquals(3, $data['id']);
     }
 }

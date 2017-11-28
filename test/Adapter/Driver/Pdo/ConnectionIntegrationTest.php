@@ -27,7 +27,7 @@ class ConnectionIntegrationTest extends TestCase
     public function testGetCurrentSchema()
     {
         $connection = new Connection($this->variables);
-        $this->assertInternalType('string', $connection->getCurrentSchema());
+        self::assertInternalType('string', $connection->getCurrentSchema());
     }
 
     /**
@@ -37,7 +37,7 @@ class ConnectionIntegrationTest extends TestCase
     {
         $resource = new TestAsset\SqliteMemoryPdo();
         $connection = new Connection([]);
-        $this->assertSame($connection, $connection->setResource($resource));
+        self::assertSame($connection, $connection->setResource($resource));
 
         $connection->disconnect();
         unset($connection);
@@ -51,7 +51,7 @@ class ConnectionIntegrationTest extends TestCase
     {
         $connection = new Connection($this->variables);
         $connection->connect();
-        $this->assertInstanceOf('PDO', $connection->getResource());
+        self::assertInstanceOf('PDO', $connection->getResource());
 
         $connection->disconnect();
         unset($connection);
@@ -63,8 +63,8 @@ class ConnectionIntegrationTest extends TestCase
     public function testConnect()
     {
         $connection = new Connection($this->variables);
-        $this->assertSame($connection, $connection->connect());
-        $this->assertTrue($connection->isConnected());
+        self::assertSame($connection, $connection->connect());
+        self::assertTrue($connection->isConnected());
 
         $connection->disconnect();
         unset($connection);
@@ -76,9 +76,9 @@ class ConnectionIntegrationTest extends TestCase
     public function testIsConnected()
     {
         $connection = new Connection($this->variables);
-        $this->assertFalse($connection->isConnected());
-        $this->assertSame($connection, $connection->connect());
-        $this->assertTrue($connection->isConnected());
+        self::assertFalse($connection->isConnected());
+        self::assertSame($connection, $connection->connect());
+        self::assertTrue($connection->isConnected());
 
         $connection->disconnect();
         unset($connection);
@@ -91,9 +91,9 @@ class ConnectionIntegrationTest extends TestCase
     {
         $connection = new Connection($this->variables);
         $connection->connect();
-        $this->assertTrue($connection->isConnected());
+        self::assertTrue($connection->isConnected());
         $connection->disconnect();
-        $this->assertFalse($connection->isConnected());
+        self::assertFalse($connection->isConnected());
     }
 
     /**
@@ -141,7 +141,7 @@ class ConnectionIntegrationTest extends TestCase
         $connection = $sqlsrv->getConnection();
 
         $result = $connection->execute('SELECT \'foo\'');
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Pdo\Result', $result);
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\Pdo\Result', $result);
     }
 
     /**
@@ -153,7 +153,7 @@ class ConnectionIntegrationTest extends TestCase
         $connection = $sqlsrv->getConnection();
 
         $statement = $connection->prepare('SELECT \'foo\'');
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Pdo\Statement', $statement);
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\Pdo\Statement', $statement);
     }
 
     /**
@@ -174,7 +174,7 @@ class ConnectionIntegrationTest extends TestCase
         $resource = new TestAsset\SqliteMemoryPdo();
         $connection = new Connection([]);
         $connection->setResource($resource);
-        $this->assertSame($connection, $connection->connect());
+        self::assertSame($connection, $connection->connect());
 
         $connection->disconnect();
         unset($connection);

@@ -44,7 +44,7 @@ class StatementTest extends TestCase
      */
     public function testSetDriver()
     {
-        $this->assertEquals($this->statement, $this->statement->setDriver(new Pdo([])));
+        self::assertEquals($this->statement, $this->statement->setDriver(new Pdo([])));
     }
 
     /**
@@ -52,7 +52,7 @@ class StatementTest extends TestCase
      */
     public function testSetParameterContainer()
     {
-        $this->assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
+        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
     }
 
     /**
@@ -63,7 +63,7 @@ class StatementTest extends TestCase
     {
         $container = new ParameterContainer;
         $this->statement->setParameterContainer($container);
-        $this->assertSame($container, $this->statement->getParameterContainer());
+        self::assertSame($container, $this->statement->getParameterContainer());
     }
 
     /**
@@ -75,7 +75,7 @@ class StatementTest extends TestCase
         $stmt = $pdo->prepare('SELECT 1');
         $this->statement->setResource($stmt);
 
-        $this->assertSame($stmt, $this->statement->getResource());
+        self::assertSame($stmt, $this->statement->getResource());
     }
 
     /**
@@ -84,7 +84,7 @@ class StatementTest extends TestCase
     public function testSetSql()
     {
         $this->statement->setSql('SELECT 1');
-        $this->assertEquals('SELECT 1', $this->statement->getSql());
+        self::assertEquals('SELECT 1', $this->statement->getSql());
     }
 
     /**
@@ -93,7 +93,7 @@ class StatementTest extends TestCase
     public function testGetSql()
     {
         $this->statement->setSql('SELECT 1');
-        $this->assertEquals('SELECT 1', $this->statement->getSql());
+        self::assertEquals('SELECT 1', $this->statement->getSql());
     }
 
     /**
@@ -103,7 +103,7 @@ class StatementTest extends TestCase
     public function testPrepare()
     {
         $this->statement->initialize(new TestAsset\SqliteMemoryPdo());
-        $this->assertNull($this->statement->prepare('SELECT 1'));
+        self::assertNull($this->statement->prepare('SELECT 1'));
     }
 
     /**
@@ -111,10 +111,10 @@ class StatementTest extends TestCase
      */
     public function testIsPrepared()
     {
-        $this->assertFalse($this->statement->isPrepared());
+        self::assertFalse($this->statement->isPrepared());
         $this->statement->initialize(new TestAsset\SqliteMemoryPdo());
         $this->statement->prepare('SELECT 1');
-        $this->assertTrue($this->statement->isPrepared());
+        self::assertTrue($this->statement->isPrepared());
     }
 
     /**
@@ -125,6 +125,6 @@ class StatementTest extends TestCase
         $this->statement->setDriver(new Pdo(new Connection($pdo = new TestAsset\SqliteMemoryPdo())));
         $this->statement->initialize($pdo);
         $this->statement->prepare('SELECT 1');
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Pdo\Result', $this->statement->execute());
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\Pdo\Result', $this->statement->execute());
     }
 }

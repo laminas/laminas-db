@@ -47,7 +47,7 @@ class StatementTest extends TestCase
      */
     public function testSetDriver()
     {
-        $this->assertEquals($this->statement, $this->statement->setDriver(new Oci8([])));
+        self::assertEquals($this->statement, $this->statement->setDriver(new Oci8([])));
     }
 
     /**
@@ -55,7 +55,7 @@ class StatementTest extends TestCase
      */
     public function testSetProfiler()
     {
-        $this->assertEquals($this->statement, $this->statement->setProfiler(new Profiler()));
+        self::assertEquals($this->statement, $this->statement->setProfiler(new Profiler()));
     }
 
     /**
@@ -65,7 +65,7 @@ class StatementTest extends TestCase
     {
         $profiler = new Profiler();
         $this->statement->setProfiler($profiler);
-        $this->assertEquals($profiler, $this->statement->getProfiler());
+        self::assertEquals($profiler, $this->statement->getProfiler());
     }
 
     /**
@@ -74,7 +74,7 @@ class StatementTest extends TestCase
     public function testInitialize()
     {
         $oci8 = new Oci8([]);
-        $this->assertEquals($this->statement, $this->statement->initialize($oci8));
+        self::assertEquals($this->statement, $this->statement->initialize($oci8));
     }
 
     /**
@@ -82,8 +82,8 @@ class StatementTest extends TestCase
      */
     public function testSetSql()
     {
-        $this->assertEquals($this->statement, $this->statement->setSql('select * from table'));
-        $this->assertEquals('select * from table', $this->statement->getSql());
+        self::assertEquals($this->statement, $this->statement->setSql('select * from table'));
+        self::assertEquals('select * from table', $this->statement->getSql());
     }
 
     /**
@@ -91,7 +91,7 @@ class StatementTest extends TestCase
      */
     public function testSetParameterContainer()
     {
-        $this->assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
+        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
     }
 
     /**
@@ -102,7 +102,7 @@ class StatementTest extends TestCase
     {
         $container = new ParameterContainer;
         $this->statement->setParameterContainer($container);
-        $this->assertSame($container, $this->statement->getParameterContainer());
+        self::assertSame($container, $this->statement->getParameterContainer());
     }
 
     /**
@@ -123,8 +123,8 @@ class StatementTest extends TestCase
      */
     public function testGetSql()
     {
-        $this->assertEquals($this->statement, $this->statement->setSql('select * from table'));
-        $this->assertEquals('select * from table', $this->statement->getSql());
+        self::assertEquals($this->statement, $this->statement->setSql('select * from table'));
+        self::assertEquals('select * from table', $this->statement->getSql());
     }
 
     /**
@@ -144,7 +144,7 @@ class StatementTest extends TestCase
      */
     public function testIsPrepared()
     {
-        $this->assertFalse($this->statement->isPrepared());
+        self::assertFalse($this->statement->isPrepared());
     }
 
     /**

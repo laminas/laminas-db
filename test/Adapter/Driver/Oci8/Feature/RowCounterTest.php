@@ -29,7 +29,7 @@ class RowCounterTest extends TestCase
      */
     public function testGetName()
     {
-        $this->assertEquals('RowCounter', $this->rowCounter->getName());
+        self::assertEquals('RowCounter', $this->rowCounter->getName());
     }
 
     /**
@@ -42,7 +42,7 @@ class RowCounterTest extends TestCase
             ->method('prepare')
             ->with($this->equalTo('SELECT COUNT(*) as "count" FROM (SELECT XXX)'));
         $count = $this->rowCounter->getCountForStatement($statement);
-        $this->assertEquals(5, $count);
+        self::assertEquals(5, $count);
     }
 
     /**
@@ -52,7 +52,7 @@ class RowCounterTest extends TestCase
     {
         $this->rowCounter->setDriver($this->getMockDriver(5));
         $count = $this->rowCounter->getCountForSql('SELECT XXX');
-        $this->assertEquals(5, $count);
+        self::assertEquals(5, $count);
     }
 
     /**
@@ -63,8 +63,8 @@ class RowCounterTest extends TestCase
         $stmt = $this->getMockStatement('SELECT XXX', 5);
         /** @var \Closure $closure */
         $closure = $this->rowCounter->getRowCountClosure($stmt);
-        $this->assertInstanceOf('Closure', $closure);
-        $this->assertEquals(5, $closure());
+        self::assertInstanceOf('Closure', $closure);
+        self::assertEquals(5, $closure());
     }
 
     protected function getMockStatement($sql, $returnValue)

@@ -48,11 +48,11 @@ class UpdateTest extends TestCase
     public function testTable()
     {
         $this->update->table('foo', 'bar');
-        $this->assertEquals('foo', $this->readAttribute($this->update, 'table'));
+        self::assertEquals('foo', $this->readAttribute($this->update, 'table'));
 
         $tableIdentifier = new TableIdentifier('foo', 'bar');
         $this->update->table($tableIdentifier);
-        $this->assertEquals($tableIdentifier, $this->readAttribute($this->update, 'table'));
+        self::assertEquals($tableIdentifier, $this->readAttribute($this->update, 'table'));
     }
 
     /**
@@ -61,7 +61,7 @@ class UpdateTest extends TestCase
     public function testConstruct()
     {
         $update = new Update('foo');
-        $this->assertEquals('foo', $this->readAttribute($update, 'table'));
+        self::assertEquals('foo', $this->readAttribute($update, 'table'));
     }
 
     /**
@@ -70,7 +70,7 @@ class UpdateTest extends TestCase
     public function testSet()
     {
         $this->update->set(['foo' => 'bar']);
-        $this->assertEquals(['foo' => 'bar'], $this->update->getRawState('set'));
+        self::assertEquals(['foo' => 'bar'], $this->update->getRawState('set'));
     }
 
     /**
@@ -84,7 +84,7 @@ class UpdateTest extends TestCase
         ]);
         $this->update->set(['one' => 'с_one'], 10);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'one'   => 'с_one',
                 'two'   => 'с_two',
@@ -109,33 +109,33 @@ class UpdateTest extends TestCase
         $where = $this->update->where;
 
         $predicates = $this->readAttribute($where, 'predicates');
-        $this->assertEquals('AND', $predicates[0][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertEquals('AND', $predicates[0][0]);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
 
-        $this->assertEquals('AND', $predicates[1][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[1][1]);
+        self::assertEquals('AND', $predicates[1][0]);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[1][1]);
 
-        $this->assertEquals('AND', $predicates[2][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[2][1]);
+        self::assertEquals('AND', $predicates[2][0]);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[2][1]);
 
-        $this->assertEquals('OR', $predicates[3][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[3][1]);
+        self::assertEquals('OR', $predicates[3][0]);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[3][1]);
 
-        $this->assertEquals('AND', $predicates[4][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\IsNull', $predicates[4][1]);
+        self::assertEquals('AND', $predicates[4][0]);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\IsNull', $predicates[4][1]);
 
-        $this->assertEquals('AND', $predicates[5][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\In', $predicates[5][1]);
+        self::assertEquals('AND', $predicates[5][0]);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\In', $predicates[5][1]);
 
-        $this->assertEquals('AND', $predicates[6][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\IsNotNull', $predicates[6][1]);
+        self::assertEquals('AND', $predicates[6][0]);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\IsNotNull', $predicates[6][1]);
 
         $where = new Where;
         $this->update->where($where);
-        $this->assertSame($where, $this->update->where);
+        self::assertSame($where, $this->update->where);
 
         $this->update->where(function ($what) use ($where) {
-            $this->assertSame($where, $what);
+            self::assertSame($where, $what);
         });
 
         $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
@@ -153,7 +153,7 @@ class UpdateTest extends TestCase
         $update->table('table');
         $update->set(['fld1' => 'val1']);
         $update->where(['id1' => 'val1', 'id2' => 'val2']);
-        $this->assertEquals(
+        self::assertEquals(
             'UPDATE "table" SET "fld1" = \'val1\' WHERE "id1" = \'val1\' AND "id2" = \'val2\'',
             $update->getSqlString(new TrustingSql92Platform())
         );
@@ -168,10 +168,10 @@ class UpdateTest extends TestCase
             ->set(['bar' => 'baz'])
             ->where('x = y');
 
-        $this->assertEquals('foo', $this->update->getRawState('table'));
-        $this->assertEquals(true, $this->update->getRawState('emptyWhereProtection'));
-        $this->assertEquals(['bar' => 'baz'], $this->update->getRawState('set'));
-        $this->assertInstanceOf('Zend\Db\Sql\Where', $this->update->getRawState('where'));
+        self::assertEquals('foo', $this->update->getRawState('table'));
+        self::assertEquals(true, $this->update->getRawState('emptyWhereProtection'));
+        self::assertEquals(['bar' => 'baz'], $this->update->getRawState('set'));
+        self::assertInstanceOf('Zend\Db\Sql\Where', $this->update->getRawState('where'));
     }
 
     /**
@@ -235,7 +235,7 @@ class UpdateTest extends TestCase
             ->set(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null])
             ->where('x = y');
 
-        $this->assertEquals(
+        self::assertEquals(
             'UPDATE "foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y',
             $this->update->getSqlString(new TrustingSql92Platform())
         );
@@ -246,7 +246,7 @@ class UpdateTest extends TestCase
             ->set(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null])
             ->where('x = y');
 
-        $this->assertEquals(
+        self::assertEquals(
             'UPDATE "sch"."foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y',
             $this->update->getSqlString(new TrustingSql92Platform())
         );
@@ -262,7 +262,7 @@ class UpdateTest extends TestCase
         $this->update->table(new TableIdentifier('foo', 'sch'))
             ->set(['bar' => false, 'boo' => 'test', 'bam' => true])
             ->where('x = y');
-        $this->assertEquals(
+        self::assertEquals(
             'UPDATE "sch"."foo" SET "bar" = \'\', "boo" = \'test\', "bam" = \'1\' WHERE x = y',
             $this->update->getSqlString(new TrustingSql92Platform())
         );
@@ -274,7 +274,7 @@ class UpdateTest extends TestCase
     public function testGetUpdate()
     {
         $getWhere = $this->update->__get('where');
-        $this->assertInstanceOf('Zend\Db\Sql\Where', $getWhere);
+        self::assertInstanceOf('Zend\Db\Sql\Where', $getWhere);
     }
 
     /**
@@ -283,7 +283,7 @@ class UpdateTest extends TestCase
     public function testGetUpdateFails()
     {
         $getWhat = $this->update->__get('what');
-        $this->assertNull($getWhat);
+        self::assertNull($getWhat);
     }
 
     /**
@@ -302,7 +302,7 @@ class UpdateTest extends TestCase
             ->where([
                 'id = ?' => 1
             ]);
-        $this->assertEquals(
+        self::assertEquals(
             'UPDATE "foo" SET "bar" = \'baz\' WHERE id = \'1\'',
             $update2->getSqlString(new TrustingSql92Platform)
         );
@@ -349,7 +349,7 @@ class UpdateTest extends TestCase
             ->set(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null])
             ->where('x = y');
 
-        $this->assertEquals(
+        self::assertEquals(
             'UPDATE IGNORE "foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y',
             $this->update->getSqlString(new TrustingSql92Platform())
         );
@@ -360,7 +360,7 @@ class UpdateTest extends TestCase
             ->set(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null])
             ->where('x = y');
 
-        $this->assertEquals(
+        self::assertEquals(
             'UPDATE IGNORE "sch"."foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y',
             $this->update->getSqlString(new TrustingSql92Platform())
         );
@@ -384,7 +384,7 @@ class UpdateTest extends TestCase
                 Join::JOIN_LEFT // (optional), one of inner, outer, left, right
             );
 
-        $this->assertEquals(
+        self::assertEquals(
             'UPDATE "Document" INNER JOIN "User" ON "User"."UserId" = "Document"."UserId" '
             . 'LEFT JOIN "Category" ON "Category"."CategoryId" = "Document"."CategoryId" SET "x" = \'y\'',
             $this->update->getSqlString(new TrustingSql92Platform())
@@ -398,6 +398,6 @@ class UpdateTest extends TestCase
     public function testJoinChainable()
     {
         $return = $this->update->join('baz', 'foo.fooId = baz.fooId', Join::JOIN_LEFT);
-        $this->assertSame($this->update, $return);
+        self::assertSame($this->update, $return);
     }
 }

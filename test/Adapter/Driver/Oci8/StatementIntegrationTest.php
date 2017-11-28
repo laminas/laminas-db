@@ -57,7 +57,7 @@ class StatementIntegrationTest extends TestCase
         );
 
         $statement = new Statement;
-        $this->assertSame($statement, $statement->initialize($ociResource));
+        self::assertSame($statement, $statement->initialize($ociResource));
         unset($stmtResource, $ociResource);
     }
 
@@ -76,7 +76,7 @@ class StatementIntegrationTest extends TestCase
         $statement->initialize($ociResource);
         $statement->prepare('SELECT * FROM DUAL');
         $resource = $statement->getResource();
-        $this->assertEquals('oci8 statement', get_resource_type($resource));
+        self::assertEquals('oci8 statement', get_resource_type($resource));
         unset($resource, $ociResource);
     }
 
@@ -94,9 +94,9 @@ class StatementIntegrationTest extends TestCase
 
         $statement = new Statement;
         $statement->initialize($ociResource);
-        $this->assertFalse($statement->isPrepared());
-        $this->assertSame($statement, $statement->prepare('SELECT * FROM DUAL'));
-        $this->assertTrue($statement->isPrepared());
+        self::assertFalse($statement->isPrepared());
+        self::assertSame($statement, $statement->prepare('SELECT * FROM DUAL'));
+        self::assertTrue($statement->isPrepared());
         unset($resource, $ociResource);
     }
 
@@ -107,10 +107,10 @@ class StatementIntegrationTest extends TestCase
     {
         $oci8 = new Oci8($this->variables);
         $statement = $oci8->createStatement('SELECT * FROM DUAL');
-        $this->assertSame($statement, $statement->prepare());
+        self::assertSame($statement, $statement->prepare());
 
         $result = $statement->execute();
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Oci8\Result', $result);
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\Oci8\Result', $result);
 
         unset($resource, $oci8);
     }

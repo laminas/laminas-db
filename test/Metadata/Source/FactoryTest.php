@@ -25,8 +25,8 @@ class FactoryTest extends TestCase
     {
         $source = Factory::createSourceFromAdapter($adapter);
 
-        $this->assertInstanceOf('Zend\Db\Metadata\MetadataInterface', $source);
-        $this->assertInstanceOf($expectedReturnClass, $source);
+        self::assertInstanceOf('Zend\Db\Metadata\MetadataInterface', $source);
+        self::assertInstanceOf($expectedReturnClass, $source);
     }
 
     public function validAdapterProvider()

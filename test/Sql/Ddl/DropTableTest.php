@@ -20,6 +20,6 @@ class DropTableTest extends TestCase
     public function testGetSqlString()
     {
         $dt = new DropTable('foo');
-        $this->assertEquals('DROP TABLE "foo"', $dt->getSqlString());
+        self::assertEquals('DROP TABLE "foo"', $dt->getSqlString());
     }
 }

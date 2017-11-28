@@ -20,7 +20,7 @@ class TimeTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Time('foo');
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'TIME'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );

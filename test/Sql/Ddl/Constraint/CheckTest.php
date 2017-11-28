@@ -20,7 +20,7 @@ class CheckTest extends TestCase
     public function testGetExpressionData()
     {
         $check = new Check('id>0', 'foo');
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 'CONSTRAINT %s CHECK (%s)',
                 ['foo', 'id>0'],

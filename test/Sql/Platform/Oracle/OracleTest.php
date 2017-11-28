@@ -24,7 +24,7 @@ class OracleTest extends TestCase
         $decorators = $oracle->getDecorators();
 
         list($type, $decorator) = each($decorators);
-        $this->assertEquals('Zend\Db\Sql\Select', $type);
-        $this->assertInstanceOf('Zend\Db\Sql\Platform\Oracle\SelectDecorator', $decorator);
+        self::assertEquals('Zend\Db\Sql\Select', $type);
+        self::assertInstanceOf('Zend\Db\Sql\Platform\Oracle\SelectDecorator', $decorator);
     }
 }

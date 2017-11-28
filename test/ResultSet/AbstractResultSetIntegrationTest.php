@@ -38,7 +38,7 @@ class AbstractResultSetIntegrationTest extends TestCase
         $value1 = $this->resultSet->current();
         $value2 = $this->resultSet->current();
         $this->resultSet->current();
-        $this->assertEquals($value1, $value2);
+        self::assertEquals($value1, $value2);
     }
 
     /**
@@ -53,6 +53,6 @@ class AbstractResultSetIntegrationTest extends TestCase
         $value1 = $this->resultSet->current();
         $value2 = $this->resultSet->current();
         $this->resultSet->current();
-        $this->assertEquals($value1, $value2);
+        self::assertEquals($value1, $value2);
     }
 }

@@ -29,11 +29,11 @@ class PostgresqlIntegrationTest extends TestCase
         }
         $pgsql = new Postgresql($this->adapters['pgsql']);
         $value = $pgsql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
 
         $pgsql = new Postgresql(new Pgsql\Pgsql(new Pgsql\Connection($this->adapters['pgsql'])));
         $value = $pgsql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
     }
 
     public function testQuoteValueWithPdoPgsql()
@@ -43,10 +43,10 @@ class PostgresqlIntegrationTest extends TestCase
         }
         $pgsql = new Postgresql($this->adapters['pdo_pgsql']);
         $value = $pgsql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
 
         $pgsql = new Postgresql(new Pdo\Pdo(new Pdo\Connection($this->adapters['pdo_pgsql'])));
         $value = $pgsql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
     }
 }

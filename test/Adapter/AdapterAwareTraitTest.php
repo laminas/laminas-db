@@ -18,7 +18,7 @@ class AdapterAwareTraitTest extends TestCase
     {
         $object = $this->getObjectForTrait('\Zend\Db\Adapter\AdapterAwareTrait');
 
-        $this->assertAttributeEquals(null, 'adapter', $object);
+        self::assertAttributeEquals(null, 'adapter', $object);
 
         $driver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $platform = $this->getMockBuilder('Zend\Db\Adapter\Platform\PlatformInterface')->getMock();
@@ -27,6 +27,6 @@ class AdapterAwareTraitTest extends TestCase
 
         $object->setDbAdapter($adapter);
 
-        $this->assertAttributeEquals($adapter, 'adapter', $object);
+        self::assertAttributeEquals($adapter, 'adapter', $object);
     }
 }

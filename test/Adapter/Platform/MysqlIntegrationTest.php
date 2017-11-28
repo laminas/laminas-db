@@ -29,11 +29,11 @@ class MysqlIntegrationTest extends TestCase
         }
         $mysql = new Mysql($this->adapters['mysqli']);
         $value = $mysql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
 
         $mysql = new Mysql(new Mysqli\Mysqli(new Mysqli\Connection($this->adapters['mysqli'])));
         $value = $mysql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
     }
 
     public function testQuoteValueWithPdoMysql()
@@ -43,10 +43,10 @@ class MysqlIntegrationTest extends TestCase
         }
         $mysql = new Mysql($this->adapters['pdo_mysql']);
         $value = $mysql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
 
         $mysql = new Mysql(new Pdo\Pdo(new Pdo\Connection($this->adapters['pdo_mysql'])));
         $value = $mysql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
     }
 }

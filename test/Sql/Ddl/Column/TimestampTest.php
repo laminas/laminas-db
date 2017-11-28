@@ -20,7 +20,7 @@ class TimestampTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Timestamp('foo');
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'TIMESTAMP'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );

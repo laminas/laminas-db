@@ -23,8 +23,8 @@ class CreateTableTest extends TestCase
     public function testObjectConstruction()
     {
         $ct = new CreateTable('foo', true);
-        $this->assertEquals('foo', $ct->getRawState($ct::TABLE));
-        $this->assertTrue($ct->isTemporary());
+        self::assertEquals('foo', $ct->getRawState($ct::TABLE));
+        self::assertTrue($ct->isTemporary());
     }
 
     /**
@@ -33,14 +33,14 @@ class CreateTableTest extends TestCase
     public function testSetTemporary()
     {
         $ct = new CreateTable();
-        $this->assertSame($ct, $ct->setTemporary(false));
-        $this->assertFalse($ct->isTemporary());
+        self::assertSame($ct, $ct->setTemporary(false));
+        self::assertFalse($ct->isTemporary());
         $ct->setTemporary(true);
-        $this->assertTrue($ct->isTemporary());
+        self::assertTrue($ct->isTemporary());
         $ct->setTemporary('yes');
-        $this->assertTrue($ct->isTemporary());
+        self::assertTrue($ct->isTemporary());
 
-        $this->assertStringStartsWith("CREATE TEMPORARY TABLE", $ct->getSqlString());
+        self::assertStringStartsWith("CREATE TEMPORARY TABLE", $ct->getSqlString());
     }
 
     /**
@@ -49,9 +49,9 @@ class CreateTableTest extends TestCase
     public function testIsTemporary()
     {
         $ct = new CreateTable();
-        $this->assertFalse($ct->isTemporary());
+        self::assertFalse($ct->isTemporary());
         $ct->setTemporary(true);
-        $this->assertTrue($ct->isTemporary());
+        self::assertTrue($ct->isTemporary());
     }
 
     /**
@@ -60,7 +60,7 @@ class CreateTableTest extends TestCase
     public function testSetTable()
     {
         $ct = new CreateTable();
-        $this->assertEquals('', $ct->getRawState('table'));
+        self::assertEquals('', $ct->getRawState('table'));
         $ct->setTable('test');
         return $ct;
     }
@@ -71,7 +71,7 @@ class CreateTableTest extends TestCase
      */
     public function testRawStateViaTable(CreateTable $ct)
     {
-        $this->assertEquals('test', $ct->getRawState('table'));
+        self::assertEquals('test', $ct->getRawState('table'));
     }
 
     /**
@@ -81,7 +81,7 @@ class CreateTableTest extends TestCase
     {
         $column = $this->getMockBuilder('Zend\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
         $ct = new CreateTable;
-        $this->assertSame($ct, $ct->addColumn($column));
+        self::assertSame($ct, $ct->addColumn($column));
         return $ct;
     }
 
@@ -92,9 +92,9 @@ class CreateTableTest extends TestCase
     public function testRawStateViaColumn(CreateTable $ct)
     {
         $state = $ct->getRawState('columns');
-        $this->assertInternalType('array', $state);
+        self::assertInternalType('array', $state);
         $column = array_pop($state);
-        $this->assertInstanceOf('Zend\Db\Sql\Ddl\Column\ColumnInterface', $column);
+        self::assertInstanceOf('Zend\Db\Sql\Ddl\Column\ColumnInterface', $column);
     }
 
     /**
@@ -104,7 +104,7 @@ class CreateTableTest extends TestCase
     {
         $constraint = $this->getMockBuilder('Zend\Db\Sql\Ddl\Constraint\ConstraintInterface')->getMock();
         $ct = new CreateTable;
-        $this->assertSame($ct, $ct->addConstraint($constraint));
+        self::assertSame($ct, $ct->addConstraint($constraint));
         return $ct;
     }
 
@@ -115,9 +115,9 @@ class CreateTableTest extends TestCase
     public function testRawStateViaConstraint(CreateTable $ct)
     {
         $state = $ct->getRawState('constraints');
-        $this->assertInternalType('array', $state);
+        self::assertInternalType('array', $state);
         $constraint = array_pop($state);
-        $this->assertInstanceOf('Zend\Db\Sql\Ddl\Constraint\ConstraintInterface', $constraint);
+        self::assertInstanceOf('Zend\Db\Sql\Ddl\Constraint\ConstraintInterface', $constraint);
     }
 
     /**
@@ -126,23 +126,23 @@ class CreateTableTest extends TestCase
     public function testGetSqlString()
     {
         $ct = new CreateTable('foo');
-        $this->assertEquals("CREATE TABLE \"foo\" ( \n)", $ct->getSqlString());
+        self::assertEquals("CREATE TABLE \"foo\" ( \n)", $ct->getSqlString());
 
         $ct = new CreateTable('foo', true);
-        $this->assertEquals("CREATE TEMPORARY TABLE \"foo\" ( \n)", $ct->getSqlString());
+        self::assertEquals("CREATE TEMPORARY TABLE \"foo\" ( \n)", $ct->getSqlString());
 
         $ct = new CreateTable('foo');
         $ct->addColumn(new Column('bar'));
-        $this->assertEquals("CREATE TABLE \"foo\" ( \n    \"bar\" INTEGER NOT NULL \n)", $ct->getSqlString());
+        self::assertEquals("CREATE TABLE \"foo\" ( \n    \"bar\" INTEGER NOT NULL \n)", $ct->getSqlString());
 
         $ct = new CreateTable('foo', true);
         $ct->addColumn(new Column('bar'));
-        $this->assertEquals("CREATE TEMPORARY TABLE \"foo\" ( \n    \"bar\" INTEGER NOT NULL \n)", $ct->getSqlString());
+        self::assertEquals("CREATE TEMPORARY TABLE \"foo\" ( \n    \"bar\" INTEGER NOT NULL \n)", $ct->getSqlString());
 
         $ct = new CreateTable('foo', true);
         $ct->addColumn(new Column('bar'));
         $ct->addColumn(new Column('baz'));
-        $this->assertEquals(
+        self::assertEquals(
             "CREATE TEMPORARY TABLE \"foo\" ( \n    \"bar\" INTEGER NOT NULL,\n    \"baz\" INTEGER NOT NULL \n)",
             $ct->getSqlString()
         );
@@ -150,7 +150,7 @@ class CreateTableTest extends TestCase
         $ct = new CreateTable('foo');
         $ct->addColumn(new Column('bar'));
         $ct->addConstraint(new Constraint\PrimaryKey('bat'));
-        $this->assertEquals(
+        self::assertEquals(
             "CREATE TABLE \"foo\" ( \n    \"bar\" INTEGER NOT NULL , \n    PRIMARY KEY (\"bat\") \n)",
             $ct->getSqlString()
         );
@@ -158,7 +158,7 @@ class CreateTableTest extends TestCase
         $ct = new CreateTable('foo');
         $ct->addConstraint(new Constraint\PrimaryKey('bar'));
         $ct->addConstraint(new Constraint\PrimaryKey('bat'));
-        $this->assertEquals(
+        self::assertEquals(
             "CREATE TABLE \"foo\" ( \n    PRIMARY KEY (\"bar\"),\n    PRIMARY KEY (\"bat\") \n)",
             $ct->getSqlString()
         );

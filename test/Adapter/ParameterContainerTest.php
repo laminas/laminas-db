@@ -34,10 +34,10 @@ class ParameterContainerTest extends TestCase
      */
     public function testOffsetExists()
     {
-        $this->assertTrue($this->parameterContainer->offsetExists('foo'));
-        $this->assertTrue(isset($this->parameterContainer['foo']));
-        $this->assertFalse($this->parameterContainer->offsetExists('bar'));
-        $this->assertFalse(isset($this->parameterContainer['bar']));
+        self::assertTrue($this->parameterContainer->offsetExists('foo'));
+        self::assertTrue(isset($this->parameterContainer['foo']));
+        self::assertFalse($this->parameterContainer->offsetExists('bar'));
+        self::assertFalse(isset($this->parameterContainer['bar']));
     }
 
     /**
@@ -46,10 +46,10 @@ class ParameterContainerTest extends TestCase
      */
     public function testOffsetGet()
     {
-        $this->assertEquals('bar', $this->parameterContainer->offsetGet('foo'));
-        $this->assertEquals('bar', $this->parameterContainer['foo']);
+        self::assertEquals('bar', $this->parameterContainer->offsetGet('foo'));
+        self::assertEquals('bar', $this->parameterContainer['foo']);
 
-        $this->assertNull($this->parameterContainer->offsetGet('bar'));
+        self::assertNull($this->parameterContainer->offsetGet('bar'));
         // @todo determine what should come back here
     }
 
@@ -60,25 +60,25 @@ class ParameterContainerTest extends TestCase
     public function testOffsetSet()
     {
         $this->parameterContainer->offsetSet('boo', 'baz');
-        $this->assertEquals('baz', $this->parameterContainer->offsetGet('boo'));
+        self::assertEquals('baz', $this->parameterContainer->offsetGet('boo'));
 
         $this->parameterContainer->offsetSet('1', 'book', ParameterContainer::TYPE_STRING, 4);
-        $this->assertEquals(
+        self::assertEquals(
             ['foo' => 'bar', 'boo' => 'baz', '1' => 'book'],
             $this->parameterContainer->getNamedArray()
         );
 
-        $this->assertEquals('string', $this->parameterContainer->offsetGetErrata('1'));
-        $this->assertEquals(4, $this->parameterContainer->offsetGetMaxLength('1'));
+        self::assertEquals('string', $this->parameterContainer->offsetGetErrata('1'));
+        self::assertEquals(4, $this->parameterContainer->offsetGetMaxLength('1'));
 
         // test that setting an index applies to correct named parameter
         $this->parameterContainer[0] = 'Zero';
         $this->parameterContainer[1] = 'One';
-        $this->assertEquals(
+        self::assertEquals(
             ['foo' => 'Zero', 'boo' => 'One', '1' => 'book'],
             $this->parameterContainer->getNamedArray()
         );
-        $this->assertEquals(
+        self::assertEquals(
             [0 => 'Zero', 1 => 'One', 2 => 'book'],
             $this->parameterContainer->getPositionalArray()
         );
@@ -87,7 +87,7 @@ class ParameterContainerTest extends TestCase
         $this->parameterContainer['buffer'] = 'A buffer Element';
         $this->parameterContainer[] = 'Second To Last';
         $this->parameterContainer[] = 'Last';
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'foo' => 'Zero',
                 'boo' => 'One',
@@ -98,7 +98,7 @@ class ParameterContainerTest extends TestCase
             ],
             $this->parameterContainer->getNamedArray()
         );
-        $this->assertEquals(
+        self::assertEquals(
             [0 => 'Zero', 1 => 'One', 2 => 'book', 3 => 'A buffer Element', 4 => 'Second To Last', 5 => 'Last'],
             $this->parameterContainer->getPositionalArray()
         );
@@ -111,11 +111,11 @@ class ParameterContainerTest extends TestCase
     public function testOffsetUnset()
     {
         $this->parameterContainer->offsetSet('boo', 'baz');
-        $this->assertTrue($this->parameterContainer->offsetExists('boo'));
+        self::assertTrue($this->parameterContainer->offsetExists('boo'));
 
 
         $this->parameterContainer->offsetUnset('boo');
-        $this->assertFalse($this->parameterContainer->offsetExists('boo'));
+        self::assertFalse($this->parameterContainer->offsetExists('boo'));
     }
 
     /**
@@ -125,7 +125,7 @@ class ParameterContainerTest extends TestCase
     public function testSetFromArray()
     {
         $this->parameterContainer->setFromArray(['bar' => 'baz']);
-        $this->assertEquals('baz', $this->parameterContainer['bar']);
+        self::assertEquals('baz', $this->parameterContainer['bar']);
     }
 
     /**
@@ -137,7 +137,7 @@ class ParameterContainerTest extends TestCase
     public function testOffsetSetAndGetMaxLength()
     {
         $this->parameterContainer->offsetSetMaxLength('foo', 100);
-        $this->assertEquals(100, $this->parameterContainer->offsetGetMaxLength('foo'));
+        self::assertEquals(100, $this->parameterContainer->offsetGetMaxLength('foo'));
     }
 
     /**
@@ -147,7 +147,7 @@ class ParameterContainerTest extends TestCase
     public function testOffsetHasMaxLength()
     {
         $this->parameterContainer->offsetSetMaxLength('foo', 100);
-        $this->assertTrue($this->parameterContainer->offsetHasMaxLength('foo'));
+        self::assertTrue($this->parameterContainer->offsetHasMaxLength('foo'));
     }
 
     /**
@@ -158,7 +158,7 @@ class ParameterContainerTest extends TestCase
     {
         $this->parameterContainer->offsetSetMaxLength('foo', 100);
         $this->parameterContainer->offsetUnsetMaxLength('foo');
-        $this->assertNull($this->parameterContainer->offsetGetMaxLength('foo'));
+        self::assertNull($this->parameterContainer->offsetGetMaxLength('foo'));
     }
 
     /**
@@ -169,7 +169,7 @@ class ParameterContainerTest extends TestCase
     {
         $this->parameterContainer->offsetSetMaxLength('foo', 100);
         $data = $this->parameterContainer->getMaxLengthIterator();
-        $this->assertInstanceOf('ArrayIterator', $data);
+        self::assertInstanceOf('ArrayIterator', $data);
     }
 
     /**
@@ -179,7 +179,7 @@ class ParameterContainerTest extends TestCase
     public function testOffsetSetErrata()
     {
         $this->parameterContainer->offsetSetErrata('foo', ParameterContainer::TYPE_INTEGER);
-        $this->assertEquals(ParameterContainer::TYPE_INTEGER, $this->parameterContainer->offsetGetErrata('foo'));
+        self::assertEquals(ParameterContainer::TYPE_INTEGER, $this->parameterContainer->offsetGetErrata('foo'));
     }
 
     /**
@@ -189,7 +189,7 @@ class ParameterContainerTest extends TestCase
     public function testOffsetGetErrata()
     {
         $this->parameterContainer->offsetSetErrata('foo', ParameterContainer::TYPE_INTEGER);
-        $this->assertEquals(ParameterContainer::TYPE_INTEGER, $this->parameterContainer->offsetGetErrata('foo'));
+        self::assertEquals(ParameterContainer::TYPE_INTEGER, $this->parameterContainer->offsetGetErrata('foo'));
     }
 
     /**
@@ -199,7 +199,7 @@ class ParameterContainerTest extends TestCase
     public function testOffsetHasErrata()
     {
         $this->parameterContainer->offsetSetErrata('foo', ParameterContainer::TYPE_INTEGER);
-        $this->assertTrue($this->parameterContainer->offsetHasErrata('foo'));
+        self::assertTrue($this->parameterContainer->offsetHasErrata('foo'));
     }
 
     /**
@@ -210,7 +210,7 @@ class ParameterContainerTest extends TestCase
     {
         $this->parameterContainer->offsetSetErrata('foo', ParameterContainer::TYPE_INTEGER);
         $this->parameterContainer->offsetUnsetErrata('foo');
-        $this->assertNull($this->parameterContainer->offsetGetErrata('foo'));
+        self::assertNull($this->parameterContainer->offsetGetErrata('foo'));
     }
 
     /**
@@ -221,7 +221,7 @@ class ParameterContainerTest extends TestCase
     {
         $this->parameterContainer->offsetSetErrata('foo', ParameterContainer::TYPE_INTEGER);
         $data = $this->parameterContainer->getErrataIterator();
-        $this->assertInstanceOf('ArrayIterator', $data);
+        self::assertInstanceOf('ArrayIterator', $data);
     }
 
     /**
@@ -231,7 +231,7 @@ class ParameterContainerTest extends TestCase
     public function testGetNamedArray()
     {
         $data = $this->parameterContainer->getNamedArray();
-        $this->assertEquals(['foo' => 'bar'], $data);
+        self::assertEquals(['foo' => 'bar'], $data);
     }
 
     /**
@@ -240,7 +240,7 @@ class ParameterContainerTest extends TestCase
      */
     public function testCount()
     {
-        $this->assertEquals(1, $this->parameterContainer->count());
+        self::assertEquals(1, $this->parameterContainer->count());
     }
 
     /**
@@ -250,7 +250,7 @@ class ParameterContainerTest extends TestCase
     public function testCurrent()
     {
         $value = $this->parameterContainer->current();
-        $this->assertEquals('bar', $value);
+        self::assertEquals('bar', $value);
     }
 
     /**
@@ -261,7 +261,7 @@ class ParameterContainerTest extends TestCase
     {
         $this->parameterContainer['bar'] = 'baz';
         $this->parameterContainer->next();
-        $this->assertEquals('baz', $this->parameterContainer->current());
+        self::assertEquals('baz', $this->parameterContainer->current());
     }
 
     /**
@@ -270,7 +270,7 @@ class ParameterContainerTest extends TestCase
      */
     public function testKey()
     {
-        $this->assertEquals('foo', $this->parameterContainer->key());
+        self::assertEquals('foo', $this->parameterContainer->key());
     }
 
     /**
@@ -279,9 +279,9 @@ class ParameterContainerTest extends TestCase
      */
     public function testValid()
     {
-        $this->assertTrue($this->parameterContainer->valid());
+        self::assertTrue($this->parameterContainer->valid());
         $this->parameterContainer->next();
-        $this->assertFalse($this->parameterContainer->valid());
+        self::assertFalse($this->parameterContainer->valid());
     }
 
     /**
@@ -292,8 +292,8 @@ class ParameterContainerTest extends TestCase
     {
         $this->parameterContainer->offsetSet('bar', 'baz');
         $this->parameterContainer->next();
-        $this->assertEquals('bar', $this->parameterContainer->key());
+        self::assertEquals('bar', $this->parameterContainer->key());
         $this->parameterContainer->rewind();
-        $this->assertEquals('foo', $this->parameterContainer->key());
+        self::assertEquals('foo', $this->parameterContainer->key());
     }
 }

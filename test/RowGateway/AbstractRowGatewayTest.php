@@ -57,8 +57,8 @@ class AbstractRowGatewayTest extends TestCase
     {
         // If we set with an index, both getters should retrieve the same value:
         $this->rowGateway['testColumn'] = 'test';
-        $this->assertEquals('test', $this->rowGateway->testColumn);
-        $this->assertEquals('test', $this->rowGateway['testColumn']);
+        self::assertEquals('test', $this->rowGateway->testColumn);
+        self::assertEquals('test', $this->rowGateway['testColumn']);
     }
 
     /**
@@ -70,8 +70,8 @@ class AbstractRowGatewayTest extends TestCase
         // @codingStandardsIgnoreEnd
         // If we set with a property, both getters should retrieve the same value:
         $this->rowGateway->testColumn = 'test';
-        $this->assertEquals('test', $this->rowGateway->testColumn);
-        $this->assertEquals('test', $this->rowGateway['testColumn']);
+        self::assertEquals('test', $this->rowGateway->testColumn);
+        self::assertEquals('test', $this->rowGateway['testColumn']);
     }
 
     /**
@@ -82,9 +82,9 @@ class AbstractRowGatewayTest extends TestCase
     {
         // @codingStandardsIgnoreEnd
         // Test isset before and after assigning to a property:
-        $this->assertFalse(isset($this->rowGateway->foo));
+        self::assertFalse(isset($this->rowGateway->foo));
         $this->rowGateway->foo = 'bar';
-        $this->assertTrue(isset($this->rowGateway->foo));
+        self::assertTrue(isset($this->rowGateway->foo));
     }
 
     /**
@@ -93,9 +93,9 @@ class AbstractRowGatewayTest extends TestCase
     public function testOffsetExists()
     {
         // Test isset before and after assigning to an index:
-        $this->assertFalse(isset($this->rowGateway['foo']));
+        self::assertFalse(isset($this->rowGateway['foo']));
         $this->rowGateway['foo'] = 'bar';
-        $this->assertTrue(isset($this->rowGateway['foo']));
+        self::assertTrue(isset($this->rowGateway['foo']));
     }
 
     /**
@@ -106,10 +106,10 @@ class AbstractRowGatewayTest extends TestCase
     {
         // @codingStandardsIgnoreEnd
         $this->rowGateway->foo = 'bar';
-        $this->assertEquals('bar', $this->rowGateway->foo);
+        self::assertEquals('bar', $this->rowGateway->foo);
         unset($this->rowGateway->foo);
-        $this->assertEmpty($this->rowGateway->foo);
-        $this->assertEmpty($this->rowGateway['foo']);
+        self::assertEmpty($this->rowGateway->foo);
+        self::assertEmpty($this->rowGateway['foo']);
     }
 
     /**
@@ -118,10 +118,10 @@ class AbstractRowGatewayTest extends TestCase
     public function testOffsetUnset()
     {
         $this->rowGateway['foo'] = 'bar';
-        $this->assertEquals('bar', $this->rowGateway['foo']);
+        self::assertEquals('bar', $this->rowGateway['foo']);
         unset($this->rowGateway['foo']);
-        $this->assertEmpty($this->rowGateway->foo);
-        $this->assertEmpty($this->rowGateway['foo']);
+        self::assertEmpty($this->rowGateway->foo);
+        self::assertEmpty($this->rowGateway['foo']);
     }
 
     /**
@@ -131,8 +131,8 @@ class AbstractRowGatewayTest extends TestCase
     {
         // If we set with an index, both getters should retrieve the same value:
         $this->rowGateway['testColumn'] = 'test';
-        $this->assertEquals('test', $this->rowGateway->testColumn);
-        $this->assertEquals('test', $this->rowGateway['testColumn']);
+        self::assertEquals('test', $this->rowGateway->testColumn);
+        self::assertEquals('test', $this->rowGateway['testColumn']);
     }
 
     /**
@@ -144,8 +144,8 @@ class AbstractRowGatewayTest extends TestCase
         // @codingStandardsIgnoreEnd
         // If we set with a property, both getters should retrieve the same value:
         $this->rowGateway->testColumn = 'test';
-        $this->assertEquals('test', $this->rowGateway->testColumn);
-        $this->assertEquals('test', $this->rowGateway['testColumn']);
+        self::assertEquals('test', $this->rowGateway->testColumn);
+        self::assertEquals('test', $this->rowGateway['testColumn']);
     }
 
     /**
@@ -159,8 +159,8 @@ class AbstractRowGatewayTest extends TestCase
         $this->mockResult->expects($this->any())->method('getGeneratedValue')->will($this->returnValue(5));
         $this->rowGateway->populate(['name' => 'foo']);
         $this->rowGateway->save();
-        $this->assertEquals(5, $this->rowGateway->id);
-        $this->assertEquals(5, $this->rowGateway['id']);
+        self::assertEquals(5, $this->rowGateway->id);
+        self::assertEquals(5, $this->rowGateway['id']);
     }
 
     /**
@@ -191,12 +191,12 @@ class AbstractRowGatewayTest extends TestCase
 
         $this->rowGateway->populate(['one' => 'foo', 'two' => 'bar']);
 
-        $this->assertNull($refRowGatewayProp->getValue($this->rowGateway));
+        self::assertNull($refRowGatewayProp->getValue($this->rowGateway));
 
         // save should setup the primaryKeyData
         $this->rowGateway->save();
 
-        $this->assertEquals(['one' => 'foo', 'two' => 'bar'], $refRowGatewayProp->getValue($this->rowGateway));
+        self::assertEquals(['one' => 'foo', 'two' => 'bar'], $refRowGatewayProp->getValue($this->rowGateway));
     }
 
     /**
@@ -209,7 +209,7 @@ class AbstractRowGatewayTest extends TestCase
             ->will($this->returnValue(['id' => 6, 'name' => 'foo']));
         $this->rowGateway->populate(['id' => 6, 'name' => 'foo'], true);
         $this->rowGateway->save();
-        $this->assertEquals(6, $this->rowGateway['id']);
+        self::assertEquals(6, $this->rowGateway['id']);
     }
 
     /**
@@ -245,7 +245,7 @@ class AbstractRowGatewayTest extends TestCase
         $this->rowGateway->populate(['id' => 6, 'name' => 'foo'], true);
         $this->rowGateway->id = 7;
         $this->rowGateway->save();
-        $this->assertEquals(['id' => 7, 'name' => 'fooUpdated'], $this->rowGateway->toArray());
+        self::assertEquals(['id' => 7, 'name' => 'fooUpdated'], $this->rowGateway->toArray());
     }
 
     /**
@@ -255,8 +255,8 @@ class AbstractRowGatewayTest extends TestCase
     {
         $this->rowGateway->foo = 'bar';
         $affectedRows = $this->rowGateway->delete();
-        $this->assertFalse($this->rowGateway->rowExistsInDatabase());
-        $this->assertEquals(1, $affectedRows);
+        self::assertFalse($this->rowGateway->rowExistsInDatabase());
+        self::assertEquals(1, $affectedRows);
     }
 
     /**
@@ -266,12 +266,12 @@ class AbstractRowGatewayTest extends TestCase
     public function testPopulate()
     {
         $this->rowGateway->populate(['id' => 5, 'name' => 'foo']);
-        $this->assertEquals(5, $this->rowGateway['id']);
-        $this->assertEquals('foo', $this->rowGateway['name']);
-        $this->assertFalse($this->rowGateway->rowExistsInDatabase());
+        self::assertEquals(5, $this->rowGateway['id']);
+        self::assertEquals('foo', $this->rowGateway['name']);
+        self::assertFalse($this->rowGateway->rowExistsInDatabase());
 
         $this->rowGateway->populate(['id' => 5, 'name' => 'foo'], true);
-        $this->assertTrue($this->rowGateway->rowExistsInDatabase());
+        self::assertTrue($this->rowGateway->rowExistsInDatabase());
     }
 
     /**
@@ -292,7 +292,7 @@ class AbstractRowGatewayTest extends TestCase
     public function testCount()
     {
         $this->rowGateway->populate(['id' => 5, 'name' => 'foo'], true);
-        $this->assertEquals(2, $this->rowGateway->count());
+        self::assertEquals(2, $this->rowGateway->count());
     }
 
     /**
@@ -301,7 +301,7 @@ class AbstractRowGatewayTest extends TestCase
     public function testToArray()
     {
         $this->rowGateway->populate(['id' => 5, 'name' => 'foo'], true);
-        $this->assertEquals(['id' => 5, 'name' => 'foo'], $this->rowGateway->toArray());
+        self::assertEquals(['id' => 5, 'name' => 'foo'], $this->rowGateway->toArray());
     }
 
     protected function setRowGatewayState(array $properties)

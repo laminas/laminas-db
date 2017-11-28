@@ -20,7 +20,7 @@ class BlobTest extends TestCase
     public function testGetExpressionData()
     {
         $column = new Blob('foo');
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'BLOB'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );

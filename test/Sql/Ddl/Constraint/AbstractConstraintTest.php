@@ -26,8 +26,8 @@ class AbstractConstraintTest extends TestCase
      */
     public function testSetColumns()
     {
-        $this->assertSame($this->ac, $this->ac->setColumns(['foo', 'bar']));
-        $this->assertEquals(['foo', 'bar'], $this->ac->getColumns());
+        self::assertSame($this->ac, $this->ac->setColumns(['foo', 'bar']));
+        self::assertEquals(['foo', 'bar'], $this->ac->getColumns());
     }
 
     /**
@@ -35,8 +35,8 @@ class AbstractConstraintTest extends TestCase
      */
     public function testAddColumn()
     {
-        $this->assertSame($this->ac, $this->ac->addColumn('foo'));
-        $this->assertEquals(['foo'], $this->ac->getColumns());
+        self::assertSame($this->ac, $this->ac->addColumn('foo'));
+        self::assertEquals(['foo'], $this->ac->getColumns());
     }
 
     /**
@@ -45,6 +45,6 @@ class AbstractConstraintTest extends TestCase
     public function testGetColumns()
     {
         $this->ac->setColumns(['foo', 'bar']);
-        $this->assertEquals(['foo', 'bar'], $this->ac->getColumns());
+        self::assertEquals(['foo', 'bar'], $this->ac->getColumns());
     }
 }

@@ -35,6 +35,6 @@ class MetadataFeatureTest extends TestCase
         $feature->setTableGateway($tableGatewayMock);
         $feature->postInitialize();
 
-        $this->assertEquals(['id', 'name'], $tableGatewayMock->getColumns());
+        self::assertEquals(['id', 'name'], $tableGatewayMock->getColumns());
     }
 }

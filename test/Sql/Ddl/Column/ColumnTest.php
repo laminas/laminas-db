@@ -20,7 +20,7 @@ class ColumnTest extends TestCase
     public function testSetName()
     {
         $column = new Column();
-        $this->assertSame($column, $column->setName('foo'));
+        self::assertSame($column, $column->setName('foo'));
         return $column;
     }
 
@@ -30,7 +30,7 @@ class ColumnTest extends TestCase
      */
     public function testGetName(Column $column)
     {
-        $this->assertEquals('foo', $column->getName());
+        self::assertEquals('foo', $column->getName());
     }
 
     /**
@@ -39,7 +39,7 @@ class ColumnTest extends TestCase
     public function testSetNullable()
     {
         $column = new Column;
-        $this->assertSame($column, $column->setNullable(true));
+        self::assertSame($column, $column->setNullable(true));
         return $column;
     }
 
@@ -49,9 +49,9 @@ class ColumnTest extends TestCase
      */
     public function testIsNullable(Column $column)
     {
-        $this->assertTrue($column->isNullable());
+        self::assertTrue($column->isNullable());
         $column->setNullable(false);
-        $this->assertFalse($column->isNullable());
+        self::assertFalse($column->isNullable());
     }
 
     /**
@@ -60,7 +60,7 @@ class ColumnTest extends TestCase
     public function testSetDefault()
     {
         $column = new Column;
-        $this->assertSame($column, $column->setDefault('foo bar'));
+        self::assertSame($column, $column->setDefault('foo bar'));
         return $column;
     }
 
@@ -70,7 +70,7 @@ class ColumnTest extends TestCase
      */
     public function testGetDefault(Column $column)
     {
-        $this->assertEquals('foo bar', $column->getDefault());
+        self::assertEquals('foo bar', $column->getDefault());
     }
 
     /**
@@ -79,7 +79,7 @@ class ColumnTest extends TestCase
     public function testSetOptions()
     {
         $column = new Column;
-        $this->assertSame($column, $column->setOptions(['autoincrement' => true]));
+        self::assertSame($column, $column->setOptions(['autoincrement' => true]));
         return $column;
     }
 
@@ -89,7 +89,7 @@ class ColumnTest extends TestCase
     public function testSetOption()
     {
         $column = new Column;
-        $this->assertSame($column, $column->setOption('primary', true));
+        self::assertSame($column, $column->setOption('primary', true));
     }
 
     /**
@@ -98,7 +98,7 @@ class ColumnTest extends TestCase
      */
     public function testGetOptions(Column $column)
     {
-        $this->assertEquals(['autoincrement' => true], $column->getOptions());
+        self::assertEquals(['autoincrement' => true], $column->getOptions());
     }
 
     /**
@@ -108,19 +108,19 @@ class ColumnTest extends TestCase
     {
         $column = new Column;
         $column->setName('foo');
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'INTEGER'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );
 
         $column->setNullable(true);
-        $this->assertEquals(
+        self::assertEquals(
             [['%s %s', ['foo', 'INTEGER'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
             $column->getExpressionData()
         );
 
         $column->setDefault('bar');
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 '%s %s DEFAULT %s',
                 ['foo', 'INTEGER', 'bar'],

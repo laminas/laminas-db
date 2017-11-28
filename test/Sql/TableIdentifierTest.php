@@ -24,21 +24,21 @@ class TableIdentifierTest extends TestCase
     {
         $tableIdentifier = new TableIdentifier('foo');
 
-        $this->assertSame('foo', $tableIdentifier->getTable());
+        self::assertSame('foo', $tableIdentifier->getTable());
     }
 
     public function testGetDefaultSchema()
     {
         $tableIdentifier = new TableIdentifier('foo');
 
-        $this->assertNull($tableIdentifier->getSchema());
+        self::assertNull($tableIdentifier->getSchema());
     }
 
     public function testGetSchema()
     {
         $tableIdentifier = new TableIdentifier('foo', 'bar');
 
-        $this->assertSame('bar', $tableIdentifier->getSchema());
+        self::assertSame('bar', $tableIdentifier->getSchema());
     }
 
     public function testGetTableFromObjectStringCast()
@@ -49,8 +49,8 @@ class TableIdentifierTest extends TestCase
 
         $tableIdentifier = new TableIdentifier($table);
 
-        $this->assertSame('castResult', $tableIdentifier->getTable());
-        $this->assertSame('castResult', $tableIdentifier->getTable());
+        self::assertSame('castResult', $tableIdentifier->getTable());
+        self::assertSame('castResult', $tableIdentifier->getTable());
     }
 
     public function testGetSchemaFromObjectStringCast()
@@ -61,8 +61,8 @@ class TableIdentifierTest extends TestCase
 
         $tableIdentifier = new TableIdentifier('foo', $schema);
 
-        $this->assertSame('castResult', $tableIdentifier->getSchema());
-        $this->assertSame('castResult', $tableIdentifier->getSchema());
+        self::assertSame('castResult', $tableIdentifier->getSchema());
+        self::assertSame('castResult', $tableIdentifier->getSchema());
     }
 
     /**

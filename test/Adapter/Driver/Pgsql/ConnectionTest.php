@@ -44,7 +44,7 @@ class ConnectionTest extends TestCase
         try {
             $resource = $this->connection->getResource();
             // connected with empty string
-            $this->assertInternalType('resource', $resource);
+            self::assertInternalType('resource', $resource);
         } catch (AdapterException\RuntimeException $exc) {
             // If it throws an exception it has failed to connect
             $this->expectException('Zend\Db\Adapter\Exception\RuntimeException');
@@ -58,7 +58,7 @@ class ConnectionTest extends TestCase
     public function testDisconnect()
     {
         include_once 'pgsqlMockFunctions.php';
-        $this->assertSame($this->connection, $this->connection->disconnect());
+        self::assertSame($this->connection, $this->connection->disconnect());
     }
 
     /**
@@ -85,7 +85,7 @@ class ConnectionTest extends TestCase
 
         $getConnectionString->setAccessible(true);
 
-        $this->assertEquals(
+        self::assertEquals(
             'host=localhost user=test password=test123! dbname=test',
             $getConnectionString->invoke($this->connection)
         );
@@ -111,7 +111,7 @@ class ConnectionTest extends TestCase
         }
         $type = PGSQL_CONNECT_FORCE_NEW;
         $this->connection->setType($type);
-        $this->assertEquals($type, self::readAttribute($this->connection, 'type'));
+        self::assertEquals($type, self::readAttribute($this->connection, 'type'));
     }
 
     /**
@@ -139,7 +139,7 @@ class ConnectionTest extends TestCase
             $this->markTestSkipped('Skipping pgsql charset test due to inability to connecto to database');
         }
 
-        $this->assertEquals('SQL_ASCII', pg_client_encoding($this->connection->getResource()));
+        self::assertEquals('SQL_ASCII', pg_client_encoding($this->connection->getResource()));
     }
 
     /**

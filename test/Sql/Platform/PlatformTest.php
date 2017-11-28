@@ -27,7 +27,7 @@ class PlatformTest extends TestCase
 
         $reflectionMethod->setAccessible(true);
 
-        $this->assertEquals($adapter->getPlatform(), $reflectionMethod->invoke($platform, null));
+        self::assertEquals($adapter->getPlatform(), $reflectionMethod->invoke($platform, null));
     }
 
     public function testResolvePlatformName()
@@ -38,13 +38,13 @@ class PlatformTest extends TestCase
 
         $reflectionMethod->setAccessible(true);
 
-        $this->assertEquals('mysql', $reflectionMethod->invoke($platform, new TestAsset\TrustingMysqlPlatform()));
-        $this->assertEquals('sqlserver', $reflectionMethod->invoke(
+        self::assertEquals('mysql', $reflectionMethod->invoke($platform, new TestAsset\TrustingMysqlPlatform()));
+        self::assertEquals('sqlserver', $reflectionMethod->invoke(
             $platform,
             new TestAsset\TrustingSqlServerPlatform()
         ));
-        $this->assertEquals('oracle', $reflectionMethod->invoke($platform, new TestAsset\TrustingOraclePlatform()));
-        $this->assertEquals('sql92', $reflectionMethod->invoke($platform, new TestAsset\TrustingSql92Platform()));
+        self::assertEquals('oracle', $reflectionMethod->invoke($platform, new TestAsset\TrustingOraclePlatform()));
+        self::assertEquals('sql92', $reflectionMethod->invoke($platform, new TestAsset\TrustingSql92Platform()));
     }
 
     /**

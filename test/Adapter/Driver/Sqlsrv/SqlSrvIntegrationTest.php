@@ -24,7 +24,7 @@ class SqlSrvIntegrationTest extends AbstractIntegrationTest
     public function testCheckEnvironment()
     {
         $sqlserver = new Sqlsrv([]);
-        $this->assertNull($sqlserver->checkEnvironment());
+        self::assertNull($sqlserver->checkEnvironment());
     }
 
     public function testCreateStatement()
@@ -42,11 +42,11 @@ class SqlSrvIntegrationTest extends AbstractIntegrationTest
         $driver->getConnection()->setResource($resource);
 
         $stmt = $driver->createStatement('SELECT 1');
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
         $stmt = $driver->createStatement($resource);
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
         $stmt = $driver->createStatement();
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
 
         $this->expectException('Zend\Db\Adapter\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('only accepts an SQL string or a Sqlsrv resource');

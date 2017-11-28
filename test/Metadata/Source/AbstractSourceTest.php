@@ -61,20 +61,20 @@ class AbstractSourceTest extends TestCase
 
         $refProp->setValue($this->abstractSourceMock, $data);
         $constraints = $this->abstractSourceMock->getConstraintKeys('bam_constraint', 'bar_table', 'foo_schema');
-        $this->assertCount(1, $constraints);
+        self::assertCount(1, $constraints);
 
         /**
          * @var \Zend\Db\Metadata\Object\ConstraintKeyObject $constraintKeyObj
          */
         $constraintKeyObj = $constraints[0];
-        $this->assertInstanceOf('Zend\Db\Metadata\Object\ConstraintKeyObject', $constraintKeyObj);
+        self::assertInstanceOf('Zend\Db\Metadata\Object\ConstraintKeyObject', $constraintKeyObj);
 
         // check value object is mapped correctly
-        $this->assertEquals('a', $constraintKeyObj->getColumnName());
-        $this->assertEquals(1, $constraintKeyObj->getOrdinalPosition());
-        $this->assertEquals('another_table', $constraintKeyObj->getReferencedTableName());
-        $this->assertEquals('another_column', $constraintKeyObj->getReferencedColumnName());
-        $this->assertEquals('UP', $constraintKeyObj->getForeignKeyUpdateRule());
-        $this->assertEquals('DOWN', $constraintKeyObj->getForeignKeyDeleteRule());
+        self::assertEquals('a', $constraintKeyObj->getColumnName());
+        self::assertEquals(1, $constraintKeyObj->getOrdinalPosition());
+        self::assertEquals('another_table', $constraintKeyObj->getReferencedTableName());
+        self::assertEquals('another_column', $constraintKeyObj->getReferencedColumnName());
+        self::assertEquals('UP', $constraintKeyObj->getForeignKeyUpdateRule());
+        self::assertEquals('DOWN', $constraintKeyObj->getForeignKeyDeleteRule());
     }
 }

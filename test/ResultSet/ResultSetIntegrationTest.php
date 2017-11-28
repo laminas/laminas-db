@@ -34,26 +34,26 @@ class ResultSetIntegrationTest extends TestCase
     public function testRowObjectPrototypeIsPopulatedByRowObjectByDefault()
     {
         $row = $this->resultSet->getArrayObjectPrototype();
-        $this->assertInstanceOf('ArrayObject', $row);
+        self::assertInstanceOf('ArrayObject', $row);
     }
 
     public function testRowObjectPrototypeIsMutable()
     {
         $row = new \ArrayObject();
         $this->resultSet->setArrayObjectPrototype($row);
-        $this->assertSame($row, $this->resultSet->getArrayObjectPrototype());
+        self::assertSame($row, $this->resultSet->getArrayObjectPrototype());
     }
 
     public function testRowObjectPrototypeMayBePassedToConstructor()
     {
         $row = new \ArrayObject();
         $resultSet = new ResultSet(ResultSet::TYPE_ARRAYOBJECT, $row);
-        $this->assertSame($row, $resultSet->getArrayObjectPrototype());
+        self::assertSame($row, $resultSet->getArrayObjectPrototype());
     }
 
     public function testReturnTypeIsObjectByDefault()
     {
-        $this->assertEquals(ResultSet::TYPE_ARRAYOBJECT, $this->resultSet->getReturnType());
+        self::assertEquals(ResultSet::TYPE_ARRAYOBJECT, $this->resultSet->getReturnType());
     }
 
     public function invalidReturnTypes()
@@ -79,14 +79,14 @@ class ResultSetIntegrationTest extends TestCase
 
     public function testDataSourceIsNullByDefault()
     {
-        $this->assertNull($this->resultSet->getDataSource());
+        self::assertNull($this->resultSet->getDataSource());
     }
 
     public function testCanProvideIteratorAsDataSource()
     {
         $it = new SplStack;
         $this->resultSet->initialize($it);
-        $this->assertSame($it, $this->resultSet->getDataSource());
+        self::assertSame($it, $this->resultSet->getDataSource());
     }
 
     public function testCanProvideIteratorAggregateAsDataSource()
@@ -97,7 +97,7 @@ class ResultSetIntegrationTest extends TestCase
             ->getMock();
         $iteratorAggregate->expects($this->any())->method('getIterator')->will($this->returnValue($iteratorAggregate));
         $this->resultSet->initialize($iteratorAggregate);
-        $this->assertSame($iteratorAggregate->getIterator(), $this->resultSet->getDataSource());
+        self::assertSame($iteratorAggregate->getIterator(), $this->resultSet->getDataSource());
     }
 
     /**
@@ -115,7 +115,7 @@ class ResultSetIntegrationTest extends TestCase
 
     public function testFieldCountIsZeroWithNoDataSourcePresent()
     {
-        $this->assertEquals(0, $this->resultSet->getFieldCount());
+        self::assertEquals(0, $this->resultSet->getFieldCount());
     }
 
     public function getArrayDataSource($count)
@@ -135,7 +135,7 @@ class ResultSetIntegrationTest extends TestCase
         $resultSet = new ResultSet(ResultSet::TYPE_ARRAY);
         $dataSource = $this->getArrayDataSource(10);
         $resultSet->initialize($dataSource);
-        $this->assertEquals(2, $resultSet->getFieldCount());
+        self::assertEquals(2, $resultSet->getFieldCount());
     }
 
     public function testWhenReturnTypeIsArrayThenIterationReturnsArrays()
@@ -144,7 +144,7 @@ class ResultSetIntegrationTest extends TestCase
         $dataSource = $this->getArrayDataSource(10);
         $resultSet->initialize($dataSource);
         foreach ($resultSet as $index => $row) {
-            $this->assertEquals($dataSource[$index], $row);
+            self::assertEquals($dataSource[$index], $row);
         }
     }
 
@@ -153,8 +153,8 @@ class ResultSetIntegrationTest extends TestCase
         $dataSource = $this->getArrayDataSource(10);
         $this->resultSet->initialize($dataSource);
         foreach ($this->resultSet as $index => $row) {
-            $this->assertInstanceOf('ArrayObject', $row);
-            $this->assertEquals($dataSource[$index], $row->getArrayCopy());
+            self::assertInstanceOf('ArrayObject', $row);
+            self::assertEquals($dataSource[$index], $row->getArrayCopy());
         }
     }
 
@@ -163,7 +163,7 @@ class ResultSetIntegrationTest extends TestCase
         $count      = rand(3, 75);
         $dataSource = $this->getArrayDataSource($count);
         $this->resultSet->initialize($dataSource);
-        $this->assertEquals($count, $this->resultSet->count());
+        self::assertEquals($count, $this->resultSet->count());
     }
 
     public function testToArrayRaisesExceptionForRowsThatAreNotArraysOrArrayCastable()
@@ -184,7 +184,7 @@ class ResultSetIntegrationTest extends TestCase
         $dataSource = $this->getArrayDataSource($count);
         $this->resultSet->initialize($dataSource);
         $test = $this->resultSet->toArray();
-        $this->assertEquals($dataSource->getArrayCopy(), $test, var_export($test, 1));
+        self::assertEquals($dataSource->getArrayCopy(), $test, var_export($test, 1));
     }
 
     /**
@@ -231,6 +231,6 @@ class ResultSetIntegrationTest extends TestCase
         $this->resultSet->initialize($mockResult);
         $this->resultSet->buffer();
 
-        $this->assertNull($this->resultSet->current());
+        self::assertNull($this->resultSet->current());
     }
 }

@@ -20,7 +20,7 @@ class ForeignKeyTest extends TestCase
     public function testSetName()
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam');
-        $this->assertSame($fk, $fk->setName('xxxx'));
+        self::assertSame($fk, $fk->setName('xxxx'));
         return $fk;
     }
 
@@ -30,7 +30,7 @@ class ForeignKeyTest extends TestCase
      */
     public function testGetName(ForeignKey $fk)
     {
-        $this->assertEquals('xxxx', $fk->getName());
+        self::assertEquals('xxxx', $fk->getName());
     }
 
     /**
@@ -39,7 +39,7 @@ class ForeignKeyTest extends TestCase
     public function testSetReferenceTable()
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam');
-        $this->assertSame($fk, $fk->setReferenceTable('xxxx'));
+        self::assertSame($fk, $fk->setReferenceTable('xxxx'));
         return $fk;
     }
 
@@ -49,7 +49,7 @@ class ForeignKeyTest extends TestCase
      */
     public function testGetReferenceTable(ForeignKey $fk)
     {
-        $this->assertEquals('xxxx', $fk->getReferenceTable());
+        self::assertEquals('xxxx', $fk->getReferenceTable());
     }
 
     /**
@@ -58,7 +58,7 @@ class ForeignKeyTest extends TestCase
     public function testSetReferenceColumn()
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam');
-        $this->assertSame($fk, $fk->setReferenceColumn('xxxx'));
+        self::assertSame($fk, $fk->setReferenceColumn('xxxx'));
         return $fk;
     }
 
@@ -68,7 +68,7 @@ class ForeignKeyTest extends TestCase
      */
     public function testGetReferenceColumn(ForeignKey $fk)
     {
-        $this->assertEquals(['xxxx'], $fk->getReferenceColumn());
+        self::assertEquals(['xxxx'], $fk->getReferenceColumn());
     }
 
     /**
@@ -77,7 +77,7 @@ class ForeignKeyTest extends TestCase
     public function testSetOnDeleteRule()
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam');
-        $this->assertSame($fk, $fk->setOnDeleteRule('CASCADE'));
+        self::assertSame($fk, $fk->setOnDeleteRule('CASCADE'));
         return $fk;
     }
 
@@ -87,7 +87,7 @@ class ForeignKeyTest extends TestCase
      */
     public function testGetOnDeleteRule(ForeignKey $fk)
     {
-        $this->assertEquals('CASCADE', $fk->getOnDeleteRule());
+        self::assertEquals('CASCADE', $fk->getOnDeleteRule());
     }
 
     /**
@@ -96,7 +96,7 @@ class ForeignKeyTest extends TestCase
     public function testSetOnUpdateRule()
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam');
-        $this->assertSame($fk, $fk->setOnUpdateRule('CASCADE'));
+        self::assertSame($fk, $fk->setOnUpdateRule('CASCADE'));
         return $fk;
     }
 
@@ -106,7 +106,7 @@ class ForeignKeyTest extends TestCase
      */
     public function testGetOnUpdateRule(ForeignKey $fk)
     {
-        $this->assertEquals('CASCADE', $fk->getOnUpdateRule());
+        self::assertEquals('CASCADE', $fk->getOnUpdateRule());
     }
 
     /**
@@ -115,7 +115,7 @@ class ForeignKeyTest extends TestCase
     public function testGetExpressionData()
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam', 'CASCADE', 'SET NULL');
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 'CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s) ON DELETE %s ON UPDATE %s',
                 ['foo', 'bar', 'baz', 'bam', 'CASCADE', 'SET NULL'],

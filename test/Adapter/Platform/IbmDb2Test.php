@@ -34,7 +34,7 @@ class IbmDb2Test extends TestCase
      */
     public function testGetName()
     {
-        $this->assertEquals('IBM DB2', $this->platform->getName());
+        self::assertEquals('IBM DB2', $this->platform->getName());
     }
 
     /**
@@ -42,7 +42,7 @@ class IbmDb2Test extends TestCase
      */
     public function testGetQuoteIdentifierSymbol()
     {
-        $this->assertEquals('"', $this->platform->getQuoteIdentifierSymbol());
+        self::assertEquals('"', $this->platform->getQuoteIdentifierSymbol());
     }
 
     /**
@@ -50,10 +50,10 @@ class IbmDb2Test extends TestCase
      */
     public function testQuoteIdentifier()
     {
-        $this->assertEquals('"identifier"', $this->platform->quoteIdentifier('identifier'));
+        self::assertEquals('"identifier"', $this->platform->quoteIdentifier('identifier'));
 
         $platform = new IbmDb2(['quote_identifiers' => false]);
-        $this->assertEquals('identifier', $platform->quoteIdentifier('identifier'));
+        self::assertEquals('identifier', $platform->quoteIdentifier('identifier'));
     }
 
     /**
@@ -61,17 +61,17 @@ class IbmDb2Test extends TestCase
      */
     public function testQuoteIdentifierChain()
     {
-        $this->assertEquals('"identifier"', $this->platform->quoteIdentifierChain('identifier'));
-        $this->assertEquals('"identifier"', $this->platform->quoteIdentifierChain(['identifier']));
-        $this->assertEquals('"schema"."identifier"', $this->platform->quoteIdentifierChain(['schema', 'identifier']));
+        self::assertEquals('"identifier"', $this->platform->quoteIdentifierChain('identifier'));
+        self::assertEquals('"identifier"', $this->platform->quoteIdentifierChain(['identifier']));
+        self::assertEquals('"schema"."identifier"', $this->platform->quoteIdentifierChain(['schema', 'identifier']));
 
         $platform = new IbmDb2(['quote_identifiers' => false]);
-        $this->assertEquals('identifier', $platform->quoteIdentifierChain('identifier'));
-        $this->assertEquals('identifier', $platform->quoteIdentifierChain(['identifier']));
-        $this->assertEquals('schema.identifier', $platform->quoteIdentifierChain(['schema', 'identifier']));
+        self::assertEquals('identifier', $platform->quoteIdentifierChain('identifier'));
+        self::assertEquals('identifier', $platform->quoteIdentifierChain(['identifier']));
+        self::assertEquals('schema.identifier', $platform->quoteIdentifierChain(['schema', 'identifier']));
 
         $platform = new IbmDb2(['identifier_separator' => '\\']);
-        $this->assertEquals('"schema"\"identifier"', $platform->quoteIdentifierChain(['schema', 'identifier']));
+        self::assertEquals('"schema"\"identifier"', $platform->quoteIdentifierChain(['schema', 'identifier']));
     }
 
     /**
@@ -79,7 +79,7 @@ class IbmDb2Test extends TestCase
      */
     public function testGetQuoteValueSymbol()
     {
-        $this->assertEquals("'", $this->platform->getQuoteValueSymbol());
+        self::assertEquals("'", $this->platform->getQuoteValueSymbol());
     }
 
     /**
@@ -102,13 +102,13 @@ class IbmDb2Test extends TestCase
      */
     public function testQuoteValue()
     {
-        $this->assertEquals("'value'", @$this->platform->quoteValue('value'));
-        $this->assertEquals("'Foo O''Bar'", @$this->platform->quoteValue("Foo O'Bar"));
-        $this->assertEquals(
+        self::assertEquals("'value'", @$this->platform->quoteValue('value'));
+        self::assertEquals("'Foo O''Bar'", @$this->platform->quoteValue("Foo O'Bar"));
+        self::assertEquals(
             "'''; DELETE FROM some_table; -- '",
             @$this->platform->quoteValue("'; DELETE FROM some_table; -- ")
         );
-        $this->assertEquals(
+        self::assertEquals(
             "'\\''; \nDELETE FROM some_table; -- '",
             @$this->platform->quoteValue("\\'; \nDELETE FROM some_table; -- ")
         );
@@ -119,13 +119,13 @@ class IbmDb2Test extends TestCase
      */
     public function testQuoteTrustedValue()
     {
-        $this->assertEquals("'value'", $this->platform->quoteTrustedValue('value'));
-        $this->assertEquals("'Foo O''Bar'", $this->platform->quoteTrustedValue("Foo O'Bar"));
-        $this->assertEquals(
+        self::assertEquals("'value'", $this->platform->quoteTrustedValue('value'));
+        self::assertEquals("'Foo O''Bar'", $this->platform->quoteTrustedValue("Foo O'Bar"));
+        self::assertEquals(
             "'''; DELETE FROM some_table; -- '",
             $this->platform->quoteTrustedValue("'; DELETE FROM some_table; -- ")
         );
-        $this->assertEquals(
+        self::assertEquals(
             "'\\''; \nDELETE FROM some_table; -- '",
             $this->platform->quoteTrustedValue("\\'; \nDELETE FROM some_table; -- ")
         );
@@ -143,7 +143,7 @@ class IbmDb2Test extends TestCase
                 . 'introduce security vulnerabilities in a production environment'
             );
         }
-        $this->assertEquals("'Foo O''Bar'", $this->platform->quoteValueList("Foo O'Bar"));
+        self::assertEquals("'Foo O''Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
 
     /**
@@ -151,10 +151,10 @@ class IbmDb2Test extends TestCase
      */
     public function testGetIdentifierSeparator()
     {
-        $this->assertEquals('.', $this->platform->getIdentifierSeparator());
+        self::assertEquals('.', $this->platform->getIdentifierSeparator());
 
         $platform = new IbmDb2(['identifier_separator' => '\\']);
-        $this->assertEquals('\\', $platform->getIdentifierSeparator());
+        self::assertEquals('\\', $platform->getIdentifierSeparator());
     }
 
     /**
@@ -162,21 +162,21 @@ class IbmDb2Test extends TestCase
      */
     public function testQuoteIdentifierInFragment()
     {
-        $this->assertEquals('"foo"."bar"', $this->platform->quoteIdentifierInFragment('foo.bar'));
-        $this->assertEquals('"foo" as "bar"', $this->platform->quoteIdentifierInFragment('foo as bar'));
+        self::assertEquals('"foo"."bar"', $this->platform->quoteIdentifierInFragment('foo.bar'));
+        self::assertEquals('"foo" as "bar"', $this->platform->quoteIdentifierInFragment('foo as bar'));
 
         $platform = new IbmDb2(['quote_identifiers' => false]);
-        $this->assertEquals('foo.bar', $platform->quoteIdentifierInFragment('foo.bar'));
-        $this->assertEquals('foo as bar', $platform->quoteIdentifierInFragment('foo as bar'));
+        self::assertEquals('foo.bar', $platform->quoteIdentifierInFragment('foo.bar'));
+        self::assertEquals('foo as bar', $platform->quoteIdentifierInFragment('foo as bar'));
 
         // single char words
-        $this->assertEquals(
+        self::assertEquals(
             '("foo"."bar" = "boo"."baz")',
             $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', ['(', ')', '='])
         );
 
         // case insensitive safe words
-        $this->assertEquals(
+        self::assertEquals(
             '("foo"."bar" = "boo"."baz") AND ("foo"."baz" = "boo"."baz")',
             $this->platform->quoteIdentifierInFragment(
                 '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
@@ -185,7 +185,7 @@ class IbmDb2Test extends TestCase
         );
 
         // case insensitive safe words in field
-        $this->assertEquals(
+        self::assertEquals(
             '("foo"."bar" = "boo".baz) AND ("foo".baz = "boo".baz)',
             $this->platform->quoteIdentifierInFragment(
                 '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
