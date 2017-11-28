@@ -94,7 +94,7 @@ class AlterTableTest extends \PHPUnit_Framework_TestCase
         $at->dropColumn('foo');
         $at->addConstraint(new Constraint\ForeignKey('my_fk', 'other_id', 'other_table', 'id', 'CASCADE', 'CASCADE'));
         $at->dropConstraint('my_index');
-        $expected =<<<EOS
+        $expected = <<<EOS
 ALTER TABLE "foo"
  ADD COLUMN "another" VARCHAR(255) NOT NULL,
  CHANGE COLUMN "name" "new_name" VARCHAR(50) NOT NULL,

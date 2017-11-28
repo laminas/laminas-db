@@ -11,6 +11,7 @@ namespace ZendTest\Db\Adapter;
 
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Adapter\Profiler;
+use ZendTest\Db\TestAsset\TemporaryResultSet;
 
 class AdapterTest extends \PHPUnit_Framework_TestCase
 {
@@ -44,10 +45,12 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $this->mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
         $this->mockConnection = $this->getMock('Zend\Db\Adapter\Driver\ConnectionInterface');
         $this->mockDriver->expects($this->any())->method('checkEnvironment')->will($this->returnValue(true));
-        $this->mockDriver->expects($this->any())->method('getConnection')->will($this->returnValue($this->mockConnection));
+        $this->mockDriver->expects($this->any())->method('getConnection')
+            ->will($this->returnValue($this->mockConnection));
         $this->mockPlatform = $this->getMock('Zend\Db\Adapter\Platform\PlatformInterface');
         $this->mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $this->mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($this->mockStatement));
+        $this->mockDriver->expects($this->any())->method('createStatement')
+            ->will($this->returnValue($this->mockStatement));
 
         $this->adapter = new Adapter($this->mockDriver, $this->mockPlatform);
     }
@@ -155,7 +158,11 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         unset($adapter, $driver);
 
         // ensure platform can created via string, and also that it passed in options to platform object
-        $driver = ['driver' => 'pdo_sqlite', 'platform' => 'Oracle', 'platform_options' => ['quote_identifiers' => false]];
+        $driver = [
+            'driver' => 'pdo_sqlite',
+            'platform' => 'Oracle',
+            'platform_options' => ['quote_identifiers' => false]
+        ];
         $adapter = new Adapter($driver);
         $this->assertInstanceOf('Zend\Db\Adapter\Platform\Oracle', $adapter->platform);
         $this->assertEquals('foo', $adapter->getPlatform()->quoteIdentifier('foo'));
@@ -216,11 +223,12 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testQueryWhenPreparedWithParameterArrayProducesResult()
     {
-        $parray = ['bar'=>'foo'];
+        $parray = ['bar' => 'foo'];
         $sql = 'SELECT foo, :bar';
         $statement = $this->getMock('\Zend\Db\Adapter\Driver\StatementInterface');
         $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
-        $this->mockDriver->expects($this->any())->method('createStatement')->with($sql)->will($this->returnValue($statement));
+        $this->mockDriver->expects($this->any())->method('createStatement')
+            ->with($sql)->will($this->returnValue($statement));
         $this->mockStatement->expects($this->any())->method('execute')->will($this->returnValue($result));
 
         $r = $this->adapter->query($sql, $parray);
@@ -236,7 +244,8 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $sql = 'SELECT foo';
         $parameterContainer = $this->getMock('Zend\Db\Adapter\ParameterContainer');
         $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
-        $this->mockDriver->expects($this->any())->method('createStatement')->with($sql)->will($this->returnValue($this->mockStatement));
+        $this->mockDriver->expects($this->any())->method('createStatement')
+            ->with($sql)->will($this->returnValue($this->mockStatement));
         $this->mockStatement->expects($this->any())->method('execute')->will($this->returnValue($result));
         $result->expects($this->any())->method('isQueryResult')->will($this->returnValue(true));
 
@@ -274,7 +283,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $r);
 
         $r = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE, new TemporaryResultSet());
-        $this->assertInstanceOf('ZendTest\Db\Adapter\TemporaryResultSet', $r);
+        $this->assertInstanceOf('ZendTest\Db\TestAsset\TemporaryResultSet', $r);
     }
 
     /**
@@ -290,8 +299,10 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      * @testdox unit test: Test __get() works
      * @covers Zend\Db\Adapter\Adapter::__get
      */
+    // @codingStandardsIgnoreStart
     public function test__get()
     {
+        // @codingStandardsIgnoreEnd
         $this->assertSame($this->mockDriver, $this->adapter->driver);
         $this->assertSame($this->mockDriver, $this->adapter->DrivER);
         $this->assertSame($this->mockPlatform, $this->adapter->PlatForm);
@@ -300,8 +311,4 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('InvalidArgumentException', 'Invalid magic');
         $this->adapter->foo;
     }
-}
-
-class TemporaryResultSet extends \Zend\Db\ResultSet\ResultSet
-{
 }

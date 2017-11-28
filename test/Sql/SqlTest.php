@@ -36,7 +36,11 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
 
         // setup mock adapter
-        $this->mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver, new TestAsset\TrustingSql92Platform()]);
+        $this->mockAdapter = $this->getMock(
+            'Zend\Db\Adapter\Adapter',
+            null,
+            [$mockDriver, new TestAsset\TrustingSql92Platform()]
+        );
 
         $this->sql = new Sql($this->mockAdapter, 'foo');
     }
@@ -44,8 +48,10 @@ class SqlTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Zend\Db\Sql\Sql::__construct
      */
+    // @codingStandardsIgnoreStart
     public function test__construct()
     {
+        // @codingStandardsIgnoreEnd
         $sql = new Sql($this->mockAdapter);
 
         $this->assertFalse($sql->hasTable());
@@ -53,7 +59,10 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $sql->setTable('foo');
         $this->assertSame('foo', $sql->getTable());
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', 'Table must be a string, array or instance of TableIdentifier.');
+        $this->setExpectedException(
+            'Zend\Db\Sql\Exception\InvalidArgumentException',
+            'Table must be a string, array or instance of TableIdentifier.'
+        );
         $sql->setTable(null);
     }
 
@@ -66,8 +75,10 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
         $this->assertSame('foo', $select->getRawState('table'));
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException',
-            'This Sql object is intended to work with only the table "foo" provided at construction time.');
+        $this->setExpectedException(
+            'Zend\Db\Sql\Exception\InvalidArgumentException',
+            'This Sql object is intended to work with only the table "foo" provided at construction time.'
+        );
         $this->sql->select('bar');
     }
 
@@ -80,8 +91,10 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Db\Sql\Insert', $insert);
         $this->assertSame('foo', $insert->getRawState('table'));
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException',
-            'This Sql object is intended to work with only the table "foo" provided at construction time.');
+        $this->setExpectedException(
+            'Zend\Db\Sql\Exception\InvalidArgumentException',
+            'This Sql object is intended to work with only the table "foo" provided at construction time.'
+        );
         $this->sql->insert('bar');
     }
 
@@ -94,8 +107,10 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Db\Sql\Update', $update);
         $this->assertSame('foo', $update->getRawState('table'));
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException',
-            'This Sql object is intended to work with only the table "foo" provided at construction time.');
+        $this->setExpectedException(
+            'Zend\Db\Sql\Exception\InvalidArgumentException',
+            'This Sql object is intended to work with only the table "foo" provided at construction time.'
+        );
         $this->sql->update('bar');
     }
 
@@ -109,8 +124,10 @@ class SqlTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Db\Sql\Delete', $delete);
         $this->assertSame('foo', $delete->getRawState('table'));
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException',
-            'This Sql object is intended to work with only the table "foo" provided at construction time.');
+        $this->setExpectedException(
+            'Zend\Db\Sql\Exception\InvalidArgumentException',
+            'This Sql object is intended to work with only the table "foo" provided at construction time.'
+        );
         $this->sql->delete('bar');
     }
 
@@ -119,7 +136,7 @@ class SqlTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareStatementForSqlObject()
     {
-        $insert = $this->sql->insert()->columns(['foo'])->values(['foo'=>'bar']);
+        $insert = $this->sql->insert()->columns(['foo'])->values(['foo' => 'bar']);
         $stmt = $this->sql->prepareStatementForSqlObject($insert);
         $this->assertInstanceOf('Zend\Db\Adapter\Driver\StatementInterface', $stmt);
     }
@@ -168,8 +185,10 @@ class SqlTest extends \PHPUnit_Framework_TestCase
             'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b ) WHERE b_rownum > (10)',
             $this->sql->buildSqlString($select, $adapterOracle)
         );
+        // @codingStandardsIgnoreStart
         $adapterOracle->getDriver()->createStatement()->expects($this->any())->method('setSql')
                 ->with($this->equalTo('SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b ) WHERE b_rownum > (:offset)'));
+        // @codingStandardsIgnoreEnd
         $this->sql->prepareStatementForSqlObject($select, null, $adapterOracle);
 
         // SqlServer
@@ -178,7 +197,9 @@ class SqlTest extends \PHPUnit_Framework_TestCase
             $this->sql->buildSqlString($select, $adapterSqlServer)
         );
         $adapterSqlServer->getDriver()->createStatement()->expects($this->any())->method('setSql')
-                ->with($this->stringContains('WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?'));
+                ->with($this->stringContains(
+                    'WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?'
+                ));
         $this->sql->prepareStatementForSqlObject($select, null, $adapterSqlServer);
     }
 
@@ -192,11 +213,20 @@ class SqlTest extends \PHPUnit_Framework_TestCase
     protected function getAdapterForPlatform($platform)
     {
         switch ($platform) {
-            case 'sql92'     : $platform  = new TestAsset\TrustingSql92Platform();     break;
-            case 'MySql'     : $platform  = new TestAsset\TrustingMysqlPlatform();     break;
-            case 'Oracle'    : $platform  = new TestAsset\TrustingOraclePlatform();    break;
-            case 'SqlServer' : $platform  = new TestAsset\TrustingSqlServerPlatform(); break;
-            default : $platform = null;
+            case 'sql92':
+                $platform  = new TestAsset\TrustingSql92Platform();
+                break;
+            case 'MySql':
+                $platform  = new TestAsset\TrustingMysqlPlatform();
+                break;
+            case 'Oracle':
+                $platform  = new TestAsset\TrustingOraclePlatform();
+                break;
+            case 'SqlServer':
+                $platform  = new TestAsset\TrustingSqlServerPlatform();
+                break;
+            default:
+                $platform = null;
         }
 
         $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');

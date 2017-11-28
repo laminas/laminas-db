@@ -15,6 +15,7 @@ use Zend\Db\Sql\Where;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\TableIdentifier;
 use ZendTest\Db\TestAsset\TrustingSql92Platform;
+use ZendTest\Db\TestAsset\UpdateIgnore;
 
 class UpdateTest extends \PHPUnit_Framework_TestCase
 {
@@ -150,7 +151,10 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         $update->table('table');
         $update->set(['fld1' => 'val1']);
         $update->where(['id1' => 'val1', 'id2' => 'val2']);
-        $this->assertEquals('UPDATE "table" SET "fld1" = \'val1\' WHERE "id1" = \'val1\' AND "id2" = \'val2\'', $update->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'UPDATE "table" SET "fld1" = \'val1\' WHERE "id1" = \'val1\' AND "id2" = \'val2\'',
+            $update->getSqlString(new TrustingSql92Platform())
+        );
     }
 
     /**
@@ -223,7 +227,10 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
             ->set(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null])
             ->where('x = y');
 
-        $this->assertEquals('UPDATE "foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y', $this->update->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'UPDATE "foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y',
+            $this->update->getSqlString(new TrustingSql92Platform())
+        );
 
         // with TableIdentifier
         $this->update = new Update;
@@ -231,7 +238,10 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
             ->set(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null])
             ->where('x = y');
 
-        $this->assertEquals('UPDATE "sch"."foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y', $this->update->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'UPDATE "sch"."foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y',
+            $this->update->getSqlString(new TrustingSql92Platform())
+        );
     }
 
     /**
@@ -244,7 +254,10 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         $this->update->table(new TableIdentifier('foo', 'sch'))
             ->set(['bar' => false, 'boo' => 'test', 'bam' => true])
             ->where('x = y');
-        $this->assertEquals('UPDATE "sch"."foo" SET "bar" = \'\', "boo" = \'test\', "bam" = \'1\' WHERE x = y', $this->update->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'UPDATE "sch"."foo" SET "bar" = \'\', "boo" = \'test\', "bam" = \'1\' WHERE x = y',
+            $this->update->getSqlString(new TrustingSql92Platform())
+        );
     }
 
     /**
@@ -279,9 +292,12 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         $update2->table('foo')
             ->set(['bar' => 'baz'])
             ->where([
-                'id = ?'=>1
+                'id = ?' => 1
             ]);
-        $this->assertEquals('UPDATE "foo" SET "bar" = \'baz\' WHERE id = \'1\'', $update2->getSqlString(new TrustingSql92Platform));
+        $this->assertEquals(
+            'UPDATE "foo" SET "bar" = \'baz\' WHERE id = \'1\'',
+            $update2->getSqlString(new TrustingSql92Platform)
+        );
     }
 
     /**
@@ -322,7 +338,10 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
             ->set(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null])
             ->where('x = y');
 
-        $this->assertEquals('UPDATE IGNORE "foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y', $this->update->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'UPDATE IGNORE "foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y',
+            $this->update->getSqlString(new TrustingSql92Platform())
+        );
 
         // with TableIdentifier
         $this->update = new UpdateIgnore();
@@ -330,7 +349,10 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
             ->set(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null])
             ->where('x = y');
 
-        $this->assertEquals('UPDATE IGNORE "sch"."foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y', $this->update->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'UPDATE IGNORE "sch"."foo" SET "bar" = \'baz\', "boo" = NOW(), "bam" = NULL WHERE x = y',
+            $this->update->getSqlString(new TrustingSql92Platform())
+        );
     }
 
     /**
@@ -342,7 +364,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         $this->update->set(['x' => 'y'])
             ->join(
                 'User', // table name
-                'User.UserId = Document.UserId' // expression to join on (will be quoted by platform object before insertion),
+                'User.UserId = Document.UserId' // expression to join on
                 // default JOIN INNER
             )
             ->join(
@@ -351,8 +373,11 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
                 Join::JOIN_LEFT // (optional), one of inner, outer, left, right
             );
 
-        $this->assertEquals('UPDATE "Document" INNER JOIN "User" ON "User"."UserId" = "Document"."UserId" LEFT JOIN "Category" ON "Category"."CategoryId" = "Document"."CategoryId" SET "x" = \'y\'',
-            $this->update->getSqlString(new TrustingSql92Platform()));
+        $this->assertEquals(
+            'UPDATE "Document" INNER JOIN "User" ON "User"."UserId" = "Document"."UserId" '
+            . 'LEFT JOIN "Category" ON "Category"."CategoryId" = "Document"."CategoryId" SET "x" = \'y\'',
+            $this->update->getSqlString(new TrustingSql92Platform())
+        );
     }
 
     /**
@@ -363,21 +388,5 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     {
         $return = $this->update->join('baz', 'foo.fooId = baz.fooId', Join::JOIN_LEFT);
         $this->assertSame($this->update, $return);
-    }
-}
-
-class UpdateIgnore extends Update
-{
-    const SPECIFICATION_UPDATE = 'updateIgnore';
-
-    protected $specifications = [
-        self::SPECIFICATION_UPDATE => 'UPDATE IGNORE %1$s',
-        self::SPECIFICATION_SET => 'SET %1$s',
-        self::SPECIFICATION_WHERE  => 'WHERE %1$s'
-    ];
-
-    protected function processupdateIgnore(\Zend\Db\Adapter\Platform\PlatformInterface $platform, \Zend\Db\Adapter\Driver\DriverInterface $driver = null, \Zend\Db\Adapter\ParameterContainer $parameterContainer = null)
-    {
-        return parent::processUpdate($platform, $driver, $parameterContainer);
     }
 }

@@ -22,7 +22,7 @@ class SqliteIntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testQuoteValueWithPdoSqlite()
     {
-        if (!$this->adapters['pdo_sqlite'] instanceof \PDO) {
+        if (! $this->adapters['pdo_sqlite'] instanceof \PDO) {
             $this->markTestSkipped('SQLite (PDO_SQLITE) not configured in unit test configuration file');
         }
         $sqlite = new Sqlite($this->adapters['pdo_sqlite']);

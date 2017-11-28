@@ -47,9 +47,9 @@ class NotBetweenTest extends TestCase
         ]];
         $this->assertEquals($expected, $this->notBetween->getExpressionData());
 
-        $this->notBetween->setIdentifier([10=>NotBetween::TYPE_VALUE])
-                      ->setMinValue(['foo.bar'=>NotBetween::TYPE_IDENTIFIER])
-                      ->setMaxValue(['foo.baz'=>NotBetween::TYPE_IDENTIFIER]);
+        $this->notBetween->setIdentifier([10 => NotBetween::TYPE_VALUE])
+                      ->setMinValue(['foo.bar' => NotBetween::TYPE_IDENTIFIER])
+                      ->setMaxValue(['foo.baz' => NotBetween::TYPE_IDENTIFIER]);
         $expected = [[
             $this->notBetween->getSpecification(),
             [10, 'foo.bar', 'foo.baz'],

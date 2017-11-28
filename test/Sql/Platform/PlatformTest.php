@@ -38,7 +38,10 @@ class PlatformTest extends \PHPUnit_Framework_TestCase
         $reflectionMethod->setAccessible(true);
 
         $this->assertEquals('mysql', $reflectionMethod->invoke($platform, new TestAsset\TrustingMysqlPlatform()));
-        $this->assertEquals('sqlserver', $reflectionMethod->invoke($platform, new TestAsset\TrustingSqlServerPlatform()));
+        $this->assertEquals('sqlserver', $reflectionMethod->invoke(
+            $platform,
+            new TestAsset\TrustingSqlServerPlatform()
+        ));
         $this->assertEquals('oracle', $reflectionMethod->invoke($platform, new TestAsset\TrustingOraclePlatform()));
         $this->assertEquals('sql92', $reflectionMethod->invoke($platform, new TestAsset\TrustingSql92Platform()));
     }
@@ -93,16 +96,16 @@ class PlatformTest extends \PHPUnit_Framework_TestCase
         $platform = null;
 
         switch ($platformName) {
-            case 'sql92' :
+            case 'sql92':
                 $platform = new TestAsset\TrustingSql92Platform();
                 break;
-            case 'MySql' :
+            case 'MySql':
                 $platform = new TestAsset\TrustingMysqlPlatform();
                 break;
-            case 'Oracle' :
+            case 'Oracle':
                 $platform = new TestAsset\TrustingOraclePlatform();
                 break;
-            case 'SqlServer' :
+            case 'SqlServer':
                 $platform = new TestAsset\TrustingSqlServerPlatform();
                 break;
         }

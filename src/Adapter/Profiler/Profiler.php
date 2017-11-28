@@ -44,7 +44,9 @@ class Profiler implements ProfilerInterface
         } elseif (is_string($target)) {
             $profileInformation['sql'] = $target;
         } else {
-            throw new Exception\InvalidArgumentException(__FUNCTION__ . ' takes either a StatementContainer or a string');
+            throw new Exception\InvalidArgumentException(
+                __FUNCTION__ . ' takes either a StatementContainer or a string'
+            );
         }
 
         $this->profiles[$this->currentIndex] = $profileInformation;
@@ -57,8 +59,10 @@ class Profiler implements ProfilerInterface
      */
     public function profilerFinish()
     {
-        if (!isset($this->profiles[$this->currentIndex])) {
-            throw new Exception\RuntimeException('A profile must be started before ' . __FUNCTION__ . ' can be called.');
+        if (! isset($this->profiles[$this->currentIndex])) {
+            throw new Exception\RuntimeException(
+                'A profile must be started before ' . __FUNCTION__ . ' can be called.'
+            );
         }
         $current = &$this->profiles[$this->currentIndex];
         $current['end'] = microtime(true);

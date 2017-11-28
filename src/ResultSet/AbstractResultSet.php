@@ -85,7 +85,9 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
         } elseif ($dataSource instanceof Iterator) {
             $this->dataSource = $dataSource;
         } else {
-            throw new Exception\InvalidArgumentException('DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate');
+            throw new Exception\InvalidArgumentException(
+                'DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate'
+            );
         }
 
         return $this;
@@ -143,7 +145,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
         }
 
         $dataSource->rewind();
-        if (!$dataSource->valid()) {
+        if (! $dataSource->valid()) {
             $this->fieldCount = 0;
             return 0;
         }
@@ -169,7 +171,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
         if ($this->buffer === null) {
             $this->buffer = -2; // implicitly disable buffering from here on
         }
-        if (!is_array($this->buffer) || $this->position == $this->dataSource->key()) {
+        if (! is_array($this->buffer) || $this->position == $this->dataSource->key()) {
             $this->dataSource->next();
         }
         $this->position++;
@@ -229,7 +231,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      */
     public function rewind()
     {
-        if (!is_array($this->buffer)) {
+        if (! is_array($this->buffer)) {
             if ($this->dataSource instanceof Iterator) {
                 $this->dataSource->rewind();
             } else {

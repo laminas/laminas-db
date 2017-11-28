@@ -64,9 +64,9 @@ class InTest extends TestCase
 
         $in->setIdentifier('foo.bar')
             ->setValueSet([
-                [1=>In::TYPE_LITERAL],
-                [2=>In::TYPE_VALUE],
-                [3=>In::TYPE_LITERAL],
+                [1 => In::TYPE_LITERAL],
+                [2 => In::TYPE_VALUE],
+                [3 => In::TYPE_LITERAL],
             ]);
         $expected = [[
             '%s IN (%s, %s, %s)',

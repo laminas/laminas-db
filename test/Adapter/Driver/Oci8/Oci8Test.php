@@ -32,7 +32,15 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
      */
     public function testRegisterConnection()
     {
-        $mockConnection = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Oci8\Connection', [[]], '', true, true, true, ['setDriver']);
+        $mockConnection = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Oci8\Connection',
+            [[]],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->oci8));
         $this->assertSame($this->oci8, $this->oci8->registerConnection($mockConnection));
     }
@@ -43,7 +51,15 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
     public function testRegisterStatementPrototype()
     {
         $this->oci8 = new Oci8([]);
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Oci8\Statement', [], '', true, true, true, ['setDriver']);
+        $mockStatement = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Oci8\Statement',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->oci8));
         $this->assertSame($this->oci8, $this->oci8->registerStatementPrototype($mockStatement));
     }
@@ -54,7 +70,15 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
     public function testRegisterResultPrototype()
     {
         $this->oci8 = new Oci8([]);
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Oci8\Result', [], '', true, true, true, ['setDriver']);
+        $mockStatement = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\Oci8\Result',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['setDriver']
+        );
         $this->assertSame($this->oci8, $this->oci8->registerResultPrototype($mockStatement));
     }
 
@@ -111,7 +135,7 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 
@@ -123,7 +147,7 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 
@@ -135,7 +159,7 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
-          'This test has not been implemented yet.'
+            'This test has not been implemented yet.'
         );
     }
 }

@@ -37,7 +37,10 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     public function testSetExpressionException()
     {
         $expression = new Expression();
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', 'Supplied expression must be a string.');
+        $this->setExpectedException(
+            'Zend\Db\Sql\Exception\InvalidArgumentException',
+            'Supplied expression must be a string.'
+        );
         $expression->setExpression(null);
     }
 
@@ -68,7 +71,10 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     {
         $expression = new Expression('', 'foo');
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', 'Expression parameters must be a scalar or array.');
+        $this->setExpectedException(
+            'Zend\Db\Sql\Exception\InvalidArgumentException',
+            'Expression parameters must be a scalar or array.'
+        );
         $expression->setParameters(null);
     }
 
@@ -87,7 +93,11 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     public function testSetTypes()
     {
         $expression = new Expression();
-        $return = $expression->setTypes([Expression::TYPE_IDENTIFIER, Expression::TYPE_VALUE, Expression::TYPE_LITERAL]);
+        $return = $expression->setTypes([
+            Expression::TYPE_IDENTIFIER,
+            Expression::TYPE_VALUE,
+            Expression::TYPE_LITERAL
+        ]);
         $this->assertSame($expression, $return);
         return $expression;
     }

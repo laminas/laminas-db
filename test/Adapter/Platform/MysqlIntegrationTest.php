@@ -23,7 +23,7 @@ class MysqlIntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testQuoteValueWithMysqli()
     {
-        if (!$this->adapters['mysqli'] instanceof \Mysqli) {
+        if (! $this->adapters['mysqli'] instanceof \Mysqli) {
             $this->markTestSkipped('MySQL (Mysqli) not configured in unit test configuration file');
         }
         $mysql = new Mysql($this->adapters['mysqli']);
@@ -37,7 +37,7 @@ class MysqlIntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testQuoteValueWithPdoMysql()
     {
-        if (!$this->adapters['pdo_mysql'] instanceof \PDO) {
+        if (! $this->adapters['pdo_mysql'] instanceof \PDO) {
             $this->markTestSkipped('MySQL (PDO_Mysql) not configured in unit test configuration file');
         }
         $mysql = new Mysql($this->adapters['pdo_mysql']);

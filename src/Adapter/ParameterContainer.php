@@ -192,7 +192,7 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
         if (is_int($name)) {
             $name = $this->positions[$name];
         }
-        if (!array_key_exists($name, $this->data)) {
+        if (! array_key_exists($name, $this->data)) {
             throw new Exception\InvalidArgumentException('Data does not exist for this name/position');
         }
         return $this->maxLength[$name];
@@ -223,7 +223,7 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
         if (is_int($name)) {
             $name = $this->positions[$name];
         }
-        if (!array_key_exists($name, $this->maxLength)) {
+        if (! array_key_exists($name, $this->maxLength)) {
             throw new Exception\InvalidArgumentException('Data does not exist for this name/position');
         }
         $this->maxLength[$name] = null;
@@ -265,7 +265,7 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
         if (is_int($name)) {
             $name = $this->positions[$name];
         }
-        if (!array_key_exists($name, $this->data)) {
+        if (! array_key_exists($name, $this->data)) {
             throw new Exception\InvalidArgumentException('Data does not exist for this name/position');
         }
         return $this->errata[$name];
@@ -296,7 +296,7 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
         if (is_int($name)) {
             $name = $this->positions[$name];
         }
-        if (!array_key_exists($name, $this->errata)) {
+        if (! array_key_exists($name, $this->errata)) {
             throw new Exception\InvalidArgumentException('Data does not exist for this name/position');
         }
         $this->errata[$name] = null;
@@ -397,8 +397,10 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
      */
     public function merge($parameters)
     {
-        if (!is_array($parameters) && !$parameters instanceof ParameterContainer) {
-            throw new Exception\InvalidArgumentException('$parameters must be an array or an instance of ParameterContainer');
+        if (! is_array($parameters) && ! $parameters instanceof ParameterContainer) {
+            throw new Exception\InvalidArgumentException(
+                '$parameters must be an array or an instance of ParameterContainer'
+            );
         }
 
         if (count($parameters) == 0) {

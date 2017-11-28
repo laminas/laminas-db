@@ -49,9 +49,13 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
      * @param null|Result $resultPrototype
      * @param string $features
      */
-    public function __construct($connection, Statement $statementPrototype = null, Result $resultPrototype = null, $features = self::FEATURES_DEFAULT)
-    {
-        if (!$connection instanceof Connection) {
+    public function __construct(
+        $connection,
+        Statement $statementPrototype = null,
+        Result $resultPrototype = null,
+        $features = self::FEATURES_DEFAULT
+    ) {
+        if (! $connection instanceof Connection) {
             $connection = new Connection($connection);
         }
 
@@ -219,8 +223,10 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
      */
     public function checkEnvironment()
     {
-        if (!extension_loaded('PDO')) {
-            throw new Exception\RuntimeException('The PDO extension is required for this adapter but the extension is not loaded');
+        if (! extension_loaded('PDO')) {
+            throw new Exception\RuntimeException(
+                'The PDO extension is required for this adapter but the extension is not loaded'
+            );
         }
     }
 
@@ -245,7 +251,7 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
             if (is_string($sqlOrResource)) {
                 $statement->setSql($sqlOrResource);
             }
-            if (!$this->connection->isConnected()) {
+            if (! $this->connection->isConnected()) {
                 $this->connection->connect();
             }
             $statement->initialize($this->connection->getResource());
@@ -297,7 +303,7 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
      */
     public function formatParameterName($name, $type = null)
     {
-        if ($type === null && !is_numeric($name) || $type == self::PARAMETERIZATION_NAMED) {
+        if ($type === null && ! is_numeric($name) || $type == self::PARAMETERIZATION_NAMED) {
             return ':' . $name;
         }
 

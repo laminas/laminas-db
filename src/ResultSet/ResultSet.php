@@ -46,7 +46,11 @@ class ResultSet extends AbstractResultSet
      */
     public function __construct($returnType = self::TYPE_ARRAYOBJECT, $arrayObjectPrototype = null)
     {
-        $this->returnType = (in_array($returnType, [self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT])) ? $returnType : self::TYPE_ARRAYOBJECT;
+        if (in_array($returnType, [self::TYPE_ARRAY, self::TYPE_ARRAYOBJECT])) {
+            $this->returnType = $returnType;
+        } else {
+            $this->returnType = self::TYPE_ARRAYOBJECT;
+        }
         if ($this->returnType === self::TYPE_ARRAYOBJECT) {
             $this->setArrayObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject([], ArrayObject::ARRAY_AS_PROPS));
         }
@@ -61,11 +65,15 @@ class ResultSet extends AbstractResultSet
      */
     public function setArrayObjectPrototype($arrayObjectPrototype)
     {
-        if (!is_object($arrayObjectPrototype)
-            || (!$arrayObjectPrototype instanceof ArrayObject && !method_exists($arrayObjectPrototype, 'exchangeArray'))
-
+        if (! is_object($arrayObjectPrototype)
+            || (
+                ! $arrayObjectPrototype instanceof ArrayObject
+                && ! method_exists($arrayObjectPrototype, 'exchangeArray')
+            )
         ) {
-            throw new Exception\InvalidArgumentException('Object must be of type ArrayObject, or at least implement exchangeArray');
+            throw new Exception\InvalidArgumentException(
+                'Object must be of type ArrayObject, or at least implement exchangeArray'
+            );
         }
         $this->arrayObjectPrototype = $arrayObjectPrototype;
         return $this;

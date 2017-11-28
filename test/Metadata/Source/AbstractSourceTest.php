@@ -20,7 +20,12 @@ class AbstractSourceTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->abstractSourceMock = $this->getMockForAbstractClass('Zend\Db\Metadata\Source\AbstractSource', [], '', false);
+        $this->abstractSourceMock = $this->getMockForAbstractClass(
+            'Zend\Db\Metadata\Source\AbstractSource',
+            [],
+            '',
+            false
+        );
     }
 
     public function testGetConstraintKeys()
@@ -44,7 +49,7 @@ class AbstractSourceTest extends \PHPUnit_Framework_TestCase
             'constraint_keys' => [
                 'foo_schema' => [
                     [
-                        'table_name'=> 'bar_table',
+                        'table_name' => 'bar_table',
                         'constraint_name' => 'bam_constraint',
                         'column_name' => 'a',
                         'ordinal_position' => 1,

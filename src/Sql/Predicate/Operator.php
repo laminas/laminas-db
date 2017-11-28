@@ -142,7 +142,7 @@ class Operator extends AbstractExpression implements PredicateInterface
      */
     public function setLeftType($type)
     {
-        if (!in_array($type, $this->allowedTypes)) {
+        if (! in_array($type, $this->allowedTypes)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Invalid type "%s" provided; must be of type "%s" or "%s"',
                 $type,
@@ -227,7 +227,7 @@ class Operator extends AbstractExpression implements PredicateInterface
      */
     public function setRightType($type)
     {
-        if (!in_array($type, $this->allowedTypes)) {
+        if (! in_array($type, $this->allowedTypes)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Invalid type "%s" provided; must be of type "%s" or "%s"',
                 $type,

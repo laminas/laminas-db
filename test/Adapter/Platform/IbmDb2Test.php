@@ -85,10 +85,11 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        if (!function_exists('db2_escape_string')) {
+        if (! function_exists('db2_escape_string')) {
             $this->setExpectedException(
                 'PHPUnit_Framework_Error_Notice',
-                'Attempting to quote a value in Zend\Db\Adapter\Platform\IbmDb2 without extension/driver support can introduce security vulnerabilities in a production environment'
+                'Attempting to quote a value in Zend\Db\Adapter\Platform\IbmDb2 without extension/driver support can '
+                . 'introduce security vulnerabilities in a production environment'
             );
         }
         $this->platform->quoteValue('value');
@@ -101,8 +102,14 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals("'value'", @$this->platform->quoteValue('value'));
         $this->assertEquals("'Foo O''Bar'", @$this->platform->quoteValue("Foo O'Bar"));
-        $this->assertEquals("'''; DELETE FROM some_table; -- '", @$this->platform->quoteValue("'; DELETE FROM some_table; -- "));
-        $this->assertEquals("'\\''; \nDELETE FROM some_table; -- '", @$this->platform->quoteValue("\\'; \nDELETE FROM some_table; -- "));
+        $this->assertEquals(
+            "'''; DELETE FROM some_table; -- '",
+            @$this->platform->quoteValue("'; DELETE FROM some_table; -- ")
+        );
+        $this->assertEquals(
+            "'\\''; \nDELETE FROM some_table; -- '",
+            @$this->platform->quoteValue("\\'; \nDELETE FROM some_table; -- ")
+        );
     }
 
     /**
@@ -112,8 +119,14 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals("'value'", $this->platform->quoteTrustedValue('value'));
         $this->assertEquals("'Foo O''Bar'", $this->platform->quoteTrustedValue("Foo O'Bar"));
-        $this->assertEquals("'''; DELETE FROM some_table; -- '", $this->platform->quoteTrustedValue("'; DELETE FROM some_table; -- "));
-        $this->assertEquals("'\\''; \nDELETE FROM some_table; -- '", $this->platform->quoteTrustedValue("\\'; \nDELETE FROM some_table; -- "));
+        $this->assertEquals(
+            "'''; DELETE FROM some_table; -- '",
+            $this->platform->quoteTrustedValue("'; DELETE FROM some_table; -- ")
+        );
+        $this->assertEquals(
+            "'\\''; \nDELETE FROM some_table; -- '",
+            $this->platform->quoteTrustedValue("\\'; \nDELETE FROM some_table; -- ")
+        );
     }
 
     /**
@@ -121,10 +134,11 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
      */
     public function testQuoteValueList()
     {
-        if (!function_exists('db2_escape_string')) {
+        if (! function_exists('db2_escape_string')) {
             $this->setExpectedException(
                 'PHPUnit_Framework_Error',
-                'Attempting to quote a value in Zend\Db\Adapter\Platform\IbmDb2 without extension/driver support can introduce security vulnerabilities in a production environment'
+                'Attempting to quote a value in Zend\Db\Adapter\Platform\IbmDb2 without extension/driver support can '
+                . 'introduce security vulnerabilities in a production environment'
             );
         }
         $this->assertEquals("'Foo O''Bar'", $this->platform->quoteValueList("Foo O'Bar"));
@@ -154,18 +168,27 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo as bar', $platform->quoteIdentifierInFragment('foo as bar'));
 
         // single char words
-        $this->assertEquals('("foo"."bar" = "boo"."baz")', $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', ['(', ')', '=']));
+        $this->assertEquals(
+            '("foo"."bar" = "boo"."baz")',
+            $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz)', ['(', ')', '='])
+        );
 
         // case insensitive safe words
         $this->assertEquals(
             '("foo"."bar" = "boo"."baz") AND ("foo"."baz" = "boo"."baz")',
-            $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz) AND (foo.baz = boo.baz)', ['(', ')', '=', 'and'])
+            $this->platform->quoteIdentifierInFragment(
+                '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
+                ['(', ')', '=', 'and']
+            )
         );
 
         // case insensitive safe words in field
         $this->assertEquals(
             '("foo"."bar" = "boo".baz) AND ("foo".baz = "boo".baz)',
-            $this->platform->quoteIdentifierInFragment('(foo.bar = boo.baz) AND (foo.baz = boo.baz)', ['(', ')', '=', 'and', 'bAz'])
+            $this->platform->quoteIdentifierInFragment(
+                '(foo.bar = boo.baz) AND (foo.baz = boo.baz)',
+                ['(', ')', '=', 'and', 'bAz']
+            )
         );
     }
 }

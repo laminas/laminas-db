@@ -143,7 +143,7 @@ class FeatureSet
      */
     public function canCallMagicCall($method)
     {
-        if (!empty($this->features)) {
+        if (! empty($this->features)) {
             foreach ($this->features as $feature) {
                 if (method_exists($feature, $method)) {
                     return true;

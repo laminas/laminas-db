@@ -23,17 +23,19 @@ abstract class AbstractIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        if (!getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV')) {
+        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV')) {
             $this->markTestSkipped('SQLSRV tests are not enabled');
         }
         foreach ($this->variables as $name => $value) {
-            if (!getenv($value)) {
-                $this->markTestSkipped('Missing required variable ' . $value . ' from phpunit.xml for this integration test');
+            if (! getenv($value)) {
+                $this->markTestSkipped(
+                    'Missing required variable ' . $value . ' from phpunit.xml for this integration test'
+                );
             }
             $this->variables[$name] = getenv($value);
         }
 
-        if (!extension_loaded('sqlsrv')) {
+        if (! extension_loaded('sqlsrv')) {
             $this->fail('The phpunit group integration-sqlsrv was enabled, but the extension is not loaded.');
         }
     }

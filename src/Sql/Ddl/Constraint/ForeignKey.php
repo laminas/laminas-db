@@ -52,8 +52,14 @@ class ForeignKey extends AbstractConstraint
      * @param null|string       $onDeleteRule
      * @param null|string       $onUpdateRule
      */
-    public function __construct($name, $columns, $referenceTable, $referenceColumn, $onDeleteRule = null, $onUpdateRule = null)
-    {
+    public function __construct(
+        $name,
+        $columns,
+        $referenceTable,
+        $referenceColumn,
+        $onDeleteRule = null,
+        $onUpdateRule = null
+    ) {
         $this->setName($name);
         $this->setColumns($columns);
         $this->setReferenceTable($referenceTable);

@@ -54,7 +54,9 @@ class Sqlite extends AbstractPlatform
             return $this;
         }
 
-        throw new Exception\InvalidArgumentException('$driver must be a Sqlite PDO Zend\Db\Adapter\Driver, Sqlite PDO instance');
+        throw new Exception\InvalidArgumentException(
+            '$driver must be a Sqlite PDO Zend\Db\Adapter\Driver, Sqlite PDO instance'
+        );
     }
 
     /**
