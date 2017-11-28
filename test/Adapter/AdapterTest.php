@@ -162,7 +162,7 @@ class AdapterTest extends TestCase
         $driver = [
             'driver' => 'pdo_sqlite',
             'platform' => 'Oracle',
-            'platform_options' => ['quote_identifiers' => false]
+            'platform_options' => ['quote_identifiers' => false],
         ];
         $adapter = new Adapter($driver);
         self::assertInstanceOf('Zend\Db\Adapter\Platform\Oracle', $adapter->platform);

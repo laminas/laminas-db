@@ -93,7 +93,7 @@ class ExpressionTest extends TestCase
         $return = $expression->setTypes([
             Expression::TYPE_IDENTIFIER,
             Expression::TYPE_VALUE,
-            Expression::TYPE_LITERAL
+            Expression::TYPE_LITERAL,
         ]);
         self::assertSame($expression, $return);
         return $expression;
@@ -126,7 +126,7 @@ class ExpressionTest extends TestCase
             [[
                 'X SAME AS %s AND Y = %s BUT LITERALLY %s',
                 ['foo', 5, 'FUNC(FF%X)'],
-                [Expression::TYPE_IDENTIFIER, Expression::TYPE_VALUE, Expression::TYPE_LITERAL]
+                [Expression::TYPE_IDENTIFIER, Expression::TYPE_VALUE, Expression::TYPE_LITERAL],
             ]],
             $expression->getExpressionData()
         );
@@ -142,7 +142,7 @@ class ExpressionTest extends TestCase
         $expected = [[
             'X SAME AS %s AND Y = %s BUT LITERALLY %s',
             ['foo', 5, 'FUNC(FF%X)'],
-            [Expression::TYPE_IDENTIFIER, Expression::TYPE_VALUE, Expression::TYPE_LITERAL]
+            [Expression::TYPE_IDENTIFIER, Expression::TYPE_VALUE, Expression::TYPE_LITERAL],
         ]];
 
         self::assertEquals($expected, $expression->getExpressionData());

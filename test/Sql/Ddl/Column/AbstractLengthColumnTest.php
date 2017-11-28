@@ -18,9 +18,7 @@ class AbstractLengthColumnTest extends TestCase
      */
     public function testSetLength()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractLengthColumn', [
-            'foo', 55
-        ]);
+        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractLengthColumn', ['foo', 55]);
         self::assertEquals(55, $column->getLength());
         self::assertSame($column, $column->setLength(20));
         self::assertEquals(20, $column->getLength());
@@ -31,9 +29,7 @@ class AbstractLengthColumnTest extends TestCase
      */
     public function testGetLength()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractLengthColumn', [
-            'foo', 55
-        ]);
+        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractLengthColumn', ['foo', 55]);
         self::assertEquals(55, $column->getLength());
     }
 
@@ -42,9 +38,7 @@ class AbstractLengthColumnTest extends TestCase
      */
     public function testGetExpressionData()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractLengthColumn', [
-            'foo', 4
-        ]);
+        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractLengthColumn', ['foo', 4]);
 
         self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'INTEGER(4)'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],

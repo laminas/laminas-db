@@ -300,7 +300,7 @@ class UpdateTest extends TestCase
         $update2->table('foo')
             ->set(['bar' => 'baz'])
             ->where([
-                'id = ?' => 1
+                'id = ?' => 1,
             ]);
         self::assertEquals(
             'UPDATE "foo" SET "bar" = \'baz\' WHERE id = \'1\'',

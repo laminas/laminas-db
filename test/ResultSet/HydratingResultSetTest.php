@@ -60,7 +60,7 @@ class HydratingResultSetTest extends TestCase
     {
         $hydratingRs = new HydratingResultSet;
         $hydratingRs->initialize([
-            ['id' => 1, 'name' => 'one']
+            ['id' => 1, 'name' => 'one'],
         ]);
         $obj = $hydratingRs->current();
         self::assertInstanceOf('ArrayObject', $obj);
@@ -74,7 +74,7 @@ class HydratingResultSetTest extends TestCase
     {
         $hydratingRs = new HydratingResultSet;
         $hydratingRs->initialize([
-            ['id' => 1, 'name' => 'one']
+            ['id' => 1, 'name' => 'one'],
         ]);
         $obj = $hydratingRs->toArray();
         self::assertInternalType('array', $obj);

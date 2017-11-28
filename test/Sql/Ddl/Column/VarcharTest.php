@@ -30,7 +30,7 @@ class VarcharTest extends TestCase
             [[
                 '%s %s NOT NULL DEFAULT %s',
                 ['foo', 'VARCHAR(20)', 'bar'],
-                [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL, $column::TYPE_VALUE]
+                [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL, $column::TYPE_VALUE],
             ]],
             $column->getExpressionData()
         );

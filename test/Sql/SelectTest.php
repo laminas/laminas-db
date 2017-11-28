@@ -192,7 +192,7 @@ class SelectTest extends TestCase
                 'name' => 'foo',
                 'on' => 'x = y',
                 'columns' => [Select::SQL_STAR],
-                'type' => Select::JOIN_INNER
+                'type' => Select::JOIN_INNER,
             ]],
             $select->getRawState('joins')->getJoins()
         );
@@ -814,7 +814,7 @@ class SelectTest extends TestCase
         $sqlPrep0 = // same
         $sqlStr0 = 'SELECT "foo".* FROM "foo"';
         $internalTests0 = [
-            'processSelect' => [[['"foo".*']], '"foo"']
+            'processSelect' => [[['"foo".*']], '"foo"'],
         ];
 
         // table as TableIdentifier
@@ -823,7 +823,7 @@ class SelectTest extends TestCase
         $sqlPrep1 = // same
         $sqlStr1 = 'SELECT "bar"."foo".* FROM "bar"."foo"';
         $internalTests1 = [
-            'processSelect' => [[['"bar"."foo".*']], '"bar"."foo"']
+            'processSelect' => [[['"bar"."foo".*']], '"bar"."foo"'],
         ];
 
         // table with alias
@@ -832,7 +832,7 @@ class SelectTest extends TestCase
         $sqlPrep2 = // same
         $sqlStr2 = 'SELECT "f".* FROM "foo" AS "f"';
         $internalTests2 = [
-            'processSelect' => [[['"f".*']], '"foo" AS "f"']
+            'processSelect' => [[['"f".*']], '"foo" AS "f"'],
         ];
 
         // table with alias with table as TableIdentifier
@@ -841,7 +841,7 @@ class SelectTest extends TestCase
         $sqlPrep3 = // same
         $sqlStr3 = 'SELECT "f".* FROM "foo" AS "f"';
         $internalTests3 = [
-            'processSelect' => [[['"f".*']], '"foo" AS "f"']
+            'processSelect' => [[['"f".*']], '"foo" AS "f"'],
         ];
 
         // columns
@@ -850,7 +850,7 @@ class SelectTest extends TestCase
         $sqlPrep4 = // same
         $sqlStr4 = 'SELECT "foo"."bar" AS "bar", "foo"."baz" AS "baz" FROM "foo"';
         $internalTests4 = [
-            'processSelect' => [[['"foo"."bar"', '"bar"'], ['"foo"."baz"', '"baz"']], '"foo"']
+            'processSelect' => [[['"foo"."bar"', '"bar"'], ['"foo"."baz"', '"baz"']], '"foo"'],
         ];
 
         // columns with AS associative array
@@ -859,7 +859,7 @@ class SelectTest extends TestCase
         $sqlPrep5 = // same
         $sqlStr5 = 'SELECT "foo"."baz" AS "bar" FROM "foo"';
         $internalTests5 = [
-            'processSelect' => [[['"foo"."baz"', '"bar"']], '"foo"']
+            'processSelect' => [[['"foo"."baz"', '"bar"']], '"foo"'],
         ];
 
         // columns with AS associative array mixed
@@ -868,7 +868,7 @@ class SelectTest extends TestCase
         $sqlPrep6 = // same
         $sqlStr6 = 'SELECT "foo"."baz" AS "bar", "foo"."bam" AS "bam" FROM "foo"';
         $internalTests6 = [
-            'processSelect' => [[['"foo"."baz"', '"bar"'], ['"foo"."bam"', '"bam"'] ], '"foo"']
+            'processSelect' => [[['"foo"."baz"', '"bar"'], ['"foo"."bam"', '"bam"'] ], '"foo"'],
         ];
 
         // columns where value is Expression, with AS
@@ -877,7 +877,7 @@ class SelectTest extends TestCase
         $sqlPrep7 = // same
         $sqlStr7 = 'SELECT COUNT(some_column) AS "bar" FROM "foo"';
         $internalTests7 = [
-            'processSelect' => [[['COUNT(some_column)', '"bar"']], '"foo"']
+            'processSelect' => [[['COUNT(some_column)', '"bar"']], '"foo"'],
         ];
 
         // columns where value is Expression
@@ -886,7 +886,7 @@ class SelectTest extends TestCase
         $sqlPrep8 = // same
         $sqlStr8 = 'SELECT COUNT(some_column) AS bar FROM "foo"';
         $internalTests8 = [
-            'processSelect' => [[['COUNT(some_column) AS bar']], '"foo"']
+            'processSelect' => [[['COUNT(some_column) AS bar']], '"foo"'],
         ];
 
         // columns where value is Expression with parameters
@@ -897,14 +897,14 @@ class SelectTest extends TestCase
                     '(COUNT(?) + ?) AS ?',
                     ['some_column', 5, 'bar'],
                     [Expression::TYPE_IDENTIFIER, Expression::TYPE_VALUE, Expression::TYPE_IDENTIFIER]
-                )
+                ),
             ]
         );
         $sqlPrep9 = 'SELECT (COUNT("some_column") + ?) AS "bar" FROM "foo"';
         $sqlStr9 = 'SELECT (COUNT("some_column") + \'5\') AS "bar" FROM "foo"';
         $params9 = ['column1' => 5];
         $internalTests9 = [
-            'processSelect' => [[['(COUNT("some_column") + ?) AS "bar"']], '"foo"']
+            'processSelect' => [[['(COUNT("some_column") + ?) AS "bar"']], '"foo"'],
         ];
 
         // joins (plain)
@@ -914,7 +914,7 @@ class SelectTest extends TestCase
         $sqlStr10 = 'SELECT "foo".*, "zac".* FROM "foo" INNER JOIN "zac" ON "m" = "n"';
         $internalTests10 = [
             'processSelect' => [[['"foo".*'], ['"zac".*']], '"foo"'],
-            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]]
+            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]],
         ];
 
         // join with columns
@@ -926,7 +926,7 @@ class SelectTest extends TestCase
         // @codingStandardsIgnoreEnd
         $internalTests11 = [
             'processSelect' => [[['"foo".*'], ['"zac"."bar"', '"bar"'], ['"zac"."baz"', '"baz"']], '"foo"'],
-            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]]
+            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]],
         ];
 
         // join with alternate type
@@ -938,7 +938,7 @@ class SelectTest extends TestCase
         // @codingStandardsIgnoreEnd
         $internalTests12 = [
             'processSelect' => [[['"foo".*'], ['"zac"."bar"', '"bar"'], ['"zac"."baz"', '"baz"']], '"foo"'],
-            'processJoins'   => [[['OUTER', '"zac"', '"m" = "n"']]]
+            'processJoins'   => [[['OUTER', '"zac"', '"m" = "n"']]],
         ];
 
         // join with column aliases
@@ -950,7 +950,7 @@ class SelectTest extends TestCase
         // @codingStandardsIgnoreEnd
         $internalTests13 = [
             'processSelect' => [[['"foo".*'], ['"zac"."bar"', '"BAR"'], ['"zac"."baz"', '"BAZ"']], '"foo"'],
-            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]]
+            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]],
         ];
 
         // join with table aliases
@@ -960,7 +960,7 @@ class SelectTest extends TestCase
         $sqlStr14 = 'SELECT "foo".*, "b".* FROM "foo" INNER JOIN "bar" AS "b" ON "b"."foo_id" = "foo"."foo_id"';
         $internalTests14 = [
             'processSelect' => [[['"foo".*'], ['"b".*']], '"foo"'],
-            'processJoins' => [[['INNER', '"bar" AS "b"', '"b"."foo_id" = "foo"."foo_id"']]]
+            'processJoins' => [[['INNER', '"bar" AS "b"', '"b"."foo_id" = "foo"."foo_id"']]],
         ];
 
         // where (simple string)
@@ -970,7 +970,7 @@ class SelectTest extends TestCase
         $sqlStr15 = 'SELECT "foo".* FROM "foo" WHERE x = 5';
         $internalTests15 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processWhere'  => ['x = 5']
+            'processWhere'  => ['x = 5'],
         ];
 
         // where (returning parameters)
@@ -981,7 +981,7 @@ class SelectTest extends TestCase
         $params16 = ['where1' => 5];
         $internalTests16 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processWhere'  => ['x = ?']
+            'processWhere'  => ['x = ?'],
         ];
 
         // group
@@ -991,7 +991,7 @@ class SelectTest extends TestCase
         $sqlStr17 = 'SELECT "foo".* FROM "foo" GROUP BY "col1", "col2"';
         $internalTests17 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processGroup'  => [['"col1"', '"col2"']]
+            'processGroup'  => [['"col1"', '"col2"']],
         ];
 
         $select18 = new Select;
@@ -1000,7 +1000,7 @@ class SelectTest extends TestCase
         $sqlStr18 = 'SELECT "foo".* FROM "foo" GROUP BY "col1", "col2"';
         $internalTests18 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processGroup'  => [['"col1"', '"col2"']]
+            'processGroup'  => [['"col1"', '"col2"']],
         ];
 
         $select19 = new Select;
@@ -1009,7 +1009,7 @@ class SelectTest extends TestCase
         $sqlStr19 = 'SELECT "foo".* FROM "foo" GROUP BY DAY("col1")';
         $internalTests19 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processGroup'  => [['DAY("col1")']]
+            'processGroup'  => [['DAY("col1")']],
         ];
 
         // having (simple string)
@@ -1019,7 +1019,7 @@ class SelectTest extends TestCase
         $sqlStr20 = 'SELECT "foo".* FROM "foo" HAVING x = 5';
         $internalTests20 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processHaving'  => ['x = 5']
+            'processHaving'  => ['x = 5'],
         ];
 
         // having (returning parameters)
@@ -1030,7 +1030,7 @@ class SelectTest extends TestCase
         $params21 = ['having1' => 5];
         $internalTests21 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processHaving'  => ['x = ?']
+            'processHaving'  => ['x = ?'],
         ];
 
         // order
@@ -1040,7 +1040,7 @@ class SelectTest extends TestCase
         $sqlStr22 = 'SELECT "foo".* FROM "foo" ORDER BY "c1" ASC';
         $internalTests22 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING]]]
+            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING]]],
         ];
 
         $select23 = new Select;
@@ -1049,7 +1049,7 @@ class SelectTest extends TestCase
         $sqlStr23 = 'SELECT "foo".* FROM "foo" ORDER BY "c1" ASC, "c2" ASC';
         $internalTests23 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING], ['"c2"', Select::ORDER_ASCENDING]]]
+            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING], ['"c2"', Select::ORDER_ASCENDING]]],
         ];
 
         $select24 = new Select;
@@ -1058,7 +1058,7 @@ class SelectTest extends TestCase
         $sqlStr24 = 'SELECT "foo".* FROM "foo" ORDER BY "c1" DESC, "c2" ASC';
         $internalTests24 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processOrder'  => [[['"c1"', Select::ORDER_DESCENDING], ['"c2"', Select::ORDER_ASCENDING]]]
+            'processOrder'  => [[['"c1"', Select::ORDER_DESCENDING], ['"c2"', Select::ORDER_ASCENDING]]],
         ];
 
         $select25 = new Select;
@@ -1067,7 +1067,7 @@ class SelectTest extends TestCase
         $sqlStr25 = 'SELECT "foo".* FROM "foo" ORDER BY "c1" ASC, "c2" DESC';
         $internalTests25 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING], ['"c2"', Select::ORDER_DESCENDING]]]
+            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING], ['"c2"', Select::ORDER_DESCENDING]]],
         ];
 
         // limit
@@ -1078,7 +1078,7 @@ class SelectTest extends TestCase
         $params26 = ['limit' => 5];
         $internalTests26 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processLimit'  => ['?']
+            'processLimit'  => ['?'],
         ];
 
         // limit with offset
@@ -1090,7 +1090,7 @@ class SelectTest extends TestCase
         $internalTests27 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
             'processLimit'  => ['?'],
-            'processOffset' => ['?']
+            'processOffset' => ['?'],
         ];
 
         // joins with a few keywords in the on clause
@@ -1103,7 +1103,7 @@ class SelectTest extends TestCase
         $internalTests28 = [
             'processSelect' => [[['"foo".*'], ['"zac".*']], '"foo"'],
             // @codingStandardsIgnoreStart
-            'processJoins'  => [[['INNER', '"zac"', '("m" = "n" AND "c"."x") BETWEEN "x" AND "y"."z" OR ("c"."x" < "y"."z" AND "c"."x" <= "y"."z" AND "c"."x" > "y"."z" AND "c"."x" >= "y"."z")']]]
+            'processJoins'  => [[['INNER', '"zac"', '("m" = "n" AND "c"."x") BETWEEN "x" AND "y"."z" OR ("c"."x" < "y"."z" AND "c"."x" <= "y"."z" AND "c"."x" > "y"."z" AND "c"."x" >= "y"."z")']]],
             // @codingStandardsIgnoreEnd
         ];
 
@@ -1114,7 +1114,7 @@ class SelectTest extends TestCase
         $sqlStr29 = 'SELECT "foo".* FROM "foo" ORDER BY "c1"."d2" ASC';
         $internalTests29 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processOrder'  => [[['"c1"."d2"', Select::ORDER_ASCENDING]]]
+            'processOrder'  => [[['"c1"."d2"', Select::ORDER_ASCENDING]]],
         ];
 
         // group with compound name
@@ -1124,7 +1124,7 @@ class SelectTest extends TestCase
         $sqlStr30 = 'SELECT "foo".* FROM "foo" GROUP BY "c1"."d2"';
         $internalTests30 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processGroup'  => [['"c1"."d2"']]
+            'processGroup'  => [['"c1"."d2"']],
         ];
 
         // join with expression in ON part
@@ -1134,7 +1134,7 @@ class SelectTest extends TestCase
         $sqlStr31 = 'SELECT "foo".*, "zac".* FROM "foo" INNER JOIN "zac" ON (m = n AND c.x) BETWEEN x AND y.z';
         $internalTests31 = [
             'processSelect' => [[['"foo".*'], ['"zac".*']], '"foo"'],
-            'processJoins'   => [[['INNER', '"zac"', '(m = n AND c.x) BETWEEN x AND y.z']]]
+            'processJoins'   => [[['INNER', '"zac"', '(m = n AND c.x) BETWEEN x AND y.z']]],
         ];
 
         $select32subselect = new Select;
@@ -1151,7 +1151,7 @@ class SelectTest extends TestCase
         $select33->from('table')->columns(['*'])->where([
             'c1' => null,
             'c2' => [1, 2, 3],
-            new \Zend\Db\Sql\Predicate\IsNotNull('c3')
+            new \Zend\Db\Sql\Predicate\IsNotNull('c3'),
         ]);
         $sqlPrep33 = 'SELECT "table".* FROM "table" WHERE "c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL';
         // @codingStandardsIgnoreStart
@@ -1159,19 +1159,19 @@ class SelectTest extends TestCase
         // @codingStandardsIgnoreEnd
         $internalTests33 = [
             'processSelect' => [[['"table".*']], '"table"'],
-            'processWhere'  => ['"c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL']
+            'processWhere'  => ['"c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL'],
         ];
 
         // @author Demian Katz
         $select34 = new Select;
         $select34->from('table')->order([
             new Expression('isnull(?) DESC', ['name'], [Expression::TYPE_IDENTIFIER]),
-            'name'
+            'name',
         ]);
         $sqlPrep34 = 'SELECT "table".* FROM "table" ORDER BY isnull("name") DESC, "name" ASC';
         $sqlStr34 = 'SELECT "table".* FROM "table" ORDER BY isnull("name") DESC, "name" ASC';
         $internalTests34 = [
-            'processOrder'  => [[['isnull("name") DESC'], ['"name"', Select::ORDER_ASCENDING]]]
+            'processOrder'  => [[['isnull("name") DESC'], ['"name"', Select::ORDER_ASCENDING]]],
         ];
 
         // join with Expression object in COLUMNS part (ZF2-514)
@@ -1182,7 +1182,7 @@ class SelectTest extends TestCase
         $sqlStr35 = 'SELECT COUNT(*) AS "thecount" FROM "foo" INNER JOIN "bar" ON "m" = "n"';
         $internalTests35 = [
             'processSelect' => [[['COUNT(*)', '"thecount"']], '"foo"'],
-            'processJoins'   => [[['INNER', '"bar"', '"m" = "n"']]]
+            'processJoins'   => [[['INNER', '"bar"', '"m" = "n"']]],
         ];
 
         // multiple joins with expressions
@@ -1193,7 +1193,7 @@ class SelectTest extends TestCase
             ->join('tableB', new Predicate\Operator('id', '=', 2))
             ->join('tableC', new Predicate\PredicateSet([
                 new Predicate\Operator('id', '=', 3),
-                new Predicate\Operator('number', '>', 20)
+                new Predicate\Operator('number', '>', 20),
             ]));
         $sqlPrep36 = 'SELECT "foo".*, "tableA".*, "tableB".*, "tableC".* FROM "foo"'
             . ' INNER JOIN "tableA" ON "id" = :join1part1 INNER JOIN "tableB" ON "id" = :join2part1 '
@@ -1213,7 +1213,7 @@ class SelectTest extends TestCase
         $sqlPrep37 = // same
         $sqlStr37 = 'SELECT "bar" AS "bar" FROM "foo"';
         $internalTests37 = [
-            'processSelect' => [[['"bar"', '"bar"']], '"foo"']
+            'processSelect' => [[['"bar"', '"bar"']], '"foo"'],
         ];
 
         // @link https://github.com/zendframework/zf2/issues/3294
@@ -1225,7 +1225,7 @@ class SelectTest extends TestCase
         $sqlStr38 = 'SELECT COUNT(*) AS "thecount" FROM "foo" INNER JOIN "baz"."bar" ON "m" = "n"';
         $internalTests38 = [
             'processSelect' => [[['COUNT(*)', '"thecount"']], '"foo"'],
-            'processJoins'   => [[['INNER', '"baz"."bar"', '"m" = "n"']]]
+            'processJoins'   => [[['INNER', '"baz"."bar"', '"m" = "n"']]],
         ];
 
         // subselect in join
@@ -1239,8 +1239,8 @@ class SelectTest extends TestCase
         // @codingStandardsIgnoreEnd
         $internalTests39 = [
             'processJoins' => [
-                [['INNER', '(SELECT "bar".* FROM "bar" WHERE "y" LIKE ?) AS "z"', '"z"."foo" = "bar"."id"']]
-            ]
+                [['INNER', '(SELECT "bar".* FROM "bar" WHERE "y" LIKE ?) AS "z"', '"z"."foo" = "bar"."id"']],
+            ],
         ];
 
         // @link https://github.com/zendframework/zf2/issues/3294
@@ -1257,8 +1257,8 @@ class SelectTest extends TestCase
             'processSelect' => [[['"foo".*'], ['"a".*'], ['"bar".*']], '"foo"'],
             'processJoins'  => [[
                 ['INNER', '"another_schema"."another_foo" AS "a"', '"a"."x" = "foo"."foo_column"'],
-                ['INNER', '"bar"', '"foo"."colx" = "bar"."colx"']
-            ]]
+                ['INNER', '"bar"', '"foo"."colx" = "bar"."colx"'],
+            ]],
         ];
 
         $select41 = new Select;
@@ -1282,7 +1282,7 @@ class SelectTest extends TestCase
         $sqlPrep43 = 'SELECT "foo"."bar" AS "bar" FROM "foo" AS "x"';
         $sqlStr43 = 'SELECT "foo"."bar" AS "bar" FROM "foo" AS "x"';
         $internalTests43 = [
-            'processSelect' => [[['"foo"."bar"', '"bar"']], '"foo" AS "x"']
+            'processSelect' => [[['"foo"."bar"', '"bar"']], '"foo" AS "x"'],
         ];
 
         $select44 = new Select;
@@ -1293,7 +1293,7 @@ class SelectTest extends TestCase
         $sqlPrep44 = // same
         $sqlStr44 = '( SELECT "foo".* FROM "foo" WHERE a = b ) UNION ALL ( SELECT "bar".* FROM "bar" WHERE c = d )';
         $internalTests44 = [
-            'processCombine' => ['UNION ALL', 'SELECT "bar".* FROM "bar" WHERE c = d']
+            'processCombine' => ['UNION ALL', 'SELECT "bar".* FROM "bar" WHERE c = d'],
         ];
 
         // limit with offset
@@ -1305,7 +1305,7 @@ class SelectTest extends TestCase
         $internalTests45 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
             'processLimit'  => ['?'],
-            'processOffset' => ['?']
+            'processOffset' => ['?'],
         ];
 
         // functions without table
@@ -1328,7 +1328,7 @@ class SelectTest extends TestCase
         $internalTests47 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
             'processLimit'  => ['?'],
-            'processOffset' => ['?']
+            'processOffset' => ['?'],
         ];
 
         //combine and union with order at the end
@@ -1358,7 +1358,7 @@ class SelectTest extends TestCase
         // @codingStandardsIgnoreEnd
         $internalTests49 = [
             'processSelect' => [[['"foo".*'], ['"bar".*']], '"foo"'],
-            'processJoins' => [[['INNER', 'psql_function_which_returns_table AS "bar"', '"foo"."id" = "bar"."fooid"']]]
+            'processJoins' => [[['INNER', 'psql_function_which_returns_table AS "bar"', '"foo"."id" = "bar"."fooid"']]],
         ];
 
         // Test generic predicate is appended with AND

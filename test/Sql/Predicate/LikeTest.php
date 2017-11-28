@@ -44,7 +44,7 @@ class LikeTest extends TestCase
         $like = new Like('bar', 'Foo%');
         self::assertEquals(
             [
-                ['%1$s LIKE %2$s', ['bar', 'Foo%'], [$like::TYPE_IDENTIFIER, $like::TYPE_VALUE]]
+                ['%1$s LIKE %2$s', ['bar', 'Foo%'], [$like::TYPE_IDENTIFIER, $like::TYPE_VALUE]],
             ],
             $like->getExpressionData()
         );
@@ -52,7 +52,7 @@ class LikeTest extends TestCase
         $like = new Like(['Foo%' => $like::TYPE_VALUE], ['bar' => $like::TYPE_IDENTIFIER]);
         self::assertEquals(
             [
-                ['%1$s LIKE %2$s', ['Foo%', 'bar'], [$like::TYPE_VALUE, $like::TYPE_IDENTIFIER]]
+                ['%1$s LIKE %2$s', ['Foo%', 'bar'], [$like::TYPE_VALUE, $like::TYPE_IDENTIFIER]],
             ],
             $like->getExpressionData()
         );

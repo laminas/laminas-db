@@ -125,8 +125,8 @@ class ForeignKeyTest extends TestCase
                     $fk::TYPE_IDENTIFIER,
                     $fk::TYPE_IDENTIFIER,
                     $fk::TYPE_LITERAL,
-                    $fk::TYPE_LITERAL
-                ]
+                    $fk::TYPE_LITERAL,
+                ],
             ]],
             $fk->getExpressionData()
         );

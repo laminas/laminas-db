@@ -34,7 +34,7 @@ class SelectDecoratorTest extends TestCase
             ->setMethods()
             ->setConstructorArgs([
                 $driver,
-                new SqlitePlatform()
+                new SqlitePlatform(),
             ])
             ->getMock();
 

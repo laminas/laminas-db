@@ -123,7 +123,7 @@ class SqlFunctionalTest extends TestCase
                                     )
                                     ->columns([
                                         'my_table_column',
-                                        'aliased_column' => new \Zend\Db\Sql\Expression('NOW()')
+                                        'aliased_column' => new \Zend\Db\Sql\Expression('NOW()'),
                                     ]),
                 'expected' => [
                     // @codingStandardsIgnoreStart
@@ -199,8 +199,8 @@ class SqlFunctionalTest extends TestCase
             'Select::processSubSelect()' => [
                 'sqlObject' => $this->select([
                     'a' => $this->select([
-                        'b' => $this->select('c')->where(['cc' => 'CC'])
-                    ])->where(['bb' => 'BB'])
+                        'b' => $this->select('c')->where(['cc' => 'CC']),
+                    ])->where(['bb' => 'BB']),
                 ])->where(['aa' => 'AA']),
                 'expected'  => [
                     // @codingStandardsIgnoreStart

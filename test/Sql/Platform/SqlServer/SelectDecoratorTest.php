@@ -41,7 +41,7 @@ class SelectDecoratorTest extends TestCase
             ->setMethods()
             ->setConstructorArgs([
                 $driver,
-                new SqlServerPlatform()
+                new SqlServerPlatform(),
             ])
             ->getMock();
 

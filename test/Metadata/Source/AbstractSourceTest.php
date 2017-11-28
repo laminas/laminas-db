@@ -43,9 +43,9 @@ class AbstractSourceTest extends TestCase
                         'update_rule' => 'UP',
                         'delete_rule' => 'DOWN',
                         'referenced_table_name' => 'another_table',
-                        'referenced_column_name' => 'another_column'
-                    ]
-                ]
+                        'referenced_column_name' => 'another_column',
+                    ],
+                ],
             ],
             'constraint_keys' => [
                 'foo_schema' => [
@@ -54,9 +54,9 @@ class AbstractSourceTest extends TestCase
                         'constraint_name' => 'bam_constraint',
                         'column_name' => 'a',
                         'ordinal_position' => 1,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
 
         $refProp->setValue($this->abstractSourceMock, $data);

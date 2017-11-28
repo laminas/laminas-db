@@ -39,7 +39,7 @@ class SqliteMetadataTest extends TestCase
         }
         $this->adapter = new Adapter([
             'driver' => 'Pdo',
-            'dsn' => 'sqlite::memory:'
+            'dsn' => 'sqlite::memory:',
         ]);
         $this->metadata = new SqliteMetadata($this->adapter);
     }

@@ -41,7 +41,7 @@ class IntegerTest extends TestCase
             [
                 ['%s %s NOT NULL', ['foo', 'INTEGER'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]],
                 ' ',
-                ['PRIMARY KEY', [], []]
+                ['PRIMARY KEY', [], []],
             ],
             $column->getExpressionData()
         );

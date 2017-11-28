@@ -24,7 +24,7 @@ class IndexTest extends TestCase
             [[
                 'INDEX %s(%s)',
                 ['my_uk', 'foo'],
-                [$uk::TYPE_IDENTIFIER, $uk::TYPE_IDENTIFIER]
+                [$uk::TYPE_IDENTIFIER, $uk::TYPE_IDENTIFIER],
             ]],
             $uk->getExpressionData()
         );
@@ -40,7 +40,7 @@ class IndexTest extends TestCase
             [[
                 'INDEX %s(%s(10), %s(5))',
                 ['my_uk', 'foo', 'bar'],
-                [$key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER]
+                [$key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER],
             ]],
             $key->getExpressionData()
         );
@@ -56,7 +56,7 @@ class IndexTest extends TestCase
             [[
                 'INDEX %s(%s(10), %s)',
                 ['my_uk', 'foo', 'bar'],
-                [$key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER]
+                [$key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER],
             ]],
             $key->getExpressionData()
         );

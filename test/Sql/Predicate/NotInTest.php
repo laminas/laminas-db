@@ -35,7 +35,7 @@ class NotInTest extends TestCase
         $expected = [[
             '%s NOT IN %s',
             ['foo', $select],
-            [$in::TYPE_IDENTIFIER, $in::TYPE_VALUE]
+            [$in::TYPE_IDENTIFIER, $in::TYPE_VALUE],
         ]];
         self::assertEquals($expected, $in->getExpressionData());
     }
@@ -47,7 +47,7 @@ class NotInTest extends TestCase
         $expected = [[
             '%s NOT IN %s',
             ['foo', $select],
-            [$in::TYPE_IDENTIFIER, $in::TYPE_VALUE]
+            [$in::TYPE_IDENTIFIER, $in::TYPE_VALUE],
         ]];
         self::assertEquals($expected, $in->getExpressionData());
     }
@@ -59,7 +59,7 @@ class NotInTest extends TestCase
         $expected = [[
             '(%s, %s) NOT IN %s',
             ['foo', 'bar', $select],
-            [$in::TYPE_IDENTIFIER, $in::TYPE_IDENTIFIER, $in::TYPE_VALUE]
+            [$in::TYPE_IDENTIFIER, $in::TYPE_IDENTIFIER, $in::TYPE_VALUE],
         ]];
         self::assertEquals($expected, $in->getExpressionData());
     }

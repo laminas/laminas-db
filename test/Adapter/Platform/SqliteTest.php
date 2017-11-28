@@ -188,7 +188,7 @@ class SqliteTest extends TestCase
 
         $driver = new \Zend\Db\Adapter\Driver\Pdo\Pdo([
             'driver' => 'Pdo_Sqlite',
-            'database' => $filePath
+            'database' => $filePath,
         ]);
 
         $this->platform->setDriver($driver);

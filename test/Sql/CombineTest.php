@@ -107,7 +107,7 @@ class CombineTest extends TestCase
 
         $this->combine->combine([
             $select1,
-            $select2
+            $select2,
         ]);
 
         $adapter = $this->getMockAdapter();
@@ -166,7 +166,7 @@ class CombineTest extends TestCase
                     [
                         'select'   => $select,
                         'type'     => Combine::COMBINE_UNION,
-                        'modifier' => ''
+                        'modifier' => '',
                     ],
                 ],
                 'columns' => [

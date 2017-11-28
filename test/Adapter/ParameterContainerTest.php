@@ -94,7 +94,7 @@ class ParameterContainerTest extends TestCase
                 '1' => 'book',
                 'buffer' => 'A buffer Element',
                 '4' => 'Second To Last',
-                '5' => 'Last'
+                '5' => 'Last',
             ],
             $this->parameterContainer->getNamedArray()
         );

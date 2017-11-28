@@ -124,7 +124,7 @@ class ColumnTest extends TestCase
             [[
                 '%s %s DEFAULT %s',
                 ['foo', 'INTEGER', 'bar'],
-                [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL, $column::TYPE_VALUE]
+                [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL, $column::TYPE_VALUE],
             ]],
             $column->getExpressionData()
         );

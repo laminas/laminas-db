@@ -47,8 +47,8 @@ class NotLikeTest extends TestCase
                 [
                     '%1$s NOT LIKE %2$s',
                     ['bar', 'Foo%'],
-                    [$notLike::TYPE_IDENTIFIER, $notLike::TYPE_VALUE]
-                ]
+                    [$notLike::TYPE_IDENTIFIER, $notLike::TYPE_VALUE],
+                ],
             ],
             $notLike->getExpressionData()
         );

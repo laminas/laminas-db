@@ -24,7 +24,7 @@ class CheckTest extends TestCase
             [[
                 'CONSTRAINT %s CHECK (%s)',
                 ['foo', 'id>0'],
-                [$check::TYPE_IDENTIFIER, $check::TYPE_LITERAL]
+                [$check::TYPE_IDENTIFIER, $check::TYPE_LITERAL],
             ]],
             $check->getExpressionData()
         );

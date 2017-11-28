@@ -36,7 +36,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
             $this->variables['hostname'],
             [
                 'UID' => $this->variables['username'],
-                'PWD' => $this->variables['password']
+                'PWD' => $this->variables['password'],
             ]
         );
         $connection = new Connection([]);
@@ -178,7 +178,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
             $this->variables['hostname'],
             [
                 'UID' => $this->variables['username'],
-                'PWD' => $this->variables['password']
+                'PWD' => $this->variables['password'],
             ]
         );
         $connection = new Connection([]);

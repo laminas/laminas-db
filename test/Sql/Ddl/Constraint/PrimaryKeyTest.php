@@ -24,7 +24,7 @@ class PrimaryKeyTest extends TestCase
             [[
                 'PRIMARY KEY (%s)',
                 ['foo'],
-                [$pk::TYPE_IDENTIFIER]
+                [$pk::TYPE_IDENTIFIER],
             ]],
             $pk->getExpressionData()
         );

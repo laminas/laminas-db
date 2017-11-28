@@ -77,7 +77,7 @@ class InTest extends TestCase
         $expected = [[
             '%s IN %s',
             ['foo', $select],
-            [$in::TYPE_IDENTIFIER, $in::TYPE_VALUE]
+            [$in::TYPE_IDENTIFIER, $in::TYPE_VALUE],
         ]];
         self::assertEquals($expected, $in->getExpressionData());
     }
@@ -89,7 +89,7 @@ class InTest extends TestCase
         $expected = [[
             '%s IN %s',
             ['foo', $select],
-            [$in::TYPE_IDENTIFIER, $in::TYPE_VALUE]
+            [$in::TYPE_IDENTIFIER, $in::TYPE_VALUE],
         ]];
         self::assertEquals($expected, $in->getExpressionData());
     }
@@ -101,7 +101,7 @@ class InTest extends TestCase
         $expected = [[
             '(%s, %s) IN %s',
             ['foo', 'bar', $select],
-            [$in::TYPE_IDENTIFIER, $in::TYPE_IDENTIFIER, $in::TYPE_VALUE]
+            [$in::TYPE_IDENTIFIER, $in::TYPE_IDENTIFIER, $in::TYPE_VALUE],
         ]];
         self::assertEquals($expected, $in->getExpressionData());
     }

@@ -39,7 +39,7 @@ class LiteralTest extends TestCase
             [[
                 'X LIKE "foo%%"',
                 [],
-                []
+                [],
             ]],
             $expression->getExpressionData()
         );

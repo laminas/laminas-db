@@ -45,7 +45,7 @@ class AbstractRowGatewayTest extends TestCase
         $rgPropertyValues = [
             'primaryKeyColumn' => 'id',
             'table' => 'foo',
-            'sql' => new \Zend\Db\Sql\Sql($this->mockAdapter)
+            'sql' => new \Zend\Db\Sql\Sql($this->mockAdapter),
         ];
         $this->setRowGatewayState($rgPropertyValues);
     }
@@ -175,7 +175,7 @@ class AbstractRowGatewayTest extends TestCase
         $rgPropertyValues = [
             'primaryKeyColumn' => ['one', 'two'],
             'table' => 'foo',
-            'sql' => $mockSql
+            'sql' => $mockSql,
         ];
         $this->setRowGatewayState($rgPropertyValues);
 

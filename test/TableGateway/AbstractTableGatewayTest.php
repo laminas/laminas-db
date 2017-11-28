@@ -283,8 +283,8 @@ class AbstractTableGatewayTest extends TestCase
             [
                 'name' => 'baz',
                 'on'   => 'foo.fooId = baz.fooId',
-                'type' => Sql\Join::JOIN_LEFT
-            ]
+                'type' => Sql\Join::JOIN_LEFT,
+            ],
         ];
 
         // assert select::from() is called
@@ -313,7 +313,7 @@ class AbstractTableGatewayTest extends TestCase
             [
                 'name' => 'baz',
                 'on'   => 'foo.fooId = baz.fooId',
-            ]
+            ],
         ];
 
         // assert select::from() is called

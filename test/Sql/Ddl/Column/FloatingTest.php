@@ -24,7 +24,7 @@ class FloatingTest extends TestCase
             [[
                 '%s %s NOT NULL',
                 ['foo', 'FLOAT(10,5)'],
-                [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]
+                [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL],
             ]],
             $column->getExpressionData()
         );

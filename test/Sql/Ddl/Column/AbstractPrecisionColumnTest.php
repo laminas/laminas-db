@@ -18,9 +18,7 @@ class AbstractPrecisionColumnTest extends TestCase
      */
     public function testSetDigits()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
-            'foo', 10
-        ]);
+        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', ['foo', 10]);
         self::assertEquals(10, $column->getDigits());
         self::assertSame($column, $column->setDigits(12));
         self::assertEquals(12, $column->getDigits());
@@ -31,9 +29,7 @@ class AbstractPrecisionColumnTest extends TestCase
      */
     public function testGetDigits()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
-            'foo', 10
-        ]);
+        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', ['foo', 10]);
         self::assertEquals(10, $column->getDigits());
     }
 
@@ -42,9 +38,7 @@ class AbstractPrecisionColumnTest extends TestCase
      */
     public function testSetDecimal()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
-            'foo', 10, 5
-        ]);
+        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', ['foo', 10, 5]);
         self::assertEquals(5, $column->getDecimal());
         self::assertSame($column, $column->setDecimal(2));
         self::assertEquals(2, $column->getDecimal());
@@ -55,9 +49,7 @@ class AbstractPrecisionColumnTest extends TestCase
      */
     public function testGetDecimal()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
-            'foo', 10, 5
-        ]);
+        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', ['foo', 10, 5]);
         self::assertEquals(5, $column->getDecimal());
     }
 
@@ -66,9 +58,7 @@ class AbstractPrecisionColumnTest extends TestCase
      */
     public function testGetExpressionData()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
-            'foo', 10, 5
-        ]);
+        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', ['foo', 10, 5]);
 
         self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'INTEGER(10,5)'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],

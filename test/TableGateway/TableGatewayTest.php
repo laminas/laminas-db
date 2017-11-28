@@ -250,7 +250,7 @@ class TableGatewayTest extends TestCase
         $result = $table->update([
             'foo' => 'FOO',
         ], [
-            'bar' => 'BAR'
+            'bar' => 'BAR',
         ]);
 
         $state = $update->getRawState();
