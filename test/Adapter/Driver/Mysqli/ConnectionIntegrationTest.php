@@ -49,7 +49,7 @@ class ConnectionIntegrationTest extends TestCase
         $connection = new Connection($this->variables);
         $connection->connect();
 
-        $this->assertTrue($connection->isConnected());
+        self::assertTrue($connection->isConnected());
         $connection->disconnect();
     }
 }

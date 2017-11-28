@@ -45,7 +45,7 @@ class ConnectionTest extends TestCase
      */
     public function testSetDriver()
     {
-        $this->assertEquals($this->connection, $this->connection->setDriver(new Mysqli([])));
+        self::assertEquals($this->connection, $this->connection->setDriver(new Mysqli([])));
     }
 
     /**
@@ -53,7 +53,7 @@ class ConnectionTest extends TestCase
      */
     public function testSetConnectionParameters()
     {
-        $this->assertEquals($this->connection, $this->connection->setConnectionParameters([]));
+        self::assertEquals($this->connection, $this->connection->setConnectionParameters([]));
     }
 
     /**
@@ -62,7 +62,7 @@ class ConnectionTest extends TestCase
     public function testGetConnectionParameters()
     {
         $this->connection->setConnectionParameters(['foo' => 'bar']);
-        $this->assertEquals(['foo' => 'bar'], $this->connection->getConnectionParameters());
+        self::assertEquals(['foo' => 'bar'], $this->connection->getConnectionParameters());
     }
 
     public function testConnectionFails()
