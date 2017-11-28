@@ -26,7 +26,7 @@ class EventFeatureTest extends TestCase
     /** @var \Zend\Db\TableGateway\TableGateway */
     protected $tableGateway;
 
-    public function setup()
+    public function setUp()
     {
         $this->eventManager = new EventManager;
         $this->event = new EventFeature\TableGatewayEvent();

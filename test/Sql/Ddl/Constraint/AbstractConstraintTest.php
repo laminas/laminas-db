@@ -16,7 +16,7 @@ class AbstractConstraintTest extends TestCase
     /** @var \Zend\Db\Sql\Ddl\Constraint\AbstractConstraint */
     protected $ac;
 
-    public function setup()
+    public function setUp()
     {
         $this->ac = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Constraint\AbstractConstraint');
     }

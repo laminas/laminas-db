@@ -19,7 +19,7 @@ class AbstractSourceTest extends TestCase
      */
     protected $abstractSourceMock;
 
-    public function setup()
+    public function setUp()
     {
         $this->abstractSourceMock = $this->getMockForAbstractClass(
             'Zend\Db\Metadata\Source\AbstractSource',

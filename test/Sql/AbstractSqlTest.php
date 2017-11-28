@@ -27,7 +27,7 @@ class AbstractSqlTest extends TestCase
 
     protected $mockDriver;
 
-    public function setup()
+    public function setUp()
     {
         $this->abstractSql = $this->getMockForAbstractClass('Zend\Db\Sql\AbstractSql');
 

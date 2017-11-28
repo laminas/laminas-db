@@ -17,7 +17,7 @@ class RowGatewayTest extends TestCase
     protected $mockAdapter;
     protected $rowGateway;
 
-    public function setup()
+    public function setUp()
     {
         // mock the adapter, driver, and parts
         $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
