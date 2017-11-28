@@ -9,6 +9,7 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
+use PHPUnit\Framework\Error;
 use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Platform\Mysql;
 
@@ -84,7 +85,7 @@ class MysqlTest extends TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        $this->expectException('PHPUnit_Framework_Error_Notice');
+        $this->expectException(Error\Notice::class);
         $this->expectExceptionMessage(
             'Attempting to quote a value in Zend\Db\Adapter\Platform\Mysql without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
@@ -133,7 +134,7 @@ class MysqlTest extends TestCase
      */
     public function testQuoteValueList()
     {
-        $this->expectException('PHPUnit_Framework_Error');
+        $this->expectException(Error\Error::class);
         $this->expectExceptionMessage(
             'Attempting to quote a value in Zend\Db\Adapter\Platform\Mysql without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'

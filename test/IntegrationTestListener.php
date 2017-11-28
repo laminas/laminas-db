@@ -10,12 +10,13 @@
 namespace ZendTest\Db;
 
 use Exception;
-use PHPUnit_Framework_AssertionFailedError;
-use PHPUnit_Framework_Test;
-use PHPUnit_Framework_TestListener;
-use PHPUnit_Framework_TestSuite;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\Warning;
+use PHPUnit_Framework_AssertionFailedError as AssertionFailedError;
+use PHPUnit_Framework_Test as Test;
+use PHPUnit_Framework_TestSuite as TestSuite;
 
-class IntegrationTestListener implements PHPUnit_Framework_TestListener
+class IntegrationTestListener implements TestListener
 {
     protected $adapters = [
         'mysqli' => null,
@@ -99,40 +100,44 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
     }
 
     /** methods required for the listener interface compliance */
-    public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function addError(Test $test, Exception $e, $time)
     {
     }
 
-    public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
+    public function addWarning(Test $test, Warning $e, $time)
     {
     }
 
-    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function addFailure(Test $test, AssertionFailedError $e, $time)
     {
     }
 
-    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function addIncompleteTest(Test $test, Exception $e, $time)
     {
     }
 
-    public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function addSkippedTest(Test $test, Exception $e, $time)
     {
     }
 
-    public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite(TestSuite $suite)
     {
     }
 
-    public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function endTestSuite(TestSuite $suite)
+    {
+    }
+
+    public function addRiskyTest(Test $test, Exception $e, $time)
     {
     } // Support PHPUnit 3.8+
 
     /**
      * A test started.
      *
-     * @param  PHPUnit_Framework_Test $test
+     * @param Test $test
      */
-    public function startTest(PHPUnit_Framework_Test $test)
+    public function startTest(Test $test)
     {
         /** @var $test \PHPUnit\Framework\TestCase */
         $testcase = get_class($test);
@@ -149,10 +154,10 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
     /**
      * A test ended.
      *
-     * @param  PHPUnit_Framework_Test $test
-     * @param  float                  $time
+     * @param Test $test
+     * @param float $time
      */
-    public function endTest(PHPUnit_Framework_Test $test, $time)
+    public function endTest(Test $test, $time)
     {
         /** @var $test \PHPUnit\Framework\TestCase */
         $testcase = get_class($test);
