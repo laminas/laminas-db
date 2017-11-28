@@ -23,10 +23,8 @@ use ZendTest\Db\TestAsset;
  */
 class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
 {
-    // @codingStandardsIgnoreStart
-    protected function dataProvider_CommonProcessMethods()
+    protected function dataProviderCommonProcessMethods()
     {
-        // @codingStandardsIgnoreend
         return [
             'Select::processOffset()' => [
                 'sqlObject' => $this->select('foo')->offset(10),
@@ -339,10 +337,8 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    // @codingStandardsIgnoreStart
-    protected function dataProvider_Decorators()
+    protected function dataProviderDecorators()
     {
-        // @codingStandardsIgnoreEnd
         return [
             'RootDecorators::Select' => [
                 'sqlObject' => $this->select('foo')->where(['x' => $this->select('bar')]),
@@ -374,7 +370,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             // @codingStandardsIgnoreStart
-            /* TODO - should be implemeted
+            /* TODO - should be implemented
             'RootDecorators::Insert' => array(
                 'sqlObject' => $this->insert('foo')->select($this->select()),
                 'expected'  => array(
@@ -514,8 +510,8 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
     public function dataProvider()
     {
         $data = array_merge(
-            $this->dataProvider_CommonProcessMethods(),
-            $this->dataProvider_Decorators()
+            $this->dataProviderCommonProcessMethods(),
+            $this->dataProviderDecorators()
         );
 
         $res = [];

@@ -53,7 +53,7 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
 
     /**
      * @param Profiler\ProfilerInterface $profiler
-     * @return Sqlsrv
+     * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
     {
@@ -79,7 +79,7 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
      * Register connection
      *
      * @param  Connection $connection
-     * @return Sqlsrv
+     * @return self Provides a fluent interface
      */
     public function registerConnection(Connection $connection)
     {
@@ -92,7 +92,7 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
      * Register statement prototype
      *
      * @param Statement $statementPrototype
-     * @return Sqlsrv
+     * @return self Provides a fluent interface
      */
     public function registerStatementPrototype(Statement $statementPrototype)
     {
@@ -105,7 +105,7 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
      * Register result prototype
      *
      * @param Result $resultPrototype
-     * @return Sqlsrv
+     * @return self Provides a fluent interface
      */
     public function registerResultPrototype(Result $resultPrototype)
     {

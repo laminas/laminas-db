@@ -85,7 +85,7 @@ abstract class AbstractSql implements SqlInterface
     /**
      * Render table with alias in from/join parts
      *
-     * @todo move TableIdentifier concatination here
+     * @todo move TableIdentifier concatenation here
      * @param string $table
      * @param string $alias
      * @return string
@@ -241,7 +241,12 @@ abstract class AbstractSql implements SqlInterface
             if (isset($paramSpecs[$position]['combinedby'])) {
                 $multiParamValues = [];
                 foreach ($paramsForPosition as $multiParamsForPosition) {
-                    $ppCount = count($multiParamsForPosition);
+                    if (is_array($multiParamsForPosition) || $multiParamsForPosition instanceof Countable) {
+                        $ppCount = count($multiParamsForPosition);
+                    } elseif (is_string($multiParamsForPosition)) {
+                        $ppCount = 1;
+                    }
+
                     if (! isset($paramSpecs[$position][$ppCount])) {
                         throw new Exception\RuntimeException(sprintf(
                             'A number of parameters (%d) was found that is not supported by this specification',

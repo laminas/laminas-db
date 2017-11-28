@@ -190,8 +190,8 @@ class Select extends AbstractPreparableSql
      * Create from clause
      *
      * @param  string|array|TableIdentifier $table
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
-     * @return Select
      */
     public function from($table)
     {
@@ -219,7 +219,8 @@ class Select extends AbstractPreparableSql
 
     /**
      * @param string|Expression $quantifier DISTINCT|ALL
-     * @return Select
+     * @return self Provides a fluent interface
+     * @throws Exception\InvalidArgumentException
      */
     public function quantifier($quantifier)
     {
@@ -249,7 +250,7 @@ class Select extends AbstractPreparableSql
      *
      * @param  array $columns
      * @param  bool  $prefixColumnsWithTable
-     * @return Select
+     * @return self Provides a fluent interface
      */
     public function columns(array $columns, $prefixColumnsWithTable = true)
     {
@@ -261,12 +262,12 @@ class Select extends AbstractPreparableSql
     /**
      * Create join clause
      *
-     * @param  string|array $name
+     * @param  string|array|TableIdentifier $name
      * @param  string $on
      * @param  string|array $columns
      * @param  string $type one of the JOIN_* constants
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
-     * @return Select
      */
     public function join($name, $on, $columns = self::SQL_STAR, $type = self::JOIN_INNER)
     {
@@ -280,8 +281,8 @@ class Select extends AbstractPreparableSql
      *
      * @param  Where|\Closure|string|array|Predicate\PredicateInterface $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
-     * @return Select
      */
     public function where($predicate, $combination = Predicate\PredicateSet::OP_AND)
     {
@@ -293,6 +294,10 @@ class Select extends AbstractPreparableSql
         return $this;
     }
 
+    /**
+     * @param mixed $group
+     * @return self Provides a fluent interface
+     */
     public function group($group)
     {
         if (is_array($group)) {
@@ -310,7 +315,7 @@ class Select extends AbstractPreparableSql
      *
      * @param  Where|\Closure|string|array $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
-     * @return Select
+     * @return self Provides a fluent interface
      */
     public function having($predicate, $combination = Predicate\PredicateSet::OP_AND)
     {
@@ -324,7 +329,7 @@ class Select extends AbstractPreparableSql
 
     /**
      * @param string|array $order
-     * @return Select
+     * @return self Provides a fluent interface
      */
     public function order($order)
     {
@@ -349,7 +354,8 @@ class Select extends AbstractPreparableSql
 
     /**
      * @param int $limit
-     * @return Select
+     * @return self Provides a fluent interface
+     * @throws Exception\InvalidArgumentException
      */
     public function limit($limit)
     {
@@ -367,7 +373,8 @@ class Select extends AbstractPreparableSql
 
     /**
      * @param int $offset
-     * @return Select
+     * @return self Provides a fluent interface
+     * @throws Exception\InvalidArgumentException
      */
     public function offset($offset)
     {
@@ -387,7 +394,7 @@ class Select extends AbstractPreparableSql
      * @param Select $select
      * @param string $type
      * @param string $modifier
-     * @return Select
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function combine(Select $select, $type = self::COMBINE_UNION, $modifier = '')
@@ -407,7 +414,7 @@ class Select extends AbstractPreparableSql
 
     /**
      * @param string $part
-     * @return Select
+     * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function reset($part)
@@ -455,6 +462,11 @@ class Select extends AbstractPreparableSql
         return $this;
     }
 
+    /**
+     * @param $index
+     * @param $specification
+     * @return self Provides a fluent interface
+     */
     public function setSpecification($index, $specification)
     {
         if (! method_exists($this, 'process' . $index)) {
@@ -684,7 +696,7 @@ class Select extends AbstractPreparableSql
                     $v = self::ORDER_ASCENDING;
                 }
             }
-            if (strtoupper($v) == self::ORDER_DESCENDING) {
+            if (strcasecmp(trim($v), self::ORDER_DESCENDING) === 0) {
                 $orders[] = [$platform->quoteIdentifierInFragment($k), self::ORDER_DESCENDING];
             } else {
                 $orders[] = [$platform->quoteIdentifierInFragment($k), self::ORDER_ASCENDING];

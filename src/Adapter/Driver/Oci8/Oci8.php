@@ -53,6 +53,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
      * @param null|Statement $statementPrototype
      * @param null|Result $resultPrototype
      * @param array $options
+     * @param string $features
      */
     public function __construct(
         $connection,
@@ -82,7 +83,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
 
     /**
      * @param Profiler\ProfilerInterface $profiler
-     * @return Oci8
+     * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
     {
@@ -108,7 +109,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
      * Register connection
      *
      * @param  Connection $connection
-     * @return Oci8
+     * @return self Provides a fluent interface
      */
     public function registerConnection(Connection $connection)
     {
@@ -121,7 +122,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
      * Register statement prototype
      *
      * @param Statement $statementPrototype
-     * @return Oci8
+     * @return self Provides a fluent interface
      */
     public function registerStatementPrototype(Statement $statementPrototype)
     {
@@ -142,7 +143,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
      * Register result prototype
      *
      * @param Result $resultPrototype
-     * @return Oci8
+     * @return self Provides a fluent interface
      */
     public function registerResultPrototype(Result $resultPrototype)
     {
@@ -163,7 +164,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
      *
      * @param string $name
      * @param AbstractFeature $feature
-     * @return self
+     * @return self Provides a fluent interface
      */
     public function addFeature($name, $feature)
     {
@@ -178,7 +179,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Setup the default features for Pdo
      *
-     * @return self
+     * @return self Provides a fluent interface
      */
     public function setupDefaultFeatures()
     {

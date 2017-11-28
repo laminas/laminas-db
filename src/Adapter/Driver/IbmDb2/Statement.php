@@ -53,7 +53,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
     /**
      * @param $resource
-     * @return Statement
+     * @return self Provides a fluent interface
      */
     public function initialize($resource)
     {
@@ -63,7 +63,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
     /**
      * @param IbmDb2 $driver
-     * @return Statement
+     * @return self Provides a fluent interface
      */
     public function setDriver(IbmDb2 $driver)
     {
@@ -73,7 +73,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
     /**
      * @param Profiler\ProfilerInterface $profiler
-     * @return Statement
+     * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
     {
@@ -93,7 +93,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Set sql
      *
      * @param $sql
-     * @return mixed
+     * @return self Provides a fluent interface
      */
     public function setSql($sql)
     {
@@ -115,7 +115,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Set parameter container
      *
      * @param ParameterContainer $parameterContainer
-     * @return mixed
+     * @return self Provides a fluent interface
      */
     public function setParameterContainer(ParameterContainer $parameterContainer)
     {
@@ -159,7 +159,8 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Prepare sql
      *
      * @param string|null $sql
-     * @return Statement
+     * @return self Provides a fluent interface
+     * @throws Exception\RuntimeException
      */
     public function prepare($sql = null)
     {
