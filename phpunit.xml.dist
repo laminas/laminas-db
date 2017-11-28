@@ -12,6 +12,9 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
+            <exclude>
+                <file>./src/Sql/Ddl/Column/Float.php</file>
+            </exclude>
         </whitelist>
     </filter>
 
