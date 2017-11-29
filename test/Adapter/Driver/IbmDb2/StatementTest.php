@@ -130,7 +130,7 @@ class StatementTest extends TestCase
         $this->statement->prepare($sql);
         $this->assertTrue($this->statement->isPrepared());
 
-        $this->setExpectedException(
+        $this->expectException(
             RuntimeException::class,
             'This statement has been prepared already'
         );
@@ -146,7 +146,7 @@ class StatementTest extends TestCase
         $sql = "INVALID SQL";
         $this->statement->setSql($sql);
 
-        $this->setExpectedException(
+        $this->expectException(
             RuntimeException::class,
             'SQL is invalid. Error message'
         );
@@ -167,7 +167,7 @@ class StatementTest extends TestCase
         $sql = "INVALID SQL";
         $this->statement->setSql($sql);
 
-        $this->setExpectedException(
+        $this->expectException(
             RuntimeException::class,
             'Error message'
         );

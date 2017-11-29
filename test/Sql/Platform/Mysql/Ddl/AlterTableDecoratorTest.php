@@ -9,13 +9,14 @@
 
 namespace ZendTest\Db\Sql\Platform\Mysql\Ddl;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Platform\Mysql;
 use Zend\Db\Sql\Ddl\AlterTable;
 use Zend\Db\Sql\Ddl\Column\Column;
 use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
 use Zend\Db\Sql\Platform\Mysql\Ddl\AlterTableDecorator;
 
-class AlterTableDecoratorTest extends \PHPUnit_Framework_TestCase
+class AlterTableDecoratorTest extends TestCase
 {
     /**
      * @covers Zend\Db\Sql\Platform\Mysql\Ddl\AlterTableDecorator::setSubject
@@ -24,7 +25,7 @@ class AlterTableDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $ctd = new AlterTableDecorator();
         $ct = new AlterTable;
-        $this->assertSame($ctd, $ctd->setSubject($ct));
+        self::assertSame($ctd, $ctd->setSubject($ct));
     }
 
     /**
@@ -45,7 +46,7 @@ class AlterTableDecoratorTest extends \PHPUnit_Framework_TestCase
         $col->addConstraint(new PrimaryKey());
         $ct->addColumn($col);
 
-        $this->assertEquals(
+        self::assertEquals(
             "ALTER TABLE `foo`\n ADD COLUMN `bar` INTEGER UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'baz' AFTER `bar`",
             @$ctd->getSqlString(new Mysql())
         );
