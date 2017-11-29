@@ -17,15 +17,15 @@ class SqliteMemoryPdo extends \Pdo
     {
         parent::__construct('sqlite::memory:');
 
-        // execute the sql statement if not empty
-        if (!empty($sql)) {
-            if (false === $this->exec($sql)) {
-                throw new \Exception(sprintf(
-                    "Error: %s, %s",
-                    $this->errorCode(),
-                    implode(",", $this->errorInfo())
-                ));
-            }
+        if (empty($sql)) {
+            return;
+        }
+        if (false === $this->exec($sql)) {
+            throw new \Exception(sprintf(
+                "Error: %s, %s",
+                $this->errorCode(),
+                implode(",", $this->errorInfo())
+            ));
         }
     }
 }
