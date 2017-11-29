@@ -304,7 +304,8 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     public function formatParameterName($name, $type = null)
     {
         if ($type === null && ! is_numeric($name) || $type == self::PARAMETERIZATION_NAMED) {
-            return ':' . $name;
+            // using MD5 because of the PDO restriction [A-Za-z0-9_] for bindParam name
+            return ':' . md5($name);
         }
 
         return '?';

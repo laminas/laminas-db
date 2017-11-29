@@ -54,7 +54,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#224](https://github.com/zendframework/zend-db/pull/224) fixes how parameters
+  are bound to statements in the PDO adapter. PDO has a restriction on parameter
+  names of `[0-9a-zA_Z_]`; as such, the driver now hashes the parameter names
+  using `md5()` in order to ensure compatibility with other drivers.
 
 ## 2.8.2 - 2016-08-09
 

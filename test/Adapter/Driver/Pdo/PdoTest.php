@@ -39,4 +39,29 @@ class PdoTest extends TestCase
         self::assertEquals('SqlServer', $this->pdo->getDatabasePlatformName());
         self::assertEquals('SQLServer', $this->pdo->getDatabasePlatformName(DriverInterface::NAME_FORMAT_NATURAL));
     }
+
+    public function getParamsAndType()
+    {
+        return [
+            [ 'foo', null, ':' . md5('foo')],
+            [ 'foo-', null, ':' . md5('foo-')],
+            [ 'foo$', null, ':' . md5('foo$')],
+            [ 1, null, '?' ],
+            [ '1', null, '?'],
+            [ 'foo', Pdo::PARAMETERIZATION_NAMED, ':' . md5('foo')],
+            [ 'foo-', Pdo::PARAMETERIZATION_NAMED, ':' . md5('foo-')],
+            [ 'foo$', Pdo::PARAMETERIZATION_NAMED, ':' . md5('foo$')],
+            [ 1, Pdo::PARAMETERIZATION_NAMED, ':' . md5('1')],
+            [ '1', Pdo::PARAMETERIZATION_NAMED, ':' . md5('1')],
+        ];
+    }
+
+    /**
+     * @dataProvider getParamsAndType
+     */
+    public function testFormatParameterName($name, $type, $expected)
+    {
+        $result = $this->pdo->formatParameterName($name, $type);
+        $this->assertEquals($expected, $result);
+    }
 }
