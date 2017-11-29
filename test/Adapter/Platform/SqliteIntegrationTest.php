@@ -9,14 +9,15 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Platform\Sqlite;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Pdo;
+use Zend\Db\Adapter\Platform\Sqlite;
 
 /**
  * @group integration
  * @group integration-sqlite
  */
-class SqliteIntegrationTest extends \PHPUnit_Framework_TestCase
+class SqliteIntegrationTest extends TestCase
 {
     public $adapters = [];
 
@@ -27,10 +28,10 @@ class SqliteIntegrationTest extends \PHPUnit_Framework_TestCase
         }
         $sqlite = new Sqlite($this->adapters['pdo_sqlite']);
         $value = $sqlite->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
 
         $sqlite = new Sqlite(new Pdo\Pdo(new Pdo\Connection($this->adapters['pdo_sqlite'])));
         $value = $sqlite->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
     }
 }

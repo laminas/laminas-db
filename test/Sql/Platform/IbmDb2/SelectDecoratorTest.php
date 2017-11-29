@@ -9,39 +9,39 @@
 
 namespace ZendTest\Db\Sql\Platform\IbmDb2;
 
-use Zend\Db\Sql\Platform\IbmDb2\SelectDecorator;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Where;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\IbmDb2 as IbmDb2Platform;
 use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Platform\IbmDb2\SelectDecorator;
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Where;
 
-class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
+class SelectDecoratorTest extends TestCase
 {
     /**
      * @testdox integration test: Testing SelectDecorator will use Select to produce properly IBM Db2
      *                            dialect prepared sql
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
      */
     public function testPrepareStatement(Select $select, $expectedPrepareSql, $expectedParams, $notUsed, $supportsLimitOffset)
     {
-        $driver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $driver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
 
         // test
-        $adapter = $this->getMock(
-            'Zend\Db\Adapter\Adapter',
-            null,
-            [
+        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([
                 $driver,
-                new IbmDb2Platform()
-            ]
-        );
+                new IbmDb2Platform(),
+            ])
+            ->getMock();
 
         $parameterContainer = new ParameterContainer;
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
 
         $statement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
@@ -52,19 +52,19 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $selectDecorator->setSupportsLimitOffset($supportsLimitOffset);
         $selectDecorator->prepareStatement($adapter, $statement);
 
-        $this->assertEquals($expectedParams, $parameterContainer->getNamedArray());
+        self::assertEquals($expectedParams, $parameterContainer->getNamedArray());
     }
 
     /**
      * @testdox integration test: Testing SelectDecorator will use Select to produce properly Ibm DB2
      *                            dialect sql statements
-     * @covers Zend\Db\Sql\Platform\IbmDb2\SelectDecorator::getSqlString
+     * @covers \Zend\Db\Sql\Platform\IbmDb2\SelectDecorator::getSqlString
      * @dataProvider dataProvider
      */
     public function testGetSqlString(Select $select, $ignored0, $ignored1, $expectedSql, $supportsLimitOffset)
     {
         $parameterContainer = new ParameterContainer;
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $statement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
 
@@ -72,7 +72,7 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $selectDecorator->setSubject($select);
         $selectDecorator->setSupportsLimitOffset($supportsLimitOffset);
 
-        $this->assertEquals($expectedSql, @$selectDecorator->getSqlString(new IbmDb2Platform));
+        self::assertEquals($expectedSql, @$selectDecorator->getSqlString(new IbmDb2Platform));
     }
 
     /**

@@ -9,14 +9,15 @@
 
 namespace ZendTest\Db\Adapter\Driver\IbmDb2;
 
-use Zend\Db\Adapter\Driver\IbmDb2\Statement;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\IbmDb2\IbmDb2;
+use Zend\Db\Adapter\Driver\IbmDb2\Statement;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Exception\RuntimeException;
 
 include __DIR__ . '/TestAsset/Db2Functions.php';
 
-class StatementTest extends \PHPUnit_Framework_TestCase
+class StatementTest extends TestCase
 {
     /**
      * @var Statement
@@ -46,34 +47,34 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::setDriver
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::setDriver
      */
     public function testSetDriver()
     {
-        $this->assertEquals($this->statement, $this->statement->setDriver(new IbmDb2([])));
+        self::assertEquals($this->statement, $this->statement->setDriver(new IbmDb2([])));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::setParameterContainer
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::setParameterContainer
      */
     public function testSetParameterContainer()
     {
-        $this->assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
+        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::getParameterContainer
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::getParameterContainer
      * @todo   Implement testGetParameterContainer().
      */
     public function testGetParameterContainer()
     {
         $container = new ParameterContainer;
         $this->statement->setParameterContainer($container);
-        $this->assertSame($container, $this->statement->getParameterContainer());
+        self::assertSame($container, $this->statement->getParameterContainer());
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::getResource
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::getResource
      * @todo   Implement testGetResource().
      */
     public function testGetResource()
@@ -85,7 +86,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::setSql
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::setSql
      * @todo   Implement testSetSql().
      */
     public function testSetSql()
@@ -97,7 +98,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::getSql
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::getSql
      * @todo   Implement testGetSql().
      */
     public function testGetSql()
@@ -174,7 +175,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::execute
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::execute
      * @todo   Implement testExecute().
      */
     public function testExecute()

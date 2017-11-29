@@ -7,10 +7,11 @@
 
 namespace ZendTest\Db;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter;
 use Zend\Db\ConfigProvider;
 
-class ConfigProviderTest extends \PHPUnit_Framework_TestCase
+class ConfigProviderTest extends TestCase
 {
     private $config = [
         'abstract_factories' => [
@@ -27,7 +28,7 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
     public function testProvidesExpectedConfiguration()
     {
         $provider = new ConfigProvider();
-        $this->assertEquals($this->config, $provider->getDependencyConfig());
+        self::assertEquals($this->config, $provider->getDependencyConfig());
         return $provider;
     }
 
@@ -36,6 +37,6 @@ class ConfigProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvocationProvidesDependencyConfiguration(ConfigProvider $provider)
     {
-        $this->assertEquals(['dependencies' => $provider->getDependencyConfig()], $provider());
+        self::assertEquals(['dependencies' => $provider->getDependencyConfig()], $provider());
     }
 }

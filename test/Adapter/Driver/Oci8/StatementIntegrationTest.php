@@ -9,6 +9,7 @@
 
 namespace ZendTest\Db\Adapter\Driver\Oci8;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Oci8\Oci8;
 use Zend\Db\Adapter\Driver\Oci8\Statement;
 
@@ -16,7 +17,7 @@ use Zend\Db\Adapter\Driver\Oci8\Statement;
  * @group integration
  * @group integration-oracle
  */
-class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
+class StatementIntegrationTest extends TestCase
 {
     protected $variables = [
         'hostname' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_OCI8_HOSTNAME',
@@ -45,7 +46,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::initialize
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::initialize
      */
     public function testInitialize()
     {
@@ -56,12 +57,12 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
         );
 
         $statement = new Statement;
-        $this->assertSame($statement, $statement->initialize($ociResource));
+        self::assertSame($statement, $statement->initialize($ociResource));
         unset($stmtResource, $ociResource);
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::getResource
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::getResource
      */
     public function testGetResource()
     {
@@ -75,13 +76,13 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
         $statement->initialize($ociResource);
         $statement->prepare('SELECT * FROM DUAL');
         $resource = $statement->getResource();
-        $this->assertEquals('oci8 statement', get_resource_type($resource));
+        self::assertEquals('oci8 statement', get_resource_type($resource));
         unset($resource, $ociResource);
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::prepare
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::isPrepared
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::isPrepared
      */
     public function testPrepare()
     {
@@ -93,23 +94,23 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
 
         $statement = new Statement;
         $statement->initialize($ociResource);
-        $this->assertFalse($statement->isPrepared());
-        $this->assertSame($statement, $statement->prepare('SELECT * FROM DUAL'));
-        $this->assertTrue($statement->isPrepared());
+        self::assertFalse($statement->isPrepared());
+        self::assertSame($statement, $statement->prepare('SELECT * FROM DUAL'));
+        self::assertTrue($statement->isPrepared());
         unset($resource, $ociResource);
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::execute
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::execute
      */
     public function testExecute()
     {
         $oci8 = new Oci8($this->variables);
         $statement = $oci8->createStatement('SELECT * FROM DUAL');
-        $this->assertSame($statement, $statement->prepare());
+        self::assertSame($statement, $statement->prepare());
 
         $result = $statement->execute();
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Oci8\Result', $result);
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\Oci8\Result', $result);
 
         unset($resource, $oci8);
     }

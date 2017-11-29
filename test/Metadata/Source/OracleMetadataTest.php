@@ -46,8 +46,8 @@ class OracleMetadataTest extends AbstractIntegrationTest
     public function testGetConstraints()
     {
         $constraints = $this->metadata->getConstraints(null, 'main');
-        $this->assertCount(0, $constraints);
-        $this->assertContainsOnlyInstancesOf(
+        self::assertCount(0, $constraints);
+        self::assertContainsOnlyInstancesOf(
             'Zend\Db\Metadata\Object\ConstraintObject',
             $constraints
         );

@@ -19,7 +19,7 @@ use Zend\Db\Adapter\Driver\Sqlsrv\Statement;
 class StatementIntegrationTest extends AbstractIntegrationTest
 {
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::initialize
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Statement::initialize
      */
     public function testInitialize()
     {
@@ -29,12 +29,12 @@ class StatementIntegrationTest extends AbstractIntegrationTest
         );
 
         $statement = new Statement;
-        $this->assertSame($statement, $statement->initialize($sqlsrvResource));
+        self::assertSame($statement, $statement->initialize($sqlsrvResource));
         unset($stmtResource, $sqlsrvResource);
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::getResource
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Statement::getResource
      */
     public function testGetResource()
     {
@@ -47,13 +47,13 @@ class StatementIntegrationTest extends AbstractIntegrationTest
         $statement->initialize($sqlsrvResource);
         $statement->prepare("SELECT 'foo'");
         $resource = $statement->getResource();
-        $this->assertEquals('SQL Server Statement', get_resource_type($resource));
+        self::assertEquals('SQL Server Statement', get_resource_type($resource));
         unset($resource, $sqlsrvResource);
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::prepare
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::isPrepared
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Statement::isPrepared
      */
     public function testPrepare()
     {
@@ -64,23 +64,23 @@ class StatementIntegrationTest extends AbstractIntegrationTest
 
         $statement = new Statement;
         $statement->initialize($sqlsrvResource);
-        $this->assertFalse($statement->isPrepared());
-        $this->assertSame($statement, $statement->prepare("SELECT 'foo'"));
-        $this->assertTrue($statement->isPrepared());
+        self::assertFalse($statement->isPrepared());
+        self::assertSame($statement, $statement->prepare("SELECT 'foo'"));
+        self::assertTrue($statement->isPrepared());
         unset($resource, $sqlsrvResource);
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::execute
+     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Statement::execute
      */
     public function testExecute()
     {
         $sqlsrv = new Sqlsrv($this->variables);
         $statement = $sqlsrv->createStatement("SELECT 'foo'");
-        $this->assertSame($statement, $statement->prepare());
+        self::assertSame($statement, $statement->prepare());
 
         $result = $statement->execute();
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Result', $result);
+        self::assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Result', $result);
 
         unset($resource, $sqlsrvResource);
     }

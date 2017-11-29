@@ -9,10 +9,11 @@
 
 namespace ZendTest\Db\Adapter\Driver\Pdo;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\DriverInterface;
 use Zend\Db\Adapter\Driver\Pdo\Pdo;
 
-class PdoTest extends \PHPUnit_Framework_TestCase
+class PdoTest extends TestCase
 {
     /**
      * @var Pdo
@@ -29,13 +30,13 @@ class PdoTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Pdo::getDatabasePlatformName
+     * @covers \Zend\Db\Adapter\Driver\Pdo\Pdo::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {
         // Test platform name for SqlServer
         $this->pdo->getConnection()->setConnectionParameters(['pdodriver' => 'sqlsrv']);
-        $this->assertEquals('SqlServer', $this->pdo->getDatabasePlatformName());
-        $this->assertEquals('SQLServer', $this->pdo->getDatabasePlatformName(DriverInterface::NAME_FORMAT_NATURAL));
+        self::assertEquals('SqlServer', $this->pdo->getDatabasePlatformName());
+        self::assertEquals('SQLServer', $this->pdo->getDatabasePlatformName(DriverInterface::NAME_FORMAT_NATURAL));
     }
 }

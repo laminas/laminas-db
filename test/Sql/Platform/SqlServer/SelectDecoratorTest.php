@@ -9,19 +9,20 @@
 
 namespace ZendTest\Db\Sql\Platform\SqlServer;
 
+use PHPUnit\Framework\TestCase;
+use Zend\Db\Adapter\ParameterContainer;
+use Zend\Db\Adapter\Platform\SqlServer as SqlServerPlatform;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Platform\SqlServer\SelectDecorator;
 use Zend\Db\Sql\Select;
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Adapter\Platform\SqlServer as SqlServerPlatform;
 
-class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
+class SelectDecoratorTest extends TestCase
 {
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare
      *                            a proper limit/offset sql statement
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::prepareStatement
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
      */
     public function testPrepareStatement(
@@ -31,22 +32,21 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $notUsed,
         $expectedFormatParamCount
     ) {
-        $driver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $driver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $driver->expects($this->exactly($expectedFormatParamCount))->method('formatParameterName')
             ->will($this->returnValue('?'));
 
         // test
-        $adapter = $this->getMock(
-            'Zend\Db\Adapter\Adapter',
-            null,
-            [
+        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([
                 $driver,
-                new SqlServerPlatform()
-            ]
-        );
+                new SqlServerPlatform(),
+            ])
+            ->getMock();
 
         $parameterContainer = new ParameterContainer;
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $statement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
 
@@ -56,26 +56,26 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         $selectDecorator->setSubject($select);
         $selectDecorator->prepareStatement($adapter, $statement);
 
-        $this->assertEquals($expectedParams, $parameterContainer->getNamedArray());
+        self::assertEquals($expectedParams, $parameterContainer->getNamedArray());
     }
 
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare
      *                            a proper limit/offset sql statement
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::getSqlString
-     * @covers Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::getSqlString
+     * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
      */
     public function testGetSqlString(Select $select, $ignored, $alsoIgnored, $expectedSql)
     {
         $parameterContainer = new ParameterContainer;
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $statement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
 
         $selectDecorator = new SelectDecorator;
         $selectDecorator->setSubject($select);
-        $this->assertEquals($expectedSql, $selectDecorator->getSqlString(new SqlServerPlatform));
+        self::assertEquals($expectedSql, $selectDecorator->getSqlString(new SqlServerPlatform));
     }
 
     public function dataProvider()
