@@ -9,7 +9,9 @@
 
 namespace ZendTest\Db\Adapter\Driver\Oci8;
 
-abstract class AbstractIntegrationTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class AbstractIntegrationTest extends TestCase
 {
     protected $variables = [
         'hostname' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_OCI8_HOSTNAME',

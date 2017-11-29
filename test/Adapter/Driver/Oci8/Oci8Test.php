@@ -9,14 +9,15 @@
 
 namespace ZendTest\Db\Adapter\Driver\Oci8;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Oci8\Oci8;
 
-class Oci8Test extends \PHPUnit_Framework_TestCase
+class Oci8Test extends TestCase
 {
     /**
      * @var Oci8
      */
-    protected $oci8 = null;
+    protected $oci8;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -28,7 +29,7 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::registerConnection
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::registerConnection
      */
     public function testRegisterConnection()
     {
@@ -42,11 +43,11 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
             ['setDriver']
         );
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->oci8));
-        $this->assertSame($this->oci8, $this->oci8->registerConnection($mockConnection));
+        self::assertSame($this->oci8, $this->oci8->registerConnection($mockConnection));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::registerStatementPrototype
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::registerStatementPrototype
      */
     public function testRegisterStatementPrototype()
     {
@@ -61,11 +62,11 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
             ['setDriver']
         );
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->oci8));
-        $this->assertSame($this->oci8, $this->oci8->registerStatementPrototype($mockStatement));
+        self::assertSame($this->oci8, $this->oci8->registerStatementPrototype($mockStatement));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::registerResultPrototype
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::registerResultPrototype
      */
     public function testRegisterResultPrototype()
     {
@@ -79,32 +80,32 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
             true,
             ['setDriver']
         );
-        $this->assertSame($this->oci8, $this->oci8->registerResultPrototype($mockStatement));
+        self::assertSame($this->oci8, $this->oci8->registerResultPrototype($mockStatement));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::getDatabasePlatformName
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {
         $this->oci8 = new Oci8([]);
-        $this->assertEquals('Oracle', $this->oci8->getDatabasePlatformName());
-        $this->assertEquals('Oracle', $this->oci8->getDatabasePlatformName(Oci8::NAME_FORMAT_NATURAL));
+        self::assertEquals('Oracle', $this->oci8->getDatabasePlatformName());
+        self::assertEquals('Oracle', $this->oci8->getDatabasePlatformName(Oci8::NAME_FORMAT_NATURAL));
     }
 
     /**
      * @depends testRegisterConnection
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::getConnection
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::getConnection
      */
     public function testGetConnection($mockConnection)
     {
         $conn = new \Zend\Db\Adapter\Driver\Oci8\Connection([]);
         $this->oci8->registerConnection($conn);
-        $this->assertSame($conn, $this->oci8->getConnection());
+        self::assertSame($conn, $this->oci8->getConnection());
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::createStatement
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::createStatement
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateStatement()
@@ -116,7 +117,7 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::createResult
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::createResult
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateResult()
@@ -128,7 +129,7 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::getPrepareType
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::getPrepareType
      * @todo   Implement testGetPrepareType().
      */
     public function testGetPrepareType()
@@ -140,7 +141,7 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::formatParameterName
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::formatParameterName
      * @todo   Implement testFormatParameterName().
      */
     public function testFormatParameterName()
@@ -152,7 +153,7 @@ class Oci8Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::getLastGeneratedValue
+     * @covers \Zend\Db\Adapter\Driver\Oci8\Oci8::getLastGeneratedValue
      * @todo   Implement testGetLastGeneratedValue().
      */
     public function testGetLastGeneratedValue()

@@ -9,14 +9,15 @@
 
 namespace ZendTest\Db\Adapter\Driver\Pgsql;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Pgsql\Pgsql;
 
-class PgsqlTest extends \PHPUnit_Framework_TestCase
+class PgsqlTest extends TestCase
 {
     /**
      * @var Pgsql
      */
-    protected $pgsql = null;
+    protected $pgsql;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -28,19 +29,19 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::checkEnvironment
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::checkEnvironment
      */
     public function testCheckEnvironment()
     {
         if (! extension_loaded('pgsql')) {
-            $this->setExpectedException('Zend\Db\Adapter\Exception\RuntimeException');
+            $this->expectException('Zend\Db\Adapter\Exception\RuntimeException');
         }
         $this->pgsql->checkEnvironment();
-        $this->assertTrue(true, 'No exception was thrown');
+        self::assertTrue(true, 'No exception was thrown');
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerConnection
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerConnection
      */
     public function testRegisterConnection()
     {
@@ -54,11 +55,11 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
             ['setDriver']
         );
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->pgsql));
-        $this->assertSame($this->pgsql, $this->pgsql->registerConnection($mockConnection));
+        self::assertSame($this->pgsql, $this->pgsql->registerConnection($mockConnection));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerStatementPrototype
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerStatementPrototype
      */
     public function testRegisterStatementPrototype()
     {
@@ -73,11 +74,11 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
             ['setDriver']
         );
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->pgsql));
-        $this->assertSame($this->pgsql, $this->pgsql->registerStatementPrototype($mockStatement));
+        self::assertSame($this->pgsql, $this->pgsql->registerStatementPrototype($mockStatement));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerResultPrototype
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerResultPrototype
      */
     public function testRegisterResultPrototype()
     {
@@ -91,32 +92,32 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
             true,
             ['setDriver']
         );
-        $this->assertSame($this->pgsql, $this->pgsql->registerResultPrototype($mockStatement));
+        self::assertSame($this->pgsql, $this->pgsql->registerResultPrototype($mockStatement));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getDatabasePlatformName
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {
         $this->pgsql = new Pgsql([]);
-        $this->assertEquals('Postgresql', $this->pgsql->getDatabasePlatformName());
-        $this->assertEquals('PostgreSQL', $this->pgsql->getDatabasePlatformName(Pgsql::NAME_FORMAT_NATURAL));
+        self::assertEquals('Postgresql', $this->pgsql->getDatabasePlatformName());
+        self::assertEquals('PostgreSQL', $this->pgsql->getDatabasePlatformName(Pgsql::NAME_FORMAT_NATURAL));
     }
 
     /**
      * @depends testRegisterConnection
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getConnection
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::getConnection
      */
     public function testGetConnection($mockConnection)
     {
         $conn = new \Zend\Db\Adapter\Driver\Pgsql\Connection([]);
         $this->pgsql->registerConnection($conn);
-        $this->assertSame($conn, $this->pgsql->getConnection());
+        self::assertSame($conn, $this->pgsql->getConnection());
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::createStatement
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::createStatement
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateStatement()
@@ -128,7 +129,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::createResult
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::createResult
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateResult()
@@ -140,7 +141,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getPrepareType
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::getPrepareType
      * @todo   Implement testGetPrepareType().
      */
     public function testGetPrepareType()
@@ -152,7 +153,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::formatParameterName
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::formatParameterName
      * @todo   Implement testFormatParameterName().
      */
     public function testFormatParameterName()
@@ -164,7 +165,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getLastGeneratedValue
+     * @covers \Zend\Db\Adapter\Driver\Pgsql\Pgsql::getLastGeneratedValue
      * @todo   Implement testGetLastGeneratedValue().
      */
     public function testGetLastGeneratedValue()

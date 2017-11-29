@@ -9,13 +9,14 @@
 
 namespace ZendTest\Db\Metadata\Source;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Metadata\Source\SqliteMetadata;
 
 /**
  * @requires extension pdo_sqlite
  */
-class SqliteMetadataTest extends \PHPUnit_Framework_TestCase
+class SqliteMetadataTest extends TestCase
 {
     /**
      * @var SqliteMetadata
@@ -38,7 +39,7 @@ class SqliteMetadataTest extends \PHPUnit_Framework_TestCase
         }
         $this->adapter = new Adapter([
             'driver' => 'Pdo',
-            'dsn' => 'sqlite::memory:'
+            'dsn' => 'sqlite::memory:',
         ]);
         $this->metadata = new SqliteMetadata($this->adapter);
     }
@@ -46,27 +47,27 @@ class SqliteMetadataTest extends \PHPUnit_Framework_TestCase
     public function testGetSchemas()
     {
         $schemas = $this->metadata->getSchemas();
-        $this->assertContains('main', $schemas);
-        $this->assertCount(1, $schemas);
+        self::assertContains('main', $schemas);
+        self::assertCount(1, $schemas);
     }
 
     public function testGetTableNames()
     {
         $tables = $this->metadata->getTableNames('main');
-        $this->assertCount(0, $tables);
+        self::assertCount(0, $tables);
     }
 
     public function testGetColumnNames()
     {
         $columns = $this->metadata->getColumnNames(null, 'main');
-        $this->assertCount(0, $columns);
+        self::assertCount(0, $columns);
     }
 
     public function testGetConstraints()
     {
         $constraints = $this->metadata->getConstraints(null, 'main');
-        $this->assertCount(0, $constraints);
-        $this->assertContainsOnlyInstancesOf(
+        self::assertCount(0, $constraints);
+        self::assertContainsOnlyInstancesOf(
             'Zend\Db\Metadata\Object\ConstraintObject',
             $constraints
         );
@@ -82,8 +83,8 @@ class SqliteMetadataTest extends \PHPUnit_Framework_TestCase
             null,
             'main'
         );
-        $this->assertCount(0, $keys);
-        $this->assertContainsOnlyInstancesOf(
+        self::assertCount(0, $keys);
+        self::assertContainsOnlyInstancesOf(
             'Zend\Db\Metadata\Object\ConstraintKeyObject',
             $keys
         );
@@ -92,8 +93,8 @@ class SqliteMetadataTest extends \PHPUnit_Framework_TestCase
     public function testGetTriggers()
     {
         $triggers = $this->metadata->getTriggers('main');
-        $this->assertCount(0, $triggers);
-        $this->assertContainsOnlyInstancesOf(
+        self::assertCount(0, $triggers);
+        self::assertContainsOnlyInstancesOf(
             'Zend\Db\Metadata\Object\TriggerObject',
             $triggers
         );

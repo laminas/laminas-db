@@ -9,9 +9,10 @@
 
 namespace ZendTest\Db\Adapter\Driver\Pdo;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Pdo\Statement;
 
-class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
+class StatementIntegrationTest extends TestCase
 {
     /**
      * @var Statement
@@ -21,7 +22,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $pdoStatementMock = null;
+    protected $pdoStatementMock;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -29,10 +30,17 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $driver = $this->getMockBuilder('Zend\Db\Adapter\Driver\Pdo\Pdo')
+            ->setMethods(['createResult'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->statement = new Statement;
-        $this->statement->setDriver($this->getMock('Zend\Db\Adapter\Driver\Pdo\Pdo', ['createResult'], [], '', false));
+        $this->statement->setDriver($driver);
         $this->statement->initialize(new TestAsset\CtorlessPdo(
-            $this->pdoStatementMock = $this->getMock('PDOStatement', ['execute', 'bindParam'])
+            $this->pdoStatementMock = $this->getMockBuilder('PDOStatement')
+                ->setMethods(['execute', 'bindParam'])
+                ->getMock()
         ));
     }
 

@@ -138,7 +138,7 @@ class Connection extends AbstractConnection
 
         $flags = null;
 
-        if ($useSSL && !$socket) {
+        if ($useSSL && ! $socket) {
             $this->resource->ssl_set($clientKey, $clientCert, $caCert, $caPath, $cipher);
             //MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT is not valid option, needs to be set as flag
             if (isset($p['driver_options'])

@@ -13,7 +13,7 @@ use Zend\Db\Sql;
 
 class SelectDecorator extends Sql\Select implements Sql\Platform\PlatformDecoratorInterface
 {
-    protected $subject = null;
+    protected $subject;
 
     /**
      * @param $subject

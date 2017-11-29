@@ -9,8 +9,9 @@
 
 namespace ZendTest\Db\Sql;
 
-use Zend\Db\Sql;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter;
+use Zend\Db\Sql;
 use ZendTest\Db\TestAsset;
 
 /**
@@ -21,7 +22,7 @@ use ZendTest\Db\TestAsset;
  * @method \Zend\Db\Sql\Ddl\CreateTable createTable(null|string $table)
  * @method \Zend\Db\Sql\Ddl\Column\Column createColumn(null|string $name)
  */
-class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
+class SqlFunctionalTest extends TestCase
 {
     protected function dataProviderCommonProcessMethods()
     {
@@ -122,7 +123,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                                     )
                                     ->columns([
                                         'my_table_column',
-                                        'aliased_column' => new \Zend\Db\Sql\Expression('NOW()')
+                                        'aliased_column' => new \Zend\Db\Sql\Expression('NOW()'),
                                     ]),
                 'expected' => [
                     // @codingStandardsIgnoreStart
@@ -183,7 +184,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                     'MySql'     => "CREATE TABLE `foo` ( \n    `col1` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Comment1',\n    `col2` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Comment2' \n)",
                     'Oracle'    => "CREATE TABLE \"foo\" ( \n    \"col1\" INTEGER NOT NULL,\n    \"col2\" INTEGER NOT NULL \n)",
                     'SqlServer' => "CREATE TABLE [foo] ( \n    [col1] INTEGER NOT NULL,\n    [col2] INTEGER NOT NULL \n)",
-                    // @codingStandardsIgnoreend
+                    // @codingStandardsIgnoreEnd
                 ],
             ],
             'Ddl::CreateTable::processTable()' => [
@@ -198,8 +199,8 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
             'Select::processSubSelect()' => [
                 'sqlObject' => $this->select([
                     'a' => $this->select([
-                        'b' => $this->select('c')->where(['cc' => 'CC'])
-                    ])->where(['bb' => 'BB'])
+                        'b' => $this->select('c')->where(['cc' => 'CC']),
+                    ])->where(['bb' => 'BB']),
                 ])->where(['aa' => 'AA']),
                 'expected'  => [
                     // @codingStandardsIgnoreStart
@@ -546,14 +547,14 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
         $expectedString = is_string($expected) ? $expected : (isset($expected['string']) ? $expected['string'] : null);
         if ($expectedString) {
             $actual = $sql->getSqlStringForSqlObject($sqlObject);
-            $this->assertEquals($expectedString, $actual, "getSqlString()");
+            self::assertEquals($expectedString, $actual, "getSqlString()");
         }
         if (is_array($expected) && isset($expected['prepare'])) {
             $actual = $sql->prepareStatementForSqlObject($sqlObject);
-            $this->assertEquals($expected['prepare'], $actual->getSql(), "prepareStatement()");
+            self::assertEquals($expected['prepare'], $actual->getSql(), "prepareStatement()");
             if (isset($expected['parameters'])) {
                 $actual = $actual->getParameterContainer()->getNamedArray();
-                $this->assertSame($expected['parameters'], $actual, "parameterContainer()");
+                self::assertSame($expected['parameters'], $actual, "parameterContainer()");
             }
         }
     }
@@ -561,7 +562,10 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
     protected function resolveDecorator($decorator)
     {
         if (is_array($decorator)) {
-            $decoratorMock = $this->getMock($decorator[0], ['buildSqlString'], [null]);
+            $decoratorMock = $this->getMockBuilder($decorator[0])
+                ->setMethods(['buildSqlString'])
+                ->setConstructorArgs([null])
+                ->getMock();
             $decoratorMock->expects($this->any())->method('buildSqlString')->will($this->returnValue($decorator[1]));
             return $decoratorMock;
         }
@@ -590,7 +594,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 $platform = null;
         }
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnCallback(function () {
             return new Adapter\StatementContainer;

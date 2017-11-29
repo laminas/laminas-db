@@ -9,7 +9,9 @@
 
 namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
 
-abstract class AbstractIntegrationTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class AbstractIntegrationTest extends TestCase
 {
     protected $variables = [
         'hostname' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME',

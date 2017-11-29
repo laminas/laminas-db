@@ -14,7 +14,7 @@ class UpdateIgnore extends Update
     protected $specifications = [
         self::SPECIFICATION_UPDATE => 'UPDATE IGNORE %1$s',
         self::SPECIFICATION_SET => 'SET %1$s',
-        self::SPECIFICATION_WHERE  => 'WHERE %1$s'
+        self::SPECIFICATION_WHERE  => 'WHERE %1$s',
     ];
 
     protected function processupdateIgnore(

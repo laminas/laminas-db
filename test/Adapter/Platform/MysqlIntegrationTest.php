@@ -9,15 +9,16 @@
 
 namespace ZendTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Platform\Mysql;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Mysqli;
 use Zend\Db\Adapter\Driver\Pdo;
+use Zend\Db\Adapter\Platform\Mysql;
 
 /**
  * @group integration
  * @group integration-mysql
  */
-class MysqlIntegrationTest extends \PHPUnit_Framework_TestCase
+class MysqlIntegrationTest extends TestCase
 {
     public $adapters = [];
 
@@ -28,11 +29,11 @@ class MysqlIntegrationTest extends \PHPUnit_Framework_TestCase
         }
         $mysql = new Mysql($this->adapters['mysqli']);
         $value = $mysql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
 
         $mysql = new Mysql(new Mysqli\Mysqli(new Mysqli\Connection($this->adapters['mysqli'])));
         $value = $mysql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
     }
 
     public function testQuoteValueWithPdoMysql()
@@ -42,10 +43,10 @@ class MysqlIntegrationTest extends \PHPUnit_Framework_TestCase
         }
         $mysql = new Mysql($this->adapters['pdo_mysql']);
         $value = $mysql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
 
         $mysql = new Mysql(new Pdo\Pdo(new Pdo\Connection($this->adapters['pdo_mysql'])));
         $value = $mysql->quoteValue('value');
-        $this->assertEquals('\'value\'', $value);
+        self::assertEquals('\'value\'', $value);
     }
 }

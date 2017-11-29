@@ -9,6 +9,7 @@
 
 namespace ZendTest\Db\Sql;
 
+use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\Sql92;
@@ -20,72 +21,72 @@ use Zend\Db\Sql\TableIdentifier;
 use Zend\Db\Sql\Where;
 use ZendTest\Db\TestAsset\TrustingSql92Platform;
 
-class SelectTest extends \PHPUnit_Framework_TestCase
+class SelectTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Select::__construct
+     * @covers \Zend\Db\Sql\Select::__construct
      */
     public function testConstruct()
     {
         $select = new Select('foo');
-        $this->assertEquals('foo', $select->getRawState('table'));
+        self::assertEquals('foo', $select->getRawState('table'));
     }
 
     /**
      * @testdox unit test: Test from() returns Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::from
+     * @covers \Zend\Db\Sql\Select::from
      */
     public function testFrom()
     {
         $select = new Select;
         $return = $select->from('foo', 'bar');
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $return;
     }
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via from()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testFrom
      */
     public function testGetRawStateViaFrom(Select $select)
     {
-        $this->assertEquals('foo', $select->getRawState('table'));
+        self::assertEquals('foo', $select->getRawState('table'));
     }
 
     /**
      * @testdox unit test: Test quantifier() returns Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::quantifier
+     * @covers \Zend\Db\Sql\Select::quantifier
      */
     public function testQuantifier()
     {
         $select = new Select;
         $return = $select->quantifier($select::QUANTIFIER_DISTINCT);
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
         return $return;
     }
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via quantifier()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testQuantifier
      */
     public function testGetRawStateViaQuantifier(Select $select)
     {
-        $this->assertEquals(Select::QUANTIFIER_DISTINCT, $select->getRawState('quantifier'));
+        self::assertEquals(Select::QUANTIFIER_DISTINCT, $select->getRawState('quantifier'));
     }
 
     /**
      * @testdox unit test: Test quantifier() accepts expression
-     * @covers Zend\Db\Sql\Select::quantifier
+     * @covers \Zend\Db\Sql\Select::quantifier
      */
     public function testQuantifierParameterExpressionInterface()
     {
-        $expr = $this->getMock('Zend\Db\Sql\ExpressionInterface');
+        $expr = $this->getMockBuilder('Zend\Db\Sql\ExpressionInterface')->getMock();
         $select = new Select;
         $select->quantifier($expr);
-        $this->assertSame(
+        self::assertSame(
             $expr,
             $select->getRawState(Select::QUANTIFIER)
         );
@@ -93,72 +94,75 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testdox unit test: Test columns() returns Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::columns
+     * @covers \Zend\Db\Sql\Select::columns
      */
     public function testColumns()
     {
         $select = new Select;
         $return = $select->columns(['foo', 'bar']);
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $select;
     }
 
     /**
      * @testdox unit test: Test isTableReadOnly() returns correct state for read only
-     * @covers Zend\Db\Sql\Select::isTableReadOnly
+     * @covers \Zend\Db\Sql\Select::isTableReadOnly
      */
     public function testIsTableReadOnly()
     {
         $select = new Select('foo');
-        $this->assertTrue($select->isTableReadOnly());
+        self::assertTrue($select->isTableReadOnly());
 
         $select = new Select;
-        $this->assertFalse($select->isTableReadOnly());
+        self::assertFalse($select->isTableReadOnly());
     }
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via columns()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testColumns
      */
     public function testGetRawStateViaColumns(Select $select)
     {
-        $this->assertEquals(['foo', 'bar'], $select->getRawState('columns'));
+        self::assertEquals(['foo', 'bar'], $select->getRawState('columns'));
     }
 
     /**
      * @testdox unit test: Test join() returns same Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::join
+     * @covers \Zend\Db\Sql\Select::join
      */
     public function testJoin()
     {
         $select = new Select;
         $return = $select->join('foo', 'x = y', Select::SQL_STAR, Select::JOIN_INNER);
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $return;
     }
 
     /**
      * @testdox unit test: Test join() exception with bad join
-     * @covers Zend\Db\Sql\Select::join
+     * @covers \Zend\Db\Sql\Select::join
      */
     public function testBadJoin()
     {
         $select = new Select;
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', "expects 'foo' as");
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage("expects 'foo' as");
         $select->join(['foo'], 'x = y', Select::SQL_STAR, Select::JOIN_INNER);
     }
 
     /**
      * @testdox unit test: Test processJoins() exception with bad join name
-     * @covers Zend\Db\Sql\Select::processJoins
+     * @covers \Zend\Db\Sql\Select::processJoins
      */
     public function testBadJoinName()
     {
-        $mockExpression = $this->getMock('Zend\Db\Sql\ExpressionInterface', [], ['bar']);
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockExpression = $this->getMockBuilder('Zend\Db\Sql\ExpressionInterface')
+            ->setConstructorArgs(['bar'])
+            ->getMock();
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $parameterContainer = new ParameterContainer();
 
@@ -171,24 +175,24 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $mr->setAccessible(true);
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
 
         $mr->invokeArgs($select, [new Sql92, $mockDriver, $parameterContainer]);
     }
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via join()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testJoin
      */
     public function testGetRawStateViaJoin(Select $select)
     {
-        $this->assertEquals(
+        self::assertEquals(
             [[
                 'name' => 'foo',
                 'on' => 'x = y',
                 'columns' => [Select::SQL_STAR],
-                'type' => Select::JOIN_INNER
+                'type' => Select::JOIN_INNER,
             ]],
             $select->getRawState('joins')->getJoins()
         );
@@ -196,17 +200,17 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testdox unit test: Test where() returns Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereReturnsSameSelectObject()
     {
         $select = new Select;
-        $this->assertSame($select, $select->where('x = y'));
+        self::assertSame($select, $select->where('x = y'));
     }
 
     /**
      * @testdox unit test: Test where() will accept a string for the predicate to create an expression predicate
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsString()
     {
@@ -216,10 +220,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertEquals(1, count($predicates));
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[0][1]);
-        $this->assertEquals(Where::OP_AND, $predicates[0][0]);
-        $this->assertEquals('x = ?', $predicates[0][1]->getExpression());
+        self::assertCount(1, $predicates);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[0][1]);
+        self::assertEquals(Where::OP_AND, $predicates[0][0]);
+        self::assertEquals('x = ?', $predicates[0][1]->getExpression());
 
         $select = new Select;
         $select->where('x = y');
@@ -227,13 +231,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
     }
 
     /**
      * @testdox unit test: Test where() will accept an array with a string key (containing ?) used as an
      *                     expression with placeholder
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsAssociativeArrayContainingReplacementCharacter()
     {
@@ -243,17 +247,17 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertEquals(1, count($predicates));
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[0][1]);
-        $this->assertEquals(Where::OP_AND, $predicates[0][0]);
-        $this->assertEquals('foo > ?', $predicates[0][1]->getExpression());
-        $this->assertEquals([5], $predicates[0][1]->getParameters());
+        self::assertCount(1, $predicates);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[0][1]);
+        self::assertEquals(Where::OP_AND, $predicates[0][0]);
+        self::assertEquals('foo > ?', $predicates[0][1]->getExpression());
+        self::assertEquals([5], $predicates[0][1]->getParameters());
     }
 
     /**
      * @testdox unit test: Test where() will accept any array with string key (without ?) to be used
      *                     as Operator predicate
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsAssociativeArrayNotContainingReplacementCharacter()
     {
@@ -263,29 +267,29 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertEquals(2, count($predicates));
+        self::assertCount(2, $predicates);
 
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[0][1]);
-        $this->assertEquals(Where::OP_AND, $predicates[0][0]);
-        $this->assertEquals('name', $predicates[0][1]->getLeft());
-        $this->assertEquals('Ralph', $predicates[0][1]->getRight());
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[0][1]);
+        self::assertEquals(Where::OP_AND, $predicates[0][0]);
+        self::assertEquals('name', $predicates[0][1]->getLeft());
+        self::assertEquals('Ralph', $predicates[0][1]->getRight());
 
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[1][1]);
-        $this->assertEquals(Where::OP_AND, $predicates[1][0]);
-        $this->assertEquals('age', $predicates[1][1]->getLeft());
-        $this->assertEquals(33, $predicates[1][1]->getRight());
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[1][1]);
+        self::assertEquals(Where::OP_AND, $predicates[1][0]);
+        self::assertEquals('age', $predicates[1][1]->getLeft());
+        self::assertEquals(33, $predicates[1][1]->getRight());
 
         $select = new Select;
         $select->where(['x = y']);
 
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
     }
 
     /**
      * @testdox unit test: Test where() will accept any array with string key (without ?) with Predicate throw Exception
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsAssociativeArrayIsPredicate()
     {
@@ -294,16 +298,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             'name' => new Predicate\Literal("name = 'Ralph'"),
             'age' => new Predicate\Expression('age = ?', 33),
         ];
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
-            'Using Predicate must not use string keys'
-        );
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Using Predicate must not use string keys');
         $select->where($where);
     }
 
     /**
      * @testdox unit test: Test where() will accept an indexed array to be used by joining string expressions
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsIndexedArray()
     {
@@ -313,17 +315,17 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertEquals(1, count($predicates));
+        self::assertCount(1, $predicates);
 
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
-        $this->assertEquals(Where::OP_AND, $predicates[0][0]);
-        $this->assertEquals('name = "Ralph"', $predicates[0][1]->getLiteral());
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertEquals(Where::OP_AND, $predicates[0][0]);
+        self::assertEquals('name = "Ralph"', $predicates[0][1]->getLiteral());
     }
 
     /**
      * @testdox unit test: Test where() will accept an indexed array to be used by joining string expressions,
      *                     combined by OR
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsIndexedArrayArgument2IsOr()
     {
@@ -333,16 +335,16 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertEquals(1, count($predicates));
+        self::assertCount(1, $predicates);
 
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
-        $this->assertEquals(Where::OP_OR, $predicates[0][0]);
-        $this->assertEquals('name = "Ralph"', $predicates[0][1]->getLiteral());
+        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertEquals(Where::OP_OR, $predicates[0][0]);
+        self::assertEquals('name = "Ralph"', $predicates[0][1]->getLiteral());
     }
 
     /**
      * @testdox unit test: Test where() will accept a closure to be executed with Where object as argument
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsClosure()
     {
@@ -350,13 +352,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $where = $select->getRawState('where');
 
         $select->where(function ($what) use ($where) {
-            $this->assertSame($where, $what);
+            self::assertSame($where, $what);
         });
     }
 
     /**
      * @testdox unit test: Test where() will accept any Predicate object as-is
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsPredicate()
     {
@@ -370,59 +372,62 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         /** @var $where Where */
         $where = $select->getRawState('where');
         $predicates = $where->getPredicates();
-        $this->assertSame($predicate, $predicates[0][1]);
+        self::assertSame($predicate, $predicates[0][1]);
     }
 
     /**
      * @testdox unit test: Test where() will accept a Where object
-     * @covers Zend\Db\Sql\Select::where
+     * @covers \Zend\Db\Sql\Select::where
      */
     public function testWhereArgument1IsWhereObject()
     {
         $select = new Select;
         $select->where($newWhere = new Where);
-        $this->assertSame($newWhere, $select->getRawState('where'));
+        self::assertSame($newWhere, $select->getRawState('where'));
     }
 
     /**
      * @author Rob Allen
      * @testdox unit test: Test order()
-     * @covers Zend\Db\Sql\Select::order
+     * @covers \Zend\Db\Sql\Select::order
      */
     public function testOrder()
     {
         $select = new Select;
         $return = $select->order('id DESC');
-        $this->assertSame($select, $return); // test fluent interface
-        $this->assertEquals(['id DESC'], $select->getRawState('order'));
+        self::assertSame($select, $return); // test fluent interface
+        self::assertEquals(['id DESC'], $select->getRawState('order'));
 
         $select = new Select;
         $select->order('id DESC')
             ->order('name ASC, age DESC');
-        $this->assertEquals(['id DESC', 'name ASC', 'age DESC'], $select->getRawState('order'));
+        self::assertEquals(['id DESC', 'name ASC', 'age DESC'], $select->getRawState('order'));
 
         $select = new Select;
         $select->order(['name ASC', 'age DESC']);
-        $this->assertEquals(['name ASC', 'age DESC'], $select->getRawState('order'));
+        self::assertEquals(['name ASC', 'age DESC'], $select->getRawState('order'));
 
         $select = new Select;
         $select->order(new Expression('RAND()'));
         $sr = new ReflectionObject($select);
         $method = $sr->getMethod('processOrder');
         $method->setAccessible(true);
-        $this->assertEquals(
+        self::assertEquals(
             [[['RAND()']]],
             $method->invokeArgs($select, [new TrustingSql92Platform()])
         );
 
         $select = new Select;
         $select->order(
-            $this->getMock('Zend\Db\Sql\Predicate\Operator', null, ['rating', '<', '10'])
+            $this->getMockBuilder('Zend\Db\Sql\Predicate\Operator')
+                ->setMethods()
+                ->setConstructorArgs(['rating', '<', '10'])
+                ->getMock()
         );
         $sr = new ReflectionObject($select);
         $method = $sr->getMethod('processOrder');
         $method->setAccessible(true);
-        $this->assertEquals(
+        self::assertEquals(
             [[['"rating" < \'10\'']]],
             $method->invokeArgs($select, [new TrustingSql92Platform()])
         );
@@ -430,13 +435,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testdox unit test: Test order() correctly splits parameters.
-     * @covers Zend\Db\Sql\Select::order
+     * @covers \Zend\Db\Sql\Select::order
      */
     public function testOrderCorrectlySplitsParameter()
     {
         $select = new Select;
         $select->order('name  desc');
-        $this->assertEquals(
+        self::assertEquals(
             'SELECT * ORDER BY "name" DESC',
             $select->getSqlString(new TrustingSql92Platform())
         );
@@ -444,96 +449,92 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testdox: unit test: test limit()
-     * @covers Zend\Db\Sql\Select::limit
+     * @covers \Zend\Db\Sql\Select::limit
      */
     public function testLimit()
     {
         $select = new Select;
-        $this->assertSame($select, $select->limit(5));
+        self::assertSame($select, $select->limit(5));
         return $select;
     }
 
     /**
      * @testdox: unit test: Test getRawState() returns information populated via limit()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testLimit
      */
     public function testGetRawStateViaLimit(Select $select)
     {
-        $this->assertEquals(5, $select->getRawState($select::LIMIT));
+        self::assertEquals(5, $select->getRawState($select::LIMIT));
     }
 
     /**
      * @testdox: unit test: test limit() throws execption when invalid parameter passed
-     * @covers Zend\Db\Sql\Select::limit
+     * @covers \Zend\Db\Sql\Select::limit
      */
     public function testLimitExceptionOnInvalidParameter()
     {
         $select = new Select;
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
-            'Zend\Db\Sql\Select::limit expects parameter to be numeric'
-        );
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Zend\Db\Sql\Select::limit expects parameter to be numeric');
         $select->limit('foobar');
     }
 
     /**
      * @testdox: unit test: test offset()
-     * @covers Zend\Db\Sql\Select::offset
+     * @covers \Zend\Db\Sql\Select::offset
      */
     public function testOffset()
     {
         $select = new Select;
-        $this->assertSame($select, $select->offset(10));
+        self::assertSame($select, $select->offset(10));
         return $select;
     }
 
     /**
      * @testdox: unit test: Test getRawState() returns information populated via offset()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testOffset
      */
     public function testGetRawStateViaOffset(Select $select)
     {
-        $this->assertEquals(10, $select->getRawState($select::OFFSET));
+        self::assertEquals(10, $select->getRawState($select::OFFSET));
     }
 
     /**
      * @testdox: unit test: test offset() throws exception when invalid parameter passed
-     * @covers Zend\Db\Sql\Select::offset
+     * @covers \Zend\Db\Sql\Select::offset
      */
     public function testOffsetExceptionOnInvalidParameter()
     {
         $select = new Select;
-        $this->setExpectedException(
-            'Zend\Db\Sql\Exception\InvalidArgumentException',
-            'Zend\Db\Sql\Select::offset expects parameter to be numeric'
-        );
+        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Zend\Db\Sql\Select::offset expects parameter to be numeric');
         $select->offset('foobar');
     }
 
 
     /**
      * @testdox unit test: Test group() returns same Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::group
+     * @covers \Zend\Db\Sql\Select::group
      */
     public function testGroup()
     {
         $select = new Select;
         $return = $select->group(['col1', 'col2']);
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $return;
     }
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via group()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testGroup
      */
     public function testGetRawStateViaGroup(Select $select)
     {
-        $this->assertEquals(
+        self::assertEquals(
             ['col1', 'col2'],
             $select->getRawState('group')
         );
@@ -541,73 +542,73 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testdox unit test: Test having() returns same Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::having
+     * @covers \Zend\Db\Sql\Select::having
      */
     public function testHaving()
     {
         $select = new Select;
         $return = $select->having(['x = ?' => 5]);
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $return;
     }
 
     /**
      * @testdox unit test: Test having() returns same Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::having
+     * @covers \Zend\Db\Sql\Select::having
      */
     public function testHavingArgument1IsHavingObject()
     {
         $select = new Select;
         $having = new Having();
         $return = $select->having($having);
-        $this->assertSame($select, $return);
-        $this->assertSame($having, $select->getRawState('having'));
+        self::assertSame($select, $return);
+        self::assertSame($having, $select->getRawState('having'));
 
         return $return;
     }
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via having()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testHaving
      */
     public function testGetRawStateViaHaving(Select $select)
     {
-        $this->assertInstanceOf('Zend\Db\Sql\Having', $select->getRawState('having'));
+        self::assertInstanceOf('Zend\Db\Sql\Having', $select->getRawState('having'));
     }
 
     /**
      * @testdox unit test: Test combine() returns same Select object (is chainable)
-     * @covers Zend\Db\Sql\Select::combine
+     * @covers \Zend\Db\Sql\Select::combine
      */
     public function testCombine()
     {
         $select = new Select;
         $combine = new Select;
         $return = $select->combine($combine, $select::COMBINE_UNION, 'ALL');
-        $this->assertSame($select, $return);
+        self::assertSame($select, $return);
 
         return $return;
     }
 
     /**
      * @testdox unit test: Test getRawState() returns information populated via combine()
-     * @covers Zend\Db\Sql\Select::getRawState
+     * @covers \Zend\Db\Sql\Select::getRawState
      * @depends testCombine
      */
     public function testGetRawStateViaCombine(Select $select)
     {
         $state = $select->getRawState('combine');
-        $this->assertInstanceOf('Zend\Db\Sql\Select', $state['select']);
-        $this->assertNotSame($select, $state['select']);
-        $this->assertEquals(Select::COMBINE_UNION, $state['type']);
-        $this->assertEquals('ALL', $state['modifier']);
+        self::assertInstanceOf('Zend\Db\Sql\Select', $state['select']);
+        self::assertNotSame($select, $state['select']);
+        self::assertEquals(Select::COMBINE_UNION, $state['type']);
+        self::assertEquals('ALL', $state['modifier']);
     }
 
     /**
      * @testdox unit test: Test reset() resets internal stat of Select object, based on input
-     * @covers Zend\Db\Sql\Select::reset
+     * @covers \Zend\Db\Sql\Select::reset
      */
     public function testReset()
     {
@@ -615,72 +616,72 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         // table
         $select->from('foo');
-        $this->assertEquals('foo', $select->getRawState(Select::TABLE));
+        self::assertEquals('foo', $select->getRawState(Select::TABLE));
         $select->reset(Select::TABLE);
-        $this->assertNull($select->getRawState(Select::TABLE));
+        self::assertNull($select->getRawState(Select::TABLE));
 
         // columns
         $select->columns(['foo']);
-        $this->assertEquals(['foo'], $select->getRawState(Select::COLUMNS));
+        self::assertEquals(['foo'], $select->getRawState(Select::COLUMNS));
         $select->reset(Select::COLUMNS);
-        $this->assertEmpty($select->getRawState(Select::COLUMNS));
+        self::assertEmpty($select->getRawState(Select::COLUMNS));
 
         // joins
         $select->join('foo', 'id = boo');
-        $this->assertEquals(
+        self::assertEquals(
             [['name' => 'foo', 'on' => 'id = boo', 'columns' => ['*'], 'type' => 'inner']],
             $select->getRawState(Select::JOINS)->getJoins()
         );
         $select->reset(Select::JOINS);
-        $this->assertEmpty($select->getRawState(Select::JOINS)->getJoins());
+        self::assertEmpty($select->getRawState(Select::JOINS)->getJoins());
 
         // where
         $select->where('foo = bar');
         $where1 = $select->getRawState(Select::WHERE);
-        $this->assertEquals(1, $where1->count());
+        self::assertEquals(1, $where1->count());
         $select->reset(Select::WHERE);
         $where2 = $select->getRawState(Select::WHERE);
-        $this->assertEquals(0, $where2->count());
-        $this->assertNotSame($where1, $where2);
+        self::assertEquals(0, $where2->count());
+        self::assertNotSame($where1, $where2);
 
         // group
         $select->group(['foo']);
-        $this->assertEquals(['foo'], $select->getRawState(Select::GROUP));
+        self::assertEquals(['foo'], $select->getRawState(Select::GROUP));
         $select->reset(Select::GROUP);
-        $this->assertEmpty($select->getRawState(Select::GROUP));
+        self::assertEmpty($select->getRawState(Select::GROUP));
 
         // having
         $select->having('foo = bar');
         $having1 = $select->getRawState(Select::HAVING);
-        $this->assertEquals(1, $having1->count());
+        self::assertEquals(1, $having1->count());
         $select->reset(Select::HAVING);
         $having2 = $select->getRawState(Select::HAVING);
-        $this->assertEquals(0, $having2->count());
-        $this->assertNotSame($having1, $having2);
+        self::assertEquals(0, $having2->count());
+        self::assertNotSame($having1, $having2);
 
         // limit
         $select->limit(5);
-        $this->assertEquals(5, $select->getRawState(Select::LIMIT));
+        self::assertEquals(5, $select->getRawState(Select::LIMIT));
         $select->reset(Select::LIMIT);
-        $this->assertNull($select->getRawState(Select::LIMIT));
+        self::assertNull($select->getRawState(Select::LIMIT));
 
         // offset
         $select->offset(10);
-        $this->assertEquals(10, $select->getRawState(Select::OFFSET));
+        self::assertEquals(10, $select->getRawState(Select::OFFSET));
         $select->reset(Select::OFFSET);
-        $this->assertNull($select->getRawState(Select::OFFSET));
+        self::assertNull($select->getRawState(Select::OFFSET));
 
         // order
         $select->order('foo asc');
-        $this->assertEquals(['foo asc'], $select->getRawState(Select::ORDER));
+        self::assertEquals(['foo asc'], $select->getRawState(Select::ORDER));
         $select->reset(Select::ORDER);
-        $this->assertEmpty($select->getRawState(Select::ORDER));
+        self::assertEmpty($select->getRawState(Select::ORDER));
     }
 
     /**
      * @testdox unit test: Test prepareStatement() will produce expected sql and parameters based on
      *                     a variety of provided arguments [uses data provider]
-     * @covers Zend\Db\Sql\Select::prepareStatement
+     * @covers \Zend\Db\Sql\Select::prepareStatement
      * @dataProvider providerData
      */
     public function testPrepareStatement(
@@ -691,17 +692,20 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $unused2,
         $useNamedParameters = false
     ) {
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnCallback(
             function ($name) use ($useNamedParameters) {
                 return (($useNamedParameters) ? ':' . $name : '?');
             }
         ));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, [$mockDriver]);
+        $mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods()
+            ->setConstructorArgs([$mockDriver])
+            ->getMock();
 
         $parameterContainer = new ParameterContainer();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
         $mockStatement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
         $mockStatement->expects($this->any())->method('setSql')->with($this->equalTo($expectedSqlString));
@@ -709,7 +713,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select->prepareStatement($mockAdapter, $mockStatement);
 
         if ($expectedParameters) {
-            $this->assertEquals($expectedParameters, $parameterContainer->getNamedArray());
+            self::assertEquals($expectedParameters, $parameterContainer->getNamedArray());
         }
     }
 
@@ -722,7 +726,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select->from(new TableIdentifier('foo'));
         $select->join(new TableIdentifier('bar'), 'foo.id = bar.fooid');
 
-        $this->assertEquals(
+        self::assertEquals(
             'SELECT "foo".*, "bar".* FROM "foo" INNER JOIN "bar" ON "foo"."id" = "bar"."fooid"',
             $select->getSqlString(new TrustingSql92Platform())
         );
@@ -731,28 +735,28 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     /**
      * @testdox unit test: Test getSqlString() will produce expected sql and parameters based on
      *                     a variety of provided arguments [uses data provider]
-     * @covers Zend\Db\Sql\Select::getSqlString
+     * @covers \Zend\Db\Sql\Select::getSqlString
      * @dataProvider providerData
      */
     public function testGetSqlString(Select $select, $unused, $unused2, $expectedSqlString)
     {
-        $this->assertEquals($expectedSqlString, $select->getSqlString(new TrustingSql92Platform()));
+        self::assertEquals($expectedSqlString, $select->getSqlString(new TrustingSql92Platform()));
     }
 
     /**
      * @testdox unit test: Test __get() returns expected objects magically
-     * @covers Zend\Db\Sql\Select::__get
+     * @covers \Zend\Db\Sql\Select::__get
      */
     public function testMagicAccessor()
     {
         $select = new Select;
-        $this->assertInstanceOf('Zend\Db\Sql\Where', $select->where);
+        self::assertInstanceOf('Zend\Db\Sql\Where', $select->where);
     }
 
     /**
      * @testdox unit test: Test __clone() will clone the where object so that this select can be used
      *                     in multiple contexts
-     * @covers Zend\Db\Sql\Select::__clone
+     * @covers \Zend\Db\Sql\Select::__clone
      */
     public function testCloning()
     {
@@ -761,26 +765,26 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select1->where('id = foo');
         $select1->having('id = foo');
 
-        $this->assertEquals(0, $select->where->count());
-        $this->assertEquals(1, $select1->where->count());
+        self::assertEquals(0, $select->where->count());
+        self::assertEquals(1, $select1->where->count());
 
-        $this->assertEquals(0, $select->having->count());
-        $this->assertEquals(1, $select1->having->count());
+        self::assertEquals(0, $select->having->count());
+        self::assertEquals(1, $select1->having->count());
     }
 
     /**
      * @testdox unit test: Text process*() methods will return proper array when internally called,
      *                     part of extension API
      * @dataProvider providerData
-     * @covers Zend\Db\Sql\Select::processSelect
-     * @covers Zend\Db\Sql\Select::processJoins
-     * @covers Zend\Db\Sql\Select::processWhere
-     * @covers Zend\Db\Sql\Select::processGroup
-     * @covers Zend\Db\Sql\Select::processHaving
-     * @covers Zend\Db\Sql\Select::processOrder
-     * @covers Zend\Db\Sql\Select::processLimit
-     * @covers Zend\Db\Sql\Select::processOffset
-     * @covers Zend\Db\Sql\Select::processCombine
+     * @covers \Zend\Db\Sql\Select::processSelect
+     * @covers \Zend\Db\Sql\Select::processJoins
+     * @covers \Zend\Db\Sql\Select::processWhere
+     * @covers \Zend\Db\Sql\Select::processGroup
+     * @covers \Zend\Db\Sql\Select::processHaving
+     * @covers \Zend\Db\Sql\Select::processOrder
+     * @covers \Zend\Db\Sql\Select::processLimit
+     * @covers \Zend\Db\Sql\Select::processOffset
+     * @covers \Zend\Db\Sql\Select::processCombine
      */
     public function testProcessMethods(Select $select, $unused, $unused2, $unused3, $internalTests)
     {
@@ -788,7 +792,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             return;
         }
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $parameterContainer = new ParameterContainer();
 
@@ -798,7 +802,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             $mr = $sr->getMethod($method);
             $mr->setAccessible(true);
             $return = $mr->invokeArgs($select, [new Sql92, $mockDriver, $parameterContainer]);
-            $this->assertEquals($expected, $return);
+            self::assertEquals($expected, $return);
         }
     }
 
@@ -810,7 +814,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep0 = // same
         $sqlStr0 = 'SELECT "foo".* FROM "foo"';
         $internalTests0 = [
-            'processSelect' => [[['"foo".*']], '"foo"']
+            'processSelect' => [[['"foo".*']], '"foo"'],
         ];
 
         // table as TableIdentifier
@@ -819,7 +823,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep1 = // same
         $sqlStr1 = 'SELECT "bar"."foo".* FROM "bar"."foo"';
         $internalTests1 = [
-            'processSelect' => [[['"bar"."foo".*']], '"bar"."foo"']
+            'processSelect' => [[['"bar"."foo".*']], '"bar"."foo"'],
         ];
 
         // table with alias
@@ -828,7 +832,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep2 = // same
         $sqlStr2 = 'SELECT "f".* FROM "foo" AS "f"';
         $internalTests2 = [
-            'processSelect' => [[['"f".*']], '"foo" AS "f"']
+            'processSelect' => [[['"f".*']], '"foo" AS "f"'],
         ];
 
         // table with alias with table as TableIdentifier
@@ -837,7 +841,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep3 = // same
         $sqlStr3 = 'SELECT "f".* FROM "foo" AS "f"';
         $internalTests3 = [
-            'processSelect' => [[['"f".*']], '"foo" AS "f"']
+            'processSelect' => [[['"f".*']], '"foo" AS "f"'],
         ];
 
         // columns
@@ -846,7 +850,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep4 = // same
         $sqlStr4 = 'SELECT "foo"."bar" AS "bar", "foo"."baz" AS "baz" FROM "foo"';
         $internalTests4 = [
-            'processSelect' => [[['"foo"."bar"', '"bar"'], ['"foo"."baz"', '"baz"']], '"foo"']
+            'processSelect' => [[['"foo"."bar"', '"bar"'], ['"foo"."baz"', '"baz"']], '"foo"'],
         ];
 
         // columns with AS associative array
@@ -855,7 +859,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep5 = // same
         $sqlStr5 = 'SELECT "foo"."baz" AS "bar" FROM "foo"';
         $internalTests5 = [
-            'processSelect' => [[['"foo"."baz"', '"bar"']], '"foo"']
+            'processSelect' => [[['"foo"."baz"', '"bar"']], '"foo"'],
         ];
 
         // columns with AS associative array mixed
@@ -864,7 +868,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep6 = // same
         $sqlStr6 = 'SELECT "foo"."baz" AS "bar", "foo"."bam" AS "bam" FROM "foo"';
         $internalTests6 = [
-            'processSelect' => [[['"foo"."baz"', '"bar"'], ['"foo"."bam"', '"bam"'] ], '"foo"']
+            'processSelect' => [[['"foo"."baz"', '"bar"'], ['"foo"."bam"', '"bam"'] ], '"foo"'],
         ];
 
         // columns where value is Expression, with AS
@@ -873,7 +877,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep7 = // same
         $sqlStr7 = 'SELECT COUNT(some_column) AS "bar" FROM "foo"';
         $internalTests7 = [
-            'processSelect' => [[['COUNT(some_column)', '"bar"']], '"foo"']
+            'processSelect' => [[['COUNT(some_column)', '"bar"']], '"foo"'],
         ];
 
         // columns where value is Expression
@@ -882,7 +886,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep8 = // same
         $sqlStr8 = 'SELECT COUNT(some_column) AS bar FROM "foo"';
         $internalTests8 = [
-            'processSelect' => [[['COUNT(some_column) AS bar']], '"foo"']
+            'processSelect' => [[['COUNT(some_column) AS bar']], '"foo"'],
         ];
 
         // columns where value is Expression with parameters
@@ -893,14 +897,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                     '(COUNT(?) + ?) AS ?',
                     ['some_column', 5, 'bar'],
                     [Expression::TYPE_IDENTIFIER, Expression::TYPE_VALUE, Expression::TYPE_IDENTIFIER]
-                )
+                ),
             ]
         );
         $sqlPrep9 = 'SELECT (COUNT("some_column") + ?) AS "bar" FROM "foo"';
         $sqlStr9 = 'SELECT (COUNT("some_column") + \'5\') AS "bar" FROM "foo"';
         $params9 = ['column1' => 5];
         $internalTests9 = [
-            'processSelect' => [[['(COUNT("some_column") + ?) AS "bar"']], '"foo"']
+            'processSelect' => [[['(COUNT("some_column") + ?) AS "bar"']], '"foo"'],
         ];
 
         // joins (plain)
@@ -910,7 +914,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr10 = 'SELECT "foo".*, "zac".* FROM "foo" INNER JOIN "zac" ON "m" = "n"';
         $internalTests10 = [
             'processSelect' => [[['"foo".*'], ['"zac".*']], '"foo"'],
-            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]]
+            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]],
         ];
 
         // join with columns
@@ -922,7 +926,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         // @codingStandardsIgnoreEnd
         $internalTests11 = [
             'processSelect' => [[['"foo".*'], ['"zac"."bar"', '"bar"'], ['"zac"."baz"', '"baz"']], '"foo"'],
-            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]]
+            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]],
         ];
 
         // join with alternate type
@@ -934,7 +938,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         // @codingStandardsIgnoreEnd
         $internalTests12 = [
             'processSelect' => [[['"foo".*'], ['"zac"."bar"', '"bar"'], ['"zac"."baz"', '"baz"']], '"foo"'],
-            'processJoins'   => [[['OUTER', '"zac"', '"m" = "n"']]]
+            'processJoins'   => [[['OUTER', '"zac"', '"m" = "n"']]],
         ];
 
         // join with column aliases
@@ -946,7 +950,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         // @codingStandardsIgnoreEnd
         $internalTests13 = [
             'processSelect' => [[['"foo".*'], ['"zac"."bar"', '"BAR"'], ['"zac"."baz"', '"BAZ"']], '"foo"'],
-            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]]
+            'processJoins'   => [[['INNER', '"zac"', '"m" = "n"']]],
         ];
 
         // join with table aliases
@@ -956,7 +960,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr14 = 'SELECT "foo".*, "b".* FROM "foo" INNER JOIN "bar" AS "b" ON "b"."foo_id" = "foo"."foo_id"';
         $internalTests14 = [
             'processSelect' => [[['"foo".*'], ['"b".*']], '"foo"'],
-            'processJoins' => [[['INNER', '"bar" AS "b"', '"b"."foo_id" = "foo"."foo_id"']]]
+            'processJoins' => [[['INNER', '"bar" AS "b"', '"b"."foo_id" = "foo"."foo_id"']]],
         ];
 
         // where (simple string)
@@ -966,7 +970,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr15 = 'SELECT "foo".* FROM "foo" WHERE x = 5';
         $internalTests15 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processWhere'  => ['x = 5']
+            'processWhere'  => ['x = 5'],
         ];
 
         // where (returning parameters)
@@ -977,7 +981,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $params16 = ['where1' => 5];
         $internalTests16 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processWhere'  => ['x = ?']
+            'processWhere'  => ['x = ?'],
         ];
 
         // group
@@ -987,7 +991,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr17 = 'SELECT "foo".* FROM "foo" GROUP BY "col1", "col2"';
         $internalTests17 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processGroup'  => [['"col1"', '"col2"']]
+            'processGroup'  => [['"col1"', '"col2"']],
         ];
 
         $select18 = new Select;
@@ -996,7 +1000,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr18 = 'SELECT "foo".* FROM "foo" GROUP BY "col1", "col2"';
         $internalTests18 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processGroup'  => [['"col1"', '"col2"']]
+            'processGroup'  => [['"col1"', '"col2"']],
         ];
 
         $select19 = new Select;
@@ -1005,7 +1009,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr19 = 'SELECT "foo".* FROM "foo" GROUP BY DAY("col1")';
         $internalTests19 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processGroup'  => [['DAY("col1")']]
+            'processGroup'  => [['DAY("col1")']],
         ];
 
         // having (simple string)
@@ -1015,7 +1019,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr20 = 'SELECT "foo".* FROM "foo" HAVING x = 5';
         $internalTests20 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processHaving'  => ['x = 5']
+            'processHaving'  => ['x = 5'],
         ];
 
         // having (returning parameters)
@@ -1026,7 +1030,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $params21 = ['having1' => 5];
         $internalTests21 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processHaving'  => ['x = ?']
+            'processHaving'  => ['x = ?'],
         ];
 
         // order
@@ -1036,7 +1040,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr22 = 'SELECT "foo".* FROM "foo" ORDER BY "c1" ASC';
         $internalTests22 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING]]]
+            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING]]],
         ];
 
         $select23 = new Select;
@@ -1045,7 +1049,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr23 = 'SELECT "foo".* FROM "foo" ORDER BY "c1" ASC, "c2" ASC';
         $internalTests23 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING], ['"c2"', Select::ORDER_ASCENDING]]]
+            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING], ['"c2"', Select::ORDER_ASCENDING]]],
         ];
 
         $select24 = new Select;
@@ -1054,7 +1058,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr24 = 'SELECT "foo".* FROM "foo" ORDER BY "c1" DESC, "c2" ASC';
         $internalTests24 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processOrder'  => [[['"c1"', Select::ORDER_DESCENDING], ['"c2"', Select::ORDER_ASCENDING]]]
+            'processOrder'  => [[['"c1"', Select::ORDER_DESCENDING], ['"c2"', Select::ORDER_ASCENDING]]],
         ];
 
         $select25 = new Select;
@@ -1063,7 +1067,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr25 = 'SELECT "foo".* FROM "foo" ORDER BY "c1" ASC, "c2" DESC';
         $internalTests25 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING], ['"c2"', Select::ORDER_DESCENDING]]]
+            'processOrder'  => [[['"c1"', Select::ORDER_ASCENDING], ['"c2"', Select::ORDER_DESCENDING]]],
         ];
 
         // limit
@@ -1074,7 +1078,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $params26 = ['limit' => 5];
         $internalTests26 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processLimit'  => ['?']
+            'processLimit'  => ['?'],
         ];
 
         // limit with offset
@@ -1086,7 +1090,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $internalTests27 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
             'processLimit'  => ['?'],
-            'processOffset' => ['?']
+            'processOffset' => ['?'],
         ];
 
         // joins with a few keywords in the on clause
@@ -1099,7 +1103,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $internalTests28 = [
             'processSelect' => [[['"foo".*'], ['"zac".*']], '"foo"'],
             // @codingStandardsIgnoreStart
-            'processJoins'  => [[['INNER', '"zac"', '("m" = "n" AND "c"."x") BETWEEN "x" AND "y"."z" OR ("c"."x" < "y"."z" AND "c"."x" <= "y"."z" AND "c"."x" > "y"."z" AND "c"."x" >= "y"."z")']]]
+            'processJoins'  => [[['INNER', '"zac"', '("m" = "n" AND "c"."x") BETWEEN "x" AND "y"."z" OR ("c"."x" < "y"."z" AND "c"."x" <= "y"."z" AND "c"."x" > "y"."z" AND "c"."x" >= "y"."z")']]],
             // @codingStandardsIgnoreEnd
         ];
 
@@ -1110,7 +1114,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr29 = 'SELECT "foo".* FROM "foo" ORDER BY "c1"."d2" ASC';
         $internalTests29 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processOrder'  => [[['"c1"."d2"', Select::ORDER_ASCENDING]]]
+            'processOrder'  => [[['"c1"."d2"', Select::ORDER_ASCENDING]]],
         ];
 
         // group with compound name
@@ -1120,7 +1124,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr30 = 'SELECT "foo".* FROM "foo" GROUP BY "c1"."d2"';
         $internalTests30 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
-            'processGroup'  => [['"c1"."d2"']]
+            'processGroup'  => [['"c1"."d2"']],
         ];
 
         // join with expression in ON part
@@ -1130,7 +1134,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr31 = 'SELECT "foo".*, "zac".* FROM "foo" INNER JOIN "zac" ON (m = n AND c.x) BETWEEN x AND y.z';
         $internalTests31 = [
             'processSelect' => [[['"foo".*'], ['"zac".*']], '"foo"'],
-            'processJoins'   => [[['INNER', '"zac"', '(m = n AND c.x) BETWEEN x AND y.z']]]
+            'processJoins'   => [[['INNER', '"zac"', '(m = n AND c.x) BETWEEN x AND y.z']]],
         ];
 
         $select32subselect = new Select;
@@ -1147,7 +1151,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select33->from('table')->columns(['*'])->where([
             'c1' => null,
             'c2' => [1, 2, 3],
-            new \Zend\Db\Sql\Predicate\IsNotNull('c3')
+            new \Zend\Db\Sql\Predicate\IsNotNull('c3'),
         ]);
         $sqlPrep33 = 'SELECT "table".* FROM "table" WHERE "c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL';
         // @codingStandardsIgnoreStart
@@ -1155,19 +1159,19 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         // @codingStandardsIgnoreEnd
         $internalTests33 = [
             'processSelect' => [[['"table".*']], '"table"'],
-            'processWhere'  => ['"c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL']
+            'processWhere'  => ['"c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL'],
         ];
 
         // @author Demian Katz
         $select34 = new Select;
         $select34->from('table')->order([
             new Expression('isnull(?) DESC', ['name'], [Expression::TYPE_IDENTIFIER]),
-            'name'
+            'name',
         ]);
         $sqlPrep34 = 'SELECT "table".* FROM "table" ORDER BY isnull("name") DESC, "name" ASC';
         $sqlStr34 = 'SELECT "table".* FROM "table" ORDER BY isnull("name") DESC, "name" ASC';
         $internalTests34 = [
-            'processOrder'  => [[['isnull("name") DESC'], ['"name"', Select::ORDER_ASCENDING]]]
+            'processOrder'  => [[['isnull("name") DESC'], ['"name"', Select::ORDER_ASCENDING]]],
         ];
 
         // join with Expression object in COLUMNS part (ZF2-514)
@@ -1178,7 +1182,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr35 = 'SELECT COUNT(*) AS "thecount" FROM "foo" INNER JOIN "bar" ON "m" = "n"';
         $internalTests35 = [
             'processSelect' => [[['COUNT(*)', '"thecount"']], '"foo"'],
-            'processJoins'   => [[['INNER', '"bar"', '"m" = "n"']]]
+            'processJoins'   => [[['INNER', '"bar"', '"m" = "n"']]],
         ];
 
         // multiple joins with expressions
@@ -1189,7 +1193,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->join('tableB', new Predicate\Operator('id', '=', 2))
             ->join('tableC', new Predicate\PredicateSet([
                 new Predicate\Operator('id', '=', 3),
-                new Predicate\Operator('number', '>', 20)
+                new Predicate\Operator('number', '>', 20),
             ]));
         $sqlPrep36 = 'SELECT "foo".*, "tableA".*, "tableB".*, "tableC".* FROM "foo"'
             . ' INNER JOIN "tableA" ON "id" = :join1part1 INNER JOIN "tableB" ON "id" = :join2part1 '
@@ -1209,7 +1213,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep37 = // same
         $sqlStr37 = 'SELECT "bar" AS "bar" FROM "foo"';
         $internalTests37 = [
-            'processSelect' => [[['"bar"', '"bar"']], '"foo"']
+            'processSelect' => [[['"bar"', '"bar"']], '"foo"'],
         ];
 
         // @link https://github.com/zendframework/zf2/issues/3294
@@ -1221,7 +1225,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlStr38 = 'SELECT COUNT(*) AS "thecount" FROM "foo" INNER JOIN "baz"."bar" ON "m" = "n"';
         $internalTests38 = [
             'processSelect' => [[['COUNT(*)', '"thecount"']], '"foo"'],
-            'processJoins'   => [[['INNER', '"baz"."bar"', '"m" = "n"']]]
+            'processJoins'   => [[['INNER', '"baz"."bar"', '"m" = "n"']]],
         ];
 
         // subselect in join
@@ -1235,8 +1239,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         // @codingStandardsIgnoreEnd
         $internalTests39 = [
             'processJoins' => [
-                [['INNER', '(SELECT "bar".* FROM "bar" WHERE "y" LIKE ?) AS "z"', '"z"."foo" = "bar"."id"']]
-            ]
+                [['INNER', '(SELECT "bar".* FROM "bar" WHERE "y" LIKE ?) AS "z"', '"z"."foo" = "bar"."id"']],
+            ],
         ];
 
         // @link https://github.com/zendframework/zf2/issues/3294
@@ -1253,8 +1257,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             'processSelect' => [[['"foo".*'], ['"a".*'], ['"bar".*']], '"foo"'],
             'processJoins'  => [[
                 ['INNER', '"another_schema"."another_foo" AS "a"', '"a"."x" = "foo"."foo_column"'],
-                ['INNER', '"bar"', '"foo"."colx" = "bar"."colx"']
-            ]]
+                ['INNER', '"bar"', '"foo"."colx" = "bar"."colx"'],
+            ]],
         ];
 
         $select41 = new Select;
@@ -1278,7 +1282,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep43 = 'SELECT "foo"."bar" AS "bar" FROM "foo" AS "x"';
         $sqlStr43 = 'SELECT "foo"."bar" AS "bar" FROM "foo" AS "x"';
         $internalTests43 = [
-            'processSelect' => [[['"foo"."bar"', '"bar"']], '"foo" AS "x"']
+            'processSelect' => [[['"foo"."bar"', '"bar"']], '"foo" AS "x"'],
         ];
 
         $select44 = new Select;
@@ -1289,7 +1293,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $sqlPrep44 = // same
         $sqlStr44 = '( SELECT "foo".* FROM "foo" WHERE a = b ) UNION ALL ( SELECT "bar".* FROM "bar" WHERE c = d )';
         $internalTests44 = [
-            'processCombine' => ['UNION ALL', 'SELECT "bar".* FROM "bar" WHERE c = d']
+            'processCombine' => ['UNION ALL', 'SELECT "bar".* FROM "bar" WHERE c = d'],
         ];
 
         // limit with offset
@@ -1301,7 +1305,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $internalTests45 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
             'processLimit'  => ['?'],
-            'processOffset' => ['?']
+            'processOffset' => ['?'],
         ];
 
         // functions without table
@@ -1324,7 +1328,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $internalTests47 = [
             'processSelect' => [[['"foo".*']], '"foo"'],
             'processLimit'  => ['?'],
-            'processOffset' => ['?']
+            'processOffset' => ['?'],
         ];
 
         //combine and union with order at the end
@@ -1354,7 +1358,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         // @codingStandardsIgnoreEnd
         $internalTests49 = [
             'processSelect' => [[['"foo".*'], ['"bar".*']], '"foo"'],
-            'processJoins' => [[['INNER', 'psql_function_which_returns_table AS "bar"', '"foo"."id" = "bar"."fooid"']]]
+            'processJoins' => [[['INNER', 'psql_function_which_returns_table AS "bar"', '"foo"."id" = "bar"."fooid"']]],
         ];
 
         // Test generic predicate is appended with AND
