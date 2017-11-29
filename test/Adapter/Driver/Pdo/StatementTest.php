@@ -12,6 +12,7 @@ namespace ZendTest\Db\Adapter\Driver\Pdo;
 use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Pdo\Connection;
 use Zend\Db\Adapter\Driver\Pdo\Pdo;
+use Zend\Db\Adapter\Driver\Pdo\Result;
 use Zend\Db\Adapter\Driver\Pdo\Statement;
 use Zend\Db\Adapter\ParameterContainer;
 
@@ -126,5 +127,29 @@ class StatementTest extends TestCase
         $this->statement->initialize($pdo);
         $this->statement->prepare('SELECT 1');
         self::assertInstanceOf('Zend\Db\Adapter\Driver\Pdo\Result', $this->statement->execute());
+    }
+
+    /**
+     * @see https://github.com/zendframework/zend-db/pull/224
+     */
+    public function testExecuteWithSpecialCharInBindParam()
+    {
+        $testSqlite = new TestAsset\SqliteMemoryPdo('CREATE TABLE test (text_ TEXT, text$ TEXT);');
+        $this->statement->setDriver(new Pdo(new Connection($testSqlite)));
+        $this->statement->initialize($testSqlite);
+
+        $this->statement->prepare(sprintf(
+            'INSERT INTO test (text_, text$) VALUES (:%s, :%s)',
+            md5('text_'),
+            md5('text$')
+        ));
+        $result = $this->statement->execute([ 'text_' => 'foo', 'text$' => 'bar']);
+        $this->assertInstanceOf(Result::class, $result);
+        $this->assertTrue($result->valid());
+
+        $result = $testSqlite->query('SELECT * FROM test');
+        $values = $result->fetch();
+        $this->assertEquals('foo', $values['text_']);
+        $this->assertEquals('bar', $values['text$']);
     }
 }
