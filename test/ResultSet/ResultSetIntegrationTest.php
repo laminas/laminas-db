@@ -10,6 +10,7 @@
 namespace ZendTest\Db\ResultSet;
 
 use ArrayIterator;
+use ArrayObject;
 use PHPUnit\Framework\TestCase;
 use SplStack;
 use stdClass;
