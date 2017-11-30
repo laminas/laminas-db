@@ -31,12 +31,14 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#205](https://github.com/zendframework/zend-db/pull/205) fixes the spaces in
   ORDER BY syntax
+- [#229](https://github.com/zendframework/zend-db/pull/229) fixes the support
+  of SSL for mysqli
+- [#255](https://github.com/zendframework/zend-db/pull/255) fixes ResultSet with
+  array values
 - [#261](https://github.com/zendframework/zend-db/pull/261) fixes Exception in
   Firebird driver doesn't support lastInsertId
 - [#276](https://github.com/zendframework/zend-db/pull/276) fixes the support
   of PHP 7.2
-- [#229](https://github.com/zendframework/zend-db/pull/229) fixes the support
-  of SSL for mysqli
 
 ## 2.8.3 - TBD
 
