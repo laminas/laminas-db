@@ -243,7 +243,7 @@ abstract class AbstractSql implements SqlInterface
                 foreach ($paramsForPosition as $multiParamsForPosition) {
                     if (is_array($multiParamsForPosition) || $multiParamsForPosition instanceof Countable) {
                         $ppCount = count($multiParamsForPosition);
-                    } elseif (is_string($multiParamsForPosition)) {
+                    } else {
                         $ppCount = 1;
                     }
 
