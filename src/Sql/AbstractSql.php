@@ -241,9 +241,9 @@ abstract class AbstractSql implements SqlInterface
             if (isset($paramSpecs[$position]['combinedby'])) {
                 $multiParamValues = [];
                 foreach ($paramsForPosition as $multiParamsForPosition) {
-                    if (is_array($multiParamsForPosition) || $multiParamsForPosition instanceof Countable) {
+                    if (is_array($multiParamsForPosition)) {
                         $ppCount = count($multiParamsForPosition);
-                    } elseif (is_string($multiParamsForPosition)) {
+                    } else {
                         $ppCount = 1;
                     }
 
