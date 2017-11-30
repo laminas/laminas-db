@@ -10,6 +10,7 @@
 namespace ZendTest\Db\ResultSet;
 
 use ArrayIterator;
+use ArrayObject;
 use PHPUnit\Framework\TestCase;
 use SplStack;
 use stdClass;
@@ -87,6 +88,20 @@ class ResultSetIntegrationTest extends TestCase
         $it = new SplStack;
         $this->resultSet->initialize($it);
         self::assertSame($it, $this->resultSet->getDataSource());
+    }
+
+    public function testCanProvideArrayAsDataSource()
+    {
+        $dataSource = [['foo']];
+        $this->resultSet->initialize($dataSource);
+        $this->assertEquals($dataSource[0], (array) $this->resultSet->current());
+
+        $returnType = new ArrayObject([], ArrayObject::ARRAY_AS_PROPS);
+        $dataSource = [$returnType];
+        $this->resultSet->setArrayObjectPrototype($returnType);
+        $this->resultSet->initialize($dataSource);
+        $this->assertEquals($dataSource[0], $this->resultSet->current());
+        $this->assertContains($dataSource[0], $this->resultSet);
     }
 
     public function testCanProvideIteratorAggregateAsDataSource()
