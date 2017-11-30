@@ -39,6 +39,8 @@ All notable changes to this project will be documented in this file, in reverse 
   Firebird driver doesn't support lastInsertId
 - [#276](https://github.com/zendframework/zend-db/pull/276) fixes the support
   of PHP 7.2
+- [#287](https://github.com/zendframework/zend-db/pull/287) fixes the usage of
+  count() with PHP 7.2
 
 ## 2.8.3 - TBD
 
