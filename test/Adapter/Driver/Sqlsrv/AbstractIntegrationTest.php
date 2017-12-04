@@ -18,6 +18,7 @@ abstract class AbstractIntegrationTest extends TestCase
         'username' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME',
         'password' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD',
     ];
+    protected $adapters;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
