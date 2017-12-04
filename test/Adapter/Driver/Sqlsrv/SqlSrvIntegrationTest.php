@@ -18,6 +18,23 @@ use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 class SqlSrvIntegrationTest extends AbstractIntegrationTest
 {
     /**
+     * @var Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv
+     */
+    private $driver;
+
+    /**
+     * @var resource SQL Server Connection
+     */
+    private $resource;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->resource = $this->adapters['sqlsrv'];
+        $this->driver = new Sqlsrv($this->resource);
+    }
+
+    /**
      * @group integration-sqlserver
      * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::checkEnvironment
      */
@@ -29,27 +46,22 @@ class SqlSrvIntegrationTest extends AbstractIntegrationTest
 
     public function testCreateStatement()
     {
-        $driver = new Sqlsrv([]);
+        $stmt = $this->driver->createStatement('SELECT 1');
+        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
+        $stmt = $this->driver->createStatement($this->resource);
+        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
+        $stmt = $this->driver->createStatement();
+        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
 
-        $resource = sqlsrv_connect(
-            $this->variables['hostname'],
-            [
-                'UID' => $this->variables['username'],
-                'PWD' => $this->variables['password'],
-            ]
-        );
+        $this->setExpectedException('Zend\Db\Adapter\Exception\InvalidArgumentException', 'only accepts an SQL string or a Sqlsrv resource');
+        $this->driver->createStatement(new \stdClass);
+    }
 
-        $driver->getConnection()->setResource($resource);
-
-        $stmt = $driver->createStatement('SELECT 1');
-        self::assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
-        $stmt = $driver->createStatement($resource);
-        self::assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
-        $stmt = $driver->createStatement();
-        self::assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
-
-        $this->expectException('Zend\Db\Adapter\Exception\InvalidArgumentException');
-        $this->expectExceptionMessage('only accepts an SQL string or a Sqlsrv resource');
-        $driver->createStatement(new \stdClass);
+    public function testParameterizedQuery()
+    {
+        $stmt = $this->driver->createStatement('SELECT ? as col_one');
+        $result = $stmt->execute(['a']);
+        $row = $result->current();
+        $this->assertEquals('a', $row['col_one']);
     }
 }
