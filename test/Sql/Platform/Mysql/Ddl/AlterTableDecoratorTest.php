@@ -47,7 +47,8 @@ class AlterTableDecoratorTest extends TestCase
         $ct->addColumn($col);
 
         self::assertEquals(
-            "ALTER TABLE `foo`\n ADD COLUMN `bar` INTEGER UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'baz' AFTER `bar`",
+            "ALTER TABLE `foo`\n ADD COLUMN `bar` INTEGER UNSIGNED ZEROFILL " .
+            "NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'baz' AFTER `bar`",
             @$ctd->getSqlString(new Mysql())
         );
     }

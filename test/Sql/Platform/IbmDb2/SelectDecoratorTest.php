@@ -26,8 +26,13 @@ class SelectDecoratorTest extends TestCase
      * @covers \Zend\Db\Sql\Platform\SqlServer\SelectDecorator::processLimitOffset
      * @dataProvider dataProvider
      */
-    public function testPrepareStatement(Select $select, $expectedPrepareSql, $expectedParams, $notUsed, $supportsLimitOffset)
-    {
+    public function testPrepareStatement(
+        Select $select,
+        $expectedPrepareSql,
+        $expectedParams,
+        $notUsed,
+        $supportsLimitOffset
+    ) {
         $driver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
         $driver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
 

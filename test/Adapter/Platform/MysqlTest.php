@@ -163,10 +163,22 @@ class MysqlTest extends TestCase
             $this->platform->quoteIdentifierInFragment('cmis:$TableName as cmis:TableAlias')
         );
 
-        $this->assertEquals('`foo-bar`.`bar-foo`', $this->platform->quoteIdentifierInFragment('foo-bar.bar-foo'));
-        $this->assertEquals('`foo-bar` as `bar-foo`', $this->platform->quoteIdentifierInFragment('foo-bar as bar-foo'));
-        $this->assertEquals('`$TableName-$ColumnName`.`bar-foo`', $this->platform->quoteIdentifierInFragment('$TableName-$ColumnName.bar-foo'));
-        $this->assertEquals('`cmis:$TableName-$ColumnName` as `cmis:TableAlias-ColumnAlias`', $this->platform->quoteIdentifierInFragment('cmis:$TableName-$ColumnName as cmis:TableAlias-ColumnAlias'));
+        $this->assertEquals(
+            '`foo-bar`.`bar-foo`',
+            $this->platform->quoteIdentifierInFragment('foo-bar.bar-foo')
+        );
+        $this->assertEquals(
+            '`foo-bar` as `bar-foo`',
+            $this->platform->quoteIdentifierInFragment('foo-bar as bar-foo')
+        );
+        $this->assertEquals(
+            '`$TableName-$ColumnName`.`bar-foo`',
+            $this->platform->quoteIdentifierInFragment('$TableName-$ColumnName.bar-foo')
+        );
+        $this->assertEquals(
+            '`cmis:$TableName-$ColumnName` as `cmis:TableAlias-ColumnAlias`',
+            $this->platform->quoteIdentifierInFragment('cmis:$TableName-$ColumnName as cmis:TableAlias-ColumnAlias')
+        );
 
         // single char words
         self::assertEquals(
@@ -179,9 +191,18 @@ class MysqlTest extends TestCase
         );
         self::assertEquals('`foo`=`bar`', $this->platform->quoteIdentifierInFragment('foo=bar', ['=']));
 
-        $this->assertEquals('(`foo-bar`.`bar-foo` = `boo-baz`.`baz-boo`)', $this->platform->quoteIdentifierInFragment('(foo-bar.bar-foo = boo-baz.baz-boo)', ['(', ')', '=']));
-        $this->assertEquals('(`foo-bar`.`bar-foo`=`boo-baz`.`baz-boo`)', $this->platform->quoteIdentifierInFragment('(foo-bar.bar-foo=boo-baz.baz-boo)', ['(', ')', '=']));
-        $this->assertEquals('`foo-bar`=`bar-foo`', $this->platform->quoteIdentifierInFragment('foo-bar=bar-foo', ['=']));
+        $this->assertEquals(
+            '(`foo-bar`.`bar-foo` = `boo-baz`.`baz-boo`)',
+            $this->platform->quoteIdentifierInFragment('(foo-bar.bar-foo = boo-baz.baz-boo)', ['(', ')', '='])
+        );
+        $this->assertEquals(
+            '(`foo-bar`.`bar-foo`=`boo-baz`.`baz-boo`)',
+            $this->platform->quoteIdentifierInFragment('(foo-bar.bar-foo=boo-baz.baz-boo)', ['(', ')', '='])
+        );
+        $this->assertEquals(
+            '`foo-bar`=`bar-foo`',
+            $this->platform->quoteIdentifierInFragment('foo-bar=bar-foo', ['='])
+        );
 
         // case insensitive safe words
         self::assertEquals(
@@ -194,7 +215,10 @@ class MysqlTest extends TestCase
 
         $this->assertEquals(
             '(`foo-bar`.`bar-foo` = `boo-baz`.`baz-boo`) AND (`foo-baz`.`baz-foo` = `boo-baz`.`baz-boo`)',
-            $this->platform->quoteIdentifierInFragment('(foo-bar.bar-foo = boo-baz.baz-boo) AND (foo-baz.baz-foo = boo-baz.baz-boo)', ['(', ')', '=', 'and'])
+            $this->platform->quoteIdentifierInFragment(
+                '(foo-bar.bar-foo = boo-baz.baz-boo) AND (foo-baz.baz-foo = boo-baz.baz-boo)',
+                ['(', ')', '=', 'and']
+            )
         );
 
         // case insensitive safe words in field
@@ -209,7 +233,10 @@ class MysqlTest extends TestCase
         // case insensitive safe words in field
         $this->assertEquals(
             '(`foo-bar`.`bar-foo` = `boo-baz`.baz-boo) AND (`foo-baz`.`baz-foo` = `boo-baz`.baz-boo)',
-            $this->platform->quoteIdentifierInFragment('(foo-bar.bar-foo = boo-baz.baz-boo) AND (foo-baz.baz-foo = boo-baz.baz-boo)', ['(', ')', '=', 'and', 'bAz-BOo'])
+            $this->platform->quoteIdentifierInFragment(
+                '(foo-bar.bar-foo = boo-baz.baz-boo) AND (foo-baz.baz-foo = boo-baz.baz-boo)',
+                ['(', ')', '=', 'and', 'bAz-BOo']
+            )
         );
     }
 }
