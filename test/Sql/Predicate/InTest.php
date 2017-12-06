@@ -29,6 +29,13 @@ class InTest extends TestCase
         self::assertEquals([1, 2], $in->getValueSet());
     }
 
+    public function testCanPassIdentifierAndEmptyValueSetToConstructor()
+    {
+        $in = new In('foo.bar', []);
+        $this->assertEquals('foo.bar', $in->getIdentifier());
+        $this->assertEquals([], $in->getValueSet());
+    }
+
     public function testIdentifierIsMutable()
     {
         $in = new In();
@@ -80,6 +87,18 @@ class InTest extends TestCase
             [$in::TYPE_IDENTIFIER, $in::TYPE_VALUE],
         ]];
         self::assertEquals($expected, $in->getExpressionData());
+    }
+
+    public function testGetExpressionDataWithEmptyValues()
+    {
+        $select = new Select;
+        $in = new In('foo', []);
+        $expected = [[
+            '%s IN ()',
+            ['foo'],
+            [$in::TYPE_IDENTIFIER]
+        ]];
+        $this->assertEquals($expected, $in->getExpressionData());
     }
 
     public function testGetExpressionDataWithSubselectAndIdentifier()

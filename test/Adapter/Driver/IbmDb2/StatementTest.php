@@ -13,6 +13,9 @@ use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\IbmDb2\IbmDb2;
 use Zend\Db\Adapter\Driver\IbmDb2\Statement;
 use Zend\Db\Adapter\ParameterContainer;
+use Zend\Db\Adapter\Exception\RuntimeException;
+
+include __DIR__ . '/TestAsset/Db2Functions.php';
 
 class StatementTest extends TestCase
 {
@@ -27,6 +30,9 @@ class StatementTest extends TestCase
      */
     protected function setUp()
     {
+        // store current error_reporting value as we may change it
+        // in a test
+        $this->currentErrorReporting = error_reporting();
         $this->statement = new Statement;
     }
 
@@ -36,6 +42,8 @@ class StatementTest extends TestCase
      */
     protected function tearDown()
     {
+        // ensure error_reporting is set back to correct value
+        error_reporting($this->currentErrorReporting);
     }
 
     /**
@@ -102,27 +110,68 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
-     * @todo   Implement testPrepare().
+     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::isPrepared
      */
     public function testPrepare()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $sql = "SELECT 'foo' FROM SYSIBM.SYSDUMMY1";
+        $this->statement->prepare($sql);
+        $this->assertTrue($this->statement->isPrepared());
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::isPrepared
-     * @todo   Implement testIsPrepared().
+     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::isPrepared
      */
-    public function testIsPrepared()
+    public function testPreparingTwiceErrors()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $sql = "SELECT 'foo' FROM SYSIBM.SYSDUMMY1";
+        $this->statement->prepare($sql);
+        $this->assertTrue($this->statement->isPrepared());
+
+        $this->expectException(
+            RuntimeException::class,
+            'This statement has been prepared already'
         );
+        $this->statement->prepare($sql);
+    }
+
+    /**
+     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::setSql
+     */
+    public function testPrepareThrowsRuntimeExceptionOnInvalidSql()
+    {
+        $sql = "INVALID SQL";
+        $this->statement->setSql($sql);
+
+        $this->expectException(
+            RuntimeException::class,
+            'SQL is invalid. Error message'
+        );
+        $this->statement->prepare();
+    }
+
+    /**
+     * If error_reporting() is turned off, then the error handler will not
+     * be called, but a RuntimeException will still be generated as the
+     * resource is false
+     *
+     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::setSql
+     */
+    public function testPrepareThrowsRuntimeExceptionOnInvalidSqlWithErrorReportingDisabled()
+    {
+        error_reporting(0);
+        $sql = "INVALID SQL";
+        $this->statement->setSql($sql);
+
+        $this->expectException(
+            RuntimeException::class,
+            'Error message'
+        );
+        $this->statement->prepare();
     }
 
     /**

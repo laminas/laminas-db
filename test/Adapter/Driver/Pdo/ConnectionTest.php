@@ -98,4 +98,26 @@ class ConnectionTest extends TestCase
         ]);
         $this->connection->connect();
     }
+
+    public function testDblibArrayOfConnectionParametersCreatesCorrectDsn()
+    {
+        $this->connection->setConnectionParameters([
+            'driver'  => 'pdo_dblib',
+            'charset' => 'UTF-8',
+            'dbname'  => 'foo',
+            'port'    => '1433',
+            'version' => '7.3',
+        ]);
+        try {
+            $this->connection->connect();
+        } catch (\Exception $e) {
+        }
+        $responseString = $this->connection->getDsn();
+
+        $this->assertStringStartsWith('dblib:', $responseString);
+        $this->assertContains('charset=UTF-8', $responseString);
+        $this->assertContains('dbname=foo', $responseString);
+        $this->assertContains('port=1433', $responseString);
+        $this->assertContains('version=7.3', $responseString);
+    }
 }

@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.9.0 - TBD
+
+### Added
+
+- [#216](https://github.com/zendframework/zend-db/pull/216) added AFTER support
+  in ALTER TABLE syntax for MySQL
+- [#223](https://github.com/zendframework/zend-db/pull/223) added support for
+  empty values set with IN predicate
+- [#271](https://github.com/zendframework/zend-db/pull/271) added support for
+  dash character on MySQL identifier
+- [#273](https://github.com/zendframework/zend-db/pull/273) added support for
+  implementing an error handler for db2_prepare
+- [#275](https://github.com/zendframework/zend-db/pull/275) added support for
+  LIMIT OFFSET for db2
+- [#280](https://github.com/zendframework/zend-db/pull/280) added version dsn
+  parameter for pdo_dblib
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#205](https://github.com/zendframework/zend-db/pull/205) fixes the spaces in
+  ORDER BY syntax
+- [#229](https://github.com/zendframework/zend-db/pull/229) fixes the support
+  of SSL for mysqli
+- [#255](https://github.com/zendframework/zend-db/pull/255) fixes ResultSet with
+  array values
+- [#261](https://github.com/zendframework/zend-db/pull/261) fixes Exception in
+  Firebird driver doesn't support lastInsertId
+- [#276](https://github.com/zendframework/zend-db/pull/276) fixes the support
+  of PHP 7.2
+- [#287](https://github.com/zendframework/zend-db/pull/287) fixes the usage of
+  count() with PHP 7.2
+
 ## 2.8.3 - TBD
 
 ### Added
