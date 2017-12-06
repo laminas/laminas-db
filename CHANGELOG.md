@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.9.0 - TBD
+## 2.9.0 - 2017-12-06
 
 ### Added
 
@@ -31,6 +31,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#205](https://github.com/zendframework/zend-db/pull/205) fixes the spaces in
   ORDER BY syntax
+- [#224](https://github.com/zendframework/zend-db/pull/224) fixes how parameters
+  are bound to statements in the PDO adapter. PDO has a restriction on parameter
+  names of `[0-9a-zA_Z_]`; as such, the driver now hashes the parameter names
+  using `md5()` in order to ensure compatibility with other drivers.
 - [#229](https://github.com/zendframework/zend-db/pull/229) fixes the support
   of SSL for mysqli
 - [#255](https://github.com/zendframework/zend-db/pull/255) fixes ResultSet with
@@ -41,27 +45,6 @@ All notable changes to this project will be documented in this file, in reverse 
   of PHP 7.2
 - [#287](https://github.com/zendframework/zend-db/pull/287) fixes the usage of
   count() with PHP 7.2
-
-## 2.8.3 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- [#224](https://github.com/zendframework/zend-db/pull/224) fixes how parameters
-  are bound to statements in the PDO adapter. PDO has a restriction on parameter
-  names of `[0-9a-zA_Z_]`; as such, the driver now hashes the parameter names
-  using `md5()` in order to ensure compatibility with other drivers.
 
 ## 2.8.2 - 2016-08-09
 
