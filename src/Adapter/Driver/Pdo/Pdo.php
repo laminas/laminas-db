@@ -307,8 +307,9 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
             // @see https://bugs.php.net/bug.php?id=43130
             if (preg_match('/[^a-zA-Z0-9_]/', $name)) {
                 throw new Exception\RuntimeException(sprintf(
-                    "The PDO param %s contains characters not allowed. " .
-                    "You can use only letter, digit, and underscore (_)",
+                    'The PDO param %s contains invalid characters.'
+                    . ' Only alphabetic characters, digits, and underscores (_)'
+                    . ' are allowed.',
                     $name
                 ));
             }
