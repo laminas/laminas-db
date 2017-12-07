@@ -43,16 +43,12 @@ class PdoTest extends TestCase
     public function getParamsAndType()
     {
         return [
-            [ 'foo', null, ':' . md5('foo')],
-            [ 'foo-', null, ':' . md5('foo-')],
-            [ 'foo$', null, ':' . md5('foo$')],
+            [ 'foo', null, ':foo' ],
             [ 1, null, '?' ],
-            [ '1', null, '?'],
-            [ 'foo', Pdo::PARAMETERIZATION_NAMED, ':' . md5('foo')],
-            [ 'foo-', Pdo::PARAMETERIZATION_NAMED, ':' . md5('foo-')],
-            [ 'foo$', Pdo::PARAMETERIZATION_NAMED, ':' . md5('foo$')],
-            [ 1, Pdo::PARAMETERIZATION_NAMED, ':' . md5('1')],
-            [ '1', Pdo::PARAMETERIZATION_NAMED, ':' . md5('1')],
+            [ '1', null, '?' ],
+            [ 'foo', Pdo::PARAMETERIZATION_NAMED, ':foo' ],
+            [ 1, Pdo::PARAMETERIZATION_NAMED, ':1' ],
+            [ '1', Pdo::PARAMETERIZATION_NAMED, ':1' ],
         ];
     }
 
