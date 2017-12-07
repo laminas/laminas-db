@@ -304,6 +304,14 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     public function formatParameterName($name, $type = null)
     {
         if ($type === null && ! is_numeric($name) || $type == self::PARAMETERIZATION_NAMED) {
+            // @see https://bugs.php.net/bug.php?id=43130
+            if (preg_match('/[^a-zA-Z0-9_]/', $name)) {
+                throw new Exception\RuntimeException(sprintf(
+                    "The PDO param %s contains characters not allowed. " .
+                    "You can use only letter, digit, and underscore (_)",
+                    $name
+                ));
+            }
             return ':' . $name;
         }
 
