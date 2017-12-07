@@ -2,11 +2,23 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.9.1 - TBD
+## 2.9.1 - 2017-12-07
 
 ### Added
 
 - Nothing.
+
+### Changed
+
+- [#289](https://github.com/zendframework/zend-db/pull/289) reverts a change
+  introduced in 2.9.0 and modifies the behavior of the PDO adapter slightly
+  to remove a regression. In 2.9.0, when binding parameters with names that
+  contained characters not supported by PDO, we would pass the parameter names
+  to `md5()`; this caused a regression, as the SQL string containing the
+  parameter name was not also updated.
+
+  This patch modifies the behavior during a bind-operation to instead raise an
+  exception if a parameter name contains characters not supported by PDO.
 
 ### Deprecated
 
