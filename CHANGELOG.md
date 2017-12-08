@@ -22,7 +22,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#292](https://github.com/zendframework/zend-db/pull/292) fixes the issue
+  with parameter names starting from colon.
 
 ## 2.9.1 - 2017-12-07
 
