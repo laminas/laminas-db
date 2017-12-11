@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.9.2 - TBD
+## 2.9.2 - 2017-12-11
 
 ### Added
 
@@ -22,7 +22,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#292](https://github.com/zendframework/zend-db/pull/292) ensures that you may
+  reference bound parameter names using a leading colon (`:`) character when
+  using the PDO adapter. (The leading colon is not technically necessary, as the
+  adapter will prefix for you; however, this ensures portability with vanilla
+  PDO.)
 
 ## 2.9.1 - 2017-12-07
 
