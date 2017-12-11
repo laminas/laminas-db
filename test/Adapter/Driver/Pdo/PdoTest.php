@@ -53,6 +53,7 @@ class PdoTest extends TestCase
             [ '123foo', Pdo::PARAMETERIZATION_NAMED, ':123foo' ],
             [ 1, Pdo::PARAMETERIZATION_NAMED, ':1' ],
             [ '1', Pdo::PARAMETERIZATION_NAMED, ':1' ],
+            [ ':foo', null, ':foo' ],
         ];
     }
 
