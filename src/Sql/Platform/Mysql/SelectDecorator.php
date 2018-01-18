@@ -50,7 +50,7 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
             return;
         }
         if ($parameterContainer) {
-            $parameterContainer->offsetSet('limit', $this->limit, ParameterContainer::TYPE_INTEGER);
+            $parameterContainer->offsetSet('limit', $this->processInfo['paramPrefix'] . $this->limit, ParameterContainer::TYPE_INTEGER);
             return [$driver->formatParameterName('limit')];
         }
 
