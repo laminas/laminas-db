@@ -10,9 +10,10 @@ env:
   global:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="satooshi/php-coveralls"
-    - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=localhost
-    - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD=
-    - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME=localhost
+    - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
+
+services:
+  - mysql
 
 matrix:
   include:
@@ -69,12 +70,13 @@ install:
   - stty cols 120 && composer show
 
 before_script:
-  - .ci/mysql_fixtures_travis.sh
-  - .ci/pgsql_fixtures.sh
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
+  - vendor/bin/phpunit --testsuite "unit test"
+  - if [[ $TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL == 'true' ]]; then vendor/bin/phpunit --testsuite "integration test"
+
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer upload-coverage ; fi

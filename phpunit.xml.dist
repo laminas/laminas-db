@@ -23,7 +23,7 @@
     </filter>
 
     <listeners>
-        <listener class="ZendTest\Db\IntegrationTestListener" file="./test/IntegrationTestListener.php" />
+        <listener class="ZendTest\Db\IntegrationTest\IntegrationTestListener" file="./test/IntegrationTest/IntegrationTestListener.php" />
     </listeners>
 
     <php>
