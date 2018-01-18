@@ -7,7 +7,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZendTest\Db\IntegrationTest;
+namespace ZendIntegrationTest\Db;
 
 use Exception;
 use PDO;
@@ -17,8 +17,6 @@ use PHPUnit\Framework\TestSuite;
 
 class IntegrationTestListener extends BaseTestListener
 {
-    const MYSQL_DB_TEST = 'mysql_db.sql';
-
     /**
      * @var PDO
      */
@@ -29,10 +27,10 @@ class IntegrationTestListener extends BaseTestListener
         if ($suite->getName() !== 'integration test') {
             return;
         }
-        printf("Integration test started.\n");
+        printf("\nIntegration test started.\n");
 
         if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
-            $this->createMysqlDatabase(self::MYSQL_DB_TEST, $suite);
+            $this->createMysqlDatabase(__DIR__ . '/TestAsset/mysql.sql');
         }
     }
 
@@ -48,14 +46,13 @@ class IntegrationTestListener extends BaseTestListener
         }
     }
 
-    private function createMysqlDatabase($dbFile, TestSuite $suite)
+    private function createMysqlDatabase($dbFile)
     {
-        $this->pdo = new PDO (
+        $this->pdo = new PDO(
             'mysql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
             getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
             getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
         );
-
         if (false === $this->pdo->exec(sprintf(
             "CREATE DATABASE IF NOT EXISTS %s",
             getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
@@ -68,13 +65,11 @@ class IntegrationTestListener extends BaseTestListener
 
         $this->pdo->exec('USE ' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'));
 
-        if (false === $this->pdo->exec(file_get_contents(
-            sprintf("%s/TestAsset/%s", __DIR__, $dbFile)
-        ))) {
+        if (false === $this->pdo->exec(file_get_contents($dbFile))) {
             throw new Exception(sprintf(
                 "I cannot create the table for %s database. Check the %s file. ",
                 getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
-                __DIR__ . '/TestAsset/' . $dbFile
+                $dbFile
             ));
         }
     }

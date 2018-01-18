@@ -1,14 +1,14 @@
 <?php
 
-namespace ZendTest\Db\IntegrationTest\Pdo\Mysql;
+namespace ZendIntegrationTest\Db\Pdo\Mysql;
 
 use PHPUnit\DbUnit\TestCaseTrait;
 use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Adapter;
 
-class ConnectionTest extends TestCase
+class AdapterTest extends TestCase
 {
-    use ConnectionTrait;
+    use AdapterTrait;
 
     public function testConnection()
     {

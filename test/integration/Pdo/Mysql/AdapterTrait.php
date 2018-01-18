@@ -1,10 +1,10 @@
 <?php
 
-namespace ZendTest\Db\IntegrationTest\Pdo\Mysql;
+namespace ZendIntegrationTest\Db\Pdo\Mysql;
 
 use Zend\Db\Adapter\Adapter;
 
-trait ConnectionTrait
+trait AdapterTrait
 {
     public function setUp()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendTest\Db\IntegrationTest\Pdo\Mysql;
+namespace ZendIntegrationTest\Db\Pdo\Mysql;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Adapter;
@@ -9,7 +9,7 @@ use Zend\Db\ResultSet\ResultSet;
 
 class QueryTest extends TestCase
 {
-    use ConnectionTrait;
+    use AdapterTrait;
 
     public function getQueriesWithRowResult()
     {

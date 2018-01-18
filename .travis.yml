@@ -24,6 +24,7 @@ matrix:
       env:
         - DEPS=locked
         - LEGACY_DEPS="phpunit/phpunit"
+        - TEST_INTEGRATION=true
     - php: 5.6
       env:
         - DEPS=latest
@@ -34,6 +35,7 @@ matrix:
       env:
         - DEPS=locked
         - LEGACY_DEPS="phpunit/phpunit"
+        - TEST_INTEGRATION=true
     - php: 7.0
       env:
         - DEPS=latest
@@ -45,6 +47,7 @@ matrix:
         - DEPS=locked
         - CS_CHECK=true
         - TEST_COVERAGE=true
+        - TEST_INTEGRATION=true
     - php: 7.1
       env:
         - DEPS=latest
@@ -54,6 +57,7 @@ matrix:
     - php: 7.2
       env:
         - DEPS=locked
+        - TEST_INTEGRATION=true
     - php: 7.2
       env:
         - DEPS=latest
@@ -73,10 +77,8 @@ before_script:
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
+  - if [[ $TEST_INTEGRATION == 'true ']]; then composer test-integration ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
-  - vendor/bin/phpunit --testsuite "unit test"
-  - if [[ $TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL == 'true' ]]; then vendor/bin/phpunit --testsuite "integration test"
-
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer upload-coverage ; fi
