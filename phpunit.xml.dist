@@ -4,8 +4,12 @@
          bootstrap="vendor/autoload.php"
          colors="true">
     <testsuites>
-        <testsuite name="zend-db Test Suite">
+        <testsuite name="unit test">
             <directory>./test</directory>
+            <exclude>./test/IntegrationTest</exclude>
+        </testsuite>
+        <testsuite name="integration test">
+            <directory>./test/IntegrationTest</directory>
         </testsuite>
     </testsuites>
 
