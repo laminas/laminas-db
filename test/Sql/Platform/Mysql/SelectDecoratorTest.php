@@ -155,7 +155,8 @@ class SelectDecoratorTest extends TestCase
             'offset' => '5'
         ];
         $expectedSql4 = "SELECT (SELECT count(foo1.id) AS `cnt` FROM `foo1` LIMIT 0 OFFSET 5) AS `res`,"
-            . " (SELECT count(foo2.id) AS `cnt` FROM `foo2` LIMIT 50 OFFSET 101) AS `res0` FROM `foo` LIMIT 10 OFFSET 5";
+            . " (SELECT count(foo2.id) AS `cnt` FROM `foo2` LIMIT 50 OFFSET 101) AS `res0`"
+            . " FROM `foo` LIMIT 10 OFFSET 5";
 
         return [
             [$select0, $expectedPrepareSql0, $expectedParams0, $expectedSql0],
