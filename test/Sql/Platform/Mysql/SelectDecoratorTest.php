@@ -117,7 +117,9 @@ class SelectDecoratorTest extends TestCase
             ])
             ->limit('10')->offset('5');
 
-        $expectedPrepareSql3 = "SELECT (SELECT count(foo1.id) AS `cnt` FROM `foo1` LIMIT ? OFFSET ?) AS `res`, (SELECT count(foo2.id) AS `cnt` FROM `foo2` LIMIT ? OFFSET ?) AS `res0` FROM `foo` LIMIT ? OFFSET ?";
+        $expectedPrepareSql3 =
+            "SELECT (SELECT count(foo1.id) AS `cnt` FROM `foo1` LIMIT ? OFFSET ?) AS `res`,"
+            . " (SELECT count(foo2.id) AS `cnt` FROM `foo2` LIMIT ? OFFSET ?) AS `res0` FROM `foo` LIMIT ? OFFSET ?";
         $expectedParams3 = [
             'subselect1limit' => 0,
             'subselect1offset' => 5,
@@ -126,7 +128,8 @@ class SelectDecoratorTest extends TestCase
             'limit' => '10',
             'offset' => '5'
         ];
-        $expectedSql3 = 'SELECT (SELECT count(foo1.id) AS `cnt` FROM `foo1` LIMIT 0 OFFSET 5) AS `res`, (SELECT count(foo2.id) AS `cnt` FROM `foo2` LIMIT 5 OFFSET 10) AS `res0` FROM `foo` LIMIT 10 OFFSET 5';
+        $expectedSql3 = "SELECT (SELECT count(foo1.id) AS `cnt` FROM `foo1` LIMIT 0 OFFSET 5) AS `res`,"
+            . " (SELECT count(foo2.id) AS `cnt` FROM `foo2` LIMIT 5 OFFSET 10) AS `res0` FROM `foo` LIMIT 10 OFFSET 5";
 
         return [
             [$select0, $expectedPrepareSql0, $expectedParams0, $expectedSql0],
