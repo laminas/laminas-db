@@ -12,6 +12,7 @@ namespace ZendTest\Db\Sql\Platform\Mysql;
 use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Platform\Mysql as MysqlPlatform;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Platform\Mysql\SelectDecorator;
 use Zend\Db\Sql\Select;
 
@@ -95,10 +96,43 @@ class SelectDecoratorTest extends TestCase
         $expectedParams2 = ['offset' => '10000000000000000000', 'limit' => '5'];
         $expectedSql2 = 'SELECT `foo`.* FROM `foo` LIMIT 5 OFFSET 10000000000000000000';
 
+        // nested limit in field param
+        $nested_select0 = new Select;
+        $nested_select0->from('foo1')
+            ->columns([
+                'cnt' => new Expression('count(foo1.id)')
+            ])->limit(0)->offset(5);
+
+        $nested_select1 = new Select;
+        $nested_select1->from('foo2')
+            ->columns([
+                'cnt' => new Expression('count(foo2.id)')
+            ])->limit(5)->offset(10);
+
+        $select3 = new Select;
+        $select3->from('foo')
+            ->columns([
+                'res'  => $nested_select0,
+                'res0' => $nested_select1
+            ])
+            ->limit('10')->offset('5');
+
+        $expectedPrepareSql3 = "SELECT (SELECT count(foo1.id) AS `cnt` FROM `foo1` LIMIT ? OFFSET ?) AS `res`, (SELECT count(foo2.id) AS `cnt` FROM `foo2` LIMIT ? OFFSET ?) AS `res0` FROM `foo` LIMIT ? OFFSET ?";
+        $expectedParams3 = [
+            'subselect1limit' => 0,
+            'subselect1offset' => 5,
+            'subselect2limit' => 5,
+            'subselect2offset' => 10,
+            'limit' => '10',
+            'offset' => '5'
+        ];
+        $expectedSql3 = 'SELECT (SELECT count(foo1.id) AS `cnt` FROM `foo1` LIMIT 0 OFFSET 5) AS `res`, (SELECT count(foo2.id) AS `cnt` FROM `foo2` LIMIT 5 OFFSET 10) AS `res0` FROM `foo` LIMIT 10 OFFSET 5';
+
         return [
             [$select0, $expectedPrepareSql0, $expectedParams0, $expectedSql0],
             [$select1, $expectedPrepareSql1, $expectedParams1, $expectedSql1],
             [$select2, $expectedPrepareSql2, $expectedParams2, $expectedSql2],
+            [$select3, $expectedPrepareSql3, $expectedParams3, $expectedSql3],
         ];
     }
 }
