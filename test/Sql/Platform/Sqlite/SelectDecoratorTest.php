@@ -153,7 +153,7 @@ class SelectDecoratorTest extends TestCase
             . ' FROM "foo" LIMIT 10 OFFSET 5';
 
         return [
-            //[$select0, $expectedPrepareSql0, $expectedParams0, $expectedSql0],
+            [$select0, $expectedPrepareSql0, $expectedParams0, $expectedSql0],
             [$select3, $expectedPrepareSql3, $expectedParams3, $expectedSql3],
             [$select4, $expectedPrepareSql4, $expectedParams4, $expectedSql4],
         ];
