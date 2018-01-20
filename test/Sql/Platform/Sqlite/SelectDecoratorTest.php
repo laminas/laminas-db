@@ -114,7 +114,6 @@ class SelectDecoratorTest extends TestCase
         $expectedSql3 = ' SELECT ( SELECT count(foo1.id) AS "cnt"'
             . ' FROM "foo1" LIMIT 100 OFFSET 500) AS "res"'
             . ' FROM "foo" LIMIT 10 OFFSET 50';
-        
         // multiple nested query
         $nestedSelect0 = new Select;
         $nestedSelect0->from('foo1')
