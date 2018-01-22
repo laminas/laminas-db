@@ -13,7 +13,7 @@ use Exception;
 use PDO;
 use PDOException;
 use PHPUnit\Framework\BaseTestListener;
-use PHPUnit\Framework\TestSuite;
+use PHPUnit_Framework_TestSuite as TestSuite;
 
 class IntegrationTestListener extends BaseTestListener
 {
