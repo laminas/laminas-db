@@ -392,6 +392,33 @@ class UpdateTest extends TestCase
     }
 
     /**
+     * Here test if we want update fields from specific table.
+     * Important when we're updating fields that are existing in several tables in one query.
+     * The same test as above but here we will specify table in update params
+     */
+    public function testJoinMultiUpdate()
+    {
+        $this->update->table('Document');
+        $this->update->set(['Documents.x' => 'y'])
+            ->join(
+                'User', // table name
+                'User.UserId = Document.UserId' // expression to join on
+            // default JOIN INNER
+            )
+            ->join(
+                'Category',
+                'Category.CategoryId = Document.CategoryId',
+                Join::JOIN_LEFT // (optional), one of inner, outer, left, right
+            );
+
+        self::assertEquals(
+            'UPDATE "Document" INNER JOIN "User" ON "User"."UserId" = "Document"."UserId" '
+            . 'LEFT JOIN "Category" ON "Category"."CategoryId" = "Document"."CategoryId" SET "Documents"."x" = \'y\'',
+            $this->update->getSqlString(new TrustingSql92Platform())
+        );
+    }
+
+    /**
      * @testdox unit test: Test join() returns Update object (is chainable)
      * @covers \Zend\Db\Sql\Update::join
      */
