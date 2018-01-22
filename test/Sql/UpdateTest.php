@@ -401,14 +401,13 @@ class UpdateTest extends TestCase
         $this->update->table('Document');
         $this->update->set(['Documents.x' => 'y'])
             ->join(
-                'User', // table name
-                'User.UserId = Document.UserId' // expression to join on
-            // default JOIN INNER
+                'User',
+                'User.UserId = Document.UserId'
             )
             ->join(
                 'Category',
                 'Category.CategoryId = Document.CategoryId',
-                Join::JOIN_LEFT // (optional), one of inner, outer, left, right
+                Join::JOIN_LEFT
             );
 
         self::assertEquals(
