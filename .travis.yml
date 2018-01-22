@@ -10,7 +10,6 @@ env:
   global:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="satooshi/php-coveralls"
-    - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
 
 services:
   - mysql
@@ -25,6 +24,7 @@ matrix:
         - DEPS=locked
         - LEGACY_DEPS="phpunit/phpunit"
         - TEST_INTEGRATION=true
+        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 5.6
       env:
         - DEPS=latest
@@ -36,6 +36,7 @@ matrix:
         - DEPS=locked
         - LEGACY_DEPS="phpunit/phpunit"
         - TEST_INTEGRATION=true
+        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 7.0
       env:
         - DEPS=latest
@@ -48,6 +49,7 @@ matrix:
         - CS_CHECK=true
         - TEST_COVERAGE=true
         - TEST_INTEGRATION=true
+        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 7.1
       env:
         - DEPS=latest
@@ -58,6 +60,7 @@ matrix:
       env:
         - DEPS=locked
         - TEST_INTEGRATION=true
+        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 7.2
       env:
         - DEPS=latest
