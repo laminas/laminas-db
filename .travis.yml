@@ -80,7 +80,7 @@ before_script:
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
-  - if [[ $TEST_INTEGRATION == 'true ']]; then composer test-integration ; fi
+  - if [[ $TEST_INTEGRATION == 'true']]; then composer test-integration ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
 
 after_script:
