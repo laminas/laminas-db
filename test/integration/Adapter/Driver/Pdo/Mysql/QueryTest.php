@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendIntegrationTest\Db\Pdo\Mysql;
+namespace ZendIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Adapter;
@@ -22,6 +22,8 @@ class QueryTest extends TestCase
 
     /**
      * @dataProvider getQueriesWithRowResult
+     * @covers Adapter::query
+     * @covers ResultSet::current
      */
     public function testQuery($query, $params, $expected)
     {
@@ -43,5 +45,13 @@ class QueryTest extends TestCase
     {
         $result = $this->adapter->query('SET @@session.time_zone = :tz', [':tz' => 'SYSTEM']);
         $this->assertInstanceOf(PdoResult::class, $result);
+    }
+
+    /**
+     * @expectedException Zend\Db\Adapter\Exception\RuntimeException
+     */
+    public function testSelectWithNotPermittedBindParamName()
+    {
+        $result = $this->adapter->query('SET @@session.time_zone = :tz$', [':tz$' => 'SYSTEM']);
     }
 }

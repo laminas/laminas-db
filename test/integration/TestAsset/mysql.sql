@@ -12,7 +12,8 @@ INSERT INTO test (name, value) VALUES
 CREATE TABLE IF NOT EXISTS test_charset (
     id INT NOT NULL AUTO_INCREMENT,
     field$ VARCHAR(255) NOT NULL,
-    field_ VARCHAR(255) NOT NULL
+    field_ VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
 );
 
 INSERT INTO test_charset (field$, field_) VALUES

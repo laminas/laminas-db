@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendIntegrationTest\Db\Pdo\Mysql;
+namespace ZendIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
 use PHPUnit\DbUnit\TestCaseTrait;
 use PHPUnit\Framework\TestCase;
@@ -10,6 +10,9 @@ class AdapterTest extends TestCase
 {
     use AdapterTrait;
 
+    /**
+     * @covers Adapter::__construct()
+     */
     public function testConnection()
     {
         $this->assertInstanceOf(Adapter::class, $this->adapter);

@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendIntegrationTest\Db\Pdo\Mysql;
+namespace ZendIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
 use Zend\Db\Adapter\Adapter;
 

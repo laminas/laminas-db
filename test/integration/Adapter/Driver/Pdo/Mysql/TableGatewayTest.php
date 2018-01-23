@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendIntegrationTest\Db\Pdo\Mysql;
+namespace ZendIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Db\TableGateway\TableGateway;
@@ -9,12 +9,18 @@ class TableGatewayTest extends TestCase
 {
     use AdapterTrait;
 
+    /**
+     * @covers TableGateway::__construct
+     */
     public function testConstructor()
     {
         $tableGateway = new TableGateway('test', $this->adapter);
         $this->assertInstanceOf(TableGateway::class, $tableGateway);
     }
 
+    /**
+     * @covers TableGateway::select
+     */
     public function testSelect()
     {
         $tableGateway = new TableGateway('test', $this->adapter);
@@ -28,21 +34,28 @@ class TableGatewayTest extends TestCase
         }
     }
 
+    /**
+     * @covers TableGateway::insert
+     * @covers TableGateway::select
+     */
     public function testInsert()
     {
         $tableGateway = new TableGateway('test', $this->adapter);
 
         $rowset = $tableGateway->select();
-        $prevTot = count($rowset);
-
-        $affectedRows = $tableGateway->insert([
+        $data = [
             'name'  => 'test_name',
             'value' => 'test_value'
-        ]);
+        ];
+        $affectedRows = $tableGateway->insert($data);
         $this->assertEquals(1, $affectedRows);
 
-        $rowset = $tableGateway->select();
-        $this->assertEquals($prevTot + 1, count($rowset));
+        $rowSet = $tableGateway->select(['id' => $tableGateway->getLastInsertValue()]);
+        $row = $rowSet->current();
+
+        foreach ($data as $key => $value) {
+            $this->assertEquals($row->$key, $value);
+        }
     }
 
     /**
@@ -58,5 +71,28 @@ class TableGatewayTest extends TestCase
             'field_' => 'test_value2'
         ]);
         $this->assertEquals(1, $affectedRows);
+        return $tableGateway->getLastInsertValue();
+    }
+
+    /**
+     * @depends testInsertWithExtendedCharsetFieldName
+     */
+    public function testUpdateWithExtendedCharsetFieldName($id)
+    {
+        $tableGateway = new TableGateway('test_charset', $this->adapter);
+
+        $data = [
+            'field$' => 'test_value3',
+            'field_' => 'test_value4'
+        ];
+        $affectedRows = $tableGateway->update($data, ['id' => $id]);
+        $this->assertEquals(1, $affectedRows);
+
+        $rowSet = $tableGateway->select(['id' => $id]);
+        $row = $rowSet->current();
+
+        foreach ($data as $key => $value) {
+            $this->assertEquals($row->$key, $value);
+        }
     }
 }
