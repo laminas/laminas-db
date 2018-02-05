@@ -11,15 +11,14 @@ env:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="satooshi/php-coveralls"
 
-services:
-  - mysql
-
 matrix:
   include:
     - php: 5.6
       env:
         - DEPS=lowest
     - php: 5.6
+      services:
+        - mysql
       env:
         - DEPS=locked
         - LEGACY_DEPS="phpunit/phpunit"
@@ -32,6 +31,8 @@ matrix:
       env:
         - DEPS=lowest
     - php: 7.0
+      services:
+        - mysql
       env:
         - DEPS=locked
         - LEGACY_DEPS="phpunit/phpunit"
@@ -44,6 +45,8 @@ matrix:
       env:
         - DEPS=lowest
     - php: 7.1
+      services:
+        - mysql
       env:
         - DEPS=locked
         - CS_CHECK=true
@@ -57,6 +60,8 @@ matrix:
       env:
         - DEPS=lowest
     - php: 7.2
+      services:
+        - mysql
       env:
         - DEPS=locked
         - TEST_INTEGRATION=true
