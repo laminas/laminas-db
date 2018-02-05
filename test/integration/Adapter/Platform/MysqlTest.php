@@ -24,7 +24,7 @@ class MysqlTest extends TestCase
 
     public function setUp()
     {
-        if (!getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
+        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
             $this->markTestSkipped(__CLASS__ . ' integration tests are not enabled!');
         }
         if (extension_loaded('mysqli')) {

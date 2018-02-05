@@ -11,7 +11,7 @@ class AdapterTest extends TestCase
     use AdapterTrait;
 
     /**
-     * @covers Adapter::__construct()
+     * @covers \Zend\Db\Adapter\Adapter::__construct()
      */
     public function testConnection()
     {

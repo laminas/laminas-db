@@ -22,7 +22,7 @@ class SqlServerTest extends TestCase
 
     public function setUp()
     {
-        if (!getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV')) {
+        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV')) {
             $this->markTestSkipped(__CLASS__ . ' integration tests are not enabled!');
         }
         if (extension_loaded('sqlsrv')) {

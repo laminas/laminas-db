@@ -188,7 +188,7 @@ class Insert extends AbstractPreparableSql
             if (is_scalar($value) && $parameterContainer) {
                 // use incremental value instead of column name for PDO
                 // @see https://github.com/zendframework/zend-db/issues/35
-                if ($driver instanceOf Pdo) {
+                if ($driver instanceof Pdo) {
                     $column = 'c_' . $i++;
                 }
                 $values[] = $driver->formatParameterName($column);

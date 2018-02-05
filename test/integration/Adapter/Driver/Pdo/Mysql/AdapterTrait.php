@@ -8,7 +8,7 @@ trait AdapterTrait
 {
     public function setUp()
     {
-        if (!getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
+        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
             $this->markTestSkipped('pdo_mysql integration tests are not enabled!');
         }
 

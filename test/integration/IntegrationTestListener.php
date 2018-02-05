@@ -76,7 +76,7 @@ class IntegrationTestListener extends BaseTestListener
 
     private function dropMysqlDatabase()
     {
-        if (!$this->pdo instanceOf PDO) {
+        if (! $this->pdo instanceof PDO) {
             return;
         }
         $this->pdo->exec(sprintf(

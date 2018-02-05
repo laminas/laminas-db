@@ -10,7 +10,7 @@ class TableGatewayTest extends TestCase
     use AdapterTrait;
 
     /**
-     * @covers TableGateway::__construct
+     * @covers \Zend\Db\TableGateway\TableGateway::__construct
      */
     public function testConstructor()
     {
@@ -19,7 +19,7 @@ class TableGatewayTest extends TestCase
     }
 
     /**
-     * @covers TableGateway::select
+     * @covers \Zend\Db\TableGateway\TableGateway::select
      */
     public function testSelect()
     {
@@ -35,8 +35,8 @@ class TableGatewayTest extends TestCase
     }
 
     /**
-     * @covers TableGateway::insert
-     * @covers TableGateway::select
+     * @covers \Zend\Db\TableGateway\TableGateway::insert
+     * @covers \Zend\Db\TableGateway\TableGateway::select
      */
     public function testInsert()
     {

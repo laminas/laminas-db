@@ -22,8 +22,8 @@ class QueryTest extends TestCase
 
     /**
      * @dataProvider getQueriesWithRowResult
-     * @covers Adapter::query
-     * @covers ResultSet::current
+     * @covers \Zend\Db\Adapter\Adapter::query
+     * @covers \Zend\Db\ResultSet\ResultSet::current
      */
     public function testQuery($query, $params, $expected)
     {
