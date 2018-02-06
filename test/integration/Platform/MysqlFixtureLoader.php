@@ -30,8 +30,9 @@ class MysqlFixtureLoader implements FixtureLoader
             getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
         ))) {
             throw new \Exception(sprintf(
-                "I cannot create the MySQL %s test database",
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
+                "I cannot create the MySQL %s test database: %s",
+                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
+                print_r($this->pdo->errorInfo(), true)
             ));
         }
 
@@ -39,9 +40,10 @@ class MysqlFixtureLoader implements FixtureLoader
 
         if (false === $this->pdo->exec(file_get_contents($this->fixtureFile))) {
             throw new \Exception(sprintf(
-                "I cannot create the table for %s database. Check the %s file. ",
+                "I cannot create the table for %s database. Check the %s file. %s ",
                 getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
-                $this->fixtureFile
+                $this->fixtureFile,
+                print_r($this->pdo->errorInfo(), true)
             ));
         }
     }
