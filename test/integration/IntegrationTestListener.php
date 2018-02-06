@@ -38,6 +38,9 @@ class IntegrationTestListener extends BaseTestListener
         if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
             $this->fixtureLoader = new \ZendIntegrationTest\Db\Platform\MysqlFixtureLoader();
         }
+        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL')) {
+            $this->fixtureLoader = new \ZendIntegrationTest\Db\Platform\PgsqlFixtureLoader();
+        }
 
         $this->fixtureLoader->createDatabase();
     }
