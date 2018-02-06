@@ -76,6 +76,17 @@ matrix:
         - TEST_INTEGRATION=true
         - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL=true
     - php: 7.2
+      services:
+        - postgresql
+      addons:
+        postgresql: "9.6"
+      before_script:
+        - bash './test/travis/install-postgres-10.sh'
+      env:
+        - DEPS=locked
+        - TEST_INTEGRATION=true
+        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
+    - php: 7.2
       env:
         - DEPS=latest
 
