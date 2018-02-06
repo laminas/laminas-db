@@ -14,6 +14,7 @@ use PDO;
 use PDOException;
 use PHPUnit\Framework\BaseTestListener;
 use PHPUnit_Framework_TestSuite as TestSuite;
+use ZendIntegrationTest\Db\Platform\FixtureLoader;
 
 class IntegrationTestListener extends BaseTestListener
 {
@@ -21,6 +22,11 @@ class IntegrationTestListener extends BaseTestListener
      * @var PDO
      */
     private $pdo;
+
+    /**
+     * @var FixtureLoader
+     */
+    private $fixtureLoader;
 
     public function startTestSuite(TestSuite $suite)
     {
@@ -30,8 +36,10 @@ class IntegrationTestListener extends BaseTestListener
         printf("\nIntegration test started.\n");
 
         if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
-            $this->createMysqlDatabase(__DIR__ . '/TestAsset/mysql.sql');
+            $this->fixtureLoader = new \ZendIntegrationTest\Db\Platform\MysqlFixtureLoader();
         }
+
+        $this->fixtureLoader->createDatabase();
     }
 
     public function endTestSuite(TestSuite $suite)
@@ -41,47 +49,6 @@ class IntegrationTestListener extends BaseTestListener
         }
         printf("\nIntegration test ended.\n");
 
-        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
-            $this->dropMysqlDatabase();
-        }
-    }
-
-    private function createMysqlDatabase($dbFile)
-    {
-        $this->pdo = new PDO(
-            'mysql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
-            getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
-            getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
-        );
-        if (false === $this->pdo->exec(sprintf(
-            "CREATE DATABASE IF NOT EXISTS %s",
-            getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
-        ))) {
-            throw new Exception(sprintf(
-                "I cannot create the MySQL %s test database",
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
-            ));
-        }
-
-        $this->pdo->exec('USE ' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'));
-
-        if (false === $this->pdo->exec(file_get_contents($dbFile))) {
-            throw new Exception(sprintf(
-                "I cannot create the table for %s database. Check the %s file. ",
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
-                $dbFile
-            ));
-        }
-    }
-
-    private function dropMysqlDatabase()
-    {
-        if (! $this->pdo instanceof PDO) {
-            return;
-        }
-        $this->pdo->exec(sprintf(
-            "DROP DATABASE IF EXISTS %s",
-            getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
-        ));
+        $this->fixtureLoader->dropDatabase();
     }
 }
