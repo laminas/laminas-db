@@ -7,7 +7,7 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Platform;
+namespace ZendIntegrationTest\Db\Adapter\Platform;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Mysqli;
@@ -18,9 +18,32 @@ use Zend\Db\Adapter\Platform\Mysql;
  * @group integration
  * @group integration-mysql
  */
-class MysqlIntegrationTest extends TestCase
+class MysqlTest extends TestCase
 {
     public $adapters = [];
+
+    public function setUp()
+    {
+        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
+            $this->markTestSkipped(__CLASS__ . ' integration tests are not enabled!');
+        }
+        if (extension_loaded('mysqli')) {
+            $this->adapters['mysqli'] = new \mysqli(
+                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
+                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
+                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD'),
+                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
+            );
+        }
+        if (extension_loaded('pdo')) {
+            $this->adapters['pdo_mysql'] = new \PDO(
+                'mysql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME') . ';dbname='
+                . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
+                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
+                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
+            );
+        }
+    }
 
     public function testQuoteValueWithMysqli()
     {

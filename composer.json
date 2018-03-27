@@ -41,7 +41,8 @@
             "test/autoload.php"
         ],
         "psr-4": {
-            "ZendTest\\Db\\": "test/"
+            "ZendTest\\Db\\": "test/unit",
+            "ZendIntegrationTest\\Db\\": "test/integration"
         }
     },
     "config": {
@@ -64,8 +65,9 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "test": "phpunit --colors=always",
+        "test": "phpunit --colors=always --testsuite \"unit test\"",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "test-integration" : "phpunit --colors=always --testsuite \"integration test\"",
         "upload-coverage": "coveralls -v"
     }
 }

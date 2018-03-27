@@ -2,7 +2,7 @@
 <ruleset name="Zend Framework coding standard">
     <rule ref="./vendor/zendframework/zend-coding-standard/ruleset.xml" />
     <rule ref="PSR1.Files.SideEffects">
-        <exclude-pattern>*/test/Adapter/Driver/IbmDb2/StatementTest.php</exclude-pattern>
+        <exclude-pattern>*/test/unit/Adapter/Driver/IbmDb2/StatementTest.php</exclude-pattern>
     </rule>
 
     <!-- Paths to check -->

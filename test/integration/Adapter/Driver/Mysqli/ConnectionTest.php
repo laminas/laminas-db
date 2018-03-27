@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendTest\Db\Adapter\Driver\Mysqli;
+namespace ZendIntegrationTest\Db\Adapter\Driver\Mysqli;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Driver\Mysqli\Connection;
@@ -9,7 +9,7 @@ use Zend\Db\Adapter\Driver\Mysqli\Connection;
  * @group integration
  * @group integration-mysqli
  */
-class ConnectionIntegrationTest extends TestCase
+class ConnectionTest extends TestCase
 {
 
     protected $variables = [

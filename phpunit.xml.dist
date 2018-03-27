@@ -4,8 +4,11 @@
          bootstrap="vendor/autoload.php"
          colors="true">
     <testsuites>
-        <testsuite name="zend-db Test Suite">
-            <directory>./test</directory>
+        <testsuite name="unit test">
+            <directory>./test/unit</directory>
+        </testsuite>
+        <testsuite name="integration test">
+            <directory>./test/integration</directory>
         </testsuite>
     </testsuites>
 
@@ -19,7 +22,7 @@
     </filter>
 
     <listeners>
-        <listener class="ZendTest\Db\IntegrationTestListener" file="./test/IntegrationTestListener.php" />
+        <listener class="ZendIntegrationTest\Db\IntegrationTestListener" file="./test/integration/IntegrationTestListener.php" />
     </listeners>
 
     <php>
@@ -29,9 +32,9 @@
 
         <!-- Integration Test Variables -->
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL" value="false" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="192.168.20.20" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME" value="root" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD" value="Password123" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="localhost" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME" value="travis" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD" value="" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE" value="zenddb_test" />
 
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV" value="false" />
@@ -53,9 +56,9 @@
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_IBMDB2_DATABASE" value="" />
 
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL" value="false" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="192.168.20.20" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="localhost" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME" value="postgres" />
-        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD" value="postgres" />
+        <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD" value="" />
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE" value="zenddb_test" />
 
         <env name="TESTS_ZEND_DB_ADAPTER_DRIVER_SQLITE_MEMORY" value="true" />
