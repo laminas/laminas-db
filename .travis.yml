@@ -10,9 +10,6 @@ env:
   global:
     - COMPOSER_ARGS="--no-interaction"
     - COVERAGE_DEPS="satooshi/php-coveralls"
-    - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=localhost
-    - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD=
-    - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME=localhost
 
 matrix:
   include:
@@ -20,9 +17,13 @@ matrix:
       env:
         - DEPS=lowest
     - php: 5.6
+      services:
+        - mysql
       env:
         - DEPS=locked
         - LEGACY_DEPS="phpunit/phpunit"
+        - TEST_INTEGRATION=true
+        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 5.6
       env:
         - DEPS=latest
@@ -30,9 +31,13 @@ matrix:
       env:
         - DEPS=lowest
     - php: 7.0
+      services:
+        - mysql
       env:
         - DEPS=locked
         - LEGACY_DEPS="phpunit/phpunit"
+        - TEST_INTEGRATION=true
+        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 7.0
       env:
         - DEPS=latest
@@ -40,10 +45,14 @@ matrix:
       env:
         - DEPS=lowest
     - php: 7.1
+      services:
+        - mysql
       env:
         - DEPS=locked
         - CS_CHECK=true
         - TEST_COVERAGE=true
+        - TEST_INTEGRATION=true
+        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 7.1
       env:
         - DEPS=latest
@@ -51,8 +60,21 @@ matrix:
       env:
         - DEPS=lowest
     - php: 7.2
+      services:
+        - mysql
       env:
         - DEPS=locked
+        - TEST_INTEGRATION=true
+        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
+    - php: 7.2
+      services:
+        - postgresql
+      addons:
+        postgresql: "9.6"
+      env:
+        - DEPS=locked
+        - TEST_INTEGRATION=true
+        - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL=true
     - php: 7.2
       env:
         - DEPS=latest
@@ -69,11 +91,10 @@ install:
   - stty cols 120 && composer show
 
 before_script:
-  - .ci/mysql_fixtures_travis.sh
-  - .ci/pgsql_fixtures.sh
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
+  - if [[ $TEST_INTEGRATION == 'true' ]]; then composer test-integration ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
 
 after_script:
