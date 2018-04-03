@@ -59,6 +59,15 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
+     * @covers \Zend\Db\ResultSet\AbstractResultSet::initialize
+     */
+    public function testInitializeWithEmptyArray()
+    {
+        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        self::assertSame($resultSet, $resultSet->initialize([]));
+    }
+
+    /**
      * @covers \Zend\Db\ResultSet\AbstractResultSet::buffer
      */
     public function testBuffer()
