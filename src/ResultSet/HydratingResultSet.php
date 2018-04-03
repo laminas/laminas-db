@@ -119,7 +119,7 @@ class HydratingResultSet extends AbstractResultSet
     {
         $return = [];
         foreach ($this as $row) {
-            $return[] = $this->getHydrator()->extract($row);
+            $return[] = $this->hydrator->extract($row);
         }
         return $return;
     }
