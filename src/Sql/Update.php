@@ -189,7 +189,18 @@ class Update extends AbstractPreparableSql
         $setSql = [];
         $i      = 0;
         foreach ($this->set as $column => $value) {
-            $prefix = $platform->quoteIdentifier($column) . ' = ';
+            $prefix = $this->resolveColumnValue(
+                [
+                    'column'       => $column,
+                    'fromTable'    => '',
+                    'isIdentifier' => true,
+                ],
+                $platform,
+                $driver,
+                $parameterContainer,
+                'column'
+            );
+            $prefix .= ' = ';
             if (is_scalar($value) && $parameterContainer) {
                 // use incremental value instead of column name for PDO
                 // @see https://github.com/zendframework/zend-db/issues/35
