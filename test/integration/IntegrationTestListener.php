@@ -41,7 +41,7 @@ class IntegrationTestListener extends BaseTestListener
             $this->fixtureLoader = new \ZendIntegrationTest\Db\Platform\PgsqlFixtureLoader();
         }
 
-        if (!isset($this->fixtureLoader)) {
+        if (! isset($this->fixtureLoader)) {
             return;
         }
         printf("\nIntegration test started.\n");
@@ -51,7 +51,7 @@ class IntegrationTestListener extends BaseTestListener
     public function endTestSuite(TestSuite $suite)
     {
         if ($suite->getName() !== 'integration test' ||
-            !isset($this->fixtureLoader)) {
+            ! isset($this->fixtureLoader)) {
             return;
         }
         printf("\nIntegration test ended.\n");
