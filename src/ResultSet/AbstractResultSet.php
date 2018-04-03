@@ -77,7 +77,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
             // its safe to get numbers from an array
             $first = current($dataSource);
             reset($dataSource);
-            $this->fieldCount = count($first);
+            $this->fieldCount = $first === false ? 0 : count($first);
             $this->dataSource = new ArrayIterator($dataSource);
             $this->buffer = -1; // array's are a natural buffer
         } elseif ($dataSource instanceof IteratorAggregate) {
