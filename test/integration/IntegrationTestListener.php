@@ -50,8 +50,9 @@ class IntegrationTestListener extends BaseTestListener
 
     public function endTestSuite(TestSuite $suite)
     {
-        if ($suite->getName() !== 'integration test' ||
-            ! isset($this->fixtureLoader)) {
+        if ($suite->getName() !== 'integration test'
+            || ! isset($this->fixtureLoader)
+        ) {
             return;
         }
         printf("\nIntegration test ended.\n");
