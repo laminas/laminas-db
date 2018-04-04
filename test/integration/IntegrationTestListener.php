@@ -33,7 +33,6 @@ class IntegrationTestListener extends BaseTestListener
         if ($suite->getName() !== 'integration test') {
             return;
         }
-        printf("\nIntegration test started.\n");
 
         if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
             $this->fixtureLoader = new \ZendIntegrationTest\Db\Platform\MysqlFixtureLoader();
@@ -42,12 +41,18 @@ class IntegrationTestListener extends BaseTestListener
             $this->fixtureLoader = new \ZendIntegrationTest\Db\Platform\PgsqlFixtureLoader();
         }
 
+        if (! isset($this->fixtureLoader)) {
+            return;
+        }
+        printf("\nIntegration test started.\n");
         $this->fixtureLoader->createDatabase();
     }
 
     public function endTestSuite(TestSuite $suite)
     {
-        if ($suite->getName() !== 'integration test') {
+        if ($suite->getName() !== 'integration test'
+            || ! isset($this->fixtureLoader)
+        ) {
             return;
         }
         printf("\nIntegration test ended.\n");
