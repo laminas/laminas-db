@@ -55,6 +55,43 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
         return '';
     }
 
+    protected function processLimit(
+        PlatformInterface $platform,
+        DriverInterface $driver = null,
+        ParameterContainer $parameterContainer = null
+    ) {
+        if ($this->limit === null && $this->offset !== null) {
+            return [''];
+        }
+        if ($this->limit === null) {
+            return;
+        }
+        if ($parameterContainer) {
+            $paramPrefix = $this->processInfo['paramPrefix'];
+            $parameterContainer->offsetSet($paramPrefix . 'limit', $this->limit, ParameterContainer::TYPE_INTEGER);
+            return [$driver->formatParameterName('limit')];
+        }
+
+        return [$this->limit];
+    }
+
+    protected function processOffset(
+        PlatformInterface $platform,
+        DriverInterface $driver = null,
+        ParameterContainer $parameterContainer = null
+    ) {
+        if ($this->offset === null) {
+            return;
+        }
+        if ($parameterContainer) {
+            $paramPrefix = $this->processInfo['paramPrefix'];
+            $parameterContainer->offsetSet($paramPrefix . 'offset', $this->offset, ParameterContainer::TYPE_INTEGER);
+            return [$driver->formatParameterName('offset')];
+        }
+
+        return [$this->offset];
+    }
+
     /**
      * {@inheritDoc}
      */
