@@ -110,7 +110,7 @@ class Join implements Iterator, Countable
     /**
      * @param string|array|TableIdentifier $name A table name on which to join, or a single
      *     element associative array, of the form alias => table, or TableIdentifier instance
-     * @param string $on A string specification describing the fields to join on.
+     * @param string|Predicate\Expression $on A specification describing the fields to join on.
      * @param string|string[]|int|int[] $columns A single column name, an array
      *     of column names, or (a) specification(s) such as SQL_STAR representing
      *     the columns to join.
