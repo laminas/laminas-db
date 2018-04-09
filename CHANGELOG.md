@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 2.9.3 - TBD
+## 2.9.3 - 2018-04-09
 
 ### Added
 
@@ -44,7 +44,19 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#295](https://github.com/zendframework/zend-db/pull/295) fix error when datasource passed to `AbstractResultSet::initialize()` is empty array at php 7.2 environment.
+- [#295](https://github.com/zendframework/zend-db/pull/295) fix error when
+  datasource passed to `AbstractResultSet::initialize()` is empty array at
+  php 7.2 environment
+
+- [#300](https://github.com/zendframework/zend-db/pull/300) Fix error for nested
+  queries inside field parameters
+
+- [#301](https://github.com/zendframework/zend-db/pull/301) fix for issue with
+  set fields that exists in different tables in one query
+
+- [#304](https://github.com/zendframework/zend-db/pull/304) fix PDO bind
+  parameter name to use field name with extended charset (PDO only supports
+  alphanumeric and underscore for placeholder/parameter names).
 
 ## 2.9.2 - 2017-12-11
 
