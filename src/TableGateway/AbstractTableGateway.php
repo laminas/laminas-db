@@ -198,8 +198,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
 
     /**
      * @param Select $select
-     * @return ResultSetInterface
-     * @throws \RuntimeException
+     * @return ResultSet
      */
     public function selectWith(Select $select)
     {
