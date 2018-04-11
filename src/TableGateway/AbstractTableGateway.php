@@ -177,7 +177,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
      * Select
      *
      * @param Where|\Closure|string|array $where
-     * @return ResultSet
+     * @return AbstractResultSet
      */
     public function select($where = null)
     {
@@ -198,7 +198,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
 
     /**
      * @param Select $select
-     * @return ResultSet
+     * @return AbstractResultSet
      */
     public function selectWith(Select $select)
     {
@@ -210,7 +210,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
 
     /**
      * @param Select $select
-     * @return ResultSet
+     * @return AbstractResultSet
      * @throws Exception\RuntimeException
      */
     protected function executeSelect(Select $select)
