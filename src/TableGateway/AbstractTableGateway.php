@@ -10,6 +10,7 @@
 namespace Zend\Db\TableGateway;
 
 use Zend\Db\Adapter\AdapterInterface;
+use Zend\Db\ResultSet\AbstractResultSet;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\ResultSet\ResultSetInterface;
 use Zend\Db\Sql\Delete;
