@@ -57,7 +57,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
     protected $featureSet = null;
 
     /**
-     * @var ResultSetInterface
+     * @var ResultSetInterface|AbstractResultSet
      */
     protected $resultSetPrototype = null;
 
