@@ -74,7 +74,7 @@ class MetadataFeature extends AbstractFeature
         }
 
         $pkck = $pkck->getColumns();
-        if (count($pkc) == 1) {
+        if (count($pkc) === 1) {
             $primaryKey = $pkck[0];
         } else {
             $primaryKey = $pkc;
