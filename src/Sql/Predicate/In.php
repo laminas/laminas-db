@@ -102,8 +102,9 @@ class In extends AbstractExpression implements PredicateInterface
         $replacements = [];
 
         if (is_array($identifier)) {
-            $identifierSpecFragment = '(' . implode(', ', array_fill(0, count($identifier), '%s')) . ')';
-            $types = array_fill(0, count($identifier), self::TYPE_IDENTIFIER);
+            $countIdentifier = count($identifier);
+            $identifierSpecFragment = '(' . implode(', ', array_fill(0, $countIdentifier, '%s')) . ')';
+            $types = array_fill(0, $countIdentifier, self::TYPE_IDENTIFIER);
             $replacements = $identifier;
         } else {
             $identifierSpecFragment = '%s';
@@ -122,7 +123,8 @@ class In extends AbstractExpression implements PredicateInterface
             foreach ($values as $argument) {
                 list($replacements[], $types[]) = $this->normalizeArgument($argument, self::TYPE_VALUE);
             }
-            $valuePlaceholders = count($values) > 0 ? array_fill(0, count($values), '%s') : [];
+            $countValues = count($values);
+            $valuePlaceholders = $countValues > 0 ? array_fill(0, $countValues, '%s') : [];
             $specification = vsprintf(
                 $this->specification,
                 [$identifierSpecFragment, '(' . implode(', ', $valuePlaceholders) . ')']
