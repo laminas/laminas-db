@@ -171,7 +171,6 @@ class Connection extends AbstractConnection
                     if (strpos($value, 'pdo') === 0) {
                         $pdoDriver = str_replace(['-', '_', ' '], '', $value);
                         $pdoDriver = substr($pdoDriver, 3) ?: '';
-                        $pdoDriver = strtolower($pdoDriver);
                     }
                     break;
                 case 'pdodriver':
