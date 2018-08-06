@@ -11,6 +11,7 @@ namespace Zend\Db\Sql\Ddl;
 
 use Zend\Db\Adapter\Platform\PlatformInterface;
 use Zend\Db\Sql\AbstractSql;
+use Zend\Db\Sql\TableIdentifier;
 
 class AlterTable extends AbstractSql implements SqlInterface
 {
@@ -85,7 +86,7 @@ class AlterTable extends AbstractSql implements SqlInterface
     protected $table = '';
 
     /**
-     * @param string $table
+     * @param string|TableIdentifier $table
      */
     public function __construct($table = '')
     {
@@ -179,7 +180,7 @@ class AlterTable extends AbstractSql implements SqlInterface
 
     protected function processTable(PlatformInterface $adapterPlatform = null)
     {
-        return [$adapterPlatform->quoteIdentifier($this->table)];
+        return [$this->resolveTable($this->table, $adapterPlatform)];
     }
 
     protected function processAddColumns(PlatformInterface $adapterPlatform = null)
