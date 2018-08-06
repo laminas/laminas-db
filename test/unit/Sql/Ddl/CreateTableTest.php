@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\Column\Column;
 use Zend\Db\Sql\Ddl\Constraint;
 use Zend\Db\Sql\Ddl\CreateTable;
+use Zend\Db\Sql\TableIdentifier;
 
 class CreateTableTest extends TestCase
 {
@@ -162,5 +163,13 @@ class CreateTableTest extends TestCase
             "CREATE TABLE \"foo\" ( \n    PRIMARY KEY (\"bar\"),\n    PRIMARY KEY (\"bat\") \n)",
             $ct->getSqlString()
         );
+
+        $ct = new CreateTable(new TableIdentifier('foo'));
+        $ct->addColumn(new Column('bar'));
+        self::assertEquals("CREATE TABLE \"foo\" ( \n    \"bar\" INTEGER NOT NULL \n)", $ct->getSqlString());
+
+        $ct = new CreateTable(new TableIdentifier('bar', 'foo'));
+        $ct->addColumn(new Column('baz'));
+        self::assertEquals("CREATE TABLE \"foo\".\"bar\" ( \n    \"baz\" INTEGER NOT NULL \n)", $ct->getSqlString());
     }
 }
