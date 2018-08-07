@@ -22,7 +22,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#329](https://github.com/zendframework/zend-db/pull/329) fix Exception
+ thrown when calling prepareStatementForSqlObject on a Select with a
+ sub-Select that has limit and/or offset set
 
 ## 2.9.3 - 2018-04-09
 
