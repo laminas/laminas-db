@@ -33,9 +33,6 @@ class InsertIgnoreTest extends TestCase
         $this->insert = new InsertIgnore;
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::into
-     */
     public function testInto()
     {
         $this->insert->into('table', 'schema');
@@ -46,9 +43,6 @@ class InsertIgnoreTest extends TestCase
         self::assertEquals($tableIdentifier, $this->insert->getRawState('table'));
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::columns
-     */
     public function testColumns()
     {
         $columns = ['foo', 'bar'];
@@ -56,9 +50,6 @@ class InsertIgnoreTest extends TestCase
         self::assertEquals($columns, $this->insert->getRawState('columns'));
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::values
-     */
     public function testValues()
     {
         $this->insert->values(['foo' => 'bar']);
@@ -76,9 +67,6 @@ class InsertIgnoreTest extends TestCase
         self::assertEquals(['bax'], $this->insert->getRawState('values'));
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::values
-     */
     public function testValuesThrowsExceptionWhenNotArrayOrSelect()
     {
         $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
@@ -86,9 +74,6 @@ class InsertIgnoreTest extends TestCase
         $this->insert->values(5);
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::values
-     */
     public function testValuesThrowsExceptionWhenSelectMergeOverArray()
     {
         $this->insert->values(['foo' => 'bar']);
@@ -98,9 +83,6 @@ class InsertIgnoreTest extends TestCase
         $this->insert->values(new Select, InsertIgnore::VALUES_MERGE);
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::values
-     */
     public function testValuesThrowsExceptionWhenArrayMergeOverSelect()
     {
         $this->insert->values(new Select);
@@ -114,7 +96,6 @@ class InsertIgnoreTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\InsertIgnore::values
      * @group ZF2-4926
      */
     public function testEmptyArrayValues()
@@ -123,9 +104,6 @@ class InsertIgnoreTest extends TestCase
         self::assertEquals([], $this->readAttribute($this->insert, 'columns'));
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::prepareStatement
-     */
     public function testPrepareStatement()
     {
         $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
@@ -171,9 +149,6 @@ class InsertIgnoreTest extends TestCase
         $this->insert->prepareStatement($mockAdapter, $mockStatement);
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::prepareStatement
-     */
     public function testPrepareStatementWithSelect()
     {
         $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
@@ -201,9 +176,6 @@ class InsertIgnoreTest extends TestCase
         self::assertSame(['subselect1where1' => 5], $parameters);
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::getSqlString
-     */
     public function testGetSqlString()
     {
         $this->insert->into('foo')
@@ -255,9 +227,6 @@ class InsertIgnoreTest extends TestCase
         );
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::__set
-     */
     // @codingStandardsIgnoreStart
     public function test__set()
     {
@@ -267,9 +236,6 @@ class InsertIgnoreTest extends TestCase
         self::assertEquals(['bar'], $this->insert->getRawState('values'));
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::__unset
-     */
     // @codingStandardsIgnoreStart
     public function test__unset()
     {
@@ -290,9 +256,6 @@ class InsertIgnoreTest extends TestCase
         self::assertEquals([], $this->insert->getRawState('values'));
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::__isset
-     */
     // @codingStandardsIgnoreStart
     public function test__isset()
     {
@@ -304,9 +267,6 @@ class InsertIgnoreTest extends TestCase
         self::assertTrue(isset($this->insert->foo));
     }
 
-    /**
-     * @covers \Zend\Db\Sql\InsertIgnore::__get
-     */
     // @codingStandardsIgnoreStart
     public function test__get()
     {
@@ -334,9 +294,6 @@ class InsertIgnoreTest extends TestCase
         );
     }
 
-    /**
-     * @coversNothing
-     */
     public function testSpecificationconstantsCouldBeOverridedByExtensionInPrepareStatement()
     {
         $replace = new Replace();
@@ -385,9 +342,6 @@ class InsertIgnoreTest extends TestCase
         $replace->prepareStatement($mockAdapter, $mockStatement);
     }
 
-    /**
-     * @coversNothing
-     */
     public function testSpecificationconstantsCouldBeOverridedByExtensionInGetSqlString()
     {
         $replace = new Replace();
