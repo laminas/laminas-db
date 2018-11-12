@@ -448,6 +448,13 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         // pre delete update
         $this->featureSet->apply(EventFeatureEventsInterface::EVENT_PRE_DELETE, [$delete]);
 
+        $unaliasedTable = false;
+        if (is_array($updateState['table'])) {
+            $tableData      = array_values($deleteState['table']);
+            $unaliasedTable = array_shift($tableData);
+            $delete->table($unaliasedTable);
+        }
+
         $statement = $this->sql->prepareStatementForSqlObject($delete);
         $result = $statement->execute();
 
