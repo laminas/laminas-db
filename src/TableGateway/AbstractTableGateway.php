@@ -461,6 +461,11 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         // apply postDelete features
         $this->featureSet->apply(EventFeatureEventsInterface::EVENT_POST_DELETE, [$statement, $result]);
 
+        // Reset original table information in Delete instance, if necessary
+        if ($unaliasedTable) {
+            $delete->into($deleteState['table']);
+        }
+
         return $result->getAffectedRows();
     }
 
