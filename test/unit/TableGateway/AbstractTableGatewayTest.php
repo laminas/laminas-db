@@ -361,6 +361,48 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::delete
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::deleteWith
+     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeDelete
+     *
+     * This is a test for the case when a valid $delete is built using an aliased table name, then used
+     * with AbstractTableGateway::deleteWith (or AbstractTableGateway::delete).
+     *
+     * $myTable = new MyTable(...);
+     * $sql = new \Zend\Db\Sql\Sql(...);
+     * $delete = $sql->select()->from(array('t' => 'mytable'));
+     *
+     * // Following fails, with Fatal error: Uncaught exception 'RuntimeException' with message
+     * 'The table name of the provided select object must match that of the table' unless fix is provided.
+     * $myTable->deleteWith($select);
+     *
+     */
+    public function testDeleteWithArrayTable()
+    {
+        // Case 1
+        $delete1 = $this->getMockBuilder('Zend\Db\Sql\Delete')->setMethods(['getRawState'])->getMock();
+        $delete1->expects($this->once())
+            ->method('getRawState')
+            ->will($this->returnValue([
+                'table' => 'foo',               // Standard table name format, valid according to Delete::from()
+                'columns' => null,
+            ]));
+        $affectedRows = $this->table->deleteWith($delete1);
+        self::assertEquals(5, $affectedRows);
+
+        // Case 2
+        $delete1 = $this->getMockBuilder('Zend\Db\Sql\Delete')->setMethods(['getRawState'])->getMock();
+        $delete1->expects($this->once())
+            ->method('getRawState')
+            ->will($this->returnValue([
+                'table' => ['f' => 'foo'], // Alias table name format, valid according to Delete::from()
+                'columns' => null,
+            ]));
+        $affectedRows = $this->table->deleteWith($delete1);
+        self::assertEquals(5, $affectedRows);
+    }
+
+    /**
      * @covers \Zend\Db\TableGateway\AbstractTableGateway::getLastInsertValue
      */
     public function testGetLastInsertValue()
