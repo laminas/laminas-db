@@ -455,7 +455,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
         if (is_array($deleteState['table'])) {
             $tableData      = array_values($deleteState['table']);
             $unaliasedTable = array_shift($tableData);
-            $delete->table($unaliasedTable);
+            $delete->from($unaliasedTable);
         }
 
         $statement = $this->sql->prepareStatementForSqlObject($delete);
@@ -466,7 +466,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
 
         // Reset original table information in Delete instance, if necessary
         if ($unaliasedTable) {
-            $delete->into($deleteState['table']);
+            $delete->from($deleteState['table']);
         }
 
         return $result->getAffectedRows();
