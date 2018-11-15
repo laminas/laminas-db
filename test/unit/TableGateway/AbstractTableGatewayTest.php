@@ -379,18 +379,6 @@ class AbstractTableGatewayTest extends TestCase
      */
     public function testDeleteWithArrayTable()
     {
-        // Case 1
-        $delete1 = $this->getMockBuilder('Zend\Db\Sql\Delete')->setMethods(['getRawState'])->getMock();
-        $delete1->expects($this->once())
-            ->method('getRawState')
-            ->will($this->returnValue([
-                'table' => 'foo',               // Standard table name format, valid according to Delete::from()
-                'columns' => null,
-            ]));
-        $affectedRows = $this->table->deleteWith($delete1);
-        self::assertEquals(5, $affectedRows);
-
-        // Case 2
         $delete1 = $this->getMockBuilder('Zend\Db\Sql\Delete')->setMethods(['getRawState'])->getMock();
         $delete1->expects($this->once())
             ->method('getRawState')
