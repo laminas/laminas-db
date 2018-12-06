@@ -84,6 +84,8 @@ class AbstractTableGatewayTest extends TestCase
                 ->getMock()
         ));
 
+        $this->mockFeatureSet = $this->getMockBuilder('Zend\Db\TableGateway\Feature\FeatureSet')->getMock();
+
         $this->table = $this->getMockForAbstractClass(
             'Zend\Db\TableGateway\AbstractTableGateway'
             //array('getTable')
@@ -103,6 +105,9 @@ class AbstractTableGatewayTest extends TestCase
                     break;
                 case 'sql':
                     $tgPropReflection->setValue($this->table, $this->mockSql);
+                    break;
+                case 'featureSet':
+                    $tgPropReflection->setValue($this->table, $this->mockFeatureSet);
                     break;
             }
         }
@@ -367,6 +372,30 @@ class AbstractTableGatewayTest extends TestCase
     {
         $this->table->insert(['foo' => 'bar']);
         self::assertEquals(10, $this->table->getLastInsertValue());
+    }
+
+    public function testInitializeBuildsAResultSet()
+    {
+        $stub = $this->getMockForAbstractClass(AbstractTableGateway::class);
+
+        $tgReflection = new \ReflectionClass('Zend\Db\TableGateway\AbstractTableGateway');
+        foreach ($tgReflection->getProperties() as $tgPropReflection) {
+            $tgPropReflection->setAccessible(true);
+            switch ($tgPropReflection->getName()) {
+                case 'table':
+                    $tgPropReflection->setValue($stub, 'foo');
+                    break;
+                case 'adapter':
+                    $tgPropReflection->setValue($stub, $this->mockAdapter);
+                    break;
+                case 'featureSet':
+                    $tgPropReflection->setValue($stub, $this->mockFeatureSet);
+                    break;
+            }
+        }
+
+        $stub->initialize();
+        $this->assertInstanceOf(ResultSet::class, $stub->getResultSetPrototype());
     }
 
     /**
