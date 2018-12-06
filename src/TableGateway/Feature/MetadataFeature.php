@@ -73,11 +73,11 @@ class MetadataFeature extends AbstractFeature
             throw new Exception\RuntimeException('A primary key for this column could not be found in the metadata.');
         }
 
-        $pkck = $pkck->getColumns();
-        if (count($pkc) === 1) {
-            $primaryKey = $pkck[0];
+        $pkcColumns = $pkc->getColumns();
+        if (count($pkcColumns) === 1) {
+            $primaryKey = $pkcColumns[0];
         } else {
-            $primaryKey = $pkc;
+            $primaryKey = $pkcColumns;
         }
 
         $this->sharedData['metadata']['primaryKey'] = $primaryKey;
