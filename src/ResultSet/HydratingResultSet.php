@@ -11,6 +11,7 @@ namespace Zend\Db\ResultSet;
 
 use ArrayObject;
 use Zend\Hydrator\ArraySerializable;
+use Zend\Hydrator\ArraySerializableHydrator;
 use Zend\Hydrator\HydratorInterface;
 
 class HydratingResultSet extends AbstractResultSet
@@ -33,7 +34,10 @@ class HydratingResultSet extends AbstractResultSet
      */
     public function __construct(HydratorInterface $hydrator = null, $objectPrototype = null)
     {
-        $this->setHydrator(($hydrator) ?: new ArraySerializable);
+        $defaultHydratorClass = class_exists(ArraySerializableHydrator::class)
+            ? ArraySerializableHydrator::class
+            : ArraySerializable::class;
+        $this->setHydrator($hydrator ?: new $defaultHydratorClass());
         $this->setObjectPrototype(($objectPrototype) ?: new ArrayObject);
     }
 

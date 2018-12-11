@@ -12,10 +12,29 @@ namespace ZendTest\Db\ResultSet;
 use PHPUnit\Framework\TestCase;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Hydrator\ArraySerializable;
+use Zend\Hydrator\ArraySerializableHydrator;
 use Zend\Hydrator\ClassMethods;
+use Zend\Hydrator\ClassMethodsHydrator;
 
 class HydratingResultSetTest extends TestCase
 {
+    /** @var string */
+    private $arraySerializableHydratorClass;
+
+    /** @var string */
+    private $classMethodsHydratorClass;
+
+    public function setUp()
+    {
+        $this->arraySerializableHydratorClass = class_exists(ArraySerializableHydrator::class)
+            ? ArraySerializableHydrator::class
+            : ArraySerializable::class;
+
+        $this->classMethodsHydratorClass = class_exists(ClassMethodsHydrator::class)
+            ? ClassMethodsHydrator::class
+            : ClassMethods::class;
+    }
+
     /**
      * @covers \Zend\Db\ResultSet\HydratingResultSet::setObjectPrototype
      */
@@ -41,7 +60,8 @@ class HydratingResultSetTest extends TestCase
     public function testSetHydrator()
     {
         $hydratingRs = new HydratingResultSet;
-        self::assertSame($hydratingRs, $hydratingRs->setHydrator(new ClassMethods()));
+        $hydratorClass = $this->classMethodsHydratorClass;
+        self::assertSame($hydratingRs, $hydratingRs->setHydrator(new $hydratorClass));
     }
 
     /**
@@ -50,7 +70,7 @@ class HydratingResultSetTest extends TestCase
     public function testGetHydrator()
     {
         $hydratingRs = new HydratingResultSet;
-        self::assertInstanceOf(ArraySerializable::class, $hydratingRs->getHydrator());
+        self::assertInstanceOf($this->arraySerializableHydratorClass, $hydratingRs->getHydrator());
     }
 
     /**
