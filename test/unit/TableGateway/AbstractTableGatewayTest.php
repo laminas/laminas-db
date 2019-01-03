@@ -383,7 +383,7 @@ class AbstractTableGatewayTest extends TestCase
         $delete1->expects($this->once())
             ->method('getRawState')
             ->will($this->returnValue([
-                'table' => ['f' => 'foo'], // Alias table name format, valid according to Delete::from()
+                'table' => ['foo' => 'bar'], // Alias table name format, valid according to Delete::from()
                 'columns' => null,
             ]));
         $affectedRows = $this->table->deleteWith($delete1);
