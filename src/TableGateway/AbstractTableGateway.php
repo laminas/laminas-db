@@ -439,10 +439,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
     protected function executeDelete(Delete $delete)
     {
         $deleteState = $delete->getRawState();
-        if ($deleteState['table'] != $this->table
-            && (is_array($deleteState['table'])
-                && end($deleteState['table']) != $this->table)
-        ) {
+        if ($deleteState['table'] != $this->table) {
             throw new Exception\RuntimeException(
                 'The table name of the provided Delete object must match that of the table'
             );
