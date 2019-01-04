@@ -263,7 +263,7 @@ class TableGatewayTest extends TestCase
     }
 
     /**
-     *@dataProvider aliasedTables
+     * @dataProvider aliasedTables
      */
     public function testDeleteShouldResetTableToUnaliasedTable($tableValue, $expected)
     {
@@ -312,8 +312,6 @@ class TableGatewayTest extends TestCase
 
         $result = $table->delete([
             'foo' => 'FOO',
-        ], [
-            'bar' => 'BAR',
         ]);
 
         $state = $delete->getRawState();
