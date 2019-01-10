@@ -12,7 +12,7 @@ trait AdapterTrait
             $this->markTestSkipped('pdo_mysql integration tests are not enabled!');
         }
 
-        $this->adapter = new Adapter([
+        $this->adapter = Adapter::factory([
             'driver'   => 'pdo_mysql',
             'database' => getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
             'hostname' => getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),

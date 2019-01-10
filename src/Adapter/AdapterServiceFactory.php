@@ -26,7 +26,7 @@ class AdapterServiceFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
-        return new Adapter($config['db']);
+        return Adapter::factory($config['db']);
     }
 
     /**

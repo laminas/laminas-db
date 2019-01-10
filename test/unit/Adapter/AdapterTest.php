@@ -75,7 +75,10 @@ class AdapterTest extends TestCase
         $this->adapter->setProfiler($profiler = new Profiler\Profiler());
         self::assertSame($profiler, $this->adapter->getProfiler());
 
-        $adapter = new Adapter(['driver' => $this->mockDriver, 'profiler' => true], $this->mockPlatform);
+        $adapter = Adapter::factory([
+            'driver' => $this->mockDriver,
+            'profiler' => true
+        ]);
         self::assertInstanceOf('Zend\Db\Adapter\Profiler\Profiler', $adapter->getProfiler());
     }
 
@@ -86,25 +89,33 @@ class AdapterTest extends TestCase
     public function testCreateDriver()
     {
         if (extension_loaded('mysqli')) {
-            $adapter = new Adapter(['driver' => 'mysqli'], $this->mockPlatform);
+            $adapter = Adapter::factory([
+                'driver' => 'mysqli'
+            ]);
             self::assertInstanceOf('Zend\Db\Adapter\Driver\Mysqli\Mysqli', $adapter->driver);
             unset($adapter);
         }
 
         if (extension_loaded('pgsql')) {
-            $adapter = new Adapter(['driver' => 'pgsql'], $this->mockPlatform);
+            $adapter = Adapter::factory([
+                'driver' => 'pgsql'
+            ]);
             self::assertInstanceOf('Zend\Db\Adapter\Driver\Pgsql\Pgsql', $adapter->driver);
             unset($adapter);
         }
 
         if (extension_loaded('sqlsrv')) {
-            $adapter = new Adapter(['driver' => 'sqlsrv'], $this->mockPlatform);
+            $adapter = Adapter::factory([
+                'driver' => 'sqlsrv'
+            ]);
             self::assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv', $adapter->driver);
             unset($adapter);
         }
 
         if (extension_loaded('pdo')) {
-            $adapter = new Adapter(['driver' => 'pdo_sqlite'], $this->mockPlatform);
+            $adapter = Adapter::factory([
+                'driver' => 'pdo_sqlite'
+            ]);
             self::assertInstanceOf('Zend\Db\Adapter\Driver\Pdo\Pdo', $adapter->driver);
             unset($adapter);
         }
@@ -119,7 +130,7 @@ class AdapterTest extends TestCase
         $driver = clone $this->mockDriver;
         $driver->expects($this->any())->method('getDatabasePlatformName')->will($this->returnValue('Mysql'));
         $adapter = new Adapter($driver);
-        self::assertInstanceOf('Zend\Db\Adapter\Platform\Mysql', $adapter->platform);
+        self::assertInstanceOf(\Zend\Db\Adapter\Platform\Mysql::class, $adapter->platform);
         unset($adapter, $driver);
 
         $driver = clone $this->mockDriver;
@@ -164,7 +175,7 @@ class AdapterTest extends TestCase
             'platform' => 'Oracle',
             'platform_options' => ['quote_identifiers' => false],
         ];
-        $adapter = new Adapter($driver);
+        $adapter = Adapter::factory($driver);
         self::assertInstanceOf('Zend\Db\Adapter\Platform\Oracle', $adapter->platform);
         self::assertEquals('foo', $adapter->getPlatform()->quoteIdentifier('foo'));
         unset($adapter, $driver);

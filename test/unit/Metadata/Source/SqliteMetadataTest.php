@@ -37,7 +37,7 @@ class SqliteMetadataTest extends TestCase
         if (! extension_loaded('pdo_sqlite')) {
             $this->markTestSkipped('I cannot test without the pdo_sqlite extension');
         }
-        $this->adapter = new Adapter([
+        $this->adapter = Adapter::factory([
             'driver' => 'Pdo',
             'dsn' => 'sqlite::memory:',
         ]);
