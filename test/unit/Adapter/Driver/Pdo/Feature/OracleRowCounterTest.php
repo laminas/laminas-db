@@ -55,19 +55,6 @@ class OracleRowCounterTest extends TestCase
         self::assertEquals(5, $count);
     }
 
-    /**
-     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getRowCountClosure
-     */
-    public function testGetRowCountClosure()
-    {
-        $stmt = $this->getMockStatement('SELECT XXX', 5);
-
-        /** @var \Closure $closure */
-        $closure = $this->rowCounter->getRowCountClosure($stmt);
-        self::assertInstanceOf('Closure', $closure);
-        self::assertEquals(5, $closure());
-    }
-
     protected function getMockStatement($sql, $returnValue)
     {
         /** @var \Zend\Db\Adapter\Driver\Pdo\Statement|\PHPUnit_Framework_MockObject_MockObject $statement */

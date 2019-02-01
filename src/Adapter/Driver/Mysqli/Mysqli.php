@@ -1,16 +1,19 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Mysqli;
 
 use mysqli_stmt;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Adapter\Driver\DriverInterface;
+use Zend\Db\Adapter\Driver\ResultInterface;
+use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Exception;
 use Zend\Db\Adapter\Profiler;
 
@@ -150,7 +153,9 @@ class Mysqli implements DriverInterface, Profiler\ProfilerAwareInterface
      * @param  string $nameFormat
      * @return string
      */
-    public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE)
+    public function getDatabasePlatformName(
+        string $nameFormat = self::NAME_FORMAT_CAMELCASE
+    ): string
     {
         if ($nameFormat == self::NAME_FORMAT_CAMELCASE) {
             return 'Mysql';
@@ -160,12 +165,9 @@ class Mysqli implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * Check environment
-     *
      * @throws Exception\RuntimeException
-     * @return void
      */
-    public function checkEnvironment()
+    public function checkEnvironment(): void
     {
         if (! extension_loaded('mysqli')) {
             throw new Exception\RuntimeException(
@@ -174,37 +176,22 @@ class Mysqli implements DriverInterface, Profiler\ProfilerAwareInterface
         }
     }
 
-    /**
-     * Get connection
-     *
-     * @return Connection
-     */
-    public function getConnection()
+    public function getConnection(): ConnectionInterface
     {
         return $this->connection;
     }
 
     /**
-     * Create statement
-     *
-     * @param string $sqlOrResource
-     * @return Statement
+     * @param mixed $resource
      */
-    public function createStatement($sqlOrResource = null)
+    public function createStatement($resource = null): StatementInterface
     {
-        /**
-         * @todo Resource tracking
-        if (is_resource($sqlOrResource) && !in_array($sqlOrResource, $this->resources, true)) {
-            $this->resources[] = $sqlOrResource;
-        }
-        */
-
         $statement = clone $this->statementPrototype;
-        if ($sqlOrResource instanceof mysqli_stmt) {
+        if ($resource instanceof mysqli_stmt) {
             $statement->setResource($sqlOrResource);
         } else {
-            if (is_string($sqlOrResource)) {
-                $statement->setSql($sqlOrResource);
+            if (is_string($resource)) {
+                $statement->setSql($resource);
             }
             if (! $this->connection->isConnected()) {
                 $this->connection->connect();
@@ -215,25 +202,23 @@ class Mysqli implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * Create result
-     *
-     * @param resource $resource
-     * @param null|bool $isBuffered
-     * @return Result
+     * @var mixed $resource
      */
-    public function createResult($resource, $isBuffered = null)
+    public function createResult($resource): ResultInterface
     {
         $result = clone $this->resultPrototype;
-        $result->initialize($resource, $this->connection->getLastGeneratedValue(), $isBuffered);
+        $result->initialize($resource, $this->connection->getLastGeneratedValue());
         return $result;
     }
 
-    /**
-     * Get prepare type
-     *
-     * @return string
-     */
-    public function getPrepareType()
+    public function createResultWithBuffer(resource $resource, bool $isBuffered): ResultInterface
+    {
+        $resource = $this->createResult($resource);
+        $resource->setBuffer($isBuffered);
+        return $resource;
+    }
+
+    public function getPrepareType(): string
     {
         return self::PARAMETERIZATION_POSITIONAL;
     }
@@ -245,17 +230,12 @@ class Mysqli implements DriverInterface, Profiler\ProfilerAwareInterface
      * @param mixed  $type
      * @return string
      */
-    public function formatParameterName($name, $type = null)
+    public function formatParameterName(string $name, $type = null): string
     {
         return '?';
     }
 
-    /**
-     * Get last generated value
-     *
-     * @return mixed
-     */
-    public function getLastGeneratedValue()
+    public function getLastGeneratedValue(): string
     {
         return $this->getConnection()->getLastGeneratedValue();
     }

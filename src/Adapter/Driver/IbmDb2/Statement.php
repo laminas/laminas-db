@@ -1,19 +1,23 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\IbmDb2;
 
+use ArrayAccess;
 use ErrorException;
+use resource;
+use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Exception;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Profiler;
+use Zend\Db\Adapter\StatementContainerInterface;
 
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
@@ -90,46 +94,24 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         return $this->profiler;
     }
 
-    /**
-     * Set sql
-     *
-     * @param $sql
-     * @return self Provides a fluent interface
-     */
-    public function setSql($sql)
+    public function setSql(string $sql): StatementContainerInterface
     {
         $this->sql = $sql;
         return $this;
     }
 
-    /**
-     * Get sql
-     *
-     * @return mixed
-     */
-    public function getSql()
+    public function getSql(): string
     {
         return $this->sql;
     }
 
-    /**
-     * Set parameter container
-     *
-     * @param ParameterContainer $parameterContainer
-     * @return self Provides a fluent interface
-     */
-    public function setParameterContainer(ParameterContainer $parameterContainer)
+    public function setParameterContainer(ParameterContainer $parameterContainer): StatementContainerInterface
     {
         $this->parameterContainer = $parameterContainer;
         return $this;
     }
 
-    /**
-     * Get parameter container
-     *
-     * @return mixed
-     */
-    public function getParameterContainer()
+    public function getParameterContainer(): ParameterContainer
     {
         return $this->parameterContainer;
     }
@@ -146,12 +128,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         $this->resource = $resource;
     }
 
-    /**
-     * Get resource
-     *
-     * @return resource
-     */
-    public function getResource()
+    public function getResource(): resource
     {
         return $this->resource;
     }
@@ -163,7 +140,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * @return self Provides a fluent interface
      * @throws Exception\RuntimeException
      */
-    public function prepare($sql = null)
+    public function prepare(string $sql = null): StatementInterface
     {
         if ($this->isPrepared) {
             throw new Exception\RuntimeException('This statement has been prepared already');
@@ -190,23 +167,12 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         return $this;
     }
 
-    /**
-     * Check if is prepared
-     *
-     * @return bool
-     */
-    public function isPrepared()
+    public function isPrepared(): bool
     {
         return $this->isPrepared;
     }
 
-    /**
-     * Execute
-     *
-     * @param null|array|ParameterContainer $parameters
-     * @return Result
-     */
-    public function execute($parameters = null)
+    public function execute(array $parameters = null): ResultInterface
     {
         if (! $this->isPrepared) {
             $this->prepare();
@@ -214,16 +180,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
         /** START Standard ParameterContainer Merging Block */
         if (! $this->parameterContainer instanceof ParameterContainer) {
-            if ($parameters instanceof ParameterContainer) {
-                $this->parameterContainer = $parameters;
-                $parameters = null;
-            } else {
-                $this->parameterContainer = new ParameterContainer();
-            }
-        }
-
-        if (is_array($parameters)) {
-            $this->parameterContainer->setFromArray($parameters);
+            $this->parameterContainer = new ParameterContainer($parameters);
         }
         /** END Standard ParameterContainer Merging Block */
 
@@ -244,8 +201,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             throw new Exception\RuntimeException(db2_stmt_errormsg($this->resource));
         }
 
-        $result = $this->driver->createResult($this->resource);
-        return $result;
+        return $this->driver->createResult($this->resource);
     }
 
     /**

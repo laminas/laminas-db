@@ -1,18 +1,22 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Oci8;
 
+use resource;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Adapter\Driver\DriverInterface;
+use Zend\Db\Adapter\Driver\Feature\AbstractFeature;
+use Zend\Db\Adapter\Driver\ResultInterface;
+use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Exception;
 use Zend\Db\Adapter\Profiler;
-use Zend\Db\Adapter\Driver\Feature\AbstractFeature;
 
 class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
 {
@@ -207,15 +211,17 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
      * @param  string $nameFormat
      * @return string
      */
-    public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE)
+    public function getDatabasePlatformName(
+        string $nameFormat = self::NAME_FORMAT_CAMELCASE
+    ): string
     {
         return 'Oracle';
     }
 
     /**
-     * Check environment
+     * @throws Exception\RuntimeException
      */
-    public function checkEnvironment()
+    public function checkEnvironment(): void
     {
         if (! extension_loaded('oci8')) {
             throw new Exception\RuntimeException(
@@ -227,24 +233,23 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * @return Connection
      */
-    public function getConnection()
+    public function getConnection(): ConnectionInterface
     {
         return $this->connection;
     }
 
     /**
-     * @param string $sqlOrResource
-     * @return Statement
+     * @param mixed $resource
      */
-    public function createStatement($sqlOrResource = null)
+    public function createStatement($resource = null): StatementInterface
     {
         $statement = clone $this->statementPrototype;
-        if (is_resource($sqlOrResource) && get_resource_type($sqlOrResource) == 'oci8 statement') {
-            $statement->setResource($sqlOrResource);
+        if (is_resource($resource) && get_resource_type($resource) == 'oci8 statement') {
+            $statement->setResource($resource);
         } else {
-            if (is_string($sqlOrResource)) {
-                $statement->setSql($sqlOrResource);
-            } elseif ($sqlOrResource !== null) {
+            if (is_string($resource)) {
+                $statement->setSql($resource);
+            } elseif ($resource !== null) {
                 throw new Exception\InvalidArgumentException(
                     'Oci8 only accepts an SQL string or an oci8 resource in ' . __FUNCTION__
                 );
@@ -258,44 +263,41 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param  resource $resource
-     * @param  null     $context
-     * @return Result
+     * @param mixed $resource
      */
-    public function createResult($resource, $context = null)
+    public function createResult($resource): ResultInterface
     {
         $result = clone $this->resultPrototype;
-        $rowCount = null;
-        // special feature, oracle Oci counter
-        if ($context && ($rowCounter = $this->getFeature('RowCounter')) && oci_num_fields($resource) > 0) {
-            $rowCount = $rowCounter->getRowCountClosure($context);
-        }
-        $result->initialize($resource, null, $rowCount);
+        $result->initialize($resource, null);
         return $result;
     }
 
-    /**
-     * @return string
-     */
-    public function getPrepareType()
+    public function createResultWithStatement(
+        resource $resource,
+        StatementInterface $statement
+    ): ResultInterface
+    {
+        $result = $this->createResult($resource);
+        if ($statement && ($rowCounter = $this->getFeature('RowCounter')) && oci_num_fields($resource) > 0) {
+            $result->setRowCount($rowCounter->getRowCountClosure($context));
+        }
+        return $result;
+    }
+
+    public function getPrepareType(): string
     {
         return self::PARAMETERIZATION_NAMED;
     }
 
     /**
-     * @param string $name
      * @param mixed  $type
-     * @return string
      */
-    public function formatParameterName($name, $type = null)
+    public function formatParameterName(string $name, $type = null): string
     {
         return ':' . $name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLastGeneratedValue()
+    public function getLastGeneratedValue(): string
     {
         return $this->getConnection()->getLastGeneratedValue();
     }

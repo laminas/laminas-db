@@ -1,16 +1,20 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Pdo;
 
 use PDOStatement;
+use resource;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Adapter\Driver\DriverInterface;
+use Zend\Db\Adapter\Driver\ResultInterface;
+use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Driver\Feature\AbstractFeature;
 use Zend\Db\Adapter\Driver\Feature\DriverFeatureInterface;
 use Zend\Db\Adapter\Exception;
@@ -138,7 +142,7 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
      * @param AbstractFeature $feature
      * @return self Provides a fluent interface
      */
-    public function addFeature($name, $feature)
+    public function addFeature(string $name, $feature): DriverFeatureInterface
     {
         if ($feature instanceof AbstractFeature) {
             $name = $feature->getName(); // overwrite the name, just in case
@@ -153,13 +157,13 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
      *
      * @return self Provides a fluent interface
      */
-    public function setupDefaultFeatures()
+    public function setupDefaultFeatures(): DriverFeatureInterface
     {
         $driverName = $this->connection->getDriverName();
         if ($driverName == 'sqlite') {
-            $this->addFeature(null, new Feature\SqliteRowCounter);
+            $this->addFeature('', new Feature\SqliteRowCounter);
         } elseif ($driverName == 'oci') {
-            $this->addFeature(null, new Feature\OracleRowCounter);
+            $this->addFeature('', new Feature\OracleRowCounter);
         }
         return $this;
     }
@@ -184,7 +188,7 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
      * @param  string $nameFormat
      * @return string
      */
-    public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE)
+    public function getDatabasePlatformName(string $nameFormat = self::NAME_FORMAT_CAMELCASE): string
     {
         $name = $this->getConnection()->getDriverName();
         if ($nameFormat == self::NAME_FORMAT_CAMELCASE) {
@@ -219,9 +223,9 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     }
 
     /**
-     * Check environment
+     * @throws Exception\RuntimeException
      */
-    public function checkEnvironment()
+    public function checkEnvironment(): void
     {
         if (! extension_loaded('PDO')) {
             throw new Exception\RuntimeException(
@@ -233,23 +237,22 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     /**
      * @return Connection
      */
-    public function getConnection()
+    public function getConnection(): ConnectionInterface
     {
         return $this->connection;
     }
 
     /**
-     * @param string|PDOStatement $sqlOrResource
-     * @return Statement
+     * @param string|PDOStatement $resource
      */
-    public function createStatement($sqlOrResource = null)
+    public function createStatement($resource = null): StatementInterface
     {
         $statement = clone $this->statementPrototype;
-        if ($sqlOrResource instanceof PDOStatement) {
-            $statement->setResource($sqlOrResource);
+        if ($resource instanceof PDOStatement) {
+            $statement->setResource($resource);
         } else {
-            if (is_string($sqlOrResource)) {
-                $statement->setSql($sqlOrResource);
+            if (is_string($resource)) {
+                $statement->setSql($resource);
             }
             if (! $this->connection->isConnected()) {
                 $this->connection->connect();
@@ -260,38 +263,62 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     }
 
     /**
-     * @param resource $resource
-     * @param mixed $context
-     * @return Result
+     * @param mixed $resource
      */
-    public function createResult($resource, $context = null)
+    public function createResult($resource): ResultInterface
     {
         $result = clone $this->resultPrototype;
-        $rowCount = null;
+        $result->initialize($resource, $this->connection->getLastGeneratedValue());
 
-        // special feature, sqlite PDO counter
-        if ($this->connection->getDriverName() == 'sqlite'
-            && ($sqliteRowCounter = $this->getFeature('SqliteRowCounter'))
-            && $resource->columnCount() > 0) {
-            $rowCount = $sqliteRowCounter->getRowCountClosure($context);
-        }
-
-        // special feature, oracle PDO counter
-        if ($this->connection->getDriverName() == 'oci'
-            && ($oracleRowCounter = $this->getFeature('OracleRowCounter'))
-            && $resource->columnCount() > 0) {
-            $rowCount = $oracleRowCounter->getRowCountClosure($context);
-        }
-
-
-        $result->initialize($resource, $this->connection->getLastGeneratedValue(), $rowCount);
         return $result;
     }
 
     /**
-     * @return string
+     * @param mixed $resource
      */
-    public function getPrepareType()
+    public function createResultWithSql($resource, string $sql): ResultInterface
+    {
+        $result = $this->createResult($resource);
+        if (empty($this->connection)) {
+            return $result;
+        }
+        if ($this->connection->getDriverName() == 'sqlite'
+            && ($sqliteRowCounter = $this->getFeature('SqliteRowCounter'))
+            && $resource->columnCount() > 0) {
+            $result->setRowCount($sqliteRowCounter->getCountForSql($sql));
+        }
+        if ($this->connection->getDriverName() == 'oci'
+            && ($oracleRowCounter = $this->getFeature('OracleRowCounter'))
+            && $resource->columnCount() > 0) {
+            $result->setRowCount($oracleRowCounter->getCountForSql($sql));
+        }
+        return $result;
+    }
+
+    /**
+     * @param mixed $resource
+     */
+    public function createResultWithStatement($resource, StatementInterface $statement): ResultInterface
+    {
+        $result = $this->createResult($resource);
+        if (empty($this->connection)) {
+            return $result;
+        }
+        if ($this->connection->getDriverName() == 'sqlite'
+            && ($sqliteRowCounter = $this->getFeature('SqliteRowCounter'))
+            && $resource->columnCount() > 0) {
+            $result->setRowCount($sqliteRowCounter->getCountForStatement($statement));
+        }
+        if ($this->connection->getDriverName() == 'oci'
+            && ($oracleRowCounter = $this->getFeature('OracleRowCounter'))
+            && $resource->columnCount() > 0) {
+            $result->setRowCount($oracleRowCounter->getCountForStatement($statement));
+        }
+        return $result;
+    }
+
+
+    public function getPrepareType(): string
     {
         return self::PARAMETERIZATION_NAMED;
     }
@@ -301,7 +328,7 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
      * @param string|null $type
      * @return string
      */
-    public function formatParameterName($name, $type = null)
+    public function formatParameterName(string $name, $type = null): string
     {
         if ($type === null && ! is_numeric($name) || $type == self::PARAMETERIZATION_NAMED) {
             $name = ltrim($name, ':');
@@ -320,12 +347,8 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
         return '?';
     }
 
-    /**
-     * @param string|null $name
-     * @return string|null|false
-     */
-    public function getLastGeneratedValue($name = null)
+    public function getLastGeneratedValue(): string
     {
-        return $this->connection->getLastGeneratedValue($name);
+        return $this->connection->getLastGeneratedValue();
     }
 }

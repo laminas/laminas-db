@@ -1,15 +1,17 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\IbmDb2;
 
 use Zend\Db\Adapter\Driver\AbstractConnection;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
+use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\Adapter\Exception;
 
 class Connection extends AbstractConnection
@@ -82,7 +84,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function getCurrentSchema()
+    public function getCurrentSchema(): string
     {
         if (! $this->isConnected()) {
             $this->connect();
@@ -96,7 +98,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function connect()
+    public function connect(): ConnectionInterface
     {
         if (is_resource($this->resource)) {
             return $this;
@@ -138,7 +140,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function isConnected()
+    public function isConnected(): bool
     {
         return ($this->resource !== null);
     }
@@ -146,7 +148,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function disconnect()
+    public function disconnect(): ConnectionInterface
     {
         if ($this->resource) {
             db2_close($this->resource);
@@ -159,7 +161,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function beginTransaction()
+    public function beginTransaction(): ConnectionInterface
     {
         if ($this->isI5() && ! ini_get('ibm_db2.i5_allow_commit')) {
             throw new Exception\RuntimeException(
@@ -181,7 +183,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function commit()
+    public function commit(): ConnectionInterface
     {
         if (! $this->isConnected()) {
             $this->connect();
@@ -201,12 +203,9 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * Rollback
-     *
-     * @return self Provides a fluent interface
      * @throws Exception\RuntimeException
      */
-    public function rollback()
+    public function rollback(): ConnectionInterface
     {
         if (! $this->isConnected()) {
             throw new Exception\RuntimeException('Must be connected before you can rollback.');
@@ -232,7 +231,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function execute($sql)
+    public function execute(string $sql): ResultInterface
     {
         if (! $this->isConnected()) {
             $this->connect();
@@ -262,7 +261,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function getLastGeneratedValue($name = null)
+    public function getLastGeneratedValue(string $name = null): string
     {
         return db2_last_insert_id($this->resource);
     }

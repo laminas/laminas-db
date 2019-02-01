@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver;
 
@@ -15,31 +15,13 @@ use Zend\Db\Adapter\StatementContainerInterface;
 interface StatementInterface extends StatementContainerInterface
 {
     /**
-     * Get resource
-     *
-     * @return resource
+     * @return mixed
      */
     public function getResource();
 
-    /**
-     * Prepare sql
-     *
-     * @param string $sql
-     */
-    public function prepare($sql = null);
+    public function prepare(string $sql = null): StatementInterface;
 
-    /**
-     * Check if is prepared
-     *
-     * @return bool
-     */
-    public function isPrepared();
+    public function isPrepared(): bool;
 
-    /**
-     * Execute
-     *
-     * @param null|array|ParameterContainer $parameters
-     * @return ResultInterface
-     */
-    public function execute($parameters = null);
+    public function execute(array $parameters = null): ResultInterface;
 }

@@ -296,4 +296,20 @@ class ParameterContainerTest extends TestCase
         $this->parameterContainer->rewind();
         self::assertEquals('foo', $this->parameterContainer->key());
     }
+
+    public function testMergeFromArray()
+    {
+        $this->parameterContainer->offsetSet('bar', 'baz');
+        $this->parameterContainer->mergeFromArray(['baz' => 'bar']);
+        $this->assertEquals('baz', $this->parameterContainer->offsetGet('bar'));
+        $this->assertEquals('bar', $this->parameterContainer->offsetGet('baz'));
+    }
+
+    public function testMergeFromParameterContainer()
+    {
+        $paramContainer = new ParameterContainer(['bar' => 'baz']);
+        $this->parameterContainer->mergeFromParameterContainer($paramContainer);
+        $this->assertEquals('baz', $this->parameterContainer->offsetGet('bar'));
+        $this->assertEquals('bar', $this->parameterContainer->offsetGet('foo'));
+    }
 }

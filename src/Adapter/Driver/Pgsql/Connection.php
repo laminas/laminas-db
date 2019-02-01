@@ -1,15 +1,17 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Pgsql;
 
 use Zend\Db\Adapter\Driver\AbstractConnection;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
+use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\Adapter\Exception;
 
 class Connection extends AbstractConnection
@@ -94,10 +96,8 @@ class Connection extends AbstractConnection
 
     /**
      * {@inheritDoc}
-     *
-     * @return null|string
      */
-    public function getCurrentSchema()
+    public function getCurrentSchema(): string
     {
         if (! $this->isConnected()) {
             $this->connect();
@@ -105,7 +105,7 @@ class Connection extends AbstractConnection
 
         $result = pg_query($this->resource, 'SELECT CURRENT_SCHEMA AS "currentschema"');
         if ($result == false) {
-            return;
+            return '';
         }
 
         return pg_fetch_result($result, 0, 'currentschema');
@@ -116,7 +116,7 @@ class Connection extends AbstractConnection
      *
      * @throws Exception\RuntimeException on failure
      */
-    public function connect()
+    public function connect(): ConnectionInterface
     {
         if (is_resource($this->resource)) {
             return $this;
@@ -126,7 +126,7 @@ class Connection extends AbstractConnection
         set_error_handler(function ($number, $string) {
             throw new Exception\RuntimeException(
                 __METHOD__ . ': Unable to connect to database',
-                null,
+                $number,
                 new Exception\ErrorException($string, $number)
             );
         });
@@ -158,7 +158,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function isConnected()
+    public function isConnected(): bool
     {
         return (is_resource($this->resource));
     }
@@ -166,7 +166,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function disconnect()
+    public function disconnect(): ConnectionInterface
     {
         pg_close($this->resource);
         return $this;
@@ -175,7 +175,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function beginTransaction()
+    public function beginTransaction(): ConnectionInterface
     {
         if ($this->inTransaction()) {
             throw new Exception\RuntimeException('Nested transactions are not supported');
@@ -194,14 +194,14 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function commit()
+    public function commit(): ConnectionInterface
     {
         if (! $this->isConnected()) {
             $this->connect();
         }
 
         if (! $this->inTransaction()) {
-            return; // We ignore attempts to commit non-existing transaction
+            throw new Exception\RuntimeException('The transaction has not been started');
         }
 
         pg_query($this->resource, 'COMMIT');
@@ -213,7 +213,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function rollback()
+    public function rollback(): ConnectionInterface
     {
         if (! $this->isConnected()) {
             throw new Exception\RuntimeException('Must be connected before you can rollback');
@@ -233,9 +233,8 @@ class Connection extends AbstractConnection
      * {@inheritDoc}
      *
      * @throws Exception\InvalidQueryException
-     * @return resource|\Zend\Db\ResultSet\ResultSetInterface
      */
-    public function execute($sql)
+    public function execute(string $sql): ResultInterface
     {
         if (! $this->isConnected()) {
             $this->connect();
@@ -263,13 +262,11 @@ class Connection extends AbstractConnection
 
     /**
      * {@inheritDoc}
-     *
-     * @return string
      */
-    public function getLastGeneratedValue($name = null)
+    public function getLastGeneratedValue($name = null): string
     {
         if ($name === null) {
-            return;
+            return '';
         }
         $result = pg_query(
             $this->resource,
@@ -308,6 +305,6 @@ class Connection extends AbstractConnection
             'socket'   => isset($p['socket']) ? $p['socket'] : null,
         ];
 
-        return urldecode(http_build_query(array_filter($connectionParameters), null, ' '));
+        return urldecode(http_build_query(array_filter($connectionParameters), '', ' '));
     }
 }

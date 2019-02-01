@@ -1,18 +1,22 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Pgsql;
 
+use ArrayAccess;
+use resource;
+use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Exception;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Profiler;
+use Zend\Db\Adapter\StatementContainerInterface;
 
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
@@ -85,13 +89,9 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * Initialize
-     *
-     * @param  resource $pgsql
-     * @return void
      * @throws Exception\RuntimeException for invalid or missing postgresql connection
      */
-    public function initialize($pgsql)
+    public function initialize(resource $pgsql): void
     {
         if (! is_resource($pgsql) || get_resource_type($pgsql) !== 'pgsql link') {
             throw new Exception\RuntimeException(sprintf(
@@ -104,33 +104,23 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * Get resource
-     *
-     * @return resource
+     * @throws Exception\ErrorException if the resource is empty
      */
-    public function getResource()
+    public function getResource(): resource
     {
-        // TODO: Implement getResource() method.
+        if (is_null($this->resource)) {
+            throw new Exception\ErrorException('The resource is empty');
+        }
+        return $this->resource;
     }
 
-    /**
-     * Set sql
-     *
-     * @param string $sql
-     * @return self Provides a fluent interface
-     */
-    public function setSql($sql)
+    public function setSql(string $sql): StatementContainerInterface
     {
         $this->sql = $sql;
         return $this;
     }
 
-    /**
-     * Get sql
-     *
-     * @return string
-     */
-    public function getSql()
+    public function getSql(): string
     {
         return $this->sql;
     }
@@ -141,7 +131,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * @param ParameterContainer $parameterContainer
      * @return self Provides a fluent interface
      */
-    public function setParameterContainer(ParameterContainer $parameterContainer)
+    public function setParameterContainer(ParameterContainer $parameterContainer): StatementContainerInterface
     {
         $this->parameterContainer = $parameterContainer;
         return $this;
@@ -152,7 +142,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      *
      * @return ParameterContainer
      */
-    public function getParameterContainer()
+    public function getParameterContainer(): ParameterContainer
     {
         return $this->parameterContainer;
     }
@@ -162,7 +152,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      *
      * @param string $sql
      */
-    public function prepare($sql = null)
+    public function prepare(string $sql = null): StatementInterface
     {
         $sql = ($sql) ?: $this->sql;
 
@@ -178,26 +168,19 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         $this->sql = $sql;
         $this->statementName = 'statement' . ++static::$statementIndex;
         $this->resource = pg_prepare($this->pgsql, $this->statementName, $sql);
+
+        return $this;
     }
 
-    /**
-     * Is prepared
-     *
-     * @return bool
-     */
-    public function isPrepared()
+    public function isPrepared(): bool
     {
         return isset($this->resource);
     }
 
     /**
-     * Execute
-     *
-     * @param null|array|ParameterContainer $parameters
      * @throws Exception\InvalidQueryException
-     * @return Result
      */
-    public function execute($parameters = null)
+    public function execute(array $parameters = null): ResultInterface
     {
         if (! $this->isPrepared()) {
             $this->prepare();
@@ -205,16 +188,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
         /** START Standard ParameterContainer Merging Block */
         if (! $this->parameterContainer instanceof ParameterContainer) {
-            if ($parameters instanceof ParameterContainer) {
-                $this->parameterContainer = $parameters;
-                $parameters = null;
-            } else {
-                $this->parameterContainer = new ParameterContainer();
-            }
-        }
-
-        if (is_array($parameters)) {
-            $this->parameterContainer->setFromArray($parameters);
+            $this->parameterContainer = new ParameterContainer($parameters);
         }
 
         if ($this->parameterContainer->count() > 0) {
@@ -236,7 +210,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             throw new Exception\InvalidQueryException(pg_last_error());
         }
 
-        $result = $this->driver->createResult($resultResource);
-        return $result;
+        return $this->driver->createResult($resultResource);
     }
 }

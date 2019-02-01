@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver;
 
@@ -16,64 +16,30 @@ interface DriverInterface
     const NAME_FORMAT_CAMELCASE = 'camelCase';
     const NAME_FORMAT_NATURAL = 'natural';
 
-    /**
-     * Get database platform name
-     *
-     * @param string $nameFormat
-     * @return string
-     */
-    public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE);
+    public function getDatabasePlatformName(
+        string $nameFormat = self::NAME_FORMAT_CAMELCASE
+    ): string;
+
+    public function checkEnvironment(): void;
+
+    public function getConnection(): ConnectionInterface;
 
     /**
-     * Check environment
-     *
-     * @return bool
+     * @param mixed $resource
      */
-    public function checkEnvironment();
+    public function createStatement($resource = null): StatementInterface;
 
     /**
-     * Get connection
-     *
-     * @return ConnectionInterface
+     * @param mixed $resource
      */
-    public function getConnection();
+    public function createResult($resource): ResultInterface;
+
+    public function getPrepareType(): string;
 
     /**
-     * Create statement
-     *
-     * @param string|resource $sqlOrResource
-     * @return StatementInterface
-     */
-    public function createStatement($sqlOrResource = null);
-
-    /**
-     * Create result
-     *
-     * @param resource $resource
-     * @return ResultInterface
-     */
-    public function createResult($resource);
-
-    /**
-     * Get prepare type
-     *
-     * @return string
-     */
-    public function getPrepareType();
-
-    /**
-     * Format parameter name
-     *
-     * @param string $name
      * @param mixed  $type
-     * @return string
      */
-    public function formatParameterName($name, $type = null);
+    public function formatParameterName(string $name, $type = null): string;
 
-    /**
-     * Get last generated value
-     *
-     * @return mixed
-     */
-    public function getLastGeneratedValue();
+    public function getLastGeneratedValue(): string;
 }

@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Pdo;
 
@@ -66,37 +66,33 @@ class Result implements Iterator, ResultInterface
     /**
      * @var null
      */
-    protected $rowCount = null;
+    protected $rowCount = 0;
 
     /**
      * Initialize
      *
      * @param  PDOStatement $resource
      * @param               $generatedValue
-     * @param  int          $rowCount
      * @return self Provides a fluent interface
      */
-    public function initialize(PDOStatement $resource, $generatedValue, $rowCount = null)
+    public function initialize(PDOStatement $resource, $generatedValue)
     {
         $this->resource = $resource;
         $this->generatedValue = $generatedValue;
-        $this->rowCount = $rowCount;
 
         return $this;
     }
 
-    /**
-     * @return null
-     */
-    public function buffer()
+    public function setRowCount(int $rowCount): void
     {
-        return;
+        $this->rowCount = $rowCount;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function isBuffered()
+    public function buffer(): void
+    {
+    }
+
+    public function isBuffered(): bool
     {
         return false;
     }
@@ -198,12 +194,7 @@ class Result implements Iterator, ResultInterface
         return ($this->currentData !== false);
     }
 
-    /**
-     * Count
-     *
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
         if (is_int($this->rowCount)) {
             return $this->rowCount;
@@ -216,30 +207,17 @@ class Result implements Iterator, ResultInterface
         return $this->rowCount;
     }
 
-    /**
-     * @return int
-     */
-    public function getFieldCount()
+    public function getFieldCount(): int
     {
         return $this->resource->columnCount();
     }
 
-    /**
-     * Is query result
-     *
-     * @return bool
-     */
-    public function isQueryResult()
+    public function isQueryResult(): bool
     {
         return ($this->resource->columnCount() > 0);
     }
 
-    /**
-     * Get affected rows
-     *
-     * @return int
-     */
-    public function getAffectedRows()
+    public function getAffectedRows(): int
     {
         return $this->resource->rowCount();
     }

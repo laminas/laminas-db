@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Pgsql;
 
@@ -106,42 +106,21 @@ class Result implements ResultInterface
         $this->position = 0;
     }
 
-    /**
-     * Buffer
-     *
-     * @return null
-     */
-    public function buffer()
+    public function buffer(): void
     {
-        return;
     }
 
-    /**
-     * Is buffered
-     *
-     * @return false
-     */
-    public function isBuffered()
+    public function isBuffered(): bool
     {
         return false;
     }
 
-    /**
-     * Is query result
-     *
-     * @return bool
-     */
-    public function isQueryResult()
+    public function isQueryResult(): bool
     {
         return (pg_num_fields($this->resource) > 0);
     }
 
-    /**
-     * Get affected rows
-     *
-     * @return int
-     */
-    public function getAffectedRows()
+    public function getAffectedRows(): int
     {
         return pg_affected_rows($this->resource);
     }
@@ -164,28 +143,12 @@ class Result implements ResultInterface
         // TODO: Implement getResource() method.
     }
 
-    /**
-     * Count
-     *
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Count elements of an object
-     * @link http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
-     */
     public function count()
     {
         return $this->count;
     }
 
-    /**
-     * Get field count
-     *
-     * @return int
-     */
-    public function getFieldCount()
+    public function getFieldCount(): int
     {
         return pg_num_fields($this->resource);
     }

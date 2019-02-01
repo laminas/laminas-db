@@ -31,6 +31,9 @@ class StatementTest extends TestCase
      */
     protected function setUp()
     {
+        if (! extension_loaded('oci8')) {
+            $this->markTestSkipped('OCI8 test disabled');
+        }
         $this->statement = new Statement;
     }
 
@@ -74,7 +77,10 @@ class StatementTest extends TestCase
     public function testInitialize()
     {
         $oci8 = new Oci8([]);
-        self::assertEquals($this->statement, $this->statement->initialize($oci8));
+        self::assertEquals(
+            $this->statement,
+            $this->statement->initialize($oci8->getConnection()->getResource())
+        );
     }
 
     /**

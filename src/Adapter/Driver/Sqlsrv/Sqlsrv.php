@@ -1,15 +1,19 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Sqlsrv;
 
+use resource;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Adapter\Driver\DriverInterface;
+use Zend\Db\Adapter\Driver\ResultInterface;
+use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Exception;
 use Zend\Db\Adapter\Profiler;
 
@@ -119,7 +123,9 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
      * @param  string $nameFormat
      * @return string
      */
-    public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE)
+    public function getDatabasePlatformName(
+        string $nameFormat = self::NAME_FORMAT_CAMELCASE
+    ) : string
     {
         if ($nameFormat == self::NAME_FORMAT_CAMELCASE) {
             return 'SqlServer';
@@ -129,12 +135,9 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * Check environment
-     *
      * @throws Exception\RuntimeException
-     * @return void
      */
-    public function checkEnvironment()
+    public function checkEnvironment(): void
     {
         if (! extension_loaded('sqlsrv')) {
             throw new Exception\RuntimeException(
@@ -146,28 +149,27 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * @return Connection
      */
-    public function getConnection()
+    public function getConnection(): ConnectionInterface
     {
         return $this->connection;
     }
 
     /**
      * @param string|resource $sqlOrResource
-     * @return Statement
      */
-    public function createStatement($sqlOrResource = null)
+    public function createStatement($resource = null): StatementInterface
     {
         $statement = clone $this->statementPrototype;
-        if (is_resource($sqlOrResource)) {
-            $statement->initialize($sqlOrResource);
+        if (is_resource($resource)) {
+            $statement->initialize($resource);
         } else {
             if (! $this->connection->isConnected()) {
                 $this->connection->connect();
             }
             $statement->initialize($this->connection->getResource());
-            if (is_string($sqlOrResource)) {
-                $statement->setSql($sqlOrResource);
-            } elseif ($sqlOrResource !== null) {
+            if (is_string($resource)) {
+                $statement->setSql($resource);
+            } elseif ($resource !== null) {
                 throw new Exception\InvalidArgumentException(
                     'createStatement() only accepts an SQL string or a Sqlsrv resource'
                 );
@@ -176,39 +178,27 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
         return $statement;
     }
 
-    /**
-     * @param resource $resource
-     * @return Result
-     */
-    public function createResult($resource)
+    public function createResult($resource): ResultInterface
     {
         $result = clone $this->resultPrototype;
         $result->initialize($resource, $this->connection->getLastGeneratedValue());
         return $result;
     }
 
-    /**
-     * @return string
-     */
-    public function getPrepareType()
+    public function getPrepareType(): string
     {
         return self::PARAMETERIZATION_POSITIONAL;
     }
 
     /**
-     * @param string $name
      * @param mixed  $type
-     * @return string
      */
-    public function formatParameterName($name, $type = null)
+    public function formatParameterName(string $name, $type = null): string
     {
         return '?';
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLastGeneratedValue()
+    public function getLastGeneratedValue(): string
     {
         return $this->getConnection()->getLastGeneratedValue();
     }

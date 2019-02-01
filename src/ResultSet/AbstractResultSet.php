@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\ResultSet;
 
@@ -40,7 +40,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     /**
      * @var int
      */
-    protected $fieldCount = null;
+    protected $fieldCount = 0;
 
     /**
      * @var int
@@ -128,12 +128,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
         return $this->dataSource;
     }
 
-    /**
-     * Retrieve count of fields in individual rows of the result set
-     *
-     * @return int
-     */
-    public function getFieldCount()
+    public function getFieldCount(): int
     {
         if (null !== $this->fieldCount) {
             return $this->fieldCount;
@@ -156,8 +151,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
             return $this->fieldCount;
         }
 
-        $row = (array) $row;
-        $this->fieldCount = count($row);
+        $this->fieldCount = count((array) $row);
         return $this->fieldCount;
     }
 

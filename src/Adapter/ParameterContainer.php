@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter;
 
@@ -54,7 +54,7 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
      *
      * @param array $data
      */
-    public function __construct(array $data = [])
+    public function __construct(array $data = null)
     {
         if ($data) {
             $this->setFromArray($data);
@@ -65,9 +65,8 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
      * Offset exists
      *
      * @param  string $name
-     * @return bool
      */
-    public function offsetExists($name)
+    public function offsetExists($name): bool
     {
         return (isset($this->data[$name]));
     }
@@ -334,10 +333,8 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
 
     /**
      * count
-     *
-     * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->data);
     }
@@ -377,7 +374,7 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
      *
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return (current($this->data) !== false);
     }
@@ -385,32 +382,16 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
     /**
      * Rewind
      */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->data);
     }
 
-    /**
-     * @param array|ParameterContainer $parameters
-     * @return self Provides a fluent interface
-     * @throws Exception\InvalidArgumentException
-     */
-    public function merge($parameters)
+    public function mergeFromArray(array $parameters): ParameterContainer
     {
-        if (! is_array($parameters) && ! $parameters instanceof ParameterContainer) {
-            throw new Exception\InvalidArgumentException(
-                '$parameters must be an array or an instance of ParameterContainer'
-            );
-        }
-
         if (count($parameters) == 0) {
             return $this;
         }
-
-        if ($parameters instanceof ParameterContainer) {
-            $parameters = $parameters->getNamedArray();
-        }
-
         foreach ($parameters as $key => $value) {
             if (is_int($key)) {
                 $key = null;
@@ -418,5 +399,10 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
             $this->offsetSet($key, $value);
         }
         return $this;
+    }
+
+    public function mergeFromParameterContainer(ParameterContainer $parameters): ParameterContainer
+    {
+        return $this->mergeFromArray($parameters->getNamedArray());
     }
 }

@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver;
 
@@ -42,14 +42,14 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
     protected $profiler;
 
     /**
-     * @var resource|null
+     * @var mixed
      */
     protected $resource;
 
     /**
      * {@inheritDoc}
      */
-    public function disconnect()
+    public function disconnect(): ConnectionInterface
     {
         if ($this->isConnected()) {
             $this->resource = null;
@@ -63,7 +63,7 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
      *
      * @return array
      */
-    public function getConnectionParameters()
+    public function getConnectionParameters(): array
     {
         return $this->connectionParameters;
     }
@@ -73,7 +73,7 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
      *
      * @return null|string
      */
-    public function getDriverName()
+    public function getDriverName(): ?string
     {
         return $this->driverName;
     }
@@ -81,7 +81,7 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
     /**
      * @return null|ProfilerInterface
      */
-    public function getProfiler()
+    public function getProfiler(): ?ProfilerInterface
     {
         return $this->profiler;
     }
@@ -89,7 +89,7 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
     /**
      * {@inheritDoc}
      *
-     * @return resource
+     * @return mixed
      */
     public function getResource()
     {
@@ -105,7 +105,7 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
      *
      * @return boolean
      */
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         return $this->inTransaction;
     }
@@ -114,7 +114,7 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
      * @param  array $connectionParameters
      * @return self Provides a fluent interface
      */
-    public function setConnectionParameters(array $connectionParameters)
+    public function setConnectionParameters(array $connectionParameters): ConnectionInterface
     {
         $this->connectionParameters = $connectionParameters;
 
@@ -126,7 +126,7 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
      *
      * @return self Provides a fluent interface
      */
-    public function setProfiler(ProfilerInterface $profiler)
+    public function setProfiler(ProfilerInterface $profiler): ConnectionInterface
     {
         $this->profiler = $profiler;
 

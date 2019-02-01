@@ -1,15 +1,18 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\IbmDb2;
 
+use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Adapter\Driver\DriverInterface;
+use Zend\Db\Adapter\Driver\ResultInterface;
+use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Exception;
 use Zend\Db\Adapter\Profiler;
 
@@ -103,13 +106,9 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
         return $this;
     }
 
-    /**
-     * Get database platform name
-     *
-     * @param string $nameFormat
-     * @return string
-     */
-    public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE)
+    public function getDatabasePlatformName(
+        string $nameFormat = self::NAME_FORMAT_CAMELCASE
+    ) : string
     {
         if ($nameFormat == self::NAME_FORMAT_CAMELCASE) {
             return 'IbmDb2';
@@ -118,24 +117,14 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
         }
     }
 
-    /**
-     * Check environment
-     *
-     * @return bool
-     */
-    public function checkEnvironment()
+    public function checkEnvironment(): void
     {
         if (! extension_loaded('ibm_db2')) {
             throw new Exception\RuntimeException('The ibm_db2 extension is required by this driver.');
         }
     }
 
-    /**
-     * Get connection
-     *
-     * @return Connection
-     */
-    public function getConnection()
+    public function getConnection(): ConnectionInterface
     {
         return $this->connection;
     }
@@ -143,18 +132,17 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Create statement
      *
-     * @param string|resource $sqlOrResource
-     * @return Statement
+     * @param mixed $sqlOrResource
      */
-    public function createStatement($sqlOrResource = null)
+    public function createStatement($resource = null): StatementInterface
     {
         $statement = clone $this->statementPrototype;
-        if (is_resource($sqlOrResource) && get_resource_type($sqlOrResource) == 'DB2 Statement') {
-            $statement->setResource($sqlOrResource);
+        if (is_resource($resource) && get_resource_type($resource) == 'DB2 Statement') {
+            $statement->setResource($resource);
         } else {
-            if (is_string($sqlOrResource)) {
-                $statement->setSql($sqlOrResource);
-            } elseif ($sqlOrResource !== null) {
+            if (is_string($resource)) {
+                $statement->setSql($resource);
+            } elseif ($resource !== null) {
                 throw new Exception\InvalidArgumentException(
                     __FUNCTION__ . ' only accepts an SQL string or an ibm_db2 resource'
                 );
@@ -168,12 +156,9 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * Create result
-     *
-     * @param resource $resource
-     * @return Result
+     * {@inheritDoc}
      */
-    public function createResult($resource)
+    public function createResult($resource): ResultInterface
     {
         $result = clone $this->resultPrototype;
         $result->initialize($resource, $this->connection->getLastGeneratedValue());
@@ -185,7 +170,7 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
      *
      * @return string
      */
-    public function getPrepareType()
+    public function getPrepareType(): string
     {
         return self::PARAMETERIZATION_POSITIONAL;
     }
@@ -193,21 +178,14 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Format parameter name
      *
-     * @param string $name
      * @param mixed  $type
-     * @return string
      */
-    public function formatParameterName($name, $type = null)
+    public function formatParameterName(string $name, $type = null): string
     {
         return '?';
     }
 
-    /**
-     * Get last generated value
-     *
-     * @return mixed
-     */
-    public function getLastGeneratedValue()
+    public function getLastGeneratedValue(): string
     {
         return $this->connection->getLastGeneratedValue();
     }

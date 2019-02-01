@@ -1,16 +1,17 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver;
 
 use Countable;
 use Iterator;
+use resource;
 
 interface ResultInterface extends
     Countable,
@@ -18,31 +19,14 @@ interface ResultInterface extends
 {
     /**
      * Force buffering
-     *
-     * @return void
      */
-    public function buffer();
+    public function buffer(): void;
 
-    /**
-     * Check if is buffered
-     *
-     * @return bool|null
-     */
-    public function isBuffered();
+    public function isBuffered(): bool;
 
-    /**
-     * Is query result?
-     *
-     * @return bool
-     */
-    public function isQueryResult();
+    public function isQueryResult(): bool;
 
-    /**
-     * Get affected rows
-     *
-     * @return int
-     */
-    public function getAffectedRows();
+    public function getAffectedRows(): int;
 
     /**
      * Get generated value
@@ -52,16 +36,9 @@ interface ResultInterface extends
     public function getGeneratedValue();
 
     /**
-     * Get the resource
-     *
      * @return mixed
      */
     public function getResource();
 
-    /**
-     * Get field count
-     *
-     * @return int
-     */
-    public function getFieldCount();
+    public function getFieldCount(): int;
 }

@@ -1,15 +1,16 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Mysqli;
 
 use Iterator;
+use resource;
 use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\Adapter\Exception;
 
@@ -103,7 +104,7 @@ class Result implements
      *
      * @throws Exception\RuntimeException
      */
-    public function buffer()
+    public function buffer(): void
     {
         if ($this->resource instanceof \mysqli_stmt && $this->isBuffered !== true) {
             if ($this->position > 0) {
@@ -114,12 +115,7 @@ class Result implements
         }
     }
 
-    /**
-     * Check if is buffered
-     *
-     * @return bool|null
-     */
-    public function isBuffered()
+    public function isBuffered(): bool
     {
         return $this->isBuffered;
     }
@@ -129,27 +125,17 @@ class Result implements
      *
      * @return mixed
      */
-    public function getResource()
+    public function getResource(): resource
     {
         return $this->resource;
     }
 
-    /**
-     * Is query result?
-     *
-     * @return bool
-     */
-    public function isQueryResult()
+    public function isQueryResult(): bool
     {
         return ($this->resource->field_count > 0);
     }
 
-    /**
-     * Get affected rows
-     *
-     * @return int
-     */
-    public function getAffectedRows()
+    public function getAffectedRows(): int
     {
         if ($this->resource instanceof \mysqli || $this->resource instanceof \mysqli_stmt) {
             return $this->resource->affected_rows;
@@ -325,7 +311,7 @@ class Result implements
      *
      * @return int
      */
-    public function getFieldCount()
+    public function getFieldCount(): int
     {
         return $this->resource->field_count;
     }

@@ -14,6 +14,7 @@ use ArrayObject;
 use PHPUnit\Framework\TestCase;
 use SplStack;
 use stdClass;
+use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\ResultSet\ResultSet;
 
 class ResultSetIntegrationTest extends TestCase
@@ -208,7 +209,7 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testCurrentWithBufferingCallsDataSourceCurrentOnce()
     {
-        $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
+        $mockResult = $this->getMockBuilder(ResultInterface::class)->getMock();
         $mockResult->expects($this->once())->method('current')->will($this->returnValue(['foo' => 'bar']));
 
         $this->resultSet->initialize($mockResult);
@@ -225,9 +226,12 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testBufferCalledAfterIterationThrowsException()
     {
-        $this->resultSet->initialize(
-            $this->prophesize('Zend\Db\Adapter\Driver\ResultInterface')->reveal()
-        );
+        $mockResult = $this->getMockBuilder(ResultInterface::class)->getMock();
+        $mockResult->expects($this->once())->method('getFieldCount')->will($this->returnValue(0));
+        $mockResult->expects($this->once())->method('isBuffered')->will($this->returnValue(false));
+
+
+        $this->resultSet->initialize($mockResult);
         $this->resultSet->current();
 
         $this->expectException('Zend\Db\ResultSet\Exception\RuntimeException');
@@ -240,7 +244,7 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testCurrentReturnsNullForNonExistingValues()
     {
-        $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
+        $mockResult = $this->getMockBuilder(ResultInterface::class)->getMock();
         $mockResult->expects($this->once())->method('current')->will($this->returnValue("Not an Array"));
 
         $this->resultSet->initialize($mockResult);

@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Pdo\Feature;
 
@@ -20,7 +20,7 @@ class OracleRowCounter extends AbstractFeature
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'OracleRowCounter';
     }
@@ -29,12 +29,12 @@ class OracleRowCounter extends AbstractFeature
      * @param \Zend\Db\Adapter\Driver\Pdo\Statement $statement
      * @return int
      */
-    public function getCountForStatement(Pdo\Statement $statement)
+    public function getCountForStatement(Pdo\Statement $statement): int
     {
         $countStmt = clone $statement;
         $sql = $statement->getSql();
         if ($sql == '' || stripos($sql, 'select') === false) {
-            return;
+            return 0;
         }
         $countSql = 'SELECT COUNT(*) as "count" FROM (' . $sql . ')';
         $countStmt->prepare($countSql);
@@ -48,10 +48,10 @@ class OracleRowCounter extends AbstractFeature
      * @param $sql
      * @return null|int
      */
-    public function getCountForSql($sql)
+    public function getCountForSql(string $sql): int
     {
         if (stripos($sql, 'select') === false) {
-            return;
+            return 0;
         }
         $countSql = 'SELECT COUNT(*) as count FROM (' . $sql . ')';
         /** @var $pdo \PDO */
@@ -59,18 +59,5 @@ class OracleRowCounter extends AbstractFeature
         $result = $pdo->query($countSql);
         $countRow = $result->fetch(\PDO::FETCH_ASSOC);
         return $countRow['count'];
-    }
-
-    /**
-     * @param $context
-     * @return \Closure
-     */
-    public function getRowCountClosure($context)
-    {
-        return function () use ($context) {
-            return ($context instanceof Pdo\Statement)
-                ? $this->getCountForStatement($context)
-                : $this->getCountForSql($context);
-        };
     }
 }

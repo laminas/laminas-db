@@ -1,18 +1,22 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Oci8;
 
+use ArrayAccess;
+use resource;
+use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Exception;
 use Zend\Db\Adapter\ParameterContainer;
 use Zend\Db\Adapter\Profiler;
+use Zend\Db\Adapter\StatementContainerInterface;
 
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
@@ -90,59 +94,30 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         return $this->profiler;
     }
 
-    /**
-     * Initialize
-     *
-     * @param  resource $oci8
-     * @return self Provides a fluent interface
-     */
-    public function initialize($oci8)
+    public function initialize(resource $oci8)
     {
         $this->oci8 = $oci8;
         return $this;
     }
 
-    /**
-     * Set sql
-     *
-     * @param  string $sql
-     * @return self Provides a fluent interface
-     */
-    public function setSql($sql)
+    public function setSql(string $sql): StatementContainerInterface
     {
         $this->sql = $sql;
         return $this;
     }
 
-    /**
-     * Set Parameter container
-     *
-     * @param ParameterContainer $parameterContainer
-     * @return self Provides a fluent interface
-     */
-    public function setParameterContainer(ParameterContainer $parameterContainer)
+    public function setParameterContainer(ParameterContainer $parameterContainer): StatementContainerInterface
     {
         $this->parameterContainer = $parameterContainer;
         return $this;
     }
 
-    /**
-     * Get resource
-     *
-     * @return mixed
-     */
-    public function getResource()
+    public function getResource(): resource
     {
         return $this->resource;
     }
 
-    /**
-     * Set resource
-     *
-     * @param  resource $oci8Statement
-     * @return self Provides a fluent interface
-     */
-    public function setResource($oci8Statement)
+    public function setResource(resource $oci8Statement): self
     {
         $type = oci_statement_type($oci8Statement);
         if (false === $type || 'UNKNOWN' == $type) {
@@ -156,37 +131,22 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         return $this;
     }
 
-    /**
-     * Get sql
-     *
-     * @return string
-     */
-    public function getSql()
+    public function getSql(): string
     {
         return $this->sql;
     }
 
-    /**
-     * @return ParameterContainer
-     */
-    public function getParameterContainer()
+    public function getParameterContainer(): ParameterContainer
     {
         return $this->parameterContainer;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPrepared()
+    public function isPrepared(): bool
     {
         return $this->isPrepared;
     }
 
-    /**
-     * @param string $sql
-     * @return self Provides a fluent interface
-     */
-    public function prepare($sql = null)
+    public function prepare(string $sql = null): StatementInterface
     {
         if ($this->isPrepared) {
             throw new Exception\RuntimeException('This statement has already been prepared');
@@ -211,12 +171,9 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * Execute
-     *
-     * @param null|array|ParameterContainer $parameters
-     * @return mixed
+     * @throws Exception\RuntimeException
      */
-    public function execute($parameters = null)
+    public function execute(array $parameters = null): ResultInterface
     {
         if (! $this->isPrepared) {
             $this->prepare();
@@ -226,14 +183,9 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         if (! $this->parameterContainer instanceof ParameterContainer) {
             if ($parameters instanceof ParameterContainer) {
                 $this->parameterContainer = $parameters;
-                $parameters = null;
             } else {
-                $this->parameterContainer = new ParameterContainer();
+                $this->parameterContainer = new ParameterContainer($parameters);
             }
-        }
-
-        if (is_array($parameters)) {
-            $this->parameterContainer->setFromArray($parameters);
         }
 
         if ($this->parameterContainer->count() > 0) {
@@ -260,8 +212,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             throw new Exception\RuntimeException($e['message'], $e['code']);
         }
 
-        $result = $this->driver->createResult($this->resource, $this);
-        return $result;
+        return $this->driver->createResultWithStatement($this->resource, $this);
     }
 
     /**

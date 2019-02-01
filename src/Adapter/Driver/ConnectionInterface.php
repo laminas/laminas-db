@@ -1,85 +1,33 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver;
 
 interface ConnectionInterface
 {
-    /**
-     * Get current schema
-     *
-     * @return string
-     */
-    public function getCurrentSchema();
+    public function getCurrentSchema(): string;
 
-    /**
-     * Get resource
-     *
-     * @return mixed
-     */
     public function getResource();
 
-    /**
-     * Connect
-     *
-     * @return ConnectionInterface
-     */
-    public function connect();
+    public function connect(): ConnectionInterface;
 
-    /**
-     * Is connected
-     *
-     * @return bool
-     */
-    public function isConnected();
+    public function isConnected(): bool;
 
-    /**
-     * Disconnect
-     *
-     * @return ConnectionInterface
-     */
-    public function disconnect();
+    public function disconnect(): ConnectionInterface;
 
-    /**
-     * Begin transaction
-     *
-     * @return ConnectionInterface
-     */
-    public function beginTransaction();
+    public function beginTransaction(): ConnectionInterface;
 
-    /**
-     * Commit
-     *
-     * @return ConnectionInterface
-     */
-    public function commit();
+    public function commit(): ConnectionInterface;
 
-    /**
-     * Rollback
-     *
-     * @return ConnectionInterface
-     */
-    public function rollback();
+    public function rollback(): ConnectionInterface;
 
-    /**
-     * Execute
-     *
-     * @param  string $sql
-     * @return ResultInterface
-     */
-    public function execute($sql);
+    public function execute(string $sql): ResultInterface;
 
-    /**
-     * Get last generated id
-     *
-     * @param  null $name Ignored
-     * @return int
-     */
-    public function getLastGeneratedValue($name = null);
+    public function getLastGeneratedValue(string $name = null): string;
 }

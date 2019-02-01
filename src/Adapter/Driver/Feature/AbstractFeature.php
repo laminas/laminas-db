@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Feature;
 
@@ -18,21 +18,10 @@ abstract class AbstractFeature
      */
     protected $driver = null;
 
-    /**
-     * Set driver
-     *
-     * @param DriverInterface $driver
-     * @return void
-     */
-    public function setDriver(DriverInterface $driver)
+    public function setDriver(DriverInterface $driver): void
     {
         $this->driver = $driver;
     }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    abstract public function getName();
+    abstract public function getName(): string;
 }

@@ -16,13 +16,7 @@ trait AdapterAwareTrait
      */
     protected $adapter = null;
 
-    /**
-     * Set db adapter
-     *
-     * @param Adapter $adapter
-     * @return self Provides a fluent interface
-     */
-    public function setDbAdapter(Adapter $adapter)
+    public function setDbAdapter(Adapter $adapter): self
     {
         $this->adapter = $adapter;
 

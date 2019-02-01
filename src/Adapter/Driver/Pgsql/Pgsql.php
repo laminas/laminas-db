@@ -1,15 +1,18 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Pgsql;
 
+use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Adapter\Driver\DriverInterface;
+use Zend\Db\Adapter\Driver\ResultInterface;
+use Zend\Db\Adapter\Driver\StatementInterface;
 use Zend\Db\Adapter\Exception;
 use Zend\Db\Adapter\Profiler;
 
@@ -133,22 +136,20 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
      * @param string $nameFormat
      * @return string
      */
-    public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE)
+    public function getDatabasePlatformName(
+        string $nameFormat = self::NAME_FORMAT_CAMELCASE
+    ): string
     {
         if ($nameFormat == self::NAME_FORMAT_CAMELCASE) {
             return 'Postgresql';
         }
-
         return 'PostgreSQL';
     }
 
     /**
-     * Check environment
-     *
      * @throws Exception\RuntimeException
-     * @return bool
      */
-    public function checkEnvironment()
+    public function checkEnvironment(): void
     {
         if (! extension_loaded('pgsql')) {
             throw new Exception\RuntimeException(
@@ -157,30 +158,21 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
         }
     }
 
-    /**
-     * Get connection
-     *
-     * @return Connection
-     */
-    public function getConnection()
+    public function getConnection(): ConnectionInterface
     {
         return $this->connection;
     }
 
     /**
-     * Create statement
-     *
-     * @param string|null $sqlOrResource
-     * @return Statement
+     * @param mixed $resource
      */
-    public function createStatement($sqlOrResource = null)
+    public function createStatement($resource = null): StatementInterface
     {
         $statement = clone $this->statementPrototype;
 
-        if (is_string($sqlOrResource)) {
+        if (is_string($resource)) {
             $statement->setSql($sqlOrResource);
         }
-
         if (! $this->connection->isConnected()) {
             $this->connection->connect();
         }
@@ -190,48 +182,30 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * Create result
-     *
-     * @param resource $resource
-     * @return Result
+     * @param mixed $resource
      */
-    public function createResult($resource)
+    public function createResult($resource): ResultInterface
     {
         $result = clone $this->resultPrototype;
         $result->initialize($resource, $this->connection->getLastGeneratedValue());
         return $result;
     }
 
-    /**
-     * Get prepare Type
-     *
-     * @return string
-     */
-    public function getPrepareType()
+    public function getPrepareType(): string
     {
         return self::PARAMETERIZATION_POSITIONAL;
     }
 
     /**
-     * Format parameter name
-     *
-     * @param string $name
      * @param mixed  $type
-     * @return string
      */
-    public function formatParameterName($name, $type = null)
+    public function formatParameterName(string $name, $type = null): string
     {
         return '$#';
     }
 
-    /**
-     * Get last generated value
-     *
-     * @param string $name
-     * @return mixed
-     */
-    public function getLastGeneratedValue($name = null)
+    public function getLastGeneratedValue(): string
     {
-        return $this->connection->getLastGeneratedValue($name);
+        return $this->connection->getLastGeneratedValue();
     }
 }

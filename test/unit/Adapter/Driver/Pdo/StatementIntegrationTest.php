@@ -10,6 +10,8 @@
 namespace ZendTest\Db\Adapter\Driver\Pdo;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
 use Zend\Db\Adapter\Driver\Pdo\Statement;
 
 class StatementIntegrationTest extends TestCase
@@ -34,6 +36,11 @@ class StatementIntegrationTest extends TestCase
             ->setMethods(['createResult'])
             ->disableOriginalConstructor()
             ->getMock();
+
+        // $reflector = new ReflectionClass($driver);
+    	// $property = $reflector->getProperty('connection');
+    	// $property->setAccessible(true);
+        // $property = $this->createMock(ConnectionInterface::class);
 
         $this->statement = new Statement;
         $this->statement->setDriver($driver);

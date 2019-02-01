@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\IbmDb2;
 
@@ -112,42 +112,21 @@ class Result implements ResultInterface
         $this->position = 1;
     }
 
-    /**
-     * Force buffering
-     *
-     * @return void
-     */
-    public function buffer()
+    public function buffer(): void
     {
-        return;
     }
 
-    /**
-     * Check if is buffered
-     *
-     * @return bool|null
-     */
-    public function isBuffered()
+    public function isBuffered(): bool
     {
         return false;
     }
 
-    /**
-     * Is query result?
-     *
-     * @return bool
-     */
-    public function isQueryResult()
+    public function isQueryResult(): bool
     {
         return (db2_num_fields($this->resource) > 0);
     }
 
-    /**
-     * Get affected rows
-     *
-     * @return int
-     */
-    public function getAffectedRows()
+    public function getAffectedRows(): int
     {
         return db2_num_rows($this->resource);
     }
@@ -172,12 +151,7 @@ class Result implements ResultInterface
         return $this->resource;
     }
 
-    /**
-     * Get field count
-     *
-     * @return int
-     */
-    public function getFieldCount()
+    public function getFieldCount(): int
     {
         return db2_num_fields($this->resource);
     }

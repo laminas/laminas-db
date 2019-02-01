@@ -1,15 +1,17 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Driver\Oci8;
 
 use Zend\Db\Adapter\Driver\AbstractConnection;
+use Zend\Db\Adapter\Driver\ConnectionInterface;
+use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\Adapter\Exception;
 
 class Connection extends AbstractConnection
@@ -52,7 +54,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function getCurrentSchema()
+    public function getCurrentSchema(): string
     {
         if (! $this->isConnected()) {
             $this->connect();
@@ -85,7 +87,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function connect()
+    public function connect(): ConnectionInterface
     {
         if (is_resource($this->resource)) {
             return $this;
@@ -145,7 +147,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function isConnected()
+    public function isConnected(): bool
     {
         return (is_resource($this->resource));
     }
@@ -153,17 +155,18 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function disconnect()
+    public function disconnect(): ConnectionInterface
     {
         if (is_resource($this->resource)) {
             oci_close($this->resource);
         }
+        return $this;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function beginTransaction()
+    public function beginTransaction(): ConnectionInterface
     {
         if (! $this->isConnected()) {
             $this->connect();
@@ -179,7 +182,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function commit()
+    public function commit(): ConnectionInterface
     {
         if (! $this->isConnected()) {
             $this->connect();
@@ -201,7 +204,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function rollback()
+    public function rollback(): ConnectionInterface
     {
         if (! $this->isConnected()) {
             throw new Exception\RuntimeException('Must be connected before you can rollback.');
@@ -225,7 +228,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      */
-    public function execute($sql)
+    public function execute(string $sql): ResultInterface
     {
         if (! $this->isConnected()) {
             $this->connect();
@@ -252,17 +255,15 @@ class Connection extends AbstractConnection
             throw new Exception\InvalidQueryException($e['message'], $e['code']);
         }
 
-        $resultPrototype = $this->driver->createResult($ociStmt);
-
-        return $resultPrototype;
+        return $this->driver->createResult($ociStmt);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getLastGeneratedValue($name = null)
+    public function getLastGeneratedValue(string $name = null): string
     {
         // @todo Get Last Generated Value in Connection (this might not apply)
-        return;
+        return '';
     }
 }

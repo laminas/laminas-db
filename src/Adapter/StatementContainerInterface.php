@@ -1,43 +1,21 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter;
 
 interface StatementContainerInterface
 {
-    /**
-     * Set sql
-     *
-     * @param $sql
-     * @return mixed
-     */
-    public function setSql($sql);
+    public function setSql(string $sql) : StatementContainerInterface;
 
-    /**
-     * Get sql
-     *
-     * @return mixed
-     */
-    public function getSql();
+    public function getSql(): string;
 
-    /**
-     * Set parameter container
-     *
-     * @param ParameterContainer $parameterContainer
-     * @return mixed
-     */
-    public function setParameterContainer(ParameterContainer $parameterContainer);
+    public function setParameterContainer(ParameterContainer $parameterContainer): StatementContainerInterface;
 
-    /**
-     * Get parameter container
-     *
-     * @return mixed
-     */
-    public function getParameterContainer();
+    public function getParameterContainer(): ?ParameterContainer;
 }
