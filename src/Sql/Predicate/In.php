@@ -127,7 +127,7 @@ class In extends AbstractExpression implements PredicateInterface
             $valuePlaceholders = $countValues > 0 ? array_fill(0, $countValues, '%s') : [];
             $specification = vsprintf(
                 $this->specification,
-                [$identifierSpecFragment, '(' . implode(', ', $valuePlaceholders) . ')']
+                [$identifierSpecFragment, '(' . (implode(', ', $valuePlaceholders) ?: 'NULL') . ')']
             );
         }
 
