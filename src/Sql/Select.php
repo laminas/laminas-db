@@ -17,6 +17,7 @@ use Zend\Db\Adapter\Platform\PlatformInterface;
  *
  * @property Where $where
  * @property Having $having
+ * @property Join $joins
  */
 class Select extends AbstractPreparableSql
 {
