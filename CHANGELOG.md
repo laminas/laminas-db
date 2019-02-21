@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#157](https://github.com/zendframework/zend-db/pull/157) added support of
   `Zend\Db\Sql\TableIdentifier` in DDL
+- [#346](https://github.com/zendframework/zend-db/pull/346) adds support for PHP 7.3
 
 ### Changed
 

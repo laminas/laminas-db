@@ -1,5 +1,3 @@
-sudo: false
-
 language: php
 
 cache:
@@ -79,6 +77,15 @@ matrix:
     - php: 7.2
       env:
         - DEPS=latest
+    - php: 7.3
+      env:
+        - DEPS=lowest
+    - php: 7.3
+      env:
+        - DEPS=locked
+    - php: 7.3
+      env:
+        - DEPS=latest
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
@@ -90,8 +97,6 @@ install:
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS ; fi
   - stty cols 120 && composer show
-
-before_script:
 
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
