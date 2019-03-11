@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Platform;
 
@@ -16,10 +16,7 @@ class IbmDb2 extends AbstractPlatform
      */
     protected $identifierSeparator = '.';
 
-    /**
-     * @param array $options
-     */
-    public function __construct($options = [])
+    public function __construct(array $options = [])
     {
         if (isset($options['quote_identifiers'])
             && ($options['quote_identifiers'] == false
@@ -36,7 +33,7 @@ class IbmDb2 extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'IBM DB2';
     }
@@ -44,13 +41,13 @@ class IbmDb2 extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteIdentifierInFragment($identifier, array $safeWords = [])
+    public function quoteIdentifierInFragment(string $identifier, array $additionalSafeWords = []): string
     {
         if (! $this->quoteIdentifiers) {
             return $identifier;
         }
         $safeWordsInt = ['*' => true, ' ' => true, '.' => true, 'as' => true];
-        foreach ($safeWords as $sWord) {
+        foreach ($additionalSafeWords as $sWord) {
             $safeWordsInt[strtolower($sWord)] = true;
         }
         $parts = preg_split(
@@ -73,26 +70,21 @@ class IbmDb2 extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteIdentifierChain($identifierChain)
+    public function quoteIdentifierChain(array $identifierChain): string
     {
         if ($this->quoteIdentifiers === false) {
-            if (is_array($identifierChain)) {
-                return implode($this->identifierSeparator, $identifierChain);
-            } else {
-                return $identifierChain;
-            }
+            return implode($this->identifierSeparator, $identifierChain);
         }
         $identifierChain = str_replace('"', '\\"', $identifierChain);
-        if (is_array($identifierChain)) {
-            $identifierChain = implode('"' . $this->identifierSeparator . '"', $identifierChain);
-        }
+        $identifierChain = implode('"' . $this->identifierSeparator . '"', $identifierChain);
+
         return '"' . $identifierChain . '"';
     }
 
     /**
      * {@inheritDoc}
      */
-    public function quoteValue($value)
+    public function quoteValue(string $value): string
     {
         if (function_exists('db2_escape_string')) {
             return '\'' . db2_escape_string($value) . '\'';
@@ -107,7 +99,7 @@ class IbmDb2 extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteTrustedValue($value)
+    public function quoteTrustedValue(string $value): string
     {
         if (function_exists('db2_escape_string')) {
             return '\'' . db2_escape_string($value) . '\'';
@@ -118,7 +110,7 @@ class IbmDb2 extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function getIdentifierSeparator()
+    public function getIdentifierSeparator(): string
     {
         return $this->identifierSeparator;
     }

@@ -1,37 +1,32 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Platform;
 
+Use PDO;
 use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\Driver\Pdo;
 use Zend\Db\Adapter\Driver\Pgsql;
 use Zend\Db\Adapter\Exception;
 
 class Postgresql extends AbstractPlatform
 {
     /**
-     * Overrides value from AbstractPlatform to use proper escaping for Postgres
-     *
      * @var string
      */
     protected $quoteIdentifierTo = '""';
 
     /**
-     * @var resource|\PDO
+     * @var DriverInterface
      */
     protected $resource = null;
 
-    /**
-     * @param null|\Zend\Db\Adapter\Driver\Pgsql\Pgsql|\Zend\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
-     */
-    public function __construct($driver = null)
+    public function __construct(DriverInterface $driver = null)
     {
         if ($driver) {
             $this->setDriver($driver);
@@ -39,31 +34,23 @@ class Postgresql extends AbstractPlatform
     }
 
     /**
-     * @param \Zend\Db\Adapter\Driver\Pgsql\Pgsql|\Zend\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
      * @return self Provides a fluent interface
-     * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
      */
-    public function setDriver($driver)
+    public function setDriver(DriverInterface $driver): Postgresql
     {
-        if ($driver instanceof Pgsql\Pgsql
-            || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Postgresql')
-            || (is_resource($driver) && (in_array(get_resource_type($driver), ['pgsql link', 'pgsql link persistent'])))
-            || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'pgsql')
-        ) {
-            $this->resource = $driver;
-            return $this;
-        }
-
-        throw new Exception\InvalidArgumentException(
-            '$driver must be a Pgsql or Postgresql PDO Zend\Db\Adapter\Driver, pgsql link resource or Postgresql PDO '
-            . 'instance'
-        );
+        // if ($driver instanceof Pgsql\Pgsql
+        //     || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Postgresql')
+        //     || (is_resource($driver) && (in_array(get_resource_type($driver), ['pgsql link', 'pgsql link persistent'])))
+        //     || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'pgsql')
+        // ) {
+        $this->resource = $driver;
+        return $this;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'PostgreSQL';
     }
@@ -71,7 +58,7 @@ class Postgresql extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteIdentifierChain($identifierChain)
+    public function quoteIdentifierChain(array $identifierChain): string
     {
         return '"' . implode('"."', (array) str_replace('"', '""', $identifierChain)) . '"';
     }
@@ -79,16 +66,14 @@ class Postgresql extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteValue($value)
+    public function quoteValue(string $value): string
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        $resource = $this->resource->getConnection()->getResource();
+        if (is_resource($resource)) {
+            return '\'' . pg_escape_string($resource, $value) . '\'';
         }
-        if (is_resource($this->resource)) {
-            return '\'' . pg_escape_string($this->resource, $value) . '\'';
-        }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
+        if ($resource instanceof PDO) {
+            return $resource->quote($value);
         }
         return 'E' . parent::quoteValue($value);
     }
@@ -96,16 +81,14 @@ class Postgresql extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteTrustedValue($value)
+    public function quoteTrustedValue(string $value): string
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        $resource = $this->resource->getConnection()->getResource();
+        if (is_resource($resource)) {
+            return '\'' . pg_escape_string($resource, $value) . '\'';
         }
-        if (is_resource($this->resource)) {
-            return '\'' . pg_escape_string($this->resource, $value) . '\'';
-        }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
+        if ($resource instanceof PDO) {
+            return $resource->quote($value);
         }
         return 'E' . parent::quoteTrustedValue($value);
     }

@@ -13,7 +13,7 @@ use Zend\Db\Adapter\Platform\SqlServer;
 
 class TrustingSqlServerPlatform extends SqlServer
 {
-    public function quoteValue($value)
+    public function quoteValue(string $value): string
     {
         return $this->quoteTrustedValue($value);
     }

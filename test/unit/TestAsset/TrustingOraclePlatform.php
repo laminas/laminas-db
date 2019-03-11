@@ -13,7 +13,7 @@ use Zend\Db\Adapter\Platform\Oracle;
 
 class TrustingOraclePlatform extends Oracle
 {
-    public function quoteValue($value)
+    public function quoteValue(string $value): string
     {
         return $this->quoteTrustedValue($value);
     }

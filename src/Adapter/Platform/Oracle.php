@@ -1,31 +1,26 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Platform;
 
 use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\Driver\Oci8\Oci8;
 use Zend\Db\Adapter\Driver\Pdo\Pdo;
-use \Zend\Db\Adapter\Exception\InvalidArgumentException;
+use Zend\Db\Adapter\Exception\InvalidArgumentException;
 
 class Oracle extends AbstractPlatform
 {
     /**
-     * @var null|Pdo|Oci8
+     * @var DriverInterface
      */
     protected $resource = null;
 
-    /**
-     * @param array $options
-     * @param null|Oci8|Pdo $driver
-     */
-    public function __construct($options = [], $driver = null)
+    public function __construct(array $options = [], DriverInterface $driver = null)
     {
         if (isset($options['quote_identifiers'])
             && ($options['quote_identifiers'] == false
@@ -40,40 +35,26 @@ class Oracle extends AbstractPlatform
     }
 
     /**
-     * @param Pdo|Oci8 $driver
      * @return self Provides a fluent interface
-     * @throws InvalidArgumentException
      */
-    public function setDriver($driver)
+    public function setDriver(DriverInterface $driver): Oracle
     {
-        if ($driver instanceof Oci8
-            || ($driver instanceof Pdo && $driver->getDatabasePlatformName() == 'Oracle')
-            || ($driver instanceof Pdo && $driver->getDatabasePlatformName() == 'Sqlite')
-            || ($driver instanceof \oci8)
-            || ($driver instanceof PDO && $driver->getAttribute(PDO::ATTR_DRIVER_NAME) == 'oci')
-        ) {
-            $this->resource = $driver;
-            return $this;
-        }
-
-        throw new InvalidArgumentException(
-            '$driver must be a Oci8 or Oracle PDO Zend\Db\Adapter\Driver, '
-            . 'Oci8 instance, or Oci PDO instance'
-        );
+        // if ($driver instanceof Oci8
+        //     || ($driver instanceof Pdo && $driver->getDatabasePlatformName() == 'Oracle')
+        //     || ($driver instanceof Pdo && $driver->getDatabasePlatformName() == 'Sqlite')
+        //     || ($driver instanceof \oci8)
+        //     || ($driver instanceof PDO && $driver->getAttribute(PDO::ATTR_DRIVER_NAME) == 'oci')
+        // ) {
+        $this->resource = $driver;
+        return $this;
     }
 
-    /**
-     * @return null|Pdo|Oci8
-     */
-    public function getDriver()
+    public function getDriver(): DriverInterface
     {
         return $this->resource;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'Oracle';
     }
@@ -81,7 +62,7 @@ class Oracle extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteIdentifierChain($identifierChain)
+    public function quoteIdentifierChain(array $identifierChain): string
     {
         if ($this->quoteIdentifiers === false) {
             return implode('.', (array) $identifierChain);
@@ -93,22 +74,17 @@ class Oracle extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteValue($value)
+    public function quoteValue(string $value): string
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        $resource = $this->resource->getConnection()->getResource();
+        if ($resource instanceof Pdo) {
+            return $resource->quote($value);
         }
 
-        if ($this->resource) {
-            if ($this->resource instanceof PDO) {
-                return $this->resource->quote($value);
-            }
-
-            if (get_resource_type($this->resource) == 'oci8 connection'
-                || get_resource_type($this->resource) == 'oci8 persistent connection'
-            ) {
-                return "'" . addcslashes(str_replace("'", "''", $value), "\x00\n\r\"\x1a") . "'";
-            }
+        if (get_resource_type($resource) == 'oci8 connection'
+            || get_resource_type($resource) == 'oci8 persistent connection'
+        ) {
+            return "'" . addcslashes(str_replace("'", "''", $value), "\x00\n\r\"\x1a") . "'";
         }
 
         trigger_error(
@@ -122,7 +98,7 @@ class Oracle extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteTrustedValue($value)
+    public function quoteTrustedValue(string $value): string
     {
         return "'" . addcslashes(str_replace('\'', '\'\'', $value), "\x00\n\r\"\x1a") . "'";
     }

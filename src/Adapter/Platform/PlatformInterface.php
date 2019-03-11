@@ -1,94 +1,33 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Platform;
 
 interface PlatformInterface
 {
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 
-    /**
-     * Get quote identifier symbol
-     *
-     * @return string
-     */
-    public function getQuoteIdentifierSymbol();
+    public function getQuoteIdentifierSymbol(): string;
 
-    /**
-     * Quote identifier
-     *
-     * @param  string $identifier
-     * @return string
-     */
-    public function quoteIdentifier($identifier);
+    public function quoteIdentifier(string $identifier): string;
 
-    /**
-     * Quote identifier chain
-     *
-     * @param string|string[] $identifierChain
-     * @return string
-     */
-    public function quoteIdentifierChain($identifierChain);
+    public function quoteIdentifierChain(array $identifierChain): string;
 
-    /**
-     * Get quote value symbol
-     *
-     * @return string
-     */
-    public function getQuoteValueSymbol();
+    public function getQuoteValueSymbol(): string;
 
-    /**
-     * Quote value
-     *
-     * Will throw a notice when used in a workflow that can be considered "unsafe"
-     *
-     * @param  string $value
-     * @return string
-     */
-    public function quoteValue($value);
+    public function quoteValue(string $value): string;
 
-    /**
-     * Quote Trusted Value
-     *
-     * The ability to quote values without notices
-     *
-     * @param $value
-     * @return mixed
-     */
-    public function quoteTrustedValue($value);
+    public function quoteTrustedValue(string $value): string;
 
-    /**
-     * Quote value list
-     *
-     * @param string|string[] $valueList
-     * @return string
-     */
-    public function quoteValueList($valueList);
+    public function quoteValueList(array $valueList): string;
 
-    /**
-     * Get identifier separator
-     *
-     * @return string
-     */
-    public function getIdentifierSeparator();
+    public function getIdentifierSeparator(): string;
 
-    /**
-     * Quote identifier in fragment
-     *
-     * @param  string $identifier
-     * @param  array $additionalSafeWords
-     * @return string
-     */
-    public function quoteIdentifierInFragment($identifier, array $additionalSafeWords = []);
+    public function quoteIdentifierInFragment(string $identifier, array $additionalSafeWords = []): string;
 }

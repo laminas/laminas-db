@@ -1,17 +1,16 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Platform;
 
+use PDO;
 use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\Driver\Pdo;
-use Zend\Db\Adapter\Exception;
 
 class Sqlite extends AbstractPlatform
 {
@@ -26,43 +25,27 @@ class Sqlite extends AbstractPlatform
     protected $quoteIdentifierTo = '\'';
 
     /**
-     * @var \PDO
+     * @var DriverInterface
      */
     protected $resource = null;
 
-    /**
-     * @param null|\Zend\Db\Adapter\Driver\Pdo\Pdo||\PDO $driver
-     */
-    public function __construct($driver = null)
+    public function __construct(DriverInterface $driver = null)
     {
         if ($driver) {
             $this->setDriver($driver);
         }
     }
 
-    /**
-     * @param \Zend\Db\Adapter\Driver\Pdo\Pdo|\PDO $driver
-     * @return self Provides a fluent interface
-     * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
-     */
-    public function setDriver($driver)
+    public function setDriver(DriverInterface $driver): Sqlite
     {
-        if (($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'sqlite')
-            || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Sqlite')
-        ) {
-            $this->resource = $driver;
-            return $this;
-        }
-
-        throw new Exception\InvalidArgumentException(
-            '$driver must be a Sqlite PDO Zend\Db\Adapter\Driver, Sqlite PDO instance'
-        );
+        $this->resource = $driver;
+        return $this;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'SQLite';
     }
@@ -70,7 +53,7 @@ class Sqlite extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteValue($value)
+    public function quoteValue(string $value): string
     {
         $resource = $this->resource;
 
@@ -78,7 +61,7 @@ class Sqlite extends AbstractPlatform
             $resource = $resource->getConnection()->getResource();
         }
 
-        if ($resource instanceof \PDO) {
+        if ($resource instanceof PDO) {
             return $resource->quote($value);
         }
 
@@ -88,7 +71,7 @@ class Sqlite extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteTrustedValue($value)
+    public function quoteTrustedValue(string $value): string
     {
         $resource = $this->resource;
 
@@ -96,7 +79,7 @@ class Sqlite extends AbstractPlatform
             $resource = $resource->getConnection()->getResource();
         }
 
-        if ($resource instanceof \PDO) {
+        if ($resource instanceof PDO) {
             return $resource->quote($value);
         }
 

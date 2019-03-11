@@ -1,18 +1,17 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Platform;
 
+use PDO;
+use mysqli;
 use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\Driver\Mysqli;
-use Zend\Db\Adapter\Driver\Pdo;
-use Zend\Db\Adapter\Exception;
 
 class Mysql extends AbstractPlatform
 {
@@ -27,7 +26,7 @@ class Mysql extends AbstractPlatform
     protected $quoteIdentifierTo = '``';
 
     /**
-     * @var \mysqli|\PDO
+     * @var DriverInterface
      */
     protected $resource = null;
 
@@ -38,10 +37,7 @@ class Mysql extends AbstractPlatform
      */
     protected $quoteIdentifierFragmentPattern = '/([^0-9,a-z,A-Z$_\-:])/i';
 
-    /**
-     * @param null|\Zend\Db\Adapter\Driver\Mysqli\Mysqli|\Zend\Db\Adapter\Driver\Pdo\Pdo|\mysqli|\PDO $driver
-     */
-    public function __construct($driver = null)
+    public function __construct(DriverInterface $driver = null)
     {
         if ($driver) {
             $this->setDriver($driver);
@@ -49,31 +45,25 @@ class Mysql extends AbstractPlatform
     }
 
     /**
-     * @param \Zend\Db\Adapter\Driver\Mysqli\Mysqli|\Zend\Db\Adapter\Driver\Pdo\Pdo|\mysqli|\PDO $driver
      * @return self Provides a fluent interface
-     * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
      */
-    public function setDriver($driver)
+    public function setDriver(DriverInterface $driver): Mysql
     {
         // handle Zend\Db drivers
-        if ($driver instanceof Mysqli\Mysqli
-            || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Mysql')
-            || ($driver instanceof \mysqli)
-            || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'mysql')
-        ) {
-            $this->resource = $driver;
-            return $this;
-        }
+        // if ($driver instanceof Mysqli\Mysqli
+        //     || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Mysql')
+        //     || ($driver instanceof \mysqli)
+        //     || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'mysql')
+        // ) {
 
-        throw new Exception\InvalidArgumentException(
-            '$driver must be a Mysqli or Mysql PDO Zend\Db\Adapter\Driver, Mysqli instance or MySQL PDO instance'
-        );
+        $this->resource = $driver;
+        return $this;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'MySQL';
     }
@@ -81,7 +71,7 @@ class Mysql extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteIdentifierChain($identifierChain)
+    public function quoteIdentifierChain(array $identifierChain): string
     {
         return '`' . implode('`.`', (array) str_replace('`', '``', $identifierChain)) . '`';
     }
@@ -89,16 +79,14 @@ class Mysql extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteValue($value)
+    public function quoteValue(string $value): string
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        $resource = $this->resource->getConnection()->getResource();
+        if ($resource instanceof mysqli) {
+            return '\'' . $resource->real_escape_string($value) . '\'';
         }
-        if ($this->resource instanceof \mysqli) {
-            return '\'' . $this->resource->real_escape_string($value) . '\'';
-        }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
+        if ($resource instanceof PDO) {
+            return $resource->quote($value);
         }
         return parent::quoteValue($value);
     }
@@ -106,16 +94,14 @@ class Mysql extends AbstractPlatform
     /**
      * {@inheritDoc}
      */
-    public function quoteTrustedValue($value)
+    public function quoteTrustedValue(string $value): string
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        $resource = $this->resource->getConnection()->getResource();
+        if ($resource instanceof mysqli) {
+            return '\'' . $resource->real_escape_string($value) . '\'';
         }
-        if ($this->resource instanceof \mysqli) {
-            return '\'' . $this->resource->real_escape_string($value) . '\'';
-        }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
+        if ($resource instanceof PDO) {
+            return $resource->quote($value);
         }
         return parent::quoteTrustedValue($value);
     }

@@ -1,11 +1,11 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-db for the canonical source repository
+ * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Db\Adapter\Platform;
 
@@ -34,7 +34,7 @@ abstract class AbstractPlatform implements PlatformInterface
     /**
      * {@inheritDoc}
      */
-    public function quoteIdentifierInFragment($identifier, array $safeWords = [])
+    public function quoteIdentifierInFragment(string $identifier, array $additionalSafeWords = []): string
     {
         if (! $this->quoteIdentifiers) {
             return $identifier;
@@ -42,7 +42,7 @@ abstract class AbstractPlatform implements PlatformInterface
 
         $safeWordsInt = ['*' => true, ' ' => true, '.' => true, 'as' => true];
 
-        foreach ($safeWords as $sWord) {
+        foreach ($additionalSafeWords as $sWord) {
             $safeWordsInt[strtolower($sWord)] = true;
         }
 
@@ -69,7 +69,7 @@ abstract class AbstractPlatform implements PlatformInterface
     /**
      * {@inheritDoc}
      */
-    public function quoteIdentifier($identifier)
+    public function quoteIdentifier(string $identifier): string
     {
         if (! $this->quoteIdentifiers) {
             return $identifier;
@@ -83,7 +83,7 @@ abstract class AbstractPlatform implements PlatformInterface
     /**
      * {@inheritDoc}
      */
-    public function quoteIdentifierChain($identifierChain)
+    public function quoteIdentifierChain(array $identifierChain): string
     {
         return '"' . implode('"."', (array) str_replace('"', '\\"', $identifierChain)) . '"';
     }
@@ -91,7 +91,7 @@ abstract class AbstractPlatform implements PlatformInterface
     /**
      * {@inheritDoc}
      */
-    public function getQuoteIdentifierSymbol()
+    public function getQuoteIdentifierSymbol(): string
     {
         return $this->quoteIdentifier[0];
     }
@@ -99,7 +99,7 @@ abstract class AbstractPlatform implements PlatformInterface
     /**
      * {@inheritDoc}
      */
-    public function getQuoteValueSymbol()
+    public function getQuoteValueSymbol(): string
     {
         return '\'';
     }
@@ -107,7 +107,7 @@ abstract class AbstractPlatform implements PlatformInterface
     /**
      * {@inheritDoc}
      */
-    public function quoteValue($value)
+    public function quoteValue(string $value): string
     {
         trigger_error(
             'Attempting to quote a value in ' . get_class($this) .
@@ -119,7 +119,7 @@ abstract class AbstractPlatform implements PlatformInterface
     /**
      * {@inheritDoc}
      */
-    public function quoteTrustedValue($value)
+    public function quoteTrustedValue(string $value): string
     {
         return '\'' . addcslashes((string) $value, "\x00\n\r\\'\"\x1a") . '\'';
     }
@@ -127,7 +127,7 @@ abstract class AbstractPlatform implements PlatformInterface
     /**
      * {@inheritDoc}
      */
-    public function quoteValueList($valueList)
+    public function quoteValueList(array $valueList): string
     {
         return implode(', ', array_map([$this, 'quoteValue'], (array) $valueList));
     }
@@ -135,7 +135,7 @@ abstract class AbstractPlatform implements PlatformInterface
     /**
      * {@inheritDoc}
      */
-    public function getIdentifierSeparator()
+    public function getIdentifierSeparator(): string
     {
         return '.';
     }
