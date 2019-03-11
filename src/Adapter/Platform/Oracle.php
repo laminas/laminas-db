@@ -34,17 +34,8 @@ class Oracle extends AbstractPlatform
         }
     }
 
-    /**
-     * @return self Provides a fluent interface
-     */
     public function setDriver(DriverInterface $driver): Oracle
     {
-        // if ($driver instanceof Oci8
-        //     || ($driver instanceof Pdo && $driver->getDatabasePlatformName() == 'Oracle')
-        //     || ($driver instanceof Pdo && $driver->getDatabasePlatformName() == 'Sqlite')
-        //     || ($driver instanceof \oci8)
-        //     || ($driver instanceof PDO && $driver->getAttribute(PDO::ATTR_DRIVER_NAME) == 'oci')
-        // ) {
         $this->resource = $driver;
         return $this;
     }

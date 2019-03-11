@@ -33,16 +33,8 @@ class Postgresql extends AbstractPlatform
         }
     }
 
-    /**
-     * @return self Provides a fluent interface
-     */
     public function setDriver(DriverInterface $driver): Postgresql
     {
-        // if ($driver instanceof Pgsql\Pgsql
-        //     || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Postgresql')
-        //     || (is_resource($driver) && (in_array(get_resource_type($driver), ['pgsql link', 'pgsql link persistent'])))
-        //     || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'pgsql')
-        // ) {
         $this->resource = $driver;
         return $this;
     }

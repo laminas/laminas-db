@@ -44,18 +44,8 @@ class Mysql extends AbstractPlatform
         }
     }
 
-    /**
-     * @return self Provides a fluent interface
-     */
     public function setDriver(DriverInterface $driver): Mysql
     {
-        // handle Zend\Db drivers
-        // if ($driver instanceof Mysqli\Mysqli
-        //     || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Mysql')
-        //     || ($driver instanceof \mysqli)
-        //     || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'mysql')
-        // ) {
-
         $this->resource = $driver;
         return $this;
     }
