@@ -16,6 +16,7 @@ use Zend\Db\Adapter\Platform\Sql92;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Having;
 use Zend\Db\Sql\Predicate;
+use Zend\Db\Sql\Predicate\In;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\TableIdentifier;
 use Zend\Db\Sql\Where;
@@ -1404,6 +1405,22 @@ class SelectTest extends TestCase
             ]],
         ];
 
+        $subSelect53 = new Select;
+        $subSelect53->from('bar')->columns(['id'])->limit(10)->offset(9);
+        $select53 = new Select;
+        $select53->from('foo')->where(new In('bar_id', $subSelect53))->limit(11)->offset(12);
+        $params53 = ['limit' => 11, 'offset' => 12, 'subselect1limit' => 10, 'subselect1offset' => 9];
+        // @codingStandardsIgnoreStart
+        $sqlPrep53 = 'SELECT "foo".* FROM "foo" WHERE "bar_id" IN (SELECT "bar"."id" AS "id" FROM "bar" LIMIT :subselect1limit OFFSET :subselect1offset) LIMIT :limit OFFSET :offset';
+        $sqlStr53 = 'SELECT "foo".* FROM "foo" WHERE "bar_id" IN (SELECT "bar"."id" AS "id" FROM "bar" LIMIT \'10\' OFFSET \'9\') LIMIT \'11\' OFFSET \'12\'';
+        // @codingStandardsIgnoreEnd
+        $internalTests53 = [
+            'processSelect' => [[['"foo".*']], '"foo"'],
+            'processWhere' => ['"bar_id" IN (SELECT "bar"."id" AS "id" FROM "bar" LIMIT ? OFFSET ?)'],
+            'processLimit' => ['?'],
+            'processOffset' => ['?'],
+        ];
+
         /**
          * $select = the select object
          * $sqlPrep = the sql as a result of preparation
@@ -1467,6 +1484,7 @@ class SelectTest extends TestCase
             [$select50, $sqlPrep50, [],    $sqlStr50, $internalTests50],
             [$select51, $sqlPrep51, [],    $sqlStr51, $internalTests51],
             [$select52, $sqlPrep52, [],    $sqlStr52, $internalTests52],
+            [$select53, $sqlPrep53, $params53, $sqlStr53, $internalTests53, true],
         ];
     }
 }
