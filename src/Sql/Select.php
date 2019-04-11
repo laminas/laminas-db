@@ -328,7 +328,7 @@ class Select extends AbstractPreparableSql
     }
 
     /**
-     * @param string|array $order
+     * @param string|array|Expression $order
      * @return self Provides a fluent interface
      */
     public function order($order)
@@ -716,7 +716,7 @@ class Select extends AbstractPreparableSql
         if ($parameterContainer) {
             $paramPrefix = $this->processInfo['paramPrefix'];
             $parameterContainer->offsetSet($paramPrefix . 'limit', $this->limit, ParameterContainer::TYPE_INTEGER);
-            return [$driver->formatParameterName('limit')];
+            return [$driver->formatParameterName($paramPrefix . 'limit')];
         }
         return [$platform->quoteValue($this->limit)];
     }
@@ -732,7 +732,7 @@ class Select extends AbstractPreparableSql
         if ($parameterContainer) {
             $paramPrefix = $this->processInfo['paramPrefix'];
             $parameterContainer->offsetSet($paramPrefix . 'offset', $this->offset, ParameterContainer::TYPE_INTEGER);
-            return [$driver->formatParameterName('offset')];
+            return [$driver->formatParameterName($paramPrefix . 'offset')];
         }
 
         return [$platform->quoteValue($this->offset)];

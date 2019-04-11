@@ -11,6 +11,7 @@ namespace ZendTest\Db\Sql\Ddl;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Ddl\DropTable;
+use Zend\Db\Sql\TableIdentifier;
 
 class DropTableTest extends TestCase
 {
@@ -21,5 +22,11 @@ class DropTableTest extends TestCase
     {
         $dt = new DropTable('foo');
         self::assertEquals('DROP TABLE "foo"', $dt->getSqlString());
+
+        $dt = new DropTable(new TableIdentifier('foo'));
+        self::assertEquals('DROP TABLE "foo"', $dt->getSqlString());
+
+        $dt = new DropTable(new TableIdentifier('bar', 'foo'));
+        self::assertEquals('DROP TABLE "foo"."bar"', $dt->getSqlString());
     }
 }

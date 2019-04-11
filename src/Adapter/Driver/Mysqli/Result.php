@@ -51,9 +51,9 @@ class Result implements
     protected $nextComplete = false;
 
     /**
-     * @var bool
+     * @var mixed
      */
-    protected $currentData = false;
+    protected $currentData = null;
 
     /**
      *

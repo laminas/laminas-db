@@ -20,11 +20,15 @@ the same for `ALTER TABLE` (as `AlterTable`), and `DROP TABLE` (as
 
 ```php
 use Zend\Db\Sql\Ddl;
+use Zend\Db\Sql\TableIdentifier;
 
 $table = new Ddl\CreateTable();
 
 // With a table name:
 $table = new Ddl\CreateTable('bar');
+
+// With a schema name "foo":
+$table = new Ddl\CreateTable(new TableIdentifier('bar', 'foo'));
 
 // Optionally, as a temporary table:
 $table = new Ddl\CreateTable('bar', true);
@@ -70,11 +74,15 @@ Similar to `CreateTable`, you may also use `AlterTable` instances:
 
 ```php
 use Zend\Db\Sql\Ddl;
+use Zend\Db\Sql\TableIdentifier;
 
 $table = new Ddl\AlterTable();
 
 // With a table name:
 $table = new Ddl\AlterTable('bar');
+
+// With a schema name "foo":
+$table = new Ddl\AlterTable(new TableIdentifier('bar', 'foo'));
 
 // Optionally, as a temporary table:
 $table = new Ddl\AlterTable('bar', true);
@@ -103,7 +111,14 @@ $table->dropConstraint('my_index');
 To drop a table, create a `DropTable` instance:
 
 ```php
+use Zend\Db\Sql\Ddl;
+use Zend\Db\Sql\TableIdentifier;
+
+// With a table name:
 $drop = new Ddl\DropTable('bar');
+
+// With a schema name "foo":
+$drop = new Ddl\DropTable(new TableIdentifier('bar', 'foo'));
 ```
 
 ## Executing DDL Statements

@@ -11,6 +11,7 @@ namespace Zend\Db\Sql\Ddl;
 
 use Zend\Db\Adapter\Platform\PlatformInterface;
 use Zend\Db\Sql\AbstractSql;
+use Zend\Db\Sql\TableIdentifier;
 
 class CreateTable extends AbstractSql implements SqlInterface
 {
@@ -58,7 +59,7 @@ class CreateTable extends AbstractSql implements SqlInterface
     protected $table = '';
 
     /**
-     * @param string $table
+     * @param string|TableIdentifier $table
      * @param bool   $isTemporary
      */
     public function __construct($table = '', $isTemporary = false)
@@ -139,7 +140,7 @@ class CreateTable extends AbstractSql implements SqlInterface
     {
         return [
             $this->isTemporary ? 'TEMPORARY ' : '',
-            $adapterPlatform->quoteIdentifier($this->table),
+            $this->resolveTable($this->table, $adapterPlatform),
         ];
     }
 

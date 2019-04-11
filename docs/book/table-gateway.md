@@ -144,7 +144,7 @@ This allows for a wider array of possible mixing and matching of features to
 achieve a particular behavior that needs to be attained to make the base
 implementation of `TableGateway` useful for a particular problem.
 
-With the `TableGateway` object, features should be injected though the
+With the `TableGateway` object, features should be injected through the
 constructor. The constructor can take features in 3 different forms:
 
 - as a single `Feature` instance
