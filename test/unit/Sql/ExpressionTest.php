@@ -174,9 +174,16 @@ class ExpressionTest extends TestCase
         self::assertSame($expressionString, $expression->getExpression());
     }
 
-    public function testNumberOfReplacemensConsidersWhenSameVariableIsUsedManyTimes()
+    public function testNumberOfReplacementsConsidersWhenSameVariableIsUsedManyTimes()
     {
         $expression = new Expression('uf.user_id = :user_id OR uf.friend_id = :user_id', ['user_id' => 1]);
-        $expression->getExpressionData();
+
+        $expected = [[
+            'uf.user_id = :user_id OR uf.friend_id = :user_id',
+            [1],
+            [Expression::TYPE_VALUE],
+        ]];
+
+        self::assertEquals($expected, $expression->getExpressionData());
     }
 }
