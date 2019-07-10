@@ -16,7 +16,8 @@ class QueryTest extends TestCase
         return [
             ['SELECT * FROM test WHERE id = ?', [1], ['id' => 1, 'name' => 'foo', 'value' => 'bar']],
             ['SELECT * FROM test WHERE id = :id', [':id' => 1], ['id' => 1, 'name' => 'foo', 'value' => 'bar']],
-            ['SELECT * FROM test WHERE id = :id', ['id' => 1], ['id' => 1, 'name' => 'foo', 'value' => 'bar']]
+            ['SELECT * FROM test WHERE id = :id', ['id' => 1], ['id' => 1, 'name' => 'foo', 'value' => 'bar']],
+            ['SELECT * FROM test WHERE name = ?', [123], ['id' => 4, 'name' => '123', 'value' => 'bar']],
         ];
     }
 
