@@ -100,6 +100,7 @@ class TableGatewayTest extends TestCase
 
     /**
      * @dataProvider tableProvider
+     * @param string|TableIdentifier|array $table
      */
     public function testTableGatewayWithMetadataFeature($table)
     {
