@@ -98,43 +98,24 @@ class TableGatewayTest extends TestCase
         }
     }
 
-    public function testTableGatewayStringWithMetadataFeature()
+    /**
+     * @dataProvider tableProvider
+     */
+    public function testTableGatewayWithMetadataFeature($table)
     {
-        $table = 'test';
-
         $tableGateway = new TableGateway($table, $this->adapter, new MetadataFeature());
 
         self::assertInstanceOf(TableGateway::class, $tableGateway);
         self::assertSame($table, $tableGateway->getTable());
     }
 
-    public function testTableGatewayAliasedStringWithMetadataFeature()
+    public function tableProvider()
     {
-        $table = ['foo' => 'test'];
-
-        $tableGateway = new TableGateway($table, $this->adapter, new MetadataFeature());
-
-        self::assertInstanceOf(TableGateway::class, $tableGateway);
-        self::assertSame($table, $tableGateway->getTable());
-    }
-
-    public function testTableGatewayTableIdentifierWithMetadataFeature()
-    {
-        $table = new TableIdentifier('test');
-
-        $tableGateway = new TableGateway($table, $this->adapter, new MetadataFeature());
-
-        self::assertInstanceOf(TableGateway::class, $tableGateway);
-        self::assertSame($table, $tableGateway->getTable());
-    }
-
-    public function testTableGatewayAliasedTableIdentifierWithMetadataFeature()
-    {
-        $table = ['foo' => new TableIdentifier('test')];
-
-        $tableGateway = new TableGateway($table, $this->adapter, new MetadataFeature());
-
-        self::assertInstanceOf(TableGateway::class, $tableGateway);
-        self::assertSame($table, $tableGateway->getTable());
+        return [
+            'string'                  => ['test'],
+            'aliased string'          => [['foo' => 'test']],
+            'TableIdentifier'         => [new TableIdentifier('test')],
+            'aliased TableIdentifier' => [['foo' => new TableIdentifier('test')]],
+        ];
     }
 }
