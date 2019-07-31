@@ -98,13 +98,23 @@ class TableGatewayTest extends TestCase
         }
     }
 
-    public function testTableGatewayWithMetadataFeature()
+    public function testTableGatewayStringWithMetadataFeature()
     {
-        $ti = new TableIdentifier('test');
+        $table = 'test';
 
-        $tableGateway = new TableGateway($ti, $this->adapter, new MetadataFeature());
+        $tableGateway = new TableGateway($table, $this->adapter, new MetadataFeature());
 
         self::assertInstanceOf(TableGateway::class, $tableGateway);
-        self::assertSame($ti, $tableGateway->getTable());
+        self::assertSame($table, $tableGateway->getTable());
+    }
+
+    public function testTableGatewayTableIdentifierWithMetadataFeature()
+    {
+        $table = new TableIdentifier('test');
+
+        $tableGateway = new TableGateway($table, $this->adapter, new MetadataFeature());
+
+        self::assertInstanceOf(TableGateway::class, $tableGateway);
+        self::assertSame($table, $tableGateway->getTable());
     }
 }
