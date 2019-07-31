@@ -48,11 +48,13 @@ class MetadataFeature extends AbstractFeature
         $t = $this->tableGateway;
         $m = $this->metadata;
 
-        if ($t->table instanceof TableIdentifier) {
-            $table = $t->table->getTable();
-            $schema = $t->table->getSchema();
+        $tableGatewayTable = is_array($t->table) ? current($t->table) : $t->table;
+
+        if ($tableGatewayTable instanceof TableIdentifier) {
+            $table = $tableGatewayTable->getTable();
+            $schema = $tableGatewayTable->getSchema();
         } else {
-            $table = $t->table;
+            $table = $tableGatewayTable;
             $schema = null;
         }
 
