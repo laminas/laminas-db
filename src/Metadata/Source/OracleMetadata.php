@@ -172,6 +172,8 @@ class OracleMetadata extends AbstractSource
             }
         }
 
+        $this->data['constraints'][$schema][$table] = $constraints;
+
         return $this;
     }
 

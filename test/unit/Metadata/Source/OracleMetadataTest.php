@@ -43,13 +43,78 @@ class OracleMetadataTest extends AbstractIntegrationTest
         $this->metadata = new OracleMetadata($this->adapter);
     }
 
-    public function testGetConstraints()
+    /**
+     * @dataProvider constraintDataProvider
+     *
+     * @param array $constraintData
+     */
+    public function testGetConstraints(array $constraintData)
     {
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\Oci8\Statement')
+            ->getMock();
+        $statement->expects($this->once())
+            ->method('execute')
+            ->willReturn($constraintData);
+
+        /** @var \Zend\Db\Adapter\Adapter|\PHPUnit_Framework_MockObject_MockObject $adapter */
+        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setConstructorArgs([$this->variables])
+            ->getMock();
+        $adapter->expects($this->once())
+            ->method('query')
+            ->willReturn($statement);
+
+        $this->metadata = new OracleMetadata($adapter);
+
         $constraints = $this->metadata->getConstraints(null, 'main');
-        self::assertCount(0, $constraints);
+
+        self::assertCount(count($constraintData), $constraints);
+
         self::assertContainsOnlyInstancesOf(
             'Zend\Db\Metadata\Object\ConstraintObject',
             $constraints
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function constraintDataProvider()
+    {
+        return [
+            [
+                [
+                    // no constraints
+                ]
+            ],
+            [
+                [
+                    [
+                        'OWNER' => 'SYS',
+                        'CONSTRAINT_NAME' => 'SYS_C000001',
+                        'CONSTRAINT_TYPE' => 'C',
+                        'CHECK_CLAUSE' => '"COLUMN_1" IS NOT NULL',
+                        'TABLE_NAME' => 'TABLE',
+                        'DELETE_RULE' => null,
+                        'COLUMN_NAME' => 'COLUMN_1',
+                        'REF_TABLE' => null,
+                        'REF_COLUMN' => null,
+                        'REF_OWNER' => null,
+                    ],
+                    [
+                        'OWNER' => 'SYS',
+                        'CONSTRAINT_NAME' => 'SYS_C000002',
+                        'CONSTRAINT_TYPE' => 'C',
+                        'CHECK_CLAUSE' => '"COLUMN_2" IS NOT NULL',
+                        'TABLE_NAME' => 'TABLE',
+                        'DELETE_RULE' => null,
+                        'COLUMN_NAME' => 'COLUMN_2',
+                        'REF_TABLE' => null,
+                        'REF_COLUMN' => null,
+                        'REF_OWNER' => null,
+                    ],
+                ],
+            ],
+        ];
     }
 }
