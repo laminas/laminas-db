@@ -1,6 +1,6 @@
 <?php
 
-namespace Zend\Db\Adapter\Profiler;
+namespace Laminas\Db\Adapter\Profiler;
 
 interface ProfilerAwareInterface
 {

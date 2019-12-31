@@ -1,8 +1,8 @@
 <?php
-namespace ZendTest\Db\Adapter\Driver\Oci8;
+namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
-use Zend\Db\Adapter\Driver\Oci8\Oci8;
-use Zend\Db\Adapter\Driver\Oci8\Connection;
+use Laminas\Db\Adapter\Driver\Oci8\Connection;
+use Laminas\Db\Adapter\Driver\Oci8\Oci8;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Connection::setDriver
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Connection::setDriver
      */
     public function testSetDriver()
     {
@@ -37,7 +37,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Connection::setConnectionParameters
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Connection::setConnectionParameters
      */
     public function testSetConnectionParameters()
     {
@@ -45,7 +45,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Connection::getConnectionParameters
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Connection::getConnectionParameters
      */
     public function testGetConnectionParameters()
     {

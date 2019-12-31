@@ -1,9 +1,9 @@
 <?php
 
-namespace Zend\Db\Adapter\Profiler;
+namespace Laminas\Db\Adapter\Profiler;
 
-use Zend\Db\Adapter\StatementContainerInterface;
-use Zend\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\StatementContainerInterface;
 
 class Profiler implements ProfilerInterface
 {
@@ -19,7 +19,7 @@ class Profiler implements ProfilerInterface
 
     /**
      * @param string|StatementContainerInterface $target
-     * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
+     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
      * @return Profiler
      */
     public function profilerStart($target)
