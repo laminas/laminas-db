@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
+namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
-use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 
 class SqlsrvTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,39 +27,39 @@ class SqlsrvTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerConnection
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerConnection
      */
     public function testRegisterConnection()
     {
-        $mockConnection = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Sqlsrv\Connection', array(array()), '', true, true, true, array('setDriver'));
+        $mockConnection = $this->getMockForAbstractClass('Laminas\Db\Adapter\Driver\Sqlsrv\Connection', array(array()), '', true, true, true, array('setDriver'));
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->sqlsrv));
         $this->assertSame($this->sqlsrv, $this->sqlsrv->registerConnection($mockConnection));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerStatementPrototype
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerStatementPrototype
      */
     public function testRegisterStatementPrototype()
     {
         $this->sqlsrv = new Sqlsrv(array());
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Sqlsrv\Statement', array(), '', true, true, true, array('setDriver'));
+        $mockStatement = $this->getMockForAbstractClass('Laminas\Db\Adapter\Driver\Sqlsrv\Statement', array(), '', true, true, true, array('setDriver'));
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->sqlsrv));
         $this->assertSame($this->sqlsrv, $this->sqlsrv->registerStatementPrototype($mockStatement));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerResultPrototype
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::registerResultPrototype
      * @requires extension sqlsrv
      */
     public function testRegisterResultPrototype()
     {
         $this->sqlsrv = new Sqlsrv(array());
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Sqlsrv\Result', array(), '', true, true, true, array('setDriver'));
+        $mockStatement = $this->getMockForAbstractClass('Laminas\Db\Adapter\Driver\Sqlsrv\Result', array(), '', true, true, true, array('setDriver'));
         $this->assertSame($this->sqlsrv, $this->sqlsrv->registerResultPrototype($mockStatement));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getDatabasePlatformName
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {
@@ -71,17 +70,17 @@ class SqlsrvTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testRegisterConnection
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getConnection
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getConnection
      */
     public function testGetConnection($mockConnection)
     {
-        $conn = new \Zend\Db\Adapter\Driver\Sqlsrv\Connection(array());
+        $conn = new \Laminas\Db\Adapter\Driver\Sqlsrv\Connection(array());
         $this->sqlsrv->registerConnection($conn);
         $this->assertSame($conn, $this->sqlsrv->getConnection());
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::createStatement
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::createStatement
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateStatement()
@@ -93,7 +92,7 @@ class SqlsrvTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::createResult
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::createResult
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateResult()
@@ -105,7 +104,7 @@ class SqlsrvTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getPrepareType
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getPrepareType
      * @todo   Implement testGetPrepareType().
      */
     public function testGetPrepareType()
@@ -117,7 +116,7 @@ class SqlsrvTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::formatParameterName
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::formatParameterName
      * @todo   Implement testFormatParameterName().
      */
     public function testFormatParameterName()
@@ -129,7 +128,7 @@ class SqlsrvTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getLastGeneratedValue
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getLastGeneratedValue
      * @todo   Implement testGetLastGeneratedValue().
      */
     public function testGetLastGeneratedValue()
