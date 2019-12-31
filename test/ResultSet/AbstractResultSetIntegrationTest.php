@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\ResultSet;
+namespace LaminasTest\Db\ResultSet;
 
 class AbstractResultSetIntegrationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Zend\Db\ResultSet\AbstractResultSet|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Laminas\Db\ResultSet\AbstractResultSet|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $resultSet;
 
@@ -22,15 +21,15 @@ class AbstractResultSetIntegrationTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $this->resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::current
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::current
      */
     public function testCurrentCallsDataSourceCurrentAsManyTimesWithoutBuffer()
     {
-        $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $result = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $this->resultSet->initialize($result);
         $result->expects($this->exactly(3))->method('current')->will($this->returnValue(array('foo' => 'bar')));
         $value1 = $this->resultSet->current();
@@ -40,11 +39,11 @@ class AbstractResultSetIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::current
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::current
      */
     public function testCurrentCallsDataSourceCurrentOnceWithBuffer()
     {
-        $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $result = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $this->resultSet->buffer();
         $this->resultSet->initialize($result);
         $result->expects($this->once())->method('current')->will($this->returnValue(array('foo' => 'bar')));
