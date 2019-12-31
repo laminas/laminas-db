@@ -1,32 +1,32 @@
 # SQL Abstraction
 
-`Zend\Db\Sql` is a SQL abstraction layer for building platform-specific SQL
-queries via an object-oriented API. The end result of a `Zend\Db\Sql` object
+`Laminas\Db\Sql` is a SQL abstraction layer for building platform-specific SQL
+queries via an object-oriented API. The end result of a `Laminas\Db\Sql` object
 will be to either produce a `Statement` and `ParameterContainer` that
 represents the target query, or a full string that can be directly executed
-against the database platform. To achieve this, `Zend\Db\Sql` objects require a
-`Zend\Db\Adapter\Adapter` object in order to produce the desired results.
+against the database platform. To achieve this, `Laminas\Db\Sql` objects require a
+`Laminas\Db\Adapter\Adapter` object in order to produce the desired results.
 
 ## Quick start
 
 There are four primary tasks associated with interacting with a database
 defined by Data Manipulation Language (DML): selecting, inserting, updating,
 and deleting. As such, there are four primary classes that developers can
-interact with in order to build queries in the `Zend\Db\Sql` namespace:
+interact with in order to build queries in the `Laminas\Db\Sql` namespace:
 `Select`, `Insert`, `Update`, and `Delete`.
 
 Since these four tasks are so closely related and generally used together
-within the same application, the `Zend\Db\Sql\Sql` class helps you create them
+within the same application, the `Laminas\Db\Sql\Sql` class helps you create them
 and produce the result you are attempting to achieve.
 
 ```php
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter);
-$select = $sql->select(); // returns a Zend\Db\Sql\Select instance
-$insert = $sql->insert(); // returns a Zend\Db\Sql\Insert instance
-$update = $sql->update(); // returns a Zend\Db\Sql\Update instance
-$delete = $sql->delete(); // returns a Zend\Db\Sql\Delete instance
+$select = $sql->select(); // returns a Laminas\Db\Sql\Select instance
+$insert = $sql->insert(); // returns a Laminas\Db\Sql\Insert instance
+$update = $sql->update(); // returns a Laminas\Db\Sql\Update instance
+$delete = $sql->delete(); // returns a Laminas\Db\Sql\Delete instance
 ```
 
 As a developer, you can now interact with these objects, as described in the
@@ -36,7 +36,7 @@ values, they are ready to either be prepared or executed.
 To prepare (using a Select object):
 
 ```php
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter);
 $select = $sql->select();
@@ -50,7 +50,7 @@ $results = $statement->execute();
 To execute (using a Select object)
 
 ```php
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter);
 $select = $sql->select();
@@ -61,12 +61,12 @@ $selectString = $sql->buildSqlString($select);
 $results = $adapter->query($selectString, $adapter::QUERY_MODE_EXECUTE);
 ```
 
-`Zend\\Db\\Sql\\Sql` objects can also be bound to a particular table so that in
+`Laminas\\Db\\Sql\\Sql` objects can also be bound to a particular table so that in
 obtaining a `Select`, `Insert`, `Update`, or `Delete` instance, the object will be
 seeded with the table:
 
 ```php
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter, 'foo');
 $select = $sql->select();
@@ -94,12 +94,12 @@ to execute.
 
 ## Select
 
-`Zend\Db\Sql\Select` presents a unified API for building platform-specific SQL
+`Laminas\Db\Sql\Select` presents a unified API for building platform-specific SQL
 SELECT queries. Instances may be created and consumed without
-`Zend\Db\Sql\Sql`:
+`Laminas\Db\Sql\Sql`:
 
 ```php
-use Zend\Db\Sql\Select;
+use Laminas\Db\Sql\Select;
 
 $select = new Select();
 // or, to produce a $select bound to a specific table
@@ -184,7 +184,7 @@ $select
 
 ### where(), having()
 
-`Zend\Db\Sql\Select` provides bit of flexibility as it regards to what kind of
+`Laminas\Db\Sql\Select` provides bit of flexibility as it regards to what kind of
 parameters are acceptable when calling `where()` or `having()`. The method
 signature is listed as:
 
@@ -199,8 +199,8 @@ signature is listed as:
 public function where($predicate, $combination = Predicate\PredicateSet::OP_AND);
 ```
 
-If you provide a `Zend\Db\Sql\Where` instance to `where()` or a
-`Zend\Db\Sql\Having` instance to `having()`, any previous internal instances
+If you provide a `Laminas\Db\Sql\Where` instance to `where()` or a
+`Laminas\Db\Sql\Having` instance to `having()`, any previous internal instances
 will be replaced completely. When either instance is processed, this object will
 be iterated to produce the WHERE or HAVING section of the SELECT statement.
 
@@ -215,7 +215,7 @@ $select->where(function (Where $where) {
 ```
 
 If you provide a *string*, this string will be used to create a
-`Zend\Db\Sql\Predicate\Expression` instance, and its contents will be applied
+`Laminas\Db\Sql\Predicate\Expression` instance, and its contents will be applied
 as-is, with no quoting:
 
 ```php
@@ -254,7 +254,7 @@ As an example:
 $select->from('foo')->where([
     'c1' => null,
     'c2' => [1, 2, 3],
-    new \Zend\Db\Sql\Predicate\IsNotNull('c3'),
+    new \Laminas\Db\Sql\Predicate\IsNotNull('c3'),
 ]);
 ```
 
@@ -386,16 +386,16 @@ quoted.
 In the `Where`/`Having` API, a distinction is made between what elements are
 considered identifiers (`TYPE_IDENTIFIER`) and which are values (`TYPE_VALUE`).
 There is also a special use case type for literal values (`TYPE_LITERAL`). All
-element types are expressed via the `Zend\Db\Sql\ExpressionInterface`
+element types are expressed via the `Laminas\Db\Sql\ExpressionInterface`
 interface.
 
 > ### Literals
 >
-> In ZF 2.1, an actual `Literal` type was added. `Zend\Db\Sql` now makes the
+> In Laminas 2.1, an actual `Literal` type was added. `Laminas\Db\Sql` now makes the
 > distinction that literals will not have any parameters that need
 > interpolating, while `Expression` objects *might* have parameters that need
 > interpolating. In cases where there are parameters in an `Expression`,
-> `Zend\Db\Sql\AbstractSql` will do its best to identify placeholders when the
+> `Laminas\Db\Sql\AbstractSql` will do its best to identify placeholders when the
 > `Expression` is processed during statement creation. In short, if you don't
 > have parameters, use `Literal` objects.
 

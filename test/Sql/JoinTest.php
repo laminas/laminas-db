@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @link      http://github.com/zendframework/zend-db for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
+use Laminas\Db\Sql\Join;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Db\Sql\Join;
 
 class JoinTest extends TestCase
 {
     /**
      * @testdox unit test: Test join() returns Join object (is chainable)
-     * @covers Zend\Db\Sql\Join::join
+     * @covers Laminas\Db\Sql\Join::join
      */
     public function testJoin()
     {
@@ -25,8 +26,8 @@ class JoinTest extends TestCase
 
     /**
      * @testdox unit test: Test count() returns correct count
-     * @covers Zend\Db\Sql\Join::count
-     * @covers Zend\Db\Sql\Join::join
+     * @covers Laminas\Db\Sql\Join::count
+     * @covers Laminas\Db\Sql\Join::join
      */
     public function testCount()
     {
@@ -40,9 +41,9 @@ class JoinTest extends TestCase
 
     /**
      * @testdox unit test: Test reset() resets the joins
-     * @covers Zend\Db\Sql\Join::count
-     * @covers Zend\Db\Sql\Join::join
-     * @covers Zend\Db\Sql\Join::reset
+     * @covers Laminas\Db\Sql\Join::count
+     * @covers Laminas\Db\Sql\Join::join
+     * @covers Laminas\Db\Sql\Join::reset
      */
     public function testReset()
     {

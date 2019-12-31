@@ -1,25 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
-use Zend\Db\Sql;
-use Zend\Db\Adapter;
-use ZendTest\Db\TestAsset;
+use Laminas\Db\Adapter;
+use Laminas\Db\Sql;
+use LaminasTest\Db\TestAsset;
 
 /**
- * @method \Zend\Db\Sql\Select select(null|string $table)
- * @method \Zend\Db\Sql\Update update(null|string $table)
- * @method \Zend\Db\Sql\Delete delete(null|string $table)
- * @method \Zend\Db\Sql\Insert insert(null|string $table)
- * @method \Zend\Db\Sql\Ddl\CreateTable createTable(null|string $table)
- * @method \Zend\Db\Sql\Ddl\Column\Column createColumn(null|string $name)
+ * @method \Laminas\Db\Sql\Select select(null|string $table)
+ * @method \Laminas\Db\Sql\Update update(null|string $table)
+ * @method \Laminas\Db\Sql\Delete delete(null|string $table)
+ * @method \Laminas\Db\Sql\Insert insert(null|string $table)
+ * @method \Laminas\Db\Sql\Ddl\CreateTable createTable(null|string $table)
+ * @method \Laminas\Db\Sql\Ddl\Column\Column createColumn(null|string $name)
  */
 class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,8 +44,8 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                         'parameters' => ['offset' => 10],
                     ],
                     'SqlServer' => [
-                        'string'     => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__ZEND_ROW_NUMBER] FROM [foo] ) AS [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN 10+1 AND 0+10',
-                        'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__ZEND_ROW_NUMBER] FROM [foo] ) AS [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
+                        'string'     => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__LAMINAS_ROW_NUMBER] FROM [foo] ) AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN 10+1 AND 0+10',
+                        'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__LAMINAS_ROW_NUMBER] FROM [foo] ) AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
                         'parameters' => ['offset' => 10, 'limit' => null, 'offsetForSum' => 10],
                     ],
                 ],
@@ -70,8 +69,8 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                         'parameters' => ['offset' => 0, 'limit' => 10],
                     ],
                     'SqlServer' => [
-                        'string'     => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__ZEND_ROW_NUMBER] FROM [foo] ) AS [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN 0+1 AND 10+0',
-                        'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__ZEND_ROW_NUMBER] FROM [foo] ) AS [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
+                        'string'     => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__LAMINAS_ROW_NUMBER] FROM [foo] ) AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN 0+1 AND 10+0',
+                        'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__LAMINAS_ROW_NUMBER] FROM [foo] ) AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
                         'parameters' => ['offset' => null, 'limit' => 10, 'offsetForSum' => null],
                     ],
                 ],
@@ -95,8 +94,8 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                         'parameters' => ['offset' => 5, 'limit' => 10],
                     ],
                     'SqlServer' => [
-                        'string'     => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__ZEND_ROW_NUMBER] FROM [foo] ) AS [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN 5+1 AND 10+5',
-                        'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__ZEND_ROW_NUMBER] FROM [foo] ) AS [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
+                        'string'     => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__LAMINAS_ROW_NUMBER] FROM [foo] ) AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN 5+1 AND 10+5',
+                        'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__LAMINAS_ROW_NUMBER] FROM [foo] ) AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
                         'parameters' => ['offset' => 5, 'limit' => 10, 'offsetForSum' => 5],
                     ],
                 ],
@@ -105,10 +104,10 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
             'Select::processJoinNoJoinedColumns()' => [
                 'sqlObject' => $this->select('my_table')
                                     ->join('joined_table2', 'my_table.id = joined_table2.id', $columns=[])
-                                    ->join('joined_table3', 'my_table.id = joined_table3.id', [\Zend\Db\Sql\Select::SQL_STAR])
+                                    ->join('joined_table3', 'my_table.id = joined_table3.id', [\Laminas\Db\Sql\Select::SQL_STAR])
                                     ->columns([
                                         'my_table_column',
-                                        'aliased_column' => new \Zend\Db\Sql\Expression('NOW()')
+                                        'aliased_column' => new \Laminas\Db\Sql\Expression('NOW()')
                                     ]),
                 'expected' => [
                     'sql92' => [
@@ -310,25 +309,25 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 'expected'  => [
                     'sql92'     => [
                         'decorators' => [
-                            'Zend\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
                         ],
                         'string' => 'SELECT "foo".* FROM "foo" WHERE "x" = (SELECT "bar".* FROM "bar")',
                     ],
                     'MySql'     => [
                         'decorators' => [
-                            'Zend\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
                         ],
                         'string' => 'SELECT `foo`.* FROM `foo` WHERE `x` = (SELECT `bar`.* FROM `bar`)',
                     ],
                     'Oracle'    => [
                         'decorators' => [
-                            'Zend\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
                         ],
                         'string' => 'SELECT "foo".* FROM "foo" WHERE "x" = (SELECT "bar".* FROM "bar")',
                     ],
                     'SqlServer' => [
                         'decorators' => [
-                            'Zend\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
                         ],
                         'string' => 'SELECT [foo].* FROM [foo] WHERE [x] = (SELECT [bar].* FROM [bar])',
                     ],
@@ -340,29 +339,29 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 'expected'  => array(
                     'sql92'     => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Insert' => new TestAsset\InsertDecorator, // Decorator for root sqlObject
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_Sql92=}')
+                            'Laminas\Db\Sql\Insert' => new TestAsset\InsertDecorator, // Decorator for root sqlObject
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_Sql92=}')
                         ),
                         'string' => 'INSERT INTO "foo"  {=SELECT_Sql92=}',
                     ),
                     'MySql'     => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Insert' => new TestAsset\InsertDecorator, // Decorator for root sqlObject
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_MySql=}')
+                            'Laminas\Db\Sql\Insert' => new TestAsset\InsertDecorator, // Decorator for root sqlObject
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_MySql=}')
                         ),
                         'string' => 'INSERT INTO `foo`  {=SELECT_MySql=}',
                     ),
                     'Oracle'    => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Insert' => new TestAsset\InsertDecorator, // Decorator for root sqlObject
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\Oracle\SelectDecorator', '{=SELECT_Oracle=}')
+                            'Laminas\Db\Sql\Insert' => new TestAsset\InsertDecorator, // Decorator for root sqlObject
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\Oracle\SelectDecorator', '{=SELECT_Oracle=}')
                         ),
                         'string' => 'INSERT INTO "foo"  {=SELECT_Oracle=}',
                     ),
                     'SqlServer' => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Insert' => new TestAsset\InsertDecorator, // Decorator for root sqlObject
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\SqlServer\SelectDecorator', '{=SELECT_SqlServer=}')
+                            'Laminas\Db\Sql\Insert' => new TestAsset\InsertDecorator, // Decorator for root sqlObject
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\SqlServer\SelectDecorator', '{=SELECT_SqlServer=}')
                         ),
                         'string' => 'INSERT INTO [foo]  {=SELECT_SqlServer=}',
                     ),
@@ -373,29 +372,29 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 'expected'  => array(
                     'sql92'     => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Delete' => new TestAsset\DeleteDecorator,
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_Sql92=}')
+                            'Laminas\Db\Sql\Delete' => new TestAsset\DeleteDecorator,
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_Sql92=}')
                         ),
                         'string' => 'DELETE FROM "foo" WHERE "x" = ({=SELECT_Sql92=})',
                     ),
                     'MySql'     => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Delete' => new TestAsset\DeleteDecorator,
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_MySql=}')
+                            'Laminas\Db\Sql\Delete' => new TestAsset\DeleteDecorator,
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_MySql=}')
                         ),
                         'string' => 'DELETE FROM `foo` WHERE `x` = ({=SELECT_MySql=})',
                     ),
                     'Oracle'    => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Delete' => new TestAsset\DeleteDecorator,
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\Oracle\SelectDecorator', '{=SELECT_Oracle=}')
+                            'Laminas\Db\Sql\Delete' => new TestAsset\DeleteDecorator,
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\Oracle\SelectDecorator', '{=SELECT_Oracle=}')
                         ),
                         'string' => 'DELETE FROM "foo" WHERE "x" = ({=SELECT_Oracle=})',
                     ),
                     'SqlServer' => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Delete' => new TestAsset\DeleteDecorator,
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\SqlServer\SelectDecorator', '{=SELECT_SqlServer=}')
+                            'Laminas\Db\Sql\Delete' => new TestAsset\DeleteDecorator,
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\SqlServer\SelectDecorator', '{=SELECT_SqlServer=}')
                         ),
                         'string' => 'DELETE FROM [foo] WHERE [x] = ({=SELECT_SqlServer=})',
                     ),
@@ -406,29 +405,29 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 'expected'  => array(
                     'sql92'     => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Update' => new TestAsset\UpdateDecorator,
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_Sql92=}')
+                            'Laminas\Db\Sql\Update' => new TestAsset\UpdateDecorator,
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_Sql92=}')
                         ),
                         'string' => 'UPDATE "foo" SET  WHERE "x" = ({=SELECT_Sql92=})',
                     ),
                     'MySql'     => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Update' => new TestAsset\UpdateDecorator,
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_MySql=}')
+                            'Laminas\Db\Sql\Update' => new TestAsset\UpdateDecorator,
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_MySql=}')
                         ),
                         'string' => 'UPDATE `foo` SET  WHERE `x` = ({=SELECT_MySql=})',
                     ),
                     'Oracle'    => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Update' => new TestAsset\UpdateDecorator,
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\Oracle\SelectDecorator', '{=SELECT_Oracle=}')
+                            'Laminas\Db\Sql\Update' => new TestAsset\UpdateDecorator,
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\Oracle\SelectDecorator', '{=SELECT_Oracle=}')
                         ),
                         'string' => 'UPDATE "foo" SET  WHERE "x" = ({=SELECT_Oracle=})',
                     ),
                     'SqlServer' => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Update' => new TestAsset\UpdateDecorator,
-                            'Zend\Db\Sql\Select' => array('Zend\Db\Sql\Platform\SqlServer\SelectDecorator', '{=SELECT_SqlServer=}')
+                            'Laminas\Db\Sql\Update' => new TestAsset\UpdateDecorator,
+                            'Laminas\Db\Sql\Select' => array('Laminas\Db\Sql\Platform\SqlServer\SelectDecorator', '{=SELECT_SqlServer=}')
                         ),
                         'string' => 'UPDATE [foo] SET  WHERE [x] = ({=SELECT_SqlServer=})',
                     ),
@@ -439,29 +438,29 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
                 'expected'  => array(
                     'sql92'     => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Expression' => new TestAsset\DecorableExpression,
-                            'Zend\Db\Sql\Select'     => array('Zend\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_Sql92=}')
+                            'Laminas\Db\Sql\Expression' => new TestAsset\DecorableExpression,
+                            'Laminas\Db\Sql\Select'     => array('Laminas\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_Sql92=}')
                         ),
                         'string'     => 'UPDATE "foo" SET  WHERE "x" = {decorate-({=SELECT_Sql92=})-decorate}',
                     ),
                     'MySql'     => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Expression' => new TestAsset\DecorableExpression,
-                            'Zend\Db\Sql\Select'     => array('Zend\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_MySql=}')
+                            'Laminas\Db\Sql\Expression' => new TestAsset\DecorableExpression,
+                            'Laminas\Db\Sql\Select'     => array('Laminas\Db\Sql\Platform\Mysql\SelectDecorator', '{=SELECT_MySql=}')
                         ),
                         'string'     => 'UPDATE `foo` SET  WHERE `x` = {decorate-({=SELECT_MySql=})-decorate}',
                     ),
                     'Oracle'    => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Expression' => new TestAsset\DecorableExpression,
-                            'Zend\Db\Sql\Select'     => array('Zend\Db\Sql\Platform\Oracle\SelectDecorator', '{=SELECT_Oracle=}')
+                            'Laminas\Db\Sql\Expression' => new TestAsset\DecorableExpression,
+                            'Laminas\Db\Sql\Select'     => array('Laminas\Db\Sql\Platform\Oracle\SelectDecorator', '{=SELECT_Oracle=}')
                         ),
                         'string'     => 'UPDATE "foo" SET  WHERE "x" = {decorate-({=SELECT_Oracle=})-decorate}',
                     ),
                     'SqlServer' => array(
                         'decorators' => array(
-                            'Zend\Db\Sql\Expression' => new TestAsset\DecorableExpression,
-                            'Zend\Db\Sql\Select'     => array('Zend\Db\Sql\Platform\SqlServer\SelectDecorator', '{=SELECT_SqlServer=}')
+                            'Laminas\Db\Sql\Expression' => new TestAsset\DecorableExpression,
+                            'Laminas\Db\Sql\Select'     => array('Laminas\Db\Sql\Platform\SqlServer\SelectDecorator', '{=SELECT_SqlServer=}')
                         ),
                         'string'     => 'UPDATE [foo] SET  WHERE [x] = {decorate-({=SELECT_SqlServer=})-decorate}',
                     ),
@@ -544,7 +543,7 @@ class SqlFunctionalTest extends \PHPUnit_Framework_TestCase
             default : $platform = null;
         }
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnCallback(function () {return new Adapter\StatementContainer;}));
 

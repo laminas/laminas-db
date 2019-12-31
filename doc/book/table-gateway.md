@@ -5,10 +5,10 @@ datbase table; its methods mirror the most common table operations. In code,
 the interface resembles:
 
 ```php
-namespace Zend\Db\TableGateway;
+namespace Laminas\Db\TableGateway;
 
-use Zend\Db\ResultSet\ResultSetInterface;
-use Zend\Db\Sql\Where;
+use Laminas\Db\ResultSet\ResultSetInterface;
+use Laminas\Db\Sql\Where;
 
 interface TableGatewayInterface
 {
@@ -28,7 +28,7 @@ There are two primary implementations of the `TableGatewayInterface`,
 `AbstractTableGateway` and `TableGateway`. The `AbstractTableGateway` is an
 abstract basic implementation that provides functionality for `select()`,
 `insert()`, `update()`, `delete()`, as well as an additional API for doing
-these same kinds of tasks with explicit `Zend\Db\Sql` objects: `selectWith()`,
+these same kinds of tasks with explicit `Laminas\Db\Sql` objects: `selectWith()`,
 `insertWith()`, `updateWith()`, and `deleteWith()`. In addition,
 AbstractTableGateway also implements a "Feature" API, that allows for expanding
 the behaviors of the base `TableGateway` implementation without having to
@@ -39,17 +39,17 @@ order to be consumed and utilized to its fullest.
 
 ## Quick start
 
-The following example uses `Zend\Db\TableGateway\TableGateway`, which defines
+The following example uses `Laminas\Db\TableGateway\TableGateway`, which defines
 the following API:
 
 ```php
-namespace Zend\Db\TableGateway;
+namespace Laminas\Db\TableGateway;
 
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\ResultSet\ResultSetInterface;
-use Zend\Db\Sql;
-use Zend\Db\Sql\TableIdentifier;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\ResultSet\ResultSetInterface;
+use Laminas\Db\Sql;
+use Laminas\Db\Sql\TableIdentifier;
 
 class TableGateway extends AbstractTableGateway
 {
@@ -101,7 +101,7 @@ the populated `Adapter`'s `Result` (the datasource) will be returned and ready
 for iteration.
 
 ```php
-use Zend\Db\TableGateway\TableGateway;
+use Laminas\Db\TableGateway\TableGateway;
 
 $projectTable = new TableGateway('project', $adapter);
 $rowset = $projectTable->select(['type' => 'PHP']);
@@ -120,12 +120,12 @@ var_dump($artistRow);
 ```
 
 The `select()` method takes the same arguments as
-`Zend\Db\Sql\Select::where()`; arguments will be passed to the `Select`
+`Laminas\Db\Sql\Select::where()`; arguments will be passed to the `Select`
 instance used to build the SELECT query. This means the following is possible:
 
 ```php
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Db\Sql\Select;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Db\Sql\Select;
 
 $artistTable = new TableGateway('artist', $adapter);
 
@@ -151,15 +151,15 @@ constructor. The constructor can take features in 3 different forms:
 - as a `FeatureSet` instance
 - as an array of `Feature` instances
 
-There are a number of features built-in and shipped with zend-db:
+There are a number of features built-in and shipped with laminas-db:
 
 - `GlobalAdapterFeature`: the ability to use a global/static adapter without
   needing to inject it into a `TableGateway` instance. This is only useful when
   you are extending the `AbstractTableGateway` implementation:
 
     ```php
-    use Zend\Db\TableGateway\AbstractTableGateway;
-    use Zend\Db\TableGateway\Feature;
+    use Laminas\Db\TableGateway\AbstractTableGateway;
+    use Laminas\Db\TableGateway\Feature;
     
     class MyTableGateway extends AbstractTableGateway
     {
@@ -173,7 +173,7 @@ There are a number of features built-in and shipped with zend-db:
     }
     
     // elsewhere in code, in a bootstrap
-    Zend\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($adapter);
+    Laminas\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($adapter);
     
     // in a controller, or model somewhere
     $table = new MyTableGateway(); // adapter is statically loaded
@@ -196,7 +196,7 @@ There are a number of features built-in and shipped with zend-db:
     ```
 
 - `EventFeature`: the ability to compose a
-  [zend-eventmanager](https://github.com/zendframework/zend-eventmanager)
+  [laminas-eventmanager](https://github.com/laminas/laminas-eventmanager)
   `EventManager` instance within your `TableGateway` instance, and attach
   listeners to the various events of its lifecycle.
 
