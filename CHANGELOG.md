@@ -26,6 +26,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#395](https://github.com/zendframework/zend-db/pull/395) fixes PHP 7.4 compatibility.
 
+- [#392](https://github.com/zendframework/zend-db/pull/392) fixes `MetadataFeature` to work with `TableIdentifier`.
+
 ## 2.10.0 - 2019-02-25
 
 ### Added
