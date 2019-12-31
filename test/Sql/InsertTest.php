@@ -1,18 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
-use Zend\Db\Sql\Insert;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\TableIdentifier;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Insert;
+use Laminas\Db\Sql\TableIdentifier;
 
 class InsertTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +29,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::into
+     * @covers Laminas\Db\Sql\Insert::into
      */
     public function testInto()
     {
@@ -44,7 +42,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::columns
+     * @covers Laminas\Db\Sql\Insert::columns
      */
     public function testColumns()
     {
@@ -53,7 +51,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::values
+     * @covers Laminas\Db\Sql\Insert::values
      */
     public function testValues()
     {
@@ -74,17 +72,17 @@ class InsertTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @covers Zend\Db\Sql\Insert::prepareStatement
+     * @covers Laminas\Db\Sql\Insert::prepareStatement
      */
     public function testPrepareStatement()
     {
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, array($mockDriver));
+        $mockAdapter = $this->getMock('Laminas\Db\Adapter\Adapter', null, array($mockDriver));
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $pContainer = new \Zend\Db\Adapter\ParameterContainer(array());
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $pContainer = new \Laminas\Db\Adapter\ParameterContainer(array());
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
         $mockStatement->expects($this->at(1))
             ->method('setSql')
@@ -97,13 +95,13 @@ class InsertTest extends \PHPUnit_Framework_TestCase
 
         // with TableIdentifier
         $this->insert = new Insert;
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, array($mockDriver));
+        $mockAdapter = $this->getMock('Laminas\Db\Adapter\Adapter', null, array($mockDriver));
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $pContainer = new \Zend\Db\Adapter\ParameterContainer(array());
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $pContainer = new \Laminas\Db\Adapter\ParameterContainer(array());
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
         $mockStatement->expects($this->at(1))
             ->method('setSql')
@@ -116,7 +114,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::getSqlString
+     * @covers Laminas\Db\Sql\Insert::getSqlString
      */
     public function testGetSqlString()
     {
@@ -134,7 +132,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::__set
+     * @covers Laminas\Db\Sql\Insert::__set
      */
     public function test__set()
     {
@@ -144,7 +142,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::__unset
+     * @covers Laminas\Db\Sql\Insert::__unset
      */
     public function test__unset()
     {
@@ -157,7 +155,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::__isset
+     * @covers Laminas\Db\Sql\Insert::__isset
      */
     public function test__isset()
     {
@@ -166,7 +164,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Insert::__get
+     * @covers Laminas\Db\Sql\Insert::__get
      */
     public function test__get()
     {
@@ -175,7 +173,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF2-536
+     * @group Laminas-536
      */
     public function testValuesMerge()
     {

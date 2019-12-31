@@ -1,16 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Platform;
+namespace LaminasTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Platform\IbmDb2;
+use Laminas\Db\Adapter\Platform\IbmDb2;
 
 class IbmDb2Test extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +27,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::getName
+     * @covers Laminas\Db\Adapter\Platform\IbmDb2::getName
      */
     public function testGetName()
     {
@@ -37,7 +35,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::getQuoteIdentifierSymbol
+     * @covers Laminas\Db\Adapter\Platform\IbmDb2::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -45,7 +43,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteIdentifier
+     * @covers Laminas\Db\Adapter\Platform\IbmDb2::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -56,7 +54,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteIdentifierChain
+     * @covers Laminas\Db\Adapter\Platform\IbmDb2::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -74,7 +72,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::getQuoteValueSymbol
+     * @covers Laminas\Db\Adapter\Platform\IbmDb2::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -82,7 +80,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteValue
+     * @covers Laminas\Db\Adapter\Platform\IbmDb2::quoteValue
      */
     public function testQuoteValue()
     {
@@ -90,7 +88,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteValueList
+     * @covers Laminas\Db\Adapter\Platform\IbmDb2::quoteValueList
      */
     public function testQuoteValueList()
     {
@@ -100,7 +98,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::getIdentifierSeparator
+     * @covers Laminas\Db\Adapter\Platform\IbmDb2::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -111,7 +109,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\IbmDb2::quoteIdentifierInFragment
+     * @covers Laminas\Db\Adapter\Platform\IbmDb2::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {

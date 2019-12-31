@@ -1,12 +1,12 @@
 <?php
-namespace ZendTest\Db\ResultSet;
+namespace LaminasTest\Db\ResultSet;
 
-use Zend\Db\ResultSet\HydratingResultSet;
+use Laminas\Db\ResultSet\HydratingResultSet;
 
 class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::setObjectPrototype
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::setObjectPrototype
      */
     public function testSetObjectPrototype()
     {
@@ -16,25 +16,25 @@ class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::setHydrator
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::setHydrator
      */
     public function testSetHydrator()
     {
         $hydratingRs = new HydratingResultSet;
-        $this->assertSame($hydratingRs, $hydratingRs->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods()));
+        $this->assertSame($hydratingRs, $hydratingRs->setHydrator(new \Laminas\Stdlib\Hydrator\ClassMethods()));
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::getHydrator
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::getHydrator
      */
     public function testGetHydrator()
     {
         $hydratingRs = new HydratingResultSet;
-        $this->assertInstanceOf('Zend\Stdlib\Hydrator\ArraySerializable', $hydratingRs->getHydrator());
+        $this->assertInstanceOf('Laminas\Stdlib\Hydrator\ArraySerializable', $hydratingRs->getHydrator());
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::current
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::current
      */
     public function testCurrent()
     {
@@ -47,7 +47,7 @@ class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::toArray
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::toArray
      * @todo   Implement testToArray().
      */
     public function testToArray()

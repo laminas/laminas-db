@@ -1,16 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\RowGateway;
+namespace LaminasTest\Db\RowGateway;
 
-use Zend\Db\RowGateway\RowGateway;
+use Laminas\Db\RowGateway\RowGateway;
 
 class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,31 +23,31 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     public function setup()
     {
         // mock the adapter, driver, and parts
-        $mockResult = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $mockResult = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $mockResult->expects($this->any())->method('getAffectedRows')->will($this->returnValue(1));
         $this->mockResult = $mockResult;
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockConnection = $this->getMock('Zend\Db\Adapter\Driver\ConnectionInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockConnection = $this->getMock('Laminas\Db\Adapter\Driver\ConnectionInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockDriver->expects($this->any())->method('getConnection')->will($this->returnValue($mockConnection));
 
         // setup mock adapter
-        $this->mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, array($mockDriver));
+        $this->mockAdapter = $this->getMock('Laminas\Db\Adapter\Adapter', null, array($mockDriver));
 
-        $this->rowGateway = $this->getMockForAbstractClass('Zend\Db\RowGateway\AbstractRowGateway');
+        $this->rowGateway = $this->getMockForAbstractClass('Laminas\Db\RowGateway\AbstractRowGateway');
 
         $rgPropertyValues = array(
             'primaryKeyColumn' => 'id',
             'table' => 'foo',
-            'sql' => new \Zend\Db\Sql\Sql($this->mockAdapter)
+            'sql' => new \Laminas\Db\Sql\Sql($this->mockAdapter)
         );
         $this->setRowGatewayState($rgPropertyValues);
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::offsetSet
+     * @covers Laminas\Db\RowGateway\RowGateway::offsetSet
      */
     public function testOffsetSet()
     {
@@ -60,7 +58,7 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::__set
+     * @covers Laminas\Db\RowGateway\RowGateway::__set
      */
     public function test__set()
     {
@@ -71,7 +69,7 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::__isset
+     * @covers Laminas\Db\RowGateway\RowGateway::__isset
      */
     public function test__isset()
     {
@@ -82,7 +80,7 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::offsetExists
+     * @covers Laminas\Db\RowGateway\RowGateway::offsetExists
      */
     public function testOffsetExists()
     {
@@ -93,7 +91,7 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::__unset
+     * @covers Laminas\Db\RowGateway\RowGateway::__unset
      */
     public function test__unset()
     {
@@ -105,7 +103,7 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::offsetUnset
+     * @covers Laminas\Db\RowGateway\RowGateway::offsetUnset
      */
     public function testOffsetUnset()
     {
@@ -118,7 +116,7 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::offsetGet
+     * @covers Laminas\Db\RowGateway\RowGateway::offsetGet
      */
     public function testOffsetGet()
     {
@@ -129,7 +127,7 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::__get
+     * @covers Laminas\Db\RowGateway\RowGateway::__get
      */
     public function test__get()
     {
@@ -140,7 +138,7 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::save
+     * @covers Laminas\Db\RowGateway\RowGateway::save
      */
     public function testSaveInsert()
     {
@@ -154,13 +152,13 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::save
+     * @covers Laminas\Db\RowGateway\RowGateway::save
      */
     public function testSaveInsertMultiKey()
     {
-        $this->rowGateway = $this->getMockForAbstractClass('Zend\Db\RowGateway\AbstractRowGateway');
+        $this->rowGateway = $this->getMockForAbstractClass('Laminas\Db\RowGateway\AbstractRowGateway');
 
-        $mockSql = $this->getMockForAbstractClass('Zend\Db\Sql\Sql', array($this->mockAdapter));
+        $mockSql = $this->getMockForAbstractClass('Laminas\Db\Sql\Sql', array($this->mockAdapter));
 
         $rgPropertyValues = array(
             'primaryKeyColumn' => array('one', 'two'),
@@ -189,7 +187,7 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::save
+     * @covers Laminas\Db\RowGateway\RowGateway::save
      */
     public function testSaveUpdate()
     {
@@ -201,7 +199,7 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::delete
+     * @covers Laminas\Db\RowGateway\RowGateway::delete
      */
     public function testDelete()
     {
@@ -211,8 +209,8 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::populate
-     * @covers Zend\Db\RowGateway\RowGateway::rowExistsInDatabase
+     * @covers Laminas\Db\RowGateway\RowGateway::populate
+     * @covers Laminas\Db\RowGateway\RowGateway::rowExistsInDatabase
      */
     public function testPopulate()
     {
@@ -226,18 +224,18 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::processPrimaryKeyData
+     * @covers Laminas\Db\RowGateway\RowGateway::processPrimaryKeyData
      */
     public function testProcessPrimaryKeyData()
     {
         $this->rowGateway->populate(array('id' => 5, 'name' => 'foo'), true);
 
-        $this->setExpectedException('Zend\Db\RowGateway\Exception\RuntimeException', 'a known key id was not found');
+        $this->setExpectedException('Laminas\Db\RowGateway\Exception\RuntimeException', 'a known key id was not found');
         $this->rowGateway->populate(array('boo' => 5, 'name' => 'foo'), true);
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::count
+     * @covers Laminas\Db\RowGateway\RowGateway::count
      */
     public function testCount()
     {
@@ -246,7 +244,7 @@ class AbstractRowGatewayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\RowGateway\RowGateway::toArray
+     * @covers Laminas\Db\RowGateway\RowGateway::toArray
      */
     public function testToArray()
     {
