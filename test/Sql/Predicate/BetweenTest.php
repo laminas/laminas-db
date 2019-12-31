@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Predicate;
+namespace LaminasTest\Db\Sql\Predicate;
 
+use Laminas\Db\Sql\Predicate\Between;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Db\Sql\Predicate\Between;
 
 class BetweenTest extends TestCase
 {
@@ -25,10 +24,10 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::__construct
-     * @covers Zend\Db\Sql\Predicate\Between::getIdentifier
-     * @covers Zend\Db\Sql\Predicate\Between::getMinValue
-     * @covers Zend\Db\Sql\Predicate\Between::getMaxValue
+     * @covers Laminas\Db\Sql\Predicate\Between::__construct
+     * @covers Laminas\Db\Sql\Predicate\Between::getIdentifier
+     * @covers Laminas\Db\Sql\Predicate\Between::getMinValue
+     * @covers Laminas\Db\Sql\Predicate\Between::getMaxValue
      */
     public function testConstructorYieldsNullIdentifierMinimumAndMaximumValues()
     {
@@ -38,10 +37,10 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::__construct
-     * @covers Zend\Db\Sql\Predicate\Between::getIdentifier
-     * @covers Zend\Db\Sql\Predicate\Between::getMinValue
-     * @covers Zend\Db\Sql\Predicate\Between::getMaxValue
+     * @covers Laminas\Db\Sql\Predicate\Between::__construct
+     * @covers Laminas\Db\Sql\Predicate\Between::getIdentifier
+     * @covers Laminas\Db\Sql\Predicate\Between::getMinValue
+     * @covers Laminas\Db\Sql\Predicate\Between::getMaxValue
      */
     public function testConstructorCanPassIdentifierMinimumAndMaximumValues()
     {
@@ -62,7 +61,7 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::getSpecification
+     * @covers Laminas\Db\Sql\Predicate\Between::getSpecification
      */
     public function testSpecificationHasSaneDefaultValue()
     {
@@ -72,8 +71,8 @@ class BetweenTest extends TestCase
 
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::setIdentifier
-     * @covers Zend\Db\Sql\Predicate\Between::getIdentifier
+     * @covers Laminas\Db\Sql\Predicate\Between::setIdentifier
+     * @covers Laminas\Db\Sql\Predicate\Between::getIdentifier
      */
     public function testIdentifierIsMutable()
     {
@@ -82,8 +81,8 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::setMinValue
-     * @covers Zend\Db\Sql\Predicate\Between::getMinValue
+     * @covers Laminas\Db\Sql\Predicate\Between::setMinValue
+     * @covers Laminas\Db\Sql\Predicate\Between::getMinValue
      */
     public function testMinValueIsMutable()
     {
@@ -92,8 +91,8 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::setMaxValue
-     * @covers Zend\Db\Sql\Predicate\Between::getMaxValue
+     * @covers Laminas\Db\Sql\Predicate\Between::setMaxValue
+     * @covers Laminas\Db\Sql\Predicate\Between::getMaxValue
      */
     public function testMaxValueIsMutable()
     {
@@ -102,8 +101,8 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::setSpecification
-     * @covers Zend\Db\Sql\Predicate\Between::getSpecification
+     * @covers Laminas\Db\Sql\Predicate\Between::setSpecification
+     * @covers Laminas\Db\Sql\Predicate\Between::getSpecification
      */
     public function testSpecificationIsMutable()
     {
@@ -112,7 +111,7 @@ class BetweenTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Predicate\Between::getExpressionData
+     * @covers Laminas\Db\Sql\Predicate\Between::getExpressionData
      */
     public function testRetrievingWherePartsReturnsSpecificationArrayOfIdentifierAndValuesAndArrayOfTypes()
     {

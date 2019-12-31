@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Ddl\Column;
+namespace LaminasTest\Db\Sql\Ddl\Column;
 
 class AbstractPrecisionColumnTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::setDigits
+     * @covers Laminas\Db\Sql\Ddl\Column\AbstractPrecisionColumn::setDigits
      */
     public function testSetDigits()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
+        $column = $this->getMockForAbstractClass('Laminas\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
             'foo', 10
         ]);
         $this->assertEquals(10, $column->getDigits());
@@ -25,22 +24,22 @@ class AbstractPrecisionColumnTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getDigits
+     * @covers Laminas\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getDigits
      */
     public function testGetDigits()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
+        $column = $this->getMockForAbstractClass('Laminas\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
             'foo', 10
         ]);
         $this->assertEquals(10, $column->getDigits());
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::setDecimal
+     * @covers Laminas\Db\Sql\Ddl\Column\AbstractPrecisionColumn::setDecimal
      */
     public function testSetDecimal()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
+        $column = $this->getMockForAbstractClass('Laminas\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
             'foo', 10, 5
         ]);
         $this->assertEquals(5, $column->getDecimal());
@@ -49,22 +48,22 @@ class AbstractPrecisionColumnTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getDecimal
+     * @covers Laminas\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getDecimal
      */
     public function testGetDecimal()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
+        $column = $this->getMockForAbstractClass('Laminas\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
             'foo', 10, 5
         ]);
         $this->assertEquals(5, $column->getDecimal());
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getExpressionData
+     * @covers Laminas\Db\Sql\Ddl\Column\AbstractPrecisionColumn::getExpressionData
      */
     public function testGetExpressionData()
     {
-        $column = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
+        $column = $this->getMockForAbstractClass('Laminas\Db\Sql\Ddl\Column\AbstractPrecisionColumn', [
             'foo', 10, 5
         ]);
 

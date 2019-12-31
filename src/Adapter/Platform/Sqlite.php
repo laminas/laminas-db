@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Adapter\Platform;
+namespace Laminas\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\Driver\Pdo;
-use Zend\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Exception;
 
 class Sqlite extends AbstractPlatform
 {
@@ -31,7 +30,7 @@ class Sqlite extends AbstractPlatform
     protected $resource = null;
 
     /**
-     * @param null|\Zend\Db\Adapter\Driver\Pdo\Pdo||\PDO $driver
+     * @param null|\Laminas\Db\Adapter\Driver\Pdo\Pdo||\PDO $driver
      */
     public function __construct($driver = null)
     {
@@ -41,8 +40,8 @@ class Sqlite extends AbstractPlatform
     }
 
     /**
-     * @param \Zend\Db\Adapter\Driver\Pdo\Pdo|\PDO $driver
-     * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
+     * @param \Laminas\Db\Adapter\Driver\Pdo\Pdo|\PDO $driver
+     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
      *
      * @return self
      */
@@ -55,7 +54,7 @@ class Sqlite extends AbstractPlatform
             return $this;
         }
 
-        throw new Exception\InvalidArgumentException('$driver must be a Sqlite PDO Zend\Db\Adapter\Driver, Sqlite PDO instance');
+        throw new Exception\InvalidArgumentException('$driver must be a Sqlite PDO Laminas\Db\Adapter\Driver, Sqlite PDO instance');
     }
 
     /**

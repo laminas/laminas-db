@@ -1,6 +1,6 @@
 <?php
 
-namespace Zend\Db\Adapter\Driver\Pgsql;
+namespace Laminas\Db\Adapter\Driver\Pgsql;
 
 /**
  * Closes a PostgreSQL connection
