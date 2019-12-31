@@ -1,20 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Adapter;
+namespace Laminas\Db\Adapter;
 
-use Zend\Db\ResultSet;
+use Laminas\Db\ResultSet;
 
 /**
- * @category   Zend
- * @package    Zend_Db
+ * @category   Laminas
+ * @package    Laminas_Db
  * @subpackage Adapter
  *
  * @property Driver\DriverInterface $driver
@@ -72,7 +70,7 @@ class Adapter
             $driver = $this->createDriverFromParameters($driver);
         } elseif (!$driver instanceof Driver\DriverInterface) {
             throw new Exception\InvalidArgumentException(
-                'The supplied or instantiated driver object does not implement Zend\Db\Adapter\Driver\DriverInterface'
+                'The supplied or instantiated driver object does not implement Laminas\Db\Adapter\Driver\DriverInterface'
             );
         }
 

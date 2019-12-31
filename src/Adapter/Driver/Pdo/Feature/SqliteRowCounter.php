@@ -1,23 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Adapter\Driver\Pdo\Feature;
+namespace Laminas\Db\Adapter\Driver\Pdo\Feature;
 
-use Zend\Db\Adapter\Driver\Feature\AbstractFeature;
-use Zend\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Driver\Feature\AbstractFeature;
+use Laminas\Db\Adapter\Driver\Pdo;
 
 /**
  * SqliteRowCounter
  *
- * @category   Zend
- * @package    Zend_Db
+ * @category   Laminas
+ * @package    Laminas_Db
  * @subpackage Adapter
  */
 class SqliteRowCounter extends AbstractFeature
@@ -32,7 +30,7 @@ class SqliteRowCounter extends AbstractFeature
     }
 
     /**
-     * @param \Zend\Db\Adapter\Driver\Pdo\Statement $statement
+     * @param \Laminas\Db\Adapter\Driver\Pdo\Statement $statement
      * @return int
      */
     public function getCountForStatement(Pdo\Statement $statement)

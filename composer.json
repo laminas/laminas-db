@@ -1,33 +1,22 @@
 {
-    "name": "zendframework/zend-db",
+    "name": "laminas/laminas-db",
     "description": " ",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf2",
+        "laminas",
         "db"
     ],
-    "homepage": "https://github.com/zendframework/zend-db",
-    "autoload": {
-        "psr-4": {
-            "Zend\\Db\\": "src/"
-        }
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-db/",
+        "issues": "https://github.com/laminas/laminas-db/issues",
+        "source": "https://github.com/laminas/laminas-db",
+        "rss": "https://github.com/laminas/laminas-db/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
     },
-    "require": {
-        "php": ">=5.3.3",
-        "zendframework/zend-stdlib": "self.version"
-    },
-    "require-dev": {
-        "zendframework/zend-eventmanager": "self.version",
-        "zendframework/zend-servicemanager": "self.version",
-        "zendframework/zend-stdlib": "self.version",
-        "fabpot/php-cs-fixer": "1.7.*",
-        "satooshi/php-coveralls": "dev-master",
-        "phpunit/PHPUnit": "~4.0"
-    },
-    "suggest": {
-        "zendframework/zend-eventmanager": "Zend\\EventManager component",
-        "zendframework/zend-servicemanager": "Zend\\ServiceManager component",
-        "zendframework/zend-stdlib": "self.version"
+    "config": {
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {
@@ -35,9 +24,35 @@
             "dev-develop": "2.5-dev"
         }
     },
+    "require": {
+        "php": ">=5.3.3",
+        "laminas/laminas-stdlib": "self.version",
+        "laminas/laminas-zendframework-bridge": "^1.0"
+    },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "1.7.*",
+        "laminas/laminas-eventmanager": "self.version",
+        "laminas/laminas-servicemanager": "self.version",
+        "laminas/laminas-stdlib": "self.version",
+        "phpunit/phpunit": "~4.0",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "suggest": {
+        "laminas/laminas-eventmanager": "Laminas\\EventManager component",
+        "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
+        "laminas/laminas-stdlib": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Db\\": "src/"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
-            "ZendTest\\Db\\": "test/"
+            "LaminasTest\\Db\\": "test/"
         }
+    },
+    "replace": {
+        "zendframework/zend-db": "self.version"
     }
 }
