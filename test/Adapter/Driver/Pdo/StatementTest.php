@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Pdo;
+namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
-use Zend\Db\Adapter\Driver\Pdo\Connection;
-use Zend\Db\Adapter\Driver\Pdo\Statement;
-use Zend\Db\Adapter\Driver\Pdo\Pdo;
-use Zend\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Driver\Pdo\Connection;
+use Laminas\Db\Adapter\Driver\Pdo\Pdo;
+use Laminas\Db\Adapter\Driver\Pdo\Statement;
+use Laminas\Db\Adapter\ParameterContainer;
 
 class StatementTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,7 +38,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::setDriver
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Statement::setDriver
      */
     public function testSetDriver()
     {
@@ -47,7 +46,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::setParameterContainer
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Statement::setParameterContainer
      */
     public function testSetParameterContainer()
     {
@@ -55,7 +54,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::getParameterContainer
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Statement::getParameterContainer
      * @todo   Implement testGetParameterContainer().
      */
     public function testGetParameterContainer()
@@ -66,7 +65,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::getResource
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Statement::getResource
      */
     public function testGetResource()
     {
@@ -78,7 +77,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::setSql
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Statement::setSql
      */
     public function testSetSql()
     {
@@ -87,7 +86,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::getSql
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Statement::getSql
      */
     public function testGetSql()
     {
@@ -96,7 +95,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::prepare
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Statement::prepare
      * @todo   Implement testPrepare().
      */
     public function testPrepare()
@@ -106,7 +105,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::isPrepared
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Statement::isPrepared
      */
     public function testIsPrepared()
     {
@@ -117,13 +116,13 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Statement::execute
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Statement::execute
      */
     public function testExecute()
     {
         $this->statement->setDriver(new Pdo(new Connection($pdo = new TestAsset\SqliteMemoryPdo())));
         $this->statement->initialize($pdo);
         $this->statement->prepare('SELECT 1');
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Pdo\Result', $this->statement->execute());
+        $this->assertInstanceOf('Laminas\Db\Adapter\Driver\Pdo\Result', $this->statement->execute());
     }
 }
