@@ -1,8 +1,8 @@
 # DDL Abstraction
 
-`Zend\Db\Sql\Ddl` is a sub-component of `Zend\Db\Sql` allowing creation of DDL
+`Laminas\Db\Sql\Ddl` is a sub-component of `Laminas\Db\Sql` allowing creation of DDL
 (Data Definition Language) SQL statements. When combined with a platform
-specific `Zend\Db\Sql\Sql` object, DDL objects are capable of producing
+specific `Laminas\Db\Sql\Sql` object, DDL objects are capable of producing
 platform-specific `CREATE TABLE` statements, with specialized data types,
 constraints, and indexes for a database/schema.
 
@@ -13,13 +13,13 @@ The following platforms have platform specializations for DDL:
 
 ## Creating Tables
 
-Like `Zend\Db\Sql` objects, each statement type is represented by a class. For
+Like `Laminas\Db\Sql` objects, each statement type is represented by a class. For
 example, `CREATE TABLE` is modeled by the `CreateTable` class; this is likewise
 the same for `ALTER TABLE` (as `AlterTable`), and `DROP TABLE` (as
 `DropTable`). You can create instances using a number of approaches:
 
 ```php
-use Zend\Db\Sql\Ddl;
+use Laminas\Db\Sql\Ddl;
 
 $table = new Ddl\CreateTable();
 
@@ -40,7 +40,7 @@ Currently, columns are added by creating a column object (described in the
 [data type table below](#currently-supported-data-types)):
 
 ```php
-use Zend\Db\Sql\Ddl\Column;
+use Laminas\Db\Sql\Ddl\Column;
 
 $table->addColumn(new Column\Integer('id'));
 $table->addColumn(new Column\Varchar('name', 255));
@@ -49,7 +49,7 @@ $table->addColumn(new Column\Varchar('name', 255));
 Beyond adding columns to a table, you may also add constraints:
 
 ```php
-use Zend\Db\Sql\Ddl\Constraint;
+use Laminas\Db\Sql\Ddl\Constraint;
 
 $table->addConstraint(new Constraint\PrimaryKey('id'));
 $table->addConstraint(
@@ -58,7 +58,7 @@ $table->addConstraint(
 ```
 You can also use the `AUTO_INCREMENT` attribute for MySQL:
 ```php
-use Zend\Db\Sql\Ddl\Column;
+use Laminas\Db\Sql\Ddl\Column;
 
 $column = new Column\Integer('id');
 $column->setOption('AUTO_INCREMENT', true);
@@ -69,7 +69,7 @@ $column->setOption('AUTO_INCREMENT', true);
 Similar to `CreateTable`, you may also use `AlterTable` instances:
 
 ```php
-use Zend\Db\Sql\Ddl;
+use Laminas\Db\Sql\Ddl;
 
 $table = new Ddl\AlterTable();
 
@@ -86,7 +86,7 @@ Therefore, while you still have `addColumn()` and `addConstraint()`, you will
 also have the ability to *alter* existing columns:
 
 ```php
-use Zend\Db\Sql\Ddl\Column;
+use Laminas\Db\Sql\Ddl\Column;
 
 $table->changeColumn('name', Column\Varchar('new_name', 50));
 ```
@@ -116,7 +116,7 @@ The workflow looks something like this, with `$ddl` being a `CreateTable`,
 `AlterTable`, or `DropTable` instance:
 
 ```php
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Sql\Sql;
 
 // Existence of $adapter is assumed.
 $sql = new Sql($adapter);
@@ -132,14 +132,14 @@ By passing the `$ddl` object through the `$sql` instance's
 specializations/modifications are utilized to create a platform specific SQL
 statement.
 
-Next, using the constant `Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE` ensures
+Next, using the constant `Laminas\Db\Adapter\Adapter::QUERY_MODE_EXECUTE` ensures
 that the SQL statement is not prepared, as most DDL statements on most
 platforms cannot be prepared, only executed.
 
 ## Currently Supported Data Types
 
-These types exist in the `Zend\Db\Sql\Ddl\Column` namespace. Data types must
-implement `Zend\Db\Sql\Ddl\Column\ColumnInterface`.
+These types exist in the `Laminas\Db\Sql\Ddl\Column` namespace. Data types must
+implement `Laminas\Db\Sql\Ddl\Column\ColumnInterface`.
 
 In alphabetical order:
 
@@ -169,8 +169,8 @@ instance. Currently, this is primarily in `CreateTable::addColumn()` and `AlterT
 
 ## Currently Supported Constraint Types
 
-These types exist in the `Zend\Db\Sql\Ddl\Constraint` namespace. Data types
-must implement `Zend\Db\Sql\Ddl\Constraint\ConstraintInterface`.
+These types exist in the `Laminas\Db\Sql\Ddl\Constraint` namespace. Data types
+must implement `Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface`.
 
 In alphabetical order:
 

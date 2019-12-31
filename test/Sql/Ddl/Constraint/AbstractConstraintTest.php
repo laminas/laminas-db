@@ -1,28 +1,27 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Ddl\Constraint;
+namespace LaminasTest\Db\Sql\Ddl\Constraint;
 
 use PHPUnit\Framework\TestCase;
 
 class AbstractConstraintTest extends TestCase
 {
-    /** @var \Zend\Db\Sql\Ddl\Constraint\AbstractConstraint */
+    /** @var \Laminas\Db\Sql\Ddl\Constraint\AbstractConstraint */
     protected $ac;
 
     protected function setUp()
     {
-        $this->ac = $this->getMockForAbstractClass('Zend\Db\Sql\Ddl\Constraint\AbstractConstraint');
+        $this->ac = $this->getMockForAbstractClass('Laminas\Db\Sql\Ddl\Constraint\AbstractConstraint');
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Constraint\AbstractConstraint::setColumns
+     * @covers \Laminas\Db\Sql\Ddl\Constraint\AbstractConstraint::setColumns
      */
     public function testSetColumns()
     {
@@ -31,7 +30,7 @@ class AbstractConstraintTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Constraint\AbstractConstraint::addColumn
+     * @covers \Laminas\Db\Sql\Ddl\Constraint\AbstractConstraint::addColumn
      */
     public function testAddColumn()
     {
@@ -40,7 +39,7 @@ class AbstractConstraintTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Constraint\AbstractConstraint::getColumns
+     * @covers \Laminas\Db\Sql\Ddl\Constraint\AbstractConstraint::getColumns
      */
     public function testGetColumns()
     {

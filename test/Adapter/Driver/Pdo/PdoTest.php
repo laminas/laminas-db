@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Pdo;
+namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\Pdo\Pdo;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\Driver\Pdo\Pdo;
 
 class PdoTest extends TestCase
 {
@@ -30,7 +29,7 @@ class PdoTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Pdo\Pdo::getDatabasePlatformName
+     * @covers \Laminas\Db\Adapter\Driver\Pdo\Pdo::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {

@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Join;
+use Laminas\Db\Sql\TableIdentifier;
+use Laminas\Db\Sql\Update;
+use Laminas\Db\Sql\Where;
+use LaminasTest\Db\TestAsset\TrustingSql92Platform;
+use LaminasTest\Db\TestAsset\UpdateIgnore;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\Join;
-use Zend\Db\Sql\TableIdentifier;
-use Zend\Db\Sql\Update;
-use Zend\Db\Sql\Where;
-use ZendTest\Db\TestAsset\TrustingSql92Platform;
-use ZendTest\Db\TestAsset\UpdateIgnore;
 
 class UpdateTest extends TestCase
 {
@@ -43,7 +42,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::table
+     * @covers \Laminas\Db\Sql\Update::table
      */
     public function testTable()
     {
@@ -56,7 +55,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::__construct
+     * @covers \Laminas\Db\Sql\Update::__construct
      */
     public function testConstruct()
     {
@@ -65,7 +64,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::set
+     * @covers \Laminas\Db\Sql\Update::set
      */
     public function testSet()
     {
@@ -74,7 +73,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::set
+     * @covers \Laminas\Db\Sql\Update::set
      */
     public function testSortableSet()
     {
@@ -95,7 +94,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::where
+     * @covers \Laminas\Db\Sql\Update::where
      */
     public function testWhere()
     {
@@ -105,30 +104,30 @@ class UpdateTest extends TestCase
         $this->update->where(['a = b'], Where::OP_OR);
         $this->update->where(['c1' => null]);
         $this->update->where(['c2' => [1, 2, 3]]);
-        $this->update->where([new \Zend\Db\Sql\Predicate\IsNotNull('c3')]);
+        $this->update->where([new \Laminas\Db\Sql\Predicate\IsNotNull('c3')]);
         $where = $this->update->where;
 
         $predicates = $this->readAttribute($where, 'predicates');
         self::assertEquals('AND', $predicates[0][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[0][1]);
 
         self::assertEquals('AND', $predicates[1][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[1][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Expression', $predicates[1][1]);
 
         self::assertEquals('AND', $predicates[2][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[2][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Operator', $predicates[2][1]);
 
         self::assertEquals('OR', $predicates[3][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[3][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[3][1]);
 
         self::assertEquals('AND', $predicates[4][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\IsNull', $predicates[4][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\IsNull', $predicates[4][1]);
 
         self::assertEquals('AND', $predicates[5][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\In', $predicates[5][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\In', $predicates[5][1]);
 
         self::assertEquals('AND', $predicates[6][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\IsNotNull', $predicates[6][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\IsNotNull', $predicates[6][1]);
 
         $where = new Where;
         $this->update->where($where);
@@ -138,14 +137,14 @@ class UpdateTest extends TestCase
             self::assertSame($where, $what);
         });
 
-        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Predicate cannot be null');
         $this->update->where(null);
     }
 
     /**
-     * @group ZF2-240
-     * @covers \Zend\Db\Sql\Update::where
+     * @group Laminas-240
+     * @covers \Laminas\Db\Sql\Update::where
      */
     public function testPassingMultipleKeyValueInWhereClause()
     {
@@ -160,7 +159,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::getRawState
+     * @covers \Laminas\Db\Sql\Update::getRawState
      */
     public function testGetRawState()
     {
@@ -171,24 +170,24 @@ class UpdateTest extends TestCase
         self::assertEquals('foo', $this->update->getRawState('table'));
         self::assertEquals(true, $this->update->getRawState('emptyWhereProtection'));
         self::assertEquals(['bar' => 'baz'], $this->update->getRawState('set'));
-        self::assertInstanceOf('Zend\Db\Sql\Where', $this->update->getRawState('where'));
+        self::assertInstanceOf('Laminas\Db\Sql\Where', $this->update->getRawState('where'));
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::prepareStatement
+     * @covers \Laminas\Db\Sql\Update::prepareStatement
      */
     public function testPrepareStatement()
     {
-        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
-        $pContainer = new \Zend\Db\Adapter\ParameterContainer([]);
+        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
+        $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
         $mockStatement->expects($this->at(1))
@@ -203,16 +202,16 @@ class UpdateTest extends TestCase
 
         // with TableIdentifier
         $this->update = new Update;
-        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
-        $pContainer = new \Zend\Db\Adapter\ParameterContainer([]);
+        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
+        $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
         $mockStatement->expects($this->at(1))
@@ -227,7 +226,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::getSqlString
+     * @covers \Laminas\Db\Sql\Update::getSqlString
      */
     public function testGetSqlString()
     {
@@ -269,16 +268,16 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::__get
+     * @covers \Laminas\Db\Sql\Update::__get
      */
     public function testGetUpdate()
     {
         $getWhere = $this->update->__get('where');
-        self::assertInstanceOf('Zend\Db\Sql\Where', $getWhere);
+        self::assertInstanceOf('Laminas\Db\Sql\Where', $getWhere);
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::__get
+     * @covers \Laminas\Db\Sql\Update::__get
      */
     public function testGetUpdateFails()
     {
@@ -287,7 +286,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::__clone
+     * @covers \Laminas\Db\Sql\Update::__clone
      */
     public function testCloneUpdate()
     {
@@ -315,16 +314,16 @@ class UpdateTest extends TestCase
     {
         $updateIgnore = new UpdateIgnore();
 
-        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
-        $pContainer = new \Zend\Db\Adapter\ParameterContainer([]);
+        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
+        $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
         $mockStatement->expects($this->at(1))
@@ -367,7 +366,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Update::where
+     * @covers \Laminas\Db\Sql\Update::where
      */
     public function testJoin()
     {
@@ -393,7 +392,7 @@ class UpdateTest extends TestCase
 
     /**
      * @testdox unit test: Test join() returns Update object (is chainable)
-     * @covers \Zend\Db\Sql\Update::join
+     * @covers \Laminas\Db\Sql\Update::join
      */
     public function testJoinChainable()
     {
