@@ -36,6 +36,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#342](https://github.com/zendframework/zend-db/pull/342) fixes deleting from aliased tables.
 
+- [#386](https://github.com/zendframework/zend-db/pull/386) fixes too strongly casting integer parameters in PDO adapter.
+
 ## 2.10.0 - 2019-02-25
 
 ### Added
