@@ -1,8 +1,8 @@
 <?php
-namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
+namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
-use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
-use Zend\Db\Adapter\Driver\Sqlsrv\Connection;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Connection;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::setDriver
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::setDriver
      */
     public function testSetDriver()
     {
@@ -37,7 +37,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::setConnectionParameters
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::setConnectionParameters
      */
     public function testSetConnectionParameters()
     {
@@ -45,7 +45,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::getConnectionParameters
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::getConnectionParameters
      */
     public function testGetConnectionParameters()
     {
