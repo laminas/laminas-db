@@ -1,6 +1,6 @@
-# Zend\\Db\\RowGateway
+# Laminas\\Db\\RowGateway
 
-`Zend\Db\RowGateway` is a sub-component of Zend\\Db that implements the Row Gateway pattern from
+`Laminas\Db\RowGateway` is a sub-component of Laminas\\Db that implements the Row Gateway pattern from
 PoEAA. This effectively means that Row Gateway objects primarily model a row in a database, and have
 methods such as save() and delete() that will help persist this row-as-an-object in the database
 itself. Likewise, after a row from the database is retrieved, it can then be manipulated and
@@ -20,13 +20,13 @@ interface RowGatewayInterface
 
 ## Quickstart
 
-While most of the time, RowGateway will be used in conjunction with other Zend\\Db\\ResultSet
+While most of the time, RowGateway will be used in conjunction with other Laminas\\Db\\ResultSet
 producing objects, it is possible to use it standalone. To use it standalone, you simply need an
 Adapter and a set of data to work with. The following use case demonstrates
-Zend\\Db\\RowGateway\\RowGateway usage in its simplest form:
+Laminas\\Db\\RowGateway\\RowGateway usage in its simplest form:
 
 ```php
-use Zend\Db\RowGateway\RowGateway;
+use Laminas\Db\RowGateway\RowGateway;
 
 // query the database
 $resultSet = $adapter->query('SELECT * FROM `user` WHERE `id` = ?', array(2));
@@ -51,8 +51,8 @@ table, will produce a ResultSet that is then capable of producing valid Row Gate
 usage looks like this:
 
 ```php
-use Zend\Db\TableGateway\Feature\RowGatewayFeature;
-use Zend\Db\TableGateway\TableGateway;
+use Laminas\Db\TableGateway\Feature\RowGatewayFeature;
+use Laminas\Db\TableGateway\TableGateway;
 
 $table = new TableGateway('artist', $adapter, new RowGatewayFeature('id'));
 $results = $table->select(array('id' => 2));
@@ -69,9 +69,9 @@ similarly to the ActiveRecord pattern), pass a prototype object implementing the
 `RowGatewayInterface` to the `RowGatewayFeature` constructor instead of a primary key:
 
 ```php
-use Zend\Db\TableGateway\Feature\RowGatewayFeature;
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Db\RowGateway\RowGatewayInterface;
+use Laminas\Db\TableGateway\Feature\RowGatewayFeature;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Db\RowGateway\RowGatewayInterface;
 
 class Artist implements RowGatewayInterface
 {

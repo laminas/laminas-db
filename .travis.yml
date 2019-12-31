@@ -1,5 +1,3 @@
-sudo: false
-
 language: php
 
 branches:
@@ -13,8 +11,8 @@ cache:
 
 env:
   global:
-    - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=localhost
-    - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME=localhost
+    - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=localhost
+    - TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME=localhost
 
 matrix:
   fast_finish: true
@@ -53,20 +51,19 @@ matrix:
     - php: hhvm
 
 notifications:
-  irc: "irc.freenode.org#zftalk.dev"
   email: false
 
 before_install:
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - composer self-update
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then composer require --dev --no-update satooshi/php-coveralls ; fi
-  - if [[ $EVENT_MANAGER_VERSION != '' ]]; then composer require --dev --no-update "zendframework/zend-eventmanager:$EVENT_MANAGER_VERSION" ; fi
-  - if [[ $EVENT_MANAGER_VERSION == '' ]]; then composer require --dev --no-update "zendframework/zend-eventmanager:^3.0" ; fi
-  - if [[ $HYDRATOR_VERSION != '' ]]; then composer require --no-update "zendframework/zend-stdlib:^2.7" ; fi
-  - if [[ $HYDRATOR_VERSION != '' ]]; then composer require --dev --no-update "zendframework/zend-hydrator:$HYDRATOR_VERSION" ; fi
-  - if [[ $HYDRATOR_VERSION == '' ]]; then composer require --dev --no-update "zendframework/zend-hydrator:^2.1" ; fi
-  - if [[ $SERVICE_MANAGER_VERSION != '' ]]; then composer require --dev --no-update "zendframework/zend-servicemanager:$SERVICE_MANAGER_VERSION" ; fi
-  - if [[ $SERVICE_MANAGER_VERSION == '' ]]; then composer require --dev --no-update "zendframework/zend-servicemanager:^3.0.3" ; fi
+  - if [[ $EVENT_MANAGER_VERSION != '' ]]; then composer require --dev --no-update "laminas/laminas-eventmanager:$EVENT_MANAGER_VERSION" ; fi
+  - if [[ $EVENT_MANAGER_VERSION == '' ]]; then composer require --dev --no-update "laminas/laminas-eventmanager:^3.0" ; fi
+  - if [[ $HYDRATOR_VERSION != '' ]]; then composer require --no-update "laminas/laminas-stdlib:^2.7" ; fi
+  - if [[ $HYDRATOR_VERSION != '' ]]; then composer require --dev --no-update "laminas/laminas-hydrator:$HYDRATOR_VERSION" ; fi
+  - if [[ $HYDRATOR_VERSION == '' ]]; then composer require --dev --no-update "laminas/laminas-hydrator:^2.1" ; fi
+  - if [[ $SERVICE_MANAGER_VERSION != '' ]]; then composer require --dev --no-update "laminas/laminas-servicemanager:$SERVICE_MANAGER_VERSION" ; fi
+  - if [[ $SERVICE_MANAGER_VERSION == '' ]]; then composer require --dev --no-update "laminas/laminas-servicemanager:^3.0.3" ; fi
   - echo "composer.json to install:"
   - cat composer.json
 

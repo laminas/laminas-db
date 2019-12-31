@@ -1,11 +1,11 @@
-# Zend\\Db\\TableGateway
+# Laminas\\Db\\TableGateway
 
 The Table Gateway object is intended to provide an object that represents a table in a database, and
 the methods of this object mirror the most common operations on a database table. In code, the
 interface for such an object looks like this:
 
 ```php
-interface Zend\Db\TableGateway\TableGatewayInterface
+interface Laminas\Db\TableGateway\TableGatewayInterface
 {
     public function getTable();
     public function select($where = null);
@@ -28,7 +28,7 @@ order to be consumed and utilized to its fullest.
 
 ## Basic Usage
 
-The quickest way to get up and running with Zend\\Db\\TableGateway is to configure and utilize the
+The quickest way to get up and running with Laminas\\Db\\TableGateway is to configure and utilize the
 concrete implementation of the `TableGateway`. The API of the concrete `TableGateway` is:
 
 ```php
@@ -72,7 +72,7 @@ Out of the box, this implementation makes no assumptions about table structure o
 datasource) will be returned and ready for iteration.
 
 ```php
-use Zend\Db\TableGateway\TableGateway;
+use Laminas\Db\TableGateway\TableGateway;
 $projectTable = new TableGateway('project', $adapter);
 $rowset = $projectTable->select(array('type' => 'PHP'));
 
@@ -89,13 +89,13 @@ $artistRow = $rowset->current();
 var_dump($artistRow);
 ```
 
-The `select()` method takes the same arguments as `Zend\Db\Sql\Select::where()` with the addition of
+The `select()` method takes the same arguments as `Laminas\Db\Sql\Select::where()` with the addition of
 also being able to accept a closure, which in turn, will be passed the current Select object that is
 being used to build the SELECT query. The following usage is possible:
 
 ```php
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Db\Sql\Select;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Db\Sql\Select;
 $artistTable = new TableGateway('artist', $adapter);
 
 // search for at most 2 artists who's name starts with Brit, ascending
@@ -116,15 +116,15 @@ With the `TableGateway` object, features should be injected though the construct
 can take Features in 3 different forms: as a single feature object, as a FeatureSet object, or as an
 array of Feature objects.
 
-There are a number of features built-in and shipped with Zend\\Db:
+There are a number of features built-in and shipped with Laminas\\Db:
 
 - GlobalAdapterFeature: the ability to use a global/static adapter without needing to inject it into
 a `TableGateway` instance. This is more useful when you are extending the `AbstractTableGateway`
 implementation:
 
 ```php
-use Zend\Db\TableGateway\AbstractTableGateway;
-use Zend\Db\TableGateway\Feature;
+use Laminas\Db\TableGateway\AbstractTableGateway;
+use Laminas\Db\TableGateway\Feature;
 
 class MyTableGateway extends AbstractTableGateway
 {
@@ -138,7 +138,7 @@ class MyTableGateway extends AbstractTableGateway
 }
 
 // elsewhere in code, in a bootstrap
-Zend\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($adapter);
+Laminas\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($adapter);
 
 // in a controller, or model somewhere
 $table = new MyTableGateway(); // adapter is statically loaded
@@ -159,7 +159,7 @@ this information.
 $table = new TableGateway('artist', $adapter, new Feature\MetadataFeature());
 ```
 
-- EventFeature: the ability utilize a `TableGateway` object with Zend\\EventManager and to be able
+- EventFeature: the ability utilize a `TableGateway` object with Laminas\\EventManager and to be able
 to subscribe to various events in a `TableGateway` lifecycle.
 
 ```php

@@ -1,13 +1,12 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db;
+namespace LaminasTest\Db;
 
 use Exception;
 use PHPUnit_Framework_AssertionFailedError;
@@ -29,55 +28,55 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
 
     public function __construct()
     {
-        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME')) {
+        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME')) {
             if (extension_loaded('mysqli')) {
                 $this->adapters['mysqli'] = new \mysqli(
-                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
-                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
-                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD'),
-                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
+                    getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
+                    getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
+                    getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD'),
+                    getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
                 );
             }
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_mysql'] = new \Pdo(
-                    'mysql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME') . ';dbname=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
-                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
-                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
+                    'mysql:host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME') . ';dbname=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
+                    getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
+                    getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
                 );
             }
         }
-        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')) {
+        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')) {
             if (extension_loaded('pgsql')) {
                 $this->adapters['pgsql'] = pg_connect(
-                    'host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')
-                        . ' dbname=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
-                        . ' user=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME')
-                        . ' password=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
+                    'host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')
+                        . ' dbname=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
+                        . ' user=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME')
+                        . ' password=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
                 );
             }
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_pgsql'] = new \Pdo(
-                    'pgsql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME') . ';dbname=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE'),
-                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME'),
-                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
+                    'pgsql:host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME') . ';dbname=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE'),
+                    getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME'),
+                    getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
                 );
             }
         }
-        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLITE_MEMORY')) {
+        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLITE_MEMORY')) {
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_sqlite'] = new \Pdo(
                     'sqlite::memory:'
                 );
             }
         }
-        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')) {
+        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')) {
             if (extension_loaded('sqlsrv')) {
                 $this->adapters['sqlsrv'] = sqlsrv_connect(
-                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'),
+                    getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'),
                     [
-                        'UID' => getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
-                        'PWD' => getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
-                        'Database' => (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
+                        'UID' => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
+                        'PWD' => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
+                        'Database' => (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
                             ? : null)
                     ]
                 );
@@ -88,11 +87,11 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
             }
             if (extension_loaded('pdo')) {
                 $this->adapters['pdo_sqlsrv'] = new \Pdo(
-                    'sqlsrv:Server=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
-                        . ';Database=' . (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
+                    'sqlsrv:Server=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
+                        . ';Database=' . (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_DATABASE')
                             ?  : null),
-                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
-                    getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD')
+                    getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
+                    getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD')
                 );
             }
         }
@@ -130,7 +129,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
     {
         /** @var $test \PHPUnit_Framework_TestCase */
         $testcase = get_class($test);
-        if (strpos($testcase, 'ZendTest\Db') === 0 && strpos($testcase, 'Integration')) {
+        if (strpos($testcase, 'LaminasTest\Db') === 0 && strpos($testcase, 'Integration')) {
             $refObj = new \ReflectionObject($test);
             if ($refObj->hasProperty('adapters')) {
                 $refProp = $refObj->getProperty('adapters');
@@ -150,7 +149,7 @@ class IntegrationTestListener implements PHPUnit_Framework_TestListener
     {
         /** @var $test \PHPUnit_Framework_TestCase */
         $testcase = get_class($test);
-        if (strpos($testcase, 'ZendTest\Db') === 0 && strpos($testcase, 'Integration')) {
+        if (strpos($testcase, 'LaminasTest\Db') === 0 && strpos($testcase, 'Integration')) {
             $refObj = new \ReflectionObject($test);
             if ($refObj->hasProperty('adapters')) {
                 $refProp = $refObj->getProperty('adapters');

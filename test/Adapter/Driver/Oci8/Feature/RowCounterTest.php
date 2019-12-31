@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Oci8\Feature;
+namespace LaminasTest\Db\Adapter\Driver\Oci8\Feature;
 
+use Laminas\Db\Adapter\Driver\Oci8\Feature\RowCounter;
 use PHPUnit_Framework_TestCase;
-use Zend\Db\Adapter\Driver\Oci8\Feature\RowCounter;
 
 class RowCounterTest extends PHPUnit_Framework_TestCase
 {
@@ -25,7 +24,7 @@ class RowCounterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Feature\RowCounter::getName
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Feature\RowCounter::getName
      */
     public function testGetName()
     {
@@ -33,7 +32,7 @@ class RowCounterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Feature\RowCounter::getCountForStatement
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Feature\RowCounter::getCountForStatement
      */
     public function testGetCountForStatement()
     {
@@ -46,7 +45,7 @@ class RowCounterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Feature\RowCounter::getCountForSql
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Feature\RowCounter::getCountForSql
      */
     public function testGetCountForSql()
     {
@@ -56,7 +55,7 @@ class RowCounterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Feature\RowCounter::getRowCountClosure
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Feature\RowCounter::getRowCountClosure
      */
     public function testGetRowCountClosure()
     {
@@ -70,7 +69,7 @@ class RowCounterTest extends PHPUnit_Framework_TestCase
     protected function getMockStatement($sql, $returnValue)
     {
         $statement = $this->getMock(
-            'Zend\Db\Adapter\Driver\Oci8\Statement',
+            'Laminas\Db\Adapter\Driver\Oci8\Statement',
             ['prepare', 'execute'],
             [],
             '',
@@ -95,11 +94,11 @@ class RowCounterTest extends PHPUnit_Framework_TestCase
         $oci8Statement->expects($this->once())
             ->method('current')
             ->will($this->returnValue(['count' => $returnValue]));
-        $connection = $this->getMock('Zend\Db\Adapter\Driver\ConnectionInterface');
+        $connection = $this->getMock('Laminas\Db\Adapter\Driver\ConnectionInterface');
         $connection->expects($this->once())
             ->method('execute')
             ->will($this->returnValue($oci8Statement));
-        $driver = $this->getMock('Zend\Db\Adapter\Driver\Oci8\Oci8', ['getConnection'], [], '', false);
+        $driver = $this->getMock('Laminas\Db\Adapter\Driver\Oci8\Oci8', ['getConnection'], [], '', false);
         $driver->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($connection));

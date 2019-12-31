@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\ResultSet;
+namespace LaminasTest\Db\ResultSet;
 
-use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Hydrator\ArraySerializable;
-use Zend\Hydrator\ClassMethods;
+use Laminas\Db\ResultSet\HydratingResultSet;
+use Laminas\Hydrator\ArraySerializable;
+use Laminas\Hydrator\ClassMethods;
 
 class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::setObjectPrototype
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::setObjectPrototype
      */
     public function testSetObjectPrototype()
     {
@@ -26,7 +25,7 @@ class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::getObjectPrototype
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::getObjectPrototype
      */
     public function testGetObjectPrototype()
     {
@@ -35,7 +34,7 @@ class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::setHydrator
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::setHydrator
      */
     public function testSetHydrator()
     {
@@ -44,7 +43,7 @@ class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::getHydrator
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::getHydrator
      */
     public function testGetHydrator()
     {
@@ -53,7 +52,7 @@ class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::current
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::current
      */
     public function testCurrent()
     {
@@ -66,7 +65,7 @@ class HydratingResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::toArray
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::toArray
      * @todo   Implement testToArray().
      */
     public function testToArray()
