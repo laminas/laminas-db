@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.11.0 - TBD
+
+### Added
+
+- [#336](https://github.com/zendframework/zend-db/pull/336) adds `InsertIgnore` class for "INSERT IGNORE" usage (usable in `MySQL` platform).
+
+- [#356](https://github.com/zendframework/zend-db/pull/356) adds support for `IN (NULL)` for empty value-set.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#146](https://github.com/zendframework/zend-db/pull/146) fixes setting correct value for `lastInsertValue` pre-insert in `SequenceFeature`.
+
 ## 2.10.2 - TBD
 
 ### Added
@@ -25,8 +49,6 @@ All notable changes to this project will be documented in this file, in reverse 
 - Nothing.
 
 ## 2.10.1 - 2019-12-31
-
-### Added
 
 - Nothing.
 

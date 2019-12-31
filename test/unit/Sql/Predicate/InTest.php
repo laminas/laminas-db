@@ -94,7 +94,7 @@ class InTest extends TestCase
         $select = new Select;
         $in = new In('foo', []);
         $expected = [[
-            '%s IN ()',
+            '%s IN (NULL)',
             ['foo'],
             [$in::TYPE_IDENTIFIER]
         ]];
