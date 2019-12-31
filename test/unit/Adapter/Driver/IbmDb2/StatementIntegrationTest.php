@@ -102,7 +102,7 @@ class StatementIntegrationTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
      */
     public function testPrepareThrowsAnExceptionOnFailure()
     {
@@ -113,12 +113,12 @@ class StatementIntegrationTest extends TestCase
         );
         $statement = new Statement;
         $statement->initialize($db2Resource);
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $statement->prepare("SELECT");
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::execute
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::execute
      */
     public function testExecute()
     {

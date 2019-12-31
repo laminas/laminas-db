@@ -19,7 +19,7 @@ use Zend\Db\Sql\Platform\Mysql\Ddl\AlterTableDecorator;
 class AlterTableDecoratorTest extends TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Platform\Mysql\Ddl\AlterTableDecorator::setSubject
+     * @covers \Zend\Db\Sql\Platform\Mysql\Ddl\AlterTableDecorator::setSubject
      */
     public function testSetSubject()
     {
@@ -29,7 +29,7 @@ class AlterTableDecoratorTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Platform\Mysql\Ddl\AlterTableDecorator::getSqlString
+     * @covers \Zend\Db\Sql\Platform\Mysql\Ddl\AlterTableDecorator::getSqlString
      */
     public function testGetSqlString()
     {
