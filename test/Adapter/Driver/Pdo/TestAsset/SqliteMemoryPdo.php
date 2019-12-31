@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendTest\Db\Adapter\Driver\Pdo\TestAsset;
+namespace LaminasTest\Db\Adapter\Driver\Pdo\TestAsset;
 
 class SqliteMemoryPdo extends \Pdo
 {

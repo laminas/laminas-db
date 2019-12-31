@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Metadata\Source;
+namespace LaminasTest\Db\Metadata\Source;
 
-use Zend\Db\Metadata\Source\AbstractSource;
+use Laminas\Db\Metadata\Source\AbstractSource;
 
 class AbstractSourceTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +19,7 @@ class AbstractSourceTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->abstractSourceMock = $this->getMockForAbstractClass('Zend\Db\Metadata\Source\AbstractSource', array(), '', false);
+        $this->abstractSourceMock = $this->getMockForAbstractClass('Laminas\Db\Metadata\Source\AbstractSource', array(), '', false);
     }
 
     public function testGetConstraintKeys()
@@ -58,10 +57,10 @@ class AbstractSourceTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $constraints);
 
         /**
-         * @var \Zend\Db\Metadata\Object\ConstraintKeyObject $constraintKeyObj
+         * @var \Laminas\Db\Metadata\Object\ConstraintKeyObject $constraintKeyObj
          */
         $constraintKeyObj = $constraints[0];
-        $this->assertInstanceOf('Zend\Db\Metadata\Object\ConstraintKeyObject', $constraintKeyObj);
+        $this->assertInstanceOf('Laminas\Db\Metadata\Object\ConstraintKeyObject', $constraintKeyObj);
 
         // check value object is mapped correctly
         $this->assertEquals('a', $constraintKeyObj->getColumnName());
