@@ -3,6 +3,8 @@
 namespace ZendIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
 use PHPUnit\Framework\TestCase;
+use Zend\Db\Sql\TableIdentifier;
+use Zend\Db\TableGateway\Feature\MetadataFeature;
 use Zend\Db\TableGateway\TableGateway;
 
 class TableGatewayTest extends TestCase
@@ -94,5 +96,27 @@ class TableGatewayTest extends TestCase
         foreach ($data as $key => $value) {
             $this->assertEquals($row->$key, $value);
         }
+    }
+
+    /**
+     * @dataProvider tableProvider
+     * @param string|TableIdentifier|array $table
+     */
+    public function testTableGatewayWithMetadataFeature($table)
+    {
+        $tableGateway = new TableGateway($table, $this->adapter, new MetadataFeature());
+
+        self::assertInstanceOf(TableGateway::class, $tableGateway);
+        self::assertSame($table, $tableGateway->getTable());
+    }
+
+    public function tableProvider()
+    {
+        return [
+            'string'                  => ['test'],
+            'aliased string'          => [['foo' => 'test']],
+            'TableIdentifier'         => [new TableIdentifier('test')],
+            'aliased TableIdentifier' => [['foo' => new TableIdentifier('test')]],
+        ];
     }
 }
