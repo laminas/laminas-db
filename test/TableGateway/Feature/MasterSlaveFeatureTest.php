@@ -1,13 +1,13 @@
 <?php
 
-namespace ZendTest\Db\TableGateway\Feature;
+namespace LaminasTest\Db\TableGateway\Feature;
 
-use Zend\Db\TableGateway\Feature\MasterSlaveFeature;
+use Laminas\Db\TableGateway\Feature\MasterSlaveFeature;
 
 class MasterSlaveFeatureTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Zend\Db\Adapter\AdapterInterface
+     * @var \Laminas\Db\Adapter\AdapterInterface
      */
     protected $mockMasterAdapter, $mockSlaveAdapter;
 
@@ -16,45 +16,45 @@ class MasterSlaveFeatureTest extends \PHPUnit_Framework_TestCase
      */
     protected $feature = null;
 
-    /** @var \Zend\Db\TableGateway\TableGateway */
+    /** @var \Laminas\Db\TableGateway\TableGateway */
     protected $table = null;
 
     public function setup()
     {
         $this->mockMasterAdapter = $this->getMock(
-            'Zend\Db\Adapter\AdapterInterface',
+            'Laminas\Db\Adapter\AdapterInterface',
             array('getDriver', 'getPlatform')
         );
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue(
             $mockStatement
         ));
         $this->mockMasterAdapter->expects($this->any())->method('getDriver')->will($this->returnValue($mockDriver));
-        $this->mockMasterAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(new \Zend\Db\Adapter\Platform\Sql92()));
+        $this->mockMasterAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(new \Laminas\Db\Adapter\Platform\Sql92()));
 
         $this->mockSlaveAdapter = $this->getMock(
-            'Zend\Db\Adapter\AdapterInterface',
+            'Laminas\Db\Adapter\AdapterInterface',
             array('getDriver', 'getPlatform')
         );
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue(
             $mockStatement
         ));
         $this->mockSlaveAdapter->expects($this->any())->method('getDriver')->will($this->returnValue($mockDriver));
-        $this->mockSlaveAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(new \Zend\Db\Adapter\Platform\Sql92()));
+        $this->mockSlaveAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(new \Laminas\Db\Adapter\Platform\Sql92()));
 
         $this->feature = new MasterSlaveFeature($this->mockSlaveAdapter);
     }
 
     public function testPostInitialize()
     {
-        /** @var $table \Zend\Db\TableGateway\TableGateway */
+        /** @var $table \Laminas\Db\TableGateway\TableGateway */
         $this->getMockForAbstractClass(
-            'Zend\Db\TableGateway\TableGateway',
+            'Laminas\Db\TableGateway\TableGateway',
             array('foo', $this->mockMasterAdapter, $this->feature)
         );
         // postInitialize is run
@@ -64,13 +64,13 @@ class MasterSlaveFeatureTest extends \PHPUnit_Framework_TestCase
     public function testPreSelect()
     {
         $table = $this->getMockForAbstractClass(
-            'Zend\Db\TableGateway\TableGateway',
+            'Laminas\Db\TableGateway\TableGateway',
             array('foo', $this->mockMasterAdapter, $this->feature)
         );
 
         $this->mockSlaveAdapter->getDriver()->createStatement()
             ->expects($this->once())->method('execute')->will($this->returnValue(
-                $this->getMock('Zend\Db\ResultSet\ResultSet')
+                $this->getMock('Laminas\Db\ResultSet\ResultSet')
             ));
         $table->select('foo = bar');
     }
@@ -78,12 +78,12 @@ class MasterSlaveFeatureTest extends \PHPUnit_Framework_TestCase
     public function testPostSelect()
     {
         $table = $this->getMockForAbstractClass(
-            'Zend\Db\TableGateway\TableGateway',
+            'Laminas\Db\TableGateway\TableGateway',
             array('foo', $this->mockMasterAdapter, $this->feature)
         );
         $this->mockSlaveAdapter->getDriver()->createStatement()
             ->expects($this->once())->method('execute')->will($this->returnValue(
-            $this->getMock('Zend\Db\ResultSet\ResultSet')
+            $this->getMock('Laminas\Db\ResultSet\ResultSet')
         ));
 
         $masterSql = $table->getSql();

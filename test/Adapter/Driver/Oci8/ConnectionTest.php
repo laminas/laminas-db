@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Oci8;
+namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
-use Zend\Db\Adapter\Driver\Oci8\Oci8;
-use Zend\Db\Adapter\Driver\Oci8\Connection;
+use Laminas\Db\Adapter\Driver\Oci8\Connection;
+use Laminas\Db\Adapter\Driver\Oci8\Oci8;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,7 +36,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Connection::setDriver
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Connection::setDriver
      */
     public function testSetDriver()
     {
@@ -45,7 +44,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Connection::setConnectionParameters
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Connection::setConnectionParameters
      */
     public function testSetConnectionParameters()
     {
@@ -53,7 +52,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Connection::getConnectionParameters
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Connection::getConnectionParameters
      */
     public function testGetConnectionParameters()
     {

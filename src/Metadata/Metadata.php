@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Metadata;
+namespace Laminas\Db\Metadata;
 
-use Zend\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Adapter;
 
 class Metadata implements MetadataInterface
 {
@@ -180,7 +179,7 @@ class Metadata implements MetadataInterface
      * Get views names
      *
      * @param string $schema
-     * @return \Zend\Db\Metadata\Object\TableObject
+     * @return \Laminas\Db\Metadata\Object\TableObject
      */
     public function getViewNames($schema = null)
     {
@@ -192,7 +191,7 @@ class Metadata implements MetadataInterface
      *
      * @param string $viewName
      * @param string $schema
-     * @return \Zend\Db\Metadata\Object\TableObject
+     * @return \Laminas\Db\Metadata\Object\TableObject
      */
     public function getView($viewName, $schema = null)
     {
@@ -215,7 +214,7 @@ class Metadata implements MetadataInterface
      *
      * @param string $triggerName
      * @param string $schema
-     * @return \Zend\Db\Metadata\Object\TriggerObject
+     * @return \Laminas\Db\Metadata\Object\TriggerObject
      */
     public function getTrigger($triggerName, $schema = null)
     {
@@ -240,7 +239,7 @@ class Metadata implements MetadataInterface
      * @param string $columnName
      * @param string $table
      * @param string $schema
-     * @return \Zend\Db\Metadata\Object\ColumnObject
+     * @return \Laminas\Db\Metadata\Object\ColumnObject
      */
     public function getColumn($columnName, $table, $schema = null)
     {

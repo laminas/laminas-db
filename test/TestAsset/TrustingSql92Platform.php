@@ -1,8 +1,8 @@
 <?php
 
-namespace ZendTest\Db\TestAsset;
+namespace LaminasTest\Db\TestAsset;
 
-use Zend\Db\Adapter\Platform\Sql92;
+use Laminas\Db\Adapter\Platform\Sql92;
 
 class TrustingSql92Platform extends Sql92
 {
