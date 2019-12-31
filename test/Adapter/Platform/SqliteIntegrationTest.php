@@ -1,9 +1,9 @@
 <?php
 
-namespace ZendTest\Db\Adapter\Platform;
+namespace LaminasTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Platform\Sqlite;
-use Zend\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Platform\Sqlite;
 
 /**
  * @group integration
