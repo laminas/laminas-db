@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Ddl\Constraint;
+namespace LaminasTest\Db\Sql\Ddl\Constraint;
 
-use Zend\Db\Sql\Ddl\Constraint\ForeignKey;
+use Laminas\Db\Sql\Ddl\Constraint\ForeignKey;
 
 class ForeignKeyTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setName
+     * @covers Laminas\Db\Sql\Ddl\Constraint\ForeignKey::setName
      */
     public function testSetName()
     {
@@ -24,7 +23,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getName
+     * @covers Laminas\Db\Sql\Ddl\Constraint\ForeignKey::getName
      * @depends testSetName
      */
     public function testGetName(ForeignKey $fk)
@@ -33,7 +32,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setReferenceTable
+     * @covers Laminas\Db\Sql\Ddl\Constraint\ForeignKey::setReferenceTable
      */
     public function testSetReferenceTable()
     {
@@ -43,7 +42,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getReferenceTable
+     * @covers Laminas\Db\Sql\Ddl\Constraint\ForeignKey::getReferenceTable
      * @depends testSetReferenceTable
      */
     public function testGetReferenceTable(ForeignKey $fk)
@@ -52,7 +51,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setReferenceColumn
+     * @covers Laminas\Db\Sql\Ddl\Constraint\ForeignKey::setReferenceColumn
      */
     public function testSetReferenceColumn()
     {
@@ -62,7 +61,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getReferenceColumn
+     * @covers Laminas\Db\Sql\Ddl\Constraint\ForeignKey::getReferenceColumn
      * @depends testSetReferenceColumn
      */
     public function testGetReferenceColumn(ForeignKey $fk)
@@ -71,7 +70,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setOnDeleteRule
+     * @covers Laminas\Db\Sql\Ddl\Constraint\ForeignKey::setOnDeleteRule
      */
     public function testSetOnDeleteRule()
     {
@@ -81,7 +80,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getOnDeleteRule
+     * @covers Laminas\Db\Sql\Ddl\Constraint\ForeignKey::getOnDeleteRule
      * @depends testSetOnDeleteRule
      */
     public function testGetOnDeleteRule(ForeignKey $fk)
@@ -90,7 +89,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::setOnUpdateRule
+     * @covers Laminas\Db\Sql\Ddl\Constraint\ForeignKey::setOnUpdateRule
      */
     public function testSetOnUpdateRule()
     {
@@ -100,7 +99,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getOnUpdateRule
+     * @covers Laminas\Db\Sql\Ddl\Constraint\ForeignKey::getOnUpdateRule
      * @depends testSetOnUpdateRule
      */
     public function testGetOnUpdateRule(ForeignKey $fk)
@@ -109,7 +108,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Ddl\Constraint\ForeignKey::getExpressionData
+     * @covers Laminas\Db\Sql\Ddl\Constraint\ForeignKey::getExpressionData
      */
     public function testGetExpressionData()
     {
