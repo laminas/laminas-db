@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Ddl;
+namespace LaminasTest\Db\Sql\Ddl;
 
-use Zend\Db\Sql\Ddl\DropTable;
+use Laminas\Db\Sql\Ddl\DropTable;
 
 class DropTableTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Zend\Db\Sql\Ddl\DropTable::getSqlString
+     * @covers Laminas\Db\Sql\Ddl\DropTable::getSqlString
      */
     public function testGetSqlString()
     {

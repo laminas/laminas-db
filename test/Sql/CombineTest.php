@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Sql\Combine;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Predicate\Expression;
-use Zend\Db\Adapter\StatementContainer;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\StatementContainer;
+use Laminas\Db\Sql\Combine;
+use Laminas\Db\Sql\Predicate\Expression;
+use Laminas\Db\Sql\Select;
 
 class CombineTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +32,7 @@ class CombineTest extends \PHPUnit_Framework_TestCase
 
     public function testRejectsInvalidStatement()
     {
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Db\Sql\Exception\InvalidArgumentException');
 
         $this->combine->combine('foo');
     }
@@ -113,7 +112,7 @@ class CombineTest extends \PHPUnit_Framework_TestCase
         $adapter = $this->getMockAdapter();
 
         $statement = $this->combine->prepareStatement($adapter, new StatementContainer);
-        $this->assertInstanceOf('Zend\Db\Adapter\StatementContainerInterface', $statement);
+        $this->assertInstanceOf('Laminas\Db\Adapter\StatementContainerInterface', $statement);
         $this->assertEquals(
             '(SELECT "t1".* FROM "t1" WHERE "x1" = ?) UNION (SELECT "t2".* FROM "t2" WHERE "x2" = ?)',
             $statement->getSql()
@@ -179,13 +178,13 @@ class CombineTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Zend\Db\Adapter\Adapter
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Adapter\Adapter
      */
     protected function getMockAdapter()
     {
         $parameterContainer = new ParameterContainer();
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($parameterContainer));
 
 
@@ -200,10 +199,10 @@ class CombineTest extends \PHPUnit_Framework_TestCase
         $mockStatement->expects($this->any())->method('setSql')->will($this->returnCallback($setGetSqlFunction));
         $mockStatement->expects($this->any())->method('getSql')->will($this->returnCallback($setGetSqlFunction));
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
 
-        return $this->getMock('Zend\Db\Adapter\Adapter', null, array($mockDriver));
+        return $this->getMock('Laminas\Db\Adapter\Adapter', null, array($mockDriver));
     }
 }

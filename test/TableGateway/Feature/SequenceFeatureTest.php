@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\TableGateway\Feature;
+namespace LaminasTest\Db\TableGateway\Feature;
 
+use Laminas\Db\TableGateway\Feature\SequenceFeature;
 use PHPUnit_Framework_TestCase;
-use Zend\Db\TableGateway\Feature\SequenceFeature;
 
 class SequenceFeatureTest extends PHPUnit_Framework_TestCase
 {
     /** @var SequenceFeature */
     protected $feature = null;
 
-    /** @var \Zend\Db\TableGateway\TableGateway */
+    /** @var \Laminas\Db\TableGateway\TableGateway */
     protected $tableGateway = null;
 
     /**  @var string primary key name */
@@ -36,22 +35,22 @@ class SequenceFeatureTest extends PHPUnit_Framework_TestCase
      */
     public function testNextSequenceId($platformName, $statementSql)
     {
-        $platform = $this->getMockForAbstractClass('Zend\Db\Adapter\Platform\PlatformInterface', array('getName'));
+        $platform = $this->getMockForAbstractClass('Laminas\Db\Adapter\Platform\PlatformInterface', array('getName'));
         $platform->expects($this->any())
             ->method('getName')
             ->will($this->returnValue($platformName));
         $platform->expects($this->any())
             ->method('quoteIdentifier')
             ->will($this->returnValue($this->sequenceName));
-        $adapter = $this->getMock('Zend\Db\Adapter\Adapter', array('getPlatform', 'createStatement'), array(), '', false);
+        $adapter = $this->getMock('Laminas\Db\Adapter\Adapter', array('getPlatform', 'createStatement'), array(), '', false);
         $adapter->expects($this->any())
             ->method('getPlatform')
             ->will($this->returnValue($platform));
-        $result = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\ResultInterface', array(), '', false, true, true, array('current'));
+        $result = $this->getMockForAbstractClass('Laminas\Db\Adapter\Driver\ResultInterface', array(), '', false, true, true, array('current'));
         $result->expects($this->any())
             ->method('current')
             ->will($this->returnValue(array('nextval' => 2)));
-        $statement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\StatementInterface', array(), '', false, true, true, array('prepare', 'execute'));
+        $statement = $this->getMockForAbstractClass('Laminas\Db\Adapter\Driver\StatementInterface', array(), '', false, true, true, array('prepare', 'execute'));
         $statement->expects($this->any())
             ->method('execute')
             ->will($this->returnValue($result));
@@ -61,7 +60,7 @@ class SequenceFeatureTest extends PHPUnit_Framework_TestCase
         $adapter->expects($this->once())
             ->method('createStatement')
             ->will($this->returnValue($statement));
-        $this->tableGateway = $this->getMockForAbstractClass('Zend\Db\TableGateway\TableGateway', array('table', $adapter), '', true);
+        $this->tableGateway = $this->getMockForAbstractClass('Laminas\Db\TableGateway\TableGateway', array('table', $adapter), '', true);
         $this->feature->setTableGateway($this->tableGateway);
         $this->feature->nextSequenceId();
     }
