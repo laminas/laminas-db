@@ -1,16 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
-use Zend\Db\Sql\Expression;
+use Laminas\Db\Sql\Expression;
 
 /**
  * This is a unit testing test case.
@@ -22,7 +20,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers Zend\Db\Sql\Expression::setExpression
+     * @covers Laminas\Db\Sql\Expression::setExpression
      * @return Expression
      */
     public function testSetExpression()
@@ -34,7 +32,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::getExpression
+     * @covers Laminas\Db\Sql\Expression::getExpression
      * @depends testSetExpression
      */
     public function testGetExpression(Expression $expression)
@@ -43,7 +41,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::setParameters
+     * @covers Laminas\Db\Sql\Expression::setParameters
      */
     public function testSetParameters()
     {
@@ -54,7 +52,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::getParameters
+     * @covers Laminas\Db\Sql\Expression::getParameters
      * @depends testSetParameters
      */
     public function testGetParameters(Expression $expression)
@@ -63,7 +61,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::setTypes
+     * @covers Laminas\Db\Sql\Expression::setTypes
      */
     public function testSetTypes()
     {
@@ -74,7 +72,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::getTypes
+     * @covers Laminas\Db\Sql\Expression::getTypes
      * @depends testSetTypes
      */
     public function testGetTypes(Expression $expression)
@@ -86,7 +84,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Expression::getExpressionData
+     * @covers Laminas\Db\Sql\Expression::getExpressionData
      */
     public function testGetExpressionData()
     {

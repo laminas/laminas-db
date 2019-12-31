@@ -1,7 +1,7 @@
 <?php
-namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
+namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
-use Zend\Db\Adapter\Driver\Sqlsrv\Result;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Result;
 
 /**
  * @group integration
@@ -32,7 +32,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::initialize
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::initialize
      * @todo   Implement testInitialize().
      */
     public function testInitialize()
@@ -44,7 +44,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::buffer
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::buffer
      * @todo   Implement testBuffer().
      */
     public function testBuffer()
@@ -56,7 +56,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::getResource
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::getResource
      * @todo   Implement testGetResource().
      */
     public function testGetResource()
@@ -68,7 +68,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::current
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::current
      * @todo   Implement testCurrent().
      */
     public function testCurrent()
@@ -80,7 +80,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::next
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::next
      * @todo   Implement testNext().
      */
     public function testNext()
@@ -92,7 +92,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::key
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::key
      * @todo   Implement testKey().
      */
     public function testKey()
@@ -104,7 +104,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::rewind
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::rewind
      * @todo   Implement testRewind().
      */
     public function testRewind()
@@ -116,7 +116,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::valid
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::valid
      * @todo   Implement testValid().
      */
     public function testValid()
@@ -128,7 +128,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::count
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::count
      * @todo   Implement testCount().
      */
     public function testCount()
@@ -140,7 +140,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::getFieldCount
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::getFieldCount
      * @todo   Implement testGetFieldCount().
      */
     public function testGetFieldCount()
@@ -152,7 +152,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::isQueryResult
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::isQueryResult
      * @todo   Implement testIsQueryResult().
      */
     public function testIsQueryResult()
@@ -164,7 +164,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::getAffectedRows
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::getAffectedRows
      * @todo   Implement testGetAffectedRows().
      */
     public function testGetAffectedRows()
@@ -176,7 +176,7 @@ class ResultIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Result::getGeneratedValue
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Result::getGeneratedValue
      * @todo   Implement testGetGeneratedValue().
      */
     public function testGetGeneratedValue()

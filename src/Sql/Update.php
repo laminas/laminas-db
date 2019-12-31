@@ -1,24 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Sql;
+namespace Laminas\Db\Sql;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Adapter\StatementContainerInterface;
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\Adapter\Platform\Sql92;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Adapter\Platform\Sql92;
+use Laminas\Db\Adapter\StatementContainerInterface;
 
 /**
- * @category   Zend
- * @package    Zend_Db
+ * @category   Laminas
+ * @package    Laminas_Db
  * @subpackage Sql
  *
  * @property Where $where
@@ -122,7 +120,7 @@ class Update extends AbstractSql implements SqlInterface, PreparableSqlInterface
     public function where($predicate, $combination = Predicate\PredicateSet::OP_AND)
     {
         if (is_null($predicate)) {
-            throw new \Zend\Db\Sql\Exception\InvalidArgumentException('Predicate cannot be null');
+            throw new \Laminas\Db\Sql\Exception\InvalidArgumentException('Predicate cannot be null');
         }
 
         if ($predicate instanceof Where) {
@@ -185,8 +183,8 @@ class Update extends AbstractSql implements SqlInterface, PreparableSqlInterface
     /**
      * Prepare statement
      *
-     * @param \Zend\Db\Adapter\Adapter $adapter
-     * @param \Zend\Db\Adapter\Driver\StatementInterface $statementContainer
+     * @param \Laminas\Db\Adapter\Adapter $adapter
+     * @param \Laminas\Db\Adapter\Driver\StatementInterface $statementContainer
      * @return void
      */
     public function prepareStatement(Adapter $adapter, StatementContainerInterface $statementContainer)

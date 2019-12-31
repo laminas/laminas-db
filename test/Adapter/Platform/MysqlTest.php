@@ -1,16 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Platform;
+namespace LaminasTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Platform\Mysql;
+use Laminas\Db\Adapter\Platform\Mysql;
 
 class MysqlTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +27,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::getName
+     * @covers Laminas\Db\Adapter\Platform\Mysql::getName
      */
     public function testGetName()
     {
@@ -37,7 +35,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::getQuoteIdentifierSymbol
+     * @covers Laminas\Db\Adapter\Platform\Mysql::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -45,7 +43,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteIdentifier
+     * @covers Laminas\Db\Adapter\Platform\Mysql::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -53,7 +51,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteIdentifierChain
+     * @covers Laminas\Db\Adapter\Platform\Mysql::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -63,7 +61,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::getQuoteValueSymbol
+     * @covers Laminas\Db\Adapter\Platform\Mysql::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -71,7 +69,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteValue
+     * @covers Laminas\Db\Adapter\Platform\Mysql::quoteValue
      */
     public function testQuoteValue()
     {
@@ -79,7 +77,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteValueList
+     * @covers Laminas\Db\Adapter\Platform\Mysql::quoteValueList
      */
     public function testQuoteValueList()
     {
@@ -89,7 +87,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::getIdentifierSeparator
+     * @covers Laminas\Db\Adapter\Platform\Mysql::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -97,7 +95,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteIdentifierInFragment
+     * @covers Laminas\Db\Adapter\Platform\Mysql::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {
@@ -106,8 +104,8 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @group ZF2-386
-     * @covers Zend\Db\Adapter\Platform\Mysql::quoteIdentifierInFragment
+     * @group Laminas-386
+     * @covers Laminas\Db\Adapter\Platform\Mysql::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragmentIgnoresSingleCharSafeWords()
     {

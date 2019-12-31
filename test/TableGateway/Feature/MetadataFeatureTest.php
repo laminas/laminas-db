@@ -1,10 +1,10 @@
 <?php
 
-namespace ZendTest\Db\TableGateway\Feature;
+namespace LaminasTest\Db\TableGateway\Feature;
 
+use Laminas\Db\Metadata\Object\ConstraintObject;
+use Laminas\Db\TableGateway\Feature\MetadataFeature;
 use PHPUnit_Framework_TestCase;
-use Zend\Db\TableGateway\Feature\MetadataFeature;
-use Zend\Db\Metadata\Object\ConstraintObject;
 
 class MetadataFeatureTest extends PHPUnit_Framework_TestCase
 {
@@ -15,9 +15,9 @@ class MetadataFeatureTest extends PHPUnit_Framework_TestCase
      */
     public function testPostInitialize()
     {
-        $tableGatewayMock = $this->getMockForAbstractClass('Zend\Db\TableGateway\AbstractTableGateway');
+        $tableGatewayMock = $this->getMockForAbstractClass('Laminas\Db\TableGateway\AbstractTableGateway');
 
-        $metadataMock = $this->getMock('Zend\Db\Metadata\MetadataInterface');
+        $metadataMock = $this->getMock('Laminas\Db\Metadata\MetadataInterface');
         $metadataMock->expects($this->any())->method('getColumnNames')->will($this->returnValue(array('id', 'name')));
 
         $constraintObject = new ConstraintObject('id_pk', 'table');
