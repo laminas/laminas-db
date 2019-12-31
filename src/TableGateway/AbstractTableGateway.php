@@ -216,7 +216,8 @@ abstract class AbstractTableGateway implements TableGatewayInterface
     protected function executeSelect(Select $select)
     {
         $selectState = $select->getRawState();
-        if ($selectState['table'] != $this->table
+        if (isset($selectState['table'])
+            && $selectState['table'] != $this->table
             && (is_array($selectState['table'])
                 && end($selectState['table']) != $this->table)
         ) {
@@ -225,7 +226,8 @@ abstract class AbstractTableGateway implements TableGatewayInterface
             );
         }
 
-        if ($selectState['columns'] == [Select::SQL_STAR]
+        if (isset($selectState['columns'])
+            && $selectState['columns'] == [Select::SQL_STAR]
             && $this->columns !== []) {
             $select->columns($this->columns);
         }
