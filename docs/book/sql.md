@@ -128,7 +128,7 @@ class Select extends AbstractSql implements SqlInterface, PreparableSqlInterface
     public function __construct(string|array|TableIdentifier $table = null);
     public function from(string|array|TableIdentifier $table) : self;
     public function columns(array $columns, bool $prefixColumnsWithTable = true) : self;
-    public function join(string|array $name, string $on, string|array $columns = self::SQL_STAR, string $type = self::JOIN_INNER) : self;
+    public function join(string|array|TableIdentifier $name, string $on, string|array $columns = self::SQL_STAR, string $type = self::JOIN_INNER) : self;
     public function where(Where|callable|string|array|PredicateInterface $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;
     public function group(string|array $group);
     public function having(Having|callable|string|array $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;
