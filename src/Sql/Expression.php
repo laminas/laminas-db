@@ -56,7 +56,7 @@ class Expression extends AbstractExpression
             }
         }
 
-        if ($parameters) {
+        if ($parameters !== null) {
             $this->setParameters($parameters);
         }
     }

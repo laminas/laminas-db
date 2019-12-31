@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#382](https://github.com/zendframework/zend-db/pull/382) fixes `Zend\Db\Sql\Expression` to allow `0` value for parameter
 
 ## 2.10.1 - TBD
 
