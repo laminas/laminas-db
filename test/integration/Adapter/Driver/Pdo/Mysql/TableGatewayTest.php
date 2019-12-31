@@ -1,16 +1,16 @@
 <?php
 
-namespace ZendIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
+namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
+use Laminas\Db\TableGateway\TableGateway;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\TableGateway\TableGateway;
 
 class TableGatewayTest extends TestCase
 {
     use AdapterTrait;
 
     /**
-     * @covers \Zend\Db\TableGateway\TableGateway::__construct
+     * @covers \Laminas\Db\TableGateway\TableGateway::__construct
      */
     public function testConstructor()
     {
@@ -19,7 +19,7 @@ class TableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\TableGateway::select
+     * @covers \Laminas\Db\TableGateway\TableGateway::select
      */
     public function testSelect()
     {
@@ -35,8 +35,8 @@ class TableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\TableGateway::insert
-     * @covers \Zend\Db\TableGateway\TableGateway::select
+     * @covers \Laminas\Db\TableGateway\TableGateway::insert
+     * @covers \Laminas\Db\TableGateway\TableGateway::select
      */
     public function testInsert()
     {

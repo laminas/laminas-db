@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\TableGateway\Feature;
+namespace LaminasTest\Db\TableGateway\Feature;
 
+use Laminas\Db\Metadata\MetadataInterface;
+use Laminas\Db\Metadata\Object\ConstraintObject;
+use Laminas\Db\Metadata\Object\TableObject;
+use Laminas\Db\Metadata\Object\ViewObject;
+use Laminas\Db\TableGateway\AbstractTableGateway;
+use Laminas\Db\TableGateway\Feature\MetadataFeature;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
-use Zend\Db\Metadata\MetadataInterface;
-use Zend\Db\Metadata\Object\ConstraintObject;
-use Zend\Db\Metadata\Object\TableObject;
-use Zend\Db\Metadata\Object\ViewObject;
-use Zend\Db\TableGateway\AbstractTableGateway;
-use Zend\Db\TableGateway\Feature\MetadataFeature;
 
 class MetadataFeatureTest extends TestCase
 {
@@ -25,8 +24,8 @@ class MetadataFeatureTest extends TestCase
      */
     public function testPostInitialize()
     {
-        $tableGatewayMock = $this->getMockForAbstractClass('Zend\Db\TableGateway\AbstractTableGateway');
-        $metadataMock = $this->getMockBuilder('Zend\Db\Metadata\MetadataInterface')->getMock();
+        $tableGatewayMock = $this->getMockForAbstractClass('Laminas\Db\TableGateway\AbstractTableGateway');
+        $metadataMock = $this->getMockBuilder('Laminas\Db\Metadata\MetadataInterface')->getMock();
         $metadataMock->expects($this->any())->method('getColumnNames')->will($this->returnValue(['id', 'name']));
 
         $constraintObject = new ConstraintObject('id_pk', 'table');
