@@ -1,7 +1,7 @@
 <?php
-namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
+namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
-use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 
 /**
  * @group integration
@@ -23,7 +23,7 @@ class SqlsrvIntegrationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @group integration-sqlserver
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::checkEnvironment
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::checkEnvironment
      */
     public function testCheckEnvironment()
     {
