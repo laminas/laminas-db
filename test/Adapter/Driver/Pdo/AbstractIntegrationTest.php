@@ -1,13 +1,13 @@
 <?php
 ///**
-// * Zend Framework (http://framework.zend.com/)
+// * Laminas (https://getlaminas.org/)
 // *
-// * @link      http://github.com/zendframework/zf2 for the canonical source repository
-// * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
-// * @license   http://framework.zend.com/license/new-bsd New BSD License
+// * @link      http://github.com/laminas/laminas for the canonical source repository
+// * @copyright Copyright (c) 2005-2014 Laminas (https://www.zend.com)
+// * @license   https://getlaminas.org/license/new-bsd New BSD License
 // */
 //
-//namespace ZendTest\Db\Adapter\Driver\Pdo;
+//namespace LaminasTest\Db\Adapter\Driver\Pdo;
 //
 //abstract class AbstractIntegrationTest extends \PHPUnit_Framework_TestCase
 //{

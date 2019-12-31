@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\RowGateway;
+namespace Laminas\Db\RowGateway;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Sql;
 
 class RowGateway extends AbstractRowGateway
 {
@@ -19,7 +18,7 @@ class RowGateway extends AbstractRowGateway
      * Constructor
      *
      * @param string $primaryKeyColumn
-     * @param string|\Zend\Db\Sql\TableIdentifier $table
+     * @param string|\Laminas\Db\Sql\TableIdentifier $table
      * @param Adapter|Sql $adapterOrSql
      * @throws Exception\InvalidArgumentException
      */
