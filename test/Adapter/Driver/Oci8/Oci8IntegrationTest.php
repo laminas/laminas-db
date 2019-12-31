@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Oci8;
+namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
-use Zend\Db\Adapter\Driver\Oci8\Oci8;
+use Laminas\Db\Adapter\Driver\Oci8\Oci8;
 
 /**
  * @group integration
@@ -19,7 +18,7 @@ class Oci8IntegrationTest extends AbstractIntegrationTest
 {
     /**
      * @group integration-oci8
-     * @covers Zend\Db\Adapter\Driver\Oci8\Oci8::checkEnvironment
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Oci8::checkEnvironment
      */
     public function testCheckEnvironment()
     {
@@ -35,11 +34,11 @@ class Oci8IntegrationTest extends AbstractIntegrationTest
         $driver->getConnection()->setResource($resource);
 
         $stmt = $driver->createStatement('SELECT * FROM DUAL');
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Oci8\Statement', $stmt);
+        $this->assertInstanceOf('Laminas\Db\Adapter\Driver\Oci8\Statement', $stmt);
         $stmt = $driver->createStatement();
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Oci8\Statement', $stmt);
+        $this->assertInstanceOf('Laminas\Db\Adapter\Driver\Oci8\Statement', $stmt);
 
-        $this->setExpectedException('Zend\Db\Adapter\Exception\InvalidArgumentException', 'only accepts an SQL string or a oci8 resource');
+        $this->setExpectedException('Laminas\Db\Adapter\Exception\InvalidArgumentException', 'only accepts an SQL string or a oci8 resource');
         $driver->createStatement(new \stdClass);
     }
 
