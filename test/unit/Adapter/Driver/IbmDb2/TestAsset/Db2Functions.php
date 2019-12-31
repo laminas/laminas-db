@@ -1,5 +1,5 @@
 <?php
-namespace Zend\Db\Adapter\Driver\IbmDb2;
+namespace Laminas\Db\Adapter\Driver\IbmDb2;
 
 /**
  * Mock db2_prepare by placing in same namespace as Statement

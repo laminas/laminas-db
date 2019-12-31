@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Adapter\Profiler;
+namespace Laminas\Db\Adapter\Profiler;
 
-use Zend\Db\Adapter\StatementContainerInterface;
-use Zend\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\StatementContainerInterface;
 
 class Profiler implements ProfilerInterface
 {
@@ -27,7 +26,7 @@ class Profiler implements ProfilerInterface
     /**
      * @param string|StatementContainerInterface $target
      * @return self Provides a fluent interface
-     * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
+     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
      */
     public function profilerStart($target)
     {

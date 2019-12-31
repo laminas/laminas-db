@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Platform;
+namespace LaminasTest\Db\Adapter\Platform;
 
+use Laminas\Db\Adapter\Platform\Mysql;
 use PHPUnit\Framework\Error;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Platform\Mysql;
 
 class MysqlTest extends TestCase
 {
@@ -30,7 +29,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Mysql::getName
+     * @covers \Laminas\Db\Adapter\Platform\Mysql::getName
      */
     public function testGetName()
     {
@@ -38,7 +37,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Mysql::getQuoteIdentifierSymbol
+     * @covers \Laminas\Db\Adapter\Platform\Mysql::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -46,7 +45,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteIdentifier
+     * @covers \Laminas\Db\Adapter\Platform\Mysql::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -56,7 +55,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteIdentifierChain
+     * @covers \Laminas\Db\Adapter\Platform\Mysql::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -73,7 +72,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Mysql::getQuoteValueSymbol
+     * @covers \Laminas\Db\Adapter\Platform\Mysql::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -81,20 +80,20 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteValue
+     * @covers \Laminas\Db\Adapter\Platform\Mysql::quoteValue
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
         $this->expectException(Error\Notice::class);
         $this->expectExceptionMessage(
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Mysql without extension/driver support can '
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Mysql without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
         );
         $this->platform->quoteValue('value');
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteValue
+     * @covers \Laminas\Db\Adapter\Platform\Mysql::quoteValue
      */
     public function testQuoteValue()
     {
@@ -111,7 +110,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteTrustedValue
+     * @covers \Laminas\Db\Adapter\Platform\Mysql::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -130,20 +129,20 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteValueList
+     * @covers \Laminas\Db\Adapter\Platform\Mysql::quoteValueList
      */
     public function testQuoteValueList()
     {
         $this->expectException(Error\Error::class);
         $this->expectExceptionMessage(
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Mysql without extension/driver support can '
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Mysql without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
         );
         self::assertEquals("'Foo O\\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Mysql::getIdentifierSeparator
+     * @covers \Laminas\Db\Adapter\Platform\Mysql::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -151,7 +150,7 @@ class MysqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Mysql::quoteIdentifierInFragment
+     * @covers \Laminas\Db\Adapter\Platform\Mysql::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {

@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Platform;
+namespace LaminasTest\Db\Adapter\Platform;
 
+use Laminas\Db\Adapter\Platform\Sql92;
 use PHPUnit\Framework\Error;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Platform\Sql92;
 
 class Sql92Test extends TestCase
 {
@@ -30,7 +29,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sql92::getName
+     * @covers \Laminas\Db\Adapter\Platform\Sql92::getName
      */
     public function testGetName()
     {
@@ -38,7 +37,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sql92::getQuoteIdentifierSymbol
+     * @covers \Laminas\Db\Adapter\Platform\Sql92::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -46,7 +45,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteIdentifier
+     * @covers \Laminas\Db\Adapter\Platform\Sql92::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -54,7 +53,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteIdentifierChain
+     * @covers \Laminas\Db\Adapter\Platform\Sql92::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -64,7 +63,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sql92::getQuoteValueSymbol
+     * @covers \Laminas\Db\Adapter\Platform\Sql92::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -72,7 +71,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteValue
+     * @covers \Laminas\Db\Adapter\Platform\Sql92::quoteValue
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
@@ -85,7 +84,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteValue
+     * @covers \Laminas\Db\Adapter\Platform\Sql92::quoteValue
      */
     public function testQuoteValue()
     {
@@ -102,7 +101,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteTrustedValue
+     * @covers \Laminas\Db\Adapter\Platform\Sql92::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -121,7 +120,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteValueList
+     * @covers \Laminas\Db\Adapter\Platform\Sql92::quoteValueList
      */
     public function testQuoteValueList()
     {
@@ -134,7 +133,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sql92::getIdentifierSeparator
+     * @covers \Laminas\Db\Adapter\Platform\Sql92::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -142,7 +141,7 @@ class Sql92Test extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sql92::quoteIdentifierInFragment
+     * @covers \Laminas\Db\Adapter\Platform\Sql92::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {

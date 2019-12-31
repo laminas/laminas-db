@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Ddl;
+namespace LaminasTest\Db\Sql\Ddl;
 
+use Laminas\Db\Sql\Ddl\AlterTable;
+use Laminas\Db\Sql\Ddl\Column;
+use Laminas\Db\Sql\Ddl\Constraint;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Sql\Ddl\AlterTable;
-use Zend\Db\Sql\Ddl\Column;
-use Zend\Db\Sql\Ddl\Constraint;
 
 class AlterTableTest extends TestCase
 {
     /**
-     * @covers \Zend\Db\Sql\Ddl\AlterTable::setTable
+     * @covers \Laminas\Db\Sql\Ddl\AlterTable::setTable
      */
     public function testSetTable()
     {
@@ -28,31 +27,31 @@ class AlterTableTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\AlterTable::addColumn
+     * @covers \Laminas\Db\Sql\Ddl\AlterTable::addColumn
      */
     public function testAddColumn()
     {
         $at = new AlterTable();
-        /** @var \Zend\Db\Sql\Ddl\Column\ColumnInterface $colMock */
-        $colMock = $this->getMockBuilder('Zend\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
+        /** @var \Laminas\Db\Sql\Ddl\Column\ColumnInterface $colMock */
+        $colMock = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
         self::assertSame($at, $at->addColumn($colMock));
         self::assertEquals([$colMock], $at->getRawState($at::ADD_COLUMNS));
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\AlterTable::changeColumn
+     * @covers \Laminas\Db\Sql\Ddl\AlterTable::changeColumn
      */
     public function testChangeColumn()
     {
         $at = new AlterTable();
-        /** @var \Zend\Db\Sql\Ddl\Column\ColumnInterface $colMock */
-        $colMock = $this->getMockBuilder('Zend\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
+        /** @var \Laminas\Db\Sql\Ddl\Column\ColumnInterface $colMock */
+        $colMock = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
         self::assertSame($at, $at->changeColumn('newname', $colMock));
         self::assertEquals(['newname' => $colMock], $at->getRawState($at::CHANGE_COLUMNS));
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\AlterTable::dropColumn
+     * @covers \Laminas\Db\Sql\Ddl\AlterTable::dropColumn
      */
     public function testDropColumn()
     {
@@ -62,7 +61,7 @@ class AlterTableTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\AlterTable::dropConstraint
+     * @covers \Laminas\Db\Sql\Ddl\AlterTable::dropConstraint
      */
     public function testDropConstraint()
     {
@@ -72,19 +71,19 @@ class AlterTableTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\AlterTable::addConstraint
+     * @covers \Laminas\Db\Sql\Ddl\AlterTable::addConstraint
      */
     public function testAddConstraint()
     {
         $at = new AlterTable();
-        /** @var \Zend\Db\Sql\Ddl\Constraint\ConstraintInterface $conMock */
-        $conMock = $this->getMockBuilder('Zend\Db\Sql\Ddl\Constraint\ConstraintInterface')->getMock();
+        /** @var \Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface $conMock */
+        $conMock = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface')->getMock();
         self::assertSame($at, $at->addConstraint($conMock));
         self::assertEquals([$conMock], $at->getRawState($at::ADD_CONSTRAINTS));
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\AlterTable::getSqlString
+     * @covers \Laminas\Db\Sql\Ddl\AlterTable::getSqlString
      * @todo   Implement testGetSqlString().
      */
     public function testGetSqlString()

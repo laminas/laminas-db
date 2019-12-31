@@ -1,21 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Ddl\Column;
+namespace LaminasTest\Db\Sql\Ddl\Column;
 
+use Laminas\Db\Sql\Ddl\Column\Column;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Sql\Ddl\Column\Column;
 
 class ColumnTest extends TestCase
 {
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\Column::setName
+     * @covers \Laminas\Db\Sql\Ddl\Column\Column::setName
      */
     public function testSetName()
     {
@@ -25,7 +24,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\Column::getName
+     * @covers \Laminas\Db\Sql\Ddl\Column\Column::getName
      * @depends testSetName
      */
     public function testGetName(Column $column)
@@ -34,7 +33,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\Column::setNullable
+     * @covers \Laminas\Db\Sql\Ddl\Column\Column::setNullable
      */
     public function testSetNullable()
     {
@@ -44,7 +43,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\Column::isNullable
+     * @covers \Laminas\Db\Sql\Ddl\Column\Column::isNullable
      * @depends testSetNullable
      */
     public function testIsNullable(Column $column)
@@ -55,7 +54,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\Column::setDefault
+     * @covers \Laminas\Db\Sql\Ddl\Column\Column::setDefault
      */
     public function testSetDefault()
     {
@@ -65,7 +64,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\Column::getDefault
+     * @covers \Laminas\Db\Sql\Ddl\Column\Column::getDefault
      * @depends testSetDefault
      */
     public function testGetDefault(Column $column)
@@ -74,7 +73,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\Column::setOptions
+     * @covers \Laminas\Db\Sql\Ddl\Column\Column::setOptions
      */
     public function testSetOptions()
     {
@@ -84,7 +83,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\Column::setOption
+     * @covers \Laminas\Db\Sql\Ddl\Column\Column::setOption
      */
     public function testSetOption()
     {
@@ -93,7 +92,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\Column::getOptions
+     * @covers \Laminas\Db\Sql\Ddl\Column\Column::getOptions
      * @depends testSetOptions
      */
     public function testGetOptions(Column $column)
@@ -102,7 +101,7 @@ class ColumnTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\Column::getExpressionData
+     * @covers \Laminas\Db\Sql\Ddl\Column\Column::getExpressionData
      */
     public function testGetExpressionData()
     {

@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendIntegrationTest\Db;
+namespace LaminasIntegrationTest\Db;
 
 use Exception;
+use LaminasIntegrationTest\Db\Platform\FixtureLoader;
 use PDO;
 use PDOException;
 use PHPUnit\Framework\BaseTestListener;
 use PHPUnit_Framework_TestSuite as TestSuite;
-use ZendIntegrationTest\Db\Platform\FixtureLoader;
 
 class IntegrationTestListener extends BaseTestListener
 {
@@ -34,11 +33,11 @@ class IntegrationTestListener extends BaseTestListener
             return;
         }
 
-        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
-            $this->fixtureLoader = new \ZendIntegrationTest\Db\Platform\MysqlFixtureLoader();
+        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
+            $this->fixtureLoader = new \LaminasIntegrationTest\Db\Platform\MysqlFixtureLoader();
         }
-        if (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL')) {
-            $this->fixtureLoader = new \ZendIntegrationTest\Db\Platform\PgsqlFixtureLoader();
+        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL')) {
+            $this->fixtureLoader = new \LaminasIntegrationTest\Db\Platform\PgsqlFixtureLoader();
         }
 
         if (! isset($this->fixtureLoader)) {
