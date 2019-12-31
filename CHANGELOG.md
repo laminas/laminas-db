@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#336](https://github.com/zendframework/zend-db/pull/336) adds `InsertIgnore` class for "INSERT IGNORE" usage (usable in `MySQL` platform).
 
 ### Changed
 
@@ -90,8 +90,6 @@ All notable changes to this project will be documented in this file, in reverse 
  zend-hydrator v3
 - [#346](https://github.com/zendframework/zend-db/pull/346) adds support for PHP
  7.3
-
-- [#336](https://github.com/zendframework/zend-db/pull/336) added `InsertIgnore` class for "INSERT IGNORE" usage (usable in `MySQL` plaftorm)
 
 ### Changed
 
