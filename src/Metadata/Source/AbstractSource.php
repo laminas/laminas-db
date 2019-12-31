@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Metadata\Source;
+namespace Laminas\Db\Metadata\Source;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Metadata\MetadataInterface;
-use Zend\Db\Metadata\Object\TableObject;
-use Zend\Db\Metadata\Object\ViewObject;
-use Zend\Db\Metadata\Object\ColumnObject;
-use Zend\Db\Metadata\Object\ConstraintObject;
-use Zend\Db\Metadata\Object\ConstraintKeyObject;
-use Zend\Db\Metadata\Object\TriggerObject;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Metadata\MetadataInterface;
+use Laminas\Db\Metadata\Object\ColumnObject;
+use Laminas\Db\Metadata\Object\ConstraintKeyObject;
+use Laminas\Db\Metadata\Object\ConstraintObject;
+use Laminas\Db\Metadata\Object\TableObject;
+use Laminas\Db\Metadata\Object\TriggerObject;
+use Laminas\Db\Metadata\Object\ViewObject;
 
 abstract class AbstractSource implements MetadataInterface
 {

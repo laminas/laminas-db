@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Oci8;
+namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
+use Laminas\Db\Adapter\Driver\Oci8\Oci8;
+use Laminas\Db\Adapter\Driver\Oci8\Statement;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Profiler\Profiler;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Driver\Oci8\Oci8;
-use Zend\Db\Adapter\Driver\Oci8\Statement;
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Adapter\Profiler\Profiler;
 
 /**
  * @group integrationOracle
@@ -46,7 +45,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::setDriver
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::setDriver
      */
     public function testSetDriver()
     {
@@ -54,7 +53,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::setProfiler
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::setProfiler
      */
     public function testSetProfiler()
     {
@@ -62,7 +61,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::getProfiler
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::getProfiler
      */
     public function testGetProfiler()
     {
@@ -72,7 +71,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::initialize
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::initialize
      */
     public function testInitialize()
     {
@@ -84,7 +83,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::setSql
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::setSql
      */
     public function testSetSql()
     {
@@ -93,7 +92,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::setParameterContainer
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::setParameterContainer
      */
     public function testSetParameterContainer()
     {
@@ -101,7 +100,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::getParameterContainer
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::getParameterContainer
      * @todo   Implement testGetParameterContainer().
      */
     public function testGetParameterContainer()
@@ -112,7 +111,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::getResource
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::getResource
      * @todo   Implement testGetResource().
      */
     public function testGetResource()
@@ -124,7 +123,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::getSql
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::getSql
      * @todo   Implement testGetSql().
      */
     public function testGetSql()
@@ -134,7 +133,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::prepare
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::prepare
      * @todo   Implement testPrepare().
      */
     public function testPrepare()
@@ -146,7 +145,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::isPrepared
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::isPrepared
      */
     public function testIsPrepared()
     {
@@ -154,7 +153,7 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Statement::execute
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Statement::execute
      * @todo   Implement testExecute().
      */
     public function testExecute()

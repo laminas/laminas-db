@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-db for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Db\Adapter\Driver\Pdo;
+namespace Laminas\Db\Adapter\Driver\Pdo;
 
 use Iterator;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Exception;
 use PDOStatement;
-use Zend\Db\Adapter\Driver\ResultInterface;
-use Zend\Db\Adapter\Exception;
 
 class Result implements Iterator, ResultInterface
 {

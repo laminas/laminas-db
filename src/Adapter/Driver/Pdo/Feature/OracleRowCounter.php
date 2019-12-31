@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-db for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Db\Adapter\Driver\Pdo\Feature;
+namespace Laminas\Db\Adapter\Driver\Pdo\Feature;
 
-use Zend\Db\Adapter\Driver\Feature\AbstractFeature;
-use Zend\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Driver\Feature\AbstractFeature;
+use Laminas\Db\Adapter\Driver\Pdo;
 
 /**
  * OracleRowCounter
@@ -26,7 +27,7 @@ class OracleRowCounter extends AbstractFeature
     }
 
     /**
-     * @param \Zend\Db\Adapter\Driver\Pdo\Statement $statement
+     * @param \Laminas\Db\Adapter\Driver\Pdo\Statement $statement
      * @return int
      */
     public function getCountForStatement(Pdo\Statement $statement): int

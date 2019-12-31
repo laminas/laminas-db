@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Pdo\Feature;
+namespace LaminasTest\Db\Adapter\Driver\Pdo\Feature;
 
+use Laminas\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter;
 
 class SqliteRowCounterTest extends TestCase
 {
@@ -25,7 +24,7 @@ class SqliteRowCounterTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getName
+     * @covers \Laminas\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getName
      */
     public function testGetName()
     {
@@ -33,7 +32,7 @@ class SqliteRowCounterTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getCountForStatement
+     * @covers \Laminas\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getCountForStatement
      */
     public function testGetCountForStatement()
     {
@@ -46,7 +45,7 @@ class SqliteRowCounterTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getCountForSql
+     * @covers \Laminas\Db\Adapter\Driver\Pdo\Feature\SqliteRowCounter::getCountForSql
      */
     public function testGetCountForSql()
     {
@@ -57,8 +56,8 @@ class SqliteRowCounterTest extends TestCase
 
     protected function getMockStatement($sql, $returnValue)
     {
-        /** @var \Zend\Db\Adapter\Driver\Pdo\Statement|\PHPUnit_Framework_MockObject_MockObject $statement */
-        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\Pdo\Statement')
+        /** @var \Laminas\Db\Adapter\Driver\Pdo\Statement|\PHPUnit_Framework_MockObject_MockObject $statement */
+        $statement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Pdo\Statement')
             ->setMethods(['prepare', 'execute'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -72,7 +71,7 @@ class SqliteRowCounterTest extends TestCase
             ->will($this->returnValue(['count' => $returnValue]));
 
         // mock the result
-        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
+        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
         $result->expects($this->once())
             ->method('getResource')
             ->will($this->returnValue($resource));
@@ -102,12 +101,12 @@ class SqliteRowCounterTest extends TestCase
             ->method('query')
             ->will($this->returnValue($pdoStatement));
 
-        $connection = $this->getMockBuilder('Zend\Db\Adapter\Driver\ConnectionInterface')->getMock();
+        $connection = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ConnectionInterface')->getMock();
         $connection->expects($this->once())
             ->method('getResource')
             ->will($this->returnValue($pdoConnection));
 
-        $driver = $this->getMockBuilder('Zend\Db\Adapter\Driver\Pdo\Pdo')
+        $driver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Pdo\Pdo')
             ->setMethods(['getConnection'])
             ->disableOriginalConstructor()
             ->getMock();

@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-db for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Db\Adapter\Driver\Sqlsrv;
+namespace Laminas\Db\Adapter\Driver\Sqlsrv;
 
+use Laminas\Db\Adapter\Driver\AbstractConnection;
+use Laminas\Db\Adapter\Driver\ConnectionInterface;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Exception\ErrorException;
+use Laminas\Db\Adapter\Exception;
 use resource;
-use Zend\Db\Adapter\Driver\AbstractConnection;
-use Zend\Db\Adapter\Driver\ConnectionInterface;
-use Zend\Db\Adapter\Driver\ResultInterface;
-use Zend\Db\Adapter\Driver\Sqlsrv\Exception\ErrorException;
-use Zend\Db\Adapter\Exception;
 
 class Connection extends AbstractConnection
 {
@@ -27,7 +28,7 @@ class Connection extends AbstractConnection
      * Constructor
      *
      * @param  array|resource                                      $connectionInfo
-     * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
+     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
      */
     public function __construct($connectionInfo)
     {

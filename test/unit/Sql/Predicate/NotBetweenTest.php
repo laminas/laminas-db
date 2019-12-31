@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Predicate;
+namespace LaminasTest\Db\Sql\Predicate;
 
+use Laminas\Db\Sql\Predicate\NotBetween;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Sql\Predicate\NotBetween;
 
 class NotBetweenTest extends TestCase
 {
@@ -25,7 +24,7 @@ class NotBetweenTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Predicate\NotBetween::getSpecification
+     * @covers \Laminas\Db\Sql\Predicate\NotBetween::getSpecification
      */
     public function testSpecificationHasSameDefaultValue()
     {
@@ -33,7 +32,7 @@ class NotBetweenTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Predicate\NotBetween::getExpressionData
+     * @covers \Laminas\Db\Sql\Predicate\NotBetween::getExpressionData
      */
     public function testRetrievingWherePartsReturnsSpecificationArrayOfIdentifierAndValuesAndArrayOfTypes()
     {

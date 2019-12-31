@@ -1,12 +1,12 @@
 # RDBMS Metadata
 
-`Zend\Db\Metadata` is as sub-component of zend-db that makes it possible to get
+`Laminas\Db\Metadata` is as sub-component of laminas-db that makes it possible to get
 metadata information about tables, columns, constraints, triggers, and other
 information from a database in a standardized way. The primary interface for
 `Metadata` is:
 
 ```php
-namespace Zend\Db\Metadata;
+namespace Laminas\Db\Metadata;
 
 interface MetadataInterface
 {
@@ -36,9 +36,9 @@ interface MetadataInterface
 
 ## Basic Usage
 
-Usage of `Zend\Db\Metadata` involves:
+Usage of `Laminas\Db\Metadata` involves:
 
-- Constructing a `Zend\Db\Metadata\Metadata` instance with an `Adapter`.
+- Constructing a `Laminas\Db\Metadata\Metadata` instance with an `Adapter`.
 - Choosing a strategy for retrieving metadata, based on the database platform
   used. In most cases, information will come from querying the
   `INFORMATION_SCHEMA` tables for the currently accessible schema.
@@ -47,7 +47,7 @@ The `Metadata::get*Names()` methods will return arrays of strings, while the
 other methods will return value objects specific to the type queried.
 
 ```php
-$metadata = new Zend\Db\Metadata\Metadata($adapter);
+$metadata = new Laminas\Db\Metadata\Metadata($adapter);
 
 // get the table names
 $tableNames = $metadata->getTableNames();
@@ -100,7 +100,7 @@ better explore the metadata. Below is the API for the various value objects:
 ### TableObject
 
 ```php
-class Zend\Db\Metadata\Object\TableObject
+class Laminas\Db\Metadata\Object\TableObject
 {
     public function __construct($name);
     public function setColumns(array $columns);
@@ -115,7 +115,7 @@ class Zend\Db\Metadata\Object\TableObject
 ### ColumnObject
 
 ```php
-class Zend\Db\Metadata\Object\ColumnObject
+class Laminas\Db\Metadata\Object\ColumnObject
 {
     public function __construct($name, $tableName, $schemaName = null);
     public function setName($name);
@@ -154,7 +154,7 @@ class Zend\Db\Metadata\Object\ColumnObject
 ### ConstraintObject
 
 ```php
-class Zend\Db\Metadata\Object\ConstraintObject
+class Laminas\Db\Metadata\Object\ConstraintObject
 {
     public function __construct($name, $tableName, $schemaName = null);
     public function setName($name);
@@ -193,7 +193,7 @@ class Zend\Db\Metadata\Object\ConstraintObject
 ### TriggerObject
 
 ```php
-class Zend\Db\Metadata\Object\TriggerObject
+class Laminas\Db\Metadata\Object\TriggerObject
 {
     public function getName();
     public function setName($name);

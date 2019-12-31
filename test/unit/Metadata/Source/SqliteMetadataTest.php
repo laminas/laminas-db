@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Metadata\Source;
+namespace LaminasTest\Db\Metadata\Source;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Metadata\Source\SqliteMetadata;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Metadata\Source\SqliteMetadata;
 
 /**
  * @requires extension pdo_sqlite
@@ -68,13 +67,13 @@ class SqliteMetadataTest extends TestCase
         $constraints = $this->metadata->getConstraints(null, 'main');
         self::assertCount(0, $constraints);
         self::assertContainsOnlyInstancesOf(
-            'Zend\Db\Metadata\Object\ConstraintObject',
+            'Laminas\Db\Metadata\Object\ConstraintObject',
             $constraints
         );
     }
 
     /**
-     * @group ZF2-3719
+     * @group Laminas-3719
      */
     public function testGetConstraintKeys()
     {
@@ -85,7 +84,7 @@ class SqliteMetadataTest extends TestCase
         );
         self::assertCount(0, $keys);
         self::assertContainsOnlyInstancesOf(
-            'Zend\Db\Metadata\Object\ConstraintKeyObject',
+            'Laminas\Db\Metadata\Object\ConstraintKeyObject',
             $keys
         );
     }
@@ -95,7 +94,7 @@ class SqliteMetadataTest extends TestCase
         $triggers = $this->metadata->getTriggers('main');
         self::assertCount(0, $triggers);
         self::assertContainsOnlyInstancesOf(
-            'Zend\Db\Metadata\Object\TriggerObject',
+            'Laminas\Db\Metadata\Object\TriggerObject',
             $triggers
         );
     }

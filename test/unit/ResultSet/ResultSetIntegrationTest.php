@@ -1,21 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\ResultSet;
+namespace LaminasTest\Db\ResultSet;
 
 use ArrayIterator;
 use ArrayObject;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\ResultSet\ResultSet;
 use PHPUnit\Framework\TestCase;
 use SplStack;
 use stdClass;
-use Zend\Db\Adapter\Driver\ResultInterface;
-use Zend\Db\ResultSet\ResultSet;
 
 class ResultSetIntegrationTest extends TestCase
 {
@@ -75,7 +74,7 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testSettingInvalidReturnTypeRaisesException($type)
     {
-        $this->expectException('Zend\Db\ResultSet\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\ResultSet\Exception\InvalidArgumentException');
         new ResultSet(ResultSet::TYPE_ARRAYOBJECT, $type);
     }
 
@@ -125,7 +124,7 @@ class ResultSetIntegrationTest extends TestCase
             // this is valid
             return;
         }
-        $this->expectException('Zend\Db\ResultSet\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\ResultSet\Exception\InvalidArgumentException');
         $this->resultSet->initialize($dataSource);
     }
 
@@ -190,7 +189,7 @@ class ResultSetIntegrationTest extends TestCase
             $dataSource[$index] = (object) $row;
         }
         $this->resultSet->initialize($dataSource);
-        $this->expectException('Zend\Db\ResultSet\Exception\RuntimeException');
+        $this->expectException('Laminas\Db\ResultSet\Exception\RuntimeException');
         $this->resultSet->toArray();
     }
 
@@ -204,8 +203,8 @@ class ResultSetIntegrationTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\ResultSet\AbstractResultSet::current
-     * @covers \Zend\Db\ResultSet\AbstractResultSet::buffer
+     * @covers \Laminas\Db\ResultSet\AbstractResultSet::current
+     * @covers \Laminas\Db\ResultSet\AbstractResultSet::buffer
      */
     public function testCurrentWithBufferingCallsDataSourceCurrentOnce()
     {
@@ -221,8 +220,8 @@ class ResultSetIntegrationTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\ResultSet\AbstractResultSet::current
-     * @covers \Zend\Db\ResultSet\AbstractResultSet::buffer
+     * @covers \Laminas\Db\ResultSet\AbstractResultSet::current
+     * @covers \Laminas\Db\ResultSet\AbstractResultSet::buffer
      */
     public function testBufferCalledAfterIterationThrowsException()
     {
@@ -234,13 +233,13 @@ class ResultSetIntegrationTest extends TestCase
         $this->resultSet->initialize($mockResult);
         $this->resultSet->current();
 
-        $this->expectException('Zend\Db\ResultSet\Exception\RuntimeException');
+        $this->expectException('Laminas\Db\ResultSet\Exception\RuntimeException');
         $this->expectExceptionMessage('Buffering must be enabled before iteration is started');
         $this->resultSet->buffer();
     }
 
     /**
-     * @covers \Zend\Db\ResultSet\AbstractResultSet::current
+     * @covers \Laminas\Db\ResultSet\AbstractResultSet::current
      */
     public function testCurrentReturnsNullForNonExistingValues()
     {

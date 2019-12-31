@@ -1,6 +1,6 @@
 docs_dir: docs/book
 site_dir: docs/html
-pages:
+nav:
     - index.md
     - Reference:
         - Adapters: adapter.md
@@ -10,7 +10,6 @@ pages:
         - "Table Gateways": table-gateway.md
         - "Row Gateways": row-gateway.md
         - "RDBMS Metadata": metadata.md
-site_name: zend-db
-site_description: zend-db
-repo_url: 'https://github.com/zendframework/zend-db'
-copyright: 'Copyright (c) 2005-2017 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
+site_name: laminas-db
+site_description: laminas-db
+repo_url: 'https://github.com/laminas/laminas-db'

@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendIntegrationTest\Db\Adapter\Platform;
+namespace LaminasIntegrationTest\Db\Adapter\Platform;
 
+use Laminas\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Driver\Pgsql;
+use Laminas\Db\Adapter\Platform\Postgresql;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Driver\Pdo;
-use Zend\Db\Adapter\Driver\Pgsql;
-use Zend\Db\Adapter\Platform\Postgresql;
 
 /**
  * @group integration
@@ -24,23 +23,23 @@ class PostgresqlTest extends TestCase
 
     public function setUp()
     {
-        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL')) {
+        if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL')) {
             $this->markTestSkipped(__CLASS__ . ' integration tests are not enabled!');
         }
         if (extension_loaded('pgsql')) {
             $this->adapters['pgsql'] = \pg_connect(
-                'host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')
-                    . ' dbname=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
-                    . ' user=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME')
-                    . ' password=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
+                'host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')
+                    . ' dbname=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
+                    . ' user=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME')
+                    . ' password=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
             );
         }
         if (extension_loaded('pdo')) {
             $this->adapters['pdo_pgsql'] = new \PDO(
-                'pgsql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME') . ';dbname='
-                . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_DATABASE'),
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_USERNAME'),
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
+                'pgsql:host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME') . ';dbname='
+                . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE'),
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME'),
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
             );
         }
     }

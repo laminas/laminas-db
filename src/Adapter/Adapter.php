@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-db for the canonical source repository
- * @copyright Copyright (c) 2005-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Db\Adapter;
+namespace Laminas\Db\Adapter;
 
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\Driver\StatementInterface;
-use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\Adapter\Profiler\ProfilerInterface;
-use Zend\Db\ResultSet\ResultSetInterface;
-use Zend\Db\ResultSet;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Adapter\Profiler\ProfilerInterface;
+use Laminas\Db\ResultSet;
+use Laminas\Db\ResultSet\ResultSetInterface;
 
 use function func_get_args;
 use function in_array;
