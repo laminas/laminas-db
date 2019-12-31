@@ -204,7 +204,9 @@ abstract class AbstractRowGateway implements ArrayAccess, Countable, RowGatewayI
         $where = [];
         // primary key is always an array even if its a single column
         foreach ($this->primaryKeyColumn as $pkColumn) {
-            $where[$pkColumn] = $this->primaryKeyData[$pkColumn];
+            $where[$pkColumn] = isset($this->primaryKeyData[$pkColumn])
+                ? $this->primaryKeyData[$pkColumn]
+                : null;
         }
 
         // @todo determine if we need to do a select to ensure 1 row will be affected
