@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
+namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
-use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
-use Zend\Db\Adapter\Driver\Sqlsrv\Connection;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Connection;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 
 /**
  * @group integration
@@ -19,7 +18,7 @@ use Zend\Db\Adapter\Driver\Sqlsrv\Connection;
 class ConnectionIntegrationTest extends AbstractIntegrationTest
 {
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::getCurrentSchema
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::getCurrentSchema
      */
     public function testGetCurrentSchema()
     {
@@ -28,7 +27,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::setResource
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::setResource
      */
     public function testSetResource()
     {
@@ -47,7 +46,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::getResource
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::getResource
      */
     public function testGetResource()
     {
@@ -60,7 +59,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::connect
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::connect
      */
     public function testConnect()
     {
@@ -73,7 +72,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::isConnected
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::isConnected
      */
     public function testIsConnected()
     {
@@ -87,7 +86,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::disconnect
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::disconnect
      */
     public function testDisconnect()
     {
@@ -99,7 +98,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::beginTransaction
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::beginTransaction
      * @todo   Implement testBeginTransaction().
      */
     public function testBeginTransaction()
@@ -111,7 +110,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::commit
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::commit
      * @todo   Implement testCommit().
      */
     public function testCommit()
@@ -123,7 +122,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::rollback
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::rollback
      * @todo   Implement testRollback().
      */
     public function testRollback()
@@ -135,7 +134,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::execute
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::execute
      */
     public function testExecute()
     {
@@ -143,11 +142,11 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
         $connection = $sqlsrv->getConnection();
 
         $result = $connection->execute('SELECT \'foo\'');
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Result', $result);
+        $this->assertInstanceOf('Laminas\Db\Adapter\Driver\Sqlsrv\Result', $result);
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::prepare
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::prepare
      */
     public function testPrepare()
     {
@@ -155,11 +154,11 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
         $connection = $sqlsrv->getConnection();
 
         $statement = $connection->prepare('SELECT \'foo\'');
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $statement);
+        $this->assertInstanceOf('Laminas\Db\Adapter\Driver\Sqlsrv\Statement', $statement);
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Connection::getLastGeneratedValue
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Connection::getLastGeneratedValue
      */
     public function testGetLastGeneratedValue()
     {
@@ -169,7 +168,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @group zf3469
+     * @group laminas3469
      */
     public function testConnectReturnsConnectionWhenResourceSet()
     {
