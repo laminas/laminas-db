@@ -10,6 +10,7 @@
 namespace ZendTest\Db\Sql;
 
 use PHPUnit\Framework\TestCase;
+use Zend\Db\Sql\Exception\InvalidArgumentException;
 use Zend\Db\Sql\Expression;
 
 /**
@@ -178,5 +179,35 @@ class ExpressionTest extends TestCase
     {
         $expression = new Expression('uf.user_id = :user_id OR uf.friend_id = :user_id', ['user_id' => 1]);
         $expression->getExpressionData();
+    }
+
+
+    /**
+     * @param mixed $falsyParameter
+     * @dataProvider falsyExpressionParametersProvider
+     */
+    public function testConstructorWithFalsyValidParameters($falsyParameter)
+    {
+        $expression = new Expression('?', $falsyParameter);
+        self::assertSame($falsyParameter, $expression->getParameters());
+    }
+
+    public function testConstructorWithInvalidParameter()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expression parameters must be a scalar or array.');
+        new Expression('?', (object)[]);
+    }
+
+    public function falsyExpressionParametersProvider()
+    {
+        return [
+            [''],
+            ['0'],
+            [0],
+            [0.0],
+            [false],
+            [[]],
+        ];
     }
 }
