@@ -136,7 +136,7 @@ class Result implements Iterator, ResultInterface
 
     /**
      * Get the data
-     * @return array
+     * @return mixed
      */
     public function current()
     {
