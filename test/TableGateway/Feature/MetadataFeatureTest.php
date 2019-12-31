@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\TableGateway\Feature;
+namespace LaminasTest\Db\TableGateway\Feature;
 
+use Laminas\Db\Metadata\Object\ConstraintObject;
+use Laminas\Db\TableGateway\Feature\MetadataFeature;
 use PHPUnit_Framework_TestCase;
-use Zend\Db\TableGateway\Feature\MetadataFeature;
-use Zend\Db\Metadata\Object\ConstraintObject;
 
 class MetadataFeatureTest extends PHPUnit_Framework_TestCase
 {
@@ -20,9 +19,9 @@ class MetadataFeatureTest extends PHPUnit_Framework_TestCase
      */
     public function testPostInitialize()
     {
-        $tableGatewayMock = $this->getMockForAbstractClass('Zend\Db\TableGateway\AbstractTableGateway');
+        $tableGatewayMock = $this->getMockForAbstractClass('Laminas\Db\TableGateway\AbstractTableGateway');
 
-        $metadataMock = $this->getMock('Zend\Db\Metadata\MetadataInterface');
+        $metadataMock = $this->getMock('Laminas\Db\Metadata\MetadataInterface');
         $metadataMock->expects($this->any())->method('getColumnNames')->will($this->returnValue(['id', 'name']));
 
         $constraintObject = new ConstraintObject('id_pk', 'table');
