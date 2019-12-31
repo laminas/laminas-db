@@ -1,21 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Sql\Platform\Mysql;
+namespace Laminas\Db\Sql\Platform\Mysql;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\Sql\Platform\PlatformDecoratorInterface;
-use Zend\Db\Adapter\StatementContainerInterface;
-use Zend\Db\Sql\Select;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Adapter\StatementContainerInterface;
+use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
+use Laminas\Db\Sql\Select;
 
 class SelectDecorator extends Select implements PlatformDecoratorInterface
 {
