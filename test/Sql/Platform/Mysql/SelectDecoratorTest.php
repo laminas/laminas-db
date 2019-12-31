@@ -1,36 +1,35 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Platform\Mysql;
+namespace LaminasTest\Db\Sql\Platform\Mysql;
 
-use Zend\Db\Sql\Platform\Mysql\SelectDecorator;
-use Zend\Db\Sql\Select;
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Adapter\Platform\Mysql as MysqlPlatform;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Platform\Mysql as MysqlPlatform;
+use Laminas\Db\Sql\Platform\Mysql\SelectDecorator;
+use Laminas\Db\Sql\Select;
 
 class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare a proper limit/offset sql statement
-     * @covers Zend\Db\Sql\Platform\Mysql\SelectDecorator::prepareStatement
-     * @covers Zend\Db\Sql\Platform\Mysql\SelectDecorator::processLimit
-     * @covers Zend\Db\Sql\Platform\Mysql\SelectDecorator::processOffset
+     * @covers Laminas\Db\Sql\Platform\Mysql\SelectDecorator::prepareStatement
+     * @covers Laminas\Db\Sql\Platform\Mysql\SelectDecorator::processLimit
+     * @covers Laminas\Db\Sql\Platform\Mysql\SelectDecorator::processOffset
      * @dataProvider dataProvider
      */
     public function testPrepareStatement(Select $select, $expectedSql, $expectedParams)
     {
-        $driver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $driver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $driver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
 
         // test
         $adapter = $this->getMock(
-            'Zend\Db\Adapter\Adapter',
+            'Laminas\Db\Adapter\Adapter',
             null,
             array(
                 $driver,
@@ -39,7 +38,7 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
         );
 
         $parameterContainer = new ParameterContainer;
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
         $statement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($parameterContainer));
 
         $statement->expects($this->once())->method('setSql')->with($expectedSql);
@@ -53,15 +52,15 @@ class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare a proper limit/offset sql statement
-     * @covers Zend\Db\Sql\Platform\Mysql\SelectDecorator::getSqlString
-     * @covers Zend\Db\Sql\Platform\Mysql\SelectDecorator::processLimit
-     * @covers Zend\Db\Sql\Platform\Mysql\SelectDecorator::processOffset
+     * @covers Laminas\Db\Sql\Platform\Mysql\SelectDecorator::getSqlString
+     * @covers Laminas\Db\Sql\Platform\Mysql\SelectDecorator::processLimit
+     * @covers Laminas\Db\Sql\Platform\Mysql\SelectDecorator::processOffset
      * @dataProvider dataProvider
      */
     public function testGetSqlString(Select $select, $notUsed, $notUsed, $expectedSql)
     {
         $parameterContainer = new ParameterContainer;
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
         $statement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($parameterContainer));
 
         $selectDecorator = new SelectDecorator;
