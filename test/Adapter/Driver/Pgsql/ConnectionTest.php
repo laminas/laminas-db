@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Pgsql;
+namespace LaminasTest\Db\Adapter\Driver\Pgsql;
 
-use Zend\Db\Adapter\Driver\Pgsql\Connection;
-use Zend\Db\Adapter\Exception as AdapterException;
+use Laminas\Db\Adapter\Driver\Pgsql\Connection;
+use Laminas\Db\Adapter\Exception as AdapterException;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +31,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Test getResource method if it tries to connect to the database.
      *
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Connection::getResource
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Connection::getResource
      */
     public function testResource()
     {
@@ -43,7 +42,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
                 $this->assertTrue(is_resource($resource));
             } catch (AdapterException\RuntimeException $exc) {
                 // If it throws an exception it has failed to connect
-                $this->setExpectedException('Zend\Db\Adapter\Exception\RuntimeException');
+                $this->setExpectedException('Laminas\Db\Adapter\Exception\RuntimeException');
                 throw $exc;
             }
         } else {
