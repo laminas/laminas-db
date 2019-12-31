@@ -12,6 +12,7 @@ namespace ZendTest\Db\Sql;
 use PHPUnit\Framework\TestCase;
 use Zend\Db\Sql\Exception\InvalidArgumentException;
 use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Select;
 
 /**
  * This is a unit testing test case.
@@ -179,19 +180,22 @@ class ExpressionTest extends TestCase
     {
         $expression = new Expression('uf.user_id = :user_id OR uf.friend_id = :user_id', ['user_id' => 1]);
 
-        $expected = [[
-            'uf.user_id = :user_id OR uf.friend_id = :user_id',
-            [1],
-            [Expression::TYPE_VALUE],
-        ]];
-
-        self::assertEquals($expected, $expression->getExpressionData());
+        self::assertSame(
+            [
+                [
+                    'uf.user_id = :user_id OR uf.friend_id = :user_id',
+                    [1],
+                    ['value'],
+                ],
+            ],
+            $expression->getExpressionData()
+        );
     }
 
-
     /**
-     * @param mixed $falsyParameter
      * @dataProvider falsyExpressionParametersProvider
+     *
+     * @param mixed $falsyParameter
      */
     public function testConstructorWithFalsyValidParameters($falsyParameter)
     {
@@ -216,5 +220,21 @@ class ExpressionTest extends TestCase
             [false],
             [[]],
         ];
+    }
+
+    public function testNumberOfReplacementsForExpressionWithParameters()
+    {
+        $expression = new Expression(':a + :b', ['a' => 1, 'b' => 2]);
+
+        self::assertSame(
+            [
+                [
+                    ':a + :b',
+                    [1, 2],
+                    ['value', 'value'],
+                ],
+            ],
+            $expression->getExpressionData()
+        );
     }
 }
