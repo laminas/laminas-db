@@ -1,8 +1,8 @@
 <?php
-namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
+namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
-use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
-use Zend\Db\Adapter\Driver\Sqlsrv\Statement;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Statement;
 
 /**
  * @group integration
@@ -12,9 +12,9 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
 {
 
     protected $variables = array(
-        'hostname' => 'ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME',
-        'username' => 'ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME',
-        'password' => 'ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD',
+        'hostname' => 'LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME',
+        'username' => 'LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME',
+        'password' => 'LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD',
     );
 
     /**
@@ -36,7 +36,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::initialize
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::initialize
      */
     public function testInitialize()
     {
@@ -48,7 +48,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::getResource
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::getResource
      */
     public function testGetResource()
     {
@@ -63,8 +63,8 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::prepare
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::isPrepared
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::prepare
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::isPrepared
      */
     public function testPrepare()
     {
@@ -79,7 +79,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::execute
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::execute
      */
     public function testExecute()
     {
@@ -88,7 +88,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($statement, $statement->prepare());
 
         $result = $statement->execute();
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Result', $result);
+        $this->assertInstanceOf('Laminas\Db\Adapter\Driver\Sqlsrv\Result', $result);
 
         unset($resource, $sqlsrvResource);
     }

@@ -1,22 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Platform\Mysql;
+namespace LaminasTest\Db\Sql\Platform\Mysql;
 
-use Zend\Db\Sql\Platform\Mysql\Mysql;
+use Laminas\Db\Sql\Platform\Mysql\Mysql;
 
 class MysqlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @testdox unit test / object test: Test Mysql object has Select proxy
-     * @covers Zend\Db\Sql\Platform\Mysql\Mysql::__construct
+     * @covers Laminas\Db\Sql\Platform\Mysql\Mysql::__construct
      */
     public function testConstruct()
     {
@@ -24,8 +22,8 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
         $decorators = $mysql->getDecorators();
 
         list($type, $decorator) = each($decorators);
-        $this->assertEquals('Zend\Db\Sql\Select', $type);
-        $this->assertInstanceOf('Zend\Db\Sql\Platform\Mysql\SelectDecorator', $decorator);
+        $this->assertEquals('Laminas\Db\Sql\Select', $type);
+        $this->assertInstanceOf('Laminas\Db\Sql\Platform\Mysql\SelectDecorator', $decorator);
     }
 
 }
