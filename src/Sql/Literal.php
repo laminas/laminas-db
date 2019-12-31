@@ -1,6 +1,6 @@
 <?php
 
-namespace Zend\Db\Sql;
+namespace Laminas\Db\Sql;
 
 class Literal implements ExpressionInterface
 {
