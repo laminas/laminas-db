@@ -91,6 +91,8 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#346](https://github.com/zendframework/zend-db/pull/346) adds support for PHP
  7.3
 
+- [#336](https://github.com/zendframework/zend-db/pull/336) added `InsertIgnore` class for "INSERT IGNORE" usage (usable in `MySQL` plaftorm)
+
 ### Changed
 
 - Nothing.
