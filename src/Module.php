@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @link      http://github.com/zendframework/zend-db for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db;
+namespace Laminas\Db;
 
 class Module
 {
     /**
-     * Retrieve default zend-db configuration for zend-mvc context.
+     * Retrieve default laminas-db configuration for laminas-mvc context.
      *
      * @return array
      */

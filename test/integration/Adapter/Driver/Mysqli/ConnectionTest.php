@@ -1,9 +1,9 @@
 <?php
 
-namespace ZendIntegrationTest\Db\Adapter\Driver\Mysqli;
+namespace LaminasIntegrationTest\Db\Adapter\Driver\Mysqli;
 
+use Laminas\Db\Adapter\Driver\Mysqli\Connection;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Driver\Mysqli\Connection;
 
 /**
  * @group integration
@@ -13,10 +13,10 @@ class ConnectionTest extends TestCase
 {
 
     protected $variables = [
-        'hostname' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME',
-        'username' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME',
-        'password' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD',
-        'database' => 'TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE',
+        'hostname' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME',
+        'username' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME',
+        'password' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD',
+        'database' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE',
     ];
 
     /**
@@ -25,7 +25,7 @@ class ConnectionTest extends TestCase
      */
     protected function setUp()
     {
-        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
+        if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
             $this->markTestSkipped('Mysqli integration test disabled');
         }
 

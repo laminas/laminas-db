@@ -1,5 +1,3 @@
-sudo: false
-
 language: php
 
 cache:
@@ -12,6 +10,7 @@ env:
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
 
 matrix:
+  fast_finish: true
   include:
     - php: 5.6
       env:
@@ -20,13 +19,9 @@ matrix:
       services:
         - mysql
       env:
-        - DEPS=locked
-        - LEGACY_DEPS="phpunit/phpunit zendframework/zend-hydrator"
-        - TEST_INTEGRATION=true
-        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
-    - php: 5.6
-      env:
         - DEPS=latest
+        - TEST_INTEGRATION=true
+        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 7.0
       env:
         - DEPS=lowest
@@ -34,13 +29,9 @@ matrix:
       services:
         - mysql
       env:
-        - DEPS=locked
-        - LEGACY_DEPS="phpunit/phpunit zendframework/zend-hydrator"
-        - TEST_INTEGRATION=true
-        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
-    - php: 7.0
-      env:
         - DEPS=latest
+        - TEST_INTEGRATION=true
+        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 7.1
       env:
         - DEPS=lowest
@@ -48,15 +39,11 @@ matrix:
       services:
         - mysql
       env:
-        - DEPS=locked
-        - LEGACY_DEPS="zendframework/zend-hydrator"
+        - DEPS=latest
         - CS_CHECK=true
         - TEST_COVERAGE=true
         - TEST_INTEGRATION=true
-        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
-    - php: 7.1
-      env:
-        - DEPS=latest
+        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 7.2
       env:
         - DEPS=lowest
@@ -64,21 +51,18 @@ matrix:
       services:
         - mysql
       env:
-        - DEPS=locked
+        - DEPS=latest
         - TEST_INTEGRATION=true
-        - TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL=true
+        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 7.2
       services:
         - postgresql
       addons:
         postgresql: "9.6"
       env:
-        - DEPS=locked
-        - TEST_INTEGRATION=true
-        - TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL=true
-    - php: 7.2
-      env:
         - DEPS=latest
+        - TEST_INTEGRATION=true
+        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL=true
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi

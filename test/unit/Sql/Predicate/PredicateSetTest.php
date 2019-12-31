@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Predicate;
+namespace LaminasTest\Db\Sql\Predicate;
 
+use Laminas\Db\Sql\Predicate\IsNull;
+use Laminas\Db\Sql\Predicate\PredicateSet;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Sql\Predicate\IsNull;
-use Zend\Db\Sql\Predicate\PredicateSet;
 
 class PredicateSetTest extends TestCase
 {
@@ -86,7 +85,7 @@ class PredicateSetTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Predicate\PredicateSet::addPredicates
+     * @covers \Laminas\Db\Sql\Predicate\PredicateSet::addPredicates
      */
     public function testAddPredicates()
     {
@@ -98,35 +97,35 @@ class PredicateSetTest extends TestCase
         $predicateSet->addPredicates(['a = b'], PredicateSet::OP_OR);
         $predicateSet->addPredicates(['c1' => null]);
         $predicateSet->addPredicates(['c2' => [1, 2, 3]]);
-        $predicateSet->addPredicates([new \Zend\Db\Sql\Predicate\IsNotNull('c3')]);
+        $predicateSet->addPredicates([new \Laminas\Db\Sql\Predicate\IsNotNull('c3')]);
 
         $predicates = $this->readAttribute($predicateSet, 'predicates');
         self::assertEquals('AND', $predicates[0][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[0][1]);
 
         self::assertEquals('AND', $predicates[1][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[1][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Expression', $predicates[1][1]);
 
         self::assertEquals('AND', $predicates[2][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[2][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Operator', $predicates[2][1]);
 
         self::assertEquals('OR', $predicates[3][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[3][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[3][1]);
 
         self::assertEquals('AND', $predicates[4][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\IsNull', $predicates[4][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\IsNull', $predicates[4][1]);
 
         self::assertEquals('AND', $predicates[5][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\In', $predicates[5][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\In', $predicates[5][1]);
 
         self::assertEquals('AND', $predicates[6][0]);
-        self::assertInstanceOf('Zend\Db\Sql\Predicate\IsNotNull', $predicates[6][1]);
+        self::assertInstanceOf('Laminas\Db\Sql\Predicate\IsNotNull', $predicates[6][1]);
 
         $predicateSet->addPredicates(function ($what) use ($predicateSet) {
             self::assertSame($predicateSet, $what);
         });
 
-        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Predicate cannot be null');
         $predicateSet->addPredicates(null);
     }
