@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Sql;
+namespace Laminas\Db\Sql;
 
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
 
 class Insert extends AbstractPreparableSql
 {
@@ -94,7 +93,7 @@ class Insert extends AbstractPreparableSql
         if ($values instanceof Select) {
             if ($flag == self::VALUES_MERGE) {
                 throw new Exception\InvalidArgumentException(
-                    'A Zend\Db\Sql\Select instance cannot be provided with the merge flag'
+                    'A Laminas\Db\Sql\Select instance cannot be provided with the merge flag'
                 );
             }
             $this->select = $values;
@@ -103,13 +102,13 @@ class Insert extends AbstractPreparableSql
 
         if (!is_array($values)) {
             throw new Exception\InvalidArgumentException(
-                'values() expects an array of values or Zend\Db\Sql\Select instance'
+                'values() expects an array of values or Laminas\Db\Sql\Select instance'
             );
         }
 
         if ($this->select && $flag == self::VALUES_MERGE) {
             throw new Exception\InvalidArgumentException(
-                'An array of values cannot be provided with the merge flag when a Zend\Db\Sql\Select instance already exists as the value source'
+                'An array of values cannot be provided with the merge flag when a Laminas\Db\Sql\Select instance already exists as the value source'
             );
         }
 

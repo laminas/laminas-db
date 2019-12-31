@@ -1,21 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
+use Laminas\Db\Sql\TableIdentifier;
 use stdClass;
-use Zend\Db\Sql\TableIdentifier;
 
 /**
- * Tests for {@see \Zend\Db\Sql\TableIdentifier}
+ * Tests for {@see \Laminas\Db\Sql\TableIdentifier}
  *
- * @covers \Zend\Db\Sql\TableIdentifier
+ * @covers \Laminas\Db\Sql\TableIdentifier
  */
 class TableIdentifierTest extends \PHPUnit_Framework_TestCase
 {
@@ -71,7 +70,7 @@ class TableIdentifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testRejectsInvalidTable($invalidTable)
     {
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Db\Sql\Exception\InvalidArgumentException');
 
         new TableIdentifier($invalidTable);
     }
@@ -83,7 +82,7 @@ class TableIdentifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testRejectsInvalidSchema($invalidSchema)
     {
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\Db\Sql\Exception\InvalidArgumentException');
 
         new TableIdentifier('foo', $invalidSchema);
     }
