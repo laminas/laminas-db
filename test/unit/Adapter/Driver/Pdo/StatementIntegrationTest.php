@@ -71,4 +71,14 @@ class StatementIntegrationTest extends TestCase
         );
         $this->statement->execute(['foo' => 'bar']);
     }
+
+    public function testStatementExecuteWillUsePdoStrForIntWhenBinding()
+    {
+        $this->pdoStatementMock->expects($this->any())->method('bindParam')->with(
+            $this->equalTo(':foo'),
+            $this->equalTo(123),
+            $this->equalTo(\PDO::PARAM_STR)
+        );
+        $this->statement->execute(['foo' => 123]);
+    }
 }

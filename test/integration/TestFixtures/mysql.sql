@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS test (
 
 INSERT INTO test (name, value) VALUES
 ('foo', 'bar'),
-('bar', 'baz');
+('bar', 'baz'),
+('123a', 'bar'),
+('123', 'bar');
 
 CREATE TABLE IF NOT EXISTS test_charset (
     id INT NOT NULL AUTO_INCREMENT,
