@@ -1,53 +1,52 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\TableGateway\Feature;
-use Zend\Db\TableGateway\Feature\FeatureSet;
-use Zend\Db\TableGateway\Feature\MasterSlaveFeature;
-use Zend\Db\TableGateway\Feature\MetadataFeature;
-use Zend\Db\Metadata\Object\ConstraintObject;
+namespace LaminasTest\Db\TableGateway\Feature;
+use Laminas\Db\Metadata\Object\ConstraintObject;
+use Laminas\Db\TableGateway\Feature\FeatureSet;
+use Laminas\Db\TableGateway\Feature\MasterSlaveFeature;
+use Laminas\Db\TableGateway\Feature\MetadataFeature;
 
 class FeatureSetTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @cover FeatureSet::addFeature
-     * @group ZF2-4993
+     * @group Laminas-4993
      */
     public function testAddFeatureThatFeatureDoesnotHasTableGatewayButFeatureSetHas()
     {
        $mockMasterAdapter = $this->getMock(
-            'Zend\Db\Adapter\AdapterInterface',
+            'Laminas\Db\Adapter\AdapterInterface',
             array('getDriver', 'getPlatform')
         );
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue(
             $mockStatement
         ));
         $mockMasterAdapter->expects($this->any())->method('getDriver')->will($this->returnValue($mockDriver));
-        $mockMasterAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(new \Zend\Db\Adapter\Platform\Sql92()));
+        $mockMasterAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(new \Laminas\Db\Adapter\Platform\Sql92()));
 
         $mockSlaveAdapter = $this->getMock(
-            'Zend\Db\Adapter\AdapterInterface',
+            'Laminas\Db\Adapter\AdapterInterface',
             array('getDriver', 'getPlatform')
         );
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue(
             $mockStatement
         ));
         $mockSlaveAdapter->expects($this->any())->method('getDriver')->will($this->returnValue($mockDriver));
-        $mockSlaveAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(new \Zend\Db\Adapter\Platform\Sql92()));
+        $mockSlaveAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(new \Laminas\Db\Adapter\Platform\Sql92()));
 
-        $tableGatewayMock = $this->getMockForAbstractClass('Zend\Db\TableGateway\AbstractTableGateway');
+        $tableGatewayMock = $this->getMockForAbstractClass('Laminas\Db\TableGateway\AbstractTableGateway');
 
         //feature doesn't have tableGateway, but FeatureSet has
         $feature = new MasterSlaveFeature($mockSlaveAdapter);
@@ -55,18 +54,18 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
         $featureSet = new FeatureSet;
         $featureSet->setTableGateway($tableGatewayMock);
 
-        $this->assertInstanceOf('Zend\Db\TableGateway\Feature\FeatureSet', $featureSet->addFeature($feature));
+        $this->assertInstanceOf('Laminas\Db\TableGateway\Feature\FeatureSet', $featureSet->addFeature($feature));
     }
 
     /**
      * @cover FeatureSet::addFeature
-     * @group ZF2-4993
+     * @group Laminas-4993
      */
     public function testAddFeatureThatFeatureHasTableGatewayButFeatureSetDoesnotHas()
     {
-        $tableGatewayMock = $this->getMockForAbstractClass('Zend\Db\TableGateway\AbstractTableGateway');
+        $tableGatewayMock = $this->getMockForAbstractClass('Laminas\Db\TableGateway\AbstractTableGateway');
 
-        $metadataMock = $this->getMock('Zend\Db\Metadata\MetadataInterface');
+        $metadataMock = $this->getMock('Laminas\Db\Metadata\MetadataInterface');
         $metadataMock->expects($this->any())->method('getColumnNames')->will($this->returnValue(array('id', 'name')));
 
         $constraintObject = new ConstraintObject('id_pk', 'table');
@@ -80,6 +79,6 @@ class FeatureSetTest extends \PHPUnit_Framework_TestCase
         $feature->setTableGateway($tableGatewayMock);
 
         $featureSet = new FeatureSet;
-        $this->assertInstanceOf('Zend\Db\TableGateway\Feature\FeatureSet', $featureSet->addFeature($feature));
+        $this->assertInstanceOf('Laminas\Db\TableGateway\Feature\FeatureSet', $featureSet->addFeature($feature));
     }
 }

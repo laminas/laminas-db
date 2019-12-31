@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\IbmDb2;
+namespace LaminasTest\Db\Adapter\Driver\IbmDb2;
 
-use Zend\Db\Adapter\Driver\IbmDb2\IbmDb2;
+use Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2;
 
 class IbmDb2Test extends \PHPUnit_Framework_TestCase
 {
@@ -29,38 +28,38 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::registerConnection
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2::registerConnection
      */
     public function testRegisterConnection()
     {
-        $mockConnection = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\IbmDb2\Connection', array(array()), '', true, true, true, array('setDriver'));
+        $mockConnection = $this->getMockForAbstractClass('Laminas\Db\Adapter\Driver\IbmDb2\Connection', array(array()), '', true, true, true, array('setDriver'));
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->ibmdb2));
         $this->assertSame($this->ibmdb2, $this->ibmdb2->registerConnection($mockConnection));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::registerStatementPrototype
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2::registerStatementPrototype
      */
     public function testRegisterStatementPrototype()
     {
         $this->ibmdb2 = new IbmDb2(array());
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\IbmDb2\Statement', array(), '', true, true, true, array('setDriver'));
+        $mockStatement = $this->getMockForAbstractClass('Laminas\Db\Adapter\Driver\IbmDb2\Statement', array(), '', true, true, true, array('setDriver'));
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->ibmdb2));
         $this->assertSame($this->ibmdb2, $this->ibmdb2->registerStatementPrototype($mockStatement));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::registerResultPrototype
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2::registerResultPrototype
      */
     public function testRegisterResultPrototype()
     {
         $this->ibmdb2 = new IbmDb2(array());
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\IbmDb2\Result', array(), '', true, true, true, array('setDriver'));
+        $mockStatement = $this->getMockForAbstractClass('Laminas\Db\Adapter\Driver\IbmDb2\Result', array(), '', true, true, true, array('setDriver'));
         $this->assertSame($this->ibmdb2, $this->ibmdb2->registerResultPrototype($mockStatement));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getDatabasePlatformName
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {
@@ -71,17 +70,17 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testRegisterConnection
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getConnection
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2::getConnection
      */
     public function testGetConnection($mockConnection)
     {
-        $conn = new \Zend\Db\Adapter\Driver\IbmDb2\Connection(array());
+        $conn = new \Laminas\Db\Adapter\Driver\IbmDb2\Connection(array());
         $this->ibmdb2->registerConnection($conn);
         $this->assertSame($conn, $this->ibmdb2->getConnection());
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::createStatement
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2::createStatement
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateStatement()
@@ -93,7 +92,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::createResult
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2::createResult
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateResult()
@@ -105,7 +104,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getPrepareType
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2::getPrepareType
      * @todo   Implement testGetPrepareType().
      */
     public function testGetPrepareType()
@@ -117,7 +116,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::formatParameterName
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2::formatParameterName
      * @todo   Implement testFormatParameterName().
      */
     public function testFormatParameterName()
@@ -129,7 +128,7 @@ class IbmDb2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\IbmDb2::getLastGeneratedValue
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2::getLastGeneratedValue
      * @todo   Implement testGetLastGeneratedValue().
      */
     public function testGetLastGeneratedValue()

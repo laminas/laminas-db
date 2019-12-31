@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\IbmDb2;
+namespace LaminasTest\Db\Adapter\Driver\IbmDb2;
 
-use Zend\Db\Adapter\Driver\IbmDb2\IbmDb2;
-use Zend\Db\Adapter\Driver\IbmDb2\Connection;
+use Laminas\Db\Adapter\Driver\IbmDb2\Connection;
+use Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2;
 
 /**
  * @group integration
@@ -19,7 +18,7 @@ use Zend\Db\Adapter\Driver\IbmDb2\Connection;
 class ConnectionIntegrationTest extends AbstractIntegrationTest
 {
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::getCurrentSchema
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\Connection::getCurrentSchema
      */
     public function testGetCurrentSchema()
     {
@@ -28,7 +27,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::setResource
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\Connection::setResource
      */
     public function testSetResource()
     {
@@ -46,7 +45,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::getResource
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\Connection::getResource
      */
     public function testGetResource()
     {
@@ -59,7 +58,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::connect
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\Connection::connect
      */
     public function testConnect()
     {
@@ -72,7 +71,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::isConnected
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\Connection::isConnected
      */
     public function testIsConnected()
     {
@@ -86,7 +85,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::disconnect
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\Connection::disconnect
      */
     public function testDisconnect()
     {
@@ -98,7 +97,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::beginTransaction
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\Connection::beginTransaction
      */
     public function testBeginTransaction()
     {
@@ -114,7 +113,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::commit
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\Connection::commit
      */
     public function testCommit()
     {
@@ -135,7 +134,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::rollback
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\Connection::rollback
      */
     public function testRollback()
     {
@@ -171,7 +170,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::execute
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\Connection::execute
      */
     public function testExecute()
     {
@@ -179,11 +178,11 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
         $connection = $ibmdb2->getConnection();
 
         $result = $connection->execute('SELECT \'foo\' FROM SYSIBM.SYSDUMMY1');
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\IbmDb2\Result', $result);
+        $this->assertInstanceOf('Laminas\Db\Adapter\Driver\IbmDb2\Result', $result);
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Connection::getLastGeneratedValue
+     * @covers Laminas\Db\Adapter\Driver\IbmDb2\Connection::getLastGeneratedValue
      */
     public function testGetLastGeneratedValue()
     {
@@ -193,7 +192,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @group zf3469
+     * @group laminas3469
      */
     public function testConnectReturnsConnectionWhenResourceSet()
     {
