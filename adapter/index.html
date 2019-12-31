@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Database abstraction layer, SQL abstraction, result set abstraction, and RowDataGateway and TableDataGateway implementations">  
+    <link rel="canonical" href="https://docs.laminas.dev/adapter/">
+    <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
+
+    <title>Adapters - laminas-db - Laminas Docs</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body id="page-top" class="components">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        
+        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+        </a>
+        <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
+            Documentation
+        </a>
+
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="d-block d-sm-none">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-db</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Adapters</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../result-set/" class="subnavigation__link">Result Sets</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../sql/" class="subnavigation__link">SQL Abstraction</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../table-gateway/" class="subnavigation__link">Table Gateways</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../row-gateway/" class="subnavigation__link">Row Gateways</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../metadata/" class="subnavigation__link">RDBMS Metadata</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="d-block d-sm-none">
+                <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-6 offset-md-2">
+                <h1 class="header__title">
+                    Components
+
+                    
+                        <small class="header__subtitle">laminas-db</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-4 text-sm-right">
+                
+                    
+
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/laminas/laminas-db/" class="header__link header__link--github" title="Go to repository of laminas-db">
+                        <i class="fa fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+                
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#creating-an-adapter-using-configuration" class="toc__link">Creating an adapter using configuration</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#creating-an-adapter-using-dependency-injection" class="toc__link">Creating an adapter using dependency injection</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#query-preparation" class="toc__link">Query Preparation</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#query-execution" class="toc__link">Query Execution</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#creating-statements" class="toc__link">Creating Statements</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#using-the-driver-object" class="toc__link">Using the Driver Object</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#using-the-platform-object" class="toc__link">Using The Platform Object</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#using-the-parameter-container" class="toc__link">Using The Parameter Container</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#examples" class="toc__link">Examples</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+            </div>
+            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="">Overview</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="..">laminas-db</a></li>
+
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Reference</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Adapters</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+
+
+
+    
+    
+        <h2 class="chapter__headline">Reference</h2>
+    
+
+    <h1 id="adapters">Adapters</h1>
+<p><code>Laminas\Db\Adapter\Adapter</code> is the central object of the laminas-db component. It is
+responsible for adapting any code written in or for laminas-db to the targeted PHP
+extensions and vendor databases. In doing this, it creates an abstraction layer
+for the PHP extensions in the <code>Driver</code> subnamespace of <code>Laminas\Db\Adapter</code>.  It
+also creates a lightweight "Platform" abstraction layer, for the various
+idiosyncrasies that each vendor-specific platform might have in its SQL/RDBMS
+implementation, separate from the driver implementations.</p>
+<h2 id="creating-an-adapter-using-configuration">Creating an adapter using configuration</h2>
+<p>Create an adapter by instantiating the <code>Laminas\Db\Adapter\Adapter</code> class. The most
+common use case, while not the most explicit, is to pass an array of
+configuration to the <code>Adapter</code>:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Adapter\Adapter;</span>
+
+<span class=x>$adapter = new Adapter($configArray);</span>
+</pre></div></p>
+<p>This driver array is an abstraction for the extension level required parameters.
+Here is a table for the key-value pairs that should be in configuration array.</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Is Required?</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>driver</code></td>
+<td>required</td>
+<td><code>Mysqli</code>, <code>Sqlsrv</code>, <code>Pdo_Sqlite</code>, <code>Pdo_Mysql</code>, <code>Pdo</code>(= Other PDO Driver)</td>
+</tr>
+<tr>
+<td><code>database</code></td>
+<td>generally required</td>
+<td>the name of the database (schema)</td>
+</tr>
+<tr>
+<td><code>username</code></td>
+<td>generally required</td>
+<td>the connection username</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td>generally required</td>
+<td>the connection password</td>
+</tr>
+<tr>
+<td><code>hostname</code></td>
+<td>not generally required</td>
+<td>the IP address or hostname to connect to</td>
+</tr>
+<tr>
+<td><code>port</code></td>
+<td>not generally required</td>
+<td>the port to connect to (if applicable)</td>
+</tr>
+<tr>
+<td><code>charset</code></td>
+<td>not generally required</td>
+<td>the character set to use</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<h3>Options are adapter-dependent</h3>
+<p>Other names will work as well. Effectively, if the PHP manual uses a
+particular naming, this naming will be supported by the associated driver. For
+example, <code>dbname</code> in most cases will also work for 'database'.  Another
+example is that in the case of <code>Sqlsrv</code>, <code>UID</code> will work in place of
+<code>username</code>. Which format you choose is up to you, but the above table
+represents the official abstraction names.</p>
+</blockquote>
+<p>For example, a MySQL connection using ext/mysqli:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$adapter = new Laminas\Db\Adapter\Adapter([</span>
+<span class=x>    &#39;driver&#39;   =&gt; &#39;Mysqli&#39;,</span>
+<span class=x>    &#39;database&#39; =&gt; &#39;laminas_db_example&#39;,</span>
+<span class=x>    &#39;username&#39; =&gt; &#39;developer&#39;,</span>
+<span class=x>    &#39;password&#39; =&gt; &#39;developer-password&#39;,</span>
+<span class=x>]);</span>
+</pre></div></p>
+<p>Another example, of a Sqlite connection via PDO:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$adapter = new Laminas\Db\Adapter\Adapter([</span>
+<span class=x>    &#39;driver&#39;   =&gt; &#39;Pdo_Sqlite&#39;,</span>
+<span class=x>    &#39;database&#39; =&gt; &#39;path/to/sqlite.db&#39;,</span>
+<span class=x>]);</span>
+</pre></div></p>
+<p>Another example, of an IBM i DB2 connection via IbmDb2:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$adapter = new Laminas\Db\Adapter\Adapter([</span>
+<span class=x>    &#39;database&#39; =&gt; &#39;*LOCAL&#39;, // or name from WRKRDBDIRE, may be serial #</span>
+<span class=x>    &#39;driver&#39; =&gt; &#39;IbmDb2&#39;,</span>
+<span class=x>    &#39;driver_options&#39; =&gt; [</span>
+<span class=x>        &#39;autocommit&#39; =&gt; DB2_AUTOCOMMIT_ON,</span>
+<span class=x>        &#39;i5_naming&#39; =&gt; DB2_I5_NAMING_ON,</span>
+<span class=x>        &#39;i5_libl&#39; =&gt; &#39;SCHEMA1 SCHEMA2 SCHEMA3&#39;,</span>
+<span class=x>    ],</span>
+<span class=x>    &#39;username&#39; =&gt; &#39;__USER__&#39;,</span>
+<span class=x>    &#39;password&#39; =&gt; &#39;__PASS__&#39;,</span>
+<span class=x>    // &#39;persistent&#39; =&gt; true,</span>
+<span class=x>    &#39;platform&#39; =&gt; &#39;IbmDb2&#39;,</span>
+<span class=x>    &#39;platform_options&#39; =&gt; [&#39;quote_identifiers&#39; =&gt; false],</span>
+<span class=x>]);</span>
+</pre></div></p>
+<p>Another example, of an IBM i DB2 connection via PDO:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$adapter = new Laminas\Db\Adapter\Adapter([</span>
+<span class=x>    &#39;dsn&#39; =&gt; &#39;ibm:DB_NAME&#39;, // DB_NAME is from WRKRDBDIRE, may be serial #</span>
+<span class=x>    &#39;driver&#39; =&gt; &#39;pdo&#39;,</span>
+<span class=x>    &#39;driver_options&#39; =&gt; [</span>
+<span class=x>        // PDO::ATTR_PERSISTENT =&gt; true,</span>
+<span class=x>        PDO::ATTR_AUTOCOMMIT =&gt; true,</span>
+<span class=x>        PDO::I5_ATTR_DBC_SYS_NAMING =&gt; true,</span>
+<span class=x>        PDO::I5_ATTR_DBC_CURLIB =&gt; &#39;&#39;,</span>
+<span class=x>        PDO::I5_ATTR_DBC_LIBL =&gt; &#39;SCHEMA1 SCHEMA2 SCHEMA3&#39;,</span>
+<span class=x>    ],</span>
+<span class=x>    &#39;username&#39; =&gt; &#39;__USER__&#39;,</span>
+<span class=x>    &#39;password&#39; =&gt; &#39;__PASS__&#39;,</span>
+<span class=x>    &#39;platform&#39; =&gt; &#39;IbmDb2&#39;,</span>
+<span class=x>    &#39;platform_options&#39; =&gt; [&#39;quote_identifiers&#39; =&gt; false],</span>
+<span class=x>]);</span>
+</pre></div></p>
+<p>It is important to know that by using this style of adapter creation, the
+<code>Adapter</code> will attempt to create any dependencies that were not explicitly
+provided. A <code>Driver</code> object will be created from the configuration array
+provided in the constructor. A <code>Platform</code> object will be created based off the
+type of <code>Driver</code> class that was instantiated. And lastly, a default <code>ResultSet</code>
+object is created and utilized. Any of these objects can be injected, to do
+this, see the next section.</p>
+<p>The list of officially supported drivers:</p>
+<ul>
+<li><code>IbmDb2</code>: The ext/ibm_db2 driver</li>
+<li><code>Mysqli</code>: The ext/mysqli driver</li>
+<li><code>Oci8</code>: The ext/oci8 driver</li>
+<li><code>Pgsql</code>: The ext/pgsql driver</li>
+<li><code>Sqlsrv</code>: The ext/sqlsrv driver (from Microsoft)</li>
+<li><code>Pdo_Mysql</code>: MySQL via the PDO extension</li>
+<li><code>Pdo_Sqlite</code>: SQLite via the PDO extension</li>
+<li><code>Pdo_Pgsql</code>: PostgreSQL via the PDO extension</li>
+</ul>
+<h2 id="creating-an-adapter-using-dependency-injection">Creating an adapter using dependency injection</h2>
+<p>The more mezzio and explicit way of creating an adapter is by injecting all
+your dependencies up front. <code>Laminas\Db\Adapter\Adapter</code> uses constructor
+injection, and all required dependencies are injected through the constructor,
+which has the following signature (in pseudo-code):</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Adapter\Platform\PlatformInterface;</span>
+<span class=x>use Laminas\Db\ResultSet\ResultSet;</span>
+
+<span class=x>class Laminas\Db\Adapter\Adapter</span>
+<span class=x>{</span>
+<span class=x>    public function __construct(</span>
+<span class=x>        $driver,</span>
+<span class=x>        PlatformInterface $platform = null,</span>
+<span class=x>        ResultSet $queryResultSetPrototype = null</span>
+<span class=x>    );</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>What can be injected:</p>
+<ul>
+<li><code>$driver</code>: an array of connection parameters (see above) or an instance of
+  <code>Laminas\Db\Adapter\Driver\DriverInterface</code>.</li>
+<li><code>$platform</code> (optional): an instance of <code>Laminas\Db\Platform\PlatformInterface</code>;
+  the default will be created based off the driver implementation.</li>
+<li><code>$queryResultSetPrototype</code> (optional): an instance of
+  <code>Laminas\Db\ResultSet\ResultSet</code>; to understand this object's role, see the
+  section below on querying.</li>
+</ul>
+<h2 id="query-preparation">Query Preparation</h2>
+<p>By default, <code>Laminas\Db\Adapter\Adapter::query()</code> prefers that you use
+"preparation" as a means for processing SQL statements.  This generally means
+that you will supply a SQL statement containing placeholders for the values, and
+separately provide substitutions for those placeholders. As an example:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$adapter-&gt;query(&#39;SELECT * FROM `artist` WHERE `id` = ?&#39;, [5]);</span>
+</pre></div></p>
+<p>The above example will go through the following steps:</p>
+<ul>
+<li>create a new <code>Statement</code> object.</li>
+<li>prepare the array <code>[5]</code> into a <code>ParameterContainer</code> if necessary.</li>
+<li>inject the <code>ParameterContainer</code> into the <code>Statement</code> object.</li>
+<li>execute the <code>Statement</code> object, producing a <code>Result</code> object.</li>
+<li>check the <code>Result</code> object to check if the supplied SQL was a result set
+  producing statement:<ul>
+<li>if the query produced a result set, clone the <code>ResultSet</code> prototype,
+  inject the <code>Result</code> as its datasource, and return the new <code>ResultSet</code>
+  instance.</li>
+<li>otherwise, return the <code>Result</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="query-execution">Query Execution</h2>
+<p>In some cases, you have to execute statements directly without preparation. One
+possible reason for doing so would be to execute a DDL statement, as most
+extensions and RDBMS systems are incapable of preparing such statements.</p>
+<p>To execute a query without the preparation step, you will need to pass a flag as
+the second argument indicating execution is required:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$adapter-&gt;query(</span>
+<span class=x>    &#39;ALTER TABLE ADD INDEX(`foo_index`) ON (`foo_column`)&#39;,</span>
+<span class=x>    Adapter::QUERY_MODE_EXECUTE</span>
+<span class=x>);</span>
+</pre></div></p>
+<p>The primary difference to notice is that you must provide the
+<code>Adapter::QUERY_MODE_EXECUTE</code> (execute) flag as the second parameter.</p>
+<h2 id="creating-statements">Creating Statements</h2>
+<p>While <code>query()</code> is highly useful for one-off and quick querying of a database
+via the <code>Adapter</code>, it generally makes more sense to create a statement and
+interact with it directly, so that you have greater control over the
+prepare-then-execute workflow. To do this, <code>Adapter</code> gives you a routine called
+<code>createStatement()</code> that allows you to create a <code>Driver</code> specific <code>Statement</code> to
+use so you can manage your own prepare-then-execute workflow.</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// with optional parameters to bind up-front:</span>
+<span class=x>$statement = $adapter-&gt;createStatement($sql, $optionalParameters);</span>
+<span class=x>$result    = $statement-&gt;execute();</span>
+</pre></div></p>
+<h2 id="using-the-driver-object">Using the Driver Object</h2>
+<p>The <code>Driver</code> object is the primary place where <code>Laminas\Db\Adapter\Adapter</code>
+implements the connection level abstraction specific to a given extension.  To
+make this possible, each driver is composed of 3 objects:</p>
+<ul>
+<li>A connection: <code>Laminas\Db\Adapter\Driver\ConnectionInterface</code></li>
+<li>A statement: <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
+<li>A result: <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
+</ul>
+<p>Each of the built-in drivers practice "prototyping" as a means of creating
+objects when new instances are requested. The workflow looks like this:</p>
+<ul>
+<li>An adapter is created with a set of connection parameters.</li>
+<li>The adapter chooses the proper driver to instantiate (for example,
+  <code>Laminas\Db\Adapter\Driver\Mysqli</code>)</li>
+<li>That driver class is instantiated.</li>
+<li>If no connection, statement, or result objects are injected, defaults are
+  instantiated.</li>
+</ul>
+<p>This driver is now ready to be called on when particular workflows are
+requested. Here is what the <code>Driver</code> API looks like:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>namespace Laminas\Db\Adapter\Driver;</span>
+
+<span class=x>interface DriverInterface</span>
+<span class=x>{</span>
+<span class=x>    const PARAMETERIZATION_POSITIONAL = &#39;positional&#39;;</span>
+<span class=x>    const PARAMETERIZATION_NAMED = &#39;named&#39;;</span>
+<span class=x>    const NAME_FORMAT_CAMELCASE = &#39;camelCase&#39;;</span>
+<span class=x>    const NAME_FORMAT_NATURAL = &#39;natural&#39;;</span>
+
+<span class=x>    public function getDatabasePlatformName(string $nameFormat = self::NAME_FORMAT_CAMELCASE) : string;</span>
+<span class=x>    public function checkEnvironment() : bool;</span>
+<span class=x>    public function getConnection() : ConnectionInterface;</span>
+<span class=x>    public function createStatement(string|resource $sqlOrResource = null) : StatementInterface;</span>
+<span class=x>    public function createResult(resource $resource) : ResultInterface;</span>
+<span class=x>    public function getPrepareType() :string;</span>
+<span class=x>    public function formatParameterName(string $name, $type = null) : string;</span>
+<span class=x>    public function getLastGeneratedValue() : mixed;</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>From this <code>DriverInterface</code>, you can</p>
+<ul>
+<li>Determine the name of the platform this driver supports (useful for choosing
+  the proper platform object).</li>
+<li>Check that the environment can support this driver.</li>
+<li>Return the <code>Connection</code> instance.</li>
+<li>Create a <code>Statement</code> instance which is optionally seeded by an SQL statement
+  (this will generally be a clone of a prototypical statement object).</li>
+<li>Create a <code>Result</code> object which is optionally seeded by a statement resource
+  (this will generally be a clone of a prototypical result object)</li>
+<li>Format parameter names; this is important to distinguish the difference
+  between the various ways parameters are named between extensions</li>
+<li>Retrieve the overall last generated value (such as an auto-increment value).</li>
+</ul>
+<p>Now let's turn to the <code>Statement</code> API:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>namespace Laminas\Db\Adapter\Driver;</span>
+
+<span class=x>interface StatementInterface extends StatementContainerInterface</span>
+<span class=x>{</span>
+<span class=x>    public function getResource() : resource;</span>
+<span class=x>    public function prepare($sql = null) : void;</span>
+<span class=x>    public function isPrepared() : bool;</span>
+<span class=x>    public function execute(null|array|ParameterContainer $parameters = null) : ResultInterface;</span>
+
+<span class=x>    /** Inherited from StatementContainerInterface */</span>
+<span class=x>    public function setSql(string $sql) : void;</span>
+<span class=x>    public function getSql() : string;</span>
+<span class=x>    public function setParameterContainer(ParameterContainer $parameterContainer) : void;</span>
+<span class=x>    public function getParameterContainer() : ParameterContainer;</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>And finally, the <code>Result</code> API:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>namespace Laminas\Db\Adapter\Driver;</span>
+
+<span class=x>use Countable;</span>
+<span class=x>use Iterator;</span>
+
+<span class=x>interface ResultInterface extends Countable, Iterator</span>
+<span class=x>{</span>
+<span class=x>    public function buffer() : void;</span>
+<span class=x>    public function isQueryResult() : bool;</span>
+<span class=x>    public function getAffectedRows() : int;</span>
+<span class=x>    public function getGeneratedValue() : mixed;</span>
+<span class=x>    public function getResource() : resource;</span>
+<span class=x>    public function getFieldCount() : int;</span>
+<span class=x>}</span>
+</pre></div></p>
+<h2 id="using-the-platform-object">Using The Platform Object</h2>
+<p>The <code>Platform</code> object provides an API to assist in crafting queries in a way
+that is specific to the SQL implementation of a particular vendor. The object
+handles nuances such as how identifiers or values are quoted, or what the
+identifier separator character is. To get an idea of the capabilities, the
+interface for a platform object looks like this:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>namespace Laminas\Db\Adapter\Platform;</span>
+
+<span class=x>interface PlatformInterface</span>
+<span class=x>{</span>
+<span class=x>    public function getName() : string;</span>
+<span class=x>    public function getQuoteIdentifierSymbol() : string;</span>
+<span class=x>    public function quoteIdentifier(string $identifier) : string;</span>
+<span class=x>    public function quoteIdentifierChain(string|string[] $identiferChain) : string;</span>
+<span class=x>    public function getQuoteValueSymbol() : string;</span>
+<span class=x>    public function quoteValue(string $value) : string;</span>
+<span class=x>    public function quoteTrustedValue(string $value) : string;</span>
+<span class=x>    public function quoteValueList(string|string[] $valueList) : string;</span>
+<span class=x>    public function getIdentifierSeparator() : string;</span>
+<span class=x>    public function quoteIdentifierInFragment(string $identifier, array $additionalSafeWords = []) : string;</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>While you can directly instantiate a <code>Platform</code> object, generally speaking, it
+is easier to get the proper <code>Platform</code> instance from the configured adapter (by
+default the <code>Platform</code> type will match the underlying driver implementation):</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$platform = $adapter-&gt;getPlatform();</span>
+
+<span class=x>// or</span>
+<span class=x>$platform = $adapter-&gt;platform; // magic property access</span>
+</pre></div></p>
+<p>The following are examples of <code>Platform</code> usage:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// $adapter is a Laminas\Db\Adapter\Adapter instance;</span>
+<span class=x>// $platform is a Laminas\Db\Adapter\Platform\Sql92 instance.</span>
+<span class=x>$platform = $adapter-&gt;getPlatform();</span>
+
+<span class=x>// &quot;first_name&quot;</span>
+<span class=x>echo $platform-&gt;quoteIdentifier(&#39;first_name&#39;);</span>
+
+<span class=x>// &quot;</span>
+<span class=x>echo $platform-&gt;getQuoteIdentifierSymbol();</span>
+
+<span class=x>// &quot;schema&quot;.&quot;mytable&quot;</span>
+<span class=x>echo $platform-&gt;quoteIdentifierChain([&#39;schema&#39;, &#39;mytable&#39;]);</span>
+
+<span class=x>// &#39;</span>
+<span class=x>echo $platform-&gt;getQuoteValueSymbol();</span>
+
+<span class=x>// &#39;myvalue&#39;</span>
+<span class=x>echo $platform-&gt;quoteValue(&#39;myvalue&#39;);</span>
+
+<span class=x>// &#39;value&#39;, &#39;Foo O\\&#39;Bar&#39;</span>
+<span class=x>echo $platform-&gt;quoteValueList([&#39;value&#39;, &quot;Foo O&#39;Bar&quot;]);</span>
+
+<span class=x>// .</span>
+<span class=x>echo $platform-&gt;getIdentifierSeparator();</span>
+
+<span class=x>// &quot;foo&quot; as &quot;bar&quot;</span>
+<span class=x>echo $platform-&gt;quoteIdentifierInFragment(&#39;foo as bar&#39;);</span>
+
+<span class=x>// additionally, with some safe words:</span>
+<span class=x>// (&quot;foo&quot;.&quot;bar&quot; = &quot;boo&quot;.&quot;baz&quot;)</span>
+<span class=x>echo $platform-&gt;quoteIdentifierInFragment(&#39;(foo.bar = boo.baz)&#39;, [&#39;(&#39;, &#39;)&#39;, &#39;=&#39;]);</span>
+</pre></div></p>
+<h2 id="using-the-parameter-container">Using The Parameter Container</h2>
+<p>The <code>ParameterContainer</code> object is a container for the various parameters that
+need to be passed into a <code>Statement</code> object to fulfill all the various
+parameterized parts of the SQL statement. This object implements the
+<code>ArrayAccess</code> interface. Below is the <code>ParameterContainer</code> API:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>namespace Laminas\Db\Adapter;</span>
+
+<span class=x>use ArrayAccess;</span>
+<span class=x>use ArrayIterator;</span>
+<span class=x>use Countable;</span>
+<span class=x>use Iterator;</span>
+
+<span class=x>class ParameterContainer implements Iterator, ArrayAccess, Countable</span>
+<span class=x>{</span>
+<span class=x>    public function __construct(array $data = [])</span>
+
+<span class=x>    /** methods to interact with values */</span>
+<span class=x>    public function offsetExists(string|int $name) : bool;</span>
+<span class=x>    public function offsetGet(string|int $name) : mixed;</span>
+<span class=x>    public function offsetSetReference(string|int $name, string|int $from) : void;</span>
+<span class=x>    public function offsetSet(string|int $name, mixed $value, mixed $errata = null, int $maxLength = null) : void;</span>
+<span class=x>    public function offsetUnset(string|int $name) : void;</span>
+
+<span class=x>    /** set values from array (will reset first) */</span>
+<span class=x>    public function setFromArray(array $data) : ParameterContainer;</span>
+
+<span class=x>    /** methods to interact with value errata */</span>
+<span class=x>    public function offsetSetErrata(string|int $name, mixed $errata) : void;</span>
+<span class=x>    public function offsetGetErrata(string|int $name) : mixed;</span>
+<span class=x>    public function offsetHasErrata(string|int $name) : bool;</span>
+<span class=x>    public function offsetUnsetErrata(string|int $name) : void;</span>
+
+<span class=x>    /** errata only iterator */</span>
+<span class=x>    public function getErrataIterator() : ArrayIterator;</span>
+
+<span class=x>    /** get array with named keys */</span>
+<span class=x>    public function getNamedArray() : array;</span>
+
+<span class=x>    /** get array with int keys, ordered by position */</span>
+<span class=x>    public function getPositionalArray() : array;</span>
+
+<span class=x>    /** iterator: */</span>
+<span class=x>    public function count() : int;</span>
+<span class=x>    public function current() : mixed;</span>
+<span class=x>    public function next() : mixed;</span>
+<span class=x>    public function key() : string|int;</span>
+<span class=x>    public function valid() : bool;</span>
+<span class=x>    public function rewind() : void;</span>
+
+<span class=x>    /** merge existing array of parameters with existing parameters */</span>
+<span class=x>    public function merge(array $parameters) : ParameterContainer;</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>In addition to handling parameter names and values, the container will assist in
+tracking parameter types for PHP type to SQL type handling. For example, it
+might be important that:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$container-&gt;offsetSet(&#39;limit&#39;, 5);</span>
+</pre></div></p>
+<p>be bound as an integer. To achieve this, pass in the
+<code>ParameterContainer::TYPE_INTEGER</code> constant as the 3rd parameter:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$container-&gt;offsetSet(&#39;limit&#39;, 5, $container::TYPE_INTEGER);</span>
+</pre></div></p>
+<p>This will ensure that if the underlying driver supports typing of bound
+parameters, that this translated information will also be passed along to the
+actual php database driver.</p>
+<h2 id="examples">Examples</h2>
+<p>Creating a <code>Driver</code>, a vendor-portable query, and preparing and iterating the
+result:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$adapter = new Laminas\Db\Adapter\Adapter($driverConfig);</span>
+
+<span class=x>$qi = function ($name) use ($adapter) {</span>
+<span class=x>    return $adapter-&gt;platform-&gt;quoteIdentifier($name);</span>
+<span class=x>};</span>
+<span class=x>$fp = function ($name) use ($adapter) {</span>
+<span class=x>    return $adapter-&gt;driver-&gt;formatParameterName($name);</span>
+<span class=x>};</span>
+
+<span class=x>$sql = &#39;UPDATE &#39; . $qi(&#39;artist&#39;)</span>
+<span class=x>    . &#39; SET &#39; . $qi(&#39;name&#39;) . &#39; = &#39; . $fp(&#39;name&#39;)</span>
+<span class=x>    . &#39; WHERE &#39; . $qi(&#39;id&#39;) . &#39; = &#39; . $fp(&#39;id&#39;);</span>
+
+<span class=x>$statement = $adapter-&gt;query($sql);</span>
+
+<span class=x>$parameters = [</span>
+<span class=x>    &#39;name&#39; =&gt; &#39;Updated Artist&#39;,</span>
+<span class=x>    &#39;id&#39;   =&gt; 1,</span>
+<span class=x>];</span>
+
+<span class=x>$statement-&gt;execute($parameters);</span>
+
+<span class=x>// DATA INSERTED, NOW CHECK</span>
+
+<span class=x>$statement = $adapter-&gt;query(</span>
+<span class=x>    &#39;SELECT * FROM &#39;</span>
+<span class=x>    . $qi(&#39;artist&#39;)</span>
+<span class=x>    . &#39; WHERE id = &#39; . $fp(&#39;id&#39;)</span>
+<span class=x>);</span>
+
+<span class=x>$results = $statement-&gt;execute([&#39;id&#39; =&gt; 1]);</span>
+
+<span class=x>$row = $results-&gt;current();</span>
+<span class=x>$name = $row[&#39;name&#39;];</span>
+</pre></div></p>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="..">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../result-set/">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/laminas/laminas-db/edit/master/docs/book/adapter.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
+                
+            </div>
+            <div class="col-md-3 col-sm-12 sidebar">
+                
+                    <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-db</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Adapters</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../result-set/" class="subnavigation__link">Result Sets</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../sql/" class="subnavigation__link">SQL Abstraction</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../table-gateway/" class="subnavigation__link">Table Gateways</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../row-gateway/" class="subnavigation__link">Row Gateways</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../metadata/" class="subnavigation__link">RDBMS Metadata</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 offset-md-2">
+                <h5>Laminas</h5>
+                <ul>
+                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
+                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+
+            
+            <div class="col-md-4 offset-md-2">
+                <h4 class="footer__headline">Support</h4>
+                <ul class="support__list">
+                    <li class="support__list-item">
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://laminas.dev/chat" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://github.com/laminas" class="support__link" title="Github"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://twitter.com/getlaminas" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">License</h4>
+                <p>
+                    Code licensed under <a
+                        href="https://github.com/laminas/laminas-db//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                </p>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">Copyright</h4>
+                <p>
+                    <!--Built with love by the Laminas team with the help of our
+                    <a href="https://github.com/laminas/laminas-db//graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let base_url = '..',
+            project  = "components",
+            siteName = 'laminas-db';
+    </script>
+    <script src="/js/scripts.js"></script>
+        <script src="../search/main.js"></script>
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search in laminas-db" id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>
