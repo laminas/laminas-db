@@ -1,10 +1,10 @@
 <?php
 
-namespace ZendTest\Db\Adapter\Platform;
+namespace LaminasTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Platform\Mysql;
-use Zend\Db\Adapter\Driver\Mysqli;
-use Zend\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Driver\Mysqli;
+use Laminas\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Platform\Mysql;
 
 /**
  * @group integration
