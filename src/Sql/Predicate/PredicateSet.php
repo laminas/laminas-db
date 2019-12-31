@@ -84,9 +84,9 @@ class PredicateSet implements PredicateInterface, Countable
         }
         if (is_string($predicates)) {
             // String $predicate should be passed as an expression
-            $predicates = (strpos($predicates, Expression::PLACEHOLDER) !== false)
+            $predicate = (strpos($predicates, Expression::PLACEHOLDER) !== false)
                 ? new Expression($predicates) : new Literal($predicates);
-            $this->addPredicate($predicates, $combination);
+            $this->addPredicate($predicate, $combination);
             return $this;
         }
         if (is_array($predicates)) {
@@ -96,31 +96,31 @@ class PredicateSet implements PredicateInterface, Countable
                     if (strpos($pkey, '?') !== false) {
                         // First, process strings that the abstraction replacement character ?
                         // as an Expression predicate
-                        $predicates = new Expression($pkey, $pvalue);
+                        $predicate = new Expression($pkey, $pvalue);
                     } elseif ($pvalue === null) {
                         // Otherwise, if still a string, do something intelligent with the PHP type provided
                         // map PHP null to SQL IS NULL expression
-                        $predicates = new IsNull($pkey);
+                        $predicate = new IsNull($pkey);
                     } elseif (is_array($pvalue)) {
                         // if the value is an array, assume IN() is desired
-                        $predicates = new In($pkey, $pvalue);
+                        $predicate = new In($pkey, $pvalue);
                     } elseif ($pvalue instanceof PredicateInterface) {
                         throw new Exception\InvalidArgumentException(
                             'Using Predicate must not use string keys'
                         );
                     } else {
                         // otherwise assume that array('foo' => 'bar') means "foo" = 'bar'
-                        $predicates = new Operator($pkey, Operator::OP_EQ, $pvalue);
+                        $predicate = new Operator($pkey, Operator::OP_EQ, $pvalue);
                     }
                 } elseif ($pvalue instanceof PredicateInterface) {
                     // Predicate type is ok
-                    $predicates = $pvalue;
+                    $predicate = $pvalue;
                 } else {
                     // must be an array of expressions (with int-indexed array)
-                    $predicates = (strpos($pvalue, Expression::PLACEHOLDER) !== false)
+                    $predicate = (strpos($pvalue, Expression::PLACEHOLDER) !== false)
                         ? new Expression($pvalue) : new Literal($pvalue);
                 }
-                $this->addPredicate($predicates, $combination);
+                $this->addPredicate($predicate, $combination);
             }
         }
         return $this;
