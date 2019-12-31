@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Metadata\Source;
+namespace LaminasTest\Db\Metadata\Source;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Metadata\Source\OracleMetadata;
-use ZendTest\Db\Adapter\Driver\Oci8\AbstractIntegrationTest;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Metadata\Source\OracleMetadata;
+use LaminasTest\Db\Adapter\Driver\Oci8\AbstractIntegrationTest;
 
 /**
  * @requires extension oci8
@@ -48,7 +47,7 @@ class OracleMetadataTest extends AbstractIntegrationTest
         $constraints = $this->metadata->getConstraints(null, 'main');
         $this->assertCount(0, $constraints);
         $this->assertContainsOnlyInstancesOf(
-            'Zend\Db\Metadata\Object\ConstraintObject',
+            'Laminas\Db\Metadata\Object\ConstraintObject',
             $constraints
         );
     }

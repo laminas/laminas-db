@@ -1,30 +1,30 @@
-# Zend\\Db\\Sql
+# Laminas\\Db\\Sql
 
-`Zend\Db\Sql` is a SQL abstraction layer for building platform specific SQL queries via an
-object-oriented API. The end result of an `Zend\Db\Sql` object will be to either produce a Statement
+`Laminas\Db\Sql` is a SQL abstraction layer for building platform specific SQL queries via an
+object-oriented API. The end result of an `Laminas\Db\Sql` object will be to either produce a Statement
 and Parameter container that represents the target query, or a full string that can be directly
-executed against the database platform. To achieve this, `Zend\Db\Sql` objects require a
-`Zend\Db\Adapter\Adapter` object in order to produce the desired results.
+executed against the database platform. To achieve this, `Laminas\Db\Sql` objects require a
+`Laminas\Db\Adapter\Adapter` object in order to produce the desired results.
 
-## Zend\\Db\\Sql\\Sql (Quickstart)
+## Laminas\\Db\\Sql\\Sql (Quickstart)
 
 As there are four primary tasks associated with interacting with a database (from the DML, or Data
 Manipulation Language): selecting, inserting, updating and deleting. As such, there are four primary
-objects that developers can interact or building queries, `Zend\Db\Sql\Select`, `Insert`, `Update`
+objects that developers can interact or building queries, `Laminas\Db\Sql\Select`, `Insert`, `Update`
 and `Delete`.
 
 Since these four tasks are so closely related, and generally used together within the same
-application, `Zend\Db\Sql\Sql` objects help you create them and produce the result you are
+application, `Laminas\Db\Sql\Sql` objects help you create them and produce the result you are
 attempting to achieve.
 
 ```php
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter);
-$select = $sql->select(); // @return Zend\Db\Sql\Select
-$insert = $sql->insert(); // @return Zend\Db\Sql\Insert
-$update = $sql->update(); // @return Zend\Db\Sql\Update
-$delete = $sql->delete(); // @return Zend\Db\Sql\Delete
+$select = $sql->select(); // @return Laminas\Db\Sql\Select
+$insert = $sql->insert(); // @return Laminas\Db\Sql\Insert
+$update = $sql->update(); // @return Laminas\Db\Sql\Update
+$delete = $sql->delete(); // @return Laminas\Db\Sql\Delete
 ```
 
 As a developer, you can now interact with these objects, as described in the sections below, to
@@ -34,7 +34,7 @@ prepared or executed.
 To prepare (using a Select object):
 
 ```php
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter);
 $select = $sql->select();
@@ -48,7 +48,7 @@ $results = $statement->execute();
 To execute (using a Select object)
 
 ```php
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter);
 $select = $sql->select();
@@ -59,18 +59,18 @@ $selectString = $sql->buildSqlString($select);
 $results = $adapter->query($selectString, $adapter::QUERY_MODE_EXECUTE);
 ```
 
-`Zend\\Db\\Sql\\Sql` objects can also be bound to a particular table so that in getting a select,
+`Laminas\\Db\\Sql\\Sql` objects can also be bound to a particular table so that in getting a select,
 insert, update, or delete object, they are all primarily seeded with the same table when produced.
 
 ```php
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter, 'foo');
 $select = $sql->select();
 $select->where(['id' => 2]); // $select already has the from('foo') applied
 ```
 
-## Zend\\Db\\Sql's Select, Insert, Update and Delete
+## Laminas\\Db\\Sql's Select, Insert, Update and Delete
 
 Each of these objects implements the following (2) interfaces:
 
@@ -89,14 +89,14 @@ interface SqlInterface
 These are the functions you can call to either produce (a) a prepared statement, or (b) a string to
 be executed.
 
-## Zend\\Db\\Sql\\Select
+## Laminas\\Db\\Sql\\Select
 
-`Zend\Db\Sql\Select` is an object with the primary function of presenting a unified API for building
+`Laminas\Db\Sql\Select` is an object with the primary function of presenting a unified API for building
 platform specific SQL SELECT queries. The class can be instantiated and consumed without
-`Zend\Db\Sql\Sql`:
+`Laminas\Db\Sql\Sql`:
 
 ```php
-use Zend\Db\Sql\Select;
+use Laminas\Db\Sql\Select;
 
 $select = new Select();
 // or, to produce a $select bound to a specific table
@@ -184,7 +184,7 @@ $select
 
 ### where(), having():
 
-The `Zend\Db\Sql\Select` object provides bit of flexibility as it regards to what kind of parameters
+The `Laminas\Db\Sql\Select` object provides bit of flexibility as it regards to what kind of parameters
 are acceptable when calling where() or having(). The method signature is listed as:
 
 ```php
@@ -200,7 +200,7 @@ public function where($predicate, $combination = Predicate\PredicateSet::OP_AND)
 
 As you can see, there are a number of different ways to pass criteria to both having() and where().
 
-If you provide a `Zend\Db\Sql\Where` object to where() or a `Zend\Db\Sql\Having` object to having(),
+If you provide a `Laminas\Db\Sql\Where` object to where() or a `Laminas\Db\Sql\Having` object to having(),
 the internal objects for Select will be replaced completely. When the where/having() is processed,
 this object will be iterated to produce the WHERE or HAVING section of the SELECT statement.
 
@@ -216,7 +216,7 @@ $select->where($spec);
 ```
 
 If you provide a string, this string will be used to instantiate a
-`Zend\Db\Sql\Predicate\Expression` object so that it's contents will be applied as is. This means
+`Laminas\Db\Sql\Predicate\Expression` object so that it's contents will be applied as is. This means
 that there will be no quoting in the fragment provided.
 
 Consider the following code:
@@ -253,7 +253,7 @@ Consider the following code:
 $select->from('foo')->where([
     'c1' => null,
     'c2' => [1, 2, 3],
-    new \Zend\Db\Sql\Predicate\IsNotNull('c3'),
+    new \Laminas\Db\Sql\Predicate\IsNotNull('c3'),
 ]);
 ```
 
@@ -280,7 +280,7 @@ $select->limit(5); // always takes an integer/numeric
 $select->offset(10); // similarly takes an integer/numeric
 ```
 
-## Zend\\Db\\Sql\\Insert
+## Laminas\\Db\\Sql\\Insert
 
 The Insert API:
 
@@ -321,7 +321,7 @@ $insert->values([
 $insert->values(['col_2' => 'value2'], $insert::VALUES_MERGE);
 ```
 
-## Zend\\Db\\Sql\\Update
+## Laminas\\Db\\Sql\\Update
 
 ```php
 class Update
@@ -347,7 +347,7 @@ $update->set(['foo' => 'bar', 'baz' => 'bax']);
 
 See where section below.
 
-## Zend\\Db\\Sql\\Delete
+## Laminas\\Db\\Sql\\Delete
 
 ```php
 class Delete
@@ -363,7 +363,7 @@ class Delete
 
 See where section below.
 
-## Zend\\Db\\Sql\\Where & Zend\\Db\\Sql\\Having
+## Laminas\\Db\\Sql\\Where & Laminas\\Db\\Sql\\Having
 
 In the following, we will talk about Where, Having is implies as being the same API.
 
@@ -379,18 +379,18 @@ into the fragments they belong to and properly quoted.
 It is important to know that in this API, a distinction is made between what elements are considered
 identifiers (TYPE\_IDENTIFIER) and which of those is a value (TYPE\_VALUE). There is also a special
 use case type for literal values (TYPE\_LITERAL). These are all exposed via the
-`Zend\Db\Sql\ExpressionInterface` interface.
+`Laminas\Db\Sql\ExpressionInterface` interface.
 
 > ### Literals
 >
-> In ZF 2.1, an actual `Literal` type was added. `Zend\Db\Sql` now makes the distinction that Literals
+> In Laminas 2.1, an actual `Literal` type was added. `Laminas\Db\Sql` now makes the distinction that Literals
 > will not have any parameters that need interpolating whereas it is expected that `Expression`
 > objects *might* have parameters that need interpolating. In cases where there are parameters in an
-> `Expression`, `Zend\Db\Sql\AbstractSql` will do its best to identify placeholders when the
+> `Expression`, `Laminas\Db\Sql\AbstractSql` will do its best to identify placeholders when the
 > Expression is processed during statement creation. In short, if you don't have parameters, use
 > `Literal` objects.
 
-The Zend\\Db\\Sql\\Where (Predicate/PredicateSet) API:
+The Laminas\\Db\\Sql\\Where (Predicate/PredicateSet) API:
 
 ```php
 // Where & Having:
