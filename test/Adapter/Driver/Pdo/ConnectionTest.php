@@ -1,7 +1,7 @@
 <?php
-namespace ZendTest\Db\Adapter\Driver\Pdo;
+namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
-use Zend\Db\Adapter\Driver\Pdo\Connection;
+use Laminas\Db\Adapter\Driver\Pdo\Connection;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,11 +23,11 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Test getResource method tries to connect to  the database, it should never return null
      *
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::getResource
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Connection::getResource
      */
     public function testResource()
     {
-        $this->setExpectedException('Zend\Db\Adapter\Exception\InvalidConnectionParametersException');
+        $this->setExpectedException('Laminas\Db\Adapter\Exception\InvalidConnectionParametersException');
         $this->connection->getResource();
     }
 }

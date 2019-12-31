@@ -1,17 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter;
+namespace LaminasTest\Db\Adapter;
 
+use \Laminas\Db\Adapter\Adapter;
 use \PHPUnit_Framework_TestCase as TestCase;
-use \Zend\Db\Adapter\Adapter;
 
 /**
  * @requires PHP 5.4
@@ -20,12 +18,12 @@ class AdapterAwareTraitTest extends TestCase
 {
     public function testSetDbAdapter()
     {
-        $object = $this->getObjectForTrait('\Zend\Db\Adapter\AdapterAwareTrait');
+        $object = $this->getObjectForTrait('\Laminas\Db\Adapter\AdapterAwareTrait');
 
         $this->assertAttributeEquals(null, 'adapter', $object);
 
-        $driver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
-        $platform = $this->getMock('Zend\Db\Adapter\Platform\PlatformInterface');
+        $driver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
+        $platform = $this->getMock('Laminas\Db\Adapter\Platform\PlatformInterface');
 
         $adapter = new Adapter($driver, $platform);
 

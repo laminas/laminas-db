@@ -1,8 +1,8 @@
 <?php
-namespace ZendTest\Db\Adapter\Driver\Oci8;
+namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
-use Zend\Db\Adapter\Driver\Oci8\Oci8;
-use Zend\Db\Adapter\Driver\Oci8\Statement;
+use Laminas\Db\Adapter\Driver\Oci8\Oci8;
+use Laminas\Db\Adapter\Driver\Oci8\Statement;
 
 /**
  * @group integration
@@ -12,9 +12,9 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
 {
 
     protected $variables = array(
-        'hostname' => 'ZEND_DB_ADAPTER_DRIVER_OCI8_HOSTNAME',
-        'username' => 'ZEND_DB_ADAPTER_DRIVER_OCI8_USERNAME',
-        'password' => 'ZEND_DB_ADAPTER_DRIVER_OCI8_PASSWORD',
+        'hostname' => 'LAMINAS_DB_ADAPTER_DRIVER_OCI8_HOSTNAME',
+        'username' => 'LAMINAS_DB_ADAPTER_DRIVER_OCI8_USERNAME',
+        'password' => 'LAMINAS_DB_ADAPTER_DRIVER_OCI8_PASSWORD',
     );
 
     /**
@@ -36,7 +36,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::initialize
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::initialize
      */
     public function testInitialize()
     {
@@ -48,7 +48,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::getResource
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::getResource
      */
     public function testGetResource()
     {
@@ -63,8 +63,8 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::prepare
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::isPrepared
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::prepare
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::isPrepared
      */
     public function testPrepare()
     {
@@ -79,7 +79,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::execute
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::execute
      */
     public function testExecute()
     {
@@ -88,7 +88,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($statement, $statement->prepare());
 
         $result = $statement->execute();
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Oci8\Result', $result);
+        $this->assertInstanceOf('Laminas\Db\Adapter\Driver\Oci8\Result', $result);
 
         unset($resource, $oci8);
     }
