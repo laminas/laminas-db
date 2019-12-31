@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Pdo;
+namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
-use Zend\Db\Adapter\Driver\Pdo\Connection;
+use Laminas\Db\Adapter\Driver\Pdo\Connection;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,11 +30,11 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Test getResource method tries to connect to  the database, it should never return null
      *
-     * @covers Zend\Db\Adapter\Driver\Pdo\Connection::getResource
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Connection::getResource
      */
     public function testResource()
     {
-        $this->setExpectedException('Zend\Db\Adapter\Exception\InvalidConnectionParametersException');
+        $this->setExpectedException('Laminas\Db\Adapter\Exception\InvalidConnectionParametersException');
         $this->connection->getResource();
     }
 }

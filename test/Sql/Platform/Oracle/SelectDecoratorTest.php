@@ -1,31 +1,29 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Platform\Oracle;
+namespace LaminasTest\Db\Sql\Platform\Oracle;
 
-use Zend\Db\Sql\Platform\Oracle\SelectDecorator;
-use Zend\Db\Sql\Select;
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Adapter\Platform\Oracle as OraclePlatform;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Platform\Oracle as OraclePlatform;
+use Laminas\Db\Sql\Platform\Oracle\SelectDecorator;
+use Laminas\Db\Sql\Select;
 
 class SelectDecoratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare a proper from alias sql statement
-     * @covers Zend\Db\Sql\Platform\Oracle\SelectDecorator::getSqlString
+     * @covers Laminas\Db\Sql\Platform\Oracle\SelectDecorator::getSqlString
      * @dataProvider dataProvider
      */
     public function testGetSqlString(Select $select, $expectedSql)
     {
         $parameterContainer = new ParameterContainer;
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
         $statement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($parameterContainer));
 
         $selectDecorator = new SelectDecorator;
