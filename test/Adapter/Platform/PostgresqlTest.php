@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Platform;
+namespace LaminasTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Platform\Postgresql;
+use Laminas\Db\Adapter\Platform\Postgresql;
 
 class PostgresqlTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,7 +27,7 @@ class PostgresqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::getName
+     * @covers Laminas\Db\Adapter\Platform\Postgresql::getName
      */
     public function testGetName()
     {
@@ -36,7 +35,7 @@ class PostgresqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::getQuoteIdentifierSymbol
+     * @covers Laminas\Db\Adapter\Platform\Postgresql::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -44,7 +43,7 @@ class PostgresqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteIdentifier
+     * @covers Laminas\Db\Adapter\Platform\Postgresql::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -53,7 +52,7 @@ class PostgresqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteIdentifierChain
+     * @covers Laminas\Db\Adapter\Platform\Postgresql::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -64,7 +63,7 @@ class PostgresqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::getQuoteValueSymbol
+     * @covers Laminas\Db\Adapter\Platform\Postgresql::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -72,19 +71,19 @@ class PostgresqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteValue
+     * @covers Laminas\Db\Adapter\Platform\Postgresql::quoteValue
      */
     public function testQuoteValue()
     {
         $this->setExpectedException(
             'PHPUnit_Framework_Error',
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Postgresql without extension/driver support can introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Postgresql without extension/driver support can introduce security vulnerabilities in a production environment'
         );
         $this->assertEquals("'value'", $this->platform->quoteValue('value'));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteTrustedValue
+     * @covers Laminas\Db\Adapter\Platform\Postgresql::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -97,19 +96,19 @@ class PostgresqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteValueList
+     * @covers Laminas\Db\Adapter\Platform\Postgresql::quoteValueList
      */
     public function testQuoteValueList()
     {
         $this->setExpectedException(
             'PHPUnit_Framework_Error',
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Postgresql without extension/driver support can introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Postgresql without extension/driver support can introduce security vulnerabilities in a production environment'
         );
         $this->assertEquals("'Foo O\'\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::getIdentifierSeparator
+     * @covers Laminas\Db\Adapter\Platform\Postgresql::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -117,7 +116,7 @@ class PostgresqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Postgresql::quoteIdentifierInFragment
+     * @covers Laminas\Db\Adapter\Platform\Postgresql::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {
