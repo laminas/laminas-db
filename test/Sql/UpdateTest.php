@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
-use Zend\Db\Sql\Update;
-use Zend\Db\Sql\Where;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\TableIdentifier;
-use ZendTest\Db\TestAsset\TrustingSql92Platform;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\TableIdentifier;
+use Laminas\Db\Sql\Update;
+use Laminas\Db\Sql\Where;
+use LaminasTest\Db\TestAsset\TrustingSql92Platform;
 
 class UpdateTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,7 +39,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::table
+     * @covers Laminas\Db\Sql\Update::table
      */
     public function testTable()
     {
@@ -53,7 +52,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::__construct
+     * @covers Laminas\Db\Sql\Update::__construct
      */
     public function testConstruct()
     {
@@ -62,7 +61,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::set
+     * @covers Laminas\Db\Sql\Update::set
      */
     public function testSet()
     {
@@ -71,7 +70,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::set
+     * @covers Laminas\Db\Sql\Update::set
      */
     public function testSortableSet()
     {
@@ -92,7 +91,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::where
+     * @covers Laminas\Db\Sql\Update::where
      */
     public function testWhere()
     {
@@ -102,30 +101,30 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         $this->update->where(array('a = b'), Where::OP_OR);
         $this->update->where(array('c1' => null));
         $this->update->where(array('c2' => array(1, 2, 3)));
-        $this->update->where(array(new \Zend\Db\Sql\Predicate\IsNotNull('c3')));
+        $this->update->where(array(new \Laminas\Db\Sql\Predicate\IsNotNull('c3')));
         $where = $this->update->where;
 
         $predicates = $this->readAttribute($where, 'predicates');
         $this->assertEquals('AND', $predicates[0][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        $this->assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[0][1]);
 
         $this->assertEquals('AND', $predicates[1][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Expression', $predicates[1][1]);
+        $this->assertInstanceOf('Laminas\Db\Sql\Predicate\Expression', $predicates[1][1]);
 
         $this->assertEquals('AND', $predicates[2][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Operator', $predicates[2][1]);
+        $this->assertInstanceOf('Laminas\Db\Sql\Predicate\Operator', $predicates[2][1]);
 
         $this->assertEquals('OR', $predicates[3][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\Literal', $predicates[3][1]);
+        $this->assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[3][1]);
 
         $this->assertEquals('AND', $predicates[4][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\IsNull', $predicates[4][1]);
+        $this->assertInstanceOf('Laminas\Db\Sql\Predicate\IsNull', $predicates[4][1]);
 
         $this->assertEquals('AND', $predicates[5][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\In', $predicates[5][1]);
+        $this->assertInstanceOf('Laminas\Db\Sql\Predicate\In', $predicates[5][1]);
 
         $this->assertEquals('AND', $predicates[6][0]);
-        $this->assertInstanceOf('Zend\Db\Sql\Predicate\IsNotNull', $predicates[6][1]);
+        $this->assertInstanceOf('Laminas\Db\Sql\Predicate\IsNotNull', $predicates[6][1]);
 
         $where = new Where;
         $this->update->where($where);
@@ -136,13 +135,13 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
             $test->assertSame($where, $what);
         });
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\InvalidArgumentException', 'Predicate cannot be null');
+        $this->setExpectedException('Laminas\Db\Sql\Exception\InvalidArgumentException', 'Predicate cannot be null');
         $this->update->where(null);
     }
 
     /**
-     * @group ZF2-240
-     * @covers Zend\Db\Sql\Update::where
+     * @group Laminas-240
+     * @covers Laminas\Db\Sql\Update::where
      */
     public function testPassingMultipleKeyValueInWhereClause()
     {
@@ -154,7 +153,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::getRawState
+     * @covers Laminas\Db\Sql\Update::getRawState
      */
     public function testGetRawState()
     {
@@ -165,21 +164,21 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $this->update->getRawState('table'));
         $this->assertEquals(true, $this->update->getRawState('emptyWhereProtection'));
         $this->assertEquals(array('bar' => 'baz'), $this->update->getRawState('set'));
-        $this->assertInstanceOf('Zend\Db\Sql\Where', $this->update->getRawState('where'));
+        $this->assertInstanceOf('Laminas\Db\Sql\Where', $this->update->getRawState('where'));
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::prepareStatement
+     * @covers Laminas\Db\Sql\Update::prepareStatement
      */
     public function testPrepareStatement()
     {
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, array($mockDriver));
+        $mockAdapter = $this->getMock('Laminas\Db\Adapter\Adapter', null, array($mockDriver));
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $pContainer = new \Zend\Db\Adapter\ParameterContainer(array());
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $pContainer = new \Laminas\Db\Adapter\ParameterContainer(array());
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
         $mockStatement->expects($this->at(1))
@@ -194,13 +193,13 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
 
         // with TableIdentifier
         $this->update = new Update;
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, array($mockDriver));
+        $mockAdapter = $this->getMock('Laminas\Db\Adapter\Adapter', null, array($mockDriver));
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $pContainer = new \Zend\Db\Adapter\ParameterContainer(array());
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $pContainer = new \Laminas\Db\Adapter\ParameterContainer(array());
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
         $mockStatement->expects($this->at(1))
@@ -215,7 +214,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::getSqlString
+     * @covers Laminas\Db\Sql\Update::getSqlString
      */
     public function testGetSqlString()
     {
@@ -248,16 +247,16 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::__get
+     * @covers Laminas\Db\Sql\Update::__get
      */
     public function testGetUpdate()
     {
         $getWhere = $this->update->__get('where');
-        $this->assertInstanceOf('Zend\Db\Sql\Where', $getWhere);
+        $this->assertInstanceOf('Laminas\Db\Sql\Where', $getWhere);
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::__get
+     * @covers Laminas\Db\Sql\Update::__get
      */
     public function testGetUpdateFails()
     {
@@ -266,7 +265,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\Update::__clone
+     * @covers Laminas\Db\Sql\Update::__clone
      */
     public function testCloneUpdate()
     {
@@ -291,13 +290,13 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     {
         $updateIgnore = new UpdateIgnore();
 
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMock('Zend\Db\Adapter\Adapter', null, array($mockDriver));
+        $mockAdapter = $this->getMock('Laminas\Db\Adapter\Adapter', null, array($mockDriver));
 
-        $mockStatement = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface');
-        $pContainer = new \Zend\Db\Adapter\ParameterContainer(array());
+        $mockStatement = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $pContainer = new \Laminas\Db\Adapter\ParameterContainer(array());
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
         $mockStatement->expects($this->at(1))

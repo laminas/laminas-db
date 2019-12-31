@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
+namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
-use Zend\Db\Adapter\Driver\Sqlsrv\Statement;
-use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
-use Zend\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Statement;
+use Laminas\Db\Adapter\ParameterContainer;
 
 class StatementTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,7 +37,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::setDriver
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::setDriver
      */
     public function testSetDriver()
     {
@@ -46,7 +45,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::setParameterContainer
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::setParameterContainer
      */
     public function testSetParameterContainer()
     {
@@ -54,7 +53,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::getParameterContainer
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::getParameterContainer
      * @todo   Implement testGetParameterContainer().
      */
     public function testGetParameterContainer()
@@ -65,7 +64,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::getResource
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::getResource
      * @todo   Implement testGetResource().
      */
     public function testGetResource()
@@ -77,7 +76,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::setSql
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::setSql
      * @todo   Implement testSetSql().
      */
     public function testSetSql()
@@ -89,7 +88,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::getSql
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::getSql
      * @todo   Implement testGetSql().
      */
     public function testGetSql()
@@ -101,7 +100,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::prepare
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::prepare
      * @todo   Implement testPrepare().
      */
     public function testPrepare()
@@ -113,7 +112,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::isPrepared
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::isPrepared
      * @todo   Implement testIsPrepared().
      */
     public function testIsPrepared()
@@ -125,7 +124,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Sqlsrv\Statement::execute
+     * @covers Laminas\Db\Adapter\Driver\Sqlsrv\Statement::execute
      * @todo   Implement testExecute().
      */
     public function testExecute()
