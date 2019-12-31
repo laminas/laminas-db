@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#336](https://github.com/zendframework/zend-db/pull/336) adds `InsertIgnore` class for "INSERT IGNORE" usage (usable in `MySQL` platform).
 
+- [#356](https://github.com/zendframework/zend-db/pull/356) adds support for `IN (NULL)` for empty value-set.
+
 ### Changed
 
 - Nothing.
