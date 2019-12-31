@@ -11,6 +11,7 @@ namespace ZendTest\Db\TableGateway;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\Sql\Delete;
 use Zend\Db\Sql\Insert;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\TableIdentifier;
@@ -254,6 +255,66 @@ class TableGatewayTest extends TestCase
         ]);
 
         $state = $update->getRawState();
+        self::assertInternalType('array', $state['table']);
+        self::assertEquals(
+            $tableValue,
+            $state['table']
+        );
+    }
+
+    /**
+     * @dataProvider aliasedTables
+     */
+    public function testDeleteShouldResetTableToUnaliasedTable($tableValue, $expected)
+    {
+        $delete = new Delete();
+        $delete->from($tableValue);
+
+        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')
+            ->getMock();
+        $result->expects($this->once())
+            ->method('getAffectedRows')
+            ->will($this->returnValue(1));
+
+        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')
+            ->getMock();
+        $statement->expects($this->once())
+            ->method('execute')
+            ->will($this->returnValue($result));
+
+        $statementExpectation = function ($delete) use ($expected, $statement) {
+            $state = $delete->getRawState();
+            self::assertSame($expected, $state['table']);
+            return $statement;
+        };
+
+        $sql = $this->getMockBuilder('Zend\Db\Sql\Sql')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $sql->expects($this->atLeastOnce())
+            ->method('getTable')
+            ->will($this->returnValue($tableValue));
+        $sql->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue($delete));
+        $sql->expects($this->once())
+            ->method('prepareStatementForSqlObject')
+            ->with($this->equalTo($delete))
+            ->will($this->returnCallback($statementExpectation));
+
+        $table = new TableGateway(
+            $tableValue,
+            $this->mockAdapter,
+            null,
+            null,
+            $sql
+        );
+
+        $result = $table->delete([
+            'foo' => 'FOO',
+        ]);
+
+        $state = $delete->getRawState();
         self::assertInternalType('array', $state['table']);
         self::assertEquals(
             $tableValue,
