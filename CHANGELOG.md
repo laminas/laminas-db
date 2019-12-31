@@ -28,6 +28,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#392](https://github.com/zendframework/zend-db/pull/392) fixes `MetadataFeature` to work with `TableIdentifier`.
 
+- [#399](https://github.com/zendframework/zend-db/pull/399) fixes accessing constraint metadata within the Oracle adapter.
+
 ## 2.10.0 - 2019-02-25
 
 ### Added
