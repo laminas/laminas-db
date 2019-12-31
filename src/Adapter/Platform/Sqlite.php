@@ -1,21 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Adapter\Platform;
+namespace Laminas\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Driver\Pdo;
-use Zend\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Exception;
 
 /**
- * @category   Zend
- * @package    Zend_Db
+ * @category   Laminas
+ * @package    Laminas_Db
  * @subpackage Adapter
  */
 class Sqlite implements PlatformInterface
@@ -32,8 +30,8 @@ class Sqlite implements PlatformInterface
     }
 
     /**
-     * @param \Zend\Db\Adapter\Driver\Pdo\Pdo||\PDO $driver
-     * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
+     * @param \Laminas\Db\Adapter\Driver\Pdo\Pdo||\PDO $driver
+     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
      * @return $this
      */
     public function setDriver($driver)
@@ -48,7 +46,7 @@ class Sqlite implements PlatformInterface
             return $this;
         }
 
-        throw new Exception\InvalidArgumentException('$driver must be a Sqlite PDO Zend\Db\Adapter\Driver, Sqlite PDO instance');
+        throw new Exception\InvalidArgumentException('$driver must be a Sqlite PDO Laminas\Db\Adapter\Driver, Sqlite PDO instance');
     }
 
     /**

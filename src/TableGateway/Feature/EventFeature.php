@@ -1,29 +1,27 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\TableGateway\Feature;
+namespace Laminas\Db\TableGateway\Feature;
 
-use Zend\Db\Adapter\Driver\ResultInterface;
-use Zend\Db\Adapter\Driver\StatementInterface;
-use Zend\Db\ResultSet\ResultSetInterface;
-use Zend\Db\Sql\Delete;
-use Zend\Db\Sql\Insert;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Update;
-use Zend\EventManager\EventManager;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\EventsCapableInterface;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\ResultSet\ResultSetInterface;
+use Laminas\Db\Sql\Delete;
+use Laminas\Db\Sql\Insert;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Update;
+use Laminas\EventManager\EventManager;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\EventsCapableInterface;
 
 /**
- * @category   Zend
- * @package    Zend_Db
+ * @category   Laminas
+ * @package    Laminas_Db
  * @subpackage TableGateway
  */
 class EventFeature extends AbstractFeature implements EventsCapableInterface
@@ -51,7 +49,7 @@ class EventFeature extends AbstractFeature implements EventsCapableInterface
                             : new EventManager;
 
         $this->eventManager->setIdentifiers(array(
-            'Zend\Db\TableGateway\TableGateway',
+            'Laminas\Db\TableGateway\TableGateway',
         ));
 
         $this->event = ($tableGatewayEvent) ?: new EventFeature\TableGatewayEvent();
@@ -88,7 +86,7 @@ class EventFeature extends AbstractFeature implements EventsCapableInterface
      */
     public function preInitialize()
     {
-        if (get_class($this->tableGateway) != 'Zend\Db\TableGateway\TableGateway') {
+        if (get_class($this->tableGateway) != 'Laminas\Db\TableGateway\TableGateway') {
             $this->eventManager->addIdentifiers(get_class($this->tableGateway));
         }
 

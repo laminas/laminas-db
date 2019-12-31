@@ -1,22 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Sql\Platform\Mysql;
+namespace Laminas\Db\Sql\Platform\Mysql;
 
-use Zend\Db\Sql\Platform\AbstractPlatform;
+use Laminas\Db\Sql\Platform\AbstractPlatform;
 
 class Mysql extends AbstractPlatform
 {
 
     public function __construct(SelectDecorator $selectDecorator = null)
     {
-        $this->setTypeDecorator('Zend\Db\Sql\Select', ($selectDecorator) ?: new SelectDecorator());
+        $this->setTypeDecorator('Laminas\Db\Sql\Select', ($selectDecorator) ?: new SelectDecorator());
     }
 }

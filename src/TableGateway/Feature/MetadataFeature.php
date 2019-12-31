@@ -1,22 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\TableGateway\Feature;
+namespace Laminas\Db\TableGateway\Feature;
 
-use Zend\Db\Metadata\Metadata;
-use Zend\Db\Metadata\MetadataInterface;
-use Zend\Db\TableGateway\Exception;
+use Laminas\Db\Metadata\Metadata;
+use Laminas\Db\Metadata\MetadataInterface;
+use Laminas\Db\TableGateway\Exception;
 
 /**
- * @category   Zend
- * @package    Zend_Db
+ * @category   Laminas
+ * @package    Laminas_Db
  * @subpackage TableGateway
  */
 class MetadataFeature extends AbstractFeature
@@ -64,7 +62,7 @@ class MetadataFeature extends AbstractFeature
         $pkc = null;
 
         foreach ($m->getConstraints($t->table) as $constraint) {
-            /** @var $constraint \Zend\Db\Metadata\Object\ConstraintObject */
+            /** @var $constraint \Laminas\Db\Metadata\Object\ConstraintObject */
             if ($constraint->getType() == 'PRIMARY KEY') {
                 $pkc = $constraint;
                 break;

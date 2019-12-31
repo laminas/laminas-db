@@ -1,22 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Metadata\Source;
+namespace Laminas\Db\Metadata\Source;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Metadata\MetadataInterface;
-use Zend\Db\Metadata\Object;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Metadata\MetadataInterface;
+use Laminas\Db\Metadata\Object;
 
 /**
- * @category   Zend
- * @package    Zend_Db
+ * @category   Laminas
+ * @package    Laminas_Db
  * @subpackage Metadata
  */
 abstract class AbstractSource implements MetadataInterface
@@ -197,7 +195,7 @@ abstract class AbstractSource implements MetadataInterface
      *
      * @param string $viewName
      * @param string $schema
-     * @return \Zend\Db\Metadata\Object\TableObject
+     * @return \Laminas\Db\Metadata\Object\TableObject
      */
     public function getView($viewName, $schema = null)
     {

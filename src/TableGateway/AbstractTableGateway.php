@@ -1,29 +1,27 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\TableGateway;
+namespace Laminas\Db\TableGateway;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\ResultSet\ResultSetInterface;
-use Zend\Db\Sql\Delete;
-use Zend\Db\Sql\Insert;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\TableIdentifier;
-use Zend\Db\Sql\Update;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\ResultSet\ResultSetInterface;
+use Laminas\Db\Sql\Delete;
+use Laminas\Db\Sql\Insert;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\TableIdentifier;
+use Laminas\Db\Sql\Update;
+use Laminas\Db\Sql\Where;
 
 /**
- * @category   Zend
- * @package    Zend_Db
+ * @category   Laminas
+ * @package    Laminas_Db
  * @subpackage TableGateway
  *
  * @property Adapter $adapter
@@ -323,7 +321,7 @@ abstract class AbstractTableGateway implements TableGatewayInterface
     }
 
     /**
-     * @param \Zend\Db\Sql\Update $update
+     * @param \Laminas\Db\Sql\Update $update
      * @return mixed
      */
     public function updateWith(Update $update)
