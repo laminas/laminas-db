@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Platform;
+namespace LaminasTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Driver\Pdo\Pdo;
-use Zend\Db\Adapter\Platform\SqlServer;
+use Laminas\Db\Adapter\Driver\Pdo\Pdo;
+use Laminas\Db\Adapter\Platform\SqlServer;
 
 class SqlServerTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +28,7 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::getName
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::getName
      */
     public function testGetName()
     {
@@ -37,7 +36,7 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::getQuoteIdentifierSymbol
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -45,7 +44,7 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteIdentifier
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -53,7 +52,7 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteIdentifierChain
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -63,7 +62,7 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::getQuoteValueSymbol
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -71,19 +70,19 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteValue
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::quoteValue
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
         $this->setExpectedException(
             'PHPUnit_Framework_Error_Notice',
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\SqlServer without extension/driver support can introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\SqlServer without extension/driver support can introduce security vulnerabilities in a production environment'
         );
         $this->platform->quoteValue('value');
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteValue
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::quoteValue
      */
     public function testQuoteValue()
     {
@@ -94,7 +93,7 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteTrustedValue
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -105,19 +104,19 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteValueList
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::quoteValueList
      */
     public function testQuoteValueList()
     {
         $this->setExpectedException(
             'PHPUnit_Framework_Error',
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\SqlServer without extension/driver support can introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\SqlServer without extension/driver support can introduce security vulnerabilities in a production environment'
         );
         $this->assertEquals("'Foo O''Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::getIdentifierSeparator
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -125,7 +124,7 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::quoteIdentifierInFragment
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {
@@ -149,7 +148,7 @@ class SqlServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\SqlServer::setDriver
+     * @covers Laminas\Db\Adapter\Platform\SqlServer::setDriver
      */
     public function testSetDriver()
     {
