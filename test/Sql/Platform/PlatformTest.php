@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Platform;
+namespace LaminasTest\Db\Sql\Platform;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\StatementContainer;
+use Laminas\Db\Sql\Platform\Platform;
+use LaminasTest\Db\TestAsset;
 use ReflectionMethod;
-use Zend\Db\Adapter\StatementContainer;
-use ZendTest\Db\TestAsset;
-use Zend\Db\Sql\Platform\Platform;
-use Zend\Db\Adapter\Adapter;
 
 class PlatformTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,7 +57,7 @@ class PlatformTest extends \PHPUnit_Framework_TestCase
 
         $reflectionMethod->setAccessible(true);
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\RuntimeException', '$this->defaultPlatform was not set');
+        $this->setExpectedException('Laminas\Db\Sql\Exception\RuntimeException', '$this->defaultPlatform was not set');
 
         $reflectionMethod->invoke($platform, null);
     }
@@ -78,7 +77,7 @@ class PlatformTest extends \PHPUnit_Framework_TestCase
 
         $reflectionMethod->setAccessible(true);
 
-        $this->setExpectedException('Zend\Db\Sql\Exception\RuntimeException', '$this->defaultPlatform was not set');
+        $this->setExpectedException('Laminas\Db\Sql\Exception\RuntimeException', '$this->defaultPlatform was not set');
 
         $platform->getDecorators();
     }
@@ -107,8 +106,8 @@ class PlatformTest extends \PHPUnit_Framework_TestCase
                 break;
         }
 
-        /* @var $mockDriver \Zend\Db\Adapter\Driver\DriverInterface|\PHPUnit_Framework_MockObject_MockObject */
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        /* @var $mockDriver \Laminas\Db\Adapter\Driver\DriverInterface|\PHPUnit_Framework_MockObject_MockObject */
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
 
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnCallback(function () {
