@@ -32,6 +32,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#375](https://github.com/zendframework/zend-db/pull/375) fixes detecting number of replacements in `Zend\Db\Sql\Expression`.
 
+- [#377](https://github.com/zendframework/zend-db/pull/377) allows any `AdapterInterface` instance in `RowGateway`.
+
 ## 2.10.0 - 2019-02-25
 
 ### Added
