@@ -33,7 +33,7 @@ class InsertIgnoreTest extends TestCase
 
     public function testInto()
     {
-        $this->insert->into('table', 'schema');
+        $this->insert->into('table');
         self::assertEquals('table', $this->insert->getRawState('table'));
 
         $tableIdentifier = new TableIdentifier('table', 'schema');
