@@ -1,21 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Ddl\Column;
+namespace LaminasTest\Db\Sql\Ddl\Column;
 
+use Laminas\Db\Sql\Ddl\Column\BigInteger;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Sql\Ddl\Column\BigInteger;
 
 class BigIntegerTest extends TestCase
 {
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\BigInteger::__construct
+     * @covers \Laminas\Db\Sql\Ddl\Column\BigInteger::__construct
      */
     public function testObjectConstruction()
     {
@@ -24,7 +23,7 @@ class BigIntegerTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\Column\Column::getExpressionData
+     * @covers \Laminas\Db\Sql\Ddl\Column\Column::getExpressionData
      */
     public function testGetExpressionData()
     {

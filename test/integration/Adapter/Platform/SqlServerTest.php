@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendIntegrationTest\Db\Adapter\Platform;
+namespace LaminasIntegrationTest\Db\Adapter\Platform;
 
+use Laminas\Db\Adapter\Platform\SqlServer;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Platform\SqlServer;
 
 /**
  * @group integration
@@ -22,16 +21,16 @@ class SqlServerTest extends TestCase
 
     protected function setUp()
     {
-        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV')) {
+        if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV')) {
             $this->markTestSkipped(__CLASS__ . ' integration tests are not enabled!');
         }
         if (extension_loaded('sqlsrv')) {
             $this->adapters['sqlsrv'] = \sqlsrv_connect(
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'),
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'),
                 [
-                    'UID' => getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
-                    'PWD' => getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
-                    'Database' => (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE') ? : null),
+                    'UID' => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
+                    'PWD' => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
+                    'Database' => (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_DATABASE') ? : null),
                 ]
             );
             if (! $this->adapters['sqlsrv']) {
@@ -41,10 +40,10 @@ class SqlServerTest extends TestCase
         }
         if (extension_loaded('pdo')) {
             $this->adapters['pdo_sqlsrv'] = new \PDO(
-                'sqlsrv:Server=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
-                    . ';Database=' . (getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_DATABASE') ? : null),
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD')
+                'sqlsrv:Server=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
+                    . ';Database=' . (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_DATABASE') ? : null),
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD')
             );
         }
     }

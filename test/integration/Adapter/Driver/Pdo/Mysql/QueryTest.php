@@ -1,11 +1,11 @@
 <?php
 
-namespace ZendIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
+namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\Pdo\Result as PdoResult;
+use Laminas\Db\ResultSet\ResultSet;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Adapter\Driver\Pdo\Result as PdoResult;
-use Zend\Db\ResultSet\ResultSet;
 
 class QueryTest extends TestCase
 {
@@ -23,8 +23,8 @@ class QueryTest extends TestCase
 
     /**
      * @dataProvider getQueriesWithRowResult
-     * @covers \Zend\Db\Adapter\Adapter::query
-     * @covers \Zend\Db\ResultSet\ResultSet::current
+     * @covers \Laminas\Db\Adapter\Adapter::query
+     * @covers \Laminas\Db\ResultSet\ResultSet::current
      */
     public function testQuery($query, $params, $expected)
     {
@@ -49,7 +49,7 @@ class QueryTest extends TestCase
     }
 
     /**
-     * @expectedException Zend\Db\Adapter\Exception\RuntimeException
+     * @expectedException Laminas\Db\Adapter\Exception\RuntimeException
      */
     public function testSelectWithNotPermittedBindParamName()
     {
