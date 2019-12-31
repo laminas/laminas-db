@@ -135,7 +135,7 @@ class Expression extends AbstractExpression
         $parametersCount = count($parameters);
         $expression = str_replace('%', '%%', $this->expression);
 
-        if ($parametersCount == 0) {
+        if ($parametersCount === 0) {
             return [
                 str_ireplace(self::PLACEHOLDER, '', $expression)
             ];
@@ -146,10 +146,13 @@ class Expression extends AbstractExpression
 
         // test number of replacements without considering same variable begin used many times first, which is
         // faster, if the test fails then resort to regex which are slow and used rarely
-        if ($count !== $parametersCount && $parametersCount === preg_match_all('/\:[a-zA-Z0-9_]*/', $expression)) {
-            throw new Exception\RuntimeException(
-                'The number of replacements in the expression does not match the number of parameters'
-            );
+        if ($count !== $parametersCount) {
+            preg_match_all('/\:\w*/', $expression, $matches);
+            if ($parametersCount !== count(array_unique($matches[0]))) {
+                throw new Exception\RuntimeException(
+                    'The number of replacements in the expression does not match the number of parameters'
+                );
+            }
         }
 
         foreach ($parameters as $parameter) {
