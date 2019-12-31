@@ -1,9 +1,9 @@
 <?php
-namespace ZendTest\Db\Adapter\Driver\Oci8;
+namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
-use Zend\Db\Adapter\Driver\Oci8\Statement;
-use Zend\Db\Adapter\Driver\Oci8\Oci8;
-use Zend\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Driver\Oci8\Oci8;
+use Laminas\Db\Adapter\Driver\Oci8\Statement;
+use Laminas\Db\Adapter\ParameterContainer;
 
 class StatementTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::setDriver
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::setDriver
      */
     public function testSetDriver()
     {
@@ -38,7 +38,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::setParameterContainer
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::setParameterContainer
      */
     public function testSetParameterContainer()
     {
@@ -46,7 +46,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::getParameterContainer
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::getParameterContainer
      * @todo   Implement testGetParameterContainer().
      */
     public function testGetParameterContainer()
@@ -57,7 +57,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::getResource
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::getResource
      * @todo   Implement testGetResource().
      */
     public function testGetResource()
@@ -69,7 +69,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::setSql
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::setSql
      * @todo   Implement testSetSql().
      */
     public function testSetSql()
@@ -81,7 +81,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::getSql
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::getSql
      * @todo   Implement testGetSql().
      */
     public function testGetSql()
@@ -93,7 +93,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::prepare
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::prepare
      * @todo   Implement testPrepare().
      */
     public function testPrepare()
@@ -105,7 +105,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::isPrepared
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::isPrepared
      * @todo   Implement testIsPrepared().
      */
     public function testIsPrepared()
@@ -117,7 +117,7 @@ class StatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Oci8\Statement::execute
+     * @covers Laminas\Db\Adapter\Driver\Oci8\Statement::execute
      * @todo   Implement testExecute().
      */
     public function testExecute()
