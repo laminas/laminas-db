@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Sql\Platform\IbmDb2;
+namespace Laminas\Db\Sql\Platform\IbmDb2;
 
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\Sql\Platform\PlatformDecoratorInterface;
-use Zend\Db\Sql\Select;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
+use Laminas\Db\Sql\Select;
 
 class SelectDecorator extends Select implements PlatformDecoratorInterface
 {
@@ -116,7 +115,7 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
             $offsetParamName       = $driver->formatParameterName('offset');
 
             array_push($sqls, sprintf(
-                ") AS ZEND_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION WHERE ZEND_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION.ZEND_DB_ROWNUM BETWEEN %s AND %s",
+                ") AS LAMINAS_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION WHERE LAMINAS_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION.LAMINAS_DB_ROWNUM BETWEEN %s AND %s",
                 $offsetParamName,
                 $limitParamName
             ));
@@ -136,7 +135,7 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
             }
 
             array_push($sqls, sprintf(
-                ") AS ZEND_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION WHERE ZEND_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION.ZEND_DB_ROWNUM BETWEEN %d AND %d",
+                ") AS LAMINAS_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION WHERE LAMINAS_IBMDB2_SERVER_LIMIT_OFFSET_EMULATION.LAMINAS_DB_ROWNUM BETWEEN %d AND %d",
                 $offset,
                 (int) $this->limit + (int) $this->offset
             ));
@@ -151,9 +150,9 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
 
         // add a column for row_number() using the order specification //dense_rank()
         if ($this->getIsSelectContainDistinct()) {
-            $parameters[self::SELECT][0][] = ['DENSE_RANK() OVER (' . $orderBy . ')', 'ZEND_DB_ROWNUM'];
+            $parameters[self::SELECT][0][] = ['DENSE_RANK() OVER (' . $orderBy . ')', 'LAMINAS_DB_ROWNUM'];
         } else {
-            $parameters[self::SELECT][0][] = ['ROW_NUMBER() OVER (' . $orderBy . ')', 'ZEND_DB_ROWNUM'];
+            $parameters[self::SELECT][0][] = ['ROW_NUMBER() OVER (' . $orderBy . ')', 'LAMINAS_DB_ROWNUM'];
         }
 
         $sqls[self::SELECT] = $this->createSqlFromSpecificationAndParameters(

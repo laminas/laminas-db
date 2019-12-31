@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Pdo\Feature;
+namespace LaminasTest\Db\Adapter\Driver\Pdo\Feature;
 
+use Laminas\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter;
 use PHPUnit_Framework_TestCase;
-use Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter;
 
 class OracleRowCounterTest extends PHPUnit_Framework_TestCase
 {
@@ -25,7 +24,7 @@ class OracleRowCounterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getName
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getName
      */
     public function testGetName()
     {
@@ -33,7 +32,7 @@ class OracleRowCounterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getCountForStatement
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getCountForStatement
      */
     public function testGetCountForStatement()
     {
@@ -45,7 +44,7 @@ class OracleRowCounterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getCountForSql
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getCountForSql
      */
     public function testGetCountForSql()
     {
@@ -55,7 +54,7 @@ class OracleRowCounterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getRowCountClosure
+     * @covers Laminas\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter::getRowCountClosure
      */
     public function testGetRowCountClosure()
     {
@@ -69,8 +68,8 @@ class OracleRowCounterTest extends PHPUnit_Framework_TestCase
 
     protected function getMockStatement($sql, $returnValue)
     {
-        /** @var \Zend\Db\Adapter\Driver\Pdo\Statement|\PHPUnit_Framework_MockObject_MockObject $statement */
-        $statement = $this->getMock('Zend\Db\Adapter\Driver\Pdo\Statement', ['prepare', 'execute'], [], '', false);
+        /** @var \Laminas\Db\Adapter\Driver\Pdo\Statement|\PHPUnit_Framework_MockObject_MockObject $statement */
+        $statement = $this->getMock('Laminas\Db\Adapter\Driver\Pdo\Statement', ['prepare', 'execute'], [], '', false);
 
         // mock PDOStatement with stdClass
         $resource = $this->getMock('stdClass', ['fetch']);
@@ -79,7 +78,7 @@ class OracleRowCounterTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(['count' => $returnValue]));
 
         // mock the result
-        $result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface');
+        $result = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $result->expects($this->once())
             ->method('getResource')
             ->will($this->returnValue($resource));
@@ -104,12 +103,12 @@ class OracleRowCounterTest extends PHPUnit_Framework_TestCase
             ->method('query')
             ->will($this->returnValue($pdoStatement));
 
-        $connection = $this->getMock('Zend\Db\Adapter\Driver\ConnectionInterface');
+        $connection = $this->getMock('Laminas\Db\Adapter\Driver\ConnectionInterface');
         $connection->expects($this->once())
             ->method('getResource')
             ->will($this->returnValue($pdoConnection));
 
-        $driver = $this->getMock('Zend\Db\Adapter\Driver\Pdo\Pdo', ['getConnection'], [], '', false);
+        $driver = $this->getMock('Laminas\Db\Adapter\Driver\Pdo\Pdo', ['getConnection'], [], '', false);
         $driver->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($connection));

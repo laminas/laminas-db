@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Pdo;
+namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
-use Zend\Db\Adapter\Driver\Pdo\Statement;
+use Laminas\Db\Adapter\Driver\Pdo\Statement;
 
 class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +29,7 @@ class StatementIntegrationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->statement = new Statement;
-        $this->statement->setDriver($this->getMock('Zend\Db\Adapter\Driver\Pdo\Pdo', ['createResult'], [], '', false));
+        $this->statement->setDriver($this->getMock('Laminas\Db\Adapter\Driver\Pdo\Pdo', ['createResult'], [], '', false));
         $this->statement->initialize(new TestAsset\CtorlessPdo(
             $this->pdoStatementMock = $this->getMock('PDOStatement', ['execute', 'bindParam']))
         );
