@@ -1,11 +1,11 @@
 <?php
 
-namespace ZendTest\Db\TestAsset;
+namespace LaminasTest\Db\TestAsset;
 
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\Sql\Delete;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Sql\Delete;
 
 class DeleteIgnore extends Delete
 {

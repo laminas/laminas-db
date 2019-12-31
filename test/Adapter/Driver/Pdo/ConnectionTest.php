@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Pdo;
+namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
+use Laminas\Db\Adapter\Driver\Pdo\Connection;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Driver\Pdo\Connection;
 
 class ConnectionTest extends TestCase
 {
@@ -31,18 +30,18 @@ class ConnectionTest extends TestCase
     /**
      * Test getResource method tries to connect to  the database, it should never return null
      *
-     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::getResource
+     * @covers \Laminas\Db\Adapter\Driver\Pdo\Connection::getResource
      */
     public function testResource()
     {
-        $this->expectException('Zend\Db\Adapter\Exception\InvalidConnectionParametersException');
+        $this->expectException('Laminas\Db\Adapter\Exception\InvalidConnectionParametersException');
         $this->connection->getResource();
     }
 
     /**
      * Test getConnectedDsn returns a DSN string if it has been set
      *
-     * @covers \Zend\Db\Adapter\Driver\Pdo\Connection::getDsn
+     * @covers \Laminas\Db\Adapter\Driver\Pdo\Connection::getDsn
      */
     public function testGetDsn()
     {
@@ -84,7 +83,7 @@ class ConnectionTest extends TestCase
 
     public function testHostnameAndUnixSocketThrowsInvalidConnectionParametersException()
     {
-        $this->expectException('Zend\Db\Adapter\Exception\InvalidConnectionParametersException');
+        $this->expectException('Laminas\Db\Adapter\Exception\InvalidConnectionParametersException');
         $this->expectExceptionMessage(
             'Ambiguous connection parameters, both hostname and unix_socket parameters were set'
         );

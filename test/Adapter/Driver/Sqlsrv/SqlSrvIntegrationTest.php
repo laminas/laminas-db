@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Sqlsrv;
+namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
-use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 
 /**
  * @group integration
@@ -18,7 +17,7 @@ use Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 class SqlSrvIntegrationTest extends AbstractIntegrationTest
 {
     /**
-     * @var Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv
+     * @var Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv
      */
     private $driver;
 
@@ -36,7 +35,7 @@ class SqlSrvIntegrationTest extends AbstractIntegrationTest
 
     /**
      * @group integration-sqlserver
-     * @covers \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv::checkEnvironment
+     * @covers \Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::checkEnvironment
      */
     public function testCheckEnvironment()
     {
@@ -47,14 +46,14 @@ class SqlSrvIntegrationTest extends AbstractIntegrationTest
     public function testCreateStatement()
     {
         $stmt = $this->driver->createStatement('SELECT 1');
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
+        $this->assertInstanceOf('Laminas\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
         $stmt = $this->driver->createStatement($this->resource);
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
+        $this->assertInstanceOf('Laminas\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
         $stmt = $this->driver->createStatement();
-        $this->assertInstanceOf('Zend\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
+        $this->assertInstanceOf('Laminas\Db\Adapter\Driver\Sqlsrv\Statement', $stmt);
 
         $this->setExpectedException(
-            'Zend\Db\Adapter\Exception\InvalidArgumentException',
+            'Laminas\Db\Adapter\Exception\InvalidArgumentException',
             'only accepts an SQL string or a Sqlsrv resource'
         );
         $this->driver->createStatement(new \stdClass);

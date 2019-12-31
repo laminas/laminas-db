@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\RowGateway;
+namespace LaminasTest\Db\RowGateway;
 
+use Laminas\Db\RowGateway\RowGateway;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\RowGateway\RowGateway;
 
 class AbstractRowGatewayTest extends TestCase
 {
@@ -24,34 +23,34 @@ class AbstractRowGatewayTest extends TestCase
     protected function setUp()
     {
         // mock the adapter, driver, and parts
-        $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
+        $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
         $mockResult->expects($this->any())->method('getAffectedRows')->will($this->returnValue(1));
         $this->mockResult = $mockResult;
-        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockConnection = $this->getMockBuilder('Zend\Db\Adapter\Driver\ConnectionInterface')->getMock();
-        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockConnection = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ConnectionInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockDriver->expects($this->any())->method('getConnection')->will($this->returnValue($mockConnection));
 
         // setup mock adapter
-        $this->mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+        $this->mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $this->rowGateway = $this->getMockForAbstractClass('Zend\Db\RowGateway\AbstractRowGateway');
+        $this->rowGateway = $this->getMockForAbstractClass('Laminas\Db\RowGateway\AbstractRowGateway');
 
         $rgPropertyValues = [
             'primaryKeyColumn' => 'id',
             'table' => 'foo',
-            'sql' => new \Zend\Db\Sql\Sql($this->mockAdapter),
+            'sql' => new \Laminas\Db\Sql\Sql($this->mockAdapter),
         ];
         $this->setRowGatewayState($rgPropertyValues);
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::offsetSet
+     * @covers \Laminas\Db\RowGateway\RowGateway::offsetSet
      */
     public function testOffsetSet()
     {
@@ -62,7 +61,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::__set
+     * @covers \Laminas\Db\RowGateway\RowGateway::__set
      */
     // @codingStandardsIgnoreStart
     public function test__set()
@@ -75,7 +74,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::__isset
+     * @covers \Laminas\Db\RowGateway\RowGateway::__isset
      */
     // @codingStandardsIgnoreStart
     public function test__isset()
@@ -88,7 +87,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::offsetExists
+     * @covers \Laminas\Db\RowGateway\RowGateway::offsetExists
      */
     public function testOffsetExists()
     {
@@ -99,7 +98,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::__unset
+     * @covers \Laminas\Db\RowGateway\RowGateway::__unset
      */
     // @codingStandardsIgnoreStart
     public function test__unset()
@@ -113,7 +112,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::offsetUnset
+     * @covers \Laminas\Db\RowGateway\RowGateway::offsetUnset
      */
     public function testOffsetUnset()
     {
@@ -125,7 +124,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::offsetGet
+     * @covers \Laminas\Db\RowGateway\RowGateway::offsetGet
      */
     public function testOffsetGet()
     {
@@ -136,7 +135,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::__get
+     * @covers \Laminas\Db\RowGateway\RowGateway::__get
      */
     // @codingStandardsIgnoreStart
     public function test__get()
@@ -149,7 +148,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::save
+     * @covers \Laminas\Db\RowGateway\RowGateway::save
      */
     public function testSaveInsert()
     {
@@ -164,13 +163,13 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::save
+     * @covers \Laminas\Db\RowGateway\RowGateway::save
      */
     public function testSaveInsertMultiKey()
     {
-        $this->rowGateway = $this->getMockForAbstractClass('Zend\Db\RowGateway\AbstractRowGateway');
+        $this->rowGateway = $this->getMockForAbstractClass('Laminas\Db\RowGateway\AbstractRowGateway');
 
-        $mockSql = $this->getMockForAbstractClass('Zend\Db\Sql\Sql', [$this->mockAdapter]);
+        $mockSql = $this->getMockForAbstractClass('Laminas\Db\Sql\Sql', [$this->mockAdapter]);
 
         $rgPropertyValues = [
             'primaryKeyColumn' => ['one', 'two'],
@@ -200,7 +199,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::save
+     * @covers \Laminas\Db\RowGateway\RowGateway::save
      */
     public function testSaveUpdate()
     {
@@ -213,12 +212,12 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::save
+     * @covers \Laminas\Db\RowGateway\RowGateway::save
      */
     public function testSaveUpdateChangingPrimaryKey()
     {
         // this mock is the select to be used to re-fresh the rowobject's data
-        $selectMock = $this->getMockBuilder('Zend\Db\Sql\Select')
+        $selectMock = $this->getMockBuilder('Laminas\Db\Sql\Select')
             ->setMethods(['where'])
             ->getMock();
         $selectMock->expects($this->once())
@@ -226,7 +225,7 @@ class AbstractRowGatewayTest extends TestCase
             ->with($this->equalTo(['id' => 7]))
             ->will($this->returnValue($selectMock));
 
-        $sqlMock = $this->getMockBuilder('Zend\Db\Sql\Sql')
+        $sqlMock = $this->getMockBuilder('Laminas\Db\Sql\Sql')
             ->setMethods(['select'])
             ->setConstructorArgs([$this->mockAdapter])
             ->getMock();
@@ -249,7 +248,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::delete
+     * @covers \Laminas\Db\RowGateway\RowGateway::delete
      */
     public function testDelete()
     {
@@ -260,8 +259,8 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::populate
-     * @covers \Zend\Db\RowGateway\RowGateway::rowExistsInDatabase
+     * @covers \Laminas\Db\RowGateway\RowGateway::populate
+     * @covers \Laminas\Db\RowGateway\RowGateway::rowExistsInDatabase
      */
     public function testPopulate()
     {
@@ -275,19 +274,19 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::processPrimaryKeyData
+     * @covers \Laminas\Db\RowGateway\RowGateway::processPrimaryKeyData
      */
     public function testProcessPrimaryKeyData()
     {
         $this->rowGateway->populate(['id' => 5, 'name' => 'foo'], true);
 
-        $this->expectException('Zend\Db\RowGateway\Exception\RuntimeException');
+        $this->expectException('Laminas\Db\RowGateway\Exception\RuntimeException');
         $this->expectExceptionMessage('a known key id was not found');
         $this->rowGateway->populate(['boo' => 5, 'name' => 'foo'], true);
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::count
+     * @covers \Laminas\Db\RowGateway\RowGateway::count
      */
     public function testCount()
     {
@@ -296,7 +295,7 @@ class AbstractRowGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\RowGateway\RowGateway::toArray
+     * @covers \Laminas\Db\RowGateway\RowGateway::toArray
      */
     public function testToArray()
     {

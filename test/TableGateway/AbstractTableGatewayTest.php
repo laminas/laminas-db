@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\TableGateway;
+namespace LaminasTest\Db\TableGateway;
 
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\Sql;
+use Laminas\Db\TableGateway\AbstractTableGateway;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Sql;
-use Zend\Db\TableGateway\AbstractTableGateway;
 
 class AbstractTableGatewayTest extends TestCase
 {
@@ -38,57 +37,57 @@ class AbstractTableGatewayTest extends TestCase
     protected function setUp()
     {
         // mock the adapter, driver, and parts
-        $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
+        $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
         $mockResult->expects($this->any())->method('getAffectedRows')->will($this->returnValue(5));
 
-        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
 
-        $mockConnection = $this->getMockBuilder('Zend\Db\Adapter\Driver\ConnectionInterface')->getMock();
+        $mockConnection = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ConnectionInterface')->getMock();
         $mockConnection->expects($this->any())->method('getLastGeneratedValue')->will($this->returnValue(10));
 
-        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockDriver->expects($this->any())->method('getConnection')->will($this->returnValue($mockConnection));
 
-        $this->mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+        $this->mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
-        $this->mockSql = $this->getMockBuilder('Zend\Db\Sql\Sql')
+        $this->mockSql = $this->getMockBuilder('Laminas\Db\Sql\Sql')
             ->setMethods(['select', 'insert', 'update', 'delete'])
             ->setConstructorArgs([$this->mockAdapter, 'foo'])
             ->getMock();
         $this->mockSql->expects($this->any())->method('select')->will($this->returnValue(
-            $this->getMockBuilder('Zend\Db\Sql\Select')
+            $this->getMockBuilder('Laminas\Db\Sql\Select')
                 ->setMethods(['where', 'getRawState'])
                 ->setConstructorArgs(['foo'])
                 ->getMock()
         ));
         $this->mockSql->expects($this->any())->method('insert')->will($this->returnValue(
-            $this->getMockBuilder('Zend\Db\Sql\Insert')
+            $this->getMockBuilder('Laminas\Db\Sql\Insert')
                 ->setMethods(['prepareStatement', 'values'])
                 ->setConstructorArgs(['foo'])
                 ->getMock()
         ));
         $this->mockSql->expects($this->any())->method('update')->will($this->returnValue(
-            $this->getMockBuilder('Zend\Db\Sql\Update')
+            $this->getMockBuilder('Laminas\Db\Sql\Update')
                 ->setMethods(['where', 'join'])
                 ->setConstructorArgs(['foo'])
                 ->getMock()
         ));
         $this->mockSql->expects($this->any())->method('delete')->will($this->returnValue(
-            $this->getMockBuilder('Zend\Db\Sql\Delete')
+            $this->getMockBuilder('Laminas\Db\Sql\Delete')
                 ->setMethods(['where'])
                 ->setConstructorArgs(['foo'])
                 ->getMock()
         ));
 
         $this->table = $this->getMockForAbstractClass(
-            'Zend\Db\TableGateway\AbstractTableGateway'
+            'Laminas\Db\TableGateway\AbstractTableGateway'
             //array('getTable')
         );
-        $tgReflection = new \ReflectionClass('Zend\Db\TableGateway\AbstractTableGateway');
+        $tgReflection = new \ReflectionClass('Laminas\Db\TableGateway\AbstractTableGateway');
         foreach ($tgReflection->getProperties() as $tgPropReflection) {
             $tgPropReflection->setAccessible(true);
             switch ($tgPropReflection->getName()) {
@@ -117,7 +116,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::getTable
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::getTable
      */
     public function testGetTable()
     {
@@ -125,7 +124,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::getAdapter
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::getAdapter
      */
     public function testGetAdapter()
     {
@@ -133,39 +132,39 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::getSql
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::getSql
      */
     public function testGetSql()
     {
-        self::assertInstanceOf('Zend\Db\Sql\Sql', $this->table->getSql());
+        self::assertInstanceOf('Laminas\Db\Sql\Sql', $this->table->getSql());
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::getResultSetPrototype
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::getResultSetPrototype
      */
     public function testGetSelectResultPrototype()
     {
-        self::assertInstanceOf('Zend\Db\ResultSet\ResultSet', $this->table->getResultSetPrototype());
+        self::assertInstanceOf('Laminas\Db\ResultSet\ResultSet', $this->table->getResultSetPrototype());
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::select
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::selectWith
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeSelect
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::select
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::selectWith
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::executeSelect
      */
     public function testSelectWithNoWhere()
     {
         $resultSet = $this->table->select();
 
         // check return types
-        self::assertInstanceOf('Zend\Db\ResultSet\ResultSet', $resultSet);
+        self::assertInstanceOf('Laminas\Db\ResultSet\ResultSet', $resultSet);
         self::assertNotSame($this->table->getResultSetPrototype(), $resultSet);
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::select
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::selectWith
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeSelect
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::select
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::selectWith
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::executeSelect
      */
     public function testSelectWithWhereString()
     {
@@ -187,15 +186,15 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::select
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::selectWith
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeSelect
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::select
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::selectWith
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::executeSelect
      *
      * This is a test for the case when a valid $select is built using an aliased table name, then used
      * with AbstractTableGateway::selectWith (or AbstractTableGateway::select).
      *
      * $myTable = new MyTable(...);
-     * $sql = new \Zend\Db\Sql\Sql(...);
+     * $sql = new \Laminas\Db\Sql\Sql(...);
      * $select = $sql->select()->from(array('t' => 'mytable'));
      *
      * // Following fails, with Fatal error: Uncaught exception 'RuntimeException' with message
@@ -207,7 +206,7 @@ class AbstractTableGatewayTest extends TestCase
     {
         // Case 1
 
-        $select1 = $this->getMockBuilder('Zend\Db\Sql\Select')->setMethods(['getRawState'])->getMock();
+        $select1 = $this->getMockBuilder('Laminas\Db\Sql\Select')->setMethods(['getRawState'])->getMock();
         $select1->expects($this->once())
             ->method('getRawState')
             ->will($this->returnValue([
@@ -219,7 +218,7 @@ class AbstractTableGatewayTest extends TestCase
 
         // Case 2
 
-        $select1 = $this->getMockBuilder('Zend\Db\Sql\Select')->setMethods(['getRawState'])->getMock();
+        $select1 = $this->getMockBuilder('Laminas\Db\Sql\Select')->setMethods(['getRawState'])->getMock();
         $select1->expects($this->once())
             ->method('getRawState')
             ->will($this->returnValue([
@@ -231,9 +230,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::insert
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::insertWith
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeInsert
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::insert
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::insertWith
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::executeInsert
      */
     public function testInsert()
     {
@@ -253,9 +252,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::update
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::updateWith
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::update
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::updateWith
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::executeUpdate
      */
     public function testUpdate()
     {
@@ -271,9 +270,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::update
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::updateWith
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::update
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::updateWith
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::executeUpdate
      */
     public function testUpdateWithJoin()
     {
@@ -301,9 +300,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::update
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::updateWith
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::update
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::updateWith
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::executeUpdate
      */
     public function testUpdateWithJoinDefaultType()
     {
@@ -330,9 +329,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::update
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::updateWith
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeUpdate
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::update
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::updateWith
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::executeUpdate
      */
     public function testUpdateWithNoCriteria()
     {
@@ -343,9 +342,9 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::delete
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::deleteWith
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::executeDelete
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::delete
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::deleteWith
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::executeDelete
      */
     public function testDelete()
     {
@@ -361,7 +360,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::getLastInsertValue
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::getLastInsertValue
      */
     public function testGetLastInsertValue()
     {
@@ -370,7 +369,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::__get
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::__get
      */
     // @codingStandardsIgnoreStart
     public function test__get()
@@ -384,7 +383,7 @@ class AbstractTableGatewayTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\TableGateway\AbstractTableGateway::__clone
+     * @covers \Laminas\Db\TableGateway\AbstractTableGateway::__clone
      */
     // @codingStandardsIgnoreStart
     public function test__clone()

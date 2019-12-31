@@ -1,7 +1,7 @@
 <?php
 
-namespace ZendTest\Db\TestAsset;
+namespace LaminasTest\Db\TestAsset;
 
-class TemporaryResultSet extends \Zend\Db\ResultSet\ResultSet
+class TemporaryResultSet extends \Laminas\Db\ResultSet\ResultSet
 {
 }
