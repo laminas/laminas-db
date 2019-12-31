@@ -34,6 +34,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#377](https://github.com/zendframework/zend-db/pull/377) allows any `AdapterInterface` instance in `RowGateway`.
 
+- [#342](https://github.com/zendframework/zend-db/pull/342) fixes deleting from aliased tables.
+
 ## 2.10.0 - 2019-02-25
 
 ### Added
