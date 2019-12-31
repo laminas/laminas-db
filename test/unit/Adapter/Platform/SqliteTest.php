@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Platform;
+namespace LaminasTest\Db\Adapter\Platform;
 
+use Laminas\Db\Adapter\Platform\Sqlite;
 use PHPUnit\Framework\Error;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Platform\Sqlite;
 
 class SqliteTest extends TestCase
 {
@@ -30,7 +29,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::getName
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::getName
      */
     public function testGetName()
     {
@@ -38,7 +37,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::getQuoteIdentifierSymbol
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -46,7 +45,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteIdentifier
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -54,7 +53,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteIdentifierChain
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -64,7 +63,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::getQuoteValueSymbol
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -72,20 +71,20 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteValue
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::quoteValue
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
         $this->expectException(Error\Notice::class);
         $this->expectExceptionMessage(
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Sqlite without extension/driver support can '
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Sqlite without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
         );
         $this->platform->quoteValue('value');
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteValue
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::quoteValue
      */
     public function testQuoteValue()
     {
@@ -102,7 +101,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteTrustedValue
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -121,20 +120,20 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteValueList
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::quoteValueList
      */
     public function testQuoteValueList()
     {
         $this->expectException(Error\Error::class);
         $this->expectExceptionMessage(
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Sqlite without extension/driver support can '
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Sqlite without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
         );
         self::assertEquals("'Foo O\\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::getIdentifierSeparator
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -142,7 +141,7 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteIdentifierInFragment
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {
@@ -175,8 +174,8 @@ class SqliteTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteValue
-     * @covers \Zend\Db\Adapter\Platform\Sqlite::quoteTrustedValue
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::quoteValue
+     * @covers \Laminas\Db\Adapter\Platform\Sqlite::quoteTrustedValue
      */
     public function testCanCloseConnectionAfterQuoteValue()
     {
@@ -186,7 +185,7 @@ class SqliteTest extends TestCase
             touch($filePath);
         }
 
-        $driver = new \Zend\Db\Adapter\Driver\Pdo\Pdo([
+        $driver = new \Laminas\Db\Adapter\Driver\Pdo\Pdo([
             'driver' => 'Pdo_Sqlite',
             'database' => $filePath,
         ]);

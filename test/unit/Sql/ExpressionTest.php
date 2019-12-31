@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
+use Laminas\Db\Sql\Exception\InvalidArgumentException;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Select;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Sql\Exception\InvalidArgumentException;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\Select;
 
 /**
  * This is a unit testing test case.
@@ -23,7 +22,7 @@ use Zend\Db\Sql\Select;
 class ExpressionTest extends TestCase
 {
     /**
-     * @covers \Zend\Db\Sql\Expression::setExpression
+     * @covers \Laminas\Db\Sql\Expression::setExpression
      * @return Expression
      */
     public function testSetExpression()
@@ -35,18 +34,18 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Expression::setExpression
+     * @covers \Laminas\Db\Sql\Expression::setExpression
      */
     public function testSetExpressionException()
     {
         $expression = new Expression();
-        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Supplied expression must be a string.');
         $expression->setExpression(null);
     }
 
     /**
-     * @covers \Zend\Db\Sql\Expression::getExpression
+     * @covers \Laminas\Db\Sql\Expression::getExpression
      * @depends testSetExpression
      */
     public function testGetExpression(Expression $expression)
@@ -55,7 +54,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Expression::setParameters
+     * @covers \Laminas\Db\Sql\Expression::setParameters
      */
     public function testSetParameters()
     {
@@ -66,19 +65,19 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Expression::setParameters
+     * @covers \Laminas\Db\Sql\Expression::setParameters
      */
     public function testSetParametersException()
     {
         $expression = new Expression('', 'foo');
 
-        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Expression parameters must be a scalar or array.');
         $expression->setParameters(null);
     }
 
     /**
-     * @covers \Zend\Db\Sql\Expression::getParameters
+     * @covers \Laminas\Db\Sql\Expression::getParameters
      * @depends testSetParameters
      */
     public function testGetParameters(Expression $expression)
@@ -87,7 +86,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Expression::setTypes
+     * @covers \Laminas\Db\Sql\Expression::setTypes
      */
     public function testSetTypes()
     {
@@ -102,7 +101,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Expression::getTypes
+     * @covers \Laminas\Db\Sql\Expression::getTypes
      * @depends testSetTypes
      */
     public function testGetTypes(Expression $expression)
@@ -114,7 +113,7 @@ class ExpressionTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Expression::getExpressionData
+     * @covers \Laminas\Db\Sql\Expression::getExpressionData
      */
     public function testGetExpressionData()
     {

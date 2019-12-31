@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Oci8;
+namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
-use Zend\Db\Adapter\Driver\Oci8\Connection;
-use Zend\Db\Adapter\Driver\Oci8\Oci8;
+use Laminas\Db\Adapter\Driver\Oci8\Connection;
+use Laminas\Db\Adapter\Driver\Oci8\Oci8;
 
 /**
  * @group integration
@@ -19,7 +18,7 @@ use Zend\Db\Adapter\Driver\Oci8\Oci8;
 class ConnectionIntegrationTest extends AbstractIntegrationTest
 {
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Connection::getCurrentSchema
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Connection::getCurrentSchema
      */
     public function testGetCurrentSchema()
     {
@@ -28,7 +27,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Connection::setResource
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Connection::setResource
      */
     public function testSetResource()
     {
@@ -48,7 +47,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Connection::getResource
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Connection::getResource
      */
     public function testGetResource()
     {
@@ -61,7 +60,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Connection::connect
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Connection::connect
      */
     public function testConnect()
     {
@@ -74,7 +73,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Connection::isConnected
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Connection::isConnected
      */
     public function testIsConnected()
     {
@@ -88,7 +87,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Connection::disconnect
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Connection::disconnect
      */
     public function testDisconnect()
     {
@@ -100,7 +99,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Connection::beginTransaction
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Connection::beginTransaction
      * @todo   Implement testBeginTransaction().
      */
     public function testBeginTransaction()
@@ -112,7 +111,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Connection::commit
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Connection::commit
      * @todo   Implement testCommit().
      */
     public function testCommit()
@@ -124,7 +123,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Connection::rollback
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Connection::rollback
      * @todo   Implement testRollback().
      */
     public function testRollback()
@@ -136,7 +135,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Connection::execute
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Connection::execute
      */
     public function testExecute()
     {
@@ -144,11 +143,11 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
         $connection = $oci8->getConnection();
 
         $result = $connection->execute('SELECT \'foo\' FROM DUAL');
-        self::assertInstanceOf('Zend\Db\Adapter\Driver\Oci8\Result', $result);
+        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Oci8\Result', $result);
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Connection::getLastGeneratedValue
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Connection::getLastGeneratedValue
      */
     public function testGetLastGeneratedValue()
     {
@@ -158,7 +157,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     }
 
     /**
-     * @group zf3469
+     * @group laminas3469
      */
     public function testConnectReturnsConnectionWhenResourceSet()
     {

@@ -1,9 +1,9 @@
 <?php
 
-namespace ZendIntegrationTest\Db\Adapter\Driver\Mysqli;
+namespace LaminasIntegrationTest\Db\Adapter\Driver\Mysqli;
 
+use Laminas\Db\Adapter\Driver\Mysqli\Connection;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Driver\Mysqli\Connection;
 
 /**
  * @group integration

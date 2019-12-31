@@ -1,15 +1,16 @@
 <?php
+
 /**
- * @link      http://github.com/zendframework/zend-db for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db;
+namespace LaminasTest\Db;
 
+use Laminas\Db\Adapter;
+use Laminas\Db\ConfigProvider;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter;
-use Zend\Db\ConfigProvider;
 
 class ConfigProviderTest extends TestCase
 {

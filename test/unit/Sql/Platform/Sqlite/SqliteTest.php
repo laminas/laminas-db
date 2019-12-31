@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Platform\Sqlite;
+namespace LaminasTest\Db\Sql\Platform\Sqlite;
 
+use Laminas\Db\Sql\Platform\Sqlite\Sqlite;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Sql\Platform\Sqlite\Sqlite;
 
 class SqliteTest extends TestCase
 {
     /**
      * @testdox unit test / object test: Test Sqlite constructor will register the decorator
-     * @covers \Zend\Db\Sql\Platform\Sqlite\Sqlite::__construct
+     * @covers \Laminas\Db\Sql\Platform\Sqlite\Sqlite::__construct
      */
     public function testConstructorRegistersSqliteDecorator()
     {
@@ -25,7 +24,7 @@ class SqliteTest extends TestCase
 
         $type = key($decorators);
         $decorator = current($decorators);
-        self::assertEquals('Zend\Db\Sql\Select', $type);
-        self::assertInstanceOf('Zend\Db\Sql\Platform\Sqlite\SelectDecorator', $decorator);
+        self::assertEquals('Laminas\Db\Sql\Select', $type);
+        self::assertInstanceOf('Laminas\Db\Sql\Platform\Sqlite\SelectDecorator', $decorator);
     }
 }

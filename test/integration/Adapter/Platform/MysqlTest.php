@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendIntegrationTest\Db\Adapter\Platform;
+namespace LaminasIntegrationTest\Db\Adapter\Platform;
 
+use Laminas\Db\Adapter\Driver\Mysqli;
+use Laminas\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Platform\Mysql;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Driver\Mysqli;
-use Zend\Db\Adapter\Driver\Pdo;
-use Zend\Db\Adapter\Platform\Mysql;
 
 /**
  * @group integration
@@ -24,23 +23,23 @@ class MysqlTest extends TestCase
 
     protected function setUp()
     {
-        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
+        if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
             $this->markTestSkipped(__CLASS__ . ' integration tests are not enabled!');
         }
         if (extension_loaded('mysqli')) {
             $this->adapters['mysqli'] = new \mysqli(
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD'),
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD'),
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
             );
         }
         if (extension_loaded('pdo')) {
             $this->adapters['pdo_mysql'] = new \PDO(
-                'mysql:host=' . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME') . ';dbname='
-                . getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
-                getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
+                'mysql:host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME') . ';dbname='
+                . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
             );
         }
     }
