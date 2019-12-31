@@ -102,7 +102,10 @@ class SequenceFeatureTest extends TestCase
         $platform->expects($this->any())
             ->method('quoteIdentifier')
             ->will($this->returnValue($this->sequenceName));
-        $adapter = $this->getMock('Zend\Db\Adapter\Adapter', ['getPlatform', 'createStatement'], [], '', false);
+        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+            ->setMethods(['getPlatform', 'createStatement'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $adapter->expects($this->any())
             ->method('getPlatform')
             ->will($this->returnValue($platform));
@@ -123,7 +126,10 @@ class SequenceFeatureTest extends TestCase
             ->will($this->returnValue($statement));
         $this->tableGateway = $this->getMockForAbstractClass('Zend\Db\TableGateway\TableGateway', ['table', $adapter], '', true);
         $this->feature->setTableGateway($this->tableGateway);
-        $insert = $this->getMock('Zend\Db\Sql\Insert', ['getPlatform', 'createStatement', 'getRawState'], [], '', false);
+        $insert = $this->getMockBuilder('Zend\Db\Sql\Insert')
+            ->setMethods(['getPlatform', 'createStatement', 'getRawState'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $insert->expects($this->at(0))
             ->method('getRawState')
             ->with('columns')
@@ -135,13 +141,17 @@ class SequenceFeatureTest extends TestCase
 
     public function nextSequenceIdProvider()
     {
-        return [['PostgreSQL', 'SELECT NEXTVAL(\'"' . $this->sequenceName . '"\')'],
-            ['Oracle', 'SELECT ' . $this->sequenceName . '.NEXTVAL as "nextval" FROM dual']];
+        return [
+            ['PostgreSQL', 'SELECT NEXTVAL(\'"' . $this->sequenceName . '"\')'],
+            ['Oracle', 'SELECT ' . $this->sequenceName . '.NEXTVAL as "nextval" FROM dual'],
+        ];
     }
 
     public function lastSequenceIdProvider()
     {
-        return [['PostgreSQL', 'SELECT CURRVAL(\'' . $this->sequenceName . '\')'],
-            ['Oracle', 'SELECT ' . $this->sequenceName . '.CURRVAL as "currval" FROM dual']];
+        return [
+            ['PostgreSQL', 'SELECT CURRVAL(\'' . $this->sequenceName . '\')'],
+            ['Oracle', 'SELECT ' . $this->sequenceName . '.CURRVAL as "currval" FROM dual'],
+        ];
     }
 }
