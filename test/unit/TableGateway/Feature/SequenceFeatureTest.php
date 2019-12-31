@@ -109,12 +109,27 @@ class SequenceFeatureTest extends TestCase
         $adapter->expects($this->any())
             ->method('getPlatform')
             ->will($this->returnValue($platform));
-        $result = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\ResultInterface', [], '', false, true, true,
-            ['current']);
+        $result = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\ResultInterface',
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['current']
+        );
         $result->expects($this->any())
             ->method('current')
             ->will($this->returnValue(['currval' => 1]));
-        $statement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\StatementInterface', [], '', false, true, true, ['prepare', 'execute']);
+        $statement = $this->getMockForAbstractClass(
+            'Zend\Db\Adapter\Driver\StatementInterface',
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['prepare', 'execute']
+        );
         $statement->expects($this->any())
             ->method('execute')
             ->will($this->returnValue($result));
@@ -124,7 +139,12 @@ class SequenceFeatureTest extends TestCase
         $adapter->expects($this->any())
             ->method('createStatement')
             ->will($this->returnValue($statement));
-        $this->tableGateway = $this->getMockForAbstractClass('Zend\Db\TableGateway\TableGateway', ['table', $adapter], '', true);
+        $this->tableGateway = $this->getMockForAbstractClass(
+            'Zend\Db\TableGateway\TableGateway',
+            ['table', $adapter],
+            '',
+            true
+        );
         $this->feature->setTableGateway($this->tableGateway);
         $insert = $this->getMockBuilder('Zend\Db\Sql\Insert')
             ->setMethods(['getPlatform', 'createStatement', 'getRawState'])
