@@ -1,21 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter;
+namespace LaminasTest\Db\Adapter;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\Mvc\Service\ServiceManagerConfig;
+use Laminas\Mvc\Service\ServiceManagerConfig;
+use Laminas\ServiceManager\ServiceManager;
 
 class AdapterAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Zend\ServiceManager\ServiceLocatorInterface
+     * @var \Laminas\ServiceManager\ServiceLocatorInterface
      */
     private $serviceManager;
 
@@ -27,16 +26,16 @@ class AdapterAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->serviceManager = new ServiceManager(new ServiceManagerConfig(array(
-            'abstract_factories' => array('Zend\Db\Adapter\AdapterAbstractServiceFactory'),
+            'abstract_factories' => array('Laminas\Db\Adapter\AdapterAbstractServiceFactory'),
         )));
 
         $this->serviceManager->setService('Config', array(
             'db' => array(
                 'adapters' => array(
-                    'Zend\Db\Adapter\Writer' => array(
+                    'Laminas\Db\Adapter\Writer' => array(
                         'driver' => 'mysqli',
                     ),
-                    'Zend\Db\Adapter\Reader' => array(
+                    'Laminas\Db\Adapter\Reader' => array(
                         'driver' => 'mysqli',
                     ),
                 ),
@@ -50,8 +49,8 @@ class AdapterAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
     public function providerValidService()
     {
         return array(
-            array('Zend\Db\Adapter\Writer'),
-            array('Zend\Db\Adapter\Reader'),
+            array('Laminas\Db\Adapter\Writer'),
+            array('Laminas\Db\Adapter\Reader'),
         );
     }
 
@@ -61,7 +60,7 @@ class AdapterAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
     public function providerInvalidService()
     {
         return array(
-            array('Zend\Db\Adapter\Unknown'),
+            array('Laminas\Db\Adapter\Unknown'),
         );
     }
 
@@ -72,13 +71,13 @@ class AdapterAbstractServiceFactoryTest extends \PHPUnit_Framework_TestCase
     public function testValidService($service)
     {
         $actual = $this->serviceManager->get($service);
-        $this->assertInstanceOf('Zend\Db\Adapter\Adapter', $actual);
+        $this->assertInstanceOf('Laminas\Db\Adapter\Adapter', $actual);
     }
 
     /**
      * @param string $service
      * @dataProvider providerInvalidService
-     * @expectedException \Zend\ServiceManager\Exception\ServiceNotFoundException
+     * @expectedException \Laminas\ServiceManager\Exception\ServiceNotFoundException
      */
     public function testInvalidService($service)
     {
