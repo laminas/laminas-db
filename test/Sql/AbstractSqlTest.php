@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\ExpressionInterface;
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Sql\Predicate;
-use Zend\Db\Sql\Select;
-use ZendTest\Db\TestAsset\TrustingSql92Platform;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\ExpressionInterface;
+use Laminas\Db\Sql\Predicate;
+use Laminas\Db\Sql\Select;
+use LaminasTest\Db\TestAsset\TrustingSql92Platform;
 
 class AbstractSqlTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,11 +25,11 @@ class AbstractSqlTest extends \PHPUnit_Framework_TestCase
 
     public function setup()
     {
-        $this->abstractSql = $this->getMockForAbstractClass('Zend\Db\Sql\AbstractSql');
+        $this->abstractSql = $this->getMockForAbstractClass('Laminas\Db\Sql\AbstractSql');
     }
 
     /**
-     * @covers Zend\Db\Sql\AbstractSql::processExpression
+     * @covers Laminas\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWithoutDriver()
     {
@@ -38,16 +37,16 @@ class AbstractSqlTest extends \PHPUnit_Framework_TestCase
         $sqlAndParams = $this->invokeProcessExpressionMethod($expression);
 
         $this->assertEquals("\"x\" > '5' AND y < '10'", $sqlAndParams->getSql());
-        $this->assertInstanceOf('Zend\Db\Adapter\ParameterContainer', $sqlAndParams->getParameterContainer());
+        $this->assertInstanceOf('Laminas\Db\Adapter\ParameterContainer', $sqlAndParams->getParameterContainer());
         $this->assertEquals(0, $sqlAndParams->getParameterContainer()->count());
     }
 
     /**
-     * @covers Zend\Db\Sql\AbstractSql::processExpression
+     * @covers Laminas\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWithDriverAndParameterizationTypeNamed()
     {
-        $mockDriver = $this->getMock('Zend\Db\Adapter\Driver\DriverInterface');
+        $mockDriver = $this->getMock('Laminas\Db\Adapter\Driver\DriverInterface');
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue(DriverInterface::PARAMETERIZATION_NAMED));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnCallback(function ($x) {
             return ':' . $x;
@@ -84,7 +83,7 @@ class AbstractSqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\AbstractSql::processExpression
+     * @covers Laminas\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWorksWithExpressionContainingStringParts()
     {
@@ -98,7 +97,7 @@ class AbstractSqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Sql\AbstractSql::processExpression
+     * @covers Laminas\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWorksWithExpressionContainingSelectObject()
     {
@@ -126,9 +125,9 @@ class AbstractSqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Zend\Db\Sql\ExpressionInterface $expression
-     * @param \Zend\Db\Adapter\Adapter|null $adapter
-     * @return \Zend\Db\Adapter\StatementContainer
+     * @param \Laminas\Db\Sql\ExpressionInterface $expression
+     * @param \Laminas\Db\Adapter\Adapter|null $adapter
+     * @return \Laminas\Db\Adapter\StatementContainer
      */
     protected function invokeProcessExpressionMethod(ExpressionInterface $expression, $driver = null)
     {
