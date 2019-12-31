@@ -1,10 +1,10 @@
 <?php
 
-namespace ZendIntegrationTest\Db\Adapter\Driver\Mysqli;
+namespace LaminasIntegrationTest\Db\Adapter\Driver\Mysqli;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\TableGateway\TableGateway;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\TableGateway\TableGateway;
 
 class TableGatewayTest extends TestCase
 {

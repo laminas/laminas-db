@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\TableGateway\Feature;
+namespace LaminasTest\Db\TableGateway\Feature;
 
+use Laminas\Db\TableGateway\Feature\SequenceFeature;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\TableGateway\Feature\SequenceFeature;
 
 class SequenceFeatureTest extends TestCase
 {
     /** @var SequenceFeature */
     protected $feature;
 
-    /** @var \Zend\Db\TableGateway\TableGateway */
+    /** @var \Laminas\Db\TableGateway\TableGateway */
     protected $tableGateway;
 
     /**  @var string primary key name */
@@ -36,14 +35,14 @@ class SequenceFeatureTest extends TestCase
      */
     public function testNextSequenceId($platformName, $statementSql)
     {
-        $platform = $this->getMockForAbstractClass('Zend\Db\Adapter\Platform\PlatformInterface', ['getName']);
+        $platform = $this->getMockForAbstractClass('Laminas\Db\Adapter\Platform\PlatformInterface', ['getName']);
         $platform->expects($this->any())
             ->method('getName')
             ->will($this->returnValue($platformName));
         $platform->expects($this->any())
             ->method('quoteIdentifier')
             ->will($this->returnValue($this->sequenceName));
-        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+        $adapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
             ->setMethods(['getPlatform', 'createStatement'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -51,7 +50,7 @@ class SequenceFeatureTest extends TestCase
             ->method('getPlatform')
             ->will($this->returnValue($platform));
         $result = $this->getMockForAbstractClass(
-            'Zend\Db\Adapter\Driver\ResultInterface',
+            'Laminas\Db\Adapter\Driver\ResultInterface',
             [],
             '',
             false,
@@ -63,7 +62,7 @@ class SequenceFeatureTest extends TestCase
             ->method('current')
             ->will($this->returnValue(['nextval' => 2]));
         $statement = $this->getMockForAbstractClass(
-            'Zend\Db\Adapter\Driver\StatementInterface',
+            'Laminas\Db\Adapter\Driver\StatementInterface',
             [],
             '',
             false,
@@ -81,7 +80,7 @@ class SequenceFeatureTest extends TestCase
             ->method('createStatement')
             ->will($this->returnValue($statement));
         $this->tableGateway = $this->getMockForAbstractClass(
-            'Zend\Db\TableGateway\TableGateway',
+            'Laminas\Db\TableGateway\TableGateway',
             ['table', $adapter],
             '',
             true
@@ -95,14 +94,14 @@ class SequenceFeatureTest extends TestCase
      */
     public function testPreInsertWillReturnLastInsertValueIfPrimaryKeySetInColumnsData($platformName, $statementSql)
     {
-        $platform = $this->getMockForAbstractClass('Zend\Db\Adapter\Platform\PlatformInterface', ['getName']);
+        $platform = $this->getMockForAbstractClass('Laminas\Db\Adapter\Platform\PlatformInterface', ['getName']);
         $platform->expects($this->any())
             ->method('getName')
             ->will($this->returnValue($platformName));
         $platform->expects($this->any())
             ->method('quoteIdentifier')
             ->will($this->returnValue($this->sequenceName));
-        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+        $adapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
             ->setMethods(['getPlatform', 'createStatement'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -110,7 +109,7 @@ class SequenceFeatureTest extends TestCase
             ->method('getPlatform')
             ->will($this->returnValue($platform));
         $result = $this->getMockForAbstractClass(
-            'Zend\Db\Adapter\Driver\ResultInterface',
+            'Laminas\Db\Adapter\Driver\ResultInterface',
             [],
             '',
             false,
@@ -122,7 +121,7 @@ class SequenceFeatureTest extends TestCase
             ->method('current')
             ->will($this->returnValue(['currval' => 1]));
         $statement = $this->getMockForAbstractClass(
-            'Zend\Db\Adapter\Driver\StatementInterface',
+            'Laminas\Db\Adapter\Driver\StatementInterface',
             [],
             '',
             false,
@@ -140,13 +139,13 @@ class SequenceFeatureTest extends TestCase
             ->method('createStatement')
             ->will($this->returnValue($statement));
         $this->tableGateway = $this->getMockForAbstractClass(
-            'Zend\Db\TableGateway\TableGateway',
+            'Laminas\Db\TableGateway\TableGateway',
             ['table', $adapter],
             '',
             true
         );
         $this->feature->setTableGateway($this->tableGateway);
-        $insert = $this->getMockBuilder('Zend\Db\Sql\Insert')
+        $insert = $this->getMockBuilder('Laminas\Db\Sql\Insert')
             ->setMethods(['getPlatform', 'createStatement', 'getRawState'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -154,7 +153,7 @@ class SequenceFeatureTest extends TestCase
             ->method('getRawState')
             ->with('columns')
             ->will($this->returnValue(['id']));
-        /** @var \Zend\Db\Sql\Insert $insert */
+        /** @var \Laminas\Db\Sql\Insert $insert */
         $this->feature->preInsert($insert);
         $this->assertEquals(1, $this->tableGateway->getLastInsertValue());
     }

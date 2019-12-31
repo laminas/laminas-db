@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Sql;
+use LaminasTest\Db\TestAsset;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
-use ZendTest\Db\TestAsset;
 
 class SqlTest extends TestCase
 {
@@ -27,17 +26,17 @@ class SqlTest extends TestCase
     protected function setUp()
     {
         // mock the adapter, driver, and parts
-        $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
-        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
+        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockConnection = $this->getMockBuilder('Zend\Db\Adapter\Driver\ConnectionInterface')->getMock();
-        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockConnection = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ConnectionInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockDriver->expects($this->any())->method('getConnection')->will($this->returnValue($mockConnection));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
 
         // setup mock adapter
-        $this->mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+        $this->mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
             ->setMethods()
             ->setConstructorArgs([$mockDriver, new TestAsset\TrustingSql92Platform()])
             ->getMock();
@@ -46,7 +45,7 @@ class SqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Sql::__construct
+     * @covers \Laminas\Db\Sql\Sql::__construct
      */
     // @codingStandardsIgnoreStart
     public function test__construct()
@@ -59,21 +58,21 @@ class SqlTest extends TestCase
         $sql->setTable('foo');
         self::assertSame('foo', $sql->getTable());
 
-        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Table must be a string, array or instance of TableIdentifier.');
         $sql->setTable(null);
     }
 
     /**
-     * @covers \Zend\Db\Sql\Sql::select
+     * @covers \Laminas\Db\Sql\Sql::select
      */
     public function testSelect()
     {
         $select = $this->sql->select();
-        self::assertInstanceOf('Zend\Db\Sql\Select', $select);
+        self::assertInstanceOf('Laminas\Db\Sql\Select', $select);
         self::assertSame('foo', $select->getRawState('table'));
 
-        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
@@ -81,15 +80,15 @@ class SqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Sql::insert
+     * @covers \Laminas\Db\Sql\Sql::insert
      */
     public function testInsert()
     {
         $insert = $this->sql->insert();
-        self::assertInstanceOf('Zend\Db\Sql\Insert', $insert);
+        self::assertInstanceOf('Laminas\Db\Sql\Insert', $insert);
         self::assertSame('foo', $insert->getRawState('table'));
 
-        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
@@ -97,15 +96,15 @@ class SqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Sql::update
+     * @covers \Laminas\Db\Sql\Sql::update
      */
     public function testUpdate()
     {
         $update = $this->sql->update();
-        self::assertInstanceOf('Zend\Db\Sql\Update', $update);
+        self::assertInstanceOf('Laminas\Db\Sql\Update', $update);
         self::assertSame('foo', $update->getRawState('table'));
 
-        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
@@ -113,16 +112,16 @@ class SqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Sql::delete
+     * @covers \Laminas\Db\Sql\Sql::delete
      */
     public function testDelete()
     {
         $delete = $this->sql->delete();
 
-        self::assertInstanceOf('Zend\Db\Sql\Delete', $delete);
+        self::assertInstanceOf('Laminas\Db\Sql\Delete', $delete);
         self::assertSame('foo', $delete->getRawState('table'));
 
-        $this->expectException('Zend\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
         $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
@@ -130,13 +129,13 @@ class SqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Sql::prepareStatementForSqlObject
+     * @covers \Laminas\Db\Sql\Sql::prepareStatementForSqlObject
      */
     public function testPrepareStatementForSqlObject()
     {
         $insert = $this->sql->insert()->columns(['foo'])->values(['foo' => 'bar']);
         $stmt = $this->sql->prepareStatementForSqlObject($insert);
-        self::assertInstanceOf('Zend\Db\Adapter\Driver\StatementInterface', $stmt);
+        self::assertInstanceOf('Laminas\Db\Adapter\Driver\StatementInterface', $stmt);
     }
 
     /**
@@ -191,12 +190,12 @@ class SqlTest extends TestCase
 
         // SqlServer
         self::assertContains(
-            'WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN 10+1 AND 0+10',
+            'WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN 10+1 AND 0+10',
             $this->sql->buildSqlString($select, $adapterSqlServer)
         );
         $adapterSqlServer->getDriver()->createStatement()->expects($this->any())->method('setSql')
                 ->with($this->stringContains(
-                    'WHERE [ZEND_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__ZEND_ROW_NUMBER] BETWEEN ?+1 AND ?+?'
+                    'WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN ?+1 AND ?+?'
                 ));
         $this->sql->prepareStatementForSqlObject($select, null, $adapterSqlServer);
     }
@@ -227,8 +226,8 @@ class SqlTest extends TestCase
                 $platform = null;
         }
 
-        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
-        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
 

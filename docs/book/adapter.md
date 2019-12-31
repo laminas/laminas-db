@@ -1,21 +1,21 @@
 # Adapters
 
-`Zend\Db\Adapter\Adapter` is the central object of the zend-db component. It is
-responsible for adapting any code written in or for zend-db to the targeted PHP
+`Laminas\Db\Adapter\Adapter` is the central object of the laminas-db component. It is
+responsible for adapting any code written in or for laminas-db to the targeted PHP
 extensions and vendor databases. In doing this, it creates an abstraction layer
-for the PHP extensions in the `Driver` subnamespace of `Zend\Db\Adapter`.  It
+for the PHP extensions in the `Driver` subnamespace of `Laminas\Db\Adapter`.  It
 also creates a lightweight "Platform" abstraction layer, for the various
 idiosyncrasies that each vendor-specific platform might have in its SQL/RDBMS
 implementation, separate from the driver implementations.
 
 ## Creating an adapter using configuration
 
-Create an adapter by instantiating the `Zend\Db\Adapter\Adapter` class. The most
+Create an adapter by instantiating the `Laminas\Db\Adapter\Adapter` class. The most
 common use case, while not the most explicit, is to pass an array of
 configuration to the `Adapter`:
 
 ```php
-use Zend\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Adapter;
 
 $adapter = new Adapter($configArray);
 ```
@@ -45,9 +45,9 @@ Key        | Is Required?           | Value
 For example, a MySQL connection using ext/mysqli:
 
 ```php
-$adapter = new Zend\Db\Adapter\Adapter([
+$adapter = new Laminas\Db\Adapter\Adapter([
     'driver'   => 'Mysqli',
-    'database' => 'zend_db_example',
+    'database' => 'laminas_db_example',
     'username' => 'developer',
     'password' => 'developer-password',
 ]);
@@ -56,7 +56,7 @@ $adapter = new Zend\Db\Adapter\Adapter([
 Another example, of a Sqlite connection via PDO:
 
 ```php
-$adapter = new Zend\Db\Adapter\Adapter([
+$adapter = new Laminas\Db\Adapter\Adapter([
     'driver'   => 'Pdo_Sqlite',
     'database' => 'path/to/sqlite.db',
 ]);
@@ -65,7 +65,7 @@ $adapter = new Zend\Db\Adapter\Adapter([
 Another example, of an IBM i DB2 connection via IbmDb2:
 
 ```php
-$adapter = new Zend\Db\Adapter\Adapter([
+$adapter = new Laminas\Db\Adapter\Adapter([
     'database' => '*LOCAL', // or name from WRKRDBDIRE, may be serial #
     'driver' => 'IbmDb2',
     'driver_options' => [
@@ -84,7 +84,7 @@ $adapter = new Zend\Db\Adapter\Adapter([
 Another example, of an IBM i DB2 connection via PDO:
 
 ```php
-$adapter = new Zend\Db\Adapter\Adapter([
+$adapter = new Laminas\Db\Adapter\Adapter([
     'dsn' => 'ibm:DB_NAME', // DB_NAME is from WRKRDBDIRE, may be serial #
     'driver' => 'pdo',
     'driver_options' => [
@@ -122,16 +122,16 @@ The list of officially supported drivers:
 
 ## Creating an adapter using dependency injection
 
-The more expressive and explicit way of creating an adapter is by injecting all
-your dependencies up front. `Zend\Db\Adapter\Adapter` uses constructor
+The more mezzio and explicit way of creating an adapter is by injecting all
+your dependencies up front. `Laminas\Db\Adapter\Adapter` uses constructor
 injection, and all required dependencies are injected through the constructor,
 which has the following signature (in pseudo-code):
 
 ```php
-use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\ResultSet\ResultSet;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\ResultSet\ResultSet;
 
-class Zend\Db\Adapter\Adapter
+class Laminas\Db\Adapter\Adapter
 {
     public function __construct(
         $driver,
@@ -144,16 +144,16 @@ class Zend\Db\Adapter\Adapter
 What can be injected:
 
 - `$driver`: an array of connection parameters (see above) or an instance of
-  `Zend\Db\Adapter\Driver\DriverInterface`.
-- `$platform` (optional): an instance of `Zend\Db\Platform\PlatformInterface`;
+  `Laminas\Db\Adapter\Driver\DriverInterface`.
+- `$platform` (optional): an instance of `Laminas\Db\Platform\PlatformInterface`;
   the default will be created based off the driver implementation.
 - `$queryResultSetPrototype` (optional): an instance of
-  `Zend\Db\ResultSet\ResultSet`; to understand this object's role, see the
+  `Laminas\Db\ResultSet\ResultSet`; to understand this object's role, see the
   section below on querying.
 
 ## Query Preparation
 
-By default, `Zend\Db\Adapter\Adapter::query()` prefers that you use
+By default, `Laminas\Db\Adapter\Adapter::query()` prefers that you use
 "preparation" as a means for processing SQL statements.  This generally means
 that you will supply a SQL statement containing placeholders for the values, and
 separately provide substitutions for those placeholders. As an example:
@@ -211,20 +211,20 @@ $result    = $statement->execute();
 
 ## Using the Driver Object
 
-The `Driver` object is the primary place where `Zend\Db\Adapter\Adapter`
+The `Driver` object is the primary place where `Laminas\Db\Adapter\Adapter`
 implements the connection level abstraction specific to a given extension.  To
 make this possible, each driver is composed of 3 objects:
 
-- A connection: `Zend\Db\Adapter\Driver\ConnectionInterface`
-- A statement: `Zend\Db\Adapter\Driver\StatementInterface`
-- A result: `Zend\Db\Adapter\Driver\ResultInterface`
+- A connection: `Laminas\Db\Adapter\Driver\ConnectionInterface`
+- A statement: `Laminas\Db\Adapter\Driver\StatementInterface`
+- A result: `Laminas\Db\Adapter\Driver\ResultInterface`
 
 Each of the built-in drivers practice "prototyping" as a means of creating
 objects when new instances are requested. The workflow looks like this:
 
 - An adapter is created with a set of connection parameters.
 - The adapter chooses the proper driver to instantiate (for example,
-  `Zend\Db\Adapter\Driver\Mysqli`)
+  `Laminas\Db\Adapter\Driver\Mysqli`)
 - That driver class is instantiated.
 - If no connection, statement, or result objects are injected, defaults are
   instantiated.
@@ -233,7 +233,7 @@ This driver is now ready to be called on when particular workflows are
 requested. Here is what the `Driver` API looks like:
 
 ```php
-namespace Zend\Db\Adapter\Driver;
+namespace Laminas\Db\Adapter\Driver;
 
 interface DriverInterface
 {
@@ -270,7 +270,7 @@ From this `DriverInterface`, you can
 Now let's turn to the `Statement` API:
 
 ```php
-namespace Zend\Db\Adapter\Driver;
+namespace Laminas\Db\Adapter\Driver;
 
 interface StatementInterface extends StatementContainerInterface
 {
@@ -290,7 +290,7 @@ interface StatementInterface extends StatementContainerInterface
 And finally, the `Result` API:
 
 ```php
-namespace Zend\Db\Adapter\Driver;
+namespace Laminas\Db\Adapter\Driver;
 
 use Countable;
 use Iterator;
@@ -315,7 +315,7 @@ identifier separator character is. To get an idea of the capabilities, the
 interface for a platform object looks like this:
 
 ```php
-namespace Zend\Db\Adapter\Platform;
+namespace Laminas\Db\Adapter\Platform;
 
 interface PlatformInterface
 {
@@ -346,8 +346,8 @@ $platform = $adapter->platform; // magic property access
 The following are examples of `Platform` usage:
 
 ```php
-// $adapter is a Zend\Db\Adapter\Adapter instance;
-// $platform is a Zend\Db\Adapter\Platform\Sql92 instance.
+// $adapter is a Laminas\Db\Adapter\Adapter instance;
+// $platform is a Laminas\Db\Adapter\Platform\Sql92 instance.
 $platform = $adapter->getPlatform();
 
 // "first_name"
@@ -387,7 +387,7 @@ parameterized parts of the SQL statement. This object implements the
 `ArrayAccess` interface. Below is the `ParameterContainer` API:
 
 ```php
-namespace Zend\Db\Adapter;
+namespace Laminas\Db\Adapter;
 
 use ArrayAccess;
 use ArrayIterator;
@@ -461,7 +461,7 @@ Creating a `Driver`, a vendor-portable query, and preparing and iterating the
 result:
 
 ```php
-$adapter = new Zend\Db\Adapter\Adapter($driverConfig);
+$adapter = new Laminas\Db\Adapter\Adapter($driverConfig);
 
 $qi = function ($name) use ($adapter) {
     return $adapter->platform->quoteIdentifier($name);

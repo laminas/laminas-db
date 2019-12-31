@@ -1,8 +1,9 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-db for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-db/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
 if (! interface_exists(\PHPUnit_Framework_Test::class)) {
