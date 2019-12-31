@@ -162,7 +162,7 @@ $select->columns(['foo', 'bar']);
 // As an associative array with aliases as the keys
 // (produces 'bar' AS 'foo', 'bax' AS 'baz')
 $select->columns([
-    'foo' => 'bar', 
+    'foo' => 'bar',
     'baz' => 'bax'
 ]);
 

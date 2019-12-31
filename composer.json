@@ -12,7 +12,7 @@
         "issues": "https://github.com/zendframework/zend-db/issues",
         "source": "https://github.com/zendframework/zend-db",
         "rss": "https://github.com/zendframework/zend-db/releases.atom",
-        "slack": "https://zendframework-slack.herokuapp.com",
+        "chat": "https://zendframework-slack.herokuapp.com",
         "forum": "https://discourse.zendframework.com/c/questions/components"
     },
     "require": {
