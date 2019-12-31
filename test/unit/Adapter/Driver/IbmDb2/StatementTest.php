@@ -110,8 +110,8 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::isPrepared
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::isPrepared
      */
     public function testPrepare()
     {
@@ -121,8 +121,8 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::isPrepared
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::isPrepared
      */
     public function testPreparingTwiceErrors()
     {
@@ -138,8 +138,8 @@ class StatementTest extends TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::setSql
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::setSql
      */
     public function testPrepareThrowsRuntimeExceptionOnInvalidSql()
     {
@@ -158,8 +158,8 @@ class StatementTest extends TestCase
      * be called, but a RuntimeException will still be generated as the
      * resource is false
      *
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
-     * @covers Zend\Db\Adapter\Driver\IbmDb2\Statement::setSql
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::prepare
+     * @covers \Zend\Db\Adapter\Driver\IbmDb2\Statement::setSql
      */
     public function testPrepareThrowsRuntimeExceptionOnInvalidSqlWithErrorReportingDisabled()
     {

@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.11.0 - TBD
+## 2.11.0 - 2019-12-31
 
 ### Added
 
@@ -25,28 +25,6 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Fixed
 
 - [#146](https://github.com/zendframework/zend-db/pull/146) fixes setting correct value for `lastInsertValue` pre-insert in `SequenceFeature`.
-
-## 2.10.2 - TBD
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
 
 ## 2.10.1 - 2019-12-31
 

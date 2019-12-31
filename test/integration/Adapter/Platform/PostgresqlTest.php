@@ -22,7 +22,7 @@ class PostgresqlTest extends TestCase
 {
     public $adapters = [];
 
-    public function setUp()
+    protected function setUp()
     {
         if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_PGSQL')) {
             $this->markTestSkipped(__CLASS__ . ' integration tests are not enabled!');

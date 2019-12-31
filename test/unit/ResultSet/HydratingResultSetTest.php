@@ -24,7 +24,7 @@ class HydratingResultSetTest extends TestCase
     /** @var string */
     private $classMethodsHydratorClass;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->arraySerializableHydratorClass = class_exists(ArraySerializableHydrator::class)
             ? ArraySerializableHydrator::class
