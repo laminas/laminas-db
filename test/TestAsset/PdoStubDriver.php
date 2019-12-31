@@ -1,5 +1,5 @@
 <?php
-namespace ZendTest\Db\TestAsset;
+namespace LaminasTest\Db\TestAsset;
 
 class PdoStubDriver extends \PDO
 {
