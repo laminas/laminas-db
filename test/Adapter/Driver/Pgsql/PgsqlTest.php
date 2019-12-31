@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Pgsql;
+namespace LaminasTest\Db\Adapter\Driver\Pgsql;
 
-use Zend\Db\Adapter\Driver\Pgsql\Pgsql;
+use Laminas\Db\Adapter\Driver\Pgsql\Pgsql;
 
 class PgsqlTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,50 +28,50 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::checkEnvironment
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Pgsql::checkEnvironment
      */
     public function testCheckEnvironment()
     {
         if (!extension_loaded('pgsql')) {
-            $this->setExpectedException('Zend\Db\Adapter\Exception\RuntimeException');
+            $this->setExpectedException('Laminas\Db\Adapter\Exception\RuntimeException');
         }
         $this->pgsql->checkEnvironment();
         $this->assertTrue(true, 'No exception was thrown');
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerConnection
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Pgsql::registerConnection
      */
     public function testRegisterConnection()
     {
-        $mockConnection = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Pgsql\Connection', array(array()), '', true, true, true, array('setDriver'));
+        $mockConnection = $this->getMockForAbstractClass('Laminas\Db\Adapter\Driver\Pgsql\Connection', array(array()), '', true, true, true, array('setDriver'));
         $mockConnection->expects($this->once())->method('setDriver')->with($this->equalTo($this->pgsql));
         $this->assertSame($this->pgsql, $this->pgsql->registerConnection($mockConnection));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerStatementPrototype
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Pgsql::registerStatementPrototype
      */
     public function testRegisterStatementPrototype()
     {
         $this->pgsql = new Pgsql(array());
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Pgsql\Statement', array(), '', true, true, true, array('setDriver'));
+        $mockStatement = $this->getMockForAbstractClass('Laminas\Db\Adapter\Driver\Pgsql\Statement', array(), '', true, true, true, array('setDriver'));
         $mockStatement->expects($this->once())->method('setDriver')->with($this->equalTo($this->pgsql));
         $this->assertSame($this->pgsql, $this->pgsql->registerStatementPrototype($mockStatement));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::registerResultPrototype
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Pgsql::registerResultPrototype
      */
     public function testRegisterResultPrototype()
     {
         $this->pgsql = new Pgsql(array());
-        $mockStatement = $this->getMockForAbstractClass('Zend\Db\Adapter\Driver\Pgsql\Result', array(), '', true, true, true, array('setDriver'));
+        $mockStatement = $this->getMockForAbstractClass('Laminas\Db\Adapter\Driver\Pgsql\Result', array(), '', true, true, true, array('setDriver'));
         $this->assertSame($this->pgsql, $this->pgsql->registerResultPrototype($mockStatement));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getDatabasePlatformName
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Pgsql::getDatabasePlatformName
      */
     public function testGetDatabasePlatformName()
     {
@@ -83,17 +82,17 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testRegisterConnection
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getConnection
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Pgsql::getConnection
      */
     public function testGetConnection($mockConnection)
     {
-        $conn = new \Zend\Db\Adapter\Driver\Pgsql\Connection(array());
+        $conn = new \Laminas\Db\Adapter\Driver\Pgsql\Connection(array());
         $this->pgsql->registerConnection($conn);
         $this->assertSame($conn, $this->pgsql->getConnection());
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::createStatement
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Pgsql::createStatement
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateStatement()
@@ -105,7 +104,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::createResult
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Pgsql::createResult
      * @todo   Implement testGetPrepareType().
      */
     public function testCreateResult()
@@ -117,7 +116,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getPrepareType
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Pgsql::getPrepareType
      * @todo   Implement testGetPrepareType().
      */
     public function testGetPrepareType()
@@ -129,7 +128,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::formatParameterName
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Pgsql::formatParameterName
      * @todo   Implement testFormatParameterName().
      */
     public function testFormatParameterName()
@@ -141,7 +140,7 @@ class PgsqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Driver\Pgsql\Pgsql::getLastGeneratedValue
+     * @covers Laminas\Db\Adapter\Driver\Pgsql\Pgsql::getLastGeneratedValue
      * @todo   Implement testGetLastGeneratedValue().
      */
     public function testGetLastGeneratedValue()
