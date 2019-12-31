@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#146](https://github.com/zendframework/zend-db/pull/146) fixes setting correct value for `lastInsertValue` pre-insert in `SequenceFeature`.
 
 ## 2.10.2 - TBD
 
