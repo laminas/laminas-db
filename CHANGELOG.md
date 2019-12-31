@@ -22,9 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#382](https://github.com/zendframework/zend-db/pull/382) fixes `Zend\Db\Sql\Expression` to allow `0` value for parameter.
-
-- [#395](https://github.com/zendframework/zend-db/pull/395) fixes PHP 7.4 compatibility.
+- Nothing.
 
 ## 2.10.1 - TBD
 
@@ -44,7 +42,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#382](https://github.com/zendframework/zend-db/pull/382) fixes `Zend\Db\Sql\Expression` to allow `0` value for parameter.
+
+- [#395](https://github.com/zendframework/zend-db/pull/395) fixes PHP 7.4 compatibility.
+
+- [#392](https://github.com/zendframework/zend-db/pull/392) fixes `MetadataFeature` to work with `TableIdentifier`.
 
 ## 2.10.0 - 2019-02-25
 
