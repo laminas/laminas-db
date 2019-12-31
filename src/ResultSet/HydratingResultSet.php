@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\ResultSet;
+namespace Laminas\Db\ResultSet;
 
 use ArrayObject;
-use Zend\Stdlib\Hydrator\ArraySerializable;
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Laminas\Stdlib\Hydrator\ArraySerializable;
+use Laminas\Stdlib\Hydrator\HydratorInterface;
 
 class HydratingResultSet extends AbstractResultSet
 {

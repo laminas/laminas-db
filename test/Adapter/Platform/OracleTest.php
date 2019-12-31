@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Platform;
+namespace LaminasTest\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Platform\Oracle;
+use Laminas\Db\Adapter\Platform\Oracle;
 
 class OracleTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,7 +27,7 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::getName
+     * @covers Laminas\Db\Adapter\Platform\Oracle::getName
      */
     public function testGetName()
     {
@@ -36,7 +35,7 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::getQuoteIdentifierSymbol
+     * @covers Laminas\Db\Adapter\Platform\Oracle::getQuoteIdentifierSymbol
      */
     public function testGetQuoteIdentifierSymbol()
     {
@@ -44,7 +43,7 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteIdentifier
+     * @covers Laminas\Db\Adapter\Platform\Oracle::quoteIdentifier
      */
     public function testQuoteIdentifier()
     {
@@ -55,7 +54,7 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteIdentifierChain
+     * @covers Laminas\Db\Adapter\Platform\Oracle::quoteIdentifierChain
      */
     public function testQuoteIdentifierChain()
     {
@@ -70,7 +69,7 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::getQuoteValueSymbol
+     * @covers Laminas\Db\Adapter\Platform\Oracle::getQuoteValueSymbol
      */
     public function testGetQuoteValueSymbol()
     {
@@ -78,19 +77,19 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteValue
+     * @covers Laminas\Db\Adapter\Platform\Oracle::quoteValue
      */
     public function testQuoteValue()
     {
         $this->setExpectedException(
             'PHPUnit_Framework_Error',
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Oracle without extension/driver support can introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Oracle without extension/driver support can introduce security vulnerabilities in a production environment'
         );
         $this->assertEquals("'value'", $this->platform->quoteValue('value'));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteTrustedValue
+     * @covers Laminas\Db\Adapter\Platform\Oracle::quoteTrustedValue
      */
     public function testQuoteTrustedValue()
     {
@@ -103,19 +102,19 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteValueList
+     * @covers Laminas\Db\Adapter\Platform\Oracle::quoteValueList
      */
     public function testQuoteValueList()
     {
         $this->setExpectedException(
             'PHPUnit_Framework_Error',
-            'Attempting to quote a value in Zend\Db\Adapter\Platform\Oracle without extension/driver support can introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Oracle without extension/driver support can introduce security vulnerabilities in a production environment'
         );
         $this->assertEquals("'Foo O\\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::getIdentifierSeparator
+     * @covers Laminas\Db\Adapter\Platform\Oracle::getIdentifierSeparator
      */
     public function testGetIdentifierSeparator()
     {
@@ -123,7 +122,7 @@ class OracleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\Adapter\Platform\Oracle::quoteIdentifierInFragment
+     * @covers Laminas\Db\Adapter\Platform\Oracle::quoteIdentifierInFragment
      */
     public function testQuoteIdentifierInFragment()
     {
