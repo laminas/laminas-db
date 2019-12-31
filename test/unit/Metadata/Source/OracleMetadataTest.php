@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Metadata\Source;
+namespace LaminasTest\Db\Metadata\Source;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Metadata\Source\OracleMetadata;
-use ZendTest\Db\Adapter\Driver\Oci8\AbstractIntegrationTest;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Metadata\Source\OracleMetadata;
+use LaminasTest\Db\Adapter\Driver\Oci8\AbstractIntegrationTest;
 
 /**
  * @requires extension oci8
@@ -50,14 +49,14 @@ class OracleMetadataTest extends AbstractIntegrationTest
      */
     public function testGetConstraints(array $constraintData)
     {
-        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\Oci8\Statement')
+        $statement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Oci8\Statement')
             ->getMock();
         $statement->expects($this->once())
             ->method('execute')
             ->willReturn($constraintData);
 
-        /** @var \Zend\Db\Adapter\Adapter|\PHPUnit_Framework_MockObject_MockObject $adapter */
-        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+        /** @var \Laminas\Db\Adapter\Adapter|\PHPUnit_Framework_MockObject_MockObject $adapter */
+        $adapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
             ->setConstructorArgs([$this->variables])
             ->getMock();
         $adapter->expects($this->once())
@@ -71,7 +70,7 @@ class OracleMetadataTest extends AbstractIntegrationTest
         self::assertCount(count($constraintData), $constraints);
 
         self::assertContainsOnlyInstancesOf(
-            'Zend\Db\Metadata\Object\ConstraintObject',
+            'Laminas\Db\Metadata\Object\ConstraintObject',
             $constraints
         );
     }

@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Profiler;
+namespace LaminasTest\Db\Adapter\Profiler;
 
+use Laminas\Db\Adapter\Profiler\Profiler;
+use Laminas\Db\Adapter\StatementContainer;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Profiler\Profiler;
-use Zend\Db\Adapter\StatementContainer;
 
 class ProfilerTest extends TestCase
 {
@@ -30,7 +29,7 @@ class ProfilerTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Profiler\Profiler::profilerStart
+     * @covers \Laminas\Db\Adapter\Profiler\Profiler::profilerStart
      */
     public function testProfilerStart()
     {
@@ -39,13 +38,13 @@ class ProfilerTest extends TestCase
         $ret = $this->profiler->profilerStart(new StatementContainer());
         self::assertSame($this->profiler, $ret);
 
-        $this->expectException('Zend\Db\Adapter\Exception\InvalidArgumentException');
+        $this->expectException('Laminas\Db\Adapter\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('profilerStart takes either a StatementContainer or a string');
         $this->profiler->profilerStart(5);
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Profiler\Profiler::profilerFinish
+     * @covers \Laminas\Db\Adapter\Profiler\Profiler::profilerFinish
      */
     public function testProfilerFinish()
     {
@@ -54,13 +53,13 @@ class ProfilerTest extends TestCase
         self::assertSame($this->profiler, $ret);
 
         $profiler = new Profiler;
-        $this->expectException('Zend\Db\Adapter\Exception\RuntimeException');
+        $this->expectException('Laminas\Db\Adapter\Exception\RuntimeException');
         $this->expectExceptionMessage('A profile must be started before profilerFinish can be called');
         $profiler->profilerFinish();
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Profiler\Profiler::getLastProfile
+     * @covers \Laminas\Db\Adapter\Profiler\Profiler::getLastProfile
      */
     public function testGetLastProfile()
     {
@@ -75,7 +74,7 @@ class ProfilerTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Profiler\Profiler::getProfiles
+     * @covers \Laminas\Db\Adapter\Profiler\Profiler::getProfiles
      */
     public function testGetProfiles()
     {

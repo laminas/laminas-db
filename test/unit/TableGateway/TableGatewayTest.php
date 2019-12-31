@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\TableGateway;
+namespace LaminasTest\Db\TableGateway;
 
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\Sql\Delete;
+use Laminas\Db\Sql\Insert;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\TableIdentifier;
+use Laminas\Db\Sql\Update;
+use Laminas\Db\TableGateway\Feature;
+use Laminas\Db\TableGateway\TableGateway;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Sql\Delete;
-use Zend\Db\Sql\Insert;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\TableIdentifier;
-use Zend\Db\Sql\Update;
-use Zend\Db\TableGateway\Feature;
-use Zend\Db\TableGateway\TableGateway;
 
 class TableGatewayTest extends TestCase
 {
@@ -26,16 +25,16 @@ class TableGatewayTest extends TestCase
     protected function setUp()
     {
         // mock the adapter, driver, and parts
-        $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')->getMock();
-        $mockStatement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
+        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockConnection = $this->getMockBuilder('Zend\Db\Adapter\Driver\ConnectionInterface')->getMock();
-        $mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockConnection = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ConnectionInterface')->getMock();
+        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockDriver->expects($this->any())->method('getConnection')->will($this->returnValue($mockConnection));
 
         // setup mock adapter
-        $this->mockAdapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+        $this->mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
@@ -54,9 +53,9 @@ class TableGatewayTest extends TestCase
 
         self::assertEquals('foo', $table->getTable());
         self::assertSame($this->mockAdapter, $table->getAdapter());
-        self::assertInstanceOf('Zend\Db\TableGateway\Feature\FeatureSet', $table->getFeatureSet());
-        self::assertInstanceOf('Zend\Db\ResultSet\ResultSet', $table->getResultSetPrototype());
-        self::assertInstanceOf('Zend\Db\Sql\Sql', $table->getSql());
+        self::assertInstanceOf('Laminas\Db\TableGateway\Feature\FeatureSet', $table->getFeatureSet());
+        self::assertInstanceOf('Laminas\Db\ResultSet\ResultSet', $table->getResultSetPrototype());
+        self::assertInstanceOf('Laminas\Db\Sql\Sql', $table->getSql());
 
         // injecting all args
         $table = new TableGateway(
@@ -74,8 +73,8 @@ class TableGatewayTest extends TestCase
         self::assertSame($sql, $table->getSql());
 
         // constructor expects exception
-        $this->expectException('Zend\Db\TableGateway\Exception\InvalidArgumentException');
-        $this->expectExceptionMessage('Table name must be a string or an instance of Zend\Db\Sql\TableIdentifier');
+        $this->expectException('Laminas\Db\TableGateway\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Table name must be a string or an instance of Laminas\Db\Sql\TableIdentifier');
         new TableGateway(
             null,
             $this->mockAdapter
@@ -148,13 +147,13 @@ class TableGatewayTest extends TestCase
         $insert = new Insert();
         $insert->into($tableValue);
 
-        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')
+        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')
             ->getMock();
         $result->expects($this->once())
             ->method('getAffectedRows')
             ->will($this->returnValue(1));
 
-        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')
+        $statement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')
             ->getMock();
         $statement->expects($this->once())
             ->method('execute')
@@ -166,7 +165,7 @@ class TableGatewayTest extends TestCase
             return $statement;
         };
 
-        $sql = $this->getMockBuilder('Zend\Db\Sql\Sql')
+        $sql = $this->getMockBuilder('Laminas\Db\Sql\Sql')
             ->disableOriginalConstructor()
             ->getMock();
         $sql->expects($this->atLeastOnce())
@@ -208,13 +207,13 @@ class TableGatewayTest extends TestCase
         $update = new Update();
         $update->table($tableValue);
 
-        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')
+        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')
             ->getMock();
         $result->expects($this->once())
             ->method('getAffectedRows')
             ->will($this->returnValue(1));
 
-        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')
+        $statement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')
             ->getMock();
         $statement->expects($this->once())
             ->method('execute')
@@ -226,7 +225,7 @@ class TableGatewayTest extends TestCase
             return $statement;
         };
 
-        $sql = $this->getMockBuilder('Zend\Db\Sql\Sql')
+        $sql = $this->getMockBuilder('Laminas\Db\Sql\Sql')
             ->disableOriginalConstructor()
             ->getMock();
         $sql->expects($this->atLeastOnce())
@@ -270,13 +269,13 @@ class TableGatewayTest extends TestCase
         $delete = new Delete();
         $delete->from($tableValue);
 
-        $result = $this->getMockBuilder('Zend\Db\Adapter\Driver\ResultInterface')
+        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')
             ->getMock();
         $result->expects($this->once())
             ->method('getAffectedRows')
             ->will($this->returnValue(1));
 
-        $statement = $this->getMockBuilder('Zend\Db\Adapter\Driver\StatementInterface')
+        $statement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')
             ->getMock();
         $statement->expects($this->once())
             ->method('execute')
@@ -288,7 +287,7 @@ class TableGatewayTest extends TestCase
             return $statement;
         };
 
-        $sql = $this->getMockBuilder('Zend\Db\Sql\Sql')
+        $sql = $this->getMockBuilder('Laminas\Db\Sql\Sql')
             ->disableOriginalConstructor()
             ->getMock();
         $sql->expects($this->atLeastOnce())

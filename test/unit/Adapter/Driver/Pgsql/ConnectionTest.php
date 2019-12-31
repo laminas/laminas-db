@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Pgsql;
+namespace LaminasTest\Db\Adapter\Driver\Pgsql;
 
+use Laminas\Db\Adapter\Driver\Pgsql\Connection;
+use Laminas\Db\Adapter\Exception as AdapterException;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
-use Zend\Db\Adapter\Driver\Pgsql\Connection;
-use Zend\Db\Adapter\Exception as AdapterException;
 
 class ConnectionTest extends TestCase
 {
@@ -33,7 +32,7 @@ class ConnectionTest extends TestCase
     /**
      * Test getResource method if it tries to connect to the database.
      *
-     * @covers \Zend\Db\Adapter\Driver\Pgsql\Connection::getResource
+     * @covers \Laminas\Db\Adapter\Driver\Pgsql\Connection::getResource
      */
     public function testResource()
     {
@@ -47,7 +46,7 @@ class ConnectionTest extends TestCase
             self::assertInternalType('resource', $resource);
         } catch (AdapterException\RuntimeException $exc) {
             // If it throws an exception it has failed to connect
-            $this->expectException('Zend\Db\Adapter\Exception\RuntimeException');
+            $this->expectException('Laminas\Db\Adapter\Exception\RuntimeException');
             throw $exc;
         }
     }
@@ -79,7 +78,7 @@ class ConnectionTest extends TestCase
         $this->connection->setConnectionParameters($connectionParameters);
 
         $getConnectionString = new ReflectionMethod(
-            'Zend\Db\Adapter\Driver\Pgsql\Connection',
+            'Laminas\Db\Adapter\Driver\Pgsql\Connection',
             'getConnectionString'
         );
 
@@ -97,7 +96,7 @@ class ConnectionTest extends TestCase
             $this->markTestSkipped('pgsql extension not loaded');
         }
 
-        $this->expectException('\Zend\Db\Adapter\Exception\InvalidArgumentException');
+        $this->expectException('\Laminas\Db\Adapter\Exception\InvalidArgumentException');
         $this->connection->setType(3);
     }
 
@@ -127,7 +126,7 @@ class ConnectionTest extends TestCase
             'driver'   => 'pgsql',
             'host'     => 'localhost',
             'post'     => '5432',
-            'dbname'   => 'zenddb_test',
+            'dbname'   => 'laminasdb_test',
             'username' => 'postgres',
             'password' => 'postgres',
             'charset'  => 'SQL_ASCII',
@@ -151,13 +150,13 @@ class ConnectionTest extends TestCase
             $this->markTestSkipped('pgsql extension not loaded');
         }
 
-        $this->expectException('Zend\Db\Adapter\Exception\RuntimeException');
+        $this->expectException('Laminas\Db\Adapter\Exception\RuntimeException');
 
         $this->connection->setConnectionParameters([
             'driver'   => 'pgsql',
             'host'     => 'localhost',
             'post'     => '5432',
-            'dbname'   => 'zenddb_test',
+            'dbname'   => 'laminasdb_test',
             'username' => 'postgres',
             'password' => 'postgres',
             'charset'  => 'FOOBAR',

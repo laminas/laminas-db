@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Mysqli;
+namespace LaminasTest\Db\Adapter\Driver\Mysqli;
 
+use Laminas\Db\Adapter\Driver\Mysqli\Connection;
+use Laminas\Db\Adapter\Driver\Mysqli\Mysqli;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Driver\Mysqli\Connection;
-use Zend\Db\Adapter\Driver\Mysqli\Mysqli;
 
 class ConnectionTest extends TestCase
 {
@@ -26,7 +25,7 @@ class ConnectionTest extends TestCase
      */
     protected function setUp()
     {
-        if (! getenv('TESTS_ZEND_DB_ADAPTER_DRIVER_MYSQL')) {
+        if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
             $this->markTestSkipped('Mysqli test disabled');
         }
         $this->connection = new Connection([]);
@@ -41,7 +40,7 @@ class ConnectionTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Mysqli\Connection::setDriver
+     * @covers \Laminas\Db\Adapter\Driver\Mysqli\Connection::setDriver
      */
     public function testSetDriver()
     {
@@ -49,7 +48,7 @@ class ConnectionTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Mysqli\Connection::setConnectionParameters
+     * @covers \Laminas\Db\Adapter\Driver\Mysqli\Connection::setConnectionParameters
      */
     public function testSetConnectionParameters()
     {
@@ -57,7 +56,7 @@ class ConnectionTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Mysqli\Connection::getConnectionParameters
+     * @covers \Laminas\Db\Adapter\Driver\Mysqli\Connection::getConnectionParameters
      */
     public function testGetConnectionParameters()
     {
@@ -69,7 +68,7 @@ class ConnectionTest extends TestCase
     {
         $connection = new Connection([]);
 
-        $this->expectException('\Zend\Db\Adapter\Exception\RuntimeException');
+        $this->expectException('\Laminas\Db\Adapter\Exception\RuntimeException');
         $this->expectExceptionMessage('Connection error');
         $connection->connect();
     }

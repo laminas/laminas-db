@@ -1,25 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql\Ddl;
+namespace LaminasTest\Db\Sql\Ddl;
 
+use Laminas\Db\Sql\Ddl\Column\Column;
+use Laminas\Db\Sql\Ddl\Constraint;
+use Laminas\Db\Sql\Ddl\CreateTable;
+use Laminas\Db\Sql\TableIdentifier;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Sql\Ddl\Column\Column;
-use Zend\Db\Sql\Ddl\Constraint;
-use Zend\Db\Sql\Ddl\CreateTable;
-use Zend\Db\Sql\TableIdentifier;
 
 class CreateTableTest extends TestCase
 {
     /**
      * test object construction
-     * @covers \Zend\Db\Sql\Ddl\CreateTable::__construct
+     * @covers \Laminas\Db\Sql\Ddl\CreateTable::__construct
      */
     public function testObjectConstruction()
     {
@@ -29,7 +28,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\CreateTable::setTemporary
+     * @covers \Laminas\Db\Sql\Ddl\CreateTable::setTemporary
      */
     public function testSetTemporary()
     {
@@ -45,7 +44,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\CreateTable::isTemporary
+     * @covers \Laminas\Db\Sql\Ddl\CreateTable::isTemporary
      */
     public function testIsTemporary()
     {
@@ -56,7 +55,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\CreateTable::setTable
+     * @covers \Laminas\Db\Sql\Ddl\CreateTable::setTable
      */
     public function testSetTable()
     {
@@ -67,7 +66,7 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\CreateTable::getRawState
+     * @covers \Laminas\Db\Sql\Ddl\CreateTable::getRawState
      * @depends testSetTable
      */
     public function testRawStateViaTable(CreateTable $ct)
@@ -76,18 +75,18 @@ class CreateTableTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\CreateTable::addColumn
+     * @covers \Laminas\Db\Sql\Ddl\CreateTable::addColumn
      */
     public function testAddColumn()
     {
-        $column = $this->getMockBuilder('Zend\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
+        $column = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
         $ct = new CreateTable;
         self::assertSame($ct, $ct->addColumn($column));
         return $ct;
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\CreateTable::getRawState
+     * @covers \Laminas\Db\Sql\Ddl\CreateTable::getRawState
      * @depends testAddColumn
      */
     public function testRawStateViaColumn(CreateTable $ct)
@@ -95,22 +94,22 @@ class CreateTableTest extends TestCase
         $state = $ct->getRawState('columns');
         self::assertInternalType('array', $state);
         $column = array_pop($state);
-        self::assertInstanceOf('Zend\Db\Sql\Ddl\Column\ColumnInterface', $column);
+        self::assertInstanceOf('Laminas\Db\Sql\Ddl\Column\ColumnInterface', $column);
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\CreateTable::addConstraint
+     * @covers \Laminas\Db\Sql\Ddl\CreateTable::addConstraint
      */
     public function testAddConstraint()
     {
-        $constraint = $this->getMockBuilder('Zend\Db\Sql\Ddl\Constraint\ConstraintInterface')->getMock();
+        $constraint = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface')->getMock();
         $ct = new CreateTable;
         self::assertSame($ct, $ct->addConstraint($constraint));
         return $ct;
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\CreateTable::getRawState
+     * @covers \Laminas\Db\Sql\Ddl\CreateTable::getRawState
      * @depends testAddConstraint
      */
     public function testRawStateViaConstraint(CreateTable $ct)
@@ -118,11 +117,11 @@ class CreateTableTest extends TestCase
         $state = $ct->getRawState('constraints');
         self::assertInternalType('array', $state);
         $constraint = array_pop($state);
-        self::assertInstanceOf('Zend\Db\Sql\Ddl\Constraint\ConstraintInterface', $constraint);
+        self::assertInstanceOf('Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface', $constraint);
     }
 
     /**
-     * @covers \Zend\Db\Sql\Ddl\CreateTable::getSqlString
+     * @covers \Laminas\Db\Sql\Ddl\CreateTable::getSqlString
      */
     public function testGetSqlString()
     {
