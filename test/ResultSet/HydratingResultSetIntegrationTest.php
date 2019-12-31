@@ -1,13 +1,13 @@
 <?php
-namespace ZendTest\Db\ResultSet;
+namespace LaminasTest\Db\ResultSet;
 
-use Zend\Db\ResultSet\HydratingResultSet;
+use Laminas\Db\ResultSet\HydratingResultSet;
 
 class HydratingResultSetIntegrationTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @covers Zend\Db\ResultSet\HydratingResultSet::current
+     * @covers Laminas\Db\ResultSet\HydratingResultSet::current
      */
     public function testCurrentWillReturnBufferedRow()
     {

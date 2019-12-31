@@ -1,22 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Db
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\TableGateway\Feature;
+namespace LaminasTest\Db\TableGateway\Feature;
 
+use Laminas\Db\TableGateway\Feature\EventFeature;
+use Laminas\EventManager\EventManager;
 use PHPUnit_Framework_TestCase;
-use Zend\EventManager\EventManager;
-use Zend\Db\TableGateway\Feature\EventFeature;
 
 /**
- * @category   Zend
- * @package    Zend_Db
+ * @category   Laminas
+ * @package    Laminas_Db
  * @subpackage UnitTests
  */
 class EventFeatureTest extends PHPUnit_Framework_TestCase
@@ -29,7 +27,7 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
 
     protected $event = null;
 
-    /** @var \Zend\Db\TableGateway\TableGateway */
+    /** @var \Laminas\Db\TableGateway\TableGateway */
     protected $tableGateway = null;
 
     public function setup()
@@ -37,7 +35,7 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
         $this->eventManager = new EventManager;
         $this->event = new EventFeature\TableGatewayEvent();
         $this->feature = new EventFeature($this->eventManager, $this->event);
-        $this->tableGateway = $this->getMockForAbstractClass('Zend\Db\TableGateway\TableGateway', array(), '', false);
+        $this->tableGateway = $this->getMockForAbstractClass('Laminas\Db\TableGateway\TableGateway', array(), '', false);
         $this->feature->setTableGateway($this->tableGateway);
 
         // typically runs before everything else
@@ -67,7 +65,7 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
 
         $this->feature->preInitialize();
         $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        $this->assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals('preInitialize', $event->getName());
     }
 
@@ -84,7 +82,7 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
 
         $this->feature->postInitialize();
         $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        $this->assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals('postInitialize', $event->getName());
     }
 
@@ -99,9 +97,9 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
             $closureHasRun = true;
         });
 
-        $this->feature->preSelect($select = $this->getMock('Zend\Db\Sql\Select'));
+        $this->feature->preSelect($select = $this->getMock('Laminas\Db\Sql\Select'));
         $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        $this->assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals('preSelect', $event->getName());
         $this->assertSame($select, $event->getParam('select'));
     }
@@ -118,12 +116,12 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
         });
 
         $this->feature->postSelect(
-            ($stmt = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface')),
-            ($result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface')),
-            ($resultset = $this->getMock('Zend\Db\ResultSet\ResultSet'))
+            ($stmt = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface')),
+            ($result = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface')),
+            ($resultset = $this->getMock('Laminas\Db\ResultSet\ResultSet'))
         );
         $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        $this->assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals('postSelect', $event->getName());
         $this->assertSame($stmt, $event->getParam('statement'));
         $this->assertSame($result, $event->getParam('result'));
@@ -141,9 +139,9 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
             $closureHasRun = true;
         });
 
-        $this->feature->preInsert($insert = $this->getMock('Zend\Db\Sql\Insert'));
+        $this->feature->preInsert($insert = $this->getMock('Laminas\Db\Sql\Insert'));
         $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        $this->assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals('preInsert', $event->getName());
         $this->assertSame($insert, $event->getParam('insert'));
     }
@@ -160,11 +158,11 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
         });
 
         $this->feature->postInsert(
-            ($stmt = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface')),
-            ($result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface'))
+            ($stmt = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface')),
+            ($result = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface'))
         );
         $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        $this->assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals('postInsert', $event->getName());
         $this->assertSame($stmt, $event->getParam('statement'));
         $this->assertSame($result, $event->getParam('result'));
@@ -181,9 +179,9 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
             $closureHasRun = true;
         });
 
-        $this->feature->preUpdate($update = $this->getMock('Zend\Db\Sql\Update'));
+        $this->feature->preUpdate($update = $this->getMock('Laminas\Db\Sql\Update'));
         $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        $this->assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals('preUpdate', $event->getName());
         $this->assertSame($update, $event->getParam('update'));
     }
@@ -200,11 +198,11 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
         });
 
         $this->feature->postUpdate(
-            ($stmt = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface')),
-            ($result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface'))
+            ($stmt = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface')),
+            ($result = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface'))
         );
         $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        $this->assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals('postUpdate', $event->getName());
         $this->assertSame($stmt, $event->getParam('statement'));
         $this->assertSame($result, $event->getParam('result'));
@@ -221,9 +219,9 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
             $closureHasRun = true;
         });
 
-        $this->feature->preDelete($delete = $this->getMock('Zend\Db\Sql\Delete'));
+        $this->feature->preDelete($delete = $this->getMock('Laminas\Db\Sql\Delete'));
         $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        $this->assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals('preDelete', $event->getName());
         $this->assertSame($delete, $event->getParam('delete'));
     }
@@ -240,11 +238,11 @@ class EventFeatureTest extends PHPUnit_Framework_TestCase
         });
 
         $this->feature->postDelete(
-            ($stmt = $this->getMock('Zend\Db\Adapter\Driver\StatementInterface')),
-            ($result = $this->getMock('Zend\Db\Adapter\Driver\ResultInterface'))
+            ($stmt = $this->getMock('Laminas\Db\Adapter\Driver\StatementInterface')),
+            ($result = $this->getMock('Laminas\Db\Adapter\Driver\ResultInterface'))
         );
         $this->assertTrue($closureHasRun);
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $event->getTarget());
+        $this->assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
         $this->assertEquals('postDelete', $event->getName());
         $this->assertSame($stmt, $event->getParam('statement'));
         $this->assertSame($result, $event->getParam('result'));

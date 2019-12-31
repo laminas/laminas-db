@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Adapter\Platform;
+namespace Laminas\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Driver\Sqlsrv;
-use Zend\Db\Adapter\Driver\Pdo;
-use Zend\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Driver\Sqlsrv;
+use Laminas\Db\Adapter\Exception;
 
 class SqlServer implements PlatformInterface
 {
@@ -27,15 +26,15 @@ class SqlServer implements PlatformInterface
     }
 
     /**
-     * @param \Zend\Db\Adapter\Driver\Sqlsrv\Sqlsrv|\Zend\Db\Adapter\Driver\Pdo\Pdo||resource|\PDO $driver
-     * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
+     * @param \Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv|\Laminas\Db\Adapter\Driver\Pdo\Pdo||resource|\PDO $driver
+     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
      * @return $this
      */
     public function setDriver($driver)
     {
-        // handle Zend_Db drivers
+        // handle Laminas_Db drivers
         if ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Sqlsrv') {
-            /** @var $driver \Zend\Db\Adapter\Driver\DriverInterface */
+            /** @var $driver \Laminas\Db\Adapter\Driver\DriverInterface */
             $this->resource = $driver->getConnection()->getResource();
             return $this;
         }
@@ -46,7 +45,7 @@ class SqlServer implements PlatformInterface
             return $this;
         }
 
-        throw new Exception\InvalidArgumentException('$driver must be a Sqlsrv PDO Zend\Db\Adapter\Driver or Sqlsrv PDO instance');
+        throw new Exception\InvalidArgumentException('$driver must be a Sqlsrv PDO Laminas\Db\Adapter\Driver or Sqlsrv PDO instance');
     }
 
     /**
