@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Adapter\Platform;
+namespace Laminas\Db\Adapter\Platform;
 
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\Driver\Pdo;
-use Zend\Db\Adapter\Driver\Pgsql;
-use Zend\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Driver\Pgsql;
+use Laminas\Db\Adapter\Exception;
 
 class Postgresql implements PlatformInterface
 {
@@ -27,8 +26,8 @@ class Postgresql implements PlatformInterface
     }
 
     /**
-     * @param \Zend\Db\Adapter\Driver\Pgsql\Pgsql|\Zend\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
-     * @throws \Zend\Db\Adapter\Exception\InvalidArgumentException
+     * @param \Laminas\Db\Adapter\Driver\Pgsql\Pgsql|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
+     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
      * @return $this
      */
     public function setDriver($driver)
@@ -42,7 +41,7 @@ class Postgresql implements PlatformInterface
             return $this;
         }
 
-        throw new Exception\InvalidArgumentException('$driver must be a Pgsql or Postgresql PDO Zend\Db\Adapter\Driver, pgsql link resource or Postgresql PDO instance');
+        throw new Exception\InvalidArgumentException('$driver must be a Pgsql or Postgresql PDO Laminas\Db\Adapter\Driver, pgsql link resource or Postgresql PDO instance');
     }
 
     /**

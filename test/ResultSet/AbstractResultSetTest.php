@@ -1,13 +1,12 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\ResultSet;
+namespace LaminasTest\Db\ResultSet;
 
 class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,15 +21,15 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $this->resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::initialize
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::initialize
      */
     public function testInitialize()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
 
         $this->assertSame($resultSet, $resultSet->initialize(array(
             array('id' => 1, 'name' => 'one'),
@@ -39,21 +38,21 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
         )));
 
         $this->setExpectedException(
-            'Zend\Db\ResultSet\Exception\InvalidArgumentException',
+            'Laminas\Db\ResultSet\Exception\InvalidArgumentException',
             'DataSource provided is not an array, nor does it implement Iterator or IteratorAggregate'
         );
         $resultSet->initialize('foo');
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::buffer
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::buffer
      */
     public function testBuffer()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $this->assertSame($resultSet, $resultSet->buffer());
 
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator(array(
                 array('id' => 1, 'name' => 'one'),
                 array('id' => 2, 'name' => 'two'),
@@ -61,29 +60,29 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
         )));
         $resultSet->next(); // start iterator
         $this->setExpectedException(
-            'Zend\Db\ResultSet\Exception\RuntimeException',
+            'Laminas\Db\ResultSet\Exception\RuntimeException',
             'Buffering must be enabled before iteration is started'
         );
         $resultSet->buffer();
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::isBuffered
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::isBuffered
      */
     public function testIsBuffered()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $this->assertFalse($resultSet->isBuffered());
         $resultSet->buffer();
         $this->assertTrue($resultSet->isBuffered());
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::getDataSource
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::getDataSource
      */
     public function testGetDataSource()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator(array(
             array('id' => 1, 'name' => 'one'),
             array('id' => 2, 'name' => 'two'),
@@ -93,11 +92,11 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::getFieldCount
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::getFieldCount
      */
     public function testGetFieldCount()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator(array(
             array('id' => 1, 'name' => 'one'),
         )));
@@ -105,11 +104,11 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::next
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::next
      */
     public function testNext()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator(array(
             array('id' => 1, 'name' => 'one'),
             array('id' => 2, 'name' => 'two'),
@@ -119,11 +118,11 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::key
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::key
      */
     public function testKey()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator(array(
             array('id' => 1, 'name' => 'one'),
             array('id' => 2, 'name' => 'two'),
@@ -138,11 +137,11 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::current
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::current
      */
     public function testCurrent()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator(array(
             array('id' => 1, 'name' => 'one'),
             array('id' => 2, 'name' => 'two'),
@@ -152,11 +151,11 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::valid
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::valid
      */
     public function testValid()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator(array(
             array('id' => 1, 'name' => 'one'),
             array('id' => 2, 'name' => 'two'),
@@ -170,11 +169,11 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::rewind
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::rewind
      */
     public function testRewind()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator(array(
             array('id' => 1, 'name' => 'one'),
             array('id' => 2, 'name' => 'two'),
@@ -184,11 +183,11 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::count
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::count
      */
     public function testCount()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator(array(
             array('id' => 1, 'name' => 'one'),
             array('id' => 2, 'name' => 'two'),
@@ -198,11 +197,11 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Zend\Db\ResultSet\AbstractResultSet::toArray
+     * @covers Laminas\Db\ResultSet\AbstractResultSet::toArray
      */
     public function testToArray()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator(array(
             array('id' => 1, 'name' => 'one'),
             array('id' => 2, 'name' => 'two'),
@@ -224,7 +223,7 @@ class AbstractResultSetTest extends \PHPUnit_Framework_TestCase
      */
     public function testBufferIterations()
     {
-        $resultSet = $this->getMockForAbstractClass('Zend\Db\ResultSet\AbstractResultSet');
+        $resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
         $resultSet->initialize(new \ArrayIterator(array(
             array('id' => 1, 'name' => 'one'),
             array('id' => 2, 'name' => 'two'),
