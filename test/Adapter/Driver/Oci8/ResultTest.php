@@ -1,27 +1,26 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Adapter\Driver\Oci8;
+namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
+use Laminas\Db\Adapter\Driver\Oci8\Result;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Driver\Oci8\Result;
 
 /**
  * Class ResultTest
  *
- * @package ZendTest\Db\Adapter\Driver\Oci8
+ * @package LaminasTest\Db\Adapter\Driver\Oci8
  * @group result-oci8
  */
 class ResultTest extends TestCase
 {
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::getResource
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Result::getResource
      */
     public function testGetResource()
     {
@@ -30,7 +29,7 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::buffer
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Result::buffer
      */
     public function testBuffer()
     {
@@ -39,7 +38,7 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::isBuffered
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Result::isBuffered
      */
     public function testIsBuffered()
     {
@@ -48,7 +47,7 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::getGeneratedValue
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Result::getGeneratedValue
      */
     public function testGetGeneratedValue()
     {
@@ -57,7 +56,7 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::key
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Result::key
      */
     public function testKey()
     {
@@ -66,11 +65,11 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::next
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Result::next
      */
     public function testNext()
     {
-        $mockResult = $this->getMockBuilder('Zend\Db\Adapter\Driver\Oci8\Result')
+        $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Oci8\Result')
             ->setMethods(['loadData'])
             ->getMock();
         $mockResult->expects($this->any())
@@ -80,7 +79,7 @@ class ResultTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Adapter\Driver\Oci8\Result::rewind
+     * @covers \Laminas\Db\Adapter\Driver\Oci8\Result::rewind
      */
     public function testRewind()
     {

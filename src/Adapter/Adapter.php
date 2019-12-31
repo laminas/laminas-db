@@ -1,15 +1,14 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Db\Adapter;
+namespace Laminas\Db\Adapter;
 
-use Zend\Db\ResultSet;
+use Laminas\Db\ResultSet;
 
 /**
  * @property Driver\DriverInterface $driver
@@ -84,7 +83,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
             $driver = $this->createDriver($parameters);
         } elseif (! $driver instanceof Driver\DriverInterface) {
             throw new Exception\InvalidArgumentException(
-                'The supplied or instantiated driver object does not implement Zend\Db\Adapter\Driver\DriverInterface'
+                'The supplied or instantiated driver object does not implement Laminas\Db\Adapter\Driver\DriverInterface'
             );
         }
 
@@ -164,7 +163,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
      *
      * @param string $sql
      * @param string|array|ParameterContainer $parametersOrQueryMode
-     * @param \Zend\Db\ResultSet\ResultSetInterface $resultPrototype
+     * @param \Laminas\Db\ResultSet\ResultSetInterface $resultPrototype
      * @throws Exception\InvalidArgumentException
      * @return Driver\StatementInterface|ResultSet\ResultSet
      */

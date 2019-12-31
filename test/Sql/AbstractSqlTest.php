@@ -1,22 +1,21 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Db\Sql;
+namespace LaminasTest\Db\Sql;
 
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\ExpressionInterface;
+use Laminas\Db\Sql\Predicate;
+use Laminas\Db\Sql\Select;
+use LaminasTest\Db\TestAsset\TrustingSql92Platform;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\ExpressionInterface;
-use Zend\Db\Sql\Predicate;
-use Zend\Db\Sql\Select;
-use ZendTest\Db\TestAsset\TrustingSql92Platform;
 
 class AbstractSqlTest extends TestCase
 {
@@ -29,9 +28,9 @@ class AbstractSqlTest extends TestCase
 
     protected function setUp()
     {
-        $this->abstractSql = $this->getMockForAbstractClass('Zend\Db\Sql\AbstractSql');
+        $this->abstractSql = $this->getMockForAbstractClass('Laminas\Db\Sql\AbstractSql');
 
-        $this->mockDriver = $this->getMockBuilder('Zend\Db\Adapter\Driver\DriverInterface')->getMock();
+        $this->mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
         $this->mockDriver
             ->expects($this->any())
             ->method('getPrepareType')
@@ -45,7 +44,7 @@ class AbstractSqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\AbstractSql::processExpression
+     * @covers \Laminas\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWithoutParameterContainer()
     {
@@ -56,7 +55,7 @@ class AbstractSqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\AbstractSql::processExpression
+     * @covers \Laminas\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWithParameterContainerAndParameterizationTypeNamed()
     {
@@ -91,7 +90,7 @@ class AbstractSqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\AbstractSql::processExpression
+     * @covers \Laminas\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWorksWithExpressionContainingStringParts()
     {
@@ -104,7 +103,7 @@ class AbstractSqlTest extends TestCase
     }
 
     /**
-     * @covers \Zend\Db\Sql\AbstractSql::processExpression
+     * @covers \Laminas\Db\Sql\AbstractSql::processExpression
      */
     public function testProcessExpressionWorksWithExpressionContainingSelectObject()
     {
@@ -163,10 +162,10 @@ class AbstractSqlTest extends TestCase
     }
 
     /**
-     * @param \Zend\Db\Sql\ExpressionInterface $expression
-     * @param \Zend\Db\Adapter\ParameterContainer $parameterContainer
+     * @param \Laminas\Db\Sql\ExpressionInterface $expression
+     * @param \Laminas\Db\Adapter\ParameterContainer $parameterContainer
      * @param string $namedParameterPrefix
-     * @return \Zend\Db\Adapter\StatementContainer|string
+     * @return \Laminas\Db\Adapter\StatementContainer|string
      */
     protected function invokeProcessExpressionMethod(
         ExpressionInterface $expression,
