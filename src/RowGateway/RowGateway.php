@@ -9,7 +9,7 @@
 
 namespace Zend\Db\RowGateway;
 
-use Zend\Db\Adapter\Adapter;
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Sql\Sql;
 
 class RowGateway extends AbstractRowGateway
@@ -19,7 +19,7 @@ class RowGateway extends AbstractRowGateway
      *
      * @param string $primaryKeyColumn
      * @param string|\Zend\Db\Sql\TableIdentifier $table
-     * @param Adapter|Sql $adapterOrSql
+     * @param AdapterInterface|Sql $adapterOrSql
      * @throws Exception\InvalidArgumentException
      */
     public function __construct($primaryKeyColumn, $table, $adapterOrSql = null)
@@ -33,7 +33,7 @@ class RowGateway extends AbstractRowGateway
         // set Sql object
         if ($adapterOrSql instanceof Sql) {
             $this->sql = $adapterOrSql;
-        } elseif ($adapterOrSql instanceof Adapter) {
+        } elseif ($adapterOrSql instanceof AdapterInterface) {
             $this->sql = new Sql($adapterOrSql, $this->table);
         } else {
             throw new Exception\InvalidArgumentException('A valid Sql object was not provided.');
