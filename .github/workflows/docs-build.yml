@@ -28,7 +28,7 @@ jobs:
             - name: Install python dependencies
               run: |
                   python3 -m pip install --upgrade pip
-                  python3 -m pip install -r mkdocs pymdown-extensions markdown-fenced-code-tabs pyaml
+                  python3 -m pip install mkdocs pymdown-extensions markdown-fenced-code-tabs pyaml
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v1
