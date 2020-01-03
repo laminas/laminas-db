@@ -1,0 +1,48 @@
+name: docs build
+
+on:
+    push:
+        branches:
+            - master
+    repository_dispatch:
+
+jobs:
+    build-deploy:
+        runs-on: ubuntu-18.04
+        steps:
+            - uses: actions/checkout@v1
+
+            - name: Checkout documentation theme
+              uses: actions/checkout@v1
+              with:
+                  repository: laminas/documentation-theme
+                  ref: master
+                  path: laminas-mkdoc-theme
+
+            - name: Setup Python
+              uses: actions/setup-python@v1
+              with:
+                  python-version: '3.6'
+                  architecture: 'x64'
+
+            - name: Install python dependencies
+              run: |
+                  python3 -m pip install --upgrade pip
+                  python3 -m pip install -r mkdocs pymdown-extensions markdown-fenced-code-tabs pyaml
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v1
+              with:
+                  php-version: '7.3'
+
+            - name: Build Docs
+              run: ./laminas-mkdoc-theme/build.sh -u https://docs.laminas.dev
+
+            - name: Deploy
+              uses: peaceiris/actions-gh-pages@v2
+              env:
+                  ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+                  PUBLISH_BRANCH: gh-pages
+                  PUBLISH_DIR: ./docs/html
+              with:
+                  emptyCommits: false
