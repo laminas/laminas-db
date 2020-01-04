@@ -10,10 +10,10 @@ jobs:
     build-deploy:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
+            - uses: actions/checkout@v2
 
             - name: Checkout documentation theme
-              uses: actions/checkout@v1
+              uses: actions/checkout@v2
               with:
                   repository: laminas/documentation-theme
                   ref: master
