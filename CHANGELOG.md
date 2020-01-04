@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#39](https://github.com/laminas/laminas-db/pull/39) change `HydratingResultSet::current()` to returns null on no data.
 
 ### Deprecated
 
