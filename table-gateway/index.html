@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -240,24 +244,23 @@
 <p>The Table Gateway subcomponent provides an object-oriented representation of a
 database table; its methods mirror the most common table operations. In code,
 the interface resembles:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Laminas\Db\TableGateway;</span>
+<pre class=codehilite><code class=language-php>namespace Laminas\Db\TableGateway;
 
-<span class=x>use Laminas\Db\ResultSet\ResultSetInterface;</span>
-<span class=x>use Laminas\Db\Sql\Where;</span>
+use Laminas\Db\ResultSet\ResultSetInterface;
+use Laminas\Db\Sql\Where;
 
-<span class=x>interface TableGatewayInterface</span>
-<span class=x>{</span>
-<span class=x>    public function getTable() : string;</span>
-<span class=x>    public function select(Where|callable|string|array $where = null) : ResultSetInterface;</span>
-<span class=x>    public function insert(array $set) : int;</span>
-<span class=x>    public function update(</span>
-<span class=x>        array $set,</span>
-<span class=x>        Where|callable|string|array $where = null,</span>
-<span class=x>        array $joins = null</span>
-<span class=x>    ) : int;</span>
-<span class=x>    public function delete(Where|callable|string|array $where) : int;</span>
-<span class=x>}</span>
-</pre></div></p>
+interface TableGatewayInterface
+{
+    public function getTable() : string;
+    public function select(Where|callable|string|array $where = null) : ResultSetInterface;
+    public function insert(array $set) : int;
+    public function update(
+        array $set,
+        Where|callable|string|array $where = null,
+        array $joins = null
+    ) : int;
+    public function delete(Where|callable|string|array $where) : int;
+}</code></pre>
 <p>There are two primary implementations of the <code>TableGatewayInterface</code>,
 <code>AbstractTableGateway</code> and <code>TableGateway</code>. The <code>AbstractTableGateway</code> is an
 abstract basic implementation that provides functionality for <code>select()</code>,
@@ -273,53 +276,52 @@ order to be consumed and utilized to its fullest.</p>
 <h2 id="quick-start">Quick start</h2>
 <p>The following example uses <code>Laminas\Db\TableGateway\TableGateway</code>, which defines
 the following API:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Laminas\Db\TableGateway;</span>
+<pre class=codehilite><code class=language-php>namespace Laminas\Db\TableGateway;
 
-<span class=x>use Laminas\Db\Adapter\AdapterInterface;</span>
-<span class=x>use Laminas\Db\ResultSet\ResultSet;</span>
-<span class=x>use Laminas\Db\ResultSet\ResultSetInterface;</span>
-<span class=x>use Laminas\Db\Sql;</span>
-<span class=x>use Laminas\Db\Sql\TableIdentifier;</span>
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\ResultSet\ResultSetInterface;
+use Laminas\Db\Sql;
+use Laminas\Db\Sql\TableIdentifier;
 
-<span class=x>class TableGateway extends AbstractTableGateway</span>
-<span class=x>{</span>
-<span class=x>    public $lastInsertValue;</span>
-<span class=x>    public $table;</span>
-<span class=x>    public $adapter;</span>
+class TableGateway extends AbstractTableGateway
+{
+    public $lastInsertValue;
+    public $table;
+    public $adapter;
 
-<span class=x>    public function __construct(</span>
-<span class=x>        string|TableIdentifier $table,</span>
-<span class=x>        AdapterInterface $adapter,</span>
-<span class=x>        Feature\AbstractFeature|Feature\FeatureSet|Feature\AbstractFeature[] $features = null,</span>
-<span class=x>        ResultSetInterface $resultSetPrototype = null,</span>
-<span class=x>        Sql\Sql $sql = null</span>
-<span class=x>    );</span>
+    public function __construct(
+        string|TableIdentifier $table,
+        AdapterInterface $adapter,
+        Feature\AbstractFeature|Feature\FeatureSet|Feature\AbstractFeature[] $features = null,
+        ResultSetInterface $resultSetPrototype = null,
+        Sql\Sql $sql = null
+    );
 
-<span class=x>    /** Inherited from AbstractTableGateway */</span>
+    /** Inherited from AbstractTableGateway */
 
-<span class=x>    public function isInitialized() : bool;</span>
-<span class=x>    public function initialize() : void;</span>
-<span class=x>    public function getTable() : string;</span>
-<span class=x>    public function getAdapter() : AdapterInterface;</span>
-<span class=x>    public function getColumns() : array;</span>
-<span class=x>    public function getFeatureSet() Feature\FeatureSet;</span>
-<span class=x>    public function getResultSetPrototype() : ResultSetInterface;</span>
-<span class=x>    public function getSql() | Sql\Sql;</span>
-<span class=x>    public function select(Sql\Where|callable|string|array $where = null) : ResultSetInterface;</span>
-<span class=x>    public function selectWith(Sql\Select $select) : ResultSetInterface;</span>
-<span class=x>    public function insert(array $set) : int;</span>
-<span class=x>    public function insertWith(Sql\Insert $insert) | int;</span>
-<span class=x>    public function update(</span>
-<span class=x>        array $set,</span>
-<span class=x>        Sql\Where|callable|string|array $where = null,</span>
-<span class=x>        array $joins = null</span>
-<span class=x>    ) : int;</span>
-<span class=x>    public function updateWith(Sql\Update $update) : int;</span>
-<span class=x>    public function delete(Sql\Where|callable|string|array $where) : int;</span>
-<span class=x>    public function deleteWith(Sql\Delete $delete) : int;</span>
-<span class=x>    public function getLastInsertValue() : int;</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function isInitialized() : bool;
+    public function initialize() : void;
+    public function getTable() : string;
+    public function getAdapter() : AdapterInterface;
+    public function getColumns() : array;
+    public function getFeatureSet() Feature\FeatureSet;
+    public function getResultSetPrototype() : ResultSetInterface;
+    public function getSql() | Sql\Sql;
+    public function select(Sql\Where|callable|string|array $where = null) : ResultSetInterface;
+    public function selectWith(Sql\Select $select) : ResultSetInterface;
+    public function insert(array $set) : int;
+    public function insertWith(Sql\Insert $insert) | int;
+    public function update(
+        array $set,
+        Sql\Where|callable|string|array $where = null,
+        array $joins = null
+    ) : int;
+    public function updateWith(Sql\Update $update) : int;
+    public function delete(Sql\Where|callable|string|array $where) : int;
+    public function deleteWith(Sql\Delete $delete) : int;
+    public function getLastInsertValue() : int;
+}</code></pre>
 <p>The concrete <code>TableGateway</code> object uses constructor injection for getting
 dependencies and options into the instance. The table name and an instance of
 an <code>Adapter</code> are all that is required to create an instance.</p>
@@ -327,37 +329,35 @@ an <code>Adapter</code> are all that is required to create an instance.</p>
 or metadata, and when <code>select()</code> is executed, a simple <code>ResultSet</code> object with
 the populated <code>Adapter</code>'s <code>Result</code> (the datasource) will be returned and ready
 for iteration.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\TableGateway\TableGateway;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\TableGateway\TableGateway;
 
-<span class=x>$projectTable = new TableGateway(&#39;project&#39;, $adapter);</span>
-<span class=x>$rowset = $projectTable-&gt;select([&#39;type&#39; =&gt; &#39;PHP&#39;]);</span>
+$projectTable = new TableGateway('project', $adapter);
+$rowset = $projectTable-&gt;select(['type' =&gt; 'PHP']);
 
-<span class=x>echo &#39;Projects of type PHP: &#39; . PHP_EOL;</span>
-<span class=x>foreach ($rowset as $projectRow) {</span>
-<span class=x>    echo $projectRow[&#39;name&#39;] . PHP_EOL;</span>
-<span class=x>}</span>
+echo 'Projects of type PHP: ' . PHP_EOL;
+foreach ($rowset as $projectRow) {
+    echo $projectRow['name'] . PHP_EOL;
+}
 
-<span class=x>// Or, when expecting a single row:</span>
-<span class=x>$artistTable = new TableGateway(&#39;artist&#39;, $adapter);</span>
-<span class=x>$rowset      = $artistTable-&gt;select([&#39;id&#39; =&gt; 2]);</span>
-<span class=x>$artistRow   = $rowset-&gt;current();</span>
+// Or, when expecting a single row:
+$artistTable = new TableGateway('artist', $adapter);
+$rowset      = $artistTable-&gt;select(['id' =&gt; 2]);
+$artistRow   = $rowset-&gt;current();
 
-<span class=x>var_dump($artistRow);</span>
-</pre></div></p>
+var_dump($artistRow);</code></pre>
 <p>The <code>select()</code> method takes the same arguments as
 <code>Laminas\Db\Sql\Select::where()</code>; arguments will be passed to the <code>Select</code>
 instance used to build the SELECT query. This means the following is possible:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\TableGateway\TableGateway;</span>
-<span class=x>use Laminas\Db\Sql\Select;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Db\Sql\Select;
 
-<span class=x>$artistTable = new TableGateway(&#39;artist&#39;, $adapter);</span>
+$artistTable = new TableGateway('artist', $adapter);
 
-<span class=x>// Search for at most 2 artists who&#39;s name starts with Brit, ascending:</span>
-<span class=x>$rowset = $artistTable-&gt;select(function (Select $select) {</span>
-<span class=x>    $select-&gt;where-&gt;like(&#39;name&#39;, &#39;Brit%&#39;);</span>
-<span class=x>    $select-&gt;order(&#39;name ASC&#39;)-&gt;limit(2);</span>
-<span class=x>});</span>
-</pre></div></p>
+// Search for at most 2 artists who's name starts with Brit, ascending:
+$rowset = $artistTable-&gt;select(function (Select $select) {
+    $select-&gt;where-&gt;like('name', 'Brit%');
+    $select-&gt;order('name ASC')-&gt;limit(2);
+});</code></pre>
 <h2 id="tablegateway-features">TableGateway Features</h2>
 <p>The Features API allows for extending the functionality of the base
 <code>TableGateway</code> object without having to polymorphically extend the base class.
@@ -573,9 +573,10 @@ $artistRow-&gt;save();
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -622,7 +623,7 @@ $artistRow-&gt;save();
                 <p>
                     <!--Built with love by the Laminas team with the help of our
                     <a href="https://github.com/laminas/laminas-db//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

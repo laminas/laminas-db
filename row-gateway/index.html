@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -246,77 +250,73 @@ the database is retrieved, it can then be manipulated and <code>save()</code>'d 
 the database in the same position (row), or it can be <code>delete()</code>'d from the
 table.</p>
 <p><code>RowGatewayInterface</code> defines the methods <code>save()</code> and <code>delete()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Laminas\Db\RowGateway;</span>
+<pre class=codehilite><code class=language-php>namespace Laminas\Db\RowGateway;
 
-<span class=x>interface RowGatewayInterface</span>
-<span class=x>{</span>
-<span class=x>    public function save();</span>
-<span class=x>    public function delete();</span>
-<span class=x>}</span>
-</pre></div></p>
+interface RowGatewayInterface
+{
+    public function save();
+    public function delete();
+}</code></pre>
 <h2 id="quick-start">Quick start</h2>
 <p><code>RowGateway</code> is generally used in conjunction with objects that produce
 <code>Laminas\Db\ResultSet</code>s, though it may also be used standalone.  To use it
 standalone, you need an <code>Adapter</code> instance and a set of data to work with.</p>
 <p>The following demonstrates a basic use case.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\RowGateway\RowGateway;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\RowGateway\RowGateway;
 
-<span class=x>// Query the database:</span>
-<span class=x>$resultSet = $adapter-&gt;query(&#39;SELECT * FROM `user` WHERE `id` = ?&#39;, [2]);</span>
+// Query the database:
+$resultSet = $adapter-&gt;query('SELECT * FROM `user` WHERE `id` = ?', [2]);
 
-<span class=x>// Get array of data:</span>
-<span class=x>$rowData = $resultSet-&gt;current()-&gt;getArrayCopy();</span>
+// Get array of data:
+$rowData = $resultSet-&gt;current()-&gt;getArrayCopy();
 
-<span class=x>// Create a row gateway:</span>
-<span class=x>$rowGateway = new RowGateway(&#39;id&#39;, &#39;my_table&#39;, $adapter);</span>
-<span class=x>$rowGateway-&gt;populate($rowData, true);</span>
+// Create a row gateway:
+$rowGateway = new RowGateway('id', 'my_table', $adapter);
+$rowGateway-&gt;populate($rowData, true);
 
-<span class=x>// Manipulate the row and persist it:</span>
-<span class=x>$rowGateway-&gt;first_name = &#39;New Name&#39;;</span>
-<span class=x>$rowGateway-&gt;save();</span>
+// Manipulate the row and persist it:
+$rowGateway-&gt;first_name = 'New Name';
+$rowGateway-&gt;save();
 
-<span class=x>// Or delete this row:</span>
-<span class=x>$rowGateway-&gt;delete();</span>
-</pre></div></p>
+// Or delete this row:
+$rowGateway-&gt;delete();</code></pre>
 <p>The workflow described above is greatly simplified when <code>RowGateway</code> is used in
 conjunction with the <a href="../table-gateway/#tablegateway-features">TableGateway RowGatewayFeature</a>.
 In that paradigm, <code>select()</code> operations will produce a <code>ResultSet</code> that iterates
 <code>RowGateway</code> instances.</p>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\TableGateway\Feature\RowGatewayFeature;</span>
-<span class=x>use Laminas\Db\TableGateway\TableGateway;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\TableGateway\Feature\RowGatewayFeature;
+use Laminas\Db\TableGateway\TableGateway;
 
-<span class=x>$table = new TableGateway(&#39;artist&#39;, $adapter, new RowGatewayFeature(&#39;id&#39;));</span>
-<span class=x>$results = $table-&gt;select([&#39;id&#39; =&gt; 2]);</span>
+$table = new TableGateway('artist', $adapter, new RowGatewayFeature('id'));
+$results = $table-&gt;select(['id' =&gt; 2]);
 
-<span class=x>$artistRow = $results-&gt;current();</span>
-<span class=x>$artistRow-&gt;name = &#39;New Name&#39;;</span>
-<span class=x>$artistRow-&gt;save();</span>
-</pre></div></p>
+$artistRow = $results-&gt;current();
+$artistRow-&gt;name = 'New Name';
+$artistRow-&gt;save();</code></pre>
 <h2 id="activerecord-style-objects">ActiveRecord Style Objects</h2>
 <p>If you wish to have custom behaviour in your <code>RowGateway</code> objects &mdash;
 essentially making them behave similarly to the
 <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">ActiveRecord</a>
 pattern), pass a prototype object implementing the <code>RowGatewayInterface</code> to the
 <code>RowGatewayFeature</code> constructor instead of a primary key:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\TableGateway\Feature\RowGatewayFeature;</span>
-<span class=x>use Laminas\Db\TableGateway\TableGateway;</span>
-<span class=x>use Laminas\Db\RowGateway\RowGatewayInterface;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\TableGateway\Feature\RowGatewayFeature;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\Db\RowGateway\RowGatewayInterface;
 
-<span class=x>class Artist implements RowGatewayInterface</span>
-<span class=x>{</span>
-<span class=x>    protected $adapter;</span>
+class Artist implements RowGatewayInterface
+{
+    protected $adapter;
 
-<span class=x>    public function __construct($adapter)</span>
-<span class=x>    {</span>
-<span class=x>       $this-&gt;adapter = $adapter;</span>
-<span class=x>    }</span>
+    public function __construct($adapter)
+    {
+       $this-&gt;adapter = $adapter;
+    }
 
-<span class=x>    // ... save() and delete() implementations</span>
-<span class=x>}</span>
+    // ... save() and delete() implementations
+}
 
-<span class=x>$table = new TableGateway(&#39;artist&#39;, $adapter, new RowGatewayFeature(new Artist($adapter)));</span>
-</pre></div></p>
+$table = new TableGateway('artist', $adapter, new RowGatewayFeature(new Artist($adapter)));</code></pre>
 
 
 
@@ -460,9 +460,10 @@ pattern), pass a prototype object implementing the <code>RowGatewayInterface</co
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -509,7 +510,7 @@ pattern), pass a prototype object implementing the <code>RowGatewayInterface</co
                 <p>
                     <!--Built with love by the Laminas team with the help of our
                     <a href="https://github.com/laminas/laminas-db//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

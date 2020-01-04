@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -210,15 +214,15 @@
 
     <h2>Installation</h2>
     <h3>Using Composer</h3>
-    <pre><code class="language-bash">$ composer require zendframework/laminas-db</code></pre>
+    <pre><code class="language-bash">$ composer require laminas/laminas-db/</code></pre>
 
 
 <h2>Support</h2>
 <ul>
-    <li>Issues: <a href="https://github.com/zendframework/laminas-db/issues/">github.com/zendframework/laminas-db/issues</a></li>
-    <li>Source: <a href="https://github.com/zendframework/laminas-db/">github.com/zendframework/laminas-db</a></li>
+    <li>Issues: <a href="https://github.com/laminas/laminas-db//issues">github.com/laminas/laminas-db//issues</a></li>
+    <li>Source: <a href="https://github.com/laminas/laminas-db/">github.com/laminas/laminas-db/</a></li>
     <li>Chat: <a href="https://zendframework-slack.herokuapp.com">zendframework-slack.herokuapp.com</a></li>
-    <li>Forum: <a href="https://discourse.zendframework.com/">discourse.zendframework.com</a></li>
+    <li>Forum: <a href="https://discourse.laminas.dev/">discourse.laminas.dev</a></li>
 </ul>
 
 
@@ -350,9 +354,10 @@
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -399,7 +404,7 @@
                 <p>
                     <!--Built with love by the Laminas team with the help of our
                     <a href="https://github.com/laminas/laminas-db//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>
@@ -443,5 +448,5 @@
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-12-31 20:08:14
+Build Date UTC : 2020-01-04 04:18:53
 -->

@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -268,99 +272,89 @@ constraints, and indexes for a database/schema.</p>
 example, <code>CREATE TABLE</code> is modeled by the <code>CreateTable</code> class; this is likewise
 the same for <code>ALTER TABLE</code> (as <code>AlterTable</code>), and <code>DROP TABLE</code> (as
 <code>DropTable</code>). You can create instances using a number of approaches:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Ddl;</span>
-<span class=x>use Laminas\Db\Sql\TableIdentifier;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl;
+use Laminas\Db\Sql\TableIdentifier;
 
-<span class=x>$table = new Ddl\CreateTable();</span>
+$table = new Ddl\CreateTable();
 
-<span class=x>// With a table name:</span>
-<span class=x>$table = new Ddl\CreateTable(&#39;bar&#39;);</span>
+// With a table name:
+$table = new Ddl\CreateTable('bar');
 
-<span class=x>// With a schema name &quot;foo&quot;:</span>
-<span class=x>$table = new Ddl\CreateTable(new TableIdentifier(&#39;bar&#39;, &#39;foo&#39;));</span>
+// With a schema name &quot;foo&quot;:
+$table = new Ddl\CreateTable(new TableIdentifier('bar', 'foo'));
 
-<span class=x>// Optionally, as a temporary table:</span>
-<span class=x>$table = new Ddl\CreateTable(&#39;bar&#39;, true);</span>
-</pre></div></p>
+// Optionally, as a temporary table:
+$table = new Ddl\CreateTable('bar', true);</code></pre>
 <p>You can also set the table after instantiation:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$table-&gt;setTable(&#39;bar&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$table-&gt;setTable('bar');</code></pre>
 <p>Currently, columns are added by creating a column object (described in the
 <a href="#currently-supported-data-types">data type table below</a>):</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Ddl\Column;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl\Column;
 
-<span class=x>$table-&gt;addColumn(new Column\Integer(&#39;id&#39;));</span>
-<span class=x>$table-&gt;addColumn(new Column\Varchar(&#39;name&#39;, 255));</span>
-</pre></div></p>
+$table-&gt;addColumn(new Column\Integer('id'));
+$table-&gt;addColumn(new Column\Varchar('name', 255));</code></pre>
 <p>Beyond adding columns to a table, you may also add constraints:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Ddl\Constraint;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl\Constraint;
 
-<span class=x>$table-&gt;addConstraint(new Constraint\PrimaryKey(&#39;id&#39;));</span>
-<span class=x>$table-&gt;addConstraint(</span>
-<span class=x>    new Constraint\UniqueKey([&#39;name&#39;, &#39;foo&#39;], &#39;my_unique_key&#39;)</span>
-<span class=x>);</span>
-</pre></div></p>
+$table-&gt;addConstraint(new Constraint\PrimaryKey('id'));
+$table-&gt;addConstraint(
+    new Constraint\UniqueKey(['name', 'foo'], 'my_unique_key')
+);</code></pre>
 <p>You can also use the <code>AUTO_INCREMENT</code> attribute for MySQL:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Ddl\Column;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl\Column;
 
-<span class=x>$column = new Column\Integer(&#39;id&#39;);</span>
-<span class=x>$column-&gt;setOption(&#39;AUTO_INCREMENT&#39;, true);</span>
-</pre></div></p>
+$column = new Column\Integer('id');
+$column-&gt;setOption('AUTO_INCREMENT', true);</code></pre>
 <h2 id="altering-tables">Altering Tables</h2>
 <p>Similar to <code>CreateTable</code>, you may also use <code>AlterTable</code> instances:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Ddl;</span>
-<span class=x>use Laminas\Db\Sql\TableIdentifier;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl;
+use Laminas\Db\Sql\TableIdentifier;
 
-<span class=x>$table = new Ddl\AlterTable();</span>
+$table = new Ddl\AlterTable();
 
-<span class=x>// With a table name:</span>
-<span class=x>$table = new Ddl\AlterTable(&#39;bar&#39;);</span>
+// With a table name:
+$table = new Ddl\AlterTable('bar');
 
-<span class=x>// With a schema name &quot;foo&quot;:</span>
-<span class=x>$table = new Ddl\AlterTable(new TableIdentifier(&#39;bar&#39;, &#39;foo&#39;));</span>
+// With a schema name &quot;foo&quot;:
+$table = new Ddl\AlterTable(new TableIdentifier('bar', 'foo'));
 
-<span class=x>// Optionally, as a temporary table:</span>
-<span class=x>$table = new Ddl\AlterTable(&#39;bar&#39;, true);</span>
-</pre></div></p>
+// Optionally, as a temporary table:
+$table = new Ddl\AlterTable('bar', true);</code></pre>
 <p>The primary difference between a <code>CreateTable</code> and <code>AlterTable</code> is that the
 <code>AlterTable</code> takes into account that the table and its assets already exist.
 Therefore, while you still have <code>addColumn()</code> and <code>addConstraint()</code>, you will
 also have the ability to <em>alter</em> existing columns:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Ddl\Column;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl\Column;
 
-<span class=x>$table-&gt;changeColumn(&#39;name&#39;, Column\Varchar(&#39;new_name&#39;, 50));</span>
-</pre></div></p>
+$table-&gt;changeColumn('name', Column\Varchar('new_name', 50));</code></pre>
 <p>You may also <em>drop</em> existing columns or constraints:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$table-&gt;dropColumn(&#39;foo&#39;);</span>
-<span class=x>$table-&gt;dropConstraint(&#39;my_index&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$table-&gt;dropColumn('foo');
+$table-&gt;dropConstraint('my_index');</code></pre>
 <h2 id="dropping-tables">Dropping Tables</h2>
 <p>To drop a table, create a <code>DropTable</code> instance:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Ddl;</span>
-<span class=x>use Laminas\Db\Sql\TableIdentifier;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl;
+use Laminas\Db\Sql\TableIdentifier;
 
-<span class=x>// With a table name:</span>
-<span class=x>$drop = new Ddl\DropTable(&#39;bar&#39;);</span>
+// With a table name:
+$drop = new Ddl\DropTable('bar');
 
-<span class=x>// With a schema name &quot;foo&quot;:</span>
-<span class=x>$drop = new Ddl\DropTable(new TableIdentifier(&#39;bar&#39;, &#39;foo&#39;));</span>
-</pre></div></p>
+// With a schema name &quot;foo&quot;:
+$drop = new Ddl\DropTable(new TableIdentifier('bar', 'foo'));</code></pre>
 <h2 id="executing-ddl-statements">Executing DDL Statements</h2>
 <p>After a DDL statement object has been created and configured, at some point you
 will need to execute the statement. This requires an <code>Adapter</code> instance and a
 properly seeded <code>Sql</code> instance.</p>
 <p>The workflow looks something like this, with <code>$ddl</code> being a <code>CreateTable</code>,
 <code>AlterTable</code>, or <code>DropTable</code> instance:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Sql;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Sql;
 
-<span class=x>// Existence of $adapter is assumed.</span>
-<span class=x>$sql = new Sql($adapter);</span>
+// Existence of $adapter is assumed.
+$sql = new Sql($adapter);
 
-<span class=x>$adapter-&gt;query(</span>
-<span class=x>    $sql-&gt;getSqlStringForSqlObject($ddl),</span>
-<span class=x>    $adapter::QUERY_MODE_EXECUTE</span>
-<span class=x>);</span>
-</pre></div></p>
+$adapter-&gt;query(
+    $sql-&gt;getSqlStringForSqlObject($ddl),
+    $adapter::QUERY_MODE_EXECUTE
+);</code></pre>
 <p>By passing the <code>$ddl</code> object through the <code>$sql</code> instance's
 <code>getSqlStringForSqlObject()</code> method, we ensure that any platform specific
 specializations/modifications are utilized to create a platform specific SQL
@@ -629,9 +623,10 @@ must implement <code>Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface</code>.</
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -678,7 +673,7 @@ must implement <code>Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface</code>.</
                 <p>
                     <!--Built with love by the Laminas team with the help of our
                     <a href="https://github.com/laminas/laminas-db//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

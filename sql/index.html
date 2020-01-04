@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -272,157 +276,146 @@ interact with in order to build queries in the <code>Laminas\Db\Sql</code> names
 <p>Since these four tasks are so closely related and generally used together
 within the same application, the <code>Laminas\Db\Sql\Sql</code> class helps you create them
 and produce the result you are attempting to achieve.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Sql;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Sql;
 
-<span class=x>$sql    = new Sql($adapter);</span>
-<span class=x>$select = $sql-&gt;select(); // returns a Laminas\Db\Sql\Select instance</span>
-<span class=x>$insert = $sql-&gt;insert(); // returns a Laminas\Db\Sql\Insert instance</span>
-<span class=x>$update = $sql-&gt;update(); // returns a Laminas\Db\Sql\Update instance</span>
-<span class=x>$delete = $sql-&gt;delete(); // returns a Laminas\Db\Sql\Delete instance</span>
-</pre></div></p>
+$sql    = new Sql($adapter);
+$select = $sql-&gt;select(); // returns a Laminas\Db\Sql\Select instance
+$insert = $sql-&gt;insert(); // returns a Laminas\Db\Sql\Insert instance
+$update = $sql-&gt;update(); // returns a Laminas\Db\Sql\Update instance
+$delete = $sql-&gt;delete(); // returns a Laminas\Db\Sql\Delete instance</code></pre>
 <p>As a developer, you can now interact with these objects, as described in the
 sections below, to customize each query. Once they have been populated with
 values, they are ready to either be prepared or executed.</p>
 <p>To prepare (using a Select object):</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Sql;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Sql;
 
-<span class=x>$sql    = new Sql($adapter);</span>
-<span class=x>$select = $sql-&gt;select();</span>
-<span class=x>$select-&gt;from(&#39;foo&#39;);</span>
-<span class=x>$select-&gt;where([&#39;id&#39; =&gt; 2]);</span>
+$sql    = new Sql($adapter);
+$select = $sql-&gt;select();
+$select-&gt;from('foo');
+$select-&gt;where(['id' =&gt; 2]);
 
-<span class=x>$statement = $sql-&gt;prepareStatementForSqlObject($select);</span>
-<span class=x>$results = $statement-&gt;execute();</span>
-</pre></div></p>
+$statement = $sql-&gt;prepareStatementForSqlObject($select);
+$results = $statement-&gt;execute();</code></pre>
 <p>To execute (using a Select object)</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Sql;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Sql;
 
-<span class=x>$sql    = new Sql($adapter);</span>
-<span class=x>$select = $sql-&gt;select();</span>
-<span class=x>$select-&gt;from(&#39;foo&#39;);</span>
-<span class=x>$select-&gt;where([&#39;id&#39; =&gt; 2]);</span>
+$sql    = new Sql($adapter);
+$select = $sql-&gt;select();
+$select-&gt;from('foo');
+$select-&gt;where(['id' =&gt; 2]);
 
-<span class=x>$selectString = $sql-&gt;buildSqlString($select);</span>
-<span class=x>$results = $adapter-&gt;query($selectString, $adapter::QUERY_MODE_EXECUTE);</span>
-</pre></div></p>
+$selectString = $sql-&gt;buildSqlString($select);
+$results = $adapter-&gt;query($selectString, $adapter::QUERY_MODE_EXECUTE);</code></pre>
 <p><code>Laminas\\Db\\Sql\\Sql</code> objects can also be bound to a particular table so that in
 obtaining a <code>Select</code>, <code>Insert</code>, <code>Update</code>, or <code>Delete</code> instance, the object will be
 seeded with the table:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Sql;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Sql;
 
-<span class=x>$sql    = new Sql($adapter, &#39;foo&#39;);</span>
-<span class=x>$select = $sql-&gt;select();</span>
-<span class=x>$select-&gt;where([&#39;id&#39; =&gt; 2]); // $select already has from(&#39;foo&#39;) applied</span>
-</pre></div></p>
+$sql    = new Sql($adapter, 'foo');
+$select = $sql-&gt;select();
+$select-&gt;where(['id' =&gt; 2]); // $select already has from('foo') applied</code></pre>
 <h2 id="common-interfaces-for-sql-implementations">Common interfaces for SQL implementations</h2>
 <p>Each of these objects implements the following two interfaces:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>interface PreparableSqlInterface</span>
-<span class=x>{</span>
-<span class=x>     public function prepareStatement(Adapter $adapter, StatementInterface $statement) : void;</span>
-<span class=x>}</span>
+<pre class=codehilite><code class=language-php>interface PreparableSqlInterface
+{
+     public function prepareStatement(Adapter $adapter, StatementInterface $statement) : void;
+}
 
-<span class=x>interface SqlInterface</span>
-<span class=x>{</span>
-<span class=x>     public function getSqlString(PlatformInterface $adapterPlatform = null) : string;</span>
-<span class=x>}</span>
-</pre></div></p>
+interface SqlInterface
+{
+     public function getSqlString(PlatformInterface $adapterPlatform = null) : string;
+}</code></pre>
 <p>Use these functions to produce either (a) a prepared statement, or (b) a string
 to execute.</p>
 <h2 id="select">Select</h2>
 <p><code>Laminas\Db\Sql\Select</code> presents a unified API for building platform-specific SQL
 SELECT queries. Instances may be created and consumed without
 <code>Laminas\Db\Sql\Sql</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Sql\Select;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Select;
 
-<span class=x>$select = new Select();</span>
-<span class=x>// or, to produce a $select bound to a specific table</span>
-<span class=x>$select = new Select(&#39;foo&#39;);</span>
-</pre></div></p>
+$select = new Select();
+// or, to produce a $select bound to a specific table
+$select = new Select('foo');</code></pre>
 <p>If a table is provided to the <code>Select</code> object, then <code>from()</code> cannot be called
 later to change the name of the table.</p>
 <p>Once you have a valid <code>Select</code> object, the following API can be used to further
 specify various select statement parts:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class Select extends AbstractSql implements SqlInterface, PreparableSqlInterface</span>
-<span class=x>{</span>
-<span class=x>    const JOIN_INNER = &#39;inner&#39;;</span>
-<span class=x>    const JOIN_OUTER = &#39;outer&#39;;</span>
-<span class=x>    const JOIN_LEFT = &#39;left&#39;;</span>
-<span class=x>    const JOIN_RIGHT = &#39;right&#39;;</span>
-<span class=x>    const SQL_STAR = &#39;*&#39;;</span>
-<span class=x>    const ORDER_ASCENDING = &#39;ASC&#39;;</span>
-<span class=x>    const ORDER_DESCENDING = &#39;DESC&#39;;</span>
+<pre class=codehilite><code class=language-php>class Select extends AbstractSql implements SqlInterface, PreparableSqlInterface
+{
+    const JOIN_INNER = 'inner';
+    const JOIN_OUTER = 'outer';
+    const JOIN_LEFT = 'left';
+    const JOIN_RIGHT = 'right';
+    const SQL_STAR = '*';
+    const ORDER_ASCENDING = 'ASC';
+    const ORDER_DESCENDING = 'DESC';
 
-<span class=x>    public $where; // @param Where $where</span>
+    public $where; // @param Where $where
 
-<span class=x>    public function __construct(string|array|TableIdentifier $table = null);</span>
-<span class=x>    public function from(string|array|TableIdentifier $table) : self;</span>
-<span class=x>    public function columns(array $columns, bool $prefixColumnsWithTable = true) : self;</span>
-<span class=x>    public function join(string|array|TableIdentifier $name, string $on, string|array $columns = self::SQL_STAR, string $type = self::JOIN_INNER) : self;</span>
-<span class=x>    public function where(Where|callable|string|array|PredicateInterface $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;</span>
-<span class=x>    public function group(string|array $group);</span>
-<span class=x>    public function having(Having|callable|string|array $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;</span>
-<span class=x>    public function order(string|array $order) : self;</span>
-<span class=x>    public function limit(int $limit) : self;</span>
-<span class=x>    public function offset(int $offset) : self;</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function __construct(string|array|TableIdentifier $table = null);
+    public function from(string|array|TableIdentifier $table) : self;
+    public function columns(array $columns, bool $prefixColumnsWithTable = true) : self;
+    public function join(string|array|TableIdentifier $name, string $on, string|array $columns = self::SQL_STAR, string $type = self::JOIN_INNER) : self;
+    public function where(Where|callable|string|array|PredicateInterface $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;
+    public function group(string|array $group);
+    public function having(Having|callable|string|array $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;
+    public function order(string|array $order) : self;
+    public function limit(int $limit) : self;
+    public function offset(int $offset) : self;
+}</code></pre>
 <h3>from()</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>// As a string:</span>
-<span class=x>$select-&gt;from(&#39;foo&#39;);</span>
+<pre class=codehilite><code class=language-php>// As a string:
+$select-&gt;from('foo');
 
-<span class=x>// As an array to specify an alias</span>
-<span class=x>// (produces SELECT &quot;t&quot;.* FROM &quot;table&quot; AS &quot;t&quot;)</span>
-<span class=x>$select-&gt;from([&#39;t&#39; =&gt; &#39;table&#39;]);</span>
+// As an array to specify an alias
+// (produces SELECT &quot;t&quot;.* FROM &quot;table&quot; AS &quot;t&quot;)
+$select-&gt;from(['t' =&gt; 'table']);
 
-<span class=x>// Using a Sql\TableIdentifier:</span>
-<span class=x>// (same output as above)</span>
-<span class=x>$select-&gt;from([&#39;t&#39; =&gt; new TableIdentifier(&#39;table&#39;)]);</span>
-</pre></div></p>
+// Using a Sql\TableIdentifier:
+// (same output as above)
+$select-&gt;from(['t' =&gt; new TableIdentifier('table')]);</code></pre>
 <h3>columns()</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>// As an array of names</span>
-<span class=x>$select-&gt;columns([&#39;foo&#39;, &#39;bar&#39;]);</span>
+<pre class=codehilite><code class=language-php>// As an array of names
+$select-&gt;columns(['foo', 'bar']);
 
-<span class=x>// As an associative array with aliases as the keys</span>
-<span class=x>// (produces &#39;bar&#39; AS &#39;foo&#39;, &#39;bax&#39; AS &#39;baz&#39;)</span>
-<span class=x>$select-&gt;columns([</span>
-<span class=x>    &#39;foo&#39; =&gt; &#39;bar&#39;,</span>
-<span class=x>    &#39;baz&#39; =&gt; &#39;bax&#39;</span>
-<span class=x>]);</span>
+// As an associative array with aliases as the keys
+// (produces 'bar' AS 'foo', 'bax' AS 'baz')
+$select-&gt;columns([
+    'foo' =&gt; 'bar',
+    'baz' =&gt; 'bax'
+]);
 
-<span class=x>// Sql function call on the column</span>
-<span class=x>// (produces CONCAT_WS(&#39;/&#39;, &#39;bar&#39;, &#39;bax&#39;) AS &#39;foo&#39;)</span>
-<span class=x>$select-&gt;columns([</span>
-<span class=x>    &#39;foo&#39; =&gt; new \Laminas\Db\Sql\Expression(&quot;CONCAT_WS(&#39;/&#39;, &#39;bar&#39;, &#39;bax&#39;)&quot;)</span>
-<span class=x>]);</span>
-</pre></div></p>
+// Sql function call on the column
+// (produces CONCAT_WS('/', 'bar', 'bax') AS 'foo')
+$select-&gt;columns([
+    'foo' =&gt; new \Laminas\Db\Sql\Expression(&quot;CONCAT_WS('/', 'bar', 'bax')&quot;)
+]);</code></pre>
 <h3>join()</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$select-&gt;join(</span>
-<span class=x>    &#39;foo&#39;,              // table name</span>
-<span class=x>    &#39;id = bar.id&#39;,      // expression to join on (will be quoted by platform object before insertion),</span>
-<span class=x>    [&#39;bar&#39;, &#39;baz&#39;],     // (optional) list of columns, same requirements as columns() above</span>
-<span class=x>    $select::JOIN_OUTER // (optional), one of inner, outer, left, right also represented by constants in the API</span>
-<span class=x>);</span>
+<pre class=codehilite><code class=language-php>$select-&gt;join(
+    'foo',              // table name
+    'id = bar.id',      // expression to join on (will be quoted by platform object before insertion),
+    ['bar', 'baz'],     // (optional) list of columns, same requirements as columns() above
+    $select::JOIN_OUTER // (optional), one of inner, outer, left, right also represented by constants in the API
+);
 
-<span class=x>$select</span>
-<span class=x>    -&gt;from([&#39;f&#39; =&gt; &#39;foo&#39;])     // base table</span>
-<span class=x>    -&gt;join(</span>
-<span class=x>        [&#39;b&#39; =&gt; &#39;bar&#39;],        // join table with alias</span>
-<span class=x>        &#39;f.foo_id = b.foo_id&#39;  // join expression</span>
-<span class=x>    );</span>
-</pre></div></p>
+$select
+    -&gt;from(['f' =&gt; 'foo'])     // base table
+    -&gt;join(
+        ['b' =&gt; 'bar'],        // join table with alias
+        'f.foo_id = b.foo_id'  // join expression
+    );</code></pre>
 <h3>where(), having()</h3>
 <p><code>Laminas\Db\Sql\Select</code> provides bit of flexibility as it regards to what kind of
 parameters are acceptable when calling <code>where()</code> or <code>having()</code>. The method
 signature is listed as:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>/**</span>
-<span class=x> * Create where clause</span>
-<span class=x> *</span>
-<span class=x> * @param  Where|callable|string|array $predicate</span>
-<span class=x> * @param  string $combination One of the OP_* constants from Predicate\PredicateSet</span>
-<span class=x> * @return Select</span>
-<span class=x> */</span>
-<span class=x>public function where($predicate, $combination = Predicate\PredicateSet::OP_AND);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>/**
+ * Create where clause
+ *
+ * @param  Where|callable|string|array $predicate
+ * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
+ * @return Select
+ */
+public function where($predicate, $combination = Predicate\PredicateSet::OP_AND);</code></pre>
 <p>If you provide a <code>Laminas\Db\Sql\Where</code> instance to <code>where()</code> or a
 <code>Laminas\Db\Sql\Having</code> instance to <code>having()</code>, any previous internal instances
 will be replaced completely. When either instance is processed, this object will
@@ -430,16 +423,14 @@ be iterated to produce the WHERE or HAVING section of the SELECT statement.</p>
 <p>If you provide a PHP callable to <code>where()</code> or <code>having()</code>, this function will be
 called with the <code>Select</code>'s <code>Where</code>/<code>Having</code> instance as the only parameter.
 This enables code like the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$select-&gt;where(function (Where $where) {</span>
-<span class=x>    $where-&gt;like(&#39;username&#39;, &#39;ralph%&#39;);</span>
-<span class=x>});</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$select-&gt;where(function (Where $where) {
+    $where-&gt;like('username', 'ralph%');
+});</code></pre>
 <p>If you provide a <em>string</em>, this string will be used to create a
 <code>Laminas\Db\Sql\Predicate\Expression</code> instance, and its contents will be applied
 as-is, with no quoting:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// SELECT &quot;foo&quot;.* FROM &quot;foo&quot; WHERE x = 5</span>
-<span class=x>$select-&gt;from(&#39;foo&#39;)-&gt;where(&#39;x = 5&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// SELECT &quot;foo&quot;.* FROM &quot;foo&quot; WHERE x = 5
+$select-&gt;from('foo')-&gt;where('x = 5');</code></pre>
 <p>If you provide an array with integer indices, the value can be one of:</p>
 <ul>
 <li>a string; this will be used to build a <code>Predicate\Expression</code>.</li>
@@ -448,9 +439,8 @@ as-is, with no quoting:</p>
 <p>In either case, the instances are pushed onto the <code>Where</code> stack with the
 <code>$combination</code> provided (defaulting to <code>AND</code>).</p>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// SELECT &quot;foo&quot;.* FROM &quot;foo&quot; WHERE x = 5 AND y = z</span>
-<span class=x>$select-&gt;from(&#39;foo&#39;)-&gt;where([&#39;x = 5&#39;, &#39;y = z&#39;]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// SELECT &quot;foo&quot;.* FROM &quot;foo&quot; WHERE x = 5 AND y = z
+$select-&gt;from('foo')-&gt;where(['x = 5', 'y = z']);</code></pre>
 <p>If you provide an associative array with string keys, any value with a string
 key will be cast as follows:</p>
 <div class="table-responsive"><table>
@@ -476,98 +466,86 @@ key will be cast as follows:</p>
 </tbody>
 </table></div>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// SELECT &quot;foo&quot;.* FROM &quot;foo&quot; WHERE &quot;c1&quot; IS NULL AND &quot;c2&quot; IN (?, ?, ?) AND &quot;c3&quot; IS NOT NULL</span>
-<span class=x>$select-&gt;from(&#39;foo&#39;)-&gt;where([</span>
-<span class=x>    &#39;c1&#39; =&gt; null,</span>
-<span class=x>    &#39;c2&#39; =&gt; [1, 2, 3],</span>
-<span class=x>    new \Laminas\Db\Sql\Predicate\IsNotNull(&#39;c3&#39;),</span>
-<span class=x>]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// SELECT &quot;foo&quot;.* FROM &quot;foo&quot; WHERE &quot;c1&quot; IS NULL AND &quot;c2&quot; IN (?, ?, ?) AND &quot;c3&quot; IS NOT NULL
+$select-&gt;from('foo')-&gt;where([
+    'c1' =&gt; null,
+    'c2' =&gt; [1, 2, 3],
+    new \Laminas\Db\Sql\Predicate\IsNotNull('c3'),
+]);</code></pre>
 <p>As another example of complex queries with nested conditions e.g.</p>
-<p> <div class=codehilite><pre><span></span><span class=k>SELECT</span> <span class=o>*</span> <span class=k>WHERE</span> <span class=p>(</span><span class=n>column1</span> <span class=k>is</span> <span class=k>null</span> <span class=k>or</span> <span class=n>column1</span> <span class=o>=</span> <span class=mi>2</span><span class=p>)</span> <span class=k>AND</span> <span class=p>(</span><span class=n>column2</span> <span class=o>=</span> <span class=mi>3</span><span class=p>)</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-sql>SELECT * WHERE (column1 is null or column1 = 2) AND (column2 = 3)</code></pre>
 <p>you need to use the <code>nest()</code> and <code>unnest()</code> methods, as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$select-&gt;where-&gt;nest() // bracket opened</span>
-<span class=x>    -&gt;isNull(&#39;column1&#39;)</span>
-<span class=x>    -&gt;or</span>
-<span class=x>    -&gt;equalTo(&#39;column1&#39;, &#39;2&#39;)</span>
-<span class=x>    -&gt;unnest();  // bracket closed</span>
-<span class=x>    -&gt;equalTo(&#39;column2&#39;, &#39;3&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$select-&gt;where-&gt;nest() // bracket opened
+    -&gt;isNull('column1')
+    -&gt;or
+    -&gt;equalTo('column1', '2')
+    -&gt;unnest();  // bracket closed
+    -&gt;equalTo('column2', '3');</code></pre>
 <h3>order()</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$select = new Select;</span>
-<span class=x>$select-&gt;order(&#39;id DESC&#39;); // produces &#39;id&#39; DESC</span>
+<pre class=codehilite><code class=language-php>$select = new Select;
+$select-&gt;order('id DESC'); // produces 'id' DESC
 
-<span class=x>$select = new Select;</span>
-<span class=x>$select</span>
-<span class=x>    -&gt;order(&#39;id DESC&#39;)</span>
-<span class=x>    -&gt;order(&#39;name ASC, age DESC&#39;); // produces &#39;id&#39; DESC, &#39;name&#39; ASC, &#39;age&#39; DESC</span>
+$select = new Select;
+$select
+    -&gt;order('id DESC')
+    -&gt;order('name ASC, age DESC'); // produces 'id' DESC, 'name' ASC, 'age' DESC
 
-<span class=x>$select = new Select;</span>
-<span class=x>$select-&gt;order([&#39;name ASC&#39;, &#39;age DESC&#39;]); // produces &#39;name&#39; ASC, &#39;age&#39; DESC</span>
-</pre></div></p>
+$select = new Select;
+$select-&gt;order(['name ASC', 'age DESC']); // produces 'name' ASC, 'age' DESC</code></pre>
 <h3>limit() and offset()</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$select = new Select;</span>
-<span class=x>$select-&gt;limit(5);   // always takes an integer/numeric</span>
-<span class=x>$select-&gt;offset(10); // similarly takes an integer/numeric</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$select = new Select;
+$select-&gt;limit(5);   // always takes an integer/numeric
+$select-&gt;offset(10); // similarly takes an integer/numeric</code></pre>
 <h2 id="insert">Insert</h2>
 <p>The Insert API:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class Insert implements SqlInterface, PreparableSqlInterface</span>
-<span class=x>{</span>
-<span class=x>    const VALUES_MERGE = &#39;merge&#39;;</span>
-<span class=x>    const VALUES_SET   = &#39;set&#39;;</span>
+<pre class=codehilite><code class=language-php>class Insert implements SqlInterface, PreparableSqlInterface
+{
+    const VALUES_MERGE = 'merge';
+    const VALUES_SET   = 'set';
 
-<span class=x>    public function __construct(string|TableIdentifier $table = null);</span>
-<span class=x>    public function into(string|TableIdentifier $table) : self;</span>
-<span class=x>    public function columns(array $columns) : self;</span>
-<span class=x>    public function values(array $values, string $flag = self::VALUES_SET) : self;</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function __construct(string|TableIdentifier $table = null);
+    public function into(string|TableIdentifier $table) : self;
+    public function columns(array $columns) : self;
+    public function values(array $values, string $flag = self::VALUES_SET) : self;
+}</code></pre>
 <p>As with <code>Select</code>, the table may be provided during instantiation or via the
 <code>into()</code> method.</p>
 <h3>columns()</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$insert-&gt;columns([&#39;foo&#39;, &#39;bar&#39;]); // set the valid columns</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$insert-&gt;columns(['foo', 'bar']); // set the valid columns</code></pre>
 <h3>values()</h3>
-<div class=md-fenced-code-tabs id=tab-tab-group-21><ul class="nav nav-tabs"><li class=nav-item><a class="nav-link active" href=#tab-group-21-0_php-panel role=tab id=tab-group-21-0_php-tab data-toggle=tab data-lang=php aria-controls=tab-group-21-0_php-panel aria-selected=true>Php</a></li><li class=nav-item><a class="nav-link " href=#tab-group-21-1_php-panel role=tab id=tab-group-21-1_php-tab data-toggle=tab data-lang=php aria-controls=tab-group-21-1_php-panel aria-selected=false>Php</a></li></ul><div class=tab-content><div id=tab-group-21-0_php-panel class="tab-pane show active" role=tabpanel aria-labelledby=tab-group-21-0_php-tab><div class=codehilite><pre><span></span><span class=x>// The default behavior of values is to set the values;</span>
-<span class=x>// successive calls will not preserve values from previous calls.</span>
-<span class=x>$insert-&gt;values([</span>
-<span class=x>    &#39;col_1&#39; =&gt; &#39;value1&#39;,</span>
-<span class=x>    &#39;col_2&#39; =&gt; &#39;value2&#39;,</span>
-<span class=x>]);</span>
-</pre></div></div><div id=tab-group-21-1_php-panel class="tab-pane " role=tabpanel aria-labelledby=tab-group-21-1_php-tab><div class=codehilite><pre><span></span><span class=x>// To merge values with previous calls, provide the appropriate flag:</span>
-<span class=x>$insert-&gt;values([&#39;col_2&#39; =&gt; &#39;value2&#39;], $insert::VALUES_MERGE);</span>
-</pre></div></div></div></div>
+<div class=md-fenced-code-tabs id=tab-tab-group-21><ul class="nav nav-tabs"><li class=nav-item><a class="nav-link active" href=#tab-group-21-0_php-panel role=tab id=tab-group-21-0_php-tab data-toggle=tab data-lang=php aria-controls=tab-group-21-0_php-panel aria-selected=true>Php</a></li><li class=nav-item><a class="nav-link " href=#tab-group-21-1_php-panel role=tab id=tab-group-21-1_php-tab data-toggle=tab data-lang=php aria-controls=tab-group-21-1_php-panel aria-selected=false>Php</a></li></ul><div class=tab-content><div id=tab-group-21-0_php-panel class="tab-pane show active" role=tabpanel aria-labelledby=tab-group-21-0_php-tab><pre class=codehilite><code class=language-php>// The default behavior of values is to set the values;
+// successive calls will not preserve values from previous calls.
+$insert-&gt;values([
+    'col_1' =&gt; 'value1',
+    'col_2' =&gt; 'value2',
+]);</code></pre></div><div id=tab-group-21-1_php-panel class="tab-pane " role=tabpanel aria-labelledby=tab-group-21-1_php-tab><pre class=codehilite><code class=language-php>// To merge values with previous calls, provide the appropriate flag:
+$insert-&gt;values(['col_2' =&gt; 'value2'], $insert::VALUES_MERGE);</code></pre></div></div></div>
 
 <h2 id="update">Update</h2>
-<p> <div class=codehilite><pre><span></span><span class=x>class Update</span>
-<span class=x>{</span>
-<span class=x>    const VALUES_MERGE = &#39;merge&#39;;</span>
-<span class=x>    const VALUES_SET   = &#39;set&#39;;</span>
+<pre class=codehilite><code class=language-php>class Update
+{
+    const VALUES_MERGE = 'merge';
+    const VALUES_SET   = 'set';
 
-<span class=x>    public $where; // @param Where $where</span>
-<span class=x>    public function __construct(string|TableIdentifier $table = null);</span>
-<span class=x>    public function table(string|TableIdentifier $table) : self;</span>
-<span class=x>    public function set(array $values, string $flag = self::VALUES_SET) : self;</span>
-<span class=x>    public function where(Where|callable|string|array|PredicateInterface $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;</span>
-<span class=x>}</span>
-</pre></div></p>
+    public $where; // @param Where $where
+    public function __construct(string|TableIdentifier $table = null);
+    public function table(string|TableIdentifier $table) : self;
+    public function set(array $values, string $flag = self::VALUES_SET) : self;
+    public function where(Where|callable|string|array|PredicateInterface $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;
+}</code></pre>
 <h3>set()</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$update-&gt;set([&#39;foo&#39; =&gt; &#39;bar&#39;, &#39;baz&#39; =&gt; &#39;bax&#39;]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$update-&gt;set(['foo' =&gt; 'bar', 'baz' =&gt; 'bax']);</code></pre>
 <h3>where()</h3>
 <p>See the <a href="#where-and-having">section on Where and Having</a>.</p>
 <h2 id="delete">Delete</h2>
-<p> <div class=codehilite><pre><span></span><span class=x>class Delete</span>
-<span class=x>{</span>
-<span class=x>    public $where; // @param Where $where</span>
+<pre class=codehilite><code class=language-php>class Delete
+{
+    public $where; // @param Where $where
 
-<span class=x>    public function __construct(string|TableIdentifier $table = null);</span>
-<span class=x>    public function from(string|TableIdentifier $table);</span>
-<span class=x>    public function where(Where|callable|string|array|PredicateInterface $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function __construct(string|TableIdentifier $table = null);
+    public function from(string|TableIdentifier $table);
+    public function where(Where|callable|string|array|PredicateInterface $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;
+}</code></pre>
 <h3>where()</h3>
 <p>See the <a href="#where-and-having">section on Where and Having</a>.</p>
 <h2 id="where-and-having">Where and Having</h2>
@@ -600,268 +578,251 @@ interpolating. In cases where there are parameters in an <code>Expression</code>
 have parameters, use <code>Literal</code> objects.</p>
 </blockquote>
 <p>The <code>Where</code> and <code>Having</code> API is that of <code>Predicate</code> and <code>PredicateSet</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Where &amp; Having extend Predicate:</span>
-<span class=x>class Predicate extends PredicateSet</span>
-<span class=x>{</span>
-<span class=x>    public $and;</span>
-<span class=x>    public $or;</span>
-<span class=x>    public $AND;</span>
-<span class=x>    public $OR;</span>
-<span class=x>    public $NEST;</span>
-<span class=x>    public $UNNEST;</span>
+<pre class=codehilite><code class=language-php>// Where &amp; Having extend Predicate:
+class Predicate extends PredicateSet
+{
+    public $and;
+    public $or;
+    public $AND;
+    public $OR;
+    public $NEST;
+    public $UNNEST;
 
-<span class=x>    public function nest() : Predicate;</span>
-<span class=x>    public function setUnnest(Predicate $predicate) : void;</span>
-<span class=x>    public function unnest() : Predicate;</span>
-<span class=x>    public function equalTo(</span>
-<span class=x>        int|float|bool|string $left,</span>
-<span class=x>        int|float|bool|string $right,</span>
-<span class=x>        string $leftType = self::TYPE_IDENTIFIER,</span>
-<span class=x>        string $rightType = self::TYPE_VALUE</span>
-<span class=x>    ) : self;</span>
-<span class=x>    public function notEqualTo(</span>
-<span class=x>        int|float|bool|string $left,</span>
-<span class=x>        int|float|bool|string $right,</span>
-<span class=x>        string $leftType = self::TYPE_IDENTIFIER,</span>
-<span class=x>        string $rightType = self::TYPE_VALUE</span>
-<span class=x>    ) : self;</span>
-<span class=x>    public function lessThan(</span>
-<span class=x>        int|float|bool|string $left,</span>
-<span class=x>        int|float|bool|string $right,</span>
-<span class=x>        string $leftType = self::TYPE_IDENTIFIER,</span>
-<span class=x>        string $rightType = self::TYPE_VALUE</span>
-<span class=x>    ) : self;</span>
-<span class=x>    public function greaterThan(</span>
-<span class=x>        int|float|bool|string $left,</span>
-<span class=x>        int|float|bool|string $right,</span>
-<span class=x>        string $leftType = self::TYPE_IDENTIFIER,</span>
-<span class=x>        string $rightType = self::TYPE_VALUE</span>
-<span class=x>    ) : self;</span>
-<span class=x>    public function lessThanOrEqualTo(</span>
-<span class=x>        int|float|bool|string $left,</span>
-<span class=x>        int|float|bool|string $right,</span>
-<span class=x>        string $leftType = self::TYPE_IDENTIFIER,</span>
-<span class=x>        string $rightType = self::TYPE_VALUE</span>
-<span class=x>    ) : self;</span>
-<span class=x>    public function greaterThanOrEqualTo(</span>
-<span class=x>        int|float|bool|string $left,</span>
-<span class=x>        int|float|bool|string $right,</span>
-<span class=x>        string $leftType = self::TYPE_IDENTIFIER,</span>
-<span class=x>        string $rightType = self::TYPE_VALUE</span>
-<span class=x>    ) : self;</span>
-<span class=x>    public function like(string $identifier, string $like) : self;</span>
-<span class=x>    public function notLike(string $identifier, string $notLike) : self;</span>
-<span class=x>    public function literal(string $literal) : self;</span>
-<span class=x>    public function expression(string $expression, array $parameters = null) : self;</span>
-<span class=x>    public function isNull(string $identifier) : self;</span>
-<span class=x>    public function isNotNull(string $identifier) : self;</span>
-<span class=x>    public function in(string $identifier, array $valueSet = []) : self;</span>
-<span class=x>    public function notIn(string $identifier, array $valueSet = []) : self;</span>
-<span class=x>    public function between(</span>
-<span class=x>        string $identifier,</span>
-<span class=x>        int|float|string $minValue,</span>
-<span class=x>        int|float|string $maxValue</span>
-<span class=x>    ) : self;</span>
-<span class=x>    public function notBetween(</span>
-<span class=x>        string $identifier,</span>
-<span class=x>        int|float|string $minValue,</span>
-<span class=x>        int|float|string $maxValue</span>
-<span class=x>    ) : self;</span>
-<span class=x>    public function predicate(PredicateInterface $predicate) : self;</span>
+    public function nest() : Predicate;
+    public function setUnnest(Predicate $predicate) : void;
+    public function unnest() : Predicate;
+    public function equalTo(
+        int|float|bool|string $left,
+        int|float|bool|string $right,
+        string $leftType = self::TYPE_IDENTIFIER,
+        string $rightType = self::TYPE_VALUE
+    ) : self;
+    public function notEqualTo(
+        int|float|bool|string $left,
+        int|float|bool|string $right,
+        string $leftType = self::TYPE_IDENTIFIER,
+        string $rightType = self::TYPE_VALUE
+    ) : self;
+    public function lessThan(
+        int|float|bool|string $left,
+        int|float|bool|string $right,
+        string $leftType = self::TYPE_IDENTIFIER,
+        string $rightType = self::TYPE_VALUE
+    ) : self;
+    public function greaterThan(
+        int|float|bool|string $left,
+        int|float|bool|string $right,
+        string $leftType = self::TYPE_IDENTIFIER,
+        string $rightType = self::TYPE_VALUE
+    ) : self;
+    public function lessThanOrEqualTo(
+        int|float|bool|string $left,
+        int|float|bool|string $right,
+        string $leftType = self::TYPE_IDENTIFIER,
+        string $rightType = self::TYPE_VALUE
+    ) : self;
+    public function greaterThanOrEqualTo(
+        int|float|bool|string $left,
+        int|float|bool|string $right,
+        string $leftType = self::TYPE_IDENTIFIER,
+        string $rightType = self::TYPE_VALUE
+    ) : self;
+    public function like(string $identifier, string $like) : self;
+    public function notLike(string $identifier, string $notLike) : self;
+    public function literal(string $literal) : self;
+    public function expression(string $expression, array $parameters = null) : self;
+    public function isNull(string $identifier) : self;
+    public function isNotNull(string $identifier) : self;
+    public function in(string $identifier, array $valueSet = []) : self;
+    public function notIn(string $identifier, array $valueSet = []) : self;
+    public function between(
+        string $identifier,
+        int|float|string $minValue,
+        int|float|string $maxValue
+    ) : self;
+    public function notBetween(
+        string $identifier,
+        int|float|string $minValue,
+        int|float|string $maxValue
+    ) : self;
+    public function predicate(PredicateInterface $predicate) : self;
 
-<span class=x>    // Inherited From PredicateSet</span>
+    // Inherited From PredicateSet
 
-<span class=x>    public function addPredicate(PredicateInterface $predicate, $combination = null) : self;</span>
-<span class=x>    public function getPredicates() PredicateInterface[];</span>
-<span class=x>    public function orPredicate(PredicateInterface $predicate) : self;</span>
-<span class=x>    public function andPredicate(PredicateInterface $predicate) : self;</span>
-<span class=x>    public function getExpressionData() : array;</span>
-<span class=x>    public function count() : int;</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function addPredicate(PredicateInterface $predicate, $combination = null) : self;
+    public function getPredicates() PredicateInterface[];
+    public function orPredicate(PredicateInterface $predicate) : self;
+    public function andPredicate(PredicateInterface $predicate) : self;
+    public function getExpressionData() : array;
+    public function count() : int;
+}</code></pre>
 <p>Each method in the API will produce a corresponding <code>Predicate</code> object of a similarly named
 type, as described below.</p>
 <h3>equalTo(), lessThan(), greaterThan(), lessThanOrEqualTo(), greaterThanOrEqualTo()</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$where-&gt;equalTo(&#39;id&#39;, 5);</span>
+<pre class=codehilite><code class=language-php>$where-&gt;equalTo('id', 5);
 
-<span class=x>// The above is equivalent to:</span>
-<span class=x>$where-&gt;addPredicate(</span>
-<span class=x>    new Predicate\Operator($left, Operator::OPERATOR_EQUAL_TO, $right, $leftType, $rightType)</span>
-<span class=x>);</span>
-</pre></div></p>
+// The above is equivalent to:
+$where-&gt;addPredicate(
+    new Predicate\Operator($left, Operator::OPERATOR_EQUAL_TO, $right, $leftType, $rightType)
+);</code></pre>
 <p>Operators use the following API:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class Operator implements PredicateInterface</span>
-<span class=x>{</span>
-<span class=x>    const OPERATOR_EQUAL_TO                  = &#39;=&#39;;</span>
-<span class=x>    const OP_EQ                              = &#39;=&#39;;</span>
-<span class=x>    const OPERATOR_NOT_EQUAL_TO              = &#39;!=&#39;;</span>
-<span class=x>    const OP_NE                              = &#39;!=&#39;;</span>
-<span class=x>    const OPERATOR_LESS_THAN                 = &#39;&lt;&#39;;</span>
-<span class=x>    const OP_LT                              = &#39;&lt;&#39;;</span>
-<span class=x>    const OPERATOR_LESS_THAN_OR_EQUAL_TO     = &#39;&lt;=&#39;;</span>
-<span class=x>    const OP_LTE                             = &#39;&lt;=&#39;;</span>
-<span class=x>    const OPERATOR_GREATER_THAN              = &#39;&gt;&#39;;</span>
-<span class=x>    const OP_GT                              = &#39;&gt;&#39;;</span>
-<span class=x>    const OPERATOR_GREATER_THAN_OR_EQUAL_TO  = &#39;&gt;=&#39;;</span>
-<span class=x>    const OP_GTE                             = &#39;&gt;=&#39;;</span>
+<pre class=codehilite><code class=language-php>class Operator implements PredicateInterface
+{
+    const OPERATOR_EQUAL_TO                  = '=';
+    const OP_EQ                              = '=';
+    const OPERATOR_NOT_EQUAL_TO              = '!=';
+    const OP_NE                              = '!=';
+    const OPERATOR_LESS_THAN                 = '&lt;';
+    const OP_LT                              = '&lt;';
+    const OPERATOR_LESS_THAN_OR_EQUAL_TO     = '&lt;=';
+    const OP_LTE                             = '&lt;=';
+    const OPERATOR_GREATER_THAN              = '&gt;';
+    const OP_GT                              = '&gt;';
+    const OPERATOR_GREATER_THAN_OR_EQUAL_TO  = '&gt;=';
+    const OP_GTE                             = '&gt;=';
 
-<span class=x>    public function __construct(</span>
-<span class=x>        int|float|bool|string $left = null,</span>
-<span class=x>        string $operator = self::OPERATOR_EQUAL_TO,</span>
-<span class=x>        int|float|bool|string $right = null,</span>
-<span class=x>        string $leftType = self::TYPE_IDENTIFIER,</span>
-<span class=x>        string $rightType = self::TYPE_VALUE</span>
-<span class=x>    );</span>
-<span class=x>    public function setLeft(int|float|bool|string $left);</span>
-<span class=x>    public function getLeft() : int|float|bool|string;</span>
-<span class=x>    public function setLeftType(string $type) : self;</span>
-<span class=x>    public function getLeftType() : string;</span>
-<span class=x>    public function setOperator(string $operator);</span>
-<span class=x>    public function getOperator() : string;</span>
-<span class=x>    public function setRight(int|float|bool|string $value) : self;</span>
-<span class=x>    public function getRight() : int|float|bool|string;</span>
-<span class=x>    public function setRightType(string $type) : self;</span>
-<span class=x>    public function getRightType() : string;</span>
-<span class=x>    public function getExpressionData() : array;</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function __construct(
+        int|float|bool|string $left = null,
+        string $operator = self::OPERATOR_EQUAL_TO,
+        int|float|bool|string $right = null,
+        string $leftType = self::TYPE_IDENTIFIER,
+        string $rightType = self::TYPE_VALUE
+    );
+    public function setLeft(int|float|bool|string $left);
+    public function getLeft() : int|float|bool|string;
+    public function setLeftType(string $type) : self;
+    public function getLeftType() : string;
+    public function setOperator(string $operator);
+    public function getOperator() : string;
+    public function setRight(int|float|bool|string $value) : self;
+    public function getRight() : int|float|bool|string;
+    public function setRightType(string $type) : self;
+    public function getRightType() : string;
+    public function getExpressionData() : array;
+}</code></pre>
 <h3>like($identifier, $like), notLike($identifier, $notLike)</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$where-&gt;like($identifier, $like):</span>
+<pre class=codehilite><code class=language-php>$where-&gt;like($identifier, $like):
 
-<span class=x>// The above is equivalent to:</span>
-<span class=x>$where-&gt;addPredicate(</span>
-<span class=x>    new Predicate\Like($identifier, $like)</span>
-<span class=x>);</span>
-</pre></div></p>
+// The above is equivalent to:
+$where-&gt;addPredicate(
+    new Predicate\Like($identifier, $like)
+);</code></pre>
 <p>The following is the <code>Like</code> API:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class Like implements PredicateInterface</span>
-<span class=x>{</span>
-<span class=x>    public function __construct(string $identifier = null, string $like = null);</span>
-<span class=x>    public function setIdentifier(string $identifier) : self;</span>
-<span class=x>    public function getIdentifier() : string;</span>
-<span class=x>    public function setLike(string $like) : self;</span>
-<span class=x>    public function getLike() : string;</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>class Like implements PredicateInterface
+{
+    public function __construct(string $identifier = null, string $like = null);
+    public function setIdentifier(string $identifier) : self;
+    public function getIdentifier() : string;
+    public function setLike(string $like) : self;
+    public function getLike() : string;
+}</code></pre>
 <h3>literal($literal)</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$where-&gt;literal($literal);</span>
+<pre class=codehilite><code class=language-php>$where-&gt;literal($literal);
 
-<span class=x>// The above is equivalent to:</span>
-<span class=x>$where-&gt;addPredicate(</span>
-<span class=x>    new Predicate\Literal($literal)</span>
-<span class=x>);</span>
-</pre></div></p>
+// The above is equivalent to:
+$where-&gt;addPredicate(
+    new Predicate\Literal($literal)
+);</code></pre>
 <p>The following is the <code>Literal</code> API:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class Literal implements ExpressionInterface, PredicateInterface</span>
-<span class=x>{</span>
-<span class=x>    const PLACEHOLDER = &#39;?&#39;;</span>
-<span class=x>    public function __construct(string $literal = &#39;&#39;);</span>
-<span class=x>    public function setLiteral(string $literal) : self;</span>
-<span class=x>    public function getLiteral() : string;</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>class Literal implements ExpressionInterface, PredicateInterface
+{
+    const PLACEHOLDER = '?';
+    public function __construct(string $literal = '');
+    public function setLiteral(string $literal) : self;
+    public function getLiteral() : string;
+}</code></pre>
 <h3>expression($expression, $parameter)</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$where-&gt;expression($expression, $parameter);</span>
+<pre class=codehilite><code class=language-php>$where-&gt;expression($expression, $parameter);
 
-<span class=x>// The above is equivalent to:</span>
-<span class=x>$where-&gt;addPredicate(</span>
-<span class=x>    new Predicate\Expression($expression, $parameter)</span>
-<span class=x>);</span>
-</pre></div></p>
+// The above is equivalent to:
+$where-&gt;addPredicate(
+    new Predicate\Expression($expression, $parameter)
+);</code></pre>
 <p>The following is the <code>Expression</code> API:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class Expression implements ExpressionInterface, PredicateInterface</span>
-<span class=x>{</span>
-<span class=x>    const PLACEHOLDER = &#39;?&#39;;</span>
+<pre class=codehilite><code class=language-php>class Expression implements ExpressionInterface, PredicateInterface
+{
+    const PLACEHOLDER = '?';
 
-<span class=x>    public function __construct(</span>
-<span class=x>        string $expression = null,</span>
-<span class=x>        int|float|bool|string|array $valueParameter = null</span>
-<span class=x>        /* [, $valueParameter, ...  ] */</span>
-<span class=x>    );</span>
-<span class=x>    public function setExpression(string $expression) : self;</span>
-<span class=x>    public function getExpression() : string;</span>
-<span class=x>    public function setParameters(int|float|bool|string|array $parameters) : self;</span>
-<span class=x>    public function getParameters() : array;</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function __construct(
+        string $expression = null,
+        int|float|bool|string|array $valueParameter = null
+        /* [, $valueParameter, ...  ] */
+    );
+    public function setExpression(string $expression) : self;
+    public function getExpression() : string;
+    public function setParameters(int|float|bool|string|array $parameters) : self;
+    public function getParameters() : array;
+}</code></pre>
 <h3>isNull($identifier)</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$where-&gt;isNull($identifier);</span>
+<pre class=codehilite><code class=language-php>$where-&gt;isNull($identifier);
 
-<span class=x>// The above is equivalent to:</span>
-<span class=x>$where-&gt;addPredicate(</span>
-<span class=x>    new Predicate\IsNull($identifier)</span>
-<span class=x>);</span>
-</pre></div></p>
+// The above is equivalent to:
+$where-&gt;addPredicate(
+    new Predicate\IsNull($identifier)
+);</code></pre>
 <p>The following is the <code>IsNull</code> API:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class IsNull implements PredicateInterface</span>
-<span class=x>{</span>
-<span class=x>    public function __construct(string $identifier = null);</span>
-<span class=x>    public function setIdentifier(string $identifier) : self;</span>
-<span class=x>    public function getIdentifier() : string;</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>class IsNull implements PredicateInterface
+{
+    public function __construct(string $identifier = null);
+    public function setIdentifier(string $identifier) : self;
+    public function getIdentifier() : string;
+}</code></pre>
 <h3>isNotNull($identifier)</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$where-&gt;isNotNull($identifier);</span>
+<pre class=codehilite><code class=language-php>$where-&gt;isNotNull($identifier);
 
-<span class=x>// The above is equivalent to:</span>
-<span class=x>$where-&gt;addPredicate(</span>
-<span class=x>    new Predicate\IsNotNull($identifier)</span>
-<span class=x>);</span>
-</pre></div></p>
+// The above is equivalent to:
+$where-&gt;addPredicate(
+    new Predicate\IsNotNull($identifier)
+);</code></pre>
 <p>The following is the <code>IsNotNull</code> API:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class IsNotNull implements PredicateInterface</span>
-<span class=x>{</span>
-<span class=x>    public function __construct(string $identifier = null);</span>
-<span class=x>    public function setIdentifier(string $identifier) : self;</span>
-<span class=x>    public function getIdentifier() : string;</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>class IsNotNull implements PredicateInterface
+{
+    public function __construct(string $identifier = null);
+    public function setIdentifier(string $identifier) : self;
+    public function getIdentifier() : string;
+}</code></pre>
 <h3>in($identifier, $valueSet), notIn($identifier, $valueSet)</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$where-&gt;in($identifier, $valueSet);</span>
+<pre class=codehilite><code class=language-php>$where-&gt;in($identifier, $valueSet);
 
-<span class=x>// The above is equivalent to:</span>
-<span class=x>$where-&gt;addPredicate(</span>
-<span class=x>    new Predicate\In($identifier, $valueSet)</span>
-<span class=x>);</span>
-</pre></div></p>
+// The above is equivalent to:
+$where-&gt;addPredicate(
+    new Predicate\In($identifier, $valueSet)
+);</code></pre>
 <p>The following is the <code>In</code> API:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class In implements PredicateInterface</span>
-<span class=x>{</span>
-<span class=x>    public function __construct(</span>
-<span class=x>        string|array $identifier = null,</span>
-<span class=x>        array|Select $valueSet = null</span>
-<span class=x>    );</span>
-<span class=x>    public function setIdentifier(string|array $identifier) : self;</span>
-<span class=x>    public function getIdentifier() : string|array;</span>
-<span class=x>    public function setValueSet(array|Select $valueSet) : self;</span>
-<span class=x>    public function getValueSet() : array|Select;</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>class In implements PredicateInterface
+{
+    public function __construct(
+        string|array $identifier = null,
+        array|Select $valueSet = null
+    );
+    public function setIdentifier(string|array $identifier) : self;
+    public function getIdentifier() : string|array;
+    public function setValueSet(array|Select $valueSet) : self;
+    public function getValueSet() : array|Select;
+}</code></pre>
 <h3>between($identifier, $minValue, $maxValue), notBetween($identifier, $minValue, $maxValue)</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$where-&gt;between($identifier, $minValue, $maxValue);</span>
+<pre class=codehilite><code class=language-php>$where-&gt;between($identifier, $minValue, $maxValue);
 
-<span class=x>// The above is equivalent to:</span>
-<span class=x>$where-&gt;addPredicate(</span>
-<span class=x>    new Predicate\Between($identifier, $minValue, $maxValue)</span>
-<span class=x>);</span>
-</pre></div></p>
+// The above is equivalent to:
+$where-&gt;addPredicate(
+    new Predicate\Between($identifier, $minValue, $maxValue)
+);</code></pre>
 <p>The following is the <code>Between</code> API:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class Between implements PredicateInterface</span>
-<span class=x>{</span>
-<span class=x>    public function __construct(</span>
-<span class=x>        string $identifier = null,</span>
-<span class=x>        int|float|string $minValue = null,</span>
-<span class=x>        int|float|string $maxValue = null</span>
-<span class=x>    );</span>
-<span class=x>    public function setIdentifier(string $identifier) : self;</span>
-<span class=x>    public function getIdentifier() : string;</span>
-<span class=x>    public function setMinValue(int|float|string $minValue) : self;</span>
-<span class=x>    public function getMinValue() : int|float|string;</span>
-<span class=x>    public function setMaxValue(int|float|string $maxValue) : self;</span>
-<span class=x>    public function getMaxValue() : int|float|string;</span>
-<span class=x>    public function setSpecification(string $specification);</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>class Between implements PredicateInterface
+{
+    public function __construct(
+        string $identifier = null,
+        int|float|string $minValue = null,
+        int|float|string $maxValue = null
+    );
+    public function setIdentifier(string $identifier) : self;
+    public function getIdentifier() : string;
+    public function setMinValue(int|float|string $minValue) : self;
+    public function getMinValue() : int|float|string;
+    public function setMaxValue(int|float|string $maxValue) : self;
+    public function getMaxValue() : int|float|string;
+    public function setSpecification(string $specification);
+}</code></pre>
 
 
 
@@ -1005,9 +966,10 @@ type, as described below.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1054,7 +1016,7 @@ type, as described below.</p>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
                     <a href="https://github.com/laminas/laminas-db//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

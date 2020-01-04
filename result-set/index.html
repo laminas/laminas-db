@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -251,15 +255,14 @@ assume an instance of a <code>ResultSetInterface</code> should be returned. In m
 the prototype pattern will be used by consuming object to clone a prototype of
 a <code>ResultSet</code> and return a specialized <code>ResultSet</code> with a specific data source
 injected. <code>ResultSetInterface</code> is defined as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Countable;</span>
-<span class=x>use Traversable;</span>
+<pre class=codehilite><code class=language-php>use Countable;
+use Traversable;
 
-<span class=x>interface ResultSetInterface extends Traversable, Countable</span>
-<span class=x>{</span>
-<span class=x>    public function initialize(mixed $dataSource) : void;</span>
-<span class=x>    public function getFieldCount() : int;</span>
-<span class=x>}</span>
-</pre></div></p>
+interface ResultSetInterface extends Traversable, Countable
+{
+    public function initialize(mixed $dataSource) : void;
+    public function getFieldCount() : int;
+}</code></pre>
 <h2 id="quick-start">Quick start</h2>
 <p><code>Laminas\Db\ResultSet\ResultSet</code> is the most basic form of a <code>ResultSet</code> object
 that will expose each row as either an <code>ArrayObject</code>-like object or an array of
@@ -268,51 +271,49 @@ row data. By default, <code>Laminas\Db\Adapter\Adapter</code> will use a prototy
 <code>Laminas\Db\Adapter\Adapter::query()</code> method.</p>
 <p>The following is an example workflow similar to what one might find inside
 <code>Laminas\Db\Adapter\Adapter::query()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Adapter\Driver\ResultInterface;</span>
-<span class=x>use Laminas\Db\ResultSet\ResultSet;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\ResultSet\ResultSet;
 
-<span class=x>$statement = $driver-&gt;createStatement(&#39;SELECT * FROM users&#39;);</span>
-<span class=x>$statement-&gt;prepare();</span>
-<span class=x>$result = $statement-&gt;execute($parameters);</span>
+$statement = $driver-&gt;createStatement('SELECT * FROM users');
+$statement-&gt;prepare();
+$result = $statement-&gt;execute($parameters);
 
-<span class=x>if ($result instanceof ResultInterface &amp;&amp; $result-&gt;isQueryResult()) {</span>
-<span class=x>    $resultSet = new ResultSet;</span>
-<span class=x>    $resultSet-&gt;initialize($result);</span>
+if ($result instanceof ResultInterface &amp;&amp; $result-&gt;isQueryResult()) {
+    $resultSet = new ResultSet;
+    $resultSet-&gt;initialize($result);
 
-<span class=x>    foreach ($resultSet as $row) {</span>
-<span class=x>        echo $row-&gt;my_column . PHP_EOL;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    foreach ($resultSet as $row) {
+        echo $row-&gt;my_column . PHP_EOL;
+    }
+}</code></pre>
 <h2 id="laminas92db92resultset92resultset-and-laminas92db92resultset92abstractresultset">Laminas\Db\ResultSet\ResultSet and Laminas\Db\ResultSet\AbstractResultSet</h2>
 <p>For most purposes, either an instance of <code>Laminas\Db\ResultSet\ResultSet</code> or a
 derivative of <code>Laminas\Db\ResultSet\AbstractResultSet</code> will be used. The
 implementation of the <code>AbstractResultSet</code> offers the following core
 functionality:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Laminas\Db\ResultSet;</span>
+<pre class=codehilite><code class=language-php>namespace Laminas\Db\ResultSet;
 
-<span class=x>use Iterator;</span>
+use Iterator;
 
-<span class=x>abstract class AbstractResultSet implements Iterator, ResultSetInterface</span>
-<span class=x>{</span>
-<span class=x>    public function initialize(array|Iterator|IteratorAggregate|ResultInterface $dataSource) : self;</span>
-<span class=x>    public function getDataSource() : Iterator|IteratorAggregate|ResultInterface;</span>
-<span class=x>    public function getFieldCount() : int;</span>
+abstract class AbstractResultSet implements Iterator, ResultSetInterface
+{
+    public function initialize(array|Iterator|IteratorAggregate|ResultInterface $dataSource) : self;
+    public function getDataSource() : Iterator|IteratorAggregate|ResultInterface;
+    public function getFieldCount() : int;
 
-<span class=x>    /** Iterator */</span>
-<span class=x>    public function next() : mixed;</span>
-<span class=x>    public function key() : string|int;</span>
-<span class=x>    public function current() : mixed;</span>
-<span class=x>    public function valid() : bool;</span>
-<span class=x>    public function rewind() : void;</span>
+    /** Iterator */
+    public function next() : mixed;
+    public function key() : string|int;
+    public function current() : mixed;
+    public function valid() : bool;
+    public function rewind() : void;
 
-<span class=x>    /** countable */</span>
-<span class=x>    public function count() : int;</span>
+    /** countable */
+    public function count() : int;
 
-<span class=x>    /** get rows as array */</span>
-<span class=x>    public function toArray() : array;</span>
-<span class=x>}</span>
-</pre></div></p>
+    /** get rows as array */
+    public function toArray() : array;
+}</code></pre>
 <h2 id="laminas92db92resultset92hydratingresultset">Laminas\Db\ResultSet\HydratingResultSet</h2>
 <p><code>Laminas\Db\ResultSet\HydratingResultSet</code> is a more flexible <code>ResultSet</code> object
 that allows the developer to choose an appropriate "hydration strategy" for
@@ -323,55 +324,53 @@ row data.</p>
 <p>The <code>HydratingResultSet</code> depends on
 <a href="https://docs.laminas.dev/laminas-hydrator">laminas-hydrator</a>, which you will
 need to install:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require laminas/laminas-hydrator
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require laminas/laminas-hydrator</code></pre>
 <p>In the example below, rows from the database will be iterated, and during
 iteration, <code>HydratingResultSet</code> will use the <code>Reflection</code> based hydrator to
 inject the row data directly into the protected members of the cloned
 <code>UserEntity</code> object:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Db\Adapter\Driver\ResultInterface;</span>
-<span class=x>use Laminas\Db\ResultSet\HydratingResultSet;</span>
-<span class=x>use Laminas\Hydrator\Reflection as ReflectionHydrator;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\ResultSet\HydratingResultSet;
+use Laminas\Hydrator\Reflection as ReflectionHydrator;
 
-<span class=x>class UserEntity</span>
-<span class=x>{</span>
-<span class=x>    protected $first_name;</span>
-<span class=x>    protected $last_name;</span>
+class UserEntity
+{
+    protected $first_name;
+    protected $last_name;
 
-<span class=x>    public function getFirstName()</span>
-<span class=x>    {</span>
-<span class=x>        return $this-&gt;first_name;</span>
-<span class=x>    }</span>
+    public function getFirstName()
+    {
+        return $this-&gt;first_name;
+    }
 
-<span class=x>    public function getLastName()</span>
-<span class=x>    {</span>
-<span class=x>        return $this-&gt;last_name;</span>
-<span class=x>    }</span>
+    public function getLastName()
+    {
+        return $this-&gt;last_name;
+    }
 
-<span class=x>    public function setFirstName($firstName)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;first_name = $firstName;</span>
-<span class=x>    }</span>
+    public function setFirstName($firstName)
+    {
+        $this-&gt;first_name = $firstName;
+    }
 
-<span class=x>    public function setLastName($lastName)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;last_name = $lastName;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
+    public function setLastName($lastName)
+    {
+        $this-&gt;last_name = $lastName;
+    }
+}
 
-<span class=x>$statement = $driver-&gt;createStatement($sql);</span>
-<span class=x>$statement-&gt;prepare($parameters);</span>
-<span class=x>$result = $statement-&gt;execute();</span>
+$statement = $driver-&gt;createStatement($sql);
+$statement-&gt;prepare($parameters);
+$result = $statement-&gt;execute();
 
-<span class=x>if ($result instanceof ResultInterface &amp;&amp; $result-&gt;isQueryResult()) {</span>
-<span class=x>    $resultSet = new HydratingResultSet(new ReflectionHydrator, new UserEntity);</span>
-<span class=x>    $resultSet-&gt;initialize($result);</span>
+if ($result instanceof ResultInterface &amp;&amp; $result-&gt;isQueryResult()) {
+    $resultSet = new HydratingResultSet(new ReflectionHydrator, new UserEntity);
+    $resultSet-&gt;initialize($result);
 
-<span class=x>    foreach ($resultSet as $user) {</span>
-<span class=x>        echo $user-&gt;getFirstName() . &#39; &#39; . $user-&gt;getLastName() . PHP_EOL;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    foreach ($resultSet as $user) {
+        echo $user-&gt;getFirstName() . ' ' . $user-&gt;getLastName() . PHP_EOL;
+    }
+}</code></pre>
 <p>For more information, see the <a href="https://docs.laminas.dev/laminas-hydrator/">laminas-hydrator</a>
 documentation to get a better sense of the different strategies that can be
 employed in order to populate a target object.</p>
@@ -518,9 +517,10 @@ employed in order to populate a target object.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -567,7 +567,7 @@ employed in order to populate a target object.</p>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
                     <a href="https://github.com/laminas/laminas-db//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

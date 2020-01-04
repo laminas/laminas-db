@@ -6,10 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Database abstraction layer, SQL abstraction, result set abstraction, and RowDataGateway and TableDataGateway implementations">  
-    <link rel="canonical" href="https://docs.laminas.dev/metadata/">
     <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>RDBMS Metadata - laminas-db - Laminas Docs</title>
+    <title>laminas-db - Laminas Docs</title>
 
     <link rel="stylesheet" href="/css/styles.css">
 </head>
@@ -59,7 +58,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">laminas-db</a>
+            <a href="../.">laminas-db</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -114,8 +113,8 @@
 
                                     
                                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">RDBMS Metadata</a>
+    <li class="subnavigation__list-item ">
+        <a href="../metadata/" class="subnavigation__link">RDBMS Metadata</a>
     </li>
 
                                     
@@ -184,300 +183,21 @@
         <div class="row">
             <div class="col-md-2 col-sm-12">
                 
-    
-
-    
-    
-        <div class="toc">
-            <h6 class="toc__headline">On this page</h6>
-            <ul class="toc__list">
-                
-                    <li class="toc__entry">
-                        <a href="#basic-usage" class="toc__link">Basic Usage</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#metadata-value-objects" class="toc__link">Metadata value objects</a>
-                    </li>
-                
-            </ul>
-        </div>
-    
-
             </div>
             <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
                 
-                    <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        
-            <li class="breadcrumb-item"><a href="">Overview</a></li>
 
-            
-                <li class="breadcrumb-item"><a href="..">laminas-db</a></li>
+<h1 class="content__title">404</h1>
+<blockquote>
+    <h3>Something went wrong!</h3>
+    <p>
+        We're sorry, but the page you are looking for does not exist.
+    </p>
+</blockquote>
 
-                
-                    
-                        
-                        
-                            <li class="breadcrumb-item">Reference</li>
-                        
-                    
-                
-
-                <li class="breadcrumb-item active" aria-current="page">RDBMS Metadata</li>
-            
-        
-    </ol>
-</nav>
+<a href="../." class="btn btn-default" role="button">Go to homepage</a>
 
 
-
-
-
-
-    
-    
-        <h2 class="chapter__headline">Reference</h2>
-    
-
-    <h1 id="rdbms-metadata">RDBMS Metadata</h1>
-<p><code>Laminas\Db\Metadata</code> is as sub-component of laminas-db that makes it possible to get
-metadata information about tables, columns, constraints, triggers, and other
-information from a database in a standardized way. The primary interface for
-<code>Metadata</code> is:</p>
-<pre class=codehilite><code class=language-php>namespace Laminas\Db\Metadata;
-
-interface MetadataInterface
-{
-    public function getSchemas();
-
-    public function getTableNames(string $schema = null, bool $includeViews = false) : string[];
-    public function getTables(string $schema = null, bool $includeViews = false) : Object\TableObject[];
-    public function getTable(string $tableName, string $schema = null) : Object\TableObject;
-
-    public function getViewNames(string $schema = null) : string[];
-    public function getViews(string $schema = null) : Object\ViewObject[];
-    public function getView(string $viewName, string $schema = null) : Object\ViewObject;
-
-    public function getColumnNames(string string $table, $schema = null) : string[];
-    public function getColumns(string $table, string $schema = null) : Object\ColumnObject[];
-    public function getColumn(string $columnName, string $table, string $schema = null) Object\ColumnObject;
-
-    public function getConstraints(string $table, $string schema = null) : Object\ConstraintObject[];
-    public function getConstraint(string $constraintName, string $table, string $schema = null) : Object\ConstraintObject;
-    public function getConstraintKeys(string $constraint, string $table, string $schema = null) : Object\ConstraintKeyObject[];
-
-    public function getTriggerNames(string $schema = null) : string[];
-    public function getTriggers(string $schema = null) : Object\TriggerObject[];
-    public function getTrigger(string $triggerName, string $schema = null) : Object\TriggerObject;
-}</code></pre>
-<h2 id="basic-usage">Basic Usage</h2>
-<p>Usage of <code>Laminas\Db\Metadata</code> involves:</p>
-<ul>
-<li>Constructing a <code>Laminas\Db\Metadata\Metadata</code> instance with an <code>Adapter</code>.</li>
-<li>Choosing a strategy for retrieving metadata, based on the database platform
-  used. In most cases, information will come from querying the
-  <code>INFORMATION_SCHEMA</code> tables for the currently accessible schema.</li>
-</ul>
-<p>The <code>Metadata::get*Names()</code> methods will return arrays of strings, while the
-other methods will return value objects specific to the type queried.</p>
-<pre class=codehilite><code class=language-php>$metadata = new Laminas\Db\Metadata\Metadata($adapter);
-
-// get the table names
-$tableNames = $metadata-&gt;getTableNames();
-
-foreach ($tableNames as $tableName) {
-    echo 'In Table ' . $tableName . PHP_EOL;
-
-    $table = $metadata-&gt;getTable($tableName);
-
-    echo '    With columns: ' . PHP_EOL;
-    foreach ($table-&gt;getColumns() as $column) {
-        echo '        ' . $column-&gt;getName()
-            . ' -&gt; ' . $column-&gt;getDataType()
-            . PHP_EOL;
-    }
-
-    echo PHP_EOL;
-    echo '    With constraints: ' . PHP_EOL;
-
-    foreach ($metadata-&gt;getConstraints($tableName) as $constraint) {
-        echo '        ' . $constraint-&gt;getName()
-            . ' -&gt; ' . $constraint-&gt;getType()
-            . PHP_EOL;
-
-        if (! $constraint-&gt;hasColumns()) {
-            continue;
-        }
-
-        echo '            column: ' . implode(', ', $constraint-&gt;getColumns());
-        if ($constraint-&gt;isForeignKey()) {
-            $fkCols = [];
-            foreach ($constraint-&gt;getReferencedColumns() as $refColumn) {
-                $fkCols[] = $constraint-&gt;getReferencedTableName() . '.' . $refColumn;
-            }
-            echo ' =&gt; ' . implode(', ', $fkCols);
-        }
-
-        echo PHP_EOL;
-    }
-
-    echo '----' . PHP_EOL;
-}</code></pre>
-<h2 id="metadata-value-objects">Metadata value objects</h2>
-<p>Metadata returns value objects that provide an interface to help developers
-better explore the metadata. Below is the API for the various value objects:</p>
-<h3>TableObject</h3>
-<pre class=codehilite><code class=language-php>class Laminas\Db\Metadata\Object\TableObject
-{
-    public function __construct($name);
-    public function setColumns(array $columns);
-    public function getColumns();
-    public function setConstraints($constraints);
-    public function getConstraints();
-    public function setName($name);
-    public function getName();
-}</code></pre>
-<h3>ColumnObject</h3>
-<pre class=codehilite><code class=language-php>class Laminas\Db\Metadata\Object\ColumnObject
-{
-    public function __construct($name, $tableName, $schemaName = null);
-    public function setName($name);
-    public function getName();
-    public function getTableName();
-    public function setTableName($tableName);
-    public function setSchemaName($schemaName);
-    public function getSchemaName();
-    public function getOrdinalPosition();
-    public function setOrdinalPosition($ordinalPosition);
-    public function getColumnDefault();
-    public function setColumnDefault($columnDefault);
-    public function getIsNullable();
-    public function setIsNullable($isNullable);
-    public function isNullable();
-    public function getDataType();
-    public function setDataType($dataType);
-    public function getCharacterMaximumLength();
-    public function setCharacterMaximumLength($characterMaximumLength);
-    public function getCharacterOctetLength();
-    public function setCharacterOctetLength($characterOctetLength);
-    public function getNumericPrecision();
-    public function setNumericPrecision($numericPrecision);
-    public function getNumericScale();
-    public function setNumericScale($numericScale);
-    public function getNumericUnsigned();
-    public function setNumericUnsigned($numericUnsigned);
-    public function isNumericUnsigned();
-    public function getErratas();
-    public function setErratas(array $erratas);
-    public function getErrata($errataName);
-    public function setErrata($errataName, $errataValue);
-}</code></pre>
-<h3>ConstraintObject</h3>
-<pre class=codehilite><code class=language-php>class Laminas\Db\Metadata\Object\ConstraintObject
-{
-    public function __construct($name, $tableName, $schemaName = null);
-    public function setName($name);
-    public function getName();
-    public function setSchemaName($schemaName);
-    public function getSchemaName();
-    public function getTableName();
-    public function setTableName($tableName);
-    public function setType($type);
-    public function getType();
-    public function hasColumns();
-    public function getColumns();
-    public function setColumns(array $columns);
-    public function getReferencedTableSchema();
-    public function setReferencedTableSchema($referencedTableSchema);
-    public function getReferencedTableName();
-    public function setReferencedTableName($referencedTableName);
-    public function getReferencedColumns();
-    public function setReferencedColumns(array $referencedColumns);
-    public function getMatchOption();
-    public function setMatchOption($matchOption);
-    public function getUpdateRule();
-    public function setUpdateRule($updateRule);
-    public function getDeleteRule();
-    public function setDeleteRule($deleteRule);
-    public function getCheckClause();
-    public function setCheckClause($checkClause);
-    public function isPrimaryKey();
-    public function isUnique();
-    public function isForeignKey();
-    public function isCheck();
-
-}</code></pre>
-<h3>TriggerObject</h3>
-<pre class=codehilite><code class=language-php>class Laminas\Db\Metadata\Object\TriggerObject
-{
-    public function getName();
-    public function setName($name);
-    public function getEventManipulation();
-    public function setEventManipulation($eventManipulation);
-    public function getEventObjectCatalog();
-    public function setEventObjectCatalog($eventObjectCatalog);
-    public function getEventObjectSchema();
-    public function setEventObjectSchema($eventObjectSchema);
-    public function getEventObjectTable();
-    public function setEventObjectTable($eventObjectTable);
-    public function getActionOrder();
-    public function setActionOrder($actionOrder);
-    public function getActionCondition();
-    public function setActionCondition($actionCondition);
-    public function getActionStatement();
-    public function setActionStatement($actionStatement);
-    public function getActionOrientation();
-    public function setActionOrientation($actionOrientation);
-    public function getActionTiming();
-    public function setActionTiming($actionTiming);
-    public function getActionReferenceOldTable();
-    public function setActionReferenceOldTable($actionReferenceOldTable);
-    public function getActionReferenceNewTable();
-    public function setActionReferenceNewTable($actionReferenceNewTable);
-    public function getActionReferenceOldRow();
-    public function setActionReferenceOldRow($actionReferenceOldRow);
-    public function getActionReferenceNewRow();
-    public function setActionReferenceNewRow($actionReferenceNewRow);
-    public function getCreated();
-    public function setCreated($created);
-}</code></pre>
-
-
-
-
-    <nav>
-    <ul class="page-nav hidden-print">
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../row-gateway/">
-                    <i class="fa fa-chevron-left"></i> Previous
-                </a>
-            
-        </li>
-
-        
-        <li class="page-nav__item">
-            
-        </li>
-    </ul>
-</nav>
-
-
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-db/edit/master/docs/book/metadata.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
-
-                
             </div>
             <div class="col-md-3 col-sm-12 sidebar">
                 
@@ -492,7 +212,7 @@ better explore the metadata. Below is the API for the various value objects:</p>
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">laminas-db</a>
+            <a href="../.">laminas-db</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -547,8 +267,8 @@ better explore the metadata. Below is the API for the various value objects:</p>
 
                                     
                                         
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">RDBMS Metadata</a>
+    <li class="subnavigation__list-item ">
+        <a href="../metadata/" class="subnavigation__link">RDBMS Metadata</a>
     </li>
 
                                     
