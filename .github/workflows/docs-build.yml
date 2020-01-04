@@ -17,7 +17,7 @@ jobs:
               with:
                   repository: laminas/documentation-theme
                   ref: master
-                  path: laminas-mkdoc-theme
+                  path: documentation-theme
 
             - name: Setup Python
               uses: actions/setup-python@v1
@@ -36,7 +36,8 @@ jobs:
                   php-version: '7.3'
 
             - name: Build Docs
-              run: ./laminas-mkdoc-theme/build.sh -u https://docs.laminas.dev
+              run: |
+                  ./documentation-theme/build.sh -u https://docs.laminas.dev
 
             - name: Deploy
               uses: peaceiris/actions-gh-pages@v2
