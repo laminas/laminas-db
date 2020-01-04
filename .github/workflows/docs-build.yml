@@ -8,12 +8,12 @@ on:
 
 jobs:
     build-deploy:
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
+            - uses: actions/checkout@v2
 
             - name: Checkout documentation theme
-              uses: actions/checkout@v1
+              uses: actions/checkout@v2
               with:
                   repository: laminas/documentation-theme
                   ref: master
@@ -22,18 +22,27 @@ jobs:
             - name: Setup Python
               uses: actions/setup-python@v1
               with:
-                  python-version: '3.6'
+                  python-version: '3.7'
                   architecture: 'x64'
 
             - name: Install python dependencies
               run: |
-                  python3 -m pip install --upgrade pip
-                  python3 -m pip install mkdocs pymdown-extensions markdown-fenced-code-tabs pyaml
+                  pip3 install --upgrade pip
+                  pip3 install mkdocs pymdown-extensions markdown-fenced-code-tabs pyaml
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v1
               with:
                   php-version: '7.3'
+
+            - name: Install Info
+              run: |
+                  echo "Root Directory"
+                  ls -l .
+                  echo "Docs Root Directory"
+                  ls -l docs/book
+                  echo "Documentation Theme"
+                  ls -l documentation-theme
 
             - name: Build Docs
               run: |
