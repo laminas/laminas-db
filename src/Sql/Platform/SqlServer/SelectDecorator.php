@@ -117,7 +117,10 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
         }
 
         // add a column for row_number() using the order specification
-        $parameters[self::SELECT][$parameterIndex][] = ['ROW_NUMBER() OVER (' . $orderBy . ')', '[__LAMINAS_ROW_NUMBER]'];
+        $parameters[self::SELECT][$parameterIndex][] = [
+            'ROW_NUMBER() OVER (' . $orderBy . ')',
+            '[__LAMINAS_ROW_NUMBER]',
+        ];
 
         $sqls[self::SELECT] = $this->createSqlFromSpecificationAndParameters(
             $this->specifications[self::SELECT],

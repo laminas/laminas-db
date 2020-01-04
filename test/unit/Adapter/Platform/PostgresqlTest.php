@@ -85,8 +85,8 @@ class PostgresqlTest extends TestCase
     {
         $this->expectException(Error\Notice::class);
         $this->expectExceptionMessage(
-            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Postgresql without extension/driver support can '
-            . 'introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Postgresql without extension/driver'
+            . ' support can introduce security vulnerabilities in a production environment'
         );
         $this->platform->quoteValue('value');
     }
@@ -134,8 +134,8 @@ class PostgresqlTest extends TestCase
     {
         $this->expectException(Error\Error::class);
         $this->expectExceptionMessage(
-            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Postgresql without extension/driver support can '
-            . 'introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in Laminas\Db\Adapter\Platform\Postgresql without extension/driver'
+            . ' support can introduce security vulnerabilities in a production environment'
         );
         self::assertEquals("'Foo O\'\'Bar'", $this->platform->quoteValueList("Foo O'Bar"));
     }
