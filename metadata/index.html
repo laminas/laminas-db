@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Database abstraction layer, SQL abstraction, result set abstraction, and RowDataGateway and TableDataGateway implementations">  
+    <link rel="canonical" href="https://docs.laminas.dev/metadata/">
+    <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
+
+    <title>RDBMS Metadata - laminas-db - Laminas Docs</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body id="page-top" class="components">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        
+        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+        </a>
+        <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
+            Documentation
+        </a>
+
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="d-block d-sm-none">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-db</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../adapter/" class="subnavigation__link">Adapters</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../result-set/" class="subnavigation__link">Result Sets</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../sql/" class="subnavigation__link">SQL Abstraction</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../table-gateway/" class="subnavigation__link">Table Gateways</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../row-gateway/" class="subnavigation__link">Row Gateways</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">RDBMS Metadata</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="d-block d-sm-none">
+                <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-6 offset-md-2">
+                <h1 class="header__title">
+                    Components
+
+                    
+                        <small class="header__subtitle">laminas-db</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-4 text-sm-right">
+                
+                    
+
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/laminas/laminas-db/" class="header__link header__link--github" title="Go to repository of laminas-db">
+                        <i class="fa fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+                
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#basic-usage" class="toc__link">Basic Usage</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#metadata-value-objects" class="toc__link">Metadata value objects</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+            </div>
+            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="">Overview</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="..">laminas-db</a></li>
+
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Reference</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">RDBMS Metadata</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+
+
+
+    
+    
+        <h2 class="chapter__headline">Reference</h2>
+    
+
+    <h1 id="rdbms-metadata">RDBMS Metadata</h1>
+<p><code>Laminas\Db\Metadata</code> is as sub-component of laminas-db that makes it possible to get
+metadata information about tables, columns, constraints, triggers, and other
+information from a database in a standardized way. The primary interface for
+<code>Metadata</code> is:</p>
+<pre class=codehilite><code class=language-php>namespace Laminas\Db\Metadata;
+
+interface MetadataInterface
+{
+    public function getSchemas();
+
+    public function getTableNames(string $schema = null, bool $includeViews = false) : string[];
+    public function getTables(string $schema = null, bool $includeViews = false) : Object\TableObject[];
+    public function getTable(string $tableName, string $schema = null) : Object\TableObject;
+
+    public function getViewNames(string $schema = null) : string[];
+    public function getViews(string $schema = null) : Object\ViewObject[];
+    public function getView(string $viewName, string $schema = null) : Object\ViewObject;
+
+    public function getColumnNames(string string $table, $schema = null) : string[];
+    public function getColumns(string $table, string $schema = null) : Object\ColumnObject[];
+    public function getColumn(string $columnName, string $table, string $schema = null) Object\ColumnObject;
+
+    public function getConstraints(string $table, $string schema = null) : Object\ConstraintObject[];
+    public function getConstraint(string $constraintName, string $table, string $schema = null) : Object\ConstraintObject;
+    public function getConstraintKeys(string $constraint, string $table, string $schema = null) : Object\ConstraintKeyObject[];
+
+    public function getTriggerNames(string $schema = null) : string[];
+    public function getTriggers(string $schema = null) : Object\TriggerObject[];
+    public function getTrigger(string $triggerName, string $schema = null) : Object\TriggerObject;
+}</code></pre>
+<h2 id="basic-usage">Basic Usage</h2>
+<p>Usage of <code>Laminas\Db\Metadata</code> involves:</p>
+<ul>
+<li>Constructing a <code>Laminas\Db\Metadata\Metadata</code> instance with an <code>Adapter</code>.</li>
+<li>Choosing a strategy for retrieving metadata, based on the database platform
+  used. In most cases, information will come from querying the
+  <code>INFORMATION_SCHEMA</code> tables for the currently accessible schema.</li>
+</ul>
+<p>The <code>Metadata::get*Names()</code> methods will return arrays of strings, while the
+other methods will return value objects specific to the type queried.</p>
+<pre class=codehilite><code class=language-php>$metadata = new Laminas\Db\Metadata\Metadata($adapter);
+
+// get the table names
+$tableNames = $metadata-&gt;getTableNames();
+
+foreach ($tableNames as $tableName) {
+    echo 'In Table ' . $tableName . PHP_EOL;
+
+    $table = $metadata-&gt;getTable($tableName);
+
+    echo '    With columns: ' . PHP_EOL;
+    foreach ($table-&gt;getColumns() as $column) {
+        echo '        ' . $column-&gt;getName()
+            . ' -&gt; ' . $column-&gt;getDataType()
+            . PHP_EOL;
+    }
+
+    echo PHP_EOL;
+    echo '    With constraints: ' . PHP_EOL;
+
+    foreach ($metadata-&gt;getConstraints($tableName) as $constraint) {
+        echo '        ' . $constraint-&gt;getName()
+            . ' -&gt; ' . $constraint-&gt;getType()
+            . PHP_EOL;
+
+        if (! $constraint-&gt;hasColumns()) {
+            continue;
+        }
+
+        echo '            column: ' . implode(', ', $constraint-&gt;getColumns());
+        if ($constraint-&gt;isForeignKey()) {
+            $fkCols = [];
+            foreach ($constraint-&gt;getReferencedColumns() as $refColumn) {
+                $fkCols[] = $constraint-&gt;getReferencedTableName() . '.' . $refColumn;
+            }
+            echo ' =&gt; ' . implode(', ', $fkCols);
+        }
+
+        echo PHP_EOL;
+    }
+
+    echo '----' . PHP_EOL;
+}</code></pre>
+<h2 id="metadata-value-objects">Metadata value objects</h2>
+<p>Metadata returns value objects that provide an interface to help developers
+better explore the metadata. Below is the API for the various value objects:</p>
+<h3>TableObject</h3>
+<pre class=codehilite><code class=language-php>class Laminas\Db\Metadata\Object\TableObject
+{
+    public function __construct($name);
+    public function setColumns(array $columns);
+    public function getColumns();
+    public function setConstraints($constraints);
+    public function getConstraints();
+    public function setName($name);
+    public function getName();
+}</code></pre>
+<h3>ColumnObject</h3>
+<pre class=codehilite><code class=language-php>class Laminas\Db\Metadata\Object\ColumnObject
+{
+    public function __construct($name, $tableName, $schemaName = null);
+    public function setName($name);
+    public function getName();
+    public function getTableName();
+    public function setTableName($tableName);
+    public function setSchemaName($schemaName);
+    public function getSchemaName();
+    public function getOrdinalPosition();
+    public function setOrdinalPosition($ordinalPosition);
+    public function getColumnDefault();
+    public function setColumnDefault($columnDefault);
+    public function getIsNullable();
+    public function setIsNullable($isNullable);
+    public function isNullable();
+    public function getDataType();
+    public function setDataType($dataType);
+    public function getCharacterMaximumLength();
+    public function setCharacterMaximumLength($characterMaximumLength);
+    public function getCharacterOctetLength();
+    public function setCharacterOctetLength($characterOctetLength);
+    public function getNumericPrecision();
+    public function setNumericPrecision($numericPrecision);
+    public function getNumericScale();
+    public function setNumericScale($numericScale);
+    public function getNumericUnsigned();
+    public function setNumericUnsigned($numericUnsigned);
+    public function isNumericUnsigned();
+    public function getErratas();
+    public function setErratas(array $erratas);
+    public function getErrata($errataName);
+    public function setErrata($errataName, $errataValue);
+}</code></pre>
+<h3>ConstraintObject</h3>
+<pre class=codehilite><code class=language-php>class Laminas\Db\Metadata\Object\ConstraintObject
+{
+    public function __construct($name, $tableName, $schemaName = null);
+    public function setName($name);
+    public function getName();
+    public function setSchemaName($schemaName);
+    public function getSchemaName();
+    public function getTableName();
+    public function setTableName($tableName);
+    public function setType($type);
+    public function getType();
+    public function hasColumns();
+    public function getColumns();
+    public function setColumns(array $columns);
+    public function getReferencedTableSchema();
+    public function setReferencedTableSchema($referencedTableSchema);
+    public function getReferencedTableName();
+    public function setReferencedTableName($referencedTableName);
+    public function getReferencedColumns();
+    public function setReferencedColumns(array $referencedColumns);
+    public function getMatchOption();
+    public function setMatchOption($matchOption);
+    public function getUpdateRule();
+    public function setUpdateRule($updateRule);
+    public function getDeleteRule();
+    public function setDeleteRule($deleteRule);
+    public function getCheckClause();
+    public function setCheckClause($checkClause);
+    public function isPrimaryKey();
+    public function isUnique();
+    public function isForeignKey();
+    public function isCheck();
+
+}</code></pre>
+<h3>TriggerObject</h3>
+<pre class=codehilite><code class=language-php>class Laminas\Db\Metadata\Object\TriggerObject
+{
+    public function getName();
+    public function setName($name);
+    public function getEventManipulation();
+    public function setEventManipulation($eventManipulation);
+    public function getEventObjectCatalog();
+    public function setEventObjectCatalog($eventObjectCatalog);
+    public function getEventObjectSchema();
+    public function setEventObjectSchema($eventObjectSchema);
+    public function getEventObjectTable();
+    public function setEventObjectTable($eventObjectTable);
+    public function getActionOrder();
+    public function setActionOrder($actionOrder);
+    public function getActionCondition();
+    public function setActionCondition($actionCondition);
+    public function getActionStatement();
+    public function setActionStatement($actionStatement);
+    public function getActionOrientation();
+    public function setActionOrientation($actionOrientation);
+    public function getActionTiming();
+    public function setActionTiming($actionTiming);
+    public function getActionReferenceOldTable();
+    public function setActionReferenceOldTable($actionReferenceOldTable);
+    public function getActionReferenceNewTable();
+    public function setActionReferenceNewTable($actionReferenceNewTable);
+    public function getActionReferenceOldRow();
+    public function setActionReferenceOldRow($actionReferenceOldRow);
+    public function getActionReferenceNewRow();
+    public function setActionReferenceNewRow($actionReferenceNewRow);
+    public function getCreated();
+    public function setCreated($created);
+}</code></pre>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../row-gateway/">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/laminas/laminas-db/edit/master/docs/book/metadata.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
+                
+            </div>
+            <div class="col-md-3 col-sm-12 sidebar">
+                
+                    <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="..">laminas-db</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                        
+                            <li class="subnavigation__list-item">
+                                <span class="subnavigation__headline">Reference</span>
+                                <ul class="subnavigation__list">
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../adapter/" class="subnavigation__link">Adapters</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../result-set/" class="subnavigation__link">Result Sets</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../sql/" class="subnavigation__link">SQL Abstraction</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../table-gateway/" class="subnavigation__link">Table Gateways</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../row-gateway/" class="subnavigation__link">Row Gateways</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">RDBMS Metadata</a>
+    </li>
+
+                                    
+                                </ul>
+                            </li>
+                        
+                    
+                
+            
+        </ul>
+    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 offset-md-2">
+                <h5>Laminas</h5>
+                <ul>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+
+            
+            <div class="col-md-4 offset-md-2">
+                <h4 class="footer__headline">Support</h4>
+                <ul class="support__list">
+                    <li class="support__list-item">
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://laminas.dev/chat" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://github.com/laminas" class="support__link" title="Github"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://twitter.com/getlaminas" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">License</h4>
+                <p>
+                    Code licensed under <a
+                        href="https://github.com/laminas/laminas-db//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                </p>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">Copyright</h4>
+                <p>
+                    <!--Built with love by the Laminas team with the help of our
+                    <a href="https://github.com/laminas/laminas-db//graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let base_url = '..',
+            project  = "components",
+            siteName = 'laminas-db';
+    </script>
+    <script src="/js/scripts.js"></script>
+        <script src="../search/main.js"></script>
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search in laminas-db" id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>
