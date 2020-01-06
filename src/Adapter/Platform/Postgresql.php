@@ -54,8 +54,8 @@ class Postgresql extends AbstractPlatform
         }
 
         throw new Exception\InvalidArgumentException(
-            '$driver must be a Pgsql or Postgresql PDO Laminas\Db\Adapter\Driver, pgsql link resource or Postgresql PDO '
-            . 'instance'
+            '$driver must be a Pgsql or Postgresql PDO Laminas\Db\Adapter\Driver, pgsql link resource'
+            . ' or Postgresql PDO instance'
         );
     }
 

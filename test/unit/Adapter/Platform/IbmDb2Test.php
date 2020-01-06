@@ -89,8 +89,8 @@ class IbmDb2Test extends TestCase
         if (! function_exists('db2_escape_string')) {
             $this->expectException(Error\Notice::class);
             $this->expectExceptionMessage(
-                'Attempting to quote a value in Laminas\Db\Adapter\Platform\IbmDb2 without extension/driver support can '
-                . 'introduce security vulnerabilities in a production environment'
+                'Attempting to quote a value in Laminas\Db\Adapter\Platform\IbmDb2 without extension/driver'
+                . ' support can introduce security vulnerabilities in a production environment'
             );
         }
         $this->platform->quoteValue('value');
@@ -138,8 +138,8 @@ class IbmDb2Test extends TestCase
         if (! function_exists('db2_escape_string')) {
             $this->expectException(Error\Error::class);
             $this->expectExceptionMessage(
-                'Attempting to quote a value in Laminas\Db\Adapter\Platform\IbmDb2 without extension/driver support can '
-                . 'introduce security vulnerabilities in a production environment'
+                'Attempting to quote a value in Laminas\Db\Adapter\Platform\IbmDb2 without extension/driver'
+                . ' support can introduce security vulnerabilities in a production environment'
             );
         }
         self::assertEquals("'Foo O''Bar'", $this->platform->quoteValueList("Foo O'Bar"));
