@@ -23,6 +23,8 @@ class ConfigProviderTest extends TestCase
         ],
         'aliases' => [
             Adapter\Adapter::class => Adapter\AdapterInterface::class,
+            \Zend\Db\Adapter\AdapterInterface::class => Adapter\AdapterInterface::class,
+            \Zend\Db\Adapter\Adapter::class => Adapter\Adapter::class,
         ],
     ];
 
