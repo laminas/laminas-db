@@ -12,47 +12,10 @@ jobs:
         steps:
             - uses: actions/checkout@v2
 
-            - name: Checkout documentation theme
-              uses: actions/checkout@v2
-              with:
-                  repository: laminas/documentation-theme
-                  ref: master
-                  path: documentation-theme
-
-            - name: Setup Python
-              uses: actions/setup-python@v1
-              with:
-                  python-version: '3.7'
-                  architecture: 'x64'
-
-            - name: Install python dependencies
-              run: |
-                  pip3 install --upgrade pip
-                  pip3 install mkdocs pymdown-extensions markdown-fenced-code-tabs pyaml
-
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v1
-              with:
-                  php-version: '7.3'
-
-            - name: Install Info
-              run: |
-                  echo "Root Directory"
-                  ls -l .
-                  echo "Docs Root Directory"
-                  ls -l docs/book
-                  echo "Documentation Theme"
-                  ls -l documentation-theme
-
             - name: Build Docs
-              run: |
-                  ./documentation-theme/build.sh -u https://docs.laminas.dev
-
-            - name: Deploy
-              uses: peaceiris/actions-gh-pages@v2
+              uses: laminas/documentation-theme/github-actions/docs@master
               env:
                   ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-                  PUBLISH_BRANCH: gh-pages
-                  PUBLISH_DIR: ./docs/html
               with:
-                  emptyCommits: false
+                  emptyCommits: true
+                  siteUrl: https://docs.laminas.dev
