@@ -1,0 +1,18 @@
+docs_dir: docs/book
+site_dir: docs/html
+nav:
+    - Home: index.md
+    - Reference:
+        - Adapters: adapter.md
+        - "Result Sets": result-set.md
+        - "SQL Abstraction": sql.md
+        - "DDL Abstraction": sql-ddl.md
+        - "Table Gateways": table-gateway.md
+        - "Row Gateways": row-gateway.md
+        - "RDBMS Metadata": metadata.md
+site_name: laminas-db
+site_description: "Database abstraction layer, SQL abstraction, result set abstraction, and RowDataGateway and TableDataGateway implementations"
+repo_url: 'https://github.com/laminas/laminas-db'
+extra:
+    project: Components
+    project_url: 'https://docs.laminas.dev'
