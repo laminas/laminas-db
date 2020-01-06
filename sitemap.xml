@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
      <loc>https://docs.laminas.dev/</loc>
-     <lastmod>2020-01-04</lastmod>
+     <lastmod>2020-01-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.laminas.dev/adapter/</loc>
-     <lastmod>2020-01-04</lastmod>
+     <lastmod>2020-01-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.laminas.dev/result-set/</loc>
-     <lastmod>2020-01-04</lastmod>
+     <lastmod>2020-01-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.laminas.dev/sql/</loc>
-     <lastmod>2020-01-04</lastmod>
+     <lastmod>2020-01-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.laminas.dev/sql-ddl/</loc>
-     <lastmod>2020-01-04</lastmod>
+     <lastmod>2020-01-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.laminas.dev/table-gateway/</loc>
-     <lastmod>2020-01-04</lastmod>
+     <lastmod>2020-01-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.laminas.dev/row-gateway/</loc>
-     <lastmod>2020-01-04</lastmod>
+     <lastmod>2020-01-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://docs.laminas.dev/metadata/</loc>
-     <lastmod>2020-01-04</lastmod>
+     <lastmod>2020-01-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
