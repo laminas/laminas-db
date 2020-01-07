@@ -1,21 +1,16 @@
-name: docs build
+name: docs-build
 
 on:
-    push:
-        branches:
-            - master
-    repository_dispatch:
+  push:
+    branches:
+      - master
+  repository_dispatch:
 
 jobs:
-    build-deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-
-            - name: Build Docs
-              uses: laminas/documentation-theme/github-actions/docs@master
-              env:
-                  ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-              with:
-                  emptyCommits: true
-                  siteUrl: https://docs.laminas.dev
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Docs
+        uses: laminas/documentation-theme/github-actions/docs@master
+        env:
+          DOCS_DEPLOY_KEY: ${{ secrets.DOCS_DEPLOY_KEY }}
