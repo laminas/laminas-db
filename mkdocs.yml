@@ -15,4 +15,3 @@ site_description: "Database abstraction layer, SQL abstraction, result set abstr
 repo_url: 'https://github.com/laminas/laminas-db'
 extra:
     project: Components
-    project_url: 'https://docs.laminas.dev'
