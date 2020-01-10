@@ -46,8 +46,6 @@ class SequenceFeature extends AbstractFeature
      */
     public function preInsert(Insert $insert)
     {
-        $this->tableGateway->lastInsertValue = $this->lastSequenceId();
-
         $columns = $insert->getRawState('columns');
         $values = $insert->getRawState('values');
         $key = array_search($this->primaryKeyField, $columns);
@@ -71,7 +69,9 @@ class SequenceFeature extends AbstractFeature
      */
     public function postInsert(StatementInterface $statement, ResultInterface $result)
     {
-        $this->tableGateway->lastInsertValue = $this->sequenceValue;
+        if ($this->sequenceValue !== null) {
+            $this->tableGateway->lastInsertValue = $this->sequenceValue;
+        }
     }
 
     /**
