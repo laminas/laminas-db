@@ -17,3 +17,9 @@ CREATE TABLE IF NOT EXISTS test_charset (
 INSERT INTO test_charset (field$, field_) VALUES
 ('foo', 'bar'),
 ('bar', 'baz');
+
+CREATE TABLE IF NOT EXISTS test_seq (
+    id SERIAL,
+    foo VARCHAR(255) NOT NULL,
+    CONSTRAINT test_seq_pkey PRIMARY KEY (id)
+);
