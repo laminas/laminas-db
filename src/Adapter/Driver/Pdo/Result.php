@@ -40,15 +40,15 @@ class Result implements Iterator, ResultInterface
         \PDO::FETCH_BOTH,       // 4
         \PDO::FETCH_OBJ,        // 5
         \PDO::FETCH_BOUND,      // 6
-//        \PDO::FETCH_COLUMN,   // 7
+        // \PDO::FETCH_COLUMN,  // 7 (not a valid fetch mode)
         \PDO::FETCH_CLASS,      // 8
         \PDO::FETCH_INTO,       // 9
         \PDO::FETCH_FUNC,       // 10
         \PDO::FETCH_NAMED,      // 11
         \PDO::FETCH_KEY_PAIR,   // 12
         \PDO::FETCH_PROPS_LATE, // Extra option for \PDO::FETCH_CLASS
-//        \PDO::FETCH_SERIALIZE,// Seems to have been removed
-//        \PDO::FETCH_UNIQUE,   // Option for fetchAll
+        // \PDO::FETCH_SERIALIZE, // Seems to have been removed
+        // \PDO::FETCH_UNIQUE,    // Option for fetchAll
         \PDO::FETCH_CLASSTYPE,  // Extra option for \PDO::FETCH_CLASS
     ];
 
