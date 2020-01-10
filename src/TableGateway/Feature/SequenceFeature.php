@@ -52,7 +52,7 @@ class SequenceFeature extends AbstractFeature
         $values = $insert->getRawState('values');
         $key = array_search($this->primaryKeyField, $columns);
         if ($key !== false) {
-            $this->sequenceValue = $values[$key];
+            $this->sequenceValue = isset($values[$key]) ? $values[$key] : null;
             return $insert;
         }
 
