@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @see       https://github.com/laminas/laminas-db for the canonical source repository
  * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
@@ -23,12 +22,12 @@ class Postgresql extends AbstractPlatform
     protected $quoteIdentifierTo = '""';
 
     /**
-     * @var resource|\PDO
+     * @var resource
      */
-    protected $resource = null;
+    protected $driver = null;
 
     /**
-     * @param null|\Laminas\Db\Adapter\Driver\Pgsql\Pgsql|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
+     * @param null|\Laminas\Db\Adapter\Driver\Pgsql\Pgsql|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource $driver
      */
     public function __construct($driver = null)
     {
@@ -38,7 +37,7 @@ class Postgresql extends AbstractPlatform
     }
 
     /**
-     * @param \Laminas\Db\Adapter\Driver\Pgsql\Pgsql|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
+     * @param \Laminas\Db\Adapter\Driver\Pgsql\Pgsql|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource $driver
      * @return self Provides a fluent interface
      * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
      */
@@ -47,15 +46,13 @@ class Postgresql extends AbstractPlatform
         if ($driver instanceof Pgsql\Pgsql
             || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Postgresql')
             || (is_resource($driver) && (in_array(get_resource_type($driver), ['pgsql link', 'pgsql link persistent'])))
-            || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'pgsql')
         ) {
-            $this->resource = $driver;
+            $this->driver = $driver;
             return $this;
         }
 
         throw new Exception\InvalidArgumentException(
-            '$driver must be a Pgsql or Postgresql PDO Laminas\Db\Adapter\Driver, pgsql link resource'
-            . ' or Postgresql PDO instance'
+            '$driver must be a Pgsql, Postgresql PDO Laminas\Db\Adapter\Driver or pgsql link resource'
         );
     }
 
@@ -80,16 +77,9 @@ class Postgresql extends AbstractPlatform
      */
     public function quoteValue($value)
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
-        }
-        if (is_resource($this->resource)) {
-            return '\'' . pg_escape_string($this->resource, $value) . '\'';
-        }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
-        }
-        return 'E' . parent::quoteValue($value);
+        $quotedViaResource = $this->quoteViaResource($value);
+
+        return $quotedViaResource !== null ? $quotedViaResource : ('E' . parent::quoteValue($value));
     }
 
     /**
@@ -97,15 +87,31 @@ class Postgresql extends AbstractPlatform
      */
     public function quoteTrustedValue($value)
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        $quotedViaResource = $this->quoteViaResource($value);
+
+        return $quotedViaResource !== null ? $quotedViaResource : ('E' . parent::quoteTrustedValue($value));
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return null|string
+     */
+    protected function quoteViaResource($value)
+    {
+        if ($this->driver instanceof DriverInterface) {
+            $resource = $this->driver->getConnection()->getResource();
+        } else {
+            $resource = $this->driver;
         }
-        if (is_resource($this->resource)) {
-            return '\'' . pg_escape_string($this->resource, $value) . '\'';
+
+        if (is_resource($resource)) {
+            return '\'' . pg_escape_string($resource, $value) . '\'';
         }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
+        if ($resource instanceof \PDO) {
+            return $resource->quote($value);
         }
-        return 'E' . parent::quoteTrustedValue($value);
+
+        return null;
     }
 }

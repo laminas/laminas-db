@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @see       https://github.com/laminas/laminas-db for the canonical source repository
  * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
@@ -25,12 +24,12 @@ class SqlServer extends AbstractPlatform
     protected $quoteIdentifierTo = '\\';
 
     /**
-     * @var resource|\PDO
+     * @var resource
      */
-    protected $resource = null;
+    protected $driver = null;
 
     /**
-     * @param null|\Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
+     * @param null|\Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource $driver
      */
     public function __construct($driver = null)
     {
@@ -40,22 +39,20 @@ class SqlServer extends AbstractPlatform
     }
 
     /**
-     * @param \Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
+     * @param \Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource $driver
      * @return self Provides a fluent interface
      * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
      */
     public function setDriver($driver)
     {
         // handle Laminas\Db drivers
-        if (($driver instanceof Pdo\Pdo && in_array($driver->getDatabasePlatformName(), ['SqlServer', 'Dblib']))
-            || ($driver instanceof \PDO && in_array($driver->getAttribute(\PDO::ATTR_DRIVER_NAME), ['sqlsrv', 'dblib']))
-        ) {
-            $this->resource = $driver;
+        if ($driver instanceof Pdo\Pdo && in_array($driver->getDatabasePlatformName(), ['SqlServer', 'Dblib'])) {
+            $this->driver = $driver;
             return $this;
         }
 
         throw new Exception\InvalidArgumentException(
-            '$driver must be a Sqlsrv PDO Laminas\Db\Adapter\Driver or Sqlsrv PDO instance'
+            '$driver must be a Sqlsrv PDO Laminas\Db\Adapter\Driver'
         );
     }
 
@@ -88,11 +85,14 @@ class SqlServer extends AbstractPlatform
      */
     public function quoteValue($value)
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        if ($this->driver instanceof DriverInterface) {
+            $resource = $this->driver->getConnection()->getResource();
+        } else {
+            $resource = $this->driver;
         }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
+
+        if ($resource instanceof \PDO) {
+            return $resource->quote($value);
         }
         trigger_error(
             'Attempting to quote a value in ' . __CLASS__ . ' without extension/driver support '
@@ -107,11 +107,14 @@ class SqlServer extends AbstractPlatform
      */
     public function quoteTrustedValue($value)
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        if ($this->driver instanceof DriverInterface) {
+            $resource = $this->driver->getConnection()->getResource();
+        } else {
+            $resource = $this->driver;
         }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
+
+        if ($resource instanceof \PDO) {
+            return $resource->quote($value);
         }
         return '\'' . str_replace('\'', '\'\'', $value) . '\'';
     }

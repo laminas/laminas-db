@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @see       https://github.com/laminas/laminas-db for the canonical source repository
  * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
@@ -37,9 +36,6 @@ class SqliteTest extends TestCase
         if (! $this->adapters['pdo_sqlite'] instanceof \PDO) {
             $this->markTestSkipped('SQLite (PDO_SQLITE) not configured in unit test configuration file');
         }
-        $sqlite = new Sqlite($this->adapters['pdo_sqlite']);
-        $value = $sqlite->quoteValue('value');
-        self::assertEquals('\'value\'', $value);
 
         $sqlite = new Sqlite(new Pdo\Pdo(new Pdo\Connection($this->adapters['pdo_sqlite'])));
         $value = $sqlite->quoteValue('value');

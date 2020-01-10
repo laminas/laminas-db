@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @see       https://github.com/laminas/laminas-db for the canonical source repository
  * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
@@ -8,17 +7,17 @@
 
 namespace Laminas\Db\Adapter\Platform;
 
-use \Laminas\Db\Adapter\Exception\InvalidArgumentException;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Oci8\Oci8;
 use Laminas\Db\Adapter\Driver\Pdo\Pdo;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
 
 class Oracle extends AbstractPlatform
 {
     /**
      * @var null|Pdo|Oci8
      */
-    protected $resource = null;
+    protected $driver = null;
 
     /**
      * @param array $options
@@ -49,15 +48,13 @@ class Oracle extends AbstractPlatform
             || ($driver instanceof Pdo && $driver->getDatabasePlatformName() == 'Oracle')
             || ($driver instanceof Pdo && $driver->getDatabasePlatformName() == 'Sqlite')
             || ($driver instanceof \oci8)
-            || ($driver instanceof PDO && $driver->getAttribute(PDO::ATTR_DRIVER_NAME) == 'oci')
         ) {
-            $this->resource = $driver;
+            $this->driver = $driver;
             return $this;
         }
 
         throw new InvalidArgumentException(
-            '$driver must be a Oci8 or Oracle PDO Laminas\Db\Adapter\Driver, '
-            . 'Oci8 instance, or Oci PDO instance'
+            '$driver must be a Oci8, Oracle PDO Laminas\Db\Adapter\Driver or Oci8 instance'
         );
     }
 
@@ -66,7 +63,7 @@ class Oracle extends AbstractPlatform
      */
     public function getDriver()
     {
-        return $this->resource;
+        return $this->driver;
     }
 
     /**
@@ -94,17 +91,19 @@ class Oracle extends AbstractPlatform
      */
     public function quoteValue($value)
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        if ($this->driver instanceof DriverInterface) {
+            $resource = $this->driver->getConnection()->getResource();
+        } else {
+            $resource = $this->driver;
         }
 
-        if ($this->resource) {
-            if ($this->resource instanceof PDO) {
-                return $this->resource->quote($value);
+        if ($resource) {
+            if ($resource instanceof PDO) {
+                return $resource->quote($value);
             }
 
-            if (get_resource_type($this->resource) == 'oci8 connection'
-                || get_resource_type($this->resource) == 'oci8 persistent connection'
+            if (get_resource_type($resource) == 'oci8 connection'
+                || get_resource_type($resource) == 'oci8 persistent connection'
             ) {
                 return "'" . addcslashes(str_replace("'", "''", $value), "\x00\n\r\"\x1a") . "'";
             }

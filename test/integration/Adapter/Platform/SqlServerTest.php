@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @see       https://github.com/laminas/laminas-db for the canonical source repository
  * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
@@ -8,6 +7,7 @@
 
 namespace LaminasIntegrationTest\Db\Adapter\Platform;
 
+use Laminas\Db\Adapter\Driver\Pdo;
 use Laminas\Db\Adapter\Platform\SqlServer;
 use PHPUnit\Framework\TestCase;
 
@@ -53,7 +53,7 @@ class SqlServerTest extends TestCase
         if (! $this->adapters['pdo_sqlsrv']) {
             $this->markTestSkipped('SQLServer (pdo_sqlsrv) not configured in unit test configuration file');
         }
-        $sqlite = new SqlServer($this->adapters['pdo_sqlsrv']);
+        $sqlite = new SqlServer(new Pdo\Pdo($this->adapters['pdo_sqlsrv']));
         $value = $sqlite->quoteValue('value');
         self::assertEquals('\'value\'', $value);
     }

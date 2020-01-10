@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @see       https://github.com/laminas/laminas-db for the canonical source repository
  * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
@@ -8,9 +7,9 @@
 
 namespace LaminasTest\Db\Adapter\Platform;
 
-use Laminas\Db\Adapter\Platform\Oracle;
 use PHPUnit\Framework\Error;
 use PHPUnit\Framework\TestCase;
+use Laminas\Db\Adapter\Platform\Oracle;
 
 class OracleTest extends TestCase
 {
@@ -83,7 +82,7 @@ class OracleTest extends TestCase
     {
         $this->expectException('Laminas\Db\Adapter\Exception\InvalidArgumentException');
         $this->expectExceptionMessage(
-            '$driver must be a Oci8 or Oracle PDO Laminas\Db\Adapter\Driver, Oci8 instance, or Oci PDO instance'
+            '$driver must be a Oci8, Oracle PDO Laminas\Db\Adapter\Driver or Oci8 instance'
         );
         $this->platform->setDriver(null);
     }
