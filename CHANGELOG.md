@@ -10,7 +10,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- [#39](https://github.com/laminas/laminas-db/pull/39) change `HydratingResultSet::current()` to returns null on no data.
+- [#39](https://github.com/laminas/laminas-db/pull/39) change `HydratingResultSet::current()` to returns `null` on no data (before `false` was returned).
+  **It may be potential BC Break for those who depends on strict type comparision here.**
 
 ### Deprecated
 
