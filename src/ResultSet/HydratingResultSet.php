@@ -93,7 +93,7 @@ class HydratingResultSet extends AbstractResultSet
     /**
      * Iterator: get current item
      *
-     * @return object
+     * @return object|null
      */
     public function current()
     {
@@ -103,13 +103,13 @@ class HydratingResultSet extends AbstractResultSet
             return $this->buffer[$this->position];
         }
         $data = $this->dataSource->current();
-        $object = is_array($data) ? $this->hydrator->hydrate($data, clone $this->objectPrototype) : false;
+        $current = is_array($data) ? $this->hydrator->hydrate($data, clone $this->objectPrototype) : null;
 
         if (is_array($this->buffer)) {
-            $this->buffer[$this->position] = $object;
+            $this->buffer[$this->position] = $current;
         }
 
-        return $object;
+        return $current;
     }
 
     /**
