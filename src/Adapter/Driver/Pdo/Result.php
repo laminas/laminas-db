@@ -30,8 +30,9 @@ class Result implements Iterator, ResultInterface
     protected $fetchMode = \PDO::FETCH_ASSOC;
     
      /**
-     * @var array
-     */
+      * @var array
+      * @internal
+      */
     const VALID_FETCH_MODES = [
         \PDO::FETCH_LAZY,       // 1
         \PDO::FETCH_ASSOC,      // 2
