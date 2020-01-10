@@ -46,6 +46,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#41](https://github.com/laminas/laminas-db/pull/41) fixes issue introduced in [zendframework/zend-db#386](https://github.com/zendframework/zend-db/pull/386) by removing casting integer parameters in PDO adapter. 
 
+- [#32](https://github.com/laminas/laminas-db/pull/32) fixes PHP 7.4 compatibility. 
+
 ## 2.11.0 - 2019-12-31
 
 ### Added
