@@ -22,6 +22,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#43](https://github.com/laminas/laminas-db/pull/43) fixes issue introduced in [zendframework/zend-db#146](https://github.com/zendframework/zend-db/pull/146). Now we get correct `lastInsertValue` in `SequenceFeature`.
+
 - [#41](https://github.com/laminas/laminas-db/pull/41) fixes issue introduced in [zendframework/zend-db#386](https://github.com/zendframework/zend-db/pull/386) by removing casting integer parameters in PDO adapter. 
 
 - [#32](https://github.com/laminas/laminas-db/pull/32) fixes PHP 7.4 compatibility. 
