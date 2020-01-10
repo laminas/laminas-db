@@ -46,7 +46,7 @@ class ResultTest extends TestCase
         $result = new Result();
 
         $this->expectException('\Laminas\Db\Adapter\Exception\InvalidArgumentException');
-        $result->setFetchMode(11);
+        $result->setFetchMode(13);
     }
 
     /**
@@ -66,6 +66,24 @@ class ResultTest extends TestCase
         $result->setFetchMode(\PDO::FETCH_OBJ);
 
         self::assertEquals(5, $result->getFetchMode());
+        self::assertInstanceOf('stdClass', $result->current());
+    }
+    
+    /**
+     * Tests whether the fetch mode has a broader range
+     */
+    public function testFetchModeRange()
+    {
+        $stub = $this->getMockBuilder('PDOStatement')->getMock();
+        $stub->expects($this->any())
+            ->method('fetch')
+            ->will($this->returnCallback(function () {
+                return new stdClass;
+            }));
+        $result = new Result();
+        $result->initialize($stub, null);
+        $result->setFetchMode(\PDO::FETCH_NAMED);
+        self::assertEquals(11, $result->getFetchMode());
         self::assertInstanceOf('stdClass', $result->current());
     }
 }
