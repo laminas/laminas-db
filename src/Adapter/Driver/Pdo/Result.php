@@ -28,7 +28,7 @@ class Result implements Iterator, ResultInterface
      * @var int
      */
     protected $fetchMode = \PDO::FETCH_ASSOC;
-    
+
      /**
       * @var array
       * @internal

@@ -68,7 +68,7 @@ class ResultTest extends TestCase
         self::assertEquals(5, $result->getFetchMode());
         self::assertInstanceOf('stdClass', $result->current());
     }
-    
+
     /**
      * Tests whether the fetch mode has a broader range
      */
