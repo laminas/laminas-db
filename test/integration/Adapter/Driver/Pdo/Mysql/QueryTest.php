@@ -17,7 +17,13 @@ class QueryTest extends TestCase
             ['SELECT * FROM test WHERE id = ?', [1], ['id' => 1, 'name' => 'foo', 'value' => 'bar']],
             ['SELECT * FROM test WHERE id = :id', [':id' => 1], ['id' => 1, 'name' => 'foo', 'value' => 'bar']],
             ['SELECT * FROM test WHERE id = :id', ['id' => 1], ['id' => 1, 'name' => 'foo', 'value' => 'bar']],
-            ['SELECT * FROM test WHERE name = ?', [123], ['id' => '4', 'name' => '123', 'value' => 'bar']],
+            ['SELECT * FROM test WHERE name = ?', ['123'], ['id' => '4', 'name' => '123', 'value' => 'bar']],
+            [
+                // name is string, but given parameter is int, can lead to unexpected result
+                'SELECT * FROM test WHERE name = ?',
+                [123],
+                ['id' => '3', 'name' => '123a', 'value' => 'bar']
+            ],
         ];
     }
 

@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.11.1 - TBD
+## 2.11.2 - TBD
 
 ### Added
 
@@ -23,6 +23,35 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Fixed
 
 - Nothing.
+
+## 2.11.1 - 2020-01-10
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- [#39](https://github.com/laminas/laminas-db/pull/39) change `HydratingResultSet::current()` to returns `null` on no data (before `false` was returned).
+  **It may be potential BC Break for those who depends on strict type comparision here.**
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#43](https://github.com/laminas/laminas-db/pull/43) fixes issue introduced in [zendframework/zend-db#146](https://github.com/zendframework/zend-db/pull/146). Now we get correct `lastInsertValue` in `SequenceFeature`.
+
+- [#41](https://github.com/laminas/laminas-db/pull/41) fixes issue introduced in [zendframework/zend-db#386](https://github.com/zendframework/zend-db/pull/386) by removing casting integer parameters in PDO adapter. 
+
+- [#33](https://github.com/laminas/laminas-db/pull/33) fixes PDO fetch style check.
+
+- [#32](https://github.com/laminas/laminas-db/pull/32) fixes PHP 7.4 compatibility. 
 
 ## 2.11.0 - 2019-12-31
 
