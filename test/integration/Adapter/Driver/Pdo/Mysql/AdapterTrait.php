@@ -20,4 +20,9 @@ trait AdapterTrait
             'password' => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
         ]);
     }
+
+    protected function getHostname()
+    {
+        return getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME');
+    }
 }

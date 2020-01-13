@@ -19,11 +19,8 @@ class MysqlFixtureLoader implements FixtureLoader
 
     public function createDatabase()
     {
-        $this->pdo = new \PDO(
-            'mysql:host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
-            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
-            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
-        );
+        $this->connect();
+
         if (false === $this->pdo->exec(sprintf(
             "CREATE DATABASE IF NOT EXISTS %s",
             getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
@@ -45,13 +42,33 @@ class MysqlFixtureLoader implements FixtureLoader
                 print_r($this->pdo->errorInfo(), true)
             ));
         }
+
+        $this->disconnect();
     }
 
     public function dropDatabase()
     {
+        $this->connect();
+
         $this->pdo->exec(sprintf(
             "DROP DATABASE IF EXISTS %s",
             getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
         ));
+
+        $this->disconnect();
+    }
+
+    protected function connect()
+    {
+        $this->pdo = new \PDO(
+            'mysql:host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
+            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
+            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')
+        );
+    }
+
+    protected function disconnect()
+    {
+        $this->pdo = null;
     }
 }
