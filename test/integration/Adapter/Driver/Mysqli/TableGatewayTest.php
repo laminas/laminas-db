@@ -27,6 +27,8 @@ class TableGatewayTest extends TestCase
         $rowset = $tableGateway->select('id = 0');
 
         $this->assertNull($rowset->current());
+
+        $adapter->getDriver()->getConnection()->disconnect();
     }
 
     /**
@@ -46,5 +48,7 @@ class TableGatewayTest extends TestCase
         $rowset = $tableGateway->select('id = 0');
 
         $this->assertNull($rowset->current());
+
+        $adapter->getDriver()->getConnection()->disconnect();
     }
 }

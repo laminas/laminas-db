@@ -23,9 +23,9 @@ class Postgresql extends AbstractPlatform
     protected $quoteIdentifierTo = '""';
 
     /**
-     * @var resource|\PDO
+     * @var resource|\PDO|Pdo\Pdo|Pgsql\Pgsql
      */
-    protected $resource = null;
+    protected $driver = null;
 
     /**
      * @param null|\Laminas\Db\Adapter\Driver\Pgsql\Pgsql|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
@@ -49,7 +49,7 @@ class Postgresql extends AbstractPlatform
             || (is_resource($driver) && (in_array(get_resource_type($driver), ['pgsql link', 'pgsql link persistent'])))
             || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'pgsql')
         ) {
-            $this->resource = $driver;
+            $this->driver = $driver;
             return $this;
         }
 
@@ -80,16 +80,9 @@ class Postgresql extends AbstractPlatform
      */
     public function quoteValue($value)
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
-        }
-        if (is_resource($this->resource)) {
-            return '\'' . pg_escape_string($this->resource, $value) . '\'';
-        }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
-        }
-        return 'E' . parent::quoteValue($value);
+        $quotedViaDriverValue = $this->quoteViaDriver($value);
+
+        return $quotedViaDriverValue !== null ? $quotedViaDriverValue : ('E' . parent::quoteValue($value));
     }
 
     /**
@@ -97,15 +90,30 @@ class Postgresql extends AbstractPlatform
      */
     public function quoteTrustedValue($value)
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        $quotedViaDriverValue = $this->quoteViaDriver($value);
+
+        return $quotedViaDriverValue !== null ? $quotedViaDriverValue : ('E' . parent::quoteTrustedValue($value));
+    }
+
+    /**
+     * @param  string $value
+     * @return string|null
+     */
+    protected function quoteViaDriver($value)
+    {
+        if ($this->driver instanceof DriverInterface) {
+            $resource = $this->driver->getConnection()->getResource();
+        } else {
+            $resource = $this->driver;
         }
-        if (is_resource($this->resource)) {
-            return '\'' . pg_escape_string($this->resource, $value) . '\'';
+
+        if (is_resource($resource)) {
+            return '\'' . pg_escape_string($resource, $value) . '\'';
         }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
+        if ($resource instanceof \PDO) {
+            return $resource->quote($value);
         }
-        return 'E' . parent::quoteTrustedValue($value);
+
+        return null;
     }
 }
