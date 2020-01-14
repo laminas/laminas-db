@@ -16,7 +16,7 @@ use Laminas\Db\Adapter\Driver\Pdo\Pdo;
 class Oracle extends AbstractPlatform
 {
     /**
-     * @var null|Pdo|Oci8
+     * @var null|Pdo|Oci8|\PDO
      */
     protected $resource = null;
 
@@ -49,7 +49,7 @@ class Oracle extends AbstractPlatform
             || ($driver instanceof Pdo && $driver->getDatabasePlatformName() == 'Oracle')
             || ($driver instanceof Pdo && $driver->getDatabasePlatformName() == 'Sqlite')
             || ($driver instanceof \oci8)
-            || ($driver instanceof PDO && $driver->getAttribute(PDO::ATTR_DRIVER_NAME) == 'oci')
+            || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'oci')
         ) {
             $this->resource = $driver;
             return $this;
@@ -101,7 +101,7 @@ class Oracle extends AbstractPlatform
         }
 
         if ($resource) {
-            if ($resource instanceof PDO) {
+            if ($resource instanceof \PDO) {
                 return $resource->quote($value);
             }
 
