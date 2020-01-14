@@ -20,13 +20,12 @@ class PgsqlFixtureLoader implements FixtureLoader
 
     public function createDatabase()
     {
-        $this->pdo = new \PDO(
-            'pgsql:host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME'),
-            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME'),
-            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
-        );
+        $this->connect();
 
-        $this->dropDatabase();
+        $this->dropDatabase(); // closes connection
+
+        $this->connect();
+
         if (false === $this->pdo->exec(sprintf(
             "CREATE DATABASE %s",
             getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
@@ -39,13 +38,9 @@ class PgsqlFixtureLoader implements FixtureLoader
         }
 
         // PostgreSQL cannot switch database on same connection.
-        unset($this->pdo);
-        $this->pdo = new \PDO(
-            'pgsql:host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME') . ';' .
-            'dbname=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE'),
-            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME'),
-            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
-        );
+        $this->disconnect();
+
+        $this->connect(true);
 
         if (false === $this->pdo->exec(file_get_contents($this->fixtureFile))) {
             throw new \Exception(sprintf(
@@ -55,6 +50,8 @@ class PgsqlFixtureLoader implements FixtureLoader
                 print_r($this->pdo->errorInfo(), true)
             ));
         }
+
+        $this->disconnect();
     }
 
     public function dropDatabase()
@@ -67,9 +64,36 @@ class PgsqlFixtureLoader implements FixtureLoader
         }
         $this->initialRun = false;
 
+        $this->connect();
+
         $this->pdo->exec(sprintf(
             "DROP DATABASE IF EXISTS %s",
             getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
         ));
+
+        $this->disconnect();
+    }
+
+    /**
+     * @param bool $useDb add dbname using in dsn
+     */
+    protected function connect($useDb = false)
+    {
+        $dsn = 'pgsql:host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME');
+
+        if ($useDb) {
+            $dsn .= ';dbname=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE');
+        }
+
+        $this->pdo = new \PDO(
+            $dsn,
+            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME'),
+            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')
+        );
+    }
+
+    protected function disconnect()
+    {
+        $this->pdo = null;
     }
 }

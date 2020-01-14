@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
+ */
+
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Mysqli;
 
 use Laminas\Db\Adapter\Adapter;
@@ -27,6 +33,8 @@ class TableGatewayTest extends TestCase
         $rowset = $tableGateway->select('id = 0');
 
         $this->assertNull($rowset->current());
+
+        $adapter->getDriver()->getConnection()->disconnect();
     }
 
     /**
@@ -46,5 +54,7 @@ class TableGatewayTest extends TestCase
         $rowset = $tableGateway->select('id = 0');
 
         $this->assertNull($rowset->current());
+
+        $adapter->getDriver()->getConnection()->disconnect();
     }
 }
