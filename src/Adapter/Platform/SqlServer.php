@@ -88,11 +88,13 @@ class SqlServer extends AbstractPlatform
      */
     public function quoteValue($value)
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        $resource = $this->resource;
+
+        if ($resource instanceof DriverInterface) {
+            $resource = $resource->getConnection()->getResource();
         }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
+        if ($resource instanceof \PDO) {
+            return $resource->quote($value);
         }
         trigger_error(
             'Attempting to quote a value in ' . __CLASS__ . ' without extension/driver support '
@@ -107,12 +109,15 @@ class SqlServer extends AbstractPlatform
      */
     public function quoteTrustedValue($value)
     {
-        if ($this->resource instanceof DriverInterface) {
-            $this->resource = $this->resource->getConnection()->getResource();
+        $resource = $this->resource;
+
+        if ($resource instanceof DriverInterface) {
+            $resource = $resource->getConnection()->getResource();
         }
-        if ($this->resource instanceof \PDO) {
-            return $this->resource->quote($value);
+        if ($resource instanceof \PDO) {
+            return $resource->quote($value);
         }
+
         return '\'' . str_replace('\'', '\'\'', $value) . '\'';
     }
 }
