@@ -47,6 +47,8 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#44](https://github.com/laminas/laminas-db/pull/44) fixes preventing \PDO disconnect in some `Laminas\Db\Adapter\Platform\AbstractPlatform` inheritors (Mysql, Oracle, Postgresql, SqlServer).
   Using \PDO as a driver in Platform is not recommended. It can be used safely when wrapped by `Laminas\Db\Adapter\Driver\Pdo\Pdo`.
 
+- [#45](https://github.com/laminas/laminas-db/pull/45) fixes using \PDO driver in Oracle platform.
+
 ## 2.11.1 - 2020-01-10
 
 ### Added
