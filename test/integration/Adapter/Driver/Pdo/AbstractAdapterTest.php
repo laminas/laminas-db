@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @see       https://github.com/laminas/laminas-db for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
+ */
+
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Adapter;
@@ -57,9 +63,10 @@ abstract class AbstractAdapterTest extends TestCase
 
     protected function isConnectedTcp()
     {
-        $mypid = getmypid();
+        $mypid  = getmypid();
         $dbPort = static::DB_SERVER_PORT;
-        $lsof  = shell_exec("lsof -i -P -n | grep $dbPort | grep $mypid");
+        $lsof   = shell_exec("lsof -i -P -n | grep $dbPort | grep $mypid");
+
         return $lsof !== null;
     }
 
