@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-     <loc>https://docs.laminas.dev/</loc>
-     <lastmod>2020-01-14</lastmod>
+     <loc>https://docs.laminas.dev/laminas-db/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/adapter/</loc>
-     <lastmod>2020-01-14</lastmod>
+     <loc>https://docs.laminas.dev/laminas-db/adapter/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/result-set/</loc>
-     <lastmod>2020-01-14</lastmod>
+     <loc>https://docs.laminas.dev/laminas-db/result-set/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/sql/</loc>
-     <lastmod>2020-01-14</lastmod>
+     <loc>https://docs.laminas.dev/laminas-db/sql/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/sql-ddl/</loc>
-     <lastmod>2020-01-14</lastmod>
+     <loc>https://docs.laminas.dev/laminas-db/sql-ddl/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/table-gateway/</loc>
-     <lastmod>2020-01-14</lastmod>
+     <loc>https://docs.laminas.dev/laminas-db/table-gateway/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/row-gateway/</loc>
-     <lastmod>2020-01-14</lastmod>
+     <loc>https://docs.laminas.dev/laminas-db/row-gateway/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.laminas.dev/metadata/</loc>
-     <lastmod>2020-01-14</lastmod>
+     <loc>https://docs.laminas.dev/laminas-db/metadata/</loc>
+     <lastmod>2020-01-15</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
