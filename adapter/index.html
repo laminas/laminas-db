@@ -12,14 +12,15 @@
     <title>Adapters - laminas-db - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
+    
 </head>
-<body id="page-top" class="components">
+<body id="page-top" class="components" data-spy="scroll" data-target=".toc" data-offset="20">
 
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
         
-        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+        <a class="logo-link navbar-brand" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
             <img src="https://docs.laminas.dev/img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
@@ -152,7 +153,7 @@
         <div class="row">
 
             
-            <div class="col-6 offset-md-2">
+            <div class="col-8">
                 <h1 class="header__title">
                     Components
 
@@ -182,7 +183,7 @@
     
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-sm-12">
+            <div class="col-md-9 col-sm-12 content" role="main">
                 
                 
                     
@@ -195,39 +196,39 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#creating-an-adapter-using-configuration" class="toc__link">Creating an adapter using configuration</a>
+                        <a href="#creating-an-adapter-using-configuration" class="toc__link nav-link">Creating an adapter using configuration</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#creating-an-adapter-using-dependency-injection" class="toc__link">Creating an adapter using dependency injection</a>
+                        <a href="#creating-an-adapter-using-dependency-injection" class="toc__link nav-link">Creating an adapter using dependency injection</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#query-preparation" class="toc__link">Query Preparation</a>
+                        <a href="#query-preparation" class="toc__link nav-link">Query Preparation</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#query-execution" class="toc__link">Query Execution</a>
+                        <a href="#query-execution" class="toc__link nav-link">Query Execution</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#creating-statements" class="toc__link">Creating Statements</a>
+                        <a href="#creating-statements" class="toc__link nav-link">Creating Statements</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#using-the-driver-object" class="toc__link">Using the Driver Object</a>
+                        <a href="#using-the-driver-object" class="toc__link nav-link">Using the Driver Object</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#using-the-platform-object" class="toc__link">Using The Platform Object</a>
+                        <a href="#using-the-platform-object" class="toc__link nav-link">Using The Platform Object</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#using-the-parameter-container" class="toc__link">Using The Parameter Container</a>
+                        <a href="#using-the-parameter-container" class="toc__link nav-link">Using The Parameter Container</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#examples" class="toc__link">Examples</a>
+                        <a href="#examples" class="toc__link nav-link">Examples</a>
                     </li>
                 
             </ul>
@@ -235,8 +236,7 @@
     
 
                 
-            </div>
-            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+
                 
                     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -857,7 +857,7 @@ $name = $row['name'];</code></pre>
         </div>
 
         <div class="row">
-            <div class="col-md-10 offset-md-2">
+            <div class="col-md-12">
                 <h5>Laminas</h5>
                 <ul>
                     <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
@@ -869,7 +869,7 @@ $name = $row['name'];</code></pre>
         </div>
 
         <div class="row">
-            <div class="col-md-10 offset-md-2"> 
+            <div class="col-md-12">
                 <div class="row">
 
                     
@@ -927,7 +927,9 @@ $name = $row['name'];</code></pre>
             siteName = 'laminas-db';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
+    
         <script src="../search/main.js"></script>
+    
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
