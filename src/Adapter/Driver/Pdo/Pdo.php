@@ -97,6 +97,14 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     }
 
     /**
+     * @return Result
+     */
+    public function getResultPrototype()
+    {
+        return $this->resultPrototype;
+    }
+
+    /**
      * Register connection
      *
      * @param  Connection $connection
@@ -128,6 +136,14 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     public function registerResultPrototype(Result $resultPrototype)
     {
         $this->resultPrototype = $resultPrototype;
+    }
+
+    /**
+     * @return Result
+     */
+    public function getResultPrototype()
+    {
+        return $this->resultPrototype;
     }
 
     /**
