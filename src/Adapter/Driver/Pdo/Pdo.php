@@ -97,14 +97,6 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     }
 
     /**
-     * @return Result
-     */
-    public function getResultPrototype()
-    {
-        return $this->resultPrototype;
-    }
-
-    /**
      * Register connection
      *
      * @param  Connection $connection
