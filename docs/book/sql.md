@@ -335,17 +335,20 @@ $insert->columns(['foo', 'bar']); // set the valid columns
 
 ### values()
 
+The default behavior of values is to set the values. Successive calls will not
+preserve values from previous calls.
+
 ```php
-// The default behavior of values is to set the values;
-// successive calls will not preserve values from previous calls.
 $insert->values([
     'col_1' => 'value1',
     'col_2' => 'value2',
 ]);
 ```
 
+To merge values with previous calls, provide the appropriate flag:
+`Laminas\Db\Sql\Insert::VALUES_MERGE`
+
 ```php
-// To merge values with previous calls, provide the appropriate flag:
 $insert->values(['col_2' => 'value2'], $insert::VALUES_MERGE);
 ```
 
