@@ -572,14 +572,15 @@ $select-&gt;offset(10); // similarly takes an integer/numeric</code></pre>
 <h3>columns()</h3>
 <pre class=codehilite><code class=language-php>$insert-&gt;columns(['foo', 'bar']); // set the valid columns</code></pre>
 <h3>values()</h3>
-<div class=md-fenced-code-tabs id=tab-tab-group-21><ul class="nav nav-tabs"><li class=nav-item><a class="nav-link active" href=#tab-group-21-0_php-panel role=tab id=tab-group-21-0_php-tab data-toggle=tab data-lang=php aria-controls=tab-group-21-0_php-panel aria-selected=true>Php</a></li><li class=nav-item><a class="nav-link " href=#tab-group-21-1_php-panel role=tab id=tab-group-21-1_php-tab data-toggle=tab data-lang=php aria-controls=tab-group-21-1_php-panel aria-selected=false>Php</a></li></ul><div class=tab-content><div id=tab-group-21-0_php-panel class="tab-pane show active" role=tabpanel aria-labelledby=tab-group-21-0_php-tab><pre class=codehilite><code class=language-php>// The default behavior of values is to set the values;
-// successive calls will not preserve values from previous calls.
-$insert-&gt;values([
+<p>The default behavior of values is to set the values. Successive calls will not
+preserve values from previous calls.</p>
+<pre class=codehilite><code class=language-php>$insert-&gt;values([
     'col_1' =&gt; 'value1',
     'col_2' =&gt; 'value2',
-]);</code></pre></div><div id=tab-group-21-1_php-panel class="tab-pane " role=tabpanel aria-labelledby=tab-group-21-1_php-tab><pre class=codehilite><code class=language-php>// To merge values with previous calls, provide the appropriate flag:
-$insert-&gt;values(['col_2' =&gt; 'value2'], $insert::VALUES_MERGE);</code></pre></div></div></div>
-
+]);</code></pre>
+<p>To merge values with previous calls, provide the appropriate flag:
+<code>Laminas\Db\Sql\Insert::VALUES_MERGE</code></p>
+<pre class=codehilite><code class=language-php>$insert-&gt;values(['col_2' =&gt; 'value2'], $insert::VALUES_MERGE);</code></pre>
 <h2 id="update">Update</h2>
 <pre class=codehilite><code class=language-php>class Update
 {
