@@ -72,6 +72,6 @@
         "upload-coverage": "coveralls -v"
     },
     "replace": {
-        "zendframework/zend-db": "self.version"
+        "zendframework/zend-db": "^2.11.0"
     }
 }
