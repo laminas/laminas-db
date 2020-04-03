@@ -331,7 +331,7 @@ constraints, and indexes for a database/schema.</p>
 example, <code>CREATE TABLE</code> is modeled by the <code>CreateTable</code> class; this is likewise
 the same for <code>ALTER TABLE</code> (as <code>AlterTable</code>), and <code>DROP TABLE</code> (as
 <code>DropTable</code>). You can create instances using a number of approaches:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Ddl;
 use Laminas\Db\Sql\TableIdentifier;
 
 $table = new Ddl\CreateTable();
@@ -339,34 +339,37 @@ $table = new Ddl\CreateTable();
 // With a table name:
 $table = new Ddl\CreateTable('bar');
 
-// With a schema name &quot;foo&quot;:
+// With a schema name "foo":
 $table = new Ddl\CreateTable(new TableIdentifier('bar', 'foo'));
 
 // Optionally, as a temporary table:
 $table = new Ddl\CreateTable('bar', true);</code></pre>
+
 <p>You can also set the table after instantiation:</p>
-<pre class=codehilite><code class=language-php>$table-&gt;setTable('bar');</code></pre>
+<pre class="highlight"><code class="language-php">$table-&gt;setTable('bar');</code></pre>
+
 <p>Currently, columns are added by creating a column object (described in the
 <a href="#currently-supported-data-types">data type table below</a>):</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl\Column;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Ddl\Column;
 
 $table-&gt;addColumn(new Column\Integer('id'));
 $table-&gt;addColumn(new Column\Varchar('name', 255));</code></pre>
+
 <p>Beyond adding columns to a table, you may also add constraints:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl\Constraint;
+<p><pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Ddl\Constraint;
 
 $table-&gt;addConstraint(new Constraint\PrimaryKey('id'));
 $table-&gt;addConstraint(
     new Constraint\UniqueKey(['name', 'foo'], 'my_unique_key')
 );</code></pre>
-<p>You can also use the <code>AUTO_INCREMENT</code> attribute for MySQL:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl\Column;
+You can also use the <code>AUTO_INCREMENT</code> attribute for MySQL:
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Ddl\Column;
 
 $column = new Column\Integer('id');
-$column-&gt;setOption('AUTO_INCREMENT', true);</code></pre>
+$column-&gt;setOption('AUTO_INCREMENT', true);</code></pre></p>
 <h2 id="altering-tables">Altering Tables</h2>
 <p>Similar to <code>CreateTable</code>, you may also use <code>AlterTable</code> instances:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Ddl;
 use Laminas\Db\Sql\TableIdentifier;
 
 $table = new Ddl\AlterTable();
@@ -374,38 +377,42 @@ $table = new Ddl\AlterTable();
 // With a table name:
 $table = new Ddl\AlterTable('bar');
 
-// With a schema name &quot;foo&quot;:
+// With a schema name "foo":
 $table = new Ddl\AlterTable(new TableIdentifier('bar', 'foo'));
 
 // Optionally, as a temporary table:
 $table = new Ddl\AlterTable('bar', true);</code></pre>
+
 <p>The primary difference between a <code>CreateTable</code> and <code>AlterTable</code> is that the
 <code>AlterTable</code> takes into account that the table and its assets already exist.
 Therefore, while you still have <code>addColumn()</code> and <code>addConstraint()</code>, you will
 also have the ability to <em>alter</em> existing columns:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl\Column;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Ddl\Column;
 
 $table-&gt;changeColumn('name', Column\Varchar('new_name', 50));</code></pre>
+
 <p>You may also <em>drop</em> existing columns or constraints:</p>
-<pre class=codehilite><code class=language-php>$table-&gt;dropColumn('foo');
+<pre class="highlight"><code class="language-php">$table-&gt;dropColumn('foo');
 $table-&gt;dropConstraint('my_index');</code></pre>
+
 <h2 id="dropping-tables">Dropping Tables</h2>
 <p>To drop a table, create a <code>DropTable</code> instance:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Ddl;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Ddl;
 use Laminas\Db\Sql\TableIdentifier;
 
 // With a table name:
 $drop = new Ddl\DropTable('bar');
 
-// With a schema name &quot;foo&quot;:
+// With a schema name "foo":
 $drop = new Ddl\DropTable(new TableIdentifier('bar', 'foo'));</code></pre>
+
 <h2 id="executing-ddl-statements">Executing DDL Statements</h2>
 <p>After a DDL statement object has been created and configured, at some point you
 will need to execute the statement. This requires an <code>Adapter</code> instance and a
 properly seeded <code>Sql</code> instance.</p>
 <p>The workflow looks something like this, with <code>$ddl</code> being a <code>CreateTable</code>,
 <code>AlterTable</code>, or <code>DropTable</code> instance:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Sql;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Sql;
 
 // Existence of $adapter is assumed.
 $sql = new Sql($adapter);
@@ -414,6 +421,7 @@ $adapter-&gt;query(
     $sql-&gt;getSqlStringForSqlObject($ddl),
     $adapter::QUERY_MODE_EXECUTE
 );</code></pre>
+
 <p>By passing the <code>$ddl</code> object through the <code>$sql</code> instance's
 <code>getSqlStringForSqlObject()</code> method, we ensure that any platform specific
 specializations/modifications are utilized to create a platform specific SQL

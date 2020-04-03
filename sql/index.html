@@ -335,18 +335,19 @@ interact with in order to build queries in the <code>Laminas\Db\Sql</code> names
 <p>Since these four tasks are so closely related and generally used together
 within the same application, the <code>Laminas\Db\Sql\Sql</code> class helps you create them
 and produce the result you are attempting to achieve.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Sql;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter);
 $select = $sql-&gt;select(); // returns a Laminas\Db\Sql\Select instance
 $insert = $sql-&gt;insert(); // returns a Laminas\Db\Sql\Insert instance
 $update = $sql-&gt;update(); // returns a Laminas\Db\Sql\Update instance
 $delete = $sql-&gt;delete(); // returns a Laminas\Db\Sql\Delete instance</code></pre>
+
 <p>As a developer, you can now interact with these objects, as described in the
 sections below, to customize each query. Once they have been populated with
 values, they are ready to either be prepared or executed.</p>
 <p>To prepare (using a Select object):</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Sql;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter);
 $select = $sql-&gt;select();
@@ -355,8 +356,9 @@ $select-&gt;where(['id' =&gt; 2]);
 
 $statement = $sql-&gt;prepareStatementForSqlObject($select);
 $results = $statement-&gt;execute();</code></pre>
+
 <p>To execute (using a Select object)</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Sql;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter);
 $select = $sql-&gt;select();
@@ -365,17 +367,19 @@ $select-&gt;where(['id' =&gt; 2]);
 
 $selectString = $sql-&gt;buildSqlString($select);
 $results = $adapter-&gt;query($selectString, $adapter::QUERY_MODE_EXECUTE);</code></pre>
+
 <p><code>Laminas\\Db\\Sql\\Sql</code> objects can also be bound to a particular table so that in
 obtaining a <code>Select</code>, <code>Insert</code>, <code>Update</code>, or <code>Delete</code> instance, the object will be
 seeded with the table:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Sql;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Sql;
 
 $sql    = new Sql($adapter, 'foo');
 $select = $sql-&gt;select();
 $select-&gt;where(['id' =&gt; 2]); // $select already has from('foo') applied</code></pre>
+
 <h2 id="common-interfaces-for-sql-implementations">Common interfaces for SQL implementations</h2>
 <p>Each of these objects implements the following two interfaces:</p>
-<pre class=codehilite><code class=language-php>interface PreparableSqlInterface
+<pre class="highlight"><code class="language-php">interface PreparableSqlInterface
 {
      public function prepareStatement(Adapter $adapter, StatementInterface $statement) : void;
 }
@@ -384,22 +388,24 @@ interface SqlInterface
 {
      public function getSqlString(PlatformInterface $adapterPlatform = null) : string;
 }</code></pre>
+
 <p>Use these functions to produce either (a) a prepared statement, or (b) a string
 to execute.</p>
 <h2 id="select">Select</h2>
 <p><code>Laminas\Db\Sql\Select</code> presents a unified API for building platform-specific SQL
 SELECT queries. Instances may be created and consumed without
 <code>Laminas\Db\Sql\Sql</code>:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Sql\Select;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Sql\Select;
 
 $select = new Select();
 // or, to produce a $select bound to a specific table
 $select = new Select('foo');</code></pre>
+
 <p>If a table is provided to the <code>Select</code> object, then <code>from()</code> cannot be called
 later to change the name of the table.</p>
 <p>Once you have a valid <code>Select</code> object, the following API can be used to further
 specify various select statement parts:</p>
-<pre class=codehilite><code class=language-php>class Select extends AbstractSql implements SqlInterface, PreparableSqlInterface
+<pre class="highlight"><code class="language-php">class Select extends AbstractSql implements SqlInterface, PreparableSqlInterface
 {
     const JOIN_INNER = 'inner';
     const JOIN_OUTER = 'outer';
@@ -422,19 +428,21 @@ specify various select statement parts:</p>
     public function limit(int $limit) : self;
     public function offset(int $offset) : self;
 }</code></pre>
+
 <h3>from()</h3>
-<pre class=codehilite><code class=language-php>// As a string:
+<pre class="highlight"><code class="language-php">// As a string:
 $select-&gt;from('foo');
 
 // As an array to specify an alias
-// (produces SELECT &quot;t&quot;.* FROM &quot;table&quot; AS &quot;t&quot;)
+// (produces SELECT "t".* FROM "table" AS "t")
 $select-&gt;from(['t' =&gt; 'table']);
 
 // Using a Sql\TableIdentifier:
 // (same output as above)
 $select-&gt;from(['t' =&gt; new TableIdentifier('table')]);</code></pre>
+
 <h3>columns()</h3>
-<pre class=codehilite><code class=language-php>// As an array of names
+<pre class="highlight"><code class="language-php">// As an array of names
 $select-&gt;columns(['foo', 'bar']);
 
 // As an associative array with aliases as the keys
@@ -447,10 +455,11 @@ $select-&gt;columns([
 // Sql function call on the column
 // (produces CONCAT_WS('/', 'bar', 'bax') AS 'foo')
 $select-&gt;columns([
-    'foo' =&gt; new \Laminas\Db\Sql\Expression(&quot;CONCAT_WS('/', 'bar', 'bax')&quot;)
+    'foo' =&gt; new \Laminas\Db\Sql\Expression("CONCAT_WS('/', 'bar', 'bax')")
 ]);</code></pre>
+
 <h3>join()</h3>
-<pre class=codehilite><code class=language-php>$select-&gt;join(
+<pre class="highlight"><code class="language-php">$select-&gt;join(
     'foo',              // table name
     'id = bar.id',      // expression to join on (will be quoted by platform object before insertion),
     ['bar', 'baz'],     // (optional) list of columns, same requirements as columns() above
@@ -463,11 +472,12 @@ $select
         ['b' =&gt; 'bar'],        // join table with alias
         'f.foo_id = b.foo_id'  // join expression
     );</code></pre>
+
 <h3>where(), having()</h3>
 <p><code>Laminas\Db\Sql\Select</code> provides bit of flexibility as it regards to what kind of
 parameters are acceptable when calling <code>where()</code> or <code>having()</code>. The method
 signature is listed as:</p>
-<pre class=codehilite><code class=language-php>/**
+<pre class="highlight"><code class="language-php">/**
  * Create where clause
  *
  * @param  Where|callable|string|array $predicate
@@ -475,6 +485,7 @@ signature is listed as:</p>
  * @return Select
  */
 public function where($predicate, $combination = Predicate\PredicateSet::OP_AND);</code></pre>
+
 <p>If you provide a <code>Laminas\Db\Sql\Where</code> instance to <code>where()</code> or a
 <code>Laminas\Db\Sql\Having</code> instance to <code>having()</code>, any previous internal instances
 will be replaced completely. When either instance is processed, this object will
@@ -482,14 +493,16 @@ be iterated to produce the WHERE or HAVING section of the SELECT statement.</p>
 <p>If you provide a PHP callable to <code>where()</code> or <code>having()</code>, this function will be
 called with the <code>Select</code>'s <code>Where</code>/<code>Having</code> instance as the only parameter.
 This enables code like the following:</p>
-<pre class=codehilite><code class=language-php>$select-&gt;where(function (Where $where) {
+<pre class="highlight"><code class="language-php">$select-&gt;where(function (Where $where) {
     $where-&gt;like('username', 'ralph%');
 });</code></pre>
+
 <p>If you provide a <em>string</em>, this string will be used to create a
 <code>Laminas\Db\Sql\Predicate\Expression</code> instance, and its contents will be applied
 as-is, with no quoting:</p>
-<pre class=codehilite><code class=language-php>// SELECT &quot;foo&quot;.* FROM &quot;foo&quot; WHERE x = 5
+<pre class="highlight"><code class="language-php">// SELECT "foo".* FROM "foo" WHERE x = 5
 $select-&gt;from('foo')-&gt;where('x = 5');</code></pre>
+
 <p>If you provide an array with integer indices, the value can be one of:</p>
 <ul>
 <li>a string; this will be used to build a <code>Predicate\Expression</code>.</li>
@@ -498,8 +511,9 @@ $select-&gt;from('foo')-&gt;where('x = 5');</code></pre>
 <p>In either case, the instances are pushed onto the <code>Where</code> stack with the
 <code>$combination</code> provided (defaulting to <code>AND</code>).</p>
 <p>As an example:</p>
-<pre class=codehilite><code class=language-php>// SELECT &quot;foo&quot;.* FROM &quot;foo&quot; WHERE x = 5 AND y = z
+<pre class="highlight"><code class="language-php">// SELECT "foo".* FROM "foo" WHERE x = 5 AND y = z
 $select-&gt;from('foo')-&gt;where(['x = 5', 'y = z']);</code></pre>
+
 <p>If you provide an associative array with string keys, any value with a string
 key will be cast as follows:</p>
 <div class="table-responsive"><table>
@@ -525,23 +539,26 @@ key will be cast as follows:</p>
 </tbody>
 </table></div>
 <p>As an example:</p>
-<pre class=codehilite><code class=language-php>// SELECT &quot;foo&quot;.* FROM &quot;foo&quot; WHERE &quot;c1&quot; IS NULL AND &quot;c2&quot; IN (?, ?, ?) AND &quot;c3&quot; IS NOT NULL
+<pre class="highlight"><code class="language-php">// SELECT "foo".* FROM "foo" WHERE "c1" IS NULL AND "c2" IN (?, ?, ?) AND "c3" IS NOT NULL
 $select-&gt;from('foo')-&gt;where([
     'c1' =&gt; null,
     'c2' =&gt; [1, 2, 3],
     new \Laminas\Db\Sql\Predicate\IsNotNull('c3'),
 ]);</code></pre>
+
 <p>As another example of complex queries with nested conditions e.g.</p>
-<pre class=codehilite><code class=language-sql>SELECT * WHERE (column1 is null or column1 = 2) AND (column2 = 3)</code></pre>
+<pre class="highlight"><code class="language-sql">SELECT * WHERE (column1 is null or column1 = 2) AND (column2 = 3)</code></pre>
+
 <p>you need to use the <code>nest()</code> and <code>unnest()</code> methods, as follows:</p>
-<pre class=codehilite><code class=language-php>$select-&gt;where-&gt;nest() // bracket opened
+<pre class="highlight"><code class="language-php">$select-&gt;where-&gt;nest() // bracket opened
     -&gt;isNull('column1')
     -&gt;or
     -&gt;equalTo('column1', '2')
     -&gt;unnest();  // bracket closed
     -&gt;equalTo('column2', '3');</code></pre>
+
 <h3>order()</h3>
-<pre class=codehilite><code class=language-php>$select = new Select;
+<pre class="highlight"><code class="language-php">$select = new Select;
 $select-&gt;order('id DESC'); // produces 'id' DESC
 
 $select = new Select;
@@ -551,13 +568,15 @@ $select
 
 $select = new Select;
 $select-&gt;order(['name ASC', 'age DESC']); // produces 'name' ASC, 'age' DESC</code></pre>
+
 <h3>limit() and offset()</h3>
-<pre class=codehilite><code class=language-php>$select = new Select;
+<pre class="highlight"><code class="language-php">$select = new Select;
 $select-&gt;limit(5);   // always takes an integer/numeric
 $select-&gt;offset(10); // similarly takes an integer/numeric</code></pre>
+
 <h2 id="insert">Insert</h2>
 <p>The Insert API:</p>
-<pre class=codehilite><code class=language-php>class Insert implements SqlInterface, PreparableSqlInterface
+<pre class="highlight"><code class="language-php">class Insert implements SqlInterface, PreparableSqlInterface
 {
     const VALUES_MERGE = 'merge';
     const VALUES_SET   = 'set';
@@ -567,22 +586,26 @@ $select-&gt;offset(10); // similarly takes an integer/numeric</code></pre>
     public function columns(array $columns) : self;
     public function values(array $values, string $flag = self::VALUES_SET) : self;
 }</code></pre>
+
 <p>As with <code>Select</code>, the table may be provided during instantiation or via the
 <code>into()</code> method.</p>
 <h3>columns()</h3>
-<pre class=codehilite><code class=language-php>$insert-&gt;columns(['foo', 'bar']); // set the valid columns</code></pre>
+<pre class="highlight"><code class="language-php">$insert-&gt;columns(['foo', 'bar']); // set the valid columns</code></pre>
+
 <h3>values()</h3>
 <p>The default behavior of values is to set the values. Successive calls will not
 preserve values from previous calls.</p>
-<pre class=codehilite><code class=language-php>$insert-&gt;values([
+<pre class="highlight"><code class="language-php">$insert-&gt;values([
     'col_1' =&gt; 'value1',
     'col_2' =&gt; 'value2',
 ]);</code></pre>
+
 <p>To merge values with previous calls, provide the appropriate flag:
 <code>Laminas\Db\Sql\Insert::VALUES_MERGE</code></p>
-<pre class=codehilite><code class=language-php>$insert-&gt;values(['col_2' =&gt; 'value2'], $insert::VALUES_MERGE);</code></pre>
+<pre class="highlight"><code class="language-php">$insert-&gt;values(['col_2' =&gt; 'value2'], $insert::VALUES_MERGE);</code></pre>
+
 <h2 id="update">Update</h2>
-<pre class=codehilite><code class=language-php>class Update
+<pre class="highlight"><code class="language-php">class Update
 {
     const VALUES_MERGE = 'merge';
     const VALUES_SET   = 'set';
@@ -593,12 +616,14 @@ preserve values from previous calls.</p>
     public function set(array $values, string $flag = self::VALUES_SET) : self;
     public function where(Where|callable|string|array|PredicateInterface $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;
 }</code></pre>
+
 <h3>set()</h3>
-<pre class=codehilite><code class=language-php>$update-&gt;set(['foo' =&gt; 'bar', 'baz' =&gt; 'bax']);</code></pre>
+<pre class="highlight"><code class="language-php">$update-&gt;set(['foo' =&gt; 'bar', 'baz' =&gt; 'bax']);</code></pre>
+
 <h3>where()</h3>
 <p>See the <a href="#where-and-having">section on Where and Having</a>.</p>
 <h2 id="delete">Delete</h2>
-<pre class=codehilite><code class=language-php>class Delete
+<pre class="highlight"><code class="language-php">class Delete
 {
     public $where; // @param Where $where
 
@@ -606,6 +631,7 @@ preserve values from previous calls.</p>
     public function from(string|TableIdentifier $table);
     public function where(Where|callable|string|array|PredicateInterface $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;
 }</code></pre>
+
 <h3>where()</h3>
 <p>See the <a href="#where-and-having">section on Where and Having</a>.</p>
 <h2 id="where-and-having">Where and Having</h2>
@@ -638,7 +664,7 @@ interpolating. In cases where there are parameters in an <code>Expression</code>
 have parameters, use <code>Literal</code> objects.</p>
 </blockquote>
 <p>The <code>Where</code> and <code>Having</code> API is that of <code>Predicate</code> and <code>PredicateSet</code>:</p>
-<pre class=codehilite><code class=language-php>// Where &amp; Having extend Predicate:
+<pre class="highlight"><code class="language-php">// Where &amp; Having extend Predicate:
 class Predicate extends PredicateSet
 {
     public $and;
@@ -716,17 +742,19 @@ class Predicate extends PredicateSet
     public function getExpressionData() : array;
     public function count() : int;
 }</code></pre>
+
 <p>Each method in the API will produce a corresponding <code>Predicate</code> object of a similarly named
 type, as described below.</p>
 <h3>equalTo(), lessThan(), greaterThan(), lessThanOrEqualTo(), greaterThanOrEqualTo()</h3>
-<pre class=codehilite><code class=language-php>$where-&gt;equalTo('id', 5);
+<pre class="highlight"><code class="language-php">$where-&gt;equalTo('id', 5);
 
 // The above is equivalent to:
 $where-&gt;addPredicate(
     new Predicate\Operator($left, Operator::OPERATOR_EQUAL_TO, $right, $leftType, $rightType)
 );</code></pre>
+
 <p>Operators use the following API:</p>
-<pre class=codehilite><code class=language-php>class Operator implements PredicateInterface
+<pre class="highlight"><code class="language-php">class Operator implements PredicateInterface
 {
     const OPERATOR_EQUAL_TO                  = '=';
     const OP_EQ                              = '=';
@@ -760,15 +788,17 @@ $where-&gt;addPredicate(
     public function getRightType() : string;
     public function getExpressionData() : array;
 }</code></pre>
+
 <h3>like($identifier, $like), notLike($identifier, $notLike)</h3>
-<pre class=codehilite><code class=language-php>$where-&gt;like($identifier, $like):
+<pre class="highlight"><code class="language-php">$where-&gt;like($identifier, $like):
 
 // The above is equivalent to:
 $where-&gt;addPredicate(
     new Predicate\Like($identifier, $like)
 );</code></pre>
+
 <p>The following is the <code>Like</code> API:</p>
-<pre class=codehilite><code class=language-php>class Like implements PredicateInterface
+<pre class="highlight"><code class="language-php">class Like implements PredicateInterface
 {
     public function __construct(string $identifier = null, string $like = null);
     public function setIdentifier(string $identifier) : self;
@@ -776,30 +806,34 @@ $where-&gt;addPredicate(
     public function setLike(string $like) : self;
     public function getLike() : string;
 }</code></pre>
+
 <h3>literal($literal)</h3>
-<pre class=codehilite><code class=language-php>$where-&gt;literal($literal);
+<pre class="highlight"><code class="language-php">$where-&gt;literal($literal);
 
 // The above is equivalent to:
 $where-&gt;addPredicate(
     new Predicate\Literal($literal)
 );</code></pre>
+
 <p>The following is the <code>Literal</code> API:</p>
-<pre class=codehilite><code class=language-php>class Literal implements ExpressionInterface, PredicateInterface
+<pre class="highlight"><code class="language-php">class Literal implements ExpressionInterface, PredicateInterface
 {
     const PLACEHOLDER = '?';
     public function __construct(string $literal = '');
     public function setLiteral(string $literal) : self;
     public function getLiteral() : string;
 }</code></pre>
+
 <h3>expression($expression, $parameter)</h3>
-<pre class=codehilite><code class=language-php>$where-&gt;expression($expression, $parameter);
+<pre class="highlight"><code class="language-php">$where-&gt;expression($expression, $parameter);
 
 // The above is equivalent to:
 $where-&gt;addPredicate(
     new Predicate\Expression($expression, $parameter)
 );</code></pre>
+
 <p>The following is the <code>Expression</code> API:</p>
-<pre class=codehilite><code class=language-php>class Expression implements ExpressionInterface, PredicateInterface
+<pre class="highlight"><code class="language-php">class Expression implements ExpressionInterface, PredicateInterface
 {
     const PLACEHOLDER = '?';
 
@@ -813,43 +847,49 @@ $where-&gt;addPredicate(
     public function setParameters(int|float|bool|string|array $parameters) : self;
     public function getParameters() : array;
 }</code></pre>
+
 <h3>isNull($identifier)</h3>
-<pre class=codehilite><code class=language-php>$where-&gt;isNull($identifier);
+<pre class="highlight"><code class="language-php">$where-&gt;isNull($identifier);
 
 // The above is equivalent to:
 $where-&gt;addPredicate(
     new Predicate\IsNull($identifier)
 );</code></pre>
+
 <p>The following is the <code>IsNull</code> API:</p>
-<pre class=codehilite><code class=language-php>class IsNull implements PredicateInterface
+<pre class="highlight"><code class="language-php">class IsNull implements PredicateInterface
 {
     public function __construct(string $identifier = null);
     public function setIdentifier(string $identifier) : self;
     public function getIdentifier() : string;
 }</code></pre>
+
 <h3>isNotNull($identifier)</h3>
-<pre class=codehilite><code class=language-php>$where-&gt;isNotNull($identifier);
+<pre class="highlight"><code class="language-php">$where-&gt;isNotNull($identifier);
 
 // The above is equivalent to:
 $where-&gt;addPredicate(
     new Predicate\IsNotNull($identifier)
 );</code></pre>
+
 <p>The following is the <code>IsNotNull</code> API:</p>
-<pre class=codehilite><code class=language-php>class IsNotNull implements PredicateInterface
+<pre class="highlight"><code class="language-php">class IsNotNull implements PredicateInterface
 {
     public function __construct(string $identifier = null);
     public function setIdentifier(string $identifier) : self;
     public function getIdentifier() : string;
 }</code></pre>
+
 <h3>in($identifier, $valueSet), notIn($identifier, $valueSet)</h3>
-<pre class=codehilite><code class=language-php>$where-&gt;in($identifier, $valueSet);
+<pre class="highlight"><code class="language-php">$where-&gt;in($identifier, $valueSet);
 
 // The above is equivalent to:
 $where-&gt;addPredicate(
     new Predicate\In($identifier, $valueSet)
 );</code></pre>
+
 <p>The following is the <code>In</code> API:</p>
-<pre class=codehilite><code class=language-php>class In implements PredicateInterface
+<pre class="highlight"><code class="language-php">class In implements PredicateInterface
 {
     public function __construct(
         string|array $identifier = null,
@@ -860,15 +900,17 @@ $where-&gt;addPredicate(
     public function setValueSet(array|Select $valueSet) : self;
     public function getValueSet() : array|Select;
 }</code></pre>
+
 <h3>between($identifier, $minValue, $maxValue), notBetween($identifier, $minValue, $maxValue)</h3>
-<pre class=codehilite><code class=language-php>$where-&gt;between($identifier, $minValue, $maxValue);
+<pre class="highlight"><code class="language-php">$where-&gt;between($identifier, $minValue, $maxValue);
 
 // The above is equivalent to:
 $where-&gt;addPredicate(
     new Predicate\Between($identifier, $minValue, $maxValue)
 );</code></pre>
+
 <p>The following is the <code>Between</code> API:</p>
-<pre class=codehilite><code class=language-php>class Between implements PredicateInterface
+<pre class="highlight"><code class="language-php">class Between implements PredicateInterface
 {
     public function __construct(
         string $identifier = null,

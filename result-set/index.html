@@ -314,7 +314,7 @@ assume an instance of a <code>ResultSetInterface</code> should be returned. In m
 the prototype pattern will be used by consuming object to clone a prototype of
 a <code>ResultSet</code> and return a specialized <code>ResultSet</code> with a specific data source
 injected. <code>ResultSetInterface</code> is defined as follows:</p>
-<pre class=codehilite><code class=language-php>use Countable;
+<pre class="highlight"><code class="language-php">use Countable;
 use Traversable;
 
 interface ResultSetInterface extends Traversable, Countable
@@ -322,6 +322,7 @@ interface ResultSetInterface extends Traversable, Countable
     public function initialize(mixed $dataSource) : void;
     public function getFieldCount() : int;
 }</code></pre>
+
 <h2 id="quick-start">Quick start</h2>
 <p><code>Laminas\Db\ResultSet\ResultSet</code> is the most basic form of a <code>ResultSet</code> object
 that will expose each row as either an <code>ArrayObject</code>-like object or an array of
@@ -330,7 +331,7 @@ row data. By default, <code>Laminas\Db\Adapter\Adapter</code> will use a prototy
 <code>Laminas\Db\Adapter\Adapter::query()</code> method.</p>
 <p>The following is an example workflow similar to what one might find inside
 <code>Laminas\Db\Adapter\Adapter::query()</code>:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Adapter\Driver\ResultInterface;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\ResultSet\ResultSet;
 
 $statement = $driver-&gt;createStatement('SELECT * FROM users');
@@ -345,12 +346,13 @@ if ($result instanceof ResultInterface &amp;&amp; $result-&gt;isQueryResult()) {
         echo $row-&gt;my_column . PHP_EOL;
     }
 }</code></pre>
+
 <h2 id="laminasdbresultsetresultset-and-laminasdbresultsetabstractresultset">Laminas\Db\ResultSet\ResultSet and Laminas\Db\ResultSet\AbstractResultSet</h2>
 <p>For most purposes, either an instance of <code>Laminas\Db\ResultSet\ResultSet</code> or a
 derivative of <code>Laminas\Db\ResultSet\AbstractResultSet</code> will be used. The
 implementation of the <code>AbstractResultSet</code> offers the following core
 functionality:</p>
-<pre class=codehilite><code class=language-php>namespace Laminas\Db\ResultSet;
+<pre class="highlight"><code class="language-php">namespace Laminas\Db\ResultSet;
 
 use Iterator;
 
@@ -373,6 +375,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
     /** get rows as array */
     public function toArray() : array;
 }</code></pre>
+
 <h2 id="laminasdbresultsethydratingresultset">Laminas\Db\ResultSet\HydratingResultSet</h2>
 <p><code>Laminas\Db\ResultSet\HydratingResultSet</code> is a more flexible <code>ResultSet</code> object
 that allows the developer to choose an appropriate "hydration strategy" for
@@ -383,12 +386,13 @@ row data.</p>
 <p>The <code>HydratingResultSet</code> depends on
 <a href="https://docs.laminas.dev/laminas-hydrator">laminas-hydrator</a>, which you will
 need to install:</p>
-<pre class=codehilite><code class=language-bash>$ composer require laminas/laminas-hydrator</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-hydrator</code></pre>
+
 <p>In the example below, rows from the database will be iterated, and during
 iteration, <code>HydratingResultSet</code> will use the <code>Reflection</code> based hydrator to
 inject the row data directly into the protected members of the cloned
 <code>UserEntity</code> object:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\Adapter\Driver\ResultInterface;
+<pre class="highlight"><code class="language-php">use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\ResultSet\HydratingResultSet;
 use Laminas\Hydrator\Reflection as ReflectionHydrator;
 
@@ -430,6 +434,7 @@ if ($result instanceof ResultInterface &amp;&amp; $result-&gt;isQueryResult()) {
         echo $user-&gt;getFirstName() . ' ' . $user-&gt;getLastName() . PHP_EOL;
     }
 }</code></pre>
+
 <p>For more information, see the <a href="https://docs.laminas.dev/laminas-hydrator/">laminas-hydrator</a>
 documentation to get a better sense of the different strategies that can be
 employed in order to populate a target object.</p>

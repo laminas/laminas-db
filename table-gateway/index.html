@@ -303,7 +303,7 @@
 <p>The Table Gateway subcomponent provides an object-oriented representation of a
 database table; its methods mirror the most common table operations. In code,
 the interface resembles:</p>
-<pre class=codehilite><code class=language-php>namespace Laminas\Db\TableGateway;
+<pre class="highlight"><code class="language-php">namespace Laminas\Db\TableGateway;
 
 use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Where;
@@ -320,6 +320,7 @@ interface TableGatewayInterface
     ) : int;
     public function delete(Where|callable|string|array $where) : int;
 }</code></pre>
+
 <p>There are two primary implementations of the <code>TableGatewayInterface</code>,
 <code>AbstractTableGateway</code> and <code>TableGateway</code>. The <code>AbstractTableGateway</code> is an
 abstract basic implementation that provides functionality for <code>select()</code>,
@@ -335,7 +336,7 @@ order to be consumed and utilized to its fullest.</p>
 <h2 id="quick-start">Quick start</h2>
 <p>The following example uses <code>Laminas\Db\TableGateway\TableGateway</code>, which defines
 the following API:</p>
-<pre class=codehilite><code class=language-php>namespace Laminas\Db\TableGateway;
+<pre class="highlight"><code class="language-php">namespace Laminas\Db\TableGateway;
 
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
@@ -381,6 +382,7 @@ class TableGateway extends AbstractTableGateway
     public function deleteWith(Sql\Delete $delete) : int;
     public function getLastInsertValue() : int;
 }</code></pre>
+
 <p>The concrete <code>TableGateway</code> object uses constructor injection for getting
 dependencies and options into the instance. The table name and an instance of
 an <code>Adapter</code> are all that is required to create an instance.</p>
@@ -388,7 +390,7 @@ an <code>Adapter</code> are all that is required to create an instance.</p>
 or metadata, and when <code>select()</code> is executed, a simple <code>ResultSet</code> object with
 the populated <code>Adapter</code>'s <code>Result</code> (the datasource) will be returned and ready
 for iteration.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\TableGateway\TableGateway;
+<pre class="highlight"><code class="language-php">use Laminas\Db\TableGateway\TableGateway;
 
 $projectTable = new TableGateway('project', $adapter);
 $rowset = $projectTable-&gt;select(['type' =&gt; 'PHP']);
@@ -404,10 +406,11 @@ $rowset      = $artistTable-&gt;select(['id' =&gt; 2]);
 $artistRow   = $rowset-&gt;current();
 
 var_dump($artistRow);</code></pre>
+
 <p>The <code>select()</code> method takes the same arguments as
 <code>Laminas\Db\Sql\Select::where()</code>; arguments will be passed to the <code>Select</code>
 instance used to build the SELECT query. This means the following is possible:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\TableGateway\TableGateway;
+<pre class="highlight"><code class="language-php">use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Db\Sql\Select;
 
 $artistTable = new TableGateway('artist', $adapter);
@@ -417,6 +420,7 @@ $rowset = $artistTable-&gt;select(function (Select $select) {
     $select-&gt;where-&gt;like('name', 'Brit%');
     $select-&gt;order('name ASC')-&gt;limit(2);
 });</code></pre>
+
 <h2 id="tablegateway-features">TableGateway Features</h2>
 <p>The Features API allows for extending the functionality of the base
 <code>TableGateway</code> object without having to polymorphically extend the base class.
@@ -436,10 +440,10 @@ constructor. The constructor can take features in 3 different forms:</p>
 <p><code>GlobalAdapterFeature</code>: the ability to use a global/static adapter without
   needing to inject it into a <code>TableGateway</code> instance. This is only useful when
   you are extending the <code>AbstractTableGateway</code> implementation:</p>
-<p>```php
-use Laminas\Db\TableGateway\AbstractTableGateway;
-use Laminas\Db\TableGateway\Feature;</p>
-<p>class MyTableGateway extends AbstractTableGateway
+<pre class="highlight"><code class="language-php">use Laminas\Db\TableGateway\AbstractTableGateway;
+use Laminas\Db\TableGateway\Feature;
+
+class MyTableGateway extends AbstractTableGateway
 {
     public function __construct()
     {
@@ -448,45 +452,47 @@ use Laminas\Db\TableGateway\Feature;</p>
         $this-&gt;featureSet-&gt;addFeature(new Feature\GlobalAdapterFeature());
         $this-&gt;initialize();
     }
-}</p>
-<p>// elsewhere in code, in a bootstrap
-Laminas\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($adapter);</p>
-<p>// in a controller, or model somewhere
-$table = new MyTableGateway(); // adapter is statically loaded
-```</p>
+}
+
+// elsewhere in code, in a bootstrap
+Laminas\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($adapter);
+
+// in a controller, or model somewhere
+$table = new MyTableGateway(); // adapter is statically loaded</code></pre>
+
 </li>
 <li>
 <p><code>MasterSlaveFeature</code>: the ability to use a master adapter for <code>insert()</code>,
   <code>update()</code>, and <code>delete()</code>, but switch to a slave adapter for all <code>select()</code>
   operations.</p>
-<p><code>php
-$table = new TableGateway('artist', $adapter, new Feature\MasterSlaveFeature($slaveAdapter));</code></p>
+<pre class="highlight"><code class="language-php">$table = new TableGateway('artist', $adapter, new Feature\MasterSlaveFeature($slaveAdapter));</code></pre>
+
 </li>
 <li>
 <p><code>MetadataFeature</code>: the ability populate <code>TableGateway</code> with column
   information from a <code>Metadata</code> object. It will also store the primary key
   information in case the <code>RowGatewayFeature</code> needs to consume this information.</p>
-<p><code>php
-$table = new TableGateway('artist', $adapter, new Feature\MetadataFeature());</code></p>
+<pre class="highlight"><code class="language-php">$table = new TableGateway('artist', $adapter, new Feature\MetadataFeature());</code></pre>
+
 </li>
 <li>
 <p><code>EventFeature</code>: the ability to compose a
   <a href="https://github.com/laminas/laminas-eventmanager">laminas-eventmanager</a>
   <code>EventManager</code> instance within your <code>TableGateway</code> instance, and attach
   listeners to the various events of its lifecycle.</p>
-<p><code>php
-$table = new TableGateway('artist', $adapter, new Feature\EventFeature($eventManagerInstance));</code></p>
+<pre class="highlight"><code class="language-php">$table = new TableGateway('artist', $adapter, new Feature\EventFeature($eventManagerInstance));</code></pre>
+
 </li>
 <li>
 <p><code>RowGatewayFeature</code>: the ability for <code>select()</code> to return a <code>ResultSet</code> object that upon iteration
   will return a <code>RowGateway</code> instance for each row.</p>
-<p>```php
-$table   = new TableGateway('artist', $adapter, new Feature\RowGatewayFeature('id'));
-$results = $table-&gt;select(['id' =&gt; 2]);</p>
-<p>$artistRow       = $results-&gt;current();
+<pre class="highlight"><code class="language-php">$table   = new TableGateway('artist', $adapter, new Feature\RowGatewayFeature('id'));
+$results = $table-&gt;select(['id' =&gt; 2]);
+
+$artistRow       = $results-&gt;current();
 $artistRow-&gt;name = 'New Name';
-$artistRow-&gt;save();
-```</p>
+$artistRow-&gt;save();</code></pre>
+
 </li>
 </ul>
 

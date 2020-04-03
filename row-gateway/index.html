@@ -309,19 +309,20 @@ the database is retrieved, it can then be manipulated and <code>save()</code>'d 
 the database in the same position (row), or it can be <code>delete()</code>'d from the
 table.</p>
 <p><code>RowGatewayInterface</code> defines the methods <code>save()</code> and <code>delete()</code>:</p>
-<pre class=codehilite><code class=language-php>namespace Laminas\Db\RowGateway;
+<pre class="highlight"><code class="language-php">namespace Laminas\Db\RowGateway;
 
 interface RowGatewayInterface
 {
     public function save();
     public function delete();
 }</code></pre>
+
 <h2 id="quick-start">Quick start</h2>
 <p><code>RowGateway</code> is generally used in conjunction with objects that produce
 <code>Laminas\Db\ResultSet</code>s, though it may also be used standalone.  To use it
 standalone, you need an <code>Adapter</code> instance and a set of data to work with.</p>
 <p>The following demonstrates a basic use case.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\RowGateway\RowGateway;
+<pre class="highlight"><code class="language-php">use Laminas\Db\RowGateway\RowGateway;
 
 // Query the database:
 $resultSet = $adapter-&gt;query('SELECT * FROM `user` WHERE `id` = ?', [2]);
@@ -339,12 +340,13 @@ $rowGateway-&gt;save();
 
 // Or delete this row:
 $rowGateway-&gt;delete();</code></pre>
+
 <p>The workflow described above is greatly simplified when <code>RowGateway</code> is used in
 conjunction with the <a href="../table-gateway/#tablegateway-features">TableGateway RowGatewayFeature</a>.
 In that paradigm, <code>select()</code> operations will produce a <code>ResultSet</code> that iterates
 <code>RowGateway</code> instances.</p>
 <p>As an example:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\TableGateway\Feature\RowGatewayFeature;
+<pre class="highlight"><code class="language-php">use Laminas\Db\TableGateway\Feature\RowGatewayFeature;
 use Laminas\Db\TableGateway\TableGateway;
 
 $table = new TableGateway('artist', $adapter, new RowGatewayFeature('id'));
@@ -353,13 +355,14 @@ $results = $table-&gt;select(['id' =&gt; 2]);
 $artistRow = $results-&gt;current();
 $artistRow-&gt;name = 'New Name';
 $artistRow-&gt;save();</code></pre>
+
 <h2 id="activerecord-style-objects">ActiveRecord Style Objects</h2>
 <p>If you wish to have custom behaviour in your <code>RowGateway</code> objects &mdash;
 essentially making them behave similarly to the
 <a href="http://www.martinfowler.com/eaaCatalog/activeRecord.html">ActiveRecord</a>
 pattern), pass a prototype object implementing the <code>RowGatewayInterface</code> to the
 <code>RowGatewayFeature</code> constructor instead of a primary key:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Db\TableGateway\Feature\RowGatewayFeature;
+<pre class="highlight"><code class="language-php">use Laminas\Db\TableGateway\Feature\RowGatewayFeature;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Db\RowGateway\RowGatewayInterface;
 

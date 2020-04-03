@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://docs.laminas.dev/laminas-db/</loc>
-     <lastmod>2020-03-29</lastmod>
+     <lastmod>2020-04-03</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.laminas.dev/laminas-db/adapter/</loc>
-     <lastmod>2020-03-29</lastmod>
+     <lastmod>2020-04-03</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.laminas.dev/laminas-db/result-set/</loc>
-     <lastmod>2020-03-29</lastmod>
+     <lastmod>2020-04-03</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.laminas.dev/laminas-db/sql/</loc>
-     <lastmod>2020-03-29</lastmod>
+     <lastmod>2020-04-03</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.laminas.dev/laminas-db/sql-ddl/</loc>
-     <lastmod>2020-03-29</lastmod>
+     <lastmod>2020-04-03</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.laminas.dev/laminas-db/table-gateway/</loc>
-     <lastmod>2020-03-29</lastmod>
+     <lastmod>2020-04-03</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.laminas.dev/laminas-db/row-gateway/</loc>
-     <lastmod>2020-03-29</lastmod>
+     <lastmod>2020-04-03</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://docs.laminas.dev/laminas-db/metadata/</loc>
-     <lastmod>2020-03-29</lastmod>
+     <lastmod>2020-04-03</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
