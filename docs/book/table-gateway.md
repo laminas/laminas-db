@@ -204,6 +204,20 @@ There are a number of features built-in and shipped with laminas-db:
     $table = new TableGateway('artist', $adapter, new Feature\EventFeature($eventManagerInstance));
     ```
 
+    **TableGateway lifecycle events**
+    Listeners can be attached to those following events
+
+    * `preInitialize`
+    * `postInitialize`
+    * `preSelect`event mapping one parameter : `$select` as `Laminas\Db\Sql\Select`
+    * `postSelect` event mapping three parameters : `$statement` as `Laminas\Db\Adapter\Driver\StatementInterface`, `$result` as `Laminas\Db\Adapter\Driver\ResultInterface` and `$resultSet` as `Laminas\Db\ResultSet\ResultSetInterface`
+    * `preInsert` event mapping one parameter : `$insert` as `Laminas\Db\Sql\Insert`
+    * `postInsert` event mapping two parameters : `$statement` as `Laminas\Db\Adapter\Driver\StatementInterface` and `$result` as `Laminas\Db\Adapter\Driver\ResultInterface`
+    * `preUpdate` event mapping one parameter : `$update` as `Laminas\Db\Sql\Update`
+    * `postUpdate` event mapping two parameters : `$statement` as `Laminas\Db\Adapter\Driver\StatementInterface` and `$result` as `Laminas\Db\Adapter\Driver\ResultInterface`
+    * `preDelete` event mapping one parameter : `$delete` as `Laminas\Db\Sql\Delete`
+    * `postDelete` event mapping two parameters : `$statement` as `Laminas\Db\Adapter\Driver\StatementInterface` and `$result` as `Laminas\Db\Adapter\Driver\ResultInterface`
+    
 - `RowGatewayFeature`: the ability for `select()` to return a `ResultSet` object that upon iteration
   will return a `RowGateway` instance for each row.
 
