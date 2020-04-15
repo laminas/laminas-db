@@ -258,6 +258,10 @@
                         <a href="#tablegateway-features" class="toc__link nav-link">TableGateway Features</a>
                     </li>
                 
+                    <li class="toc__entry">
+                        <a href="#tablegateway-lifecycle-events" class="toc__link nav-link">TableGateway LifeCycle Events</a>
+                    </li>
+                
             </ul>
         </div>
     
@@ -479,7 +483,9 @@ $table = new MyTableGateway(); // adapter is statically loaded</code></pre>
 <p><code>EventFeature</code>: the ability to compose a
   <a href="https://github.com/laminas/laminas-eventmanager">laminas-eventmanager</a>
   <code>EventManager</code> instance within your <code>TableGateway</code> instance, and attach
-  listeners to the various events of its lifecycle.</p>
+  listeners to the various events of its lifecycle. See the <a href="#tablegateway-lifecycle-events">section on
+  lifecycle events below</a> for more information
+  on available events and the parameters they compose.</p>
 <pre class="highlight"><code class="language-php">$table = new TableGateway('artist', $adapter, new Feature\EventFeature($eventManagerInstance));</code></pre>
 
 </li>
@@ -495,6 +501,53 @@ $artistRow-&gt;save();</code></pre>
 
 </li>
 </ul>
+<h2 id="tablegateway-lifecycle-events">TableGateway LifeCycle Events</h2>
+<p>When the <code>EventFeature</code> is enabled on the <code>TableGateway</code> instance, you may
+attach to any of the following events, which provide access to the parameters
+listed.</p>
+<ul>
+<li><code>preInitialize</code> (no parameters)</li>
+<li><code>postInitialize</code> (no parameters)</li>
+<li><code>preSelect</code>, with the following parameters:</li>
+<li><code>select</code>, with type <code>Laminas\Db\Sql\Select</code></li>
+<li><code>postSelect</code>, with the following parameters:</li>
+<li><code>statement</code>, with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
+<li><code>result</code>, with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
+<li><code>resultSet</code>, with type <code>Laminas\Db\ResultSet\ResultSetInterface</code></li>
+<li><code>preInsert</code>, with the following parameters:</li>
+<li><code>insert</code>, with type <code>Laminas\Db\Sql\Insert</code></li>
+<li><code>postInsert</code>, with the following parameters:</li>
+<li><code>statement</code> with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
+<li><code>result</code> with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
+<li><code>preUpdate</code>, with the following parameters:</li>
+<li><code>update</code>, with type <code>Laminas\Db\Sql\Update</code></li>
+<li><code>postUpdate</code>, with the following parameters: </li>
+<li><code>statement</code>, with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
+<li><code>result</code>, with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
+<li><code>preDelete</code>, with the following parameters: </li>
+<li><code>delete</code>, with type <code>Laminas\Db\Sql\Delete</code></li>
+<li><code>postDelete</code>, with the following parameters: </li>
+<li><code>statement</code>, with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
+<li><code>result</code>, with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
+</ul>
+<p>Listeners receive a <code>Laminas\Db\TableGateway\Feature\EventFeature\TableGatewayEvent</code>
+instance as an argument. Within the listener, you can retrieve a parameter by
+name from the event using the following syntax:</p>
+<pre class="highlight"><code class="language-php">$parameter = $event-&gt;getParam($paramName);</code></pre>
+
+<p>As an example, you might attach a listener on the <code>postInsert</code> event as follows:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\TableGateway\Feature\EventFeature\TableGatewayEvent;
+use Laminas\EventManager\EventManager;
+
+/** @var EventManager $eventManager */
+$eventManager-&gt;attach('postInsert', function (TableGatewayEvent $event) {
+    /** @var ResultInterface $result */
+    $result = $event-&gt;getParam('result');
+    $generatedId = $result-&gt;getGeneratedValue();
+
+    // do something with the generated identifier...
+});</code></pre>
 
 
 
