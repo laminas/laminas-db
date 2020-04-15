@@ -198,7 +198,9 @@ There are a number of features built-in and shipped with laminas-db:
 - `EventFeature`: the ability to compose a
   [laminas-eventmanager](https://github.com/laminas/laminas-eventmanager)
   `EventManager` instance within your `TableGateway` instance, and attach
-  listeners to the various events of its lifecycle.
+  listeners to the various events of its lifecycle. See the [section on
+  lifecycle events below](#tablegateway-lifecycle-events) for more information
+  on available events and the parameters they compose.
 
     ```php
     $table = new TableGateway('artist', $adapter, new Feature\EventFeature($eventManagerInstance));
@@ -215,3 +217,58 @@ There are a number of features built-in and shipped with laminas-db:
     $artistRow->name = 'New Name';
     $artistRow->save();
     ```
+
+## TableGateway LifeCycle Events
+
+When the `EventFeature` is enabled on the `TableGateway` instance, you may
+attach to any of the following events, which provide access to the parameters
+listed.
+
+- `preInitialize` (no parameters)
+- `postInitialize` (no parameters)
+- `preSelect`, with the following parameters:
+  - `select`, with type `Laminas\Db\Sql\Select`
+- `postSelect`, with the following parameters:
+  - `statement`, with type `Laminas\Db\Adapter\Driver\StatementInterface`
+  - `result`, with type `Laminas\Db\Adapter\Driver\ResultInterface`
+  - `resultSet`, with type `Laminas\Db\ResultSet\ResultSetInterface`
+- `preInsert`, with the following parameters:
+  - `insert`, with type `Laminas\Db\Sql\Insert`
+- `postInsert`, with the following parameters:
+  - `statement` with type `Laminas\Db\Adapter\Driver\StatementInterface`
+  - `result` with type `Laminas\Db\Adapter\Driver\ResultInterface`
+- `preUpdate`, with the following parameters:
+  - `update`, with type `Laminas\Db\Sql\Update`
+- `postUpdate`, with the following parameters: 
+  - `statement`, with type `Laminas\Db\Adapter\Driver\StatementInterface`
+  - `result`, with type `Laminas\Db\Adapter\Driver\ResultInterface`
+- `preDelete`, with the following parameters: 
+  - `delete`, with type `Laminas\Db\Sql\Delete`
+- `postDelete`, with the following parameters: 
+  - `statement`, with type `Laminas\Db\Adapter\Driver\StatementInterface`
+  - `result`, with type `Laminas\Db\Adapter\Driver\ResultInterface`
+
+Listeners receive a `Laminas\Db\TableGateway\Feature\EventFeature\TableGatewayEvent`
+instance as an argument. Within the listener, you can retrieve a parameter by
+name from the event using the following syntax:
+
+```php
+$parameter = $event->getParam($paramName);
+```
+
+As an example, you might attach a listener on the `postInsert` event as follows:
+
+```php
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\TableGateway\Feature\EventFeature\TableGatewayEvent;
+use Laminas\EventManager\EventManager;
+
+/** @var EventManager $eventManager */
+$eventManager->attach('postInsert', function (TableGatewayEvent $event) {
+    /** @var ResultInterface $result */
+    $result = $event->getParam('result');
+    $generatedId = $result->getGeneratedValue();
+
+    // do something with the generated identifier...
+});
+```
