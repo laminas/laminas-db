@@ -508,27 +508,43 @@ listed.</p>
 <ul>
 <li><code>preInitialize</code> (no parameters)</li>
 <li><code>postInitialize</code> (no parameters)</li>
-<li><code>preSelect</code>, with the following parameters:</li>
+<li><code>preSelect</code>, with the following parameters:<ul>
 <li><code>select</code>, with type <code>Laminas\Db\Sql\Select</code></li>
-<li><code>postSelect</code>, with the following parameters:</li>
+</ul>
+</li>
+<li><code>postSelect</code>, with the following parameters:<ul>
 <li><code>statement</code>, with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
 <li><code>result</code>, with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
 <li><code>resultSet</code>, with type <code>Laminas\Db\ResultSet\ResultSetInterface</code></li>
-<li><code>preInsert</code>, with the following parameters:</li>
+</ul>
+</li>
+<li><code>preInsert</code>, with the following parameters:<ul>
 <li><code>insert</code>, with type <code>Laminas\Db\Sql\Insert</code></li>
-<li><code>postInsert</code>, with the following parameters:</li>
+</ul>
+</li>
+<li><code>postInsert</code>, with the following parameters:<ul>
 <li><code>statement</code> with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
 <li><code>result</code> with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
-<li><code>preUpdate</code>, with the following parameters:</li>
+</ul>
+</li>
+<li><code>preUpdate</code>, with the following parameters:<ul>
 <li><code>update</code>, with type <code>Laminas\Db\Sql\Update</code></li>
-<li><code>postUpdate</code>, with the following parameters: </li>
+</ul>
+</li>
+<li><code>postUpdate</code>, with the following parameters: <ul>
 <li><code>statement</code>, with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
 <li><code>result</code>, with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
-<li><code>preDelete</code>, with the following parameters: </li>
+</ul>
+</li>
+<li><code>preDelete</code>, with the following parameters: <ul>
 <li><code>delete</code>, with type <code>Laminas\Db\Sql\Delete</code></li>
-<li><code>postDelete</code>, with the following parameters: </li>
+</ul>
+</li>
+<li><code>postDelete</code>, with the following parameters: <ul>
 <li><code>statement</code>, with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
 <li><code>result</code>, with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
+</ul>
+</li>
 </ul>
 <p>Listeners receive a <code>Laminas\Db\TableGateway\Feature\EventFeature\TableGatewayEvent</code>
 instance as an argument. Within the listener, you can retrieve a parameter by
