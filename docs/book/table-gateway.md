@@ -227,26 +227,26 @@ listed.
 - `preInitialize` (no parameters)
 - `postInitialize` (no parameters)
 - `preSelect`, with the following parameters:
-  - `select`, with type `Laminas\Db\Sql\Select`
+    - `select`, with type `Laminas\Db\Sql\Select`
 - `postSelect`, with the following parameters:
-  - `statement`, with type `Laminas\Db\Adapter\Driver\StatementInterface`
-  - `result`, with type `Laminas\Db\Adapter\Driver\ResultInterface`
-  - `resultSet`, with type `Laminas\Db\ResultSet\ResultSetInterface`
+    - `statement`, with type `Laminas\Db\Adapter\Driver\StatementInterface`
+    - `result`, with type `Laminas\Db\Adapter\Driver\ResultInterface`
+    - `resultSet`, with type `Laminas\Db\ResultSet\ResultSetInterface`
 - `preInsert`, with the following parameters:
-  - `insert`, with type `Laminas\Db\Sql\Insert`
+    - `insert`, with type `Laminas\Db\Sql\Insert`
 - `postInsert`, with the following parameters:
-  - `statement` with type `Laminas\Db\Adapter\Driver\StatementInterface`
-  - `result` with type `Laminas\Db\Adapter\Driver\ResultInterface`
+    - `statement` with type `Laminas\Db\Adapter\Driver\StatementInterface`
+    - `result` with type `Laminas\Db\Adapter\Driver\ResultInterface`
 - `preUpdate`, with the following parameters:
-  - `update`, with type `Laminas\Db\Sql\Update`
+    - `update`, with type `Laminas\Db\Sql\Update`
 - `postUpdate`, with the following parameters: 
-  - `statement`, with type `Laminas\Db\Adapter\Driver\StatementInterface`
-  - `result`, with type `Laminas\Db\Adapter\Driver\ResultInterface`
+    - `statement`, with type `Laminas\Db\Adapter\Driver\StatementInterface`
+    - `result`, with type `Laminas\Db\Adapter\Driver\ResultInterface`
 - `preDelete`, with the following parameters: 
-  - `delete`, with type `Laminas\Db\Sql\Delete`
+    - `delete`, with type `Laminas\Db\Sql\Delete`
 - `postDelete`, with the following parameters: 
-  - `statement`, with type `Laminas\Db\Adapter\Driver\StatementInterface`
-  - `result`, with type `Laminas\Db\Adapter\Driver\ResultInterface`
+    - `statement`, with type `Laminas\Db\Adapter\Driver\StatementInterface`
+    - `result`, with type `Laminas\Db\Adapter\Driver\ResultInterface`
 
 Listeners receive a `Laminas\Db\TableGateway\Feature\EventFeature\TableGatewayEvent`
 instance as an argument. Within the listener, you can retrieve a parameter by
