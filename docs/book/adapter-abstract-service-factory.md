@@ -16,7 +16,7 @@ You can use it to create your adapters for your MVC application.
 return [
     'db' => [
         'adapters' => [
-            'Db\MySqlLiteAdapter' => [
+            Db\MySqlLiteAdapter::class => [
                 'driver'   => 'Pdo_Sqlite',
                 'database' => 'data/db/users.db',
             ],
@@ -30,6 +30,8 @@ Back in your application, you don't _have_ to create an adapter for your SqlLite
 You just need to call your adapter by doing :
 
 ```php
+use Db\MySqlLiteAdapter ;
+
 $adapter = $container->get(Db\MySqlLiteAdapter::class) ;
 ```
 
@@ -73,9 +75,11 @@ return [
 Back in your application, you will call either adapters by doing :
 
 ```php
-$userDatabaseAdapter = $container->get(Db\MyFirstAdapter::class) ;
-$customerDatabaseAdapter = $container->get(Db\MySecondAdapter::class) ;
+$userDatabaseAdapter = $container->get('Db\MyFirstAdapter') ;
+$customerDatabaseAdapter = $container->get('Db\MySecondAdapter') ;
 ```
+
+You can either use strings or fully qualified names for your adapters. 
 
 > NOTE :
 > There is a current conflict with Laminas Developer Tools so if you wish to work with multiple adapters, you can work around the issue by adding a driver key to the config.
