@@ -88,7 +88,7 @@ You can either use strings or fully qualified names for your adapters.
 >  
 > return [
 >     'db' => [
->         'driver' => 'Pdo',
+>         'driver' => 'Pdo', // this is the workaround
 >         'adapters' => [
 >             'Db\MyFirstAdapter' => [
 >                 'driver'   => 'Pdo_Sqlite',
