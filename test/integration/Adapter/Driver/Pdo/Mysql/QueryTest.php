@@ -66,4 +66,40 @@ class QueryTest extends TestCase
     {
         $result = $this->adapter->query('SET @@session.time_zone = :tz$', [':tz$' => 'SYSTEM']);
     }
+
+    /**
+     * @see https://github.com/laminas/laminas-db/issues/47
+     */
+    public function testNamedParameters()
+    {
+        $sql = new \Laminas\Db\Sql\Sql($this->adapter);
+
+        $insert = $sql->update('test');
+        $insert->set([
+            'name'  => ':name',
+            'value' => ':value'
+        ])->where(['id' => ':id']);
+        $stmt = $sql->prepareStatementForSqlObject($insert);
+
+        //positional parameters
+        $stmt->execute([
+            1,
+            'foo',
+            'bar'
+        ]);
+
+        //"mapped" named parameters
+        $stmt->execute([
+            'c_0'    => 1,
+            'c_1'    => 'foo',
+            'where1' => 'bar'
+        ]);
+
+        //real named parameters
+        $stmt->execute([
+            'id'    => 1,
+            'name'  => 'foo',
+            'value' => 'bar'
+        ]);
+    }
 }
