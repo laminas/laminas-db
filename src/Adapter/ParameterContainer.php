@@ -49,6 +49,11 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
     protected $maxLength = [];
 
     /**
+     * @var array
+     */
+    protected $nameMapping = [];
+
+    /**
      * Constructor
      *
      * @param array $data
@@ -79,7 +84,15 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
      */
     public function offsetGet($name)
     {
-        return (isset($this->data[$name])) ? $this->data[$name] : null;
+        if (isset($this->data[$name])) {
+            return $this->data[$name];
+        }
+
+        if (isset($this->nameMapping[$name])) {
+            return $this->data[$this->nameMapping[$name]];
+        }
+
+        return null;
     }
 
     /**
@@ -160,6 +173,20 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
     public function setFromArray(array $data)
     {
         foreach ($data as $n => $v) {
+            if (is_string($n)) {
+                if (! isset($this->nameMapping[$n])) {
+                    foreach ($this->data as $nm => $vm) {
+                        if (ltrim(':', $vm) == ltrim(':', $n)) {
+                            $this->nameMapping[$n] = $nm;
+                            break;
+                        }
+                    }
+                }
+                if (! isset($this->nameMapping[$n])) {
+                    $this->nameMapping[$n] = $n;
+                }
+                $n = $this->nameMapping[$n];
+            }
             $this->offsetSet($n, $v);
         }
         return $this;
