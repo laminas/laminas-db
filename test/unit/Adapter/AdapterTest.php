@@ -159,7 +159,7 @@ class AdapterTest extends TestCase
 
         // ensure platform can created via string, and also that it passed in options to platform object
         $driver = [
-            'driver' => 'pdo_sqlite',
+            'driver' => 'pdo_oci',
             'platform' => 'Oracle',
             'platform_options' => ['quote_identifiers' => false],
         ];
