@@ -90,7 +90,7 @@ class PdoTest extends TestCase
      */
     public function testGetResultPrototype()
     {
-        $resultPrototype = $this->getResultPrototype();
+        $resultPrototype = $this->pdo->getResultPrototype();
         
         self::assert($resultPrototype instanceof \Laminas\Db\Adapter\Driver\Pdo\Result);
     }
