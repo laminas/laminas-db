@@ -69,7 +69,7 @@ class Example implements AdapterAwareInterface
 {
     use AdapterAwareTrait;
 
-    public function getAdapter() : Adapter
+    public function getAdapter() : ?Adapter
     {
         return $this->adapter;
     }
