@@ -47,8 +47,15 @@ The [delegator](https://docs.laminas.dev/laminas-servicemanager/delegators/)
 `Laminas\Db\Adapter\AdapterServiceDelegator` can be used to set a database
 adapter via the [service manager of laminas-servicemanager](https://docs.laminas.dev/laminas-servicemanager/quick-start/).
 
-The delegator tries to fetch a database adapter from the service container and
-sets the adapter to the requested service.
+The delegator tries to fetch a database adapter via the name
+`Laminas\Db\Adapter\AdapterInterface` from the service container and sets the
+adapter to the requested service. The adapter itself must be an instance of
+`Laminas\Db\Adapter\Adapter`.
+
+> ### Integration for Mezzio and laminas-mvc based Applications
+>
+> In a Mezzio or laminas-mvc based application the database adapter is already
+> registered during the installation with the laminas-component-installer.
 
 ### Create Class and Use Trait
 
@@ -108,7 +115,7 @@ $serviceManager = new Laminas\ServiceManager\ServiceManager([
 ### Get Instance of Class
 
 [Retrieving an instance](https://docs.laminas.dev/laminas-servicemanager/quick-start/#3-retrieving-objects)
-of the `Example` with a database adapter:
+of the `Example` class with a database adapter:
 
 ```php
 /** @var Example $example */
