@@ -131,9 +131,6 @@ class ParameterContainerTest extends TestCase
         $this->parameterContainer->setFromArray([':myparam' => 'baz']);
         self::assertEquals('baz', $this->parameterContainer['c_0']);
         self::assertEquals('baz', $this->parameterContainer[':myparam']);
-        $this->parameterContainer->setFromArray([':myparam' => 'baz2']);
-        self::assertEquals('baz2', $this->parameterContainer[':myparam']);
-        self::assertEquals('baz2', $this->parameterContainer['c_0']);
     }
 
     /**
