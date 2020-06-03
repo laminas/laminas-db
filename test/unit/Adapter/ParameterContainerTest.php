@@ -125,8 +125,17 @@ class ParameterContainerTest extends TestCase
     {
         $this->parameterContainer->setFromArray(['bar' => 'baz']);
         self::assertEquals('baz', $this->parameterContainer['bar']);
-        //Handle statement parameters - https://github.com/laminas/laminas-db/issues/47
-        //@see Insert::procesInsert as example
+    }
+
+    /**
+     *
+     * Handle statement parameters - https://github.com/laminas/laminas-db/issues/47
+     * @see Insert::procesInsert as example
+     *
+     * @covers \Laminas\Db\Adapter\ParameterContainer::setFromArray
+     */
+    public function testSetFromArrayNamed()
+    {
         $this->parameterContainer->offsetSet('c_0', ':myparam');
         $this->parameterContainer->setFromArray([':myparam' => 'baz']);
         self::assertEquals('baz', $this->parameterContainer['c_0']);
