@@ -12,57 +12,6 @@ env:
 matrix:
   fast_finish: true
   include:
-    - php: 5.6
-      env:
-        - DEPS=lowest
-    - php: 5.6
-      services:
-        - mysql
-      env:
-        - DEPS=latest
-        - TEST_INTEGRATION=true
-        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
-    - php: 7.0
-      env:
-        - DEPS=lowest
-    - php: 7.0
-      services:
-        - mysql
-      env:
-        - DEPS=latest
-        - TEST_INTEGRATION=true
-        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
-    - php: 7.1
-      env:
-        - DEPS=lowest
-    - php: 7.1
-      services:
-        - mysql
-      env:
-        - DEPS=latest
-        - CS_CHECK=true
-        - TEST_COVERAGE=true
-        - TEST_INTEGRATION=true
-        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
-    - php: 7.2
-      env:
-        - DEPS=lowest
-    - php: 7.2
-      services:
-        - mysql
-      env:
-        - DEPS=latest
-        - TEST_INTEGRATION=true
-        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
-    - php: 7.2
-      services:
-        - postgresql
-      addons:
-        postgresql: "9.6"
-      env:
-        - DEPS=latest
-        - TEST_INTEGRATION=true
-        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL=true
     - php: 7.3
       env:
         - DEPS=lowest
@@ -75,6 +24,27 @@ matrix:
         - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
         - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=127.0.0.1
     - php: 7.3
+      services:
+        - postgresql
+      addons:
+        postgresql: "9.6"
+      env:
+        - DEPS=latest
+        - TEST_INTEGRATION=true
+        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL=true
+        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME=127.0.0.1
+    - php: 7.4
+      env:
+        - DEPS=lowest
+    - php: 7.4
+      services:
+        - mysql
+      env:
+        - DEPS=latest
+        - TEST_INTEGRATION=true
+        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
+        - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=127.0.0.1
+    - php: 7.4
       services:
         - postgresql
       addons:
