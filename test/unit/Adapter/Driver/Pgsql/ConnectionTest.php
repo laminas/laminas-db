@@ -34,6 +34,27 @@ class ConnectionTest extends TestCase
      *
      * @covers \Laminas\Db\Adapter\Driver\Pgsql\Connection::getResource
      */
+    public function testResourceInvalid()
+    {
+        if (! extension_loaded('pgsql')) {
+            $this->markTestSkipped('pgsql extension not loaded');
+        }
+
+        // invalid port should lead to the custom error handler throwing
+        $conn = new Connection(['socket' => '127.0.0.1', 'port' => 65112]);
+        try {
+            $resource = $conn->getResource();
+            $this->fail('should throw');
+        } catch (AdapterException\RuntimeException $exc) {
+            $this->assertSame('Laminas\Db\Adapter\Driver\Pgsql\Connection::connect: Unable to connect to database', $exc->getMessage());
+        }
+    }
+
+    /**
+     * Test getResource method if it tries to connect to the database.
+     *
+     * @covers \Laminas\Db\Adapter\Driver\Pgsql\Connection::getResource
+     */
     public function testResource()
     {
         if (! extension_loaded('pgsql')) {
