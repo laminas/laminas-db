@@ -18,8 +18,8 @@ class Replace extends Insert
 
     protected function processreplace(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         return parent::processInsert($platform, $driver, $parameterContainer);
     }

@@ -13,10 +13,15 @@ use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterServiceFactory;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
+
+use function extension_loaded;
 
 class AdapterServiceFactoryTest extends TestCase
 {
-    protected function setUp()
+    use ProphecyTrait;
+
+    protected function setUp(): void
     {
         if (! extension_loaded('pdo_sqlite')) {
             $this->markTestSkipped('Adapter factory tests require pdo_sqlite');
@@ -32,7 +37,7 @@ class AdapterServiceFactoryTest extends TestCase
     {
         $this->services->get('config')->willReturn([
             'db' => [
-                'driver' => 'Pdo_Sqlite',
+                'driver'   => 'Pdo_Sqlite',
                 'database' => 'sqlite::memory:',
             ],
         ]);
@@ -45,7 +50,7 @@ class AdapterServiceFactoryTest extends TestCase
     {
         $this->services->get('config')->willReturn([
             'db' => [
-                'driver' => 'Pdo_Sqlite',
+                'driver'   => 'Pdo_Sqlite',
                 'database' => 'sqlite::memory:',
             ],
         ]);

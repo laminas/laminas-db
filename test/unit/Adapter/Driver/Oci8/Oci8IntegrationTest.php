@@ -9,6 +9,9 @@
 namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
 use Laminas\Db\Adapter\Driver\Oci8\Oci8;
+use Laminas\Db\Adapter\Driver\Oci8\Statement;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
+use stdClass;
 
 /**
  * @group integration
@@ -28,7 +31,7 @@ class Oci8IntegrationTest extends AbstractIntegrationTest
 
     public function testCreateStatement()
     {
-        $driver = new Oci8([]);
+        $driver   = new Oci8([]);
         $resource = oci_connect(
             $this->variables['username'],
             $this->variables['password'],
@@ -38,12 +41,12 @@ class Oci8IntegrationTest extends AbstractIntegrationTest
         $driver->getConnection()->setResource($resource);
 
         $stmt = $driver->createStatement('SELECT * FROM DUAL');
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Oci8\Statement', $stmt);
+        self::assertInstanceOf(Statement::class, $stmt);
         $stmt = $driver->createStatement();
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Oci8\Statement', $stmt);
+        self::assertInstanceOf(Statement::class, $stmt);
 
-        $this->expectException('Laminas\Db\Adapter\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('only accepts an SQL string or an oci8 resource');
-        $driver->createStatement(new \stdClass);
+        $driver->createStatement(new stdClass());
     }
 }

@@ -8,8 +8,16 @@
 
 namespace LaminasTest\Db\Sql;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Sql\Delete;
+use Laminas\Db\Sql\Predicate\Expression;
+use Laminas\Db\Sql\Predicate\In;
 use Laminas\Db\Sql\Predicate\IsNotNull;
+use Laminas\Db\Sql\Predicate\IsNull;
+use Laminas\Db\Sql\Predicate\Literal;
+use Laminas\Db\Sql\Predicate\Operator;
 use Laminas\Db\Sql\TableIdentifier;
 use Laminas\Db\Sql\Where;
 use LaminasTest\Db\TestAsset\DeleteIgnore;
@@ -17,25 +25,23 @@ use PHPUnit\Framework\TestCase;
 
 class DeleteTest extends TestCase
 {
-    /**
-     * @var Delete
-     */
+    /** @var Delete */
     protected $delete;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->delete = new Delete;
+        $this->delete = new Delete();
     }
 
     /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -45,16 +51,25 @@ class DeleteTest extends TestCase
     public function testFrom()
     {
         $this->delete->from('foo', 'bar');
-        self::assertEquals('foo', $this->readAttribute($this->delete, 'table'));
+        self::assertEquals(
+            'foo',
+            (function ($delete) {
+                return $delete->table;
+            })->bindTo($delete = $this->delete, $delete)($delete)
+        );
 
         $tableIdentifier = new TableIdentifier('foo', 'bar');
         $this->delete->from($tableIdentifier);
-        self::assertEquals($tableIdentifier, $this->readAttribute($this->delete, 'table'));
+        self::assertEquals(
+            $tableIdentifier,
+            (function ($delete) {
+                return $delete->table;
+            })->bindTo($delete = $this->delete, $delete)($delete)
+        );
     }
 
     /**
      * @covers \Laminas\Db\Sql\Delete::where
-     *
      * @todo REMOVE THIS IN 3.x
      */
     public function testWhere()
@@ -69,35 +84,37 @@ class DeleteTest extends TestCase
         $this->delete->where(['one' => 1, 'two' => 2]);
         $where = $this->delete->where;
 
-        $predicates = $this->readAttribute($where, 'predicates');
+        $predicates =  (function ($where) {
+            return $where->predicates;
+        })->bindTo($where, $where)($where);
         self::assertEquals('AND', $predicates[0][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertInstanceOf(Literal::class, $predicates[0][1]);
 
         self::assertEquals('AND', $predicates[1][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Expression', $predicates[1][1]);
+        self::assertInstanceOf(Expression::class, $predicates[1][1]);
 
         self::assertEquals('AND', $predicates[2][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Operator', $predicates[2][1]);
+        self::assertInstanceOf(Operator::class, $predicates[2][1]);
 
         self::assertEquals('OR', $predicates[3][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[3][1]);
+        self::assertInstanceOf(Literal::class, $predicates[3][1]);
 
         self::assertEquals('AND', $predicates[4][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\IsNull', $predicates[4][1]);
+        self::assertInstanceOf(IsNull::class, $predicates[4][1]);
 
         self::assertEquals('AND', $predicates[5][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\In', $predicates[5][1]);
+        self::assertInstanceOf(In::class, $predicates[5][1]);
 
         self::assertEquals('AND', $predicates[6][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\IsNotNull', $predicates[6][1]);
+        self::assertInstanceOf(IsNotNull::class, $predicates[6][1]);
 
         self::assertEquals('AND', $predicates[7][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Operator', $predicates[7][1]);
+        self::assertInstanceOf(Operator::class, $predicates[7][1]);
 
         self::assertEquals('AND', $predicates[8][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Operator', $predicates[8][1]);
+        self::assertInstanceOf(Operator::class, $predicates[8][1]);
 
-        $where = new Where;
+        $where = new Where();
         $this->delete->where($where);
         self::assertSame($where, $this->delete->where);
 
@@ -111,13 +128,13 @@ class DeleteTest extends TestCase
      */
     public function testPrepareStatement()
     {
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $mockDriver  = $this->getMockBuilder(DriverInterface::class)->getMock();
+        $mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
         $mockStatement->expects($this->at(2))
             ->method('setSql')
             ->with($this->equalTo('DELETE FROM "foo" WHERE x = y'));
@@ -128,14 +145,14 @@ class DeleteTest extends TestCase
         $this->delete->prepareStatement($mockAdapter, $mockStatement);
 
         // with TableIdentifier
-        $this->delete = new Delete;
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $this->delete = new Delete();
+        $mockDriver   = $this->getMockBuilder(DriverInterface::class)->getMock();
+        $mockAdapter  = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
         $mockStatement->expects($this->at(2))
             ->method('setSql')
             ->with($this->equalTo('DELETE FROM "sch"."foo" WHERE x = y'));
@@ -156,7 +173,7 @@ class DeleteTest extends TestCase
         self::assertEquals('DELETE FROM "foo" WHERE x = y', $this->delete->getSqlString());
 
         // with TableIdentifier
-        $this->delete = new Delete;
+        $this->delete = new Delete();
         $this->delete->from(new TableIdentifier('foo', 'sch'))
             ->where('x = y');
         self::assertEquals('DELETE FROM "sch"."foo" WHERE x = y', $this->delete->getSqlString());
@@ -169,13 +186,13 @@ class DeleteTest extends TestCase
     {
         $deleteIgnore = new DeleteIgnore();
 
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $mockDriver  = $this->getMockBuilder(DriverInterface::class)->getMock();
+        $mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
         $mockStatement->expects($this->at(2))
             ->method('setSql')
             ->with($this->equalTo('DELETE IGNORE FROM "foo" WHERE x = y'));
@@ -185,18 +202,16 @@ class DeleteTest extends TestCase
 
         $deleteIgnore->prepareStatement($mockAdapter, $mockStatement);
 
-
-
         // with TableIdentifier
         $deleteIgnore = new DeleteIgnore();
 
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $mockDriver  = $this->getMockBuilder(DriverInterface::class)->getMock();
+        $mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
         $mockStatement->expects($this->at(2))
             ->method('setSql')
             ->with($this->equalTo('DELETE IGNORE FROM "sch"."foo" WHERE x = y'));

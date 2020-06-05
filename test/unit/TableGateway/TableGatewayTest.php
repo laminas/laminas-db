@@ -8,12 +8,18 @@
 
 namespace LaminasTest\Db\TableGateway;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\ConnectionInterface;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\Sql\Delete;
 use Laminas\Db\Sql\Insert;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Sql\TableIdentifier;
 use Laminas\Db\Sql\Update;
+use Laminas\Db\TableGateway\Exception\InvalidArgumentException;
 use Laminas\Db\TableGateway\Feature;
 use Laminas\Db\TableGateway\TableGateway;
 use PHPUnit\Framework\TestCase;
@@ -22,19 +28,19 @@ class TableGatewayTest extends TestCase
 {
     protected $mockAdapter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // mock the adapter, driver, and parts
-        $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockResult    = $this->getMockBuilder(ResultInterface::class)->getMock();
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockConnection = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ConnectionInterface')->getMock();
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockConnection = $this->getMockBuilder(ConnectionInterface::class)->getMock();
+        $mockDriver     = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockDriver->expects($this->any())->method('getConnection')->will($this->returnValue($mockConnection));
 
         // setup mock adapter
-        $this->mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $this->mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
@@ -53,17 +59,17 @@ class TableGatewayTest extends TestCase
 
         self::assertEquals('foo', $table->getTable());
         self::assertSame($this->mockAdapter, $table->getAdapter());
-        self::assertInstanceOf('Laminas\Db\TableGateway\Feature\FeatureSet', $table->getFeatureSet());
-        self::assertInstanceOf('Laminas\Db\ResultSet\ResultSet', $table->getResultSetPrototype());
-        self::assertInstanceOf('Laminas\Db\Sql\Sql', $table->getSql());
+        self::assertInstanceOf(Feature\FeatureSet::class, $table->getFeatureSet());
+        self::assertInstanceOf(ResultSet::class, $table->getResultSetPrototype());
+        self::assertInstanceOf(Sql::class, $table->getSql());
 
         // injecting all args
-        $table = new TableGateway(
+        $table          = new TableGateway(
             'foo',
             $this->mockAdapter,
-            $featureSet = new Feature\FeatureSet,
-            $resultSet = new ResultSet,
-            $sql = new Sql($this->mockAdapter, 'foo')
+            $featureSet = new Feature\FeatureSet(),
+            $resultSet  = new ResultSet(),
+            $sql        = new Sql($this->mockAdapter, 'foo')
         );
 
         self::assertEquals('foo', $table->getTable());
@@ -73,7 +79,7 @@ class TableGatewayTest extends TestCase
         self::assertSame($sql, $table->getSql());
 
         // constructor expects exception
-        $this->expectException('Laminas\Db\TableGateway\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Table name must be a string or an instance of Laminas\Db\Sql\TableIdentifier');
         new TableGateway(
             null,
@@ -147,13 +153,13 @@ class TableGatewayTest extends TestCase
         $insert = new Insert();
         $insert->into($tableValue);
 
-        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')
+        $result = $this->getMockBuilder(ResultInterface::class)
             ->getMock();
         $result->expects($this->once())
             ->method('getAffectedRows')
             ->will($this->returnValue(1));
 
-        $statement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')
+        $statement = $this->getMockBuilder(StatementInterface::class)
             ->getMock();
         $statement->expects($this->once())
             ->method('execute')
@@ -165,7 +171,7 @@ class TableGatewayTest extends TestCase
             return $statement;
         };
 
-        $sql = $this->getMockBuilder('Laminas\Db\Sql\Sql')
+        $sql = $this->getMockBuilder(Sql::class)
             ->disableOriginalConstructor()
             ->getMock();
         $sql->expects($this->atLeastOnce())
@@ -192,7 +198,7 @@ class TableGatewayTest extends TestCase
         ]);
 
         $state = $insert->getRawState();
-        self::assertInternalType('array', $state['table']);
+        self::assertIsArray($state['table']);
         self::assertEquals(
             $tableValue,
             $state['table']
@@ -207,13 +213,13 @@ class TableGatewayTest extends TestCase
         $update = new Update();
         $update->table($tableValue);
 
-        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')
+        $result = $this->getMockBuilder(ResultInterface::class)
             ->getMock();
         $result->expects($this->once())
             ->method('getAffectedRows')
             ->will($this->returnValue(1));
 
-        $statement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')
+        $statement = $this->getMockBuilder(StatementInterface::class)
             ->getMock();
         $statement->expects($this->once())
             ->method('execute')
@@ -225,7 +231,7 @@ class TableGatewayTest extends TestCase
             return $statement;
         };
 
-        $sql = $this->getMockBuilder('Laminas\Db\Sql\Sql')
+        $sql = $this->getMockBuilder(Sql::class)
             ->disableOriginalConstructor()
             ->getMock();
         $sql->expects($this->atLeastOnce())
@@ -254,7 +260,7 @@ class TableGatewayTest extends TestCase
         ]);
 
         $state = $update->getRawState();
-        self::assertInternalType('array', $state['table']);
+        self::assertIsArray($state['table']);
         self::assertEquals(
             $tableValue,
             $state['table']
@@ -269,13 +275,13 @@ class TableGatewayTest extends TestCase
         $delete = new Delete();
         $delete->from($tableValue);
 
-        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')
+        $result = $this->getMockBuilder(ResultInterface::class)
             ->getMock();
         $result->expects($this->once())
             ->method('getAffectedRows')
             ->will($this->returnValue(1));
 
-        $statement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')
+        $statement = $this->getMockBuilder(StatementInterface::class)
             ->getMock();
         $statement->expects($this->once())
             ->method('execute')
@@ -287,7 +293,7 @@ class TableGatewayTest extends TestCase
             return $statement;
         };
 
-        $sql = $this->getMockBuilder('Laminas\Db\Sql\Sql')
+        $sql = $this->getMockBuilder(Sql::class)
             ->disableOriginalConstructor()
             ->getMock();
         $sql->expects($this->atLeastOnce())
@@ -314,7 +320,7 @@ class TableGatewayTest extends TestCase
         ]);
 
         $state = $delete->getRawState();
-        self::assertInternalType('array', $state['table']);
+        self::assertIsArray($state['table']);
         self::assertEquals(
             $tableValue,
             $state['table']

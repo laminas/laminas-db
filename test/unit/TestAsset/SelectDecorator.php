@@ -16,7 +16,7 @@ class SelectDecorator extends Sql\Select implements Sql\Platform\PlatformDecorat
 
     /**
      * @param $subject
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setSubject($subject)
     {

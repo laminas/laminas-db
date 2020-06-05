@@ -9,15 +9,19 @@
 namespace LaminasTest\Db\Sql\Ddl;
 
 use Laminas\Db\Sql\Ddl\Column\Column;
+use Laminas\Db\Sql\Ddl\Column\ColumnInterface;
 use Laminas\Db\Sql\Ddl\Constraint;
 use Laminas\Db\Sql\Ddl\CreateTable;
 use Laminas\Db\Sql\TableIdentifier;
 use PHPUnit\Framework\TestCase;
 
+use function array_pop;
+
 class CreateTableTest extends TestCase
 {
     /**
      * test object construction
+     *
      * @covers \Laminas\Db\Sql\Ddl\CreateTable::__construct
      */
     public function testObjectConstruction()
@@ -79,8 +83,8 @@ class CreateTableTest extends TestCase
      */
     public function testAddColumn()
     {
-        $column = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
-        $ct = new CreateTable;
+        $column = $this->getMockBuilder(ColumnInterface::class)->getMock();
+        $ct     = new CreateTable();
         self::assertSame($ct, $ct->addColumn($column));
         return $ct;
     }
@@ -92,9 +96,9 @@ class CreateTableTest extends TestCase
     public function testRawStateViaColumn(CreateTable $ct)
     {
         $state = $ct->getRawState('columns');
-        self::assertInternalType('array', $state);
+        self::assertIsArray($state);
         $column = array_pop($state);
-        self::assertInstanceOf('Laminas\Db\Sql\Ddl\Column\ColumnInterface', $column);
+        self::assertInstanceOf(ColumnInterface::class, $column);
     }
 
     /**
@@ -102,8 +106,8 @@ class CreateTableTest extends TestCase
      */
     public function testAddConstraint()
     {
-        $constraint = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface')->getMock();
-        $ct = new CreateTable;
+        $constraint = $this->getMockBuilder(Constraint\ConstraintInterface::class)->getMock();
+        $ct         = new CreateTable();
         self::assertSame($ct, $ct->addConstraint($constraint));
         return $ct;
     }
@@ -115,9 +119,9 @@ class CreateTableTest extends TestCase
     public function testRawStateViaConstraint(CreateTable $ct)
     {
         $state = $ct->getRawState('constraints');
-        self::assertInternalType('array', $state);
+        self::assertIsArray($state);
         $constraint = array_pop($state);
-        self::assertInstanceOf('Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface', $constraint);
+        self::assertInstanceOf(Constraint\ConstraintInterface::class, $constraint);
     }
 
     /**

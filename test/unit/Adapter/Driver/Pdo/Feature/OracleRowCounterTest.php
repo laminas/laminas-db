@@ -8,17 +8,21 @@
 
 namespace LaminasTest\Db\Adapter\Driver\Pdo\Feature;
 
+use Closure;
+use Laminas\Db\Adapter\Driver\ConnectionInterface;
 use Laminas\Db\Adapter\Driver\Pdo\Feature\OracleRowCounter;
+use Laminas\Db\Adapter\Driver\Pdo\Pdo;
+use Laminas\Db\Adapter\Driver\Pdo\Statement;
+use Laminas\Db\Adapter\Driver\ResultInterface;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 
 class OracleRowCounterTest extends TestCase
 {
-    /**
-     * @var OracleRowCounter
-     */
+    /** @var OracleRowCounter */
     protected $rowCounter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->rowCounter = new OracleRowCounter();
     }
@@ -61,7 +65,7 @@ class OracleRowCounterTest extends TestCase
     {
         $stmt = $this->getMockStatement('SELECT XXX', 5);
 
-        /** @var \Closure $closure */
+        /** @var Closure $closure */
         $closure = $this->rowCounter->getRowCountClosure($stmt);
         self::assertInstanceOf('Closure', $closure);
         self::assertEquals(5, $closure());
@@ -69,8 +73,8 @@ class OracleRowCounterTest extends TestCase
 
     protected function getMockStatement($sql, $returnValue)
     {
-        /** @var \Laminas\Db\Adapter\Driver\Pdo\Statement|\PHPUnit_Framework_MockObject_MockObject $statement */
-        $statement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Pdo\Statement')
+        /** @var Statement|PHPUnit_Framework_MockObject_MockObject $statement */
+        $statement = $this->getMockBuilder(Statement::class)
             ->setMethods(['prepare', 'execute'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -84,7 +88,7 @@ class OracleRowCounterTest extends TestCase
             ->will($this->returnValue(['count' => $returnValue]));
 
         // mock the result
-        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
+        $result = $this->getMockBuilder(ResultInterface::class)->getMock();
         $result->expects($this->once())
             ->method('getResource')
             ->will($this->returnValue($resource));
@@ -114,12 +118,12 @@ class OracleRowCounterTest extends TestCase
             ->method('query')
             ->will($this->returnValue($pdoStatement));
 
-        $connection = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ConnectionInterface')->getMock();
+        $connection = $this->getMockBuilder(ConnectionInterface::class)->getMock();
         $connection->expects($this->once())
             ->method('getResource')
             ->will($this->returnValue($pdoConnection));
 
-        $driver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Pdo\Pdo')
+        $driver = $this->getMockBuilder(Pdo::class)
             ->setMethods(['getConnection'])
             ->disableOriginalConstructor()
             ->getMock();

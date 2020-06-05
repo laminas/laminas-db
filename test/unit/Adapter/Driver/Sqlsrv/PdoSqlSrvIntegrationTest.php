@@ -20,9 +20,9 @@ class PdoSqlSrvIntegrationTest extends AbstractIntegrationTest
     {
         $driver = new Pdo($this->adapters['pdo_sqlsrv']);
 
-        $stmt = $driver->createStatement('SELECT ? as col_one');
+        $stmt   = $driver->createStatement('SELECT ? as col_one');
         $result = $stmt->execute(['a']);
-        $row = $result->current();
+        $row    = $result->current();
         $this->assertEquals('a', $row['col_one']);
     }
 }

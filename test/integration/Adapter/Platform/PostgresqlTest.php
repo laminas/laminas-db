@@ -13,6 +13,11 @@ use Laminas\Db\Adapter\Driver\Pgsql;
 use Laminas\Db\Adapter\Platform\Postgresql;
 use PHPUnit\Framework\TestCase;
 
+use function extension_loaded;
+use function getenv;
+use function is_resource;
+use function pg_connect;
+
 /**
  * @group integration
  * @group integration-postgres
@@ -21,13 +26,13 @@ class PostgresqlTest extends TestCase
 {
     public $adapters = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL')) {
-            $this->markTestSkipped(__CLASS__ . ' integration tests are not enabled!');
+            $this->markTestSkipped(self::class . ' integration tests are not enabled!');
         }
         if (extension_loaded('pgsql')) {
-            $this->adapters['pgsql'] = \pg_connect(
+            $this->adapters['pgsql'] = pg_connect(
                 'host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME')
                     . ' dbname=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
                     . ' user=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME')

@@ -8,7 +8,13 @@
 
 namespace LaminasTest\Db\Adapter\Driver\Pdo\TestAsset;
 
-class SqliteMemoryPdo extends \Pdo
+use Exception;
+use PDO;
+
+use function implode;
+use function sprintf;
+
+class SqliteMemoryPdo extends PDO
 {
     protected $mockStatement;
 
@@ -20,7 +26,7 @@ class SqliteMemoryPdo extends \Pdo
             return;
         }
         if (false === $this->exec($sql)) {
-            throw new \Exception(sprintf(
+            throw new Exception(sprintf(
                 "Error: %s, %s",
                 $this->errorCode(),
                 implode(",", $this->errorInfo())

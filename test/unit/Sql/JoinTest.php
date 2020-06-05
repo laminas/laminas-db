@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Db\Sql;
 
+use InvalidArgumentException;
 use Laminas\Db\Sql\Join;
 use Laminas\Db\Sql\Select;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +19,7 @@ class JoinTest extends TestCase
     {
         $join = new Join();
 
-        self::assertAttributeEquals(0, 'position', $join);
+        self::assertEquals(0, $join->key());
     }
 
     public function testNextIncrementsThePosition()
@@ -27,7 +28,7 @@ class JoinTest extends TestCase
 
         $join->next();
 
-        self::assertAttributeEquals(1, 'position', $join);
+        self::assertEquals(1, $join->key());
     }
 
     public function testRewindResetsPositionToZero()
@@ -36,10 +37,10 @@ class JoinTest extends TestCase
 
         $join->next();
         $join->next();
-        self::assertAttributeEquals(2, 'position', $join);
+        self::assertEquals(2, $join->key());
 
         $join->rewind();
-        self::assertAttributeEquals(0, 'position', $join);
+        self::assertEquals(0, $join->key());
     }
 
     public function testKeyReturnsTheCurrentPosition()
@@ -89,7 +90,7 @@ class JoinTest extends TestCase
      */
     public function testJoin()
     {
-        $join = new Join;
+        $join   = new Join();
         $return = $join->join('baz', 'foo.fooId = baz.fooId', Join::JOIN_LEFT);
         self::assertSame($join, $return);
     }
@@ -98,7 +99,7 @@ class JoinTest extends TestCase
     {
         $join = new Join();
 
-        $this->expectException('\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("join() expects '' as a single element associative array");
         $join->join([], false);
     }
@@ -110,7 +111,7 @@ class JoinTest extends TestCase
      */
     public function testCount()
     {
-        $join = new Join;
+        $join = new Join();
         $join->join('baz', 'foo.fooId = baz.fooId', Join::JOIN_LEFT);
         $join->join('bar', 'foo.fooId = bar.fooId', Join::JOIN_LEFT);
 
@@ -126,7 +127,7 @@ class JoinTest extends TestCase
      */
     public function testReset()
     {
-        $join = new Join;
+        $join = new Join();
         $join->join('baz', 'foo.fooId = baz.fooId', Join::JOIN_LEFT);
         $join->join('bar', 'foo.fooId = bar.fooId', Join::JOIN_LEFT);
         $join->reset();

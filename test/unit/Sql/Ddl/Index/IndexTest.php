@@ -20,11 +20,13 @@ class IndexTest extends TestCase
     {
         $uk = new Index('foo', 'my_uk');
         self::assertEquals(
-            [[
-                'INDEX %s(%s)',
-                ['my_uk', 'foo'],
-                [$uk::TYPE_IDENTIFIER, $uk::TYPE_IDENTIFIER],
-            ]],
+            [
+                [
+                    'INDEX %s(%s)',
+                    ['my_uk', 'foo'],
+                    [$uk::TYPE_IDENTIFIER, $uk::TYPE_IDENTIFIER],
+                ],
+            ],
             $uk->getExpressionData()
         );
     }
@@ -36,11 +38,13 @@ class IndexTest extends TestCase
     {
         $key = new Index(['foo', 'bar'], 'my_uk', [10, 5]);
         self::assertEquals(
-            [[
-                'INDEX %s(%s(10), %s(5))',
-                ['my_uk', 'foo', 'bar'],
-                [$key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER],
-            ]],
+            [
+                [
+                    'INDEX %s(%s(10), %s(5))',
+                    ['my_uk', 'foo', 'bar'],
+                    [$key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER],
+                ],
+            ],
             $key->getExpressionData()
         );
     }
@@ -52,11 +56,13 @@ class IndexTest extends TestCase
     {
         $key = new Index(['foo', 'bar'], 'my_uk', [10]);
         self::assertEquals(
-            [[
-                'INDEX %s(%s(10), %s)',
-                ['my_uk', 'foo', 'bar'],
-                [$key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER],
-            ]],
+            [
+                [
+                    'INDEX %s(%s(10), %s)',
+                    ['my_uk', 'foo', 'bar'],
+                    [$key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER, $key::TYPE_IDENTIFIER],
+                ],
+            ],
             $key->getExpressionData()
         );
     }

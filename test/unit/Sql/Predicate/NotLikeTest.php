@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Db\Sql\Predicate;
 
+use Laminas\Db\Sql\Predicate\Like;
 use Laminas\Db\Sql\Predicate\NotLike;
 use PHPUnit\Framework\TestCase;
 
@@ -56,8 +57,8 @@ class NotLikeTest extends TestCase
     public function testInstanceOfPerSetters()
     {
         $notLike = new NotLike();
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Like', $notLike->setIdentifier('bar'));
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Like', $notLike->setSpecification('%1$s NOT LIKE %2$s'));
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Like', $notLike->setLike('foo%'));
+        self::assertInstanceOf(Like::class, $notLike->setIdentifier('bar'));
+        self::assertInstanceOf(Like::class, $notLike->setSpecification('%1$s NOT LIKE %2$s'));
+        self::assertInstanceOf(Like::class, $notLike->setLike('foo%'));
     }
 }

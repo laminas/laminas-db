@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Db\ResultSet;
 
+use ArrayIterator;
 use Laminas\Db\ResultSet\HydratingResultSet;
 use PHPUnit\Framework\TestCase;
 
@@ -18,8 +19,8 @@ class HydratingResultSetIntegrationTest extends TestCase
      */
     public function testCurrentWillReturnBufferedRow()
     {
-        $hydratingRs = new HydratingResultSet;
-        $hydratingRs->initialize(new \ArrayIterator([
+        $hydratingRs = new HydratingResultSet();
+        $hydratingRs->initialize(new ArrayIterator([
             ['id' => 1, 'name' => 'one'],
             ['id' => 2, 'name' => 'two'],
         ]));

@@ -39,7 +39,7 @@
         "laminas/laminas-hydrator": "^3.0.2",
         "laminas/laminas-servicemanager": "^3.4.1",
         "phpspec/prophecy-phpunit": "^2.0",
-        "phpunit/phpunit": "^9.1.5"
+        "phpunit/phpunit": "~9.1.5"
     },
     "suggest": {
         "laminas/laminas-eventmanager": "Laminas\\EventManager component",
@@ -52,9 +52,6 @@
         }
     },
     "autoload-dev": {
-        "files": [
-            "test/autoload.php"
-        ],
         "psr-4": {
             "LaminasTest\\Db\\": "test/unit/",
             "LaminasIntegrationTest\\Db\\": "test/integration/"

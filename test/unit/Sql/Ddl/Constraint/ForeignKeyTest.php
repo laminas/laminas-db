@@ -115,18 +115,20 @@ class ForeignKeyTest extends TestCase
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam', 'CASCADE', 'SET NULL');
         self::assertEquals(
-            [[
-                'CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s) ON DELETE %s ON UPDATE %s',
-                ['foo', 'bar', 'baz', 'bam', 'CASCADE', 'SET NULL'],
+            [
                 [
-                    $fk::TYPE_IDENTIFIER,
-                    $fk::TYPE_IDENTIFIER,
-                    $fk::TYPE_IDENTIFIER,
-                    $fk::TYPE_IDENTIFIER,
-                    $fk::TYPE_LITERAL,
-                    $fk::TYPE_LITERAL,
+                    'CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s) ON DELETE %s ON UPDATE %s',
+                    ['foo', 'bar', 'baz', 'bam', 'CASCADE', 'SET NULL'],
+                    [
+                        $fk::TYPE_IDENTIFIER,
+                        $fk::TYPE_IDENTIFIER,
+                        $fk::TYPE_IDENTIFIER,
+                        $fk::TYPE_IDENTIFIER,
+                        $fk::TYPE_LITERAL,
+                        $fk::TYPE_LITERAL,
+                    ],
                 ],
-            ]],
+            ],
             $fk->getExpressionData()
         );
     }

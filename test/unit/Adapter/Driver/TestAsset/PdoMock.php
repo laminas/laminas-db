@@ -8,10 +8,12 @@
 
 namespace LaminasTest\Db\Adapter\Driver\TestAsset;
 
+use PDO;
+
 /**
  * Stub class
  */
-class PdoMock extends \PDO
+class PdoMock extends PDO
 {
     public function __construct()
     {

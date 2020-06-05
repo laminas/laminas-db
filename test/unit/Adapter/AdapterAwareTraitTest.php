@@ -9,23 +9,35 @@
 namespace LaminasTest\Db\Adapter;
 
 use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\AdapterAwareTrait;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
 use PHPUnit\Framework\TestCase;
 
 class AdapterAwareTraitTest extends TestCase
 {
     public function testSetDbAdapter()
     {
-        $object = $this->getObjectForTrait('\Laminas\Db\Adapter\AdapterAwareTrait');
+        $object = $this->getObjectForTrait(AdapterAwareTrait::class);
 
-        self::assertAttributeEquals(null, 'adapter', $object);
+        self::assertNull(
+            (function ($object) {
+                return $object->adapter;
+            })->bindTo($object, $object)($object)
+        );
 
-        $driver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
-        $platform = $this->getMockBuilder('Laminas\Db\Adapter\Platform\PlatformInterface')->getMock();
+        $driver   = $this->getMockBuilder(DriverInterface::class)->getMock();
+        $platform = $this->getMockBuilder(PlatformInterface::class)->getMock();
 
         $adapter = new Adapter($driver, $platform);
 
         $object->setDbAdapter($adapter);
 
-        self::assertAttributeEquals($adapter, 'adapter', $object);
+        self::assertEquals(
+            $adapter,
+            (function ($object) {
+                return $object->adapter;
+            })->bindTo($object, $object)($object)
+        );
     }
 }

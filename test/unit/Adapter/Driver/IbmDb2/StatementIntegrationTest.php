@@ -9,9 +9,14 @@
 namespace LaminasTest\Db\Adapter\Driver\IbmDb2;
 
 use Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2;
+use Laminas\Db\Adapter\Driver\IbmDb2\Result;
 use Laminas\Db\Adapter\Driver\IbmDb2\Statement;
 use Laminas\Db\Adapter\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
+
+use function extension_loaded;
+use function get_resource_type;
+use function getenv;
 
 /**
  * @group integration
@@ -29,7 +34,7 @@ class StatementIntegrationTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         foreach ($this->variables as $name => $value) {
             if (! getenv($value)) {
@@ -56,7 +61,7 @@ class StatementIntegrationTest extends TestCase
             $this->variables['password']
         );
 
-        $statement = new Statement;
+        $statement = new Statement();
         self::assertSame($statement, $statement->initialize($db2Resource));
         unset($stmtResource, $db2Resource);
     }
@@ -72,7 +77,7 @@ class StatementIntegrationTest extends TestCase
             $this->variables['password']
         );
 
-        $statement = new Statement;
+        $statement = new Statement();
         $statement->initialize($db2Resource);
         $statement->prepare("SELECT 'foo' FROM sysibm.sysdummy1");
         $resource = $statement->getResource();
@@ -92,7 +97,7 @@ class StatementIntegrationTest extends TestCase
             $this->variables['password']
         );
 
-        $statement = new Statement;
+        $statement = new Statement();
         $statement->initialize($db2Resource);
         self::assertFalse($statement->isPrepared());
         self::assertSame($statement, $statement->prepare("SELECT 'foo' FROM SYSIBM.SYSDUMMY1"));
@@ -110,7 +115,7 @@ class StatementIntegrationTest extends TestCase
             $this->variables['username'],
             $this->variables['password']
         );
-        $statement = new Statement;
+        $statement   = new Statement();
         $statement->initialize($db2Resource);
         $this->expectException(RuntimeException::class);
         $statement->prepare("SELECT");
@@ -121,12 +126,12 @@ class StatementIntegrationTest extends TestCase
      */
     public function testExecute()
     {
-        $ibmdb2 = new IbmDb2($this->variables);
+        $ibmdb2    = new IbmDb2($this->variables);
         $statement = $ibmdb2->createStatement("SELECT 'foo' FROM SYSIBM.SYSDUMMY1");
         self::assertSame($statement, $statement->prepare());
 
         $result = $statement->execute();
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\IbmDb2\Result', $result);
+        self::assertInstanceOf(Result::class, $result);
 
         unset($resource, $ibmdb2);
     }

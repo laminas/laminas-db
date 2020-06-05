@@ -8,7 +8,12 @@
 
 namespace LaminasTest\Db\TableGateway\Feature;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
 use Laminas\Db\TableGateway\Feature\SequenceFeature;
+use Laminas\Db\TableGateway\TableGateway;
 use PHPUnit\Framework\TestCase;
 
 class SequenceFeatureTest extends TestCase
@@ -16,7 +21,7 @@ class SequenceFeatureTest extends TestCase
     /** @var SequenceFeature */
     protected $feature;
 
-    /** @var \Laminas\Db\TableGateway\TableGateway */
+    /** @var TableGateway */
     protected $tableGateway;
 
     /**  @var string primary key name */
@@ -25,7 +30,7 @@ class SequenceFeatureTest extends TestCase
     /** @var string  sequence name */
     protected $sequenceName = 'table_sequence';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->feature = new SequenceFeature($this->primaryKeyField, $this->sequenceName);
     }
@@ -35,14 +40,14 @@ class SequenceFeatureTest extends TestCase
      */
     public function testNextSequenceId($platformName, $statementSql)
     {
-        $platform = $this->getMockForAbstractClass('Laminas\Db\Adapter\Platform\PlatformInterface', ['getName']);
+        $platform = $this->getMockForAbstractClass(PlatformInterface::class);
         $platform->expects($this->any())
             ->method('getName')
             ->will($this->returnValue($platformName));
         $platform->expects($this->any())
             ->method('quoteIdentifier')
             ->will($this->returnValue($this->sequenceName));
-        $adapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $adapter = $this->getMockBuilder(Adapter::class)
             ->setMethods(['getPlatform', 'createStatement'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -50,7 +55,7 @@ class SequenceFeatureTest extends TestCase
             ->method('getPlatform')
             ->will($this->returnValue($platform));
         $result = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\ResultInterface',
+            ResultInterface::class,
             [],
             '',
             false,
@@ -62,7 +67,7 @@ class SequenceFeatureTest extends TestCase
             ->method('current')
             ->will($this->returnValue(['nextval' => 2]));
         $statement = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\StatementInterface',
+            StatementInterface::class,
             [],
             '',
             false,
@@ -80,7 +85,7 @@ class SequenceFeatureTest extends TestCase
             ->method('createStatement')
             ->will($this->returnValue($statement));
         $this->tableGateway = $this->getMockForAbstractClass(
-            'Laminas\Db\TableGateway\TableGateway',
+            TableGateway::class,
             ['table', $adapter],
             '',
             true

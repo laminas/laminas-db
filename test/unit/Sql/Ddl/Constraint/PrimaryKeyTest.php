@@ -20,11 +20,13 @@ class PrimaryKeyTest extends TestCase
     {
         $pk = new PrimaryKey('foo');
         self::assertEquals(
-            [[
-                'PRIMARY KEY (%s)',
-                ['foo'],
-                [$pk::TYPE_IDENTIFIER],
-            ]],
+            [
+                [
+                    'PRIMARY KEY (%s)',
+                    ['foo'],
+                    [$pk::TYPE_IDENTIFIER],
+                ],
+            ],
             $pk->getExpressionData()
         );
     }

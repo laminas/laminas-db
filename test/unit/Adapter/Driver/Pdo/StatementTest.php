@@ -17,25 +17,23 @@ use PHPUnit\Framework\TestCase;
 
 class StatementTest extends TestCase
 {
-    /**
-     * @var Statement
-     */
+    /** @var Statement */
     protected $statement;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->statement = new Statement;
+        $this->statement = new Statement();
     }
 
     /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -52,7 +50,7 @@ class StatementTest extends TestCase
      */
     public function testSetParameterContainer()
     {
-        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
+        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer()));
     }
 
     /**
@@ -61,7 +59,7 @@ class StatementTest extends TestCase
      */
     public function testGetParameterContainer()
     {
-        $container = new ParameterContainer;
+        $container = new ParameterContainer();
         $this->statement->setParameterContainer($container);
         self::assertSame($container, $this->statement->getParameterContainer());
     }
@@ -71,7 +69,7 @@ class StatementTest extends TestCase
      */
     public function testGetResource()
     {
-        $pdo = new TestAsset\SqliteMemoryPdo();
+        $pdo  = new TestAsset\SqliteMemoryPdo();
         $stmt = $pdo->prepare('SELECT 1');
         $this->statement->setResource($stmt);
 
@@ -125,6 +123,6 @@ class StatementTest extends TestCase
         $this->statement->setDriver(new Pdo(new Connection($pdo = new TestAsset\SqliteMemoryPdo())));
         $this->statement->initialize($pdo);
         $this->statement->prepare('SELECT 1');
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Pdo\Result', $this->statement->execute());
+        self::assertInstanceOf(Result::class, $this->statement->execute());
     }
 }

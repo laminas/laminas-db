@@ -12,20 +12,20 @@ use Laminas\Db\Adapter\Platform\IbmDb2;
 use PHPUnit\Framework\Error;
 use PHPUnit\Framework\TestCase;
 
+use function function_exists;
+
 class IbmDb2Test extends TestCase
 {
-    /**
-     * @var IbmDb2
-     */
+    /** @var IbmDb2 */
     protected $platform;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->platform = new IbmDb2;
+        $this->platform = new IbmDb2();
     }
 
     /**
@@ -87,7 +87,7 @@ class IbmDb2Test extends TestCase
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
         if (! function_exists('db2_escape_string')) {
-            $this->expectException(Error\Notice::class);
+            $this->expectNotice(Error\Notice::class);
             $this->expectExceptionMessage(
                 'Attempting to quote a value in Laminas\Db\Adapter\Platform\IbmDb2 without extension/driver'
                 . ' support can introduce security vulnerabilities in a production environment'
@@ -136,7 +136,7 @@ class IbmDb2Test extends TestCase
     public function testQuoteValueList()
     {
         if (! function_exists('db2_escape_string')) {
-            $this->expectException(Error\Error::class);
+            $this->expectError(Error\Error::class);
             $this->expectExceptionMessage(
                 'Attempting to quote a value in Laminas\Db\Adapter\Platform\IbmDb2 without extension/driver'
                 . ' support can introduce security vulnerabilities in a production environment'

@@ -9,7 +9,12 @@
 namespace LaminasTest\Db\Sql\Platform\Mysql;
 
 use Laminas\Db\Sql\Platform\Mysql\Mysql;
+use Laminas\Db\Sql\Platform\Mysql\SelectDecorator;
+use Laminas\Db\Sql\Select;
 use PHPUnit\Framework\TestCase;
+
+use function current;
+use function key;
 
 class MysqlTest extends TestCase
 {
@@ -19,12 +24,12 @@ class MysqlTest extends TestCase
      */
     public function testConstruct()
     {
-        $mysql = new Mysql;
+        $mysql      = new Mysql();
         $decorators = $mysql->getDecorators();
 
-        $type = key($decorators);
+        $type      = key($decorators);
         $decorator = current($decorators);
-        self::assertEquals('Laminas\Db\Sql\Select', $type);
-        self::assertInstanceOf('Laminas\Db\Sql\Platform\Mysql\SelectDecorator', $decorator);
+        self::assertEquals(Select::class, $type);
+        self::assertInstanceOf(SelectDecorator::class, $decorator);
     }
 }

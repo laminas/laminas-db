@@ -27,7 +27,6 @@ class BooleanTest extends TestCase
 
     /**
      * @covers \Laminas\Db\Sql\Ddl\Column\Boolean
-     *
      * @group 6257
      */
     public function testIsAlwaysNotNullable()

@@ -14,18 +14,16 @@ use PHPUnit\Framework\TestCase;
 
 class PostgresqlTest extends TestCase
 {
-    /**
-     * @var Postgresql
-     */
+    /** @var Postgresql */
     protected $platform;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->platform = new Postgresql;
+        $this->platform = new Postgresql();
     }
 
     /**
@@ -83,7 +81,7 @@ class PostgresqlTest extends TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        $this->expectException(Error\Notice::class);
+        $this->expectNotice(Error\Notice::class);
         $this->expectExceptionMessage(
             'Attempting to quote a value in Laminas\Db\Adapter\Platform\Postgresql without extension/driver'
             . ' support can introduce security vulnerabilities in a production environment'
@@ -132,7 +130,7 @@ class PostgresqlTest extends TestCase
      */
     public function testQuoteValueList()
     {
-        $this->expectException(Error\Error::class);
+        $this->expectError(Error\Error::class);
         $this->expectExceptionMessage(
             'Attempting to quote a value in Laminas\Db\Adapter\Platform\Postgresql without extension/driver'
             . ' support can introduce security vulnerabilities in a production environment'

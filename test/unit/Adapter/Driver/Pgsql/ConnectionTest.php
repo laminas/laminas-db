@@ -13,18 +13,21 @@ use Laminas\Db\Adapter\Exception as AdapterException;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 
+use function extension_loaded;
+use function pg_client_encoding;
+
+use const PGSQL_CONNECT_FORCE_NEW;
+
 class ConnectionTest extends TestCase
 {
-    /**
-     * @var Connection
-     */
+    /** @var Connection */
     protected $connection;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->connection = new Connection();
     }
@@ -43,21 +46,12 @@ class ConnectionTest extends TestCase
         try {
             $resource = $this->connection->getResource();
             // connected with empty string
-            self::assertInternalType('resource', $resource);
+            self::assertIsResource($resource);
         } catch (AdapterException\RuntimeException $exc) {
             // If it throws an exception it has failed to connect
-            $this->expectException('Laminas\Db\Adapter\Exception\RuntimeException');
+            $this->expectException(AdapterException\RuntimeException::class);
             throw $exc;
         }
-    }
-
-    /**
-     * Test disconnect method to return instance of ConnectionInterface
-     */
-    public function testDisconnect()
-    {
-        include_once 'pgsqlMockFunctions.php';
-        self::assertSame($this->connection, $this->connection->disconnect());
     }
 
     /**
@@ -67,18 +61,18 @@ class ConnectionTest extends TestCase
     public function testGetConnectionStringEncodeSpecialSymbol()
     {
         $connectionParameters = [
-            'driver'    => 'pgsql',
-            'host' => 'localhost',
-            'post' => '5432',
-            'dbname' => 'test',
-            'username'  => 'test',
-            'password'  => 'test123!',
+            'driver'   => 'pgsql',
+            'host'     => 'localhost',
+            'post'     => '5432',
+            'dbname'   => 'test',
+            'username' => 'test',
+            'password' => 'test123!',
         ];
 
         $this->connection->setConnectionParameters($connectionParameters);
 
         $getConnectionString = new ReflectionMethod(
-            'Laminas\Db\Adapter\Driver\Pgsql\Connection',
+            Connection::class,
             'getConnectionString'
         );
 
@@ -96,7 +90,7 @@ class ConnectionTest extends TestCase
             $this->markTestSkipped('pgsql extension not loaded');
         }
 
-        $this->expectException('\Laminas\Db\Adapter\Exception\InvalidArgumentException');
+        $this->expectException(AdapterException\InvalidArgumentException::class);
         $this->connection->setType(3);
     }
 
@@ -110,7 +104,12 @@ class ConnectionTest extends TestCase
         }
         $type = PGSQL_CONNECT_FORCE_NEW;
         $this->connection->setType($type);
-        self::assertEquals($type, self::readAttribute($this->connection, 'type'));
+        self::assertEquals(
+            $type,
+            (function ($connection) {
+                return $connection->type;
+            })->bindTo($connection = $this->connection, $connection)($connection)
+        );
     }
 
     /**
@@ -150,7 +149,7 @@ class ConnectionTest extends TestCase
             $this->markTestSkipped('pgsql extension not loaded');
         }
 
-        $this->expectException('Laminas\Db\Adapter\Exception\RuntimeException');
+        $this->expectException(AdapterException\RuntimeException::class);
 
         $this->connection->setConnectionParameters([
             'driver'   => 'pgsql',

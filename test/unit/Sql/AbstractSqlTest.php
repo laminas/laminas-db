@@ -10,27 +10,35 @@ namespace LaminasTest\Db\Sql;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\StatementContainer;
+use Laminas\Db\Sql\AbstractSql;
 use Laminas\Db\Sql\Expression;
 use Laminas\Db\Sql\ExpressionInterface;
 use Laminas\Db\Sql\Predicate;
 use Laminas\Db\Sql\Select;
 use LaminasTest\Db\TestAsset\TrustingSql92Platform;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
+use ReflectionMethod;
+
+use function current;
+use function key;
+use function next;
+use function preg_match;
+use function uniqid;
 
 class AbstractSqlTest extends TestCase
 {
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
+    /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $abstractSql;
 
     protected $mockDriver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->abstractSql = $this->getMockForAbstractClass('Laminas\Db\Sql\AbstractSql');
+        $this->abstractSql = $this->getMockForAbstractClass(AbstractSql::class);
 
-        $this->mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $this->mockDriver = $this->getMockBuilder(DriverInterface::class)->getMock();
         $this->mockDriver
             ->expects($this->any())
             ->method('getPrepareType')
@@ -48,7 +56,7 @@ class AbstractSqlTest extends TestCase
      */
     public function testProcessExpressionWithoutParameterContainer()
     {
-        $expression = new Expression('? > ? AND y < ?', ['x', 5, 10], [Expression::TYPE_IDENTIFIER]);
+        $expression   = new Expression('? > ? AND y < ?', ['x', 5, 10], [Expression::TYPE_IDENTIFIER]);
         $sqlAndParams = $this->invokeProcessExpressionMethod($expression);
 
         self::assertEquals("\"x\" > '5' AND y < '10'", $sqlAndParams);
@@ -59,27 +67,27 @@ class AbstractSqlTest extends TestCase
      */
     public function testProcessExpressionWithParameterContainerAndParameterizationTypeNamed()
     {
-        $parameterContainer = new ParameterContainer;
-        $expression = new Expression('? > ? AND y < ?', ['x', 5, 10], [Expression::TYPE_IDENTIFIER]);
-        $sqlAndParams = $this->invokeProcessExpressionMethod($expression, $parameterContainer);
+        $parameterContainer = new ParameterContainer();
+        $expression         = new Expression('? > ? AND y < ?', ['x', 5, 10], [Expression::TYPE_IDENTIFIER]);
+        $sqlAndParams       = $this->invokeProcessExpressionMethod($expression, $parameterContainer);
 
         $parameters = $parameterContainer->getNamedArray();
 
-        self::assertRegExp('#"x" > :expr\d\d\d\dParam1 AND y < :expr\d\d\d\dParam2#', $sqlAndParams);
+        self::assertMatchesRegularExpression('#"x" > :expr\d\d\d\dParam1 AND y < :expr\d\d\d\dParam2#', $sqlAndParams);
 
         // test keys and values
         preg_match('#expr(\d\d\d\d)Param1#', key($parameters), $matches);
         $expressionNumber = $matches[1];
 
-        self::assertRegExp('#expr\d\d\d\dParam1#', key($parameters));
+        self::assertMatchesRegularExpression('#expr\d\d\d\dParam1#', key($parameters));
         self::assertEquals(5, current($parameters));
         next($parameters);
-        self::assertRegExp('#expr\d\d\d\dParam2#', key($parameters));
+        self::assertMatchesRegularExpression('#expr\d\d\d\dParam2#', key($parameters));
         self::assertEquals(10, current($parameters));
 
         // ensure next invocation increases number by 1
-        $parameterContainer = new ParameterContainer;
-        $sqlAndParamsNext = $this->invokeProcessExpressionMethod($expression, $parameterContainer);
+        $parameterContainer = new ParameterContainer();
+        $sqlAndParamsNext   = $this->invokeProcessExpressionMethod($expression, $parameterContainer);
 
         $parameters = $parameterContainer->getNamedArray();
 
@@ -143,9 +151,9 @@ class AbstractSqlTest extends TestCase
 
     public function testProcessExpressionWorksWithNamedParameterPrefix()
     {
-        $parameterContainer = new ParameterContainer();
+        $parameterContainer   = new ParameterContainer();
         $namedParameterPrefix = uniqid();
-        $expression = new Expression('FROM_UNIXTIME(?)', [10000000]);
+        $expression           = new Expression('FROM_UNIXTIME(?)', [10000000]);
         $this->invokeProcessExpressionMethod($expression, $parameterContainer, $namedParameterPrefix);
 
         self::assertSame($namedParameterPrefix . '1', key($parameterContainer->getNamedArray()));
@@ -153,31 +161,30 @@ class AbstractSqlTest extends TestCase
 
     public function testProcessExpressionWorksWithNamedParameterPrefixContainingWhitespace()
     {
-        $parameterContainer = new ParameterContainer();
+        $parameterContainer   = new ParameterContainer();
         $namedParameterPrefix = "string\ncontaining white space";
-        $expression = new Expression('FROM_UNIXTIME(?)', [10000000]);
+        $expression           = new Expression('FROM_UNIXTIME(?)', [10000000]);
         $this->invokeProcessExpressionMethod($expression, $parameterContainer, $namedParameterPrefix);
 
         self::assertSame('string__containing__white__space1', key($parameterContainer->getNamedArray()));
     }
 
     /**
-     * @param \Laminas\Db\Sql\ExpressionInterface $expression
-     * @param \Laminas\Db\Adapter\ParameterContainer $parameterContainer
-     * @param string $namedParameterPrefix
-     * @return \Laminas\Db\Adapter\StatementContainer|string
+     * @param null|ParameterContainer $parameterContainer
+     * @param null|string             $namedParameterPrefix
+     * @return StatementContainer|string
      */
     protected function invokeProcessExpressionMethod(
         ExpressionInterface $expression,
         $parameterContainer = null,
         $namedParameterPrefix = null
     ) {
-        $method = new \ReflectionMethod($this->abstractSql, 'processExpression');
+        $method = new ReflectionMethod($this->abstractSql, 'processExpression');
         $method->setAccessible(true);
         return $method->invoke(
             $this->abstractSql,
             $expression,
-            new TrustingSql92Platform,
+            new TrustingSql92Platform(),
             $this->mockDriver,
             $parameterContainer,
             $namedParameterPrefix

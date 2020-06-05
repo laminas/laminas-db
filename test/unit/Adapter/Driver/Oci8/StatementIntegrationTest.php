@@ -9,8 +9,13 @@
 namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
 use Laminas\Db\Adapter\Driver\Oci8\Oci8;
+use Laminas\Db\Adapter\Driver\Oci8\Result;
 use Laminas\Db\Adapter\Driver\Oci8\Statement;
 use PHPUnit\Framework\TestCase;
+
+use function extension_loaded;
+use function get_resource_type;
+use function getenv;
 
 /**
  * @group integration
@@ -28,7 +33,7 @@ class StatementIntegrationTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         foreach ($this->variables as $name => $value) {
             if (! getenv($value)) {
@@ -55,7 +60,7 @@ class StatementIntegrationTest extends TestCase
             $this->variables['hostname']
         );
 
-        $statement = new Statement;
+        $statement = new Statement();
         self::assertSame($statement, $statement->initialize($ociResource));
         unset($stmtResource, $ociResource);
     }
@@ -71,7 +76,7 @@ class StatementIntegrationTest extends TestCase
             $this->variables['hostname']
         );
 
-        $statement = new Statement;
+        $statement = new Statement();
         $statement->initialize($ociResource);
         $statement->prepare('SELECT * FROM DUAL');
         $resource = $statement->getResource();
@@ -91,7 +96,7 @@ class StatementIntegrationTest extends TestCase
             $this->variables['hostname']
         );
 
-        $statement = new Statement;
+        $statement = new Statement();
         $statement->initialize($ociResource);
         self::assertFalse($statement->isPrepared());
         self::assertSame($statement, $statement->prepare('SELECT * FROM DUAL'));
@@ -104,12 +109,12 @@ class StatementIntegrationTest extends TestCase
      */
     public function testExecute()
     {
-        $oci8 = new Oci8($this->variables);
+        $oci8      = new Oci8($this->variables);
         $statement = $oci8->createStatement('SELECT * FROM DUAL');
         self::assertSame($statement, $statement->prepare());
 
         $result = $statement->execute();
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Oci8\Result', $result);
+        self::assertInstanceOf(Result::class, $result);
 
         unset($resource, $oci8);
     }

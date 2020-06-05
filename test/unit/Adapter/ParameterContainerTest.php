@@ -13,16 +13,14 @@ use PHPUnit\Framework\TestCase;
 
 class ParameterContainerTest extends TestCase
 {
-    /**
-     * @var ParameterContainer
-     */
+    /** @var ParameterContainer */
     protected $parameterContainer;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->parameterContainer = new ParameterContainer(['foo' => 'bar']);
     }
@@ -84,16 +82,16 @@ class ParameterContainerTest extends TestCase
 
         // test no-index applies
         $this->parameterContainer['buffer'] = 'A buffer Element';
-        $this->parameterContainer[] = 'Second To Last';
-        $this->parameterContainer[] = 'Last';
+        $this->parameterContainer[]         = 'Second To Last';
+        $this->parameterContainer[]         = 'Last';
         self::assertEquals(
             [
-                'foo' => 'Zero',
-                'boo' => 'One',
-                '1' => 'book',
+                'foo'    => 'Zero',
+                'boo'    => 'One',
+                '1'      => 'book',
                 'buffer' => 'A buffer Element',
-                '4' => 'Second To Last',
-                '5' => 'Last',
+                '4'      => 'Second To Last',
+                '5'      => 'Last',
             ],
             $this->parameterContainer->getNamedArray()
         );
@@ -111,7 +109,6 @@ class ParameterContainerTest extends TestCase
     {
         $this->parameterContainer->offsetSet('boo', 'baz');
         self::assertTrue($this->parameterContainer->offsetExists('boo'));
-
 
         $this->parameterContainer->offsetUnset('boo');
         self::assertFalse($this->parameterContainer->offsetExists('boo'));

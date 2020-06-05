@@ -20,11 +20,13 @@ class CheckTest extends TestCase
     {
         $check = new Check('id>0', 'foo');
         self::assertEquals(
-            [[
-                'CONSTRAINT %s CHECK (%s)',
-                ['foo', 'id>0'],
-                [$check::TYPE_IDENTIFIER, $check::TYPE_LITERAL],
-            ]],
+            [
+                [
+                    'CONSTRAINT %s CHECK (%s)',
+                    ['foo', 'id>0'],
+                    [$check::TYPE_IDENTIFIER, $check::TYPE_LITERAL],
+                ],
+            ],
             $check->getExpressionData()
         );
     }

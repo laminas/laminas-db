@@ -1,7 +1,10 @@
 <?php
+
 namespace LaminasTest\Db\TestAsset;
 
-class PdoStubDriver extends \PDO
+use PDO;
+
+class PdoStubDriver extends PDO
 {
     public function beginTransaction()
     {

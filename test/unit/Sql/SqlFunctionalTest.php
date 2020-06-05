@@ -13,20 +13,24 @@ use Laminas\Db\Sql;
 use LaminasTest\Db\TestAsset;
 use PHPUnit\Framework\TestCase;
 
+use function array_merge;
+use function is_array;
+use function is_string;
+
 /**
- * @method \Laminas\Db\Sql\Select select(null|string $table)
- * @method \Laminas\Db\Sql\Update update(null|string $table)
- * @method \Laminas\Db\Sql\Delete delete(null|string $table)
- * @method \Laminas\Db\Sql\Insert insert(null|string $table)
- * @method \Laminas\Db\Sql\Ddl\CreateTable createTable(null|string $table)
- * @method \Laminas\Db\Sql\Ddl\Column\Column createColumn(null|string $name)
+ * @method Sql\Select select(null|string $table)
+ * @method Sql\Update update(null|string $table)
+ * @method Sql\Delete delete(null|string $table)
+ * @method Sql\Insert insert(null|string $table)
+ * @method Sql\Ddl\CreateTable createTable(null|string $table)
+ * @method Sql\Ddl\Column\Column createColumn(null|string $name)
  */
 class SqlFunctionalTest extends TestCase
 {
     protected function dataProviderCommonProcessMethods()
     {
         return [
-            'Select::processOffset()' => [
+            'Select::processOffset()'      => [
                 'sqlObject' => $this->select('foo')->offset(10),
                 'expected'  => [
                     'sql92' => [
@@ -53,7 +57,7 @@ class SqlFunctionalTest extends TestCase
                     // @codingStandardsIgnoreEnd
                 ],
             ],
-            'Select::processLimit()' => [
+            'Select::processLimit()'       => [
                 'sqlObject' => $this->select('foo')->limit(10),
                 'expected'  => [
                     'sql92' => [
@@ -118,13 +122,13 @@ class SqlFunctionalTest extends TestCase
                                     ->join(
                                         'joined_table3',
                                         'my_table.id = joined_table3.id',
-                                        [\Laminas\Db\Sql\Select::SQL_STAR]
+                                        [Sql\Select::SQL_STAR]
                                     )
                                     ->columns([
                                         'my_table_column',
-                                        'aliased_column' => new \Laminas\Db\Sql\Expression('NOW()'),
+                                        'aliased_column' => new Sql\Expression('NOW()'),
                                     ]),
-                'expected' => [
+                'expected'  => [
                     // @codingStandardsIgnoreStart
                     'sql92' => [
                         'string' => 'SELECT "my_table"."my_table_column" AS "my_table_column", NOW() AS "aliased_column", "joined_table3".* FROM "my_table" INNER JOIN "joined_table2" ON "my_table"."id" = "joined_table2"."id" INNER JOIN "joined_table3" ON "my_table"."id" = "joined_table3"."id"',
@@ -139,9 +143,9 @@ class SqlFunctionalTest extends TestCase
                         'string' => 'SELECT [my_table].[my_table_column] AS [my_table_column], NOW() AS [aliased_column], [joined_table3].* FROM [my_table] INNER JOIN [joined_table2] ON [my_table].[id] = [joined_table2].[id] INNER JOIN [joined_table3] ON [my_table].[id] = [joined_table3].[id]',
                     ]
                     // @codingStandardsIgnoreEnd
-                ]
+                ],
             ],
-            'Select::processJoin()' => [
+            'Select::processJoin()'                => [
                 'sqlObject' => $this->select('a')
                                     ->join(['b' => $this->select('c')->where(['cc' => 10])], 'd=e')->where(['x' => 20]),
                 'expected'  => [
@@ -169,7 +173,7 @@ class SqlFunctionalTest extends TestCase
                     // @codingStandardsIgnoreEnd
                 ],
             ],
-            'Ddl::CreateTable::processColumns()' => [
+            'Ddl::CreateTable::processColumns()'   => [
                 'sqlObject' => $this->createTable('foo')
                                     ->addColumn($this->createColumn('col1')
                                         ->setOption('identity', true)
@@ -186,7 +190,7 @@ class SqlFunctionalTest extends TestCase
                     // @codingStandardsIgnoreEnd
                 ],
             ],
-            'Ddl::CreateTable::processTable()' => [
+            'Ddl::CreateTable::processTable()'     => [
                 'sqlObject' => $this->createTable('foo')->setTemporary(true),
                 'expected'  => [
                     'sql92'     => "CREATE TEMPORARY TABLE \"foo\" ( \n)",
@@ -195,7 +199,7 @@ class SqlFunctionalTest extends TestCase
                     'SqlServer' => "CREATE TABLE [#foo] ( \n)",
                 ],
             ],
-            'Select::processSubSelect()' => [
+            'Select::processSubSelect()'           => [
                 'sqlObject' => $this->select([
                     'a' => $this->select([
                         'b' => $this->select('c')->where(['cc' => 'CC']),
@@ -226,7 +230,7 @@ class SqlFunctionalTest extends TestCase
                     // @codingStandardsIgnoreEnd
                 ],
             ],
-            'Delete::processSubSelect()' => [
+            'Delete::processSubSelect()'           => [
                 'sqlObject' => $this->delete('foo')->where(['x' => $this->select('foo')->where(['x' => 'y'])]),
                 'expected'  => [
                     'sql92'     => [
@@ -251,7 +255,7 @@ class SqlFunctionalTest extends TestCase
                     ],
                 ],
             ],
-            'Update::processSubSelect()' => [
+            'Update::processSubSelect()'           => [
                 'sqlObject' => $this->update('foo')->set(['x' => $this->select('foo')]),
                 'expected'  => [
                     'sql92'     => 'UPDATE "foo" SET "x" = (SELECT "foo".* FROM "foo")',
@@ -260,7 +264,7 @@ class SqlFunctionalTest extends TestCase
                     'SqlServer' => 'UPDATE [foo] SET [x] = (SELECT [foo].* FROM [foo])',
                 ],
             ],
-            'Insert::processSubSelect()' => [
+            'Insert::processSubSelect()'           => [
                 'sqlObject' => $this->insert('foo')->select($this->select('foo')->where(['x' => 'y'])),
                 'expected'  => [
                     'sql92'     => [
@@ -285,7 +289,7 @@ class SqlFunctionalTest extends TestCase
                     ],
                 ],
             ],
-            'Update::processExpression()' => [
+            'Update::processExpression()'          => [
                 'sqlObject' => $this->update('foo')->set(
                     ['x' => new Sql\Expression('?', [$this->select('foo')->where(['x' => 'y'])])]
                 ),
@@ -312,7 +316,7 @@ class SqlFunctionalTest extends TestCase
                     ],
                 ],
             ],
-            'Update::processJoins()' => [
+            'Update::processJoins()'               => [
                 'sqlObject' => $this->update('foo')->set(['x' => 'y'])->where(['xx' => 'yy'])->join(
                     'bar',
                     'bar.barId = foo.barId'
@@ -345,27 +349,27 @@ class SqlFunctionalTest extends TestCase
                 'expected'  => [
                     'sql92'     => [
                         'decorators' => [
-                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            Sql\Select::class => new TestAsset\SelectDecorator(),
                         ],
-                        'string' => 'SELECT "foo".* FROM "foo" WHERE "x" = (SELECT "bar".* FROM "bar")',
+                        'string'     => 'SELECT "foo".* FROM "foo" WHERE "x" = (SELECT "bar".* FROM "bar")',
                     ],
                     'MySql'     => [
                         'decorators' => [
-                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            Sql\Select::class => new TestAsset\SelectDecorator(),
                         ],
-                        'string' => 'SELECT `foo`.* FROM `foo` WHERE `x` = (SELECT `bar`.* FROM `bar`)',
+                        'string'     => 'SELECT `foo`.* FROM `foo` WHERE `x` = (SELECT `bar`.* FROM `bar`)',
                     ],
                     'Oracle'    => [
                         'decorators' => [
-                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            Sql\Select::class => new TestAsset\SelectDecorator(),
                         ],
-                        'string' => 'SELECT "foo".* FROM "foo" WHERE "x" = (SELECT "bar".* FROM "bar")',
+                        'string'     => 'SELECT "foo".* FROM "foo" WHERE "x" = (SELECT "bar".* FROM "bar")',
                     ],
                     'SqlServer' => [
                         'decorators' => [
-                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            Sql\Select::class => new TestAsset\SelectDecorator(),
                         ],
-                        'string' => 'SELECT [foo].* FROM [foo] WHERE [x] = (SELECT [bar].* FROM [bar])',
+                        'string'     => 'SELECT [foo].* FROM [foo] WHERE [x] = (SELECT [bar].* FROM [bar])',
                     ],
                 ],
             ],
@@ -543,7 +547,7 @@ class SqlFunctionalTest extends TestCase
             }
         }
 
-        $expectedString = is_string($expected) ? $expected : (isset($expected['string']) ? $expected['string'] : null);
+        $expectedString = is_string($expected) ? $expected : ($expected['string'] ?? null);
         if ($expectedString) {
             $actual = $sql->getSqlStringForSqlObject($sqlObject);
             self::assertEquals($expectedString, $actual, "getSqlString()");
@@ -578,25 +582,25 @@ class SqlFunctionalTest extends TestCase
     {
         switch ($platform) {
             case 'sql92':
-                $platform  = new TestAsset\TrustingSql92Platform();
+                $platform = new TestAsset\TrustingSql92Platform();
                 break;
             case 'MySql':
-                $platform  = new TestAsset\TrustingMysqlPlatform();
+                $platform = new TestAsset\TrustingMysqlPlatform();
                 break;
             case 'Oracle':
-                $platform  = new TestAsset\TrustingOraclePlatform();
+                $platform = new TestAsset\TrustingOraclePlatform();
                 break;
             case 'SqlServer':
-                $platform  = new TestAsset\TrustingSqlServerPlatform();
+                $platform = new TestAsset\TrustingSqlServerPlatform();
                 break;
             default:
                 $platform = null;
         }
 
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder(Adapter\Driver\DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnCallback(function () {
-            return new Adapter\StatementContainer;
+            return new Adapter\StatementContainer();
         }));
 
         return new Adapter\Adapter($mockDriver, $platform);
@@ -604,7 +608,7 @@ class SqlFunctionalTest extends TestCase
 
     public function __call($name, $arguments)
     {
-        $arg0 = isset($arguments[0]) ? $arguments[0] : null;
+        $arg0 = $arguments[0] ?? null;
         switch ($name) {
             case 'select':
                 return new Sql\Select($arg0);

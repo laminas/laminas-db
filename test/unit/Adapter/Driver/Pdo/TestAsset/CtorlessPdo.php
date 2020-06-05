@@ -8,7 +8,9 @@
 
 namespace LaminasTest\Db\Adapter\Driver\Pdo\TestAsset;
 
-class CtorlessPdo extends \Pdo
+use PDO;
+
+class CtorlessPdo extends PDO
 {
     protected $mockStatement;
 

@@ -8,24 +8,31 @@
 
 namespace LaminasIntegrationTest\Db\Platform;
 
+use Exception;
+use PDO;
+
+use function file_get_contents;
+use function getenv;
+use function print_r;
+use function sprintf;
+
 class MysqlFixtureLoader implements FixtureLoader
 {
-
     private $fixtureFile = __DIR__ . '/../TestFixtures/mysql.sql';
-    /**
-     * @var \PDO
-     */
+    /** @var PDO */
     private $pdo;
 
     public function createDatabase()
     {
         $this->connect();
 
-        if (false === $this->pdo->exec(sprintf(
-            "CREATE DATABASE IF NOT EXISTS %s",
-            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
-        ))) {
-            throw new \Exception(sprintf(
+        if (
+            false === $this->pdo->exec(sprintf(
+                "CREATE DATABASE IF NOT EXISTS %s",
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
+            ))
+        ) {
+            throw new Exception(sprintf(
                 "I cannot create the MySQL %s test database: %s",
                 getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
                 print_r($this->pdo->errorInfo(), true)
@@ -35,7 +42,7 @@ class MysqlFixtureLoader implements FixtureLoader
         $this->pdo->exec('USE ' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE'));
 
         if (false === $this->pdo->exec(file_get_contents($this->fixtureFile))) {
-            throw new \Exception(sprintf(
+            throw new Exception(sprintf(
                 "I cannot create the table for %s database. Check the %s file. %s ",
                 getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),
                 $this->fixtureFile,
@@ -60,7 +67,7 @@ class MysqlFixtureLoader implements FixtureLoader
 
     protected function connect()
     {
-        $this->pdo = new \PDO(
+        $this->pdo = new PDO(
             'mysql:host=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME'),
             getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME'),
             getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD')

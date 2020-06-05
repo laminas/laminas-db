@@ -8,24 +8,28 @@
 
 namespace LaminasTest\Db\Adapter\Platform;
 
+use Laminas\Db\Adapter\Driver\Pdo\Pdo;
 use Laminas\Db\Adapter\Platform\Sqlite;
 use PHPUnit\Framework\Error;
 use PHPUnit\Framework\TestCase;
 
+use function file_exists;
+use function realpath;
+use function touch;
+use function unlink;
+
 class SqliteTest extends TestCase
 {
-    /**
-     * @var Sqlite
-     */
+    /** @var Sqlite */
     protected $platform;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->platform = new Sqlite;
+        $this->platform = new Sqlite();
     }
 
     /**
@@ -75,7 +79,7 @@ class SqliteTest extends TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        $this->expectException(Error\Notice::class);
+        $this->expectNotice(Error\Notice::class);
         $this->expectExceptionMessage(
             'Attempting to quote a value in Laminas\Db\Adapter\Platform\Sqlite without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
@@ -124,7 +128,7 @@ class SqliteTest extends TestCase
      */
     public function testQuoteValueList()
     {
-        $this->expectException(Error\Error::class);
+        $this->expectError(Error\Error::class);
         $this->expectExceptionMessage(
             'Attempting to quote a value in Laminas\Db\Adapter\Platform\Sqlite without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
@@ -185,8 +189,8 @@ class SqliteTest extends TestCase
             touch($filePath);
         }
 
-        $driver = new \Laminas\Db\Adapter\Driver\Pdo\Pdo([
-            'driver' => 'Pdo_Sqlite',
+        $driver = new Pdo([
+            'driver'   => 'Pdo_Sqlite',
             'database' => $filePath,
         ]);
 
@@ -200,6 +204,6 @@ class SqliteTest extends TestCase
 
         @unlink($filePath);
 
-        self::assertFileNotExists($filePath);
+        self::assertFileDoesNotExist($filePath);
     }
 }

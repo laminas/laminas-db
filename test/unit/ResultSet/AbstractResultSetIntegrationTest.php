@@ -8,22 +8,23 @@
 
 namespace LaminasTest\Db\ResultSet;
 
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\ResultSet\AbstractResultSet;
 use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 
 class AbstractResultSetIntegrationTest extends TestCase
 {
-    /**
-     * @var \Laminas\Db\ResultSet\AbstractResultSet|\PHPUnit_Framework_MockObject_MockObject
-     */
+    /** @var AbstractResultSet|PHPUnit_Framework_MockObject_MockObject */
     protected $resultSet;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
+        $this->resultSet = $this->getMockForAbstractClass(AbstractResultSet::class);
     }
 
     /**
@@ -31,7 +32,7 @@ class AbstractResultSetIntegrationTest extends TestCase
      */
     public function testCurrentCallsDataSourceCurrentAsManyTimesWithoutBuffer()
     {
-        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
+        $result = $this->getMockBuilder(ResultInterface::class)->getMock();
         $this->resultSet->initialize($result);
         $result->expects($this->exactly(3))->method('current')->will($this->returnValue(['foo' => 'bar']));
         $value1 = $this->resultSet->current();
@@ -45,7 +46,7 @@ class AbstractResultSetIntegrationTest extends TestCase
      */
     public function testCurrentCallsDataSourceCurrentOnceWithBuffer()
     {
-        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
+        $result = $this->getMockBuilder(ResultInterface::class)->getMock();
         $this->resultSet->buffer();
         $this->resultSet->initialize($result);
         $result->expects($this->once())->method('current')->will($this->returnValue(['foo' => 'bar']));

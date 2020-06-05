@@ -8,13 +8,18 @@
 
 namespace LaminasIntegrationTest\Db\Platform;
 
+use Exception;
+use PDO;
+
+use function file_get_contents;
+use function getenv;
+use function print_r;
+use function sprintf;
+
 class PgsqlFixtureLoader implements FixtureLoader
 {
-
     private $fixtureFile = __DIR__ . '/../TestFixtures/pgsql.sql';
-    /**
-     * @var \PDO
-     */
+    /** @var PDO */
     private $pdo;
     private $initialRun = true;
 
@@ -26,11 +31,13 @@ class PgsqlFixtureLoader implements FixtureLoader
 
         $this->connect();
 
-        if (false === $this->pdo->exec(sprintf(
-            "CREATE DATABASE %s",
-            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
-        ))) {
-            throw new \Exception(sprintf(
+        if (
+            false === $this->pdo->exec(sprintf(
+                "CREATE DATABASE %s",
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
+            ))
+        ) {
+            throw new Exception(sprintf(
                 "I cannot create the PostgreSQL %s test database: %s",
                 getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE'),
                 print_r($this->pdo->errorInfo(), true)
@@ -43,7 +50,7 @@ class PgsqlFixtureLoader implements FixtureLoader
         $this->connect(true);
 
         if (false === $this->pdo->exec(file_get_contents($this->fixtureFile))) {
-            throw new \Exception(sprintf(
+            throw new Exception(sprintf(
                 "I cannot create the table for %s database. Check the %s file. %s ",
                 getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE'),
                 $this->fixtureFile,
@@ -85,7 +92,7 @@ class PgsqlFixtureLoader implements FixtureLoader
             $dsn .= ';dbname=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE');
         }
 
-        $this->pdo = new \PDO(
+        $this->pdo = new PDO(
             $dsn,
             getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME'),
             getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD')

@@ -34,7 +34,6 @@ class PredicateTest extends TestCase
         self::assertContains(['foo.bar', 'bar'], $parts[0]);
     }
 
-
     public function testLessThanCreatesOperatorPredicate()
     {
         $predicate = new Predicate();
@@ -226,7 +225,7 @@ class PredicateTest extends TestCase
      */
     public function testExpression()
     {
-        $predicate = new Predicate;
+        $predicate = new Predicate();
 
         // is chainable
         self::assertSame($predicate, $predicate->expression('foo = ?', 0));
@@ -242,7 +241,7 @@ class PredicateTest extends TestCase
      */
     public function testExpressionNullParameters()
     {
-        $predicate = new Predicate;
+        $predicate = new Predicate();
 
         $predicate->expression('foo = bar');
         $predicates = $predicate->getPredicates();
@@ -255,7 +254,7 @@ class PredicateTest extends TestCase
      */
     public function testLiteral()
     {
-        $predicate = new Predicate;
+        $predicate = new Predicate();
 
         // is chainable
         self::assertSame($predicate, $predicate->literal('foo = bar'));
@@ -266,7 +265,7 @@ class PredicateTest extends TestCase
         );
 
         // test literal() is backwards-compatible, and works with with parameters
-        $predicate = new Predicate;
+        $predicate = new Predicate();
         $predicate->expression('foo = ?', 'bar');
         // with parameter
         self::assertEquals(
@@ -275,7 +274,7 @@ class PredicateTest extends TestCase
         );
 
         // test literal() is backwards-compatible, and works with with parameters, even 0 which tests as false
-        $predicate = new Predicate;
+        $predicate = new Predicate();
         $predicate->expression('foo = ?', 0);
         // with parameter
         self::assertEquals(

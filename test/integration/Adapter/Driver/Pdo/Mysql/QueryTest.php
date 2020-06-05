@@ -9,6 +9,7 @@
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
 use Laminas\Db\Adapter\Driver\Pdo\Result as PdoResult;
+use Laminas\Db\Adapter\Exception\RuntimeException;
 use Laminas\Db\ResultSet\ResultSet;
 use PHPUnit\Framework\TestCase;
 
@@ -27,7 +28,7 @@ class QueryTest extends TestCase
                 // name is string, but given parameter is int, can lead to unexpected result
                 'SELECT * FROM test WHERE name = ?',
                 [123],
-                ['id' => '3', 'name' => '123a', 'value' => 'bar']
+                ['id' => '3', 'name' => '123a', 'value' => 'bar'],
             ],
         ];
     }
@@ -59,11 +60,13 @@ class QueryTest extends TestCase
         $this->assertInstanceOf(PdoResult::class, $result);
     }
 
-    /**
-     * @expectedException Laminas\Db\Adapter\Exception\RuntimeException
-     */
     public function testSelectWithNotPermittedBindParamName()
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(
+            'The PDO param tz$ contains invalid characters. Only alphabetic characters, digits, and underscores (_) are allowed.'
+        );
+
         $result = $this->adapter->query('SET @@session.time_zone = :tz$', [':tz$' => 'SYSTEM']);
     }
 }

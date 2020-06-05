@@ -8,8 +8,11 @@
 
 namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
+use Laminas\Db\Adapter\Driver\Sqlsrv\Result;
 use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 use Laminas\Db\Adapter\Driver\Sqlsrv\Statement;
+
+use function get_resource_type;
 
 /**
  * @group integration
@@ -27,7 +30,7 @@ class StatementIntegrationTest extends AbstractIntegrationTest
             ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
         );
 
-        $statement = new Statement;
+        $statement = new Statement();
         self::assertSame($statement, $statement->initialize($sqlsrvResource));
         unset($stmtResource, $sqlsrvResource);
     }
@@ -42,7 +45,7 @@ class StatementIntegrationTest extends AbstractIntegrationTest
             ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
         );
 
-        $statement = new Statement;
+        $statement = new Statement();
         $statement->initialize($sqlsrvResource);
         $statement->prepare("SELECT 'foo'");
         $resource = $statement->getResource();
@@ -61,7 +64,7 @@ class StatementIntegrationTest extends AbstractIntegrationTest
             ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
         );
 
-        $statement = new Statement;
+        $statement = new Statement();
         $statement->initialize($sqlsrvResource);
         self::assertFalse($statement->isPrepared());
         self::assertSame($statement, $statement->prepare("SELECT 'foo'"));
@@ -74,12 +77,12 @@ class StatementIntegrationTest extends AbstractIntegrationTest
      */
     public function testExecute()
     {
-        $sqlsrv = new Sqlsrv($this->variables);
+        $sqlsrv    = new Sqlsrv($this->variables);
         $statement = $sqlsrv->createStatement("SELECT 'foo'");
         self::assertSame($statement, $statement->prepare());
 
         $result = $statement->execute();
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Sqlsrv\Result', $result);
+        self::assertInstanceOf(Result::class, $result);
 
         unset($resource, $sqlsrvResource);
     }

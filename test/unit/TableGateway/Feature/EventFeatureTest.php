@@ -8,7 +8,15 @@
 
 namespace LaminasTest\Db\TableGateway\Feature;
 
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\Sql\Delete;
+use Laminas\Db\Sql\Insert;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Update;
 use Laminas\Db\TableGateway\Feature\EventFeature;
+use Laminas\Db\TableGateway\TableGateway;
 use Laminas\EventManager\EventManager;
 use PHPUnit\Framework\TestCase;
 
@@ -22,15 +30,15 @@ class EventFeatureTest extends TestCase
 
     protected $event;
 
-    /** @var \Laminas\Db\TableGateway\TableGateway */
+    /** @var TableGateway */
     protected $tableGateway;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->eventManager = new EventManager;
-        $this->event = new EventFeature\TableGatewayEvent();
-        $this->feature = new EventFeature($this->eventManager, $this->event);
-        $this->tableGateway = $this->getMockForAbstractClass('Laminas\Db\TableGateway\TableGateway', [], '', false);
+        $this->eventManager = new EventManager();
+        $this->event        = new EventFeature\TableGatewayEvent();
+        $this->feature      = new EventFeature($this->eventManager, $this->event);
+        $this->tableGateway = $this->getMockForAbstractClass(TableGateway::class, [], '', false);
         $this->feature->setTableGateway($this->tableGateway);
 
         // typically runs before everything else
@@ -51,16 +59,16 @@ class EventFeatureTest extends TestCase
     {
         $closureHasRun = false;
 
-        /** @var $event EventFeature\TableGatewayEvent */
+        /** @var EventFeature\TableGatewayEvent $event */
         $event = null;
         $this->eventManager->attach(EventFeature::EVENT_PRE_INITIALIZE, function ($e) use (&$closureHasRun, &$event) {
-            $event = $e;
+            $event         = $e;
             $closureHasRun = true;
         });
 
         $this->feature->preInitialize();
         self::assertTrue($closureHasRun);
-        self::assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertInstanceOf(TableGateway::class, $event->getTarget());
         self::assertEquals(EventFeature::EVENT_PRE_INITIALIZE, $event->getName());
     }
 
@@ -68,16 +76,16 @@ class EventFeatureTest extends TestCase
     {
         $closureHasRun = false;
 
-        /** @var $event EventFeature\TableGatewayEvent */
+        /** @var EventFeature\TableGatewayEvent $event */
         $event = null;
         $this->eventManager->attach(EventFeature::EVENT_POST_INITIALIZE, function ($e) use (&$closureHasRun, &$event) {
-            $event = $e;
+            $event         = $e;
             $closureHasRun = true;
         });
 
         $this->feature->postInitialize();
         self::assertTrue($closureHasRun);
-        self::assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertInstanceOf(TableGateway::class, $event->getTarget());
         self::assertEquals(EventFeature::EVENT_POST_INITIALIZE, $event->getName());
     }
 
@@ -85,16 +93,16 @@ class EventFeatureTest extends TestCase
     {
         $closureHasRun = false;
 
-        /** @var $event EventFeature\TableGatewayEvent */
+        /** @var EventFeature\TableGatewayEvent $event */
         $event = null;
         $this->eventManager->attach(EventFeature::EVENT_PRE_SELECT, function ($e) use (&$closureHasRun, &$event) {
-            $event = $e;
+            $event         = $e;
             $closureHasRun = true;
         });
 
-        $this->feature->preSelect($select = $this->getMockBuilder('Laminas\Db\Sql\Select')->getMock());
+        $this->feature->preSelect($select = $this->getMockBuilder(Select::class)->getMock());
         self::assertTrue($closureHasRun);
-        self::assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertInstanceOf(TableGateway::class, $event->getTarget());
         self::assertEquals(EventFeature::EVENT_PRE_SELECT, $event->getName());
         self::assertSame($select, $event->getParam('select'));
     }
@@ -103,20 +111,20 @@ class EventFeatureTest extends TestCase
     {
         $closureHasRun = false;
 
-        /** @var $event EventFeature\TableGatewayEvent */
+        /** @var EventFeature\TableGatewayEvent $event */
         $event = null;
         $this->eventManager->attach(EventFeature::EVENT_POST_SELECT, function ($e) use (&$closureHasRun, &$event) {
-            $event = $e;
+            $event         = $e;
             $closureHasRun = true;
         });
 
         $this->feature->postSelect(
-            ($stmt = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock()),
-            ($result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock()),
-            ($resultset = $this->getMockBuilder('Laminas\Db\ResultSet\ResultSet')->getMock())
+            $stmt      = $this->getMockBuilder(StatementInterface::class)->getMock(),
+            $result    = $this->getMockBuilder(ResultInterface::class)->getMock(),
+            $resultset = $this->getMockBuilder(ResultSet::class)->getMock()
         );
         self::assertTrue($closureHasRun);
-        self::assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertInstanceOf(TableGateway::class, $event->getTarget());
         self::assertEquals(EventFeature::EVENT_POST_SELECT, $event->getName());
         self::assertSame($stmt, $event->getParam('statement'));
         self::assertSame($result, $event->getParam('result'));
@@ -127,16 +135,16 @@ class EventFeatureTest extends TestCase
     {
         $closureHasRun = false;
 
-        /** @var $event EventFeature\TableGatewayEvent */
+        /** @var EventFeature\TableGatewayEvent $event */
         $event = null;
         $this->eventManager->attach(EventFeature::EVENT_PRE_INSERT, function ($e) use (&$closureHasRun, &$event) {
-            $event = $e;
+            $event         = $e;
             $closureHasRun = true;
         });
 
-        $this->feature->preInsert($insert = $this->getMockBuilder('Laminas\Db\Sql\Insert')->getMock());
+        $this->feature->preInsert($insert = $this->getMockBuilder(Insert::class)->getMock());
         self::assertTrue($closureHasRun);
-        self::assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertInstanceOf(TableGateway::class, $event->getTarget());
         self::assertEquals(EventFeature::EVENT_PRE_INSERT, $event->getName());
         self::assertSame($insert, $event->getParam('insert'));
     }
@@ -145,19 +153,19 @@ class EventFeatureTest extends TestCase
     {
         $closureHasRun = false;
 
-        /** @var $event EventFeature\TableGatewayEvent */
+        /** @var EventFeature\TableGatewayEvent $event */
         $event = null;
         $this->eventManager->attach(EventFeature::EVENT_POST_INSERT, function ($e) use (&$closureHasRun, &$event) {
-            $event = $e;
+            $event         = $e;
             $closureHasRun = true;
         });
 
         $this->feature->postInsert(
-            ($stmt = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock()),
-            ($result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock())
+            $stmt   = $this->getMockBuilder(StatementInterface::class)->getMock(),
+            $result = $this->getMockBuilder(ResultInterface::class)->getMock()
         );
         self::assertTrue($closureHasRun);
-        self::assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertInstanceOf(TableGateway::class, $event->getTarget());
         self::assertEquals(EventFeature::EVENT_POST_INSERT, $event->getName());
         self::assertSame($stmt, $event->getParam('statement'));
         self::assertSame($result, $event->getParam('result'));
@@ -167,16 +175,16 @@ class EventFeatureTest extends TestCase
     {
         $closureHasRun = false;
 
-        /** @var $event EventFeature\TableGatewayEvent */
+        /** @var EventFeature\TableGatewayEvent $event */
         $event = null;
         $this->eventManager->attach(EventFeature::EVENT_PRE_UPDATE, function ($e) use (&$closureHasRun, &$event) {
-            $event = $e;
+            $event         = $e;
             $closureHasRun = true;
         });
 
-        $this->feature->preUpdate($update = $this->getMockBuilder('Laminas\Db\Sql\Update')->getMock());
+        $this->feature->preUpdate($update = $this->getMockBuilder(Update::class)->getMock());
         self::assertTrue($closureHasRun);
-        self::assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertInstanceOf(TableGateway::class, $event->getTarget());
         self::assertEquals(EventFeature::EVENT_PRE_UPDATE, $event->getName());
         self::assertSame($update, $event->getParam('update'));
     }
@@ -185,19 +193,19 @@ class EventFeatureTest extends TestCase
     {
         $closureHasRun = false;
 
-        /** @var $event EventFeature\TableGatewayEvent */
+        /** @var EventFeature\TableGatewayEvent $event */
         $event = null;
         $this->eventManager->attach(EventFeature::EVENT_POST_UPDATE, function ($e) use (&$closureHasRun, &$event) {
-            $event = $e;
+            $event         = $e;
             $closureHasRun = true;
         });
 
         $this->feature->postUpdate(
-            ($stmt = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock()),
-            ($result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock())
+            $stmt   = $this->getMockBuilder(StatementInterface::class)->getMock(),
+            $result = $this->getMockBuilder(ResultInterface::class)->getMock()
         );
         self::assertTrue($closureHasRun);
-        self::assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertInstanceOf(TableGateway::class, $event->getTarget());
         self::assertEquals(EventFeature::EVENT_POST_UPDATE, $event->getName());
         self::assertSame($stmt, $event->getParam('statement'));
         self::assertSame($result, $event->getParam('result'));
@@ -207,16 +215,16 @@ class EventFeatureTest extends TestCase
     {
         $closureHasRun = false;
 
-        /** @var $event EventFeature\TableGatewayEvent */
+        /** @var EventFeature\TableGatewayEvent $event */
         $event = null;
         $this->eventManager->attach(EventFeature::EVENT_PRE_DELETE, function ($e) use (&$closureHasRun, &$event) {
-            $event = $e;
+            $event         = $e;
             $closureHasRun = true;
         });
 
-        $this->feature->preDelete($delete = $this->getMockBuilder('Laminas\Db\Sql\Delete')->getMock());
+        $this->feature->preDelete($delete = $this->getMockBuilder(Delete::class)->getMock());
         self::assertTrue($closureHasRun);
-        self::assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertInstanceOf(TableGateway::class, $event->getTarget());
         self::assertEquals(EventFeature::EVENT_PRE_DELETE, $event->getName());
         self::assertSame($delete, $event->getParam('delete'));
     }
@@ -225,19 +233,19 @@ class EventFeatureTest extends TestCase
     {
         $closureHasRun = false;
 
-        /** @var $event EventFeature\TableGatewayEvent */
+        /** @var EventFeature\TableGatewayEvent $event */
         $event = null;
         $this->eventManager->attach(EventFeature::EVENT_POST_DELETE, function ($e) use (&$closureHasRun, &$event) {
-            $event = $e;
+            $event         = $e;
             $closureHasRun = true;
         });
 
         $this->feature->postDelete(
-            ($stmt = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock()),
-            ($result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock())
+            $stmt   = $this->getMockBuilder(StatementInterface::class)->getMock(),
+            $result = $this->getMockBuilder(ResultInterface::class)->getMock()
         );
         self::assertTrue($closureHasRun);
-        self::assertInstanceOf('Laminas\Db\TableGateway\TableGateway', $event->getTarget());
+        self::assertInstanceOf(TableGateway::class, $event->getTarget());
         self::assertEquals(EventFeature::EVENT_POST_DELETE, $event->getName());
         self::assertSame($stmt, $event->getParam('statement'));
         self::assertSame($result, $event->getParam('result'));

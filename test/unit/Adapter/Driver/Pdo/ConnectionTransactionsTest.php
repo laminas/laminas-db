@@ -8,6 +8,8 @@
 
 namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
+use Laminas\Db\Adapter\Driver\Pdo\Connection;
+use Laminas\Db\Adapter\Exception\RuntimeException;
 use LaminasTest\Db\TestAsset\ConnectionWrapper;
 use PHPUnit\Framework\TestCase;
 
@@ -19,15 +21,13 @@ use PHPUnit\Framework\TestCase;
  */
 class ConnectionTransactionsTest extends TestCase
 {
-    /**
-     * @var Wrapper
-     */
+    /** @var Wrapper */
     protected $wrapper;
 
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->wrapper = new ConnectionWrapper();
     }
@@ -37,7 +37,7 @@ class ConnectionTransactionsTest extends TestCase
      */
     public function testBeginTransactionReturnsInstanceOfConnection()
     {
-        self::assertInstanceOf('\Laminas\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->beginTransaction());
+        self::assertInstanceOf(Connection::class, $this->wrapper->beginTransaction());
     }
 
     /**
@@ -56,7 +56,7 @@ class ConnectionTransactionsTest extends TestCase
     public function testCommitReturnsInstanceOfConnection()
     {
         $this->wrapper->beginTransaction();
-        self::assertInstanceOf('\Laminas\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->commit());
+        self::assertInstanceOf(Connection::class, $this->wrapper->commit());
     }
 
     /**
@@ -77,7 +77,7 @@ class ConnectionTransactionsTest extends TestCase
      */
     public function testCommitWithoutBeginReturnsInstanceOfConnection()
     {
-        self::assertInstanceOf('\Laminas\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->commit());
+        self::assertInstanceOf(Connection::class, $this->wrapper->commit());
     }
 
     /**
@@ -94,22 +94,22 @@ class ConnectionTransactionsTest extends TestCase
         // 1st transaction
         $this->wrapper->beginTransaction();
         self::assertTrue($this->wrapper->inTransaction());
-        self::assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertSame(++$nested, $this->wrapper->getNestedTransactionsCount());
 
         // 2nd transaction
         $this->wrapper->beginTransaction();
         self::assertTrue($this->wrapper->inTransaction());
-        self::assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertSame(++$nested, $this->wrapper->getNestedTransactionsCount());
 
         // 1st commit
         $this->wrapper->commit();
         self::assertTrue($this->wrapper->inTransaction());
-        self::assertSame(-- $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertSame(--$nested, $this->wrapper->getNestedTransactionsCount());
 
         // 2nd commit
         $this->wrapper->commit();
         self::assertFalse($this->wrapper->inTransaction());
-        self::assertSame(-- $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertSame(--$nested, $this->wrapper->getNestedTransactionsCount());
     }
 
     /**
@@ -126,12 +126,12 @@ class ConnectionTransactionsTest extends TestCase
         // 1st transaction
         $this->wrapper->beginTransaction();
         self::assertTrue($this->wrapper->inTransaction());
-        self::assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertSame(++$nested, $this->wrapper->getNestedTransactionsCount());
 
         // 2nd transaction
         $this->wrapper->beginTransaction();
         self::assertTrue($this->wrapper->inTransaction());
-        self::assertSame(++ $nested, $this->wrapper->getNestedTransactionsCount());
+        self::assertSame(++$nested, $this->wrapper->getNestedTransactionsCount());
 
         // Rollback
         $this->wrapper->rollback();
@@ -146,7 +146,7 @@ class ConnectionTransactionsTest extends TestCase
     {
         $this->wrapper->disconnect();
 
-        $this->expectException('\Laminas\Db\Adapter\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Must be connected before you can rollback');
         $this->wrapper->rollback();
     }
@@ -157,7 +157,7 @@ class ConnectionTransactionsTest extends TestCase
     public function testRollbackReturnsInstanceOfConnection()
     {
         $this->wrapper->beginTransaction();
-        self::assertInstanceOf('\Laminas\Db\Adapter\Driver\Pdo\Connection', $this->wrapper->rollback());
+        self::assertInstanceOf(Connection::class, $this->wrapper->rollback());
     }
 
     /**
@@ -176,7 +176,7 @@ class ConnectionTransactionsTest extends TestCase
      */
     public function testRollbackWithoutBeginThrowsException()
     {
-        $this->expectException('\Laminas\Db\Adapter\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Must call beginTransaction() before you can rollback');
         $this->wrapper->rollback();
     }

@@ -13,20 +13,21 @@ use Laminas\Db\Adapter\Platform\SqlServer;
 use PHPUnit\Framework\Error;
 use PHPUnit\Framework\TestCase;
 
+use function restore_error_handler;
+use function set_error_handler;
+
 class SqlServerTest extends TestCase
 {
-    /**
-     * @var SqlServer
-     */
+    /** @var SqlServer */
     protected $platform;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->platform = new SqlServer;
+        $this->platform = new SqlServer();
     }
 
     /**
@@ -76,7 +77,7 @@ class SqlServerTest extends TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        $this->expectException(Error\Notice::class);
+        $this->expectNotice(Error\Notice::class);
         $this->expectExceptionMessage(
             'Attempting to quote a value in Laminas\Db\Adapter\Platform\SqlServer without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
@@ -123,7 +124,7 @@ class SqlServerTest extends TestCase
      */
     public function testQuoteValueList()
     {
-        $this->expectException(Error\Error::class);
+        $this->expectError(Error\Error::class);
         $this->expectExceptionMessage(
             'Attempting to quote a value in Laminas\Db\Adapter\Platform\SqlServer without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
@@ -186,7 +187,7 @@ class SqlServerTest extends TestCase
         set_error_handler(function () {
         });
         $string = "1\0";
-        $value = $this->platform->quoteValue($string);
+        $value  = $this->platform->quoteValue($string);
         restore_error_handler();
         self::assertEquals("'1\\000'", $value);
     }

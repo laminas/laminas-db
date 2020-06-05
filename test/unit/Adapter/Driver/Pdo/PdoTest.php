@@ -10,20 +10,19 @@ namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Pdo\Pdo;
+use Laminas\Db\Adapter\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 
 class PdoTest extends TestCase
 {
-    /**
-     * @var Pdo
-     */
+    /** @var Pdo */
     protected $pdo;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->pdo = new Pdo([]);
     }
@@ -42,17 +41,17 @@ class PdoTest extends TestCase
     public function getParamsAndType()
     {
         return [
-            [ 'foo', null, ':foo' ],
-            [ 'foo_bar', null, ':foo_bar' ],
-            [ '123foo', null, ':123foo' ],
-            [ 1, null, '?' ],
-            [ '1', null, '?' ],
-            [ 'foo', Pdo::PARAMETERIZATION_NAMED, ':foo' ],
-            [ 'foo_bar', Pdo::PARAMETERIZATION_NAMED, ':foo_bar' ],
-            [ '123foo', Pdo::PARAMETERIZATION_NAMED, ':123foo' ],
-            [ 1, Pdo::PARAMETERIZATION_NAMED, ':1' ],
-            [ '1', Pdo::PARAMETERIZATION_NAMED, ':1' ],
-            [ ':foo', null, ':foo' ],
+            ['foo', null, ':foo'],
+            ['foo_bar', null, ':foo_bar'],
+            ['123foo', null, ':123foo'],
+            [1, null, '?'],
+            ['1', null, '?'],
+            ['foo', Pdo::PARAMETERIZATION_NAMED, ':foo'],
+            ['foo_bar', Pdo::PARAMETERIZATION_NAMED, ':foo_bar'],
+            ['123foo', Pdo::PARAMETERIZATION_NAMED, ':123foo'],
+            [1, Pdo::PARAMETERIZATION_NAMED, ':1'],
+            ['1', Pdo::PARAMETERIZATION_NAMED, ':1'],
+            [':foo', null, ':foo'],
         ];
     }
 
@@ -68,19 +67,25 @@ class PdoTest extends TestCase
     public function getInvalidParamName()
     {
         return [
-            [ 'foo%' ],
-            [ 'foo-' ],
-            [ 'foo$' ],
-            [ 'foo0!' ]
+            ['foo%'],
+            ['foo-'],
+            ['foo$'],
+            ['foo0!'],
         ];
     }
 
     /**
      * @dataProvider getInvalidParamName
-     * @expectedException Laminas\Db\Exception\RuntimeException
      */
     public function testFormatParameterNameWithInvalidCharacters($name)
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage(
+            sprintf(
+                'The PDO param %s contains invalid characters. Only alphabetic characters, digits, and underscores (_) are allowed.',
+                $name
+            )
+        );
         $this->pdo->formatParameterName($name);
     }
 }

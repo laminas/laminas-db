@@ -11,6 +11,9 @@ namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo;
 use Laminas\Db\Adapter\Adapter;
 use PHPUnit\Framework\TestCase;
 
+use function getmypid;
+use function shell_exec;
+
 /**
  * @property Adapter $adapter
  */

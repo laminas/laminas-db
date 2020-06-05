@@ -9,7 +9,12 @@
 namespace LaminasTest\Db\TableGateway\Feature;
 
 use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\Adapter\Platform\Sql92;
+use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\Feature\MasterSlaveFeature;
+use Laminas\Db\TableGateway\TableGateway;
 use PHPUnit\Framework\TestCase;
 
 class MasterSlaveFeatureTest extends TestCase
@@ -23,33 +28,33 @@ class MasterSlaveFeatureTest extends TestCase
     /** @var MasterSlaveFeature */
     protected $feature;
 
-    /** @var \Laminas\Db\TableGateway\TableGateway */
+    /** @var TableGateway */
     protected $table;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->mockMasterAdapter = $this->getMockBuilder('Laminas\Db\Adapter\AdapterInterface')->getMock();
+        $this->mockMasterAdapter = $this->getMockBuilder(AdapterInterface::class)->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
+        $mockDriver    = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue(
             $mockStatement
         ));
         $this->mockMasterAdapter->expects($this->any())->method('getDriver')->will($this->returnValue($mockDriver));
         $this->mockMasterAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(
-            new \Laminas\Db\Adapter\Platform\Sql92()
+            new Sql92()
         ));
 
-        $this->mockSlaveAdapter = $this->getMockBuilder('Laminas\Db\Adapter\AdapterInterface')->getMock();
+        $this->mockSlaveAdapter = $this->getMockBuilder(AdapterInterface::class)->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
+        $mockDriver    = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue(
             $mockStatement
         ));
         $this->mockSlaveAdapter->expects($this->any())->method('getDriver')->will($this->returnValue($mockDriver));
         $this->mockSlaveAdapter->expects($this->any())->method('getPlatform')->will($this->returnValue(
-            new \Laminas\Db\Adapter\Platform\Sql92()
+            new Sql92()
         ));
 
         $this->feature = new MasterSlaveFeature($this->mockSlaveAdapter);
@@ -57,9 +62,9 @@ class MasterSlaveFeatureTest extends TestCase
 
     public function testPostInitialize()
     {
-        /** @var $table \Laminas\Db\TableGateway\TableGateway */
+        /** @var TableGateway $table */
         $this->getMockForAbstractClass(
-            'Laminas\Db\TableGateway\TableGateway',
+            TableGateway::class,
             ['foo', $this->mockMasterAdapter, $this->feature]
         );
         // postInitialize is run
@@ -69,13 +74,13 @@ class MasterSlaveFeatureTest extends TestCase
     public function testPreSelect()
     {
         $table = $this->getMockForAbstractClass(
-            'Laminas\Db\TableGateway\TableGateway',
+            TableGateway::class,
             ['foo', $this->mockMasterAdapter, $this->feature]
         );
 
         $this->mockSlaveAdapter->getDriver()->createStatement()
             ->expects($this->once())->method('execute')->will($this->returnValue(
-                $this->getMockBuilder('Laminas\Db\ResultSet\ResultSet')->getMock()
+                $this->getMockBuilder(ResultSet::class)->getMock()
             ));
         $table->select('foo = bar');
     }
@@ -83,12 +88,12 @@ class MasterSlaveFeatureTest extends TestCase
     public function testPostSelect()
     {
         $table = $this->getMockForAbstractClass(
-            'Laminas\Db\TableGateway\TableGateway',
+            TableGateway::class,
             ['foo', $this->mockMasterAdapter, $this->feature]
         );
         $this->mockSlaveAdapter->getDriver()->createStatement()
             ->expects($this->once())->method('execute')->will($this->returnValue(
-                $this->getMockBuilder('Laminas\Db\ResultSet\ResultSet')->getMock()
+                $this->getMockBuilder(ResultSet::class)->getMock()
             ));
 
         $masterSql = $table->getSql();

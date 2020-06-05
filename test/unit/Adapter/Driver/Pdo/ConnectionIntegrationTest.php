@@ -10,6 +10,8 @@ namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\Pdo\Connection;
 use Laminas\Db\Adapter\Driver\Pdo\Pdo;
+use Laminas\Db\Adapter\Driver\Pdo\Result;
+use Laminas\Db\Adapter\Driver\Pdo\Statement;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,7 +28,7 @@ class ConnectionIntegrationTest extends TestCase
     public function testGetCurrentSchema()
     {
         $connection = new Connection($this->variables);
-        self::assertInternalType('string', $connection->getCurrentSchema());
+        self::assertIsString($connection->getCurrentSchema());
     }
 
     /**
@@ -34,7 +36,7 @@ class ConnectionIntegrationTest extends TestCase
      */
     public function testSetResource()
     {
-        $resource = new TestAsset\SqliteMemoryPdo();
+        $resource   = new TestAsset\SqliteMemoryPdo();
         $connection = new Connection([]);
         self::assertSame($connection, $connection->setResource($resource));
 
@@ -136,11 +138,11 @@ class ConnectionIntegrationTest extends TestCase
      */
     public function testExecute()
     {
-        $sqlsrv = new Pdo($this->variables);
+        $sqlsrv     = new Pdo($this->variables);
         $connection = $sqlsrv->getConnection();
 
         $result = $connection->execute('SELECT \'foo\'');
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Pdo\Result', $result);
+        self::assertInstanceOf(Result::class, $result);
     }
 
     /**
@@ -148,11 +150,11 @@ class ConnectionIntegrationTest extends TestCase
      */
     public function testPrepare()
     {
-        $sqlsrv = new Pdo($this->variables);
+        $sqlsrv     = new Pdo($this->variables);
         $connection = $sqlsrv->getConnection();
 
         $statement = $connection->prepare('SELECT \'foo\'');
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Pdo\Statement', $statement);
+        self::assertInstanceOf(Statement::class, $statement);
     }
 
     /**
@@ -170,7 +172,7 @@ class ConnectionIntegrationTest extends TestCase
      */
     public function testConnectReturnsConnectionWhenResourceSet()
     {
-        $resource = new TestAsset\SqliteMemoryPdo();
+        $resource   = new TestAsset\SqliteMemoryPdo();
         $connection = new Connection([]);
         $connection->setResource($resource);
         self::assertSame($connection, $connection->connect());

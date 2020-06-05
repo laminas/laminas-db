@@ -9,36 +9,37 @@
 namespace LaminasTest\Db\Metadata\Source;
 
 use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Metadata\Object\ConstraintKeyObject;
+use Laminas\Db\Metadata\Object\ConstraintObject;
+use Laminas\Db\Metadata\Object\TriggerObject;
 use Laminas\Db\Metadata\Source\SqliteMetadata;
 use PHPUnit\Framework\TestCase;
+
+use function extension_loaded;
 
 /**
  * @requires extension pdo_sqlite
  */
 class SqliteMetadataTest extends TestCase
 {
-    /**
-     * @var SqliteMetadata
-     */
+    /** @var SqliteMetadata */
     protected $metadata;
 
-    /**
-     * @var Adapter
-     */
+    /** @var Adapter */
     protected $adapter;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (! extension_loaded('pdo_sqlite')) {
             $this->markTestSkipped('I cannot test without the pdo_sqlite extension');
         }
-        $this->adapter = new Adapter([
+        $this->adapter  = new Adapter([
             'driver' => 'Pdo',
-            'dsn' => 'sqlite::memory:',
+            'dsn'    => 'sqlite::memory:',
         ]);
         $this->metadata = new SqliteMetadata($this->adapter);
     }
@@ -66,10 +67,6 @@ class SqliteMetadataTest extends TestCase
     {
         $constraints = $this->metadata->getConstraints(null, 'main');
         self::assertCount(0, $constraints);
-        self::assertContainsOnlyInstancesOf(
-            'Laminas\Db\Metadata\Object\ConstraintObject',
-            $constraints
-        );
     }
 
     /**
@@ -83,19 +80,11 @@ class SqliteMetadataTest extends TestCase
             'main'
         );
         self::assertCount(0, $keys);
-        self::assertContainsOnlyInstancesOf(
-            'Laminas\Db\Metadata\Object\ConstraintKeyObject',
-            $keys
-        );
     }
 
     public function testGetTriggers()
     {
         $triggers = $this->metadata->getTriggers('main');
         self::assertCount(0, $triggers);
-        self::assertContainsOnlyInstancesOf(
-            'Laminas\Db\Metadata\Object\TriggerObject',
-            $triggers
-        );
     }
 }

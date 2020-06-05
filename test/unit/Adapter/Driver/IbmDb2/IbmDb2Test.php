@@ -8,21 +8,22 @@
 
 namespace LaminasTest\Db\Adapter\Driver\IbmDb2;
 
+use Laminas\Db\Adapter\Driver\IbmDb2\Connection;
 use Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2;
+use Laminas\Db\Adapter\Driver\IbmDb2\Result;
+use Laminas\Db\Adapter\Driver\IbmDb2\Statement;
 use PHPUnit\Framework\TestCase;
 
 class IbmDb2Test extends TestCase
 {
-    /**
-     * @var IbmDb2
-     */
+    /** @var IbmDb2 */
     protected $ibmdb2;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->ibmdb2 = new IbmDb2([]);
     }
@@ -33,7 +34,7 @@ class IbmDb2Test extends TestCase
     public function testRegisterConnection()
     {
         $mockConnection = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\IbmDb2\Connection',
+            Connection::class,
             [[]],
             '',
             true,
@@ -50,9 +51,9 @@ class IbmDb2Test extends TestCase
      */
     public function testRegisterStatementPrototype()
     {
-        $this->ibmdb2 = new IbmDb2([]);
+        $this->ibmdb2  = new IbmDb2([]);
         $mockStatement = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\IbmDb2\Statement',
+            Statement::class,
             [],
             '',
             true,
@@ -69,9 +70,9 @@ class IbmDb2Test extends TestCase
      */
     public function testRegisterResultPrototype()
     {
-        $this->ibmdb2 = new IbmDb2([]);
+        $this->ibmdb2  = new IbmDb2([]);
         $mockStatement = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\IbmDb2\Result',
+            Result::class,
             [],
             '',
             true,
@@ -98,7 +99,7 @@ class IbmDb2Test extends TestCase
      */
     public function testGetConnection($mockConnection)
     {
-        $conn = new \Laminas\Db\Adapter\Driver\IbmDb2\Connection([]);
+        $conn = new Connection([]);
         $this->ibmdb2->registerConnection($conn);
         self::assertSame($conn, $this->ibmdb2->getConnection());
     }

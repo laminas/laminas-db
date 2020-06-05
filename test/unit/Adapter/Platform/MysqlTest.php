@@ -14,18 +14,16 @@ use PHPUnit\Framework\TestCase;
 
 class MysqlTest extends TestCase
 {
-    /**
-     * @var Mysql
-     */
+    /** @var Mysql */
     protected $platform;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->platform = new Mysql;
+        $this->platform = new Mysql();
     }
 
     /**
@@ -84,7 +82,7 @@ class MysqlTest extends TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        $this->expectException(Error\Notice::class);
+        $this->expectNotice(Error\Notice::class);
         $this->expectExceptionMessage(
             'Attempting to quote a value in Laminas\Db\Adapter\Platform\Mysql without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'
@@ -133,7 +131,7 @@ class MysqlTest extends TestCase
      */
     public function testQuoteValueList()
     {
-        $this->expectException(Error\Error::class);
+        $this->expectError(Error\Error::class);
         $this->expectExceptionMessage(
             'Attempting to quote a value in Laminas\Db\Adapter\Platform\Mysql without extension/driver support can '
             . 'introduce security vulnerabilities in a production environment'

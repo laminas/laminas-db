@@ -18,8 +18,8 @@ class DeleteIgnore extends Delete
 
     protected function processdeleteIgnore(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         return parent::processDelete($platform, $driver, $parameterContainer);
     }

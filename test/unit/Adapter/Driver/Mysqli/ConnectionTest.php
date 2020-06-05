@@ -10,20 +10,21 @@ namespace LaminasTest\Db\Adapter\Driver\Mysqli;
 
 use Laminas\Db\Adapter\Driver\Mysqli\Connection;
 use Laminas\Db\Adapter\Driver\Mysqli\Mysqli;
+use Laminas\Db\Adapter\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
+
+use function getenv;
 
 class ConnectionTest extends TestCase
 {
-    /**
-     * @var Connection
-     */
+    /** @var Connection */
     protected $connection;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
             $this->markTestSkipped('Mysqli test disabled');
@@ -35,7 +36,7 @@ class ConnectionTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -66,10 +67,10 @@ class ConnectionTest extends TestCase
 
     public function testConnectionFails()
     {
-        $connection = new Connection([]);
-
-        $this->expectException('\Laminas\Db\Adapter\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Connection error');
+
+        $connection = new Connection([]);
         $connection->connect();
     }
 }

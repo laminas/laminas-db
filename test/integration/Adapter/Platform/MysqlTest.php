@@ -13,6 +13,9 @@ use Laminas\Db\Adapter\Driver\Pdo;
 use Laminas\Db\Adapter\Platform\Mysql;
 use PHPUnit\Framework\TestCase;
 
+use function extension_loaded;
+use function getenv;
+
 /**
  * @group integration
  * @group integration-mysql
@@ -21,10 +24,10 @@ class MysqlTest extends TestCase
 {
     public $adapters = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
-            $this->markTestSkipped(__CLASS__ . ' integration tests are not enabled!');
+            $this->markTestSkipped(self::class . ' integration tests are not enabled!');
         }
         if (extension_loaded('mysqli')) {
             $this->adapters['mysqli'] = new \mysqli(

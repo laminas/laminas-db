@@ -1,5 +1,11 @@
 <?php
+
 namespace Laminas\Db\Adapter\Driver\IbmDb2;
+
+use function is_string;
+use function trigger_error;
+
+use const E_USER_WARNING;
 
 /**
  * Mock db2_prepare by placing in same namespace as Statement
@@ -7,13 +13,13 @@ namespace Laminas\Db\Adapter\Driver\IbmDb2;
  * Return false if $sql is "invalid sql", otherwise return true
  *
  * @param  resource $adapter
- * @param  string $sql
- * @param  array $options
+ * @param  string   $sql
+ * @param  array    $options
  * @return resource|false
  */
 function db2_prepare($connection, $sql, $options = [])
 {
-    if ($sql == 'INVALID SQL') {
+    if ($sql === 'INVALID SQL') {
         // db2_prepare issues a warning with invalid SQL
         trigger_error("SQL is invalid", E_USER_WARNING);
         return false;
@@ -27,7 +33,7 @@ function db2_prepare($connection, $sql, $options = [])
  *
  * If you pass a string to $stmt, it will be returned to you
  *
- * @param mixed $stmt
+ * @param null|mixed $stmt
  * @return string
  */
 function db2_stmt_errormsg($stmt = null)
@@ -44,7 +50,7 @@ function db2_stmt_errormsg($stmt = null)
  *
  * If you pass a string to $stmt, it will be returned to you
  *
- * @param mixed $stmt
+ * @param null|mixed $stmt
  * @return string
  */
 function db2_stmt_error($stmt = null)

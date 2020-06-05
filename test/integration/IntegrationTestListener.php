@@ -8,36 +8,36 @@
 
 namespace LaminasIntegrationTest\Db;
 
-use Exception;
 use LaminasIntegrationTest\Db\Platform\FixtureLoader;
 use PDO;
-use PDOException;
-use PHPUnit\Framework\BaseTestListener;
-use PHPUnit_Framework_TestSuite as TestSuite;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
+use PHPUnit\Framework\TestSuite;
 
-class IntegrationTestListener extends BaseTestListener
+use function getenv;
+use function printf;
+
+class IntegrationTestListener implements TestListener
 {
-    /**
-     * @var PDO
-     */
+    use TestListenerDefaultImplementation;
+
+    /** @var PDO */
     private $pdo;
 
-    /**
-     * @var FixtureLoader
-     */
+    /** @var FixtureLoader */
     private $fixtureLoader;
 
-    public function startTestSuite(TestSuite $suite)
+    public function startTestSuite(TestSuite $suite): void
     {
         if ($suite->getName() !== 'integration test') {
             return;
         }
 
         if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
-            $this->fixtureLoader = new \LaminasIntegrationTest\Db\Platform\MysqlFixtureLoader();
+            $this->fixtureLoader = new Platform\MysqlFixtureLoader();
         }
         if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL')) {
-            $this->fixtureLoader = new \LaminasIntegrationTest\Db\Platform\PgsqlFixtureLoader();
+            $this->fixtureLoader = new Platform\PgsqlFixtureLoader();
         }
 
         if (! isset($this->fixtureLoader)) {
@@ -47,9 +47,10 @@ class IntegrationTestListener extends BaseTestListener
         $this->fixtureLoader->createDatabase();
     }
 
-    public function endTestSuite(TestSuite $suite)
+    public function endTestSuite(TestSuite $suite): void
     {
-        if ($suite->getName() !== 'integration test'
+        if (
+            $suite->getName() !== 'integration test'
             || ! isset($this->fixtureLoader)
         ) {
             return;

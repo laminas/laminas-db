@@ -10,6 +10,7 @@ namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
 use Laminas\Db\Adapter\Driver\Oci8\Connection;
 use Laminas\Db\Adapter\Driver\Oci8\Oci8;
+use Laminas\Db\Adapter\Driver\Oci8\Result;
 
 /**
  * @group integration
@@ -23,7 +24,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     public function testGetCurrentSchema()
     {
         $connection = new Connection($this->variables);
-        self::assertInternalType('string', $connection->getCurrentSchema());
+        self::assertIsString($connection->getCurrentSchema());
     }
 
     /**
@@ -53,7 +54,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
     {
         $connection = new Connection($this->variables);
         $connection->connect();
-        self::assertInternalType('resource', $connection->getResource());
+        self::assertIsResource($connection->getResource());
 
         $connection->disconnect();
         unset($connection);
@@ -139,11 +140,11 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testExecute()
     {
-        $oci8 = new Oci8($this->variables);
+        $oci8       = new Oci8($this->variables);
         $connection = $oci8->getConnection();
 
         $result = $connection->execute('SELECT \'foo\' FROM DUAL');
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Oci8\Result', $result);
+        self::assertInstanceOf(Result::class, $result);
     }
 
     /**

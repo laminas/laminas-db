@@ -11,6 +11,7 @@ namespace LaminasTest\Db;
 use Laminas\Db\Adapter;
 use Laminas\Db\ConfigProvider;
 use PHPUnit\Framework\TestCase;
+use Zend\Db\Adapter\AdapterInterface;
 
 class ConfigProviderTest extends TestCase
 {
@@ -18,12 +19,12 @@ class ConfigProviderTest extends TestCase
         'abstract_factories' => [
             Adapter\AdapterAbstractServiceFactory::class,
         ],
-        'factories' => [
+        'factories'          => [
             Adapter\AdapterInterface::class => Adapter\AdapterServiceFactory::class,
         ],
-        'aliases' => [
-            Adapter\Adapter::class => Adapter\AdapterInterface::class,
-            \Zend\Db\Adapter\AdapterInterface::class => Adapter\AdapterInterface::class,
+        'aliases'            => [
+            Adapter\Adapter::class          => Adapter\AdapterInterface::class,
+            AdapterInterface::class         => Adapter\AdapterInterface::class,
             \Zend\Db\Adapter\Adapter::class => Adapter\Adapter::class,
         ],
     ];

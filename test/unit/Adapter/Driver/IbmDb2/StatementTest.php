@@ -14,32 +14,32 @@ use Laminas\Db\Adapter\Exception\RuntimeException;
 use Laminas\Db\Adapter\ParameterContainer;
 use PHPUnit\Framework\TestCase;
 
+use function error_reporting;
+
 include __DIR__ . '/TestAsset/Db2Functions.php';
 
 class StatementTest extends TestCase
 {
-    /**
-     * @var Statement
-     */
+    /** @var Statement */
     protected $statement;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         // store current error_reporting value as we may change it
         // in a test
         $this->currentErrorReporting = error_reporting();
-        $this->statement = new Statement;
+        $this->statement             = new Statement();
     }
 
     /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // ensure error_reporting is set back to correct value
         error_reporting($this->currentErrorReporting);
@@ -58,7 +58,7 @@ class StatementTest extends TestCase
      */
     public function testSetParameterContainer()
     {
-        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
+        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer()));
     }
 
     /**
@@ -67,7 +67,7 @@ class StatementTest extends TestCase
      */
     public function testGetParameterContainer()
     {
-        $container = new ParameterContainer;
+        $container = new ParameterContainer();
         $this->statement->setParameterContainer($container);
         self::assertSame($container, $this->statement->getParameterContainer());
     }

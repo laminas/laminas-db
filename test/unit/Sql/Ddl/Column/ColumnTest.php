@@ -37,7 +37,7 @@ class ColumnTest extends TestCase
      */
     public function testSetNullable()
     {
-        $column = new Column;
+        $column = new Column();
         self::assertSame($column, $column->setNullable(true));
         return $column;
     }
@@ -58,7 +58,7 @@ class ColumnTest extends TestCase
      */
     public function testSetDefault()
     {
-        $column = new Column;
+        $column = new Column();
         self::assertSame($column, $column->setDefault('foo bar'));
         return $column;
     }
@@ -77,7 +77,7 @@ class ColumnTest extends TestCase
      */
     public function testSetOptions()
     {
-        $column = new Column;
+        $column = new Column();
         self::assertSame($column, $column->setOptions(['autoincrement' => true]));
         return $column;
     }
@@ -87,7 +87,7 @@ class ColumnTest extends TestCase
      */
     public function testSetOption()
     {
-        $column = new Column;
+        $column = new Column();
         self::assertSame($column, $column->setOption('primary', true));
     }
 
@@ -105,7 +105,7 @@ class ColumnTest extends TestCase
      */
     public function testGetExpressionData()
     {
-        $column = new Column;
+        $column = new Column();
         $column->setName('foo');
         self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'INTEGER'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
@@ -120,11 +120,13 @@ class ColumnTest extends TestCase
 
         $column->setDefault('bar');
         self::assertEquals(
-            [[
-                '%s %s DEFAULT %s',
-                ['foo', 'INTEGER', 'bar'],
-                [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL, $column::TYPE_VALUE],
-            ]],
+            [
+                [
+                    '%s %s DEFAULT %s',
+                    ['foo', 'INTEGER', 'bar'],
+                    [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL, $column::TYPE_VALUE],
+                ],
+            ],
             $column->getExpressionData()
         );
     }

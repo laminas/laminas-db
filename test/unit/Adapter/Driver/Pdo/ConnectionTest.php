@@ -8,21 +8,21 @@
 
 namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
+use Exception;
 use Laminas\Db\Adapter\Driver\Pdo\Connection;
+use Laminas\Db\Adapter\Exception\InvalidConnectionParametersException;
 use PHPUnit\Framework\TestCase;
 
 class ConnectionTest extends TestCase
 {
-    /**
-     * @var Connection
-     */
+    /** @var Connection */
     protected $connection;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->connection = new Connection();
     }
@@ -34,7 +34,7 @@ class ConnectionTest extends TestCase
      */
     public function testResource()
     {
-        $this->expectException('Laminas\Db\Adapter\Exception\InvalidConnectionParametersException');
+        $this->expectException(InvalidConnectionParametersException::class);
         $this->connection->getResource();
     }
 
@@ -49,7 +49,7 @@ class ConnectionTest extends TestCase
         $this->connection->setConnectionParameters(['dsn' => $dsn]);
         try {
             $this->connection->connect();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
         $responseString = $this->connection->getDsn();
 
@@ -62,37 +62,37 @@ class ConnectionTest extends TestCase
     public function testArrayOfConnectionParametersCreatesCorrectDsn()
     {
         $this->connection->setConnectionParameters([
-            'driver'  => 'pdo_mysql',
-            'charset' => 'utf8',
-            'dbname'  => 'foo',
-            'port'    => '3306',
+            'driver'      => 'pdo_mysql',
+            'charset'     => 'utf8',
+            'dbname'      => 'foo',
+            'port'        => '3306',
             'unix_socket' => '/var/run/mysqld/mysqld.sock',
         ]);
         try {
             $this->connection->connect();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
         $responseString = $this->connection->getDsn();
 
         self::assertStringStartsWith('mysql:', $responseString);
-        self::assertContains('charset=utf8', $responseString);
-        self::assertContains('dbname=foo', $responseString);
-        self::assertContains('port=3306', $responseString);
-        self::assertContains('unix_socket=/var/run/mysqld/mysqld.sock', $responseString);
+        self::assertStringContainsString('charset=utf8', $responseString);
+        self::assertStringContainsString('dbname=foo', $responseString);
+        self::assertStringContainsString('port=3306', $responseString);
+        self::assertStringContainsString('unix_socket=/var/run/mysqld/mysqld.sock', $responseString);
     }
 
     public function testHostnameAndUnixSocketThrowsInvalidConnectionParametersException()
     {
-        $this->expectException('Laminas\Db\Adapter\Exception\InvalidConnectionParametersException');
+        $this->expectException(InvalidConnectionParametersException::class);
         $this->expectExceptionMessage(
             'Ambiguous connection parameters, both hostname and unix_socket parameters were set'
         );
 
         $this->connection->setConnectionParameters([
-            'driver'  => 'pdo_mysql',
-            'host'    => '127.0.0.1',
-            'dbname'  => 'foo',
-            'port'    => '3306',
+            'driver'      => 'pdo_mysql',
+            'host'        => '127.0.0.1',
+            'dbname'      => 'foo',
+            'port'        => '3306',
             'unix_socket' => '/var/run/mysqld/mysqld.sock',
         ]);
         $this->connection->connect();
@@ -109,14 +109,14 @@ class ConnectionTest extends TestCase
         ]);
         try {
             $this->connection->connect();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
         $responseString = $this->connection->getDsn();
 
         $this->assertStringStartsWith('dblib:', $responseString);
-        $this->assertContains('charset=UTF-8', $responseString);
-        $this->assertContains('dbname=foo', $responseString);
-        $this->assertContains('port=1433', $responseString);
-        $this->assertContains('version=7.3', $responseString);
+        $this->assertStringContainsString('charset=UTF-8', $responseString);
+        $this->assertStringContainsString('dbname=foo', $responseString);
+        $this->assertStringContainsString('port=1433', $responseString);
+        $this->assertStringContainsString('version=7.3', $responseString);
     }
 }
