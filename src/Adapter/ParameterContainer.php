@@ -176,7 +176,7 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
             if (is_string($n)) {
                 if (! isset($this->nameMapping[$n])) {
                     foreach ($this->data as $nm => $vm) {
-                        if (ltrim(':', $vm) == ltrim(':', $n)) {
+                        if (ltrim($vm, ':') == ltrim($n, ':')) {
                             $this->nameMapping[$n] = $nm;
                             break;
                         }
