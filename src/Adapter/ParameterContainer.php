@@ -88,8 +88,8 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
             return $this->data[$name];
         }
 
-        if (isset($this->nameMapping[$name]) && isset($this->data[$this->nameMapping[$name]])) {
-            return $this->data[$this->nameMapping[$name]];
+        if (isset($this->nameMapping[ltrim($name, ':')]) && isset($this->data[$this->nameMapping[ltrim($name, ':')]])) {
+            return $this->data[$this->nameMapping[ltrim($name, ':')]];
         }
 
         return null;
@@ -127,7 +127,15 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
             }
         } elseif (is_string($name)) {
             // is a string:
+            if (isset($this->nameMapping[ltrim($name, ':')])) {
+                //we have a mapping, get real name from it
+                $name = $this->nameMapping[ltrim($name, ':')];
+            }
             $position = array_key_exists($name, $this->data);
+            if (strpos($value, ':') === 0) { //FIXME: any data begining with a ":" will be considered a parameter
+                //We have named parameter, handle name mapping (container creation)
+                $this->nameMapping[ltrim($value, ':')] = $name;
+            }
         } elseif ($name === null) {
             $name = (string) count($this->data);
         } else {
@@ -173,20 +181,6 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
     public function setFromArray(array $data)
     {
         foreach ($data as $n => $v) {
-            if (is_string($n)) {
-                if (! isset($this->nameMapping[$n])) {
-                    foreach ($this->data as $nm => $vm) {
-                        if (ltrim($vm, ':') == ltrim($n, ':')) {
-                            $this->nameMapping[$n] = $nm;
-                            break;
-                        }
-                    }
-                }
-                if (! isset($this->nameMapping[$n])) {
-                    $this->nameMapping[$n] = $n;
-                }
-                $n = $this->nameMapping[$n];
-            }
             $this->offsetSet($n, $v);
         }
         return $this;
