@@ -20,6 +20,8 @@ matrix:
         - mysql
       env:
         - DEPS=latest
+        - CS_CHECK=true
+        - TEST_COVERAGE=true
         - TEST_INTEGRATION=true
         - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
         - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME=127.0.0.1
