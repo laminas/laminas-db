@@ -31,11 +31,10 @@ class PgsqlFixtureLoader implements FixtureLoader
 
         $this->connect();
 
-        if (
-            false === $this->pdo->exec(sprintf(
-                "CREATE DATABASE %s",
-                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
-            ))
+        if (false === $this->pdo->exec(sprintf(
+            "CREATE DATABASE %s",
+            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE')
+        ))
         ) {
             throw new Exception(sprintf(
                 "I cannot create the PostgreSQL %s test database: %s",

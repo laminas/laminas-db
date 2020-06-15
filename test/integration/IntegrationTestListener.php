@@ -49,8 +49,7 @@ class IntegrationTestListener implements TestListener
 
     public function endTestSuite(TestSuite $suite): void
     {
-        if (
-            $suite->getName() !== 'integration test'
+        if ($suite->getName() !== 'integration test'
             || ! isset($this->fixtureLoader)
         ) {
             return;

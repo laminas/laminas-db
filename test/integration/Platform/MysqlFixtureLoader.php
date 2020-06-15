@@ -26,11 +26,10 @@ class MysqlFixtureLoader implements FixtureLoader
     {
         $this->connect();
 
-        if (
-            false === $this->pdo->exec(sprintf(
-                "CREATE DATABASE IF NOT EXISTS %s",
-                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
-            ))
+        if (false === $this->pdo->exec(sprintf(
+            "CREATE DATABASE IF NOT EXISTS %s",
+            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
+        ))
         ) {
             throw new Exception(sprintf(
                 "I cannot create the MySQL %s test database: %s",

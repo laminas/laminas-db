@@ -1296,7 +1296,8 @@ class SelectTest extends TestCase
         $select44b->from('bar')->where('c = d');
         $select44->combine($select44b, Select::COMBINE_UNION, 'ALL');
         $sqlPrep44       = // same
-        $sqlStr44        = '( SELECT "foo".* FROM "foo" WHERE a = b ) UNION ALL ( SELECT "bar".* FROM "bar" WHERE c = d )';
+        $sqlStr44        = '( SELECT "foo".* FROM "foo" WHERE a = b ) UNION ALL '.
+            '( SELECT "bar".* FROM "bar" WHERE c = d )';
         $internalTests44 = [
             'processCombine' => ['UNION ALL', 'SELECT "bar".* FROM "bar" WHERE c = d'],
         ];
@@ -1363,7 +1364,8 @@ class SelectTest extends TestCase
         // @codingStandardsIgnoreEnd
         $internalTests49 = [
             'processSelect' => [[['"foo".*'], ['"bar".*']], '"foo"'],
-            'processJoins'  => [[['INNER', 'psql_function_which_returns_table AS "bar"', '"foo"."id" = "bar"."fooid"']]],
+            'processJoins'  => [[['INNER', 'psql_function_which_returns_table AS "bar"',
+            '"foo"."id" = "bar"."fooid"']]],
         ];
 
         // Test generic predicate is appended with AND

@@ -84,7 +84,7 @@ class DeleteTest extends TestCase
         $this->delete->where(['one' => 1, 'two' => 2]);
         $where = $this->delete->where;
 
-        $predicates =  (function ($where) {
+        $predicates = (function ($where) {
             return $where->predicates;
         })->bindTo($where, $where)($where);
         self::assertEquals('AND', $predicates[0][0]);

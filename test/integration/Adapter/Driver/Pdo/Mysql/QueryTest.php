@@ -64,7 +64,8 @@ class QueryTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(
-            'The PDO param tz$ contains invalid characters. Only alphabetic characters, digits, and underscores (_) are allowed.'
+            'The PDO param tz$ contains invalid characters. Only alphabetic characters, digits, '
+            . 'and underscores (_) are allowed.'
         );
 
         $result = $this->adapter->query('SET @@session.time_zone = :tz$', [':tz$' => 'SYSTEM']);

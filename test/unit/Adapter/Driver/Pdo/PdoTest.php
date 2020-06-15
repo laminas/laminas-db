@@ -82,7 +82,8 @@ class PdoTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(
             sprintf(
-                'The PDO param %s contains invalid characters. Only alphabetic characters, digits, and underscores (_) are allowed.',
+                'The PDO param %s contains invalid characters. Only alphabetic characters, digits, '
+                . 'and underscores (_) are allowed.',
                 $name
             )
         );
