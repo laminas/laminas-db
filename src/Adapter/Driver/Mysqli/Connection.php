@@ -119,7 +119,7 @@ class Connection extends AbstractConnection
         $caPath = (isset($p['ca_path'])) ? $p['ca_path'] : null;
         $cipher = (isset($p['cipher'])) ? $p['cipher'] : null;
 
-        $this->resource = new \mysqli();
+        $this->resource = $this->createResource();
         $this->resource->init();
 
         if (! empty($p['driver_options'])) {
@@ -138,15 +138,18 @@ class Connection extends AbstractConnection
         $flags = null;
 
         if ($useSSL && ! $socket) {
+            // Even though mysqli docs are not quite clear on this, MYSQLI_CLIENT_SSL
+            // needs to be set to make sure SSL is used. ssl_set can also cause it to
+            // be implicitly set, but only when any of the parameters is non-empty.
+            $flags = MYSQLI_CLIENT_SSL;
             $this->resource->ssl_set($clientKey, $clientCert, $caCert, $caPath, $cipher);
             //MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT is not valid option, needs to be set as flag
             if (isset($p['driver_options'])
                 && isset($p['driver_options'][MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT])
             ) {
-                $flags = MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+                $flags |= MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
             }
         }
-
 
         try {
             $this->resource->real_connect($hostname, $username, $password, $database, $port, $socket, $flags);
@@ -280,5 +283,15 @@ class Connection extends AbstractConnection
     public function getLastGeneratedValue($name = null)
     {
         return $this->resource->insert_id;
+    }
+
+    /**
+     * Create a new mysqli resource
+     *
+     * @return \mysqli
+     */
+    protected function createResource()
+    {
+        return new \mysqli();
     }
 }
