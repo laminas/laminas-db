@@ -220,4 +220,3 @@ PMA_HOST=mysql
 
 At build, if the `/.data/db` folder is missing, Docker will create the mysql database with the .sql files left in the `.docker/mysql` folder. (the CREATE DATABASE, USE (database), CREATE TABLE, INSERT INTO directives).  
 If there's multiple .sql files, it is a good idea to safely order the list of sql files because Docker will read the files in ascending order.
-
