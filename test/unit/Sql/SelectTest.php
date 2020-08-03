@@ -1419,6 +1419,18 @@ class SelectTest extends TestCase
             'processOffset' => ['?'],
         ];
 
+        // join with alternate type full outer
+        $select54 = new Select;
+        $select54->from('foo')->join('zac', 'm = n', ['bar', 'baz'], Select::JOIN_FULL_OUTER);
+        // @codingStandardsIgnoreStart
+        $sqlPrep54 = // same
+        $sqlStr54 = 'SELECT "foo".*, "zac"."bar" AS "bar", "zac"."baz" AS "baz" FROM "foo" FULL OUTER JOIN "zac" ON "m" = "n"';
+        // @codingStandardsIgnoreEnd
+        $internalTests54 = [
+            'processSelect' => [[['"foo".*'], ['"zac"."bar"', '"bar"'], ['"zac"."baz"', '"baz"']], '"foo"'],
+            'processJoins'   => [[['FULL OUTER', '"zac"', '"m" = "n"']]],
+        ];
+
         /**
          * $select = the select object
          * $sqlPrep = the sql as a result of preparation
@@ -1483,6 +1495,7 @@ class SelectTest extends TestCase
             [$select51, $sqlPrep51, [],    $sqlStr51, $internalTests51],
             [$select52, $sqlPrep52, [],    $sqlStr52, $internalTests52],
             [$select53, $sqlPrep53, $params53, $sqlStr53, $internalTests53, true],
+            [$select54, $sqlPrep54, [],    $sqlStr54, $internalTests54],
         ];
     }
 }

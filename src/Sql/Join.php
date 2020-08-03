@@ -27,6 +27,7 @@ class Join implements Iterator, Countable
 {
     const JOIN_INNER       = 'inner';
     const JOIN_OUTER       = 'outer';
+    const JOIN_FULL_OUTER  = 'full outer';
     const JOIN_LEFT        = 'left';
     const JOIN_RIGHT       = 'right';
     const JOIN_RIGHT_OUTER = 'right outer';
