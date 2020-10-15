@@ -10,6 +10,7 @@ namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Pdo\Pdo;
+use Laminas\Db\Adapter\Driver\Pdo\Result;
 use Laminas\Db\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 
@@ -92,6 +93,6 @@ class PdoTest extends TestCase
     {
         $resultPrototype = $this->pdo->getResultPrototype();
         
-        self::assert($resultPrototype instanceof \Laminas\Db\Adapter\Driver\Pdo\Result);
+        self::assert($resultPrototype instanceof Result);
     }
 }
