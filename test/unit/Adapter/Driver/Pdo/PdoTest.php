@@ -85,14 +85,14 @@ class PdoTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->pdo->formatParameterName($name);
     }
-    
+
     /**
      * @covers \Laminas\Db\Adapter\Driver\Pdo\Pdo::getResultPrototype
      */
     public function testGetResultPrototype()
     {
         $resultPrototype = $this->pdo->getResultPrototype();
-        
+
         self::assertInstanceOf(Result::class, $resultPrototype);
     }
 }
