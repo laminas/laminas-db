@@ -93,6 +93,6 @@ class PdoTest extends TestCase
     {
         $resultPrototype = $this->pdo->getResultPrototype();
         
-        self::assert($resultPrototype instanceof Result);
+        self::assertInstanceOf(Result, $resultPrototype);
     }
 }
