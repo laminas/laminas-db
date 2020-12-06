@@ -244,6 +244,7 @@ abstract class AbstractSql implements SqlInterface
                         $ppCount = count($multiParamsForPosition);
                     } else {
                         $ppCount = 1;
+                        $multiParamsForPosition = [$multiParamsForPosition];
                     }
 
                     if (! isset($paramSpecs[$position][$ppCount])) {
