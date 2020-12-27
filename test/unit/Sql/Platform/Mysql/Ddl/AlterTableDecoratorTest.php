@@ -9,9 +9,11 @@
 namespace LaminasTest\Db\Sql\Platform\Mysql\Ddl;
 
 use Laminas\Db\Adapter\Platform\Mysql;
+use Laminas\Db\Metadata\Object\ConstraintObject;
 use Laminas\Db\Sql\Ddl\AlterTable;
 use Laminas\Db\Sql\Ddl\Column\Column;
 use Laminas\Db\Sql\Ddl\Constraint\PrimaryKey;
+use Laminas\Db\Sql\Ddl\Constraint\UniqueKey;
 use Laminas\Db\Sql\Platform\Mysql\Ddl\AlterTableDecorator;
 use PHPUnit\Framework\TestCase;
 
@@ -45,9 +47,18 @@ class AlterTableDecoratorTest extends TestCase
         $col->addConstraint(new PrimaryKey());
         $ct->addColumn($col);
 
-        self::assertEquals(
-            "ALTER TABLE `foo`\n ADD COLUMN `bar` INTEGER UNSIGNED ZEROFILL " .
-            "NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'baz' AFTER `bar`",
+        $fk = new ConstraintObject('my_fk', null);
+        $fk->setType('FOREIGN KEY');
+        $ct->dropConstraint($fk);
+
+        $ct->dropConstraint(new UniqueKey(null, 'my_unique_index'));
+
+        $this->assertEquals(
+            "ALTER TABLE `foo`\n"
+            ." ADD COLUMN `bar` INTEGER UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'baz'"
+            ." AFTER `bar`,\n"
+            ."    DROP FOREIGN KEY `my_fk`,\n"
+            ." DROP KEY `my_unique_index`",
             @$ctd->getSqlString(new Mysql())
         );
     }

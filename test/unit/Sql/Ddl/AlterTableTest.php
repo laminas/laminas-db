@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Db\Sql\Ddl;
 
+use Laminas\Db\Metadata\Object\ConstraintObject;
 use Laminas\Db\Sql\Ddl\AlterTable;
 use Laminas\Db\Sql\Ddl\Column;
 use Laminas\Db\Sql\Ddl\Constraint;
@@ -94,14 +95,16 @@ class AlterTableTest extends TestCase
         $at->changeColumn('name', new Column\Varchar('new_name', 50));
         $at->dropColumn('foo');
         $at->addConstraint(new Constraint\ForeignKey('my_fk', 'other_id', 'other_table', 'id', 'CASCADE', 'CASCADE'));
-        $at->dropConstraint('my_index');
+        $at->dropConstraint(new ConstraintObject('my_index', null));
+        $at->dropConstraint(new Constraint\UniqueKey(null, 'my_unique_index'));
         $expected = <<<EOS
 ALTER TABLE "foo"
  ADD COLUMN "another" VARCHAR(255) NOT NULL,
  CHANGE COLUMN "name" "new_name" VARCHAR(50) NOT NULL,
  DROP COLUMN "foo",
  ADD CONSTRAINT "my_fk" FOREIGN KEY ("other_id") REFERENCES "other_table" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
- DROP CONSTRAINT "my_index"
+ DROP CONSTRAINT "my_index",
+ DROP CONSTRAINT "my_unique_index"
 EOS;
 
         $actual = $at->getSqlString();
