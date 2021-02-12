@@ -38,7 +38,7 @@ class SqlServerTest extends TestCase
                 exit;
             }
         }
-        if (extension_loaded('pdo')) {
+        if (extension_loaded('pdo') && extension_loaded('pdo_sqlsrv')) {
             $this->adapters['pdo_sqlsrv'] = new \PDO(
                 'sqlsrv:Server=' . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
                     . ';Database=' . (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_DATABASE') ? : null),
@@ -50,7 +50,7 @@ class SqlServerTest extends TestCase
 
     public function testQuoteValueWithSqlServer()
     {
-        if (! $this->adapters['pdo_sqlsrv']) {
+        if (! isset($this->adapters['pdo_sqlsrv'])) {
             $this->markTestSkipped('SQLServer (pdo_sqlsrv) not configured in unit test configuration file');
         }
         $sqlite = new SqlServer($this->adapters['pdo_sqlsrv']);

@@ -18,6 +18,10 @@ class PdoSqlSrvIntegrationTest extends AbstractIntegrationTest
 {
     public function testParameterizedQuery()
     {
+        if (! isset($this->adapters['pdo_sqlsrv'])) {
+            $this->markTestSkipped('pdo_sqlsrv adapter is not found');
+        }
+
         $driver = new Pdo($this->adapters['pdo_sqlsrv']);
 
         $stmt = $driver->createStatement('SELECT ? as col_one');

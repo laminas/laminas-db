@@ -40,5 +40,13 @@ abstract class AbstractIntegrationTest extends TestCase
         if (! extension_loaded('sqlsrv')) {
             $this->fail('The phpunit group integration-sqlsrv was enabled, but the extension is not loaded.');
         }
+
+        $this->adapters['sqlsrv'] = sqlsrv_connect(
+            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'),
+            [
+                'UID' => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
+                'PWD' => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
+            ]
+        );
     }
 }
