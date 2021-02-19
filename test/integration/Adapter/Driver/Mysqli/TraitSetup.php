@@ -17,6 +17,10 @@ trait TraitSetup
         'database' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE',
     ];
 
+    protected $optional = [
+        'port' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PORT',
+    ];
+
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
@@ -39,6 +43,12 @@ trait TraitSetup
                 ));
             }
             $this->variables[$name] = getenv($value);
+        }
+
+        foreach ($this->optional as $name => $value) {
+            if (getenv($value)) {
+                $this->variables[$name] = getenv($value);
+            }
         }
     }
 }

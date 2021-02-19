@@ -8,24 +8,18 @@
 
 namespace LaminasIntegrationTest\Db;
 
-use Exception;
 use LaminasIntegrationTest\Db\Platform\FixtureLoader;
-use PDO;
-use PDOException;
+use LaminasIntegrationTest\Db\Platform\MysqlFixtureLoader;
+use LaminasIntegrationTest\Db\Platform\PgsqlFixtureLoader;
 use PHPUnit\Framework\BaseTestListener;
 use PHPUnit_Framework_TestSuite as TestSuite;
 
 class IntegrationTestListener extends BaseTestListener
 {
     /**
-     * @var PDO
+     * @var FixtureLoader[]
      */
-    private $pdo;
-
-    /**
-     * @var FixtureLoader
-     */
-    private $fixtureLoader;
+    private $fixtureLoaders = [];
 
     public function startTestSuite(TestSuite $suite)
     {
@@ -34,28 +28,36 @@ class IntegrationTestListener extends BaseTestListener
         }
 
         if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
-            $this->fixtureLoader = new \LaminasIntegrationTest\Db\Platform\MysqlFixtureLoader();
-        }
-        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL')) {
-            $this->fixtureLoader = new \LaminasIntegrationTest\Db\Platform\PgsqlFixtureLoader();
+            $this->fixtureLoaders[] = new MysqlFixtureLoader();
         }
 
-        if (! isset($this->fixtureLoader)) {
+        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL')) {
+            $this->fixtureLoaders[] = new PgsqlFixtureLoader();
+        }
+
+        if (empty($this->fixtureLoaders)) {
             return;
         }
+
         printf("\nIntegration test started.\n");
-        $this->fixtureLoader->createDatabase();
+
+        foreach ($this->fixtureLoaders as $fixtureLoader) {
+            $fixtureLoader->createDatabase();
+        }
     }
 
     public function endTestSuite(TestSuite $suite)
     {
         if ($suite->getName() !== 'integration test'
-            || ! isset($this->fixtureLoader)
+            || empty($this->fixtureLoader)
         ) {
             return;
         }
+
         printf("\nIntegration test ended.\n");
 
-        $this->fixtureLoader->dropDatabase();
+        foreach ($this->fixtureLoaders as $fixtureLoader) {
+            $fixtureLoader->dropDatabase();
+        }
     }
 }
