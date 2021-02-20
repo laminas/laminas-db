@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Database abstraction layer, SQL abstraction, result set abstraction, and RowDataGateway and TableDataGateway implementations">  
-    <link rel="canonical" href="https://docs.laminas.dev/laminas-db/result-set/">
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-db/application-integration/usage-in-a-laminas-mvc-application/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>Result Sets - laminas-db - Laminas Docs</title>
+    <title>Integrating in a Laminas MVC application - laminas-db - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -115,7 +115,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">laminas-db</a>
+            <a href="../..">laminas-db</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -135,43 +135,43 @@
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../adapter/" class="subnavigation__link">Adapters</a>
-    </li>
-
-                                    
-                                        
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Result Sets</a>
+        <a href="../../adapter/" class="subnavigation__link">Adapters</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../sql/" class="subnavigation__link">SQL Abstraction</a>
+        <a href="../../result-set/" class="subnavigation__link">Result Sets</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
+        <a href="../../sql/" class="subnavigation__link">SQL Abstraction</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../table-gateway/" class="subnavigation__link">Table Gateways</a>
+        <a href="../../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../row-gateway/" class="subnavigation__link">Row Gateways</a>
+        <a href="../../table-gateway/" class="subnavigation__link">Table Gateways</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../metadata/" class="subnavigation__link">RDBMS Metadata</a>
+        <a href="../../row-gateway/" class="subnavigation__link">Row Gateways</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../../metadata/" class="subnavigation__link">RDBMS Metadata</a>
     </li>
 
                                     
@@ -181,8 +181,8 @@
         <ul class="subnavigation__list">
             
                 
-    <li class="subnavigation__list-item ">
-        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Integrating in a Laminas MVC application</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Integrating in a Laminas MVC application</a>
     </li>
 
             
@@ -266,15 +266,23 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#quick-start" class="toc__link nav-link">Quick start</a>
+                        <a href="#when-installing-the-laminas-mvc-skeleton-application" class="toc__link nav-link">When installing the Laminas MVC Skeleton Application</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#laminasdbresultsetresultset-and-laminasdbresultsetabstractresultset" class="toc__link nav-link">Laminas\Db\ResultSet\ResultSet and Laminas\Db\ResultSet\AbstractResultSet</a>
+                        <a href="#adding-to-an-existing-laminas-mvc-skeleton-application" class="toc__link nav-link">Adding to an existing Laminas MVC Skeleton Application</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#laminasdbresultsethydratingresultset" class="toc__link nav-link">Laminas\Db\ResultSet\HydratingResultSet</a>
+                        <a href="#the-abstract-factory" class="toc__link nav-link">The Abstract Factory</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#working-with-the-adapter" class="toc__link nav-link">Working with the adapter</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#running-with-docker" class="toc__link nav-link">Running with Docker</a>
                     </li>
                 
             </ul>
@@ -291,7 +299,7 @@
             <li class="breadcrumb-item"><a href="https://docs.laminas.dev/components/">Components</a></li>
 
             
-                <li class="breadcrumb-item"><a href="..">laminas-db</a></li>
+                <li class="breadcrumb-item"><a href="../..">laminas-db</a></li>
 
                 
                     
@@ -301,8 +309,15 @@
                         
                     
                 
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Application Integration</li>
+                        
+                    
+                
 
-                <li class="breadcrumb-item active" aria-current="page">Result Sets</li>
+                <li class="breadcrumb-item active" aria-current="page">Integrating in a Laminas MVC application</li>
             
         
     </ol>
@@ -315,139 +330,163 @@
 
     
     
-        <h2 class="chapter__headline">Reference</h2>
+        <h2 class="chapter__headline">Application Integration</h2>
     
 
-    <h1 id="result-sets">Result Sets</h1>
-<p><code>Laminas\Db\ResultSet</code> is a sub-component of laminas-db for abstracting the iteration
-of results returned from queries producing rowsets. While data sources for this
-can be anything that is iterable, generally these will be populated from
-<code>Laminas\Db\Adapter\Driver\ResultInterface</code> instances.</p>
-<p>Result sets must implement the <code>Laminas\Db\ResultSet\ResultSetInterface</code>, and all
-sub-components of laminas-db that return a result set as part of their API will
-assume an instance of a <code>ResultSetInterface</code> should be returned. In most cases,
-the prototype pattern will be used by consuming object to clone a prototype of
-a <code>ResultSet</code> and return a specialized <code>ResultSet</code> with a specific data source
-injected. <code>ResultSetInterface</code> is defined as follows:</p>
-<pre class="highlight"><code class="language-php">use Countable;
-use Traversable;
+    <h1 id="usage-in-a-laminas-mvc-application">Usage in a laminas-mvc Application</h1>
+<p>The minimal installation for a laminas-mvc based application doesn't include any database features.</p>
+<h2 id="when-installing-the-laminas-mvc-skeleton-application">When installing the Laminas MVC Skeleton Application</h2>
+<p>While <code>Composer</code> is <a href="https://docs.laminas.dev/laminas-mvc/quick-start/#install-the-laminas-mvc-skeleton-application">installing the MVC Application</a>, you can add the <code>laminas-db</code> package while prompted.</p>
+<h2 id="adding-to-an-existing-laminas-mvc-skeleton-application">Adding to an existing Laminas MVC Skeleton Application</h2>
+<p>If the MVC application is already created, then use Composer to <a href="../..">add the laminas-db</a> package.</p>
+<h2 id="the-abstract-factory">The Abstract Factory</h2>
+<p>Now that the laminas-db package is installed, the abstract factory <code>Laminas\Db\Adapter\AdapterAbstractServiceFactory</code> is available to be used with the service configuration.</p>
+<h3>Configuring the adapter</h3>
+<p>The abstract factory expects the configuration key <code>db</code> in order to create a <code>Laminas\Db\Adapter\Adapter</code> instance.</p>
+<h3>Working with a Sqlite database</h3>
+<p>Sqlite is a lightweight option to have the application working with a database.</p>
+<p>Here is an example of the configuration array for a sqlite database.
+Assuming the sqlite file path is <code>data/sample.sqlite</code>, the following configuration will produce the adapter:</p>
+<pre class="highlight"><code class="language-php">return [
+    'db' =&gt; [
+        'driver' =&gt; 'Pdo',
+        'adapters' =&gt; [
+            sqliteAdapter::class =&gt; [
+                'driver' =&gt; 'Pdo',
+                'dsn' =&gt; 'sqlite:data/sample.sqlite',
+            ],
+        ],
+    ],
+];</code></pre>
+<p>The <code>data/</code> filepath for the sqlite file is the default <code>data/</code> directory from the Laminas MVC application.</p>
+<h3>Working with a MySQL database</h3>
+<p>Unlike a sqlite database, the MySQL database adapter requires a MySQL server.</p>
+<p>Here is an example of a configuration array for a MySQL database.</p>
+<pre class="highlight"><code class="language-php">return [
+    'db' =&gt; [
+        'driver' =&gt; 'Pdo',
+        'adapters' =&gt; [
+            mysqlAdapter::class =&gt; [
+                'driver' =&gt; 'Pdo',
+                'dsn' =&gt; 'mysql:dbname=your_database_name;host=your_mysql_host;charset=utf8',
+                'username' =&gt; 'your_mysql_username',
+                'password' =&gt; 'your_mysql_password',
+                'driver_options' =&gt; [
+                    PDO::MYSQL_ATTR_INIT_COMMAND =&gt; 'SET NAMES \'UTF8\''
+                ],
+            ],
+        ],
+    ],
+];</code></pre>
+<h2 id="working-with-the-adapter">Working with the adapter</h2>
+<p>Once you have configured an adapter, as in the above examples, you now have a <code>Laminas\Db\Adapter\Adapter</code> available to your application.</p>
+<p>A factory for a class that consumes an adapter can pull the adapter by the name used in configuration.
+As an example, for the sqlite database configured earlier, we could write the following:</p>
+<pre class="highlight"><code class="language-php">use sqliteAdapter ;
 
-interface ResultSetInterface extends Traversable, Countable
-{
-    public function initialize(mixed $dataSource) : void;
-    public function getFieldCount() : int;
-}</code></pre>
-<h2 id="quick-start">Quick start</h2>
-<p><code>Laminas\Db\ResultSet\ResultSet</code> is the most basic form of a <code>ResultSet</code> object
-that will expose each row as either an <code>ArrayObject</code>-like object or an array of
-row data. By default, <code>Laminas\Db\Adapter\Adapter</code> will use a prototypical
-<code>Laminas\Db\ResultSet\ResultSet</code> object for iterating when using the
-<code>Laminas\Db\Adapter\Adapter::query()</code> method.</p>
-<p>The following is an example workflow similar to what one might find inside
-<code>Laminas\Db\Adapter\Adapter::query()</code>:</p>
-<pre class="highlight"><code class="language-php">use Laminas\Db\Adapter\Driver\ResultInterface;
-use Laminas\Db\ResultSet\ResultSet;
+$adapter = $container-&gt;get(sqliteAdapter::class) ;</code></pre>
+<p>For the MySQL Database configured earlier:</p>
+<pre class="highlight"><code class="language-php">use mysqlAdapter ;
 
-$statement = $driver-&gt;createStatement('SELECT * FROM users');
-$statement-&gt;prepare();
-$result = $statement-&gt;execute($parameters);
+$adapter = $container-&gt;get(mysqlAdapter::class) ;</code></pre>
+<p>You can read more about the <a href="../../adapter/">adapter in the adapter chapter of the documentation</a>.</p>
+<h2 id="running-with-docker">Running with Docker</h2>
+<p>When working with a MySQL database and when running the application with Docker, some files need to be added or adjusted.</p>
+<h3>Adding the MySQL extension to the PHP container</h3>
+<p>Change the <code>Dockerfile</code> to add the PDO MySQL extension to PHP.</p>
+<pre class="highlight"><code class="language-Dockerfile">FROM php:7.3-apache
 
-if ($result instanceof ResultInterface &amp;&amp; $result-&gt;isQueryResult()) {
-    $resultSet = new ResultSet;
-    $resultSet-&gt;initialize($result);
+RUN apt-get update \
+ &amp;&amp; apt-get install -y git zlib1g-dev libzip-dev \
+ &amp;&amp; docker-php-ext-install zip pdo_mysql \
+ &amp;&amp; a2enmod rewrite \
+ &amp;&amp; sed -i 's!/var/www/html!/var/www/public!g' /etc/apache2/sites-available/000-default.conf \
+ &amp;&amp; mv /var/www/html /var/www/public \
+ &amp;&amp; curl -sS https://getcomposer.org/installer \
+  | php -- --install-dir=/usr/local/bin --filename=composer
 
-    foreach ($resultSet as $row) {
-        echo $row-&gt;my_column . PHP_EOL;
-    }
-}</code></pre>
-<h2 id="laminasdbresultsetresultset-and-laminasdbresultsetabstractresultset">Laminas\Db\ResultSet\ResultSet and Laminas\Db\ResultSet\AbstractResultSet</h2>
-<p>For most purposes, either an instance of <code>Laminas\Db\ResultSet\ResultSet</code> or a
-derivative of <code>Laminas\Db\ResultSet\AbstractResultSet</code> will be used. The
-implementation of the <code>AbstractResultSet</code> offers the following core
-functionality:</p>
-<pre class="highlight"><code class="language-php">namespace Laminas\Db\ResultSet;
-
-use Iterator;
-
-abstract class AbstractResultSet implements Iterator, ResultSetInterface
-{
-    public function initialize(array|Iterator|IteratorAggregate|ResultInterface $dataSource) : self;
-    public function getDataSource() : Iterator|IteratorAggregate|ResultInterface;
-    public function getFieldCount() : int;
-
-    /** Iterator */
-    public function next() : mixed;
-    public function key() : string|int;
-    public function current() : mixed;
-    public function valid() : bool;
-    public function rewind() : void;
-
-    /** countable */
-    public function count() : int;
-
-    /** get rows as array */
-    public function toArray() : array;
-}</code></pre>
-<h2 id="laminasdbresultsethydratingresultset">Laminas\Db\ResultSet\HydratingResultSet</h2>
-<p><code>Laminas\Db\ResultSet\HydratingResultSet</code> is a more flexible <code>ResultSet</code> object
-that allows the developer to choose an appropriate "hydration strategy" for
-getting row data into a target object.  While iterating over results,
-<code>HydratingResultSet</code> will take a prototype of a target object and clone it once
-for each row. The <code>HydratingResultSet</code> will then hydrate that clone with the
-row data.</p>
-<p>The <code>HydratingResultSet</code> depends on
-<a href="https://docs.laminas.dev/laminas-hydrator">laminas-hydrator</a>, which you will
-need to install:</p>
-<pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-hydrator</code></pre>
-<p>In the example below, rows from the database will be iterated, and during
-iteration, <code>HydratingResultSet</code> will use the <code>Reflection</code> based hydrator to
-inject the row data directly into the protected members of the cloned
-<code>UserEntity</code> object:</p>
-<pre class="highlight"><code class="language-php">use Laminas\Db\Adapter\Driver\ResultInterface;
-use Laminas\Db\ResultSet\HydratingResultSet;
-use Laminas\Hydrator\Reflection as ReflectionHydrator;
-
-class UserEntity
-{
-    protected $first_name;
-    protected $last_name;
-
-    public function getFirstName()
-    {
-        return $this-&gt;first_name;
-    }
-
-    public function getLastName()
-    {
-        return $this-&gt;last_name;
-    }
-
-    public function setFirstName($firstName)
-    {
-        $this-&gt;first_name = $firstName;
-    }
-
-    public function setLastName($lastName)
-    {
-        $this-&gt;last_name = $lastName;
-    }
-}
-
-$statement = $driver-&gt;createStatement($sql);
-$statement-&gt;prepare($parameters);
-$result = $statement-&gt;execute();
-
-if ($result instanceof ResultInterface &amp;&amp; $result-&gt;isQueryResult()) {
-    $resultSet = new HydratingResultSet(new ReflectionHydrator, new UserEntity);
-    $resultSet-&gt;initialize($result);
-
-    foreach ($resultSet as $user) {
-        echo $user-&gt;getFirstName() . ' ' . $user-&gt;getLastName() . PHP_EOL;
-    }
-}</code></pre>
-<p>For more information, see the <a href="https://docs.laminas.dev/laminas-hydrator/">laminas-hydrator</a>
-documentation to get a better sense of the different strategies that can be
-employed in order to populate a target object.</p>
+WORKDIR /var/www</code></pre>
+<h3>Adding the mysql container</h3>
+<p>Change the <code>docker-compose.yml</code> file to add a new container for mysql.</p>
+<pre class="highlight"><code class="language-yaml">  mysql:
+    image: mysql
+    ports:
+     - 3306:3306
+    command:
+      --default-authentication-plugin=mysql_native_password
+    volumes:
+     - ./.data/db:/var/lib/mysql
+     - ./.docker/mysql/:/docker-entrypoint-initdb.d/
+    environment:
+     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}</code></pre>
+<p>Though it is not the topic to explain how to write a <code>docker-compose.yml</code> file, a few details need to be highlighted :</p>
+<ul>
+<li>The name of the container is <code>mysql</code>.</li>
+<li>MySQL database files will be stored in the directory <code>/.data/db/</code>.</li>
+<li>SQL schemas will need to be added to the <code>/.docker/mysql/</code> directory so that Docker will be able to build and populate the database(s).</li>
+<li>The mysql docker image is using the <code>$MYSQL_ROOT_PASSWORD</code> environment variable to set the mysql root password.</li>
+</ul>
+<h3>Link the containers</h3>
+<p>Now link the mysql container and the laminas container so that the application knows where to find the mysql server.</p>
+<pre class="highlight"><code class="language-yaml">  laminas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+     - 8080:80
+    volumes:
+     - .:/var/www
+    links:
+     - mysql:mysql</code></pre>
+<h3>Adding phpMyAdmin</h3>
+<p>Optionnally, you can also add a container for phpMyAdmin.</p>
+<pre class="highlight"><code class="language-yaml">  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+     - 8081:80
+    environment:
+     - PMA_HOST=${PMA_HOST}</code></pre>
+<p>The image uses the <code>$PMA_HOST</code> environment variable to set the host of the mysql server.
+The expected value is the name of the mysql container.</p>
+<p>Putting everything together:</p>
+<pre class="highlight"><code class="language-yaml">version: "2.1"
+services:
+  laminas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+     - 8080:80
+    volumes:
+     - .:/var/www
+    links:
+     - mysql:mysql
+  mysql:
+    image: mysql
+    ports:
+     - 3306:3306
+    command:
+      --default-authentication-plugin=mysql_native_password
+    volumes:
+     - ./.data/db:/var/lib/mysql
+     - ./.docker/mysql/:/docker-entrypoint-initdb.d/
+    environment:
+     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+     - 8081:80
+    environment:
+     - PMA_HOST=${PMA_HOST}</code></pre>
+<h3>Defining credentials</h3>
+<p>The <code>docker-compose.yml</code> file uses ENV variables to define the credentials.</p>
+<p>Docker will read the ENV variables from a <code>.env</code> file.</p>
+<pre class="highlight"><code class="language-env">MYSQL_ROOT_PASSWORD=rootpassword
+PMA_HOST=mysql</code></pre>
+<h3>Initiating the database schemas</h3>
+<p>At build, if the <code>/.data/db</code> directory is missing, Docker will create the mysql database with any <code>.sql</code> files found in the <code>.docker/mysql/</code> directory.
+(These are the files with the <code>CREATE DATABASE</code>, <code>USE (database)</code>, and <code>CREATE TABLE, INSERT INTO</code> directives defined earlier in this document).
+If multiple <code>.sql</code> files are present, it is a good idea to safely order the list because Docker will read the files in ascending order.</p>
 
 
 
@@ -458,7 +497,7 @@ employed in order to populate a target object.</p>
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../adapter/">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../../metadata/">
                     <i class="fa fa-chevron-left"></i> Previous
                 </a>
             
@@ -466,10 +505,6 @@ employed in order to populate a target object.</p>
 
         
         <li class="page-nav__item">
-            
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../sql/">
-                    Next <i class="fa fa-chevron-right"></i>
-                </a>
             
         </li>
     </ul>
@@ -481,7 +516,7 @@ employed in order to populate a target object.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-db/edit/master/docs/book/result-set.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/laminas/laminas-db/edit/master/docs/book/application-integration/usage-in-a-laminas-mvc-application.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>
@@ -510,7 +545,7 @@ employed in order to populate a target object.</p>
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">laminas-db</a>
+            <a href="../..">laminas-db</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -530,43 +565,43 @@ employed in order to populate a target object.</p>
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../adapter/" class="subnavigation__link">Adapters</a>
-    </li>
-
-                                    
-                                        
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Result Sets</a>
+        <a href="../../adapter/" class="subnavigation__link">Adapters</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../sql/" class="subnavigation__link">SQL Abstraction</a>
+        <a href="../../result-set/" class="subnavigation__link">Result Sets</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
+        <a href="../../sql/" class="subnavigation__link">SQL Abstraction</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../table-gateway/" class="subnavigation__link">Table Gateways</a>
+        <a href="../../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../row-gateway/" class="subnavigation__link">Row Gateways</a>
+        <a href="../../table-gateway/" class="subnavigation__link">Table Gateways</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../metadata/" class="subnavigation__link">RDBMS Metadata</a>
+        <a href="../../row-gateway/" class="subnavigation__link">Row Gateways</a>
+    </li>
+
+                                    
+                                        
+    <li class="subnavigation__list-item ">
+        <a href="../../metadata/" class="subnavigation__link">RDBMS Metadata</a>
     </li>
 
                                     
@@ -576,8 +611,8 @@ employed in order to populate a target object.</p>
         <ul class="subnavigation__list">
             
                 
-    <li class="subnavigation__list-item ">
-        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Integrating in a Laminas MVC application</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Integrating in a Laminas MVC application</a>
     </li>
 
             
@@ -677,13 +712,13 @@ employed in order to populate a target object.</p>
 </footer>
 
     <script>
-        let base_url = '..',
+        let base_url = '../..',
             project  = "components",
             siteName = 'laminas-db';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
     
-        <script src="../search/main.js"></script>
+        <script src="../../search/main.js"></script>
     
 
     

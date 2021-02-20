@@ -175,6 +175,21 @@
     </li>
 
                                     
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Integrating in a Laminas MVC application</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
                                 </ul>
                             </li>
                         
@@ -219,7 +234,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -324,7 +339,6 @@ interface TableGatewayInterface
     ) : int;
     public function delete(Where|callable|string|array $where) : int;
 }</code></pre>
-
 <p>There are two primary implementations of the <code>TableGatewayInterface</code>,
 <code>AbstractTableGateway</code> and <code>TableGateway</code>. The <code>AbstractTableGateway</code> is an
 abstract basic implementation that provides functionality for <code>select()</code>,
@@ -386,7 +400,6 @@ class TableGateway extends AbstractTableGateway
     public function deleteWith(Sql\Delete $delete) : int;
     public function getLastInsertValue() : int;
 }</code></pre>
-
 <p>The concrete <code>TableGateway</code> object uses constructor injection for getting
 dependencies and options into the instance. The table name and an instance of
 an <code>Adapter</code> are all that is required to create an instance.</p>
@@ -410,7 +423,6 @@ $rowset      = $artistTable-&gt;select(['id' =&gt; 2]);
 $artistRow   = $rowset-&gt;current();
 
 var_dump($artistRow);</code></pre>
-
 <p>The <code>select()</code> method takes the same arguments as
 <code>Laminas\Db\Sql\Select::where()</code>; arguments will be passed to the <code>Select</code>
 instance used to build the SELECT query. This means the following is possible:</p>
@@ -424,7 +436,6 @@ $rowset = $artistTable-&gt;select(function (Select $select) {
     $select-&gt;where-&gt;like('name', 'Brit%');
     $select-&gt;order('name ASC')-&gt;limit(2);
 });</code></pre>
-
 <h2 id="tablegateway-features">TableGateway Features</h2>
 <p>The Features API allows for extending the functionality of the base
 <code>TableGateway</code> object without having to polymorphically extend the base class.
@@ -463,21 +474,18 @@ Laminas\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($adapter)
 
 // in a controller, or model somewhere
 $table = new MyTableGateway(); // adapter is statically loaded</code></pre>
-
 </li>
 <li>
 <p><code>MasterSlaveFeature</code>: the ability to use a master adapter for <code>insert()</code>,
   <code>update()</code>, and <code>delete()</code>, but switch to a slave adapter for all <code>select()</code>
   operations.</p>
 <pre class="highlight"><code class="language-php">$table = new TableGateway('artist', $adapter, new Feature\MasterSlaveFeature($slaveAdapter));</code></pre>
-
 </li>
 <li>
 <p><code>MetadataFeature</code>: the ability populate <code>TableGateway</code> with column
   information from a <code>Metadata</code> object. It will also store the primary key
   information in case the <code>RowGatewayFeature</code> needs to consume this information.</p>
 <pre class="highlight"><code class="language-php">$table = new TableGateway('artist', $adapter, new Feature\MetadataFeature());</code></pre>
-
 </li>
 <li>
 <p><code>EventFeature</code>: the ability to compose a
@@ -487,7 +495,6 @@ $table = new MyTableGateway(); // adapter is statically loaded</code></pre>
   lifecycle events below</a> for more information
   on available events and the parameters they compose.</p>
 <pre class="highlight"><code class="language-php">$table = new TableGateway('artist', $adapter, new Feature\EventFeature($eventManagerInstance));</code></pre>
-
 </li>
 <li>
 <p><code>RowGatewayFeature</code>: the ability for <code>select()</code> to return a <code>ResultSet</code> object that upon iteration
@@ -498,7 +505,6 @@ $results = $table-&gt;select(['id' =&gt; 2]);
 $artistRow       = $results-&gt;current();
 $artistRow-&gt;name = 'New Name';
 $artistRow-&gt;save();</code></pre>
-
 </li>
 </ul>
 <h2 id="tablegateway-lifecycle-events">TableGateway LifeCycle Events</h2>
@@ -508,49 +514,32 @@ listed.</p>
 <ul>
 <li><code>preInitialize</code> (no parameters)</li>
 <li><code>postInitialize</code> (no parameters)</li>
-<li><code>preSelect</code>, with the following parameters:<ul>
+<li><code>preSelect</code>, with the following parameters:</li>
 <li><code>select</code>, with type <code>Laminas\Db\Sql\Select</code></li>
-</ul>
-</li>
-<li><code>postSelect</code>, with the following parameters:<ul>
+<li><code>postSelect</code>, with the following parameters:</li>
 <li><code>statement</code>, with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
 <li><code>result</code>, with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
 <li><code>resultSet</code>, with type <code>Laminas\Db\ResultSet\ResultSetInterface</code></li>
-</ul>
-</li>
-<li><code>preInsert</code>, with the following parameters:<ul>
+<li><code>preInsert</code>, with the following parameters:</li>
 <li><code>insert</code>, with type <code>Laminas\Db\Sql\Insert</code></li>
-</ul>
-</li>
-<li><code>postInsert</code>, with the following parameters:<ul>
+<li><code>postInsert</code>, with the following parameters:</li>
 <li><code>statement</code> with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
 <li><code>result</code> with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
-</ul>
-</li>
-<li><code>preUpdate</code>, with the following parameters:<ul>
+<li><code>preUpdate</code>, with the following parameters:</li>
 <li><code>update</code>, with type <code>Laminas\Db\Sql\Update</code></li>
-</ul>
-</li>
-<li><code>postUpdate</code>, with the following parameters: <ul>
+<li><code>postUpdate</code>, with the following parameters:</li>
 <li><code>statement</code>, with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
 <li><code>result</code>, with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
-</ul>
-</li>
-<li><code>preDelete</code>, with the following parameters: <ul>
+<li><code>preDelete</code>, with the following parameters:</li>
 <li><code>delete</code>, with type <code>Laminas\Db\Sql\Delete</code></li>
-</ul>
-</li>
-<li><code>postDelete</code>, with the following parameters: <ul>
+<li><code>postDelete</code>, with the following parameters:</li>
 <li><code>statement</code>, with type <code>Laminas\Db\Adapter\Driver\StatementInterface</code></li>
 <li><code>result</code>, with type <code>Laminas\Db\Adapter\Driver\ResultInterface</code></li>
-</ul>
-</li>
 </ul>
 <p>Listeners receive a <code>Laminas\Db\TableGateway\Feature\EventFeature\TableGatewayEvent</code>
 instance as an argument. Within the listener, you can retrieve a parameter by
 name from the event using the following syntax:</p>
 <pre class="highlight"><code class="language-php">$parameter = $event-&gt;getParam($paramName);</code></pre>
-
 <p>As an example, you might attach a listener on the <code>postInsert</code> event as follows:</p>
 <pre class="highlight"><code class="language-php">use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\TableGateway\Feature\EventFeature\TableGatewayEvent;
@@ -686,6 +675,21 @@ $eventManager-&gt;attach('postInsert', function (TableGatewayEvent $event) {
     </li>
 
                                     
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Integrating in a Laminas MVC application</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
                                 </ul>
                             </li>
                         
@@ -695,6 +699,7 @@ $eventManager-&gt;attach('postInsert', function (TableGatewayEvent $event) {
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -767,7 +772,7 @@ $eventManager-&gt;attach('postInsert', function (TableGatewayEvent $event) {
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/laminas/laminas-db/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

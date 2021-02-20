@@ -175,6 +175,21 @@
     </li>
 
                                     
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Integrating in a Laminas MVC application</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
                                 </ul>
                             </li>
                         
@@ -219,7 +234,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -330,7 +345,6 @@ interface MetadataInterface
     public function getTriggers(string $schema = null) : Object\TriggerObject[];
     public function getTrigger(string $triggerName, string $schema = null) : Object\TriggerObject;
 }</code></pre>
-
 <h2 id="basic-usage">Basic Usage</h2>
 <p>Usage of <code>Laminas\Db\Metadata</code> involves:</p>
 <ul>
@@ -384,7 +398,6 @@ foreach ($tableNames as $tableName) {
 
     echo '----' . PHP_EOL;
 }</code></pre>
-
 <h2 id="metadata-value-objects">Metadata value objects</h2>
 <p>Metadata returns value objects that provide an interface to help developers
 better explore the metadata. Below is the API for the various value objects:</p>
@@ -399,7 +412,6 @@ better explore the metadata. Below is the API for the various value objects:</p>
     public function setName($name);
     public function getName();
 }</code></pre>
-
 <h3>ColumnObject</h3>
 <pre class="highlight"><code class="language-php">class Laminas\Db\Metadata\Object\ColumnObject
 {
@@ -435,7 +447,6 @@ better explore the metadata. Below is the API for the various value objects:</p>
     public function getErrata($errataName);
     public function setErrata($errataName, $errataValue);
 }</code></pre>
-
 <h3>ConstraintObject</h3>
 <pre class="highlight"><code class="language-php">class Laminas\Db\Metadata\Object\ConstraintObject
 {
@@ -471,7 +482,6 @@ better explore the metadata. Below is the API for the various value objects:</p>
     public function isCheck();
 
 }</code></pre>
-
 <h3>TriggerObject</h3>
 <pre class="highlight"><code class="language-php">class Laminas\Db\Metadata\Object\TriggerObject
 {
@@ -524,6 +534,10 @@ better explore the metadata. Below is the API for the various value objects:</p>
 
         
         <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../application-integration/usage-in-a-laminas-mvc-application/">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
             
         </li>
     </ul>
@@ -624,6 +638,21 @@ better explore the metadata. Below is the API for the various value objects:</p>
     </li>
 
                                     
+                                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Application Integration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Integrating in a Laminas MVC application</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                                    
                                 </ul>
                             </li>
                         
@@ -633,6 +662,7 @@ better explore the metadata. Below is the API for the various value objects:</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -705,7 +735,7 @@ better explore the metadata. Below is the API for the various value objects:</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/laminas/laminas-db/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>
