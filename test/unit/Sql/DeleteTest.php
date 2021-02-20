@@ -12,11 +12,14 @@ use Laminas\Db\Sql\Delete;
 use Laminas\Db\Sql\Predicate\IsNotNull;
 use Laminas\Db\Sql\TableIdentifier;
 use Laminas\Db\Sql\Where;
+use LaminasTest\Db\DeprecatedAssertionsTrait;
 use LaminasTest\Db\TestAsset\DeleteIgnore;
 use PHPUnit\Framework\TestCase;
 
 class DeleteTest extends TestCase
 {
+    use DeprecatedAssertionsTrait;
+
     /**
      * @var Delete
      */
@@ -26,7 +29,7 @@ class DeleteTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->delete = new Delete;
     }
@@ -35,7 +38,7 @@ class DeleteTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 

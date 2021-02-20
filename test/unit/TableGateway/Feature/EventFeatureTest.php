@@ -25,7 +25,7 @@ class EventFeatureTest extends TestCase
     /** @var \Laminas\Db\TableGateway\TableGateway */
     protected $tableGateway;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->eventManager = new EventManager;
         $this->event = new EventFeature\TableGatewayEvent();

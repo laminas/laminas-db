@@ -12,12 +12,15 @@ use Laminas\Db\Sql\Expression;
 use Laminas\Db\Sql\Insert;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\TableIdentifier;
+use LaminasTest\Db\DeprecatedAssertionsTrait;
 use LaminasTest\Db\TestAsset\Replace;
 use LaminasTest\Db\TestAsset\TrustingSql92Platform;
 use PHPUnit\Framework\TestCase;
 
 class InsertTest extends TestCase
 {
+    use DeprecatedAssertionsTrait;
+
     /**
      * @var Insert
      */
@@ -27,7 +30,7 @@ class InsertTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->insert = new Insert;
     }

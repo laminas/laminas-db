@@ -11,17 +11,21 @@ namespace LaminasIntegrationTest\Db;
 use LaminasIntegrationTest\Db\Platform\FixtureLoader;
 use LaminasIntegrationTest\Db\Platform\MysqlFixtureLoader;
 use LaminasIntegrationTest\Db\Platform\PgsqlFixtureLoader;
-use PHPUnit\Framework\BaseTestListener;
-use PHPUnit_Framework_TestSuite as TestSuite;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
+use PHPUnit\Framework\TestSuite as TestSuite;
+use PHPUnit\Runner\TestHook;
 
-class IntegrationTestListener extends BaseTestListener
+class IntegrationTestListener implements TestHook, TestListener
 {
+    use TestListenerDefaultImplementation;
+
     /**
      * @var FixtureLoader[]
      */
     private $fixtureLoaders = [];
 
-    public function startTestSuite(TestSuite $suite)
+    public function startTestSuite(TestSuite $suite): void
     {
         if ($suite->getName() !== 'integration test') {
             return;
@@ -46,7 +50,7 @@ class IntegrationTestListener extends BaseTestListener
         }
     }
 
-    public function endTestSuite(TestSuite $suite)
+    public function endTestSuite(TestSuite $suite): void
     {
         if ($suite->getName() !== 'integration test'
             || empty($this->fixtureLoader)

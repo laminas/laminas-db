@@ -19,7 +19,7 @@ class StatementIntegrationTest extends TestCase
     protected $statement;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $pdoStatementMock;
 
@@ -27,7 +27,7 @@ class StatementIntegrationTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $driver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Pdo\Pdo')
             ->setMethods(['createResult'])
@@ -47,7 +47,7 @@ class StatementIntegrationTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 

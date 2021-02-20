@@ -15,7 +15,7 @@ class AbstractConstraintTest extends TestCase
     /** @var \Laminas\Db\Sql\Ddl\Constraint\AbstractConstraint */
     protected $ac;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->ac = $this->getMockForAbstractClass('Laminas\Db\Sql\Ddl\Constraint\AbstractConstraint');
     }

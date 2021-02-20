@@ -31,7 +31,7 @@ class OracleMetadataTest extends AbstractIntegrationTest
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (! extension_loaded('oci8')) {
             $this->markTestSkipped('I cannot test without the oci8 extension');
@@ -55,7 +55,7 @@ class OracleMetadataTest extends AbstractIntegrationTest
             ->method('execute')
             ->willReturn($constraintData);
 
-        /** @var \Laminas\Db\Adapter\Adapter|\PHPUnit_Framework_MockObject_MockObject $adapter */
+        /** @var \Laminas\Db\Adapter\Adapter|\PHPUnit\Framework\MockObject\MockObject $adapter */
         $adapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
             ->setConstructorArgs([$this->variables])
             ->getMock();

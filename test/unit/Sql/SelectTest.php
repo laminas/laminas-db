@@ -160,7 +160,6 @@ class SelectTest extends TestCase
     public function testBadJoinName()
     {
         $mockExpression = $this->getMockBuilder('Laminas\Db\Sql\ExpressionInterface')
-            ->setConstructorArgs(['bar'])
             ->getMock();
         $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));

@@ -12,11 +12,14 @@ use ArrayIterator;
 use ArrayObject;
 use Laminas\Db\ResultSet\ResultSet;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use SplStack;
 use stdClass;
 
 class ResultSetIntegrationTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var ResultSet
      */
@@ -26,7 +29,7 @@ class ResultSetIntegrationTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->resultSet = new ResultSet;
     }
@@ -107,7 +110,6 @@ class ResultSetIntegrationTest extends TestCase
     {
         $iteratorAggregate = $this->getMockBuilder('IteratorAggregate')
             ->setMethods(['getIterator'])
-            ->setConstructorArgs([new SplStack])
             ->getMock();
         $iteratorAggregate->expects($this->any())->method('getIterator')->will($this->returnValue($iteratorAggregate));
         $this->resultSet->initialize($iteratorAggregate);

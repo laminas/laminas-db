@@ -27,7 +27,7 @@ class StatementTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         // store current error_reporting value as we may change it
         // in a test
@@ -39,7 +39,7 @@ class StatementTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // ensure error_reporting is set back to correct value
         error_reporting($this->currentErrorReporting);

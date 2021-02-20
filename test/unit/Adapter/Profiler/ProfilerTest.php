@@ -23,7 +23,7 @@ class ProfilerTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->profiler = new Profiler;
     }
@@ -68,9 +68,9 @@ class ProfilerTest extends TestCase
         $profile = $this->profiler->getLastProfile();
         self::assertEquals('SELECT * FROM FOO', $profile['sql']);
         self::assertNull($profile['parameters']);
-        self::assertInternalType('float', $profile['start']);
-        self::assertInternalType('float', $profile['end']);
-        self::assertInternalType('float', $profile['elapse']);
+        self::assertIsFloat($profile['start']);
+        self::assertIsFloat($profile['end']);
+        self::assertIsFloat($profile['elapse']);
     }
 
     /**

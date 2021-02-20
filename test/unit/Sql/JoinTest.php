@@ -10,10 +10,13 @@ namespace LaminasTest\Db\Sql;
 
 use Laminas\Db\Sql\Join;
 use Laminas\Db\Sql\Select;
+use LaminasTest\Db\DeprecatedAssertionsTrait;
 use PHPUnit\Framework\TestCase;
 
 class JoinTest extends TestCase
 {
+    use DeprecatedAssertionsTrait;
+
     public function testInitialPositionIsZero()
     {
         $join = new Join();

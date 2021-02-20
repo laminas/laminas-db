@@ -18,7 +18,7 @@ class AbstractSourceTest extends TestCase
      */
     protected $abstractSourceMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->abstractSourceMock = $this->getMockForAbstractClass(
             'Laminas\Db\Metadata\Source\AbstractSource',

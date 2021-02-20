@@ -9,7 +9,6 @@
 namespace LaminasTest\Db\Adapter\Platform;
 
 use Laminas\Db\Adapter\Platform\Oracle;
-use PHPUnit\Framework\Error;
 use PHPUnit\Framework\TestCase;
 
 class OracleTest extends TestCase
@@ -23,7 +22,7 @@ class OracleTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->platform = new Oracle;
     }
@@ -151,8 +150,8 @@ class OracleTest extends TestCase
      */
     public function testQuoteValueRaisesNoticeWithoutPlatformSupport()
     {
-        $this->expectException(Error\Notice::class);
-        $this->expectExceptionMessage(
+        $this->expectNotice();
+        $this->expectNoticeMessage(
             'Attempting to quote a value in Laminas\Db\Adapter\Platform\Oracle without '
             . 'extension/driver support can introduce security vulnerabilities in a production environment'
         );
@@ -200,8 +199,8 @@ class OracleTest extends TestCase
      */
     public function testQuoteValueList()
     {
-        $this->expectException(Error\Error::class);
-        $this->expectExceptionMessage(
+        $this->expectError();
+        $this->expectErrorMessage(
             'Attempting to quote a value in Laminas\Db\Adapter\Platform\Oracle without '
             . 'extension/driver support can introduce security vulnerabilities in a production environment'
         );
