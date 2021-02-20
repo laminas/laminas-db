@@ -46,7 +46,10 @@ class ConnectionTest extends TestCase
             $resource = $conn->getResource();
             $this->fail('should throw');
         } catch (AdapterException\RuntimeException $exc) {
-            $this->assertSame('Laminas\Db\Adapter\Driver\Pgsql\Connection::connect: Unable to connect to database', $exc->getMessage());
+            $this->assertSame(
+                'Laminas\Db\Adapter\Driver\Pgsql\Connection::connect: Unable to connect to database',
+                $exc->getMessage()
+            );
         }
     }
 
