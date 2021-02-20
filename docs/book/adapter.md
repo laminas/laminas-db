@@ -170,10 +170,10 @@ The above example will go through the following steps:
 - execute the `Statement` object, producing a `Result` object.
 - check the `Result` object to check if the supplied SQL was a result set
   producing statement:
-    - if the query produced a result set, clone the `ResultSet` prototype,
-      inject the `Result` as its datasource, and return the new `ResultSet`
-      instance.
-    - otherwise, return the `Result`.
+  - if the query produced a result set, clone the `ResultSet` prototype,
+    inject the `Result` as its datasource, and return the new `ResultSet`
+    instance.
+  - otherwise, return the `Result`.
 
 ## Query Execution
 

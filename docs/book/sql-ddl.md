@@ -60,7 +60,9 @@ $table->addConstraint(
     new Constraint\UniqueKey(['name', 'foo'], 'my_unique_key')
 );
 ```
+
 You can also use the `AUTO_INCREMENT` attribute for MySQL:
+
 ```php
 use Laminas\Db\Sql\Ddl\Column;
 
