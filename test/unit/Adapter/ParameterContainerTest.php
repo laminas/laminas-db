@@ -128,6 +128,21 @@ class ParameterContainerTest extends TestCase
     }
 
     /**
+     *
+     * Handle statement parameters - https://github.com/laminas/laminas-db/issues/47
+     * @see Insert::procesInsert as example
+     *
+     * @covers \Laminas\Db\Adapter\ParameterContainer::setFromArray
+     */
+    public function testSetFromArrayNamed()
+    {
+        $this->parameterContainer->offsetSet('c_0', ':myparam');
+        $this->parameterContainer->setFromArray([':myparam' => 'baz']);
+        self::assertEquals('baz', $this->parameterContainer['c_0']);
+        self::assertEquals('baz', $this->parameterContainer[':myparam']);
+    }
+
+    /**
      * @testdox unit test: Test offsetSetMaxLength() will persist errata data
      * @covers \Laminas\Db\Adapter\ParameterContainer::offsetSetMaxLength
      * @testdox unit test: Test offsetGetMaxLength() return persisted errata data, if it exists

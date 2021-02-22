@@ -49,6 +49,11 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
     protected $maxLength = [];
 
     /**
+     * @var array
+     */
+    protected $nameMapping = [];
+
+    /**
      * Constructor
      *
      * @param array $data
@@ -79,7 +84,18 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
      */
     public function offsetGet($name)
     {
-        return (isset($this->data[$name])) ? $this->data[$name] : null;
+        if (isset($this->data[$name])) {
+            return $this->data[$name];
+        }
+
+        $normalizedName = ltrim($name, ':');
+        if (isset($this->nameMapping[$normalizedName])
+            && isset($this->data[$this->nameMapping[$normalizedName]])
+        ) {
+            return $this->data[$this->nameMapping[$normalizedName]];
+        }
+
+        return null;
     }
 
     /**
@@ -114,7 +130,19 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
             }
         } elseif (is_string($name)) {
             // is a string:
+            $normalizedName = ltrim($name, ':');
+            if (isset($this->nameMapping[$normalizedName])) {
+                // We have a mapping; get real name from it
+                $name = $this->nameMapping[$normalizedName];
+            }
+
             $position = array_key_exists($name, $this->data);
+
+            // @todo: this assumes that any data begining with a ":" will be considered a parameter
+            if (strpos($value, ':') === 0) {
+                // We have a named parameter; handle name mapping (container creation)
+                $this->nameMapping[ltrim($value, ':')] = $name;
+            }
         } elseif ($name === null) {
             $name = (string) count($this->data);
         } else {
