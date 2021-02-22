@@ -10,11 +10,14 @@ namespace LaminasTest\Db\Adapter\Driver\Pgsql;
 
 use Laminas\Db\Adapter\Driver\Pgsql\Connection;
 use Laminas\Db\Adapter\Exception as AdapterException;
+use LaminasTest\Db\DeprecatedAssertionsTrait;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 
 class ConnectionTest extends TestCase
 {
+    use DeprecatedAssertionsTrait;
+
     /**
      * @var Connection
      */
