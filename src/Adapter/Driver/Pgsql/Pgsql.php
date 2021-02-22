@@ -202,6 +202,14 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
+     * @return Result
+     */
+    public function getResultPrototype()
+    {
+        return $this->resultPrototype;
+    }
+
+    /**
      * Get prepare Type
      *
      * @return string

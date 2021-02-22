@@ -9,6 +9,7 @@
 namespace LaminasTest\Db\Adapter\Driver\Pgsql;
 
 use Laminas\Db\Adapter\Driver\Pgsql\Pgsql;
+use Laminas\Db\Adapter\Driver\Pgsql\Result;
 use PHPUnit\Framework\TestCase;
 
 class PgsqlTest extends TestCase
@@ -173,5 +174,15 @@ class PgsqlTest extends TestCase
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
         );
+    }
+
+    /**
+     * @covers \Laminas\Db\Adapter\Driver\Pgsql\Pgsql::getResultPrototype
+     */
+    public function testGetResultPrototype()
+    {
+        $resultPrototype = $this->pgsql->getResultPrototype();
+
+        self::assertInstanceOf(Result::class, $resultPrototype);
     }
 }

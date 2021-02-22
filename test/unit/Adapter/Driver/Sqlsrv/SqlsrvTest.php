@@ -8,6 +8,7 @@
 
 namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
+use Laminas\Db\Adapter\Driver\Sqlsrv\Result;
 use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 use PHPUnit\Framework\TestCase;
 
@@ -161,5 +162,15 @@ class SqlsrvTest extends TestCase
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
         );
+    }
+
+    /**
+     * @covers \Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getResultPrototype
+     */
+    public function testGetResultPrototype()
+    {
+        $resultPrototype = $this->sqlsrv->getResultPrototype();
+
+        self::assertInstanceOf(Result::class, $resultPrototype);
     }
 }
