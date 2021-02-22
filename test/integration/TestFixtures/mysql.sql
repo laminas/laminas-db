@@ -42,7 +42,7 @@ FROM
 CREATE TRIGGER after_test_update
     AFTER UPDATE ON test
     FOR EACH ROW
-    INSERT INTO test_audut_trail
+    INSERT INTO test_audit_trail
     SET
         test_id = OLD.id,
         test_value_old = OLD.value,
