@@ -9,8 +9,8 @@
 namespace LaminasIntegrationTest\Db\Platform;
 
 use function sqlsrv_connect;
-use sqlsrv_query;
-use sqlsrv_errors;
+use function sqlsrv_errors;
+use function sqlsrv_query;
 
 class SqlServerFixtureLoader implements FixtureLoader
 {
@@ -25,7 +25,8 @@ class SqlServerFixtureLoader implements FixtureLoader
     {
         $this->connect();
 
-        if (false === sqlsrv_query($this->connection, sprintf(<<<'SQL'
+        if (false === sqlsrv_query($this->connection, sprintf(
+            <<<'SQL'
                 IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = '%s')
                 BEGIN
                     CREATE DATABASE [%s] 

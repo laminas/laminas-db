@@ -32,18 +32,6 @@ jobs:
         with:
           job: ${{ matrix.job }}
     services:
-      mssql:
-        image: mcr.microsoft.com/mssql/server:2017-latest
-        env:
-          ACCEPT_EULA: 'Y'
-          SA_PASSWORD: 'Password123'
-        ports:
-          - 1433
-        options: >-
-          --health-cmd='sqlcmd -S localhost -U sa -P "Password123" -Q "SELECT 1" || exit 1'
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 3
       mysql:
         image: mysql:5.7
         env:
@@ -71,3 +59,16 @@ jobs:
           --health-retries 3
         ports:
           - 5432
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2017-latest
+        env:
+          ACCEPT_EULA: 'Y'
+          SA_PASSWORD: 'Password123'
+        ports:
+          - 1433
+        options: >-
+          --health-cmd="/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Password123' -Q 'SELECT 1' || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+          --health-start-period 10s
