@@ -97,6 +97,13 @@ class JoinTest extends TestCase
         self::assertSame($join, $return);
     }
 
+    public function testJoinFullOuter()
+    {
+        $join = new Join;
+        $return = $join->join('baz', 'foo.fooId = baz.fooId', Join::JOIN_FULL_OUTER);
+        self::assertSame($join, $return);
+    }
+
     public function testJoinWillThrowAnExceptionIfNameIsNoValid()
     {
         $join = new Join();

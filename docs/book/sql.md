@@ -117,6 +117,7 @@ class Select extends AbstractSql implements SqlInterface, PreparableSqlInterface
 {
     const JOIN_INNER = 'inner';
     const JOIN_OUTER = 'outer';
+    const JOIN_FULL_OUTER  = 'full outer';
     const JOIN_LEFT = 'left';
     const JOIN_RIGHT = 'right';
     const SQL_STAR = '*';
@@ -180,7 +181,7 @@ $select->join(
     'foo',              // table name
     'id = bar.id',      // expression to join on (will be quoted by platform object before insertion),
     ['bar', 'baz'],     // (optional) list of columns, same requirements as columns() above
-    $select::JOIN_OUTER // (optional), one of inner, outer, left, right also represented by constants in the API
+    $select::JOIN_OUTER // (optional), one of inner, outer, full outer, left, right also represented by constants in the API
 );
 
 $select

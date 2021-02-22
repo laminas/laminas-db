@@ -39,6 +39,7 @@ class Select extends AbstractPreparableSql
     const QUANTIFIER_ALL = 'ALL';
     const JOIN_INNER = Join::JOIN_INNER;
     const JOIN_OUTER = Join::JOIN_OUTER;
+    const JOIN_FULL_OUTER = Join::JOIN_FULL_OUTER;
     const JOIN_LEFT = Join::JOIN_LEFT;
     const JOIN_RIGHT = Join::JOIN_RIGHT;
     const JOIN_RIGHT_OUTER = Join::JOIN_RIGHT_OUTER;
