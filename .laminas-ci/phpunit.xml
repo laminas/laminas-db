@@ -34,8 +34,8 @@
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD" value="password" />
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE" value="laminasdb_test" />
 
-        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV" value="false" />
-        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME" value="192.168.20.20" />
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV" value="true" />
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME" value="mssql" />
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME" value="sa" />
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD" value="Password123" />
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_DATABASE" value="laminasdb_test" />
