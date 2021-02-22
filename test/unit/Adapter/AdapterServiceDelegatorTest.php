@@ -100,8 +100,7 @@ class AdapterServiceDelegatorTest extends TestCase
         $this->assertNull($result->getAdapter());
     }
 
-    public function testSetAdapterShouldNotBeCalledForWrongClassInstance(
-    ) : void
+    public function testSetAdapterShouldNotBeCalledForWrongClassInstance() : void
     {
         $container = $this->prophesize(ContainerInterface::class);
         $container->has(Argument::any())->shouldNotBeCalled();
