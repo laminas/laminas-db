@@ -275,15 +275,21 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
         foreach ($this as $row) {
             if (is_array($row)) {
                 $return[] = $row;
-            } elseif (method_exists($row, 'toArray')) {
-                $return[] = $row->toArray();
-            } elseif (method_exists($row, 'getArrayCopy')) {
-                $return[] = $row->getArrayCopy();
-            } else {
+                continue;
+            }
+
+            if (! is_object($row)
+                || (
+                    ! method_exists($row, 'toArray')
+                    && ! method_exists($row, 'getArrayCopy')
+                )
+            ) {
                 throw new Exception\RuntimeException(
                     'Rows as part of this DataSource, with type ' . gettype($row) . ' cannot be cast to an array'
                 );
             }
+
+            $return[] = method_exists($row, 'toArray') ? $row->toArray() : $row->getArrayCopy();
         }
         return $return;
     }
