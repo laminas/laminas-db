@@ -187,6 +187,14 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
+     * @return Result
+     */
+    public function getResultPrototype()
+    {
+        return $this->resultPrototype;
+    }
+
+    /**
      * @return string
      */
     public function getPrepareType()

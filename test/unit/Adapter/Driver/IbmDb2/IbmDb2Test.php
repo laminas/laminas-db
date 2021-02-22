@@ -9,6 +9,7 @@
 namespace LaminasTest\Db\Adapter\Driver\IbmDb2;
 
 use Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2;
+use Laminas\Db\Adapter\Driver\IbmDb2\Result;
 use PHPUnit\Framework\TestCase;
 
 class IbmDb2Test extends TestCase
@@ -161,5 +162,15 @@ class IbmDb2Test extends TestCase
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
         );
+    }
+
+    /**
+     * @covers \Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2::getResultPrototype
+     */
+    public function testGetResultPrototype()
+    {
+        $resultPrototype = $this->ibmdb2->getResultPrototype();
+
+        self::assertInstanceOf(Result::class, $resultPrototype);
     }
 }
