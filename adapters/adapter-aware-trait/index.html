@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Database abstraction layer, SQL abstraction, result set abstraction, and RowDataGateway and TableDataGateway implementations">  
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-db/adapters/adapter-aware-trait/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>laminas-db - Laminas Docs</title>
+    <title>AdapterAwareTrait - laminas-db - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -114,7 +115,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../.">laminas-db</a>
+            <a href="../..">laminas-db</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -134,13 +135,13 @@
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../adapter/" class="subnavigation__link">Introduction</a>
+        <a href="../../adapter/" class="subnavigation__link">Introduction</a>
     </li>
 
                                     
                                         
-    <li class="subnavigation__list-item ">
-        <a href="../adapters/adapter-aware-trait/" class="subnavigation__link">AdapterAwareTrait</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">AdapterAwareTrait</a>
     </li>
 
                                     
@@ -158,7 +159,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../result-set/" class="subnavigation__link">Result Sets</a>
+                                <a href="../../result-set/" class="subnavigation__link">Result Sets</a>
                             </li>
                         
                     
@@ -172,7 +173,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../sql/" class="subnavigation__link">SQL Abstraction</a>
+                                <a href="../../sql/" class="subnavigation__link">SQL Abstraction</a>
                             </li>
                         
                     
@@ -186,7 +187,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
+                                <a href="../../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
                             </li>
                         
                     
@@ -200,7 +201,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../table-gateway/" class="subnavigation__link">Table Gateways</a>
+                                <a href="../../table-gateway/" class="subnavigation__link">Table Gateways</a>
                             </li>
                         
                     
@@ -214,7 +215,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../row-gateway/" class="subnavigation__link">Row Gateways</a>
+                                <a href="../../row-gateway/" class="subnavigation__link">Row Gateways</a>
                             </li>
                         
                     
@@ -228,7 +229,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../metadata/" class="subnavigation__link">RDBMS Metadata</a>
+                                <a href="../../metadata/" class="subnavigation__link">RDBMS Metadata</a>
                             </li>
                         
                     
@@ -247,7 +248,7 @@
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Integrating in a Laminas MVC application</a>
+        <a href="../../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Integrating in a Laminas MVC application</a>
     </li>
 
                                     
@@ -318,21 +319,202 @@
                 
                 
                     
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
                 
+                    <li class="toc__entry">
+                        <a href="#basic-usage" class="toc__link nav-link">Basic Usage</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#adapterservicedelegator" class="toc__link nav-link">AdapterServiceDelegator</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#concrete-implementations" class="toc__link nav-link">Concrete Implementations</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
 
                 
 
-<h1 class="content__title">404</h1>
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="https://docs.laminas.dev/">Overview</a></li>
+            <li class="breadcrumb-item"><a href="https://docs.laminas.dev/components/">Components</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="../..">laminas-db</a></li>
+
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Adapters</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">AdapterAwareTrait</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+
+
+
+    
+    
+        <h2 class="chapter__headline">Adapters</h2>
+    
+
+    <h1 id="adapterawaretrait">AdapterAwareTrait</h1>
+<p>The trait <code>Laminas\Db\Adapter\AdapterAwareTrait</code>, which provides implementation
+for <code>Laminas\Db\Adapter\AdapterAwareInterface</code>, and allowed removal of
+duplicated implementations in several components of Laminas or in custom
+applications.</p>
+<p>The interface defines only the method <code>setDbAdapter()</code> with one parameter for an
+instance of <code>Laminas\Db\Adapter\Adapter</code>:</p>
+<pre class="highlight"><code class="language-php">public function setDbAdapter(\Laminas\Db\Adapter\Adapter $adapter) : self;</code></pre>
+<h2 id="basic-usage">Basic Usage</h2>
+<h3>Create Class and Add Trait</h3>
+<pre class="highlight"><code class="language-php">use Laminas\Db\Adapter\AdapterAwareTrait;
+use Laminas\Db\Adapter\AdapterAwareInterface;
+
+class Example implements AdapterAwareInterface
+{
+    use AdapterAwareTrait;
+}</code></pre>
+<h3>Create and Set Adapter</h3>
+<p><a href="../../adapter/#creating-an-adapter-using-configuration">Create a database adapter</a> and set the adapter to the instance of the <code>Example</code>
+class:</p>
+<pre class="highlight"><code class="language-php">$adapter = new Laminas\Db\Adapter\Adapter([
+    'driver'   =&gt; 'Pdo_Sqlite',
+    'database' =&gt; 'path/to/sqlite.db',
+]);
+
+$example = new Example();
+$example-&gt;setAdapter($adapter);</code></pre>
+<h2 id="adapterservicedelegator">AdapterServiceDelegator</h2>
+<p>The <a href="https://docs.laminas.dev/laminas-servicemanager/delegators/">delegator</a>
+<code>Laminas\Db\Adapter\AdapterServiceDelegator</code> can be used to set a database
+adapter via the <a href="https://docs.laminas.dev/laminas-servicemanager/quick-start/">service manager of laminas-servicemanager</a>.</p>
+<p>The delegator tries to fetch a database adapter via the name
+<code>Laminas\Db\Adapter\AdapterInterface</code> from the service container and sets the
+adapter to the requested service. The adapter itself must be an instance of
+<code>Laminas\Db\Adapter\Adapter</code>.</p>
 <blockquote>
-    <h3>Something went wrong!</h3>
-    <p>
-        We're sorry, but the page you are looking for does not exist.
-    </p>
+<h3>Integration for Mezzio and laminas-mvc based Applications</h3>
+<p>In a Mezzio or laminas-mvc based application the database adapter is already
+registered during the installation with the laminas-component-installer.</p>
 </blockquote>
+<h3>Create Class and Use Trait</h3>
+<p>Create a class and add the trait <code>AdapterAwareTrait</code>.</p>
+<pre class="highlight"><code class="language-php">use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\AdapterInterface;
 
-<a href="../." class="btn btn-default" role="button">Go to homepage</a>
+class Example implements AdapterAwareInterface
+{
+    use AdapterAwareTrait;
+
+    public function getAdapter() : ?Adapter
+    {
+        return $this-&gt;adapter;
+    }
+}</code></pre>
+<p>(A getter method is also added for demonstration.)</p>
+<h3>Create and Configure Service Manager</h3>
+<p>Create and <a href="https://docs.laminas.dev/laminas-servicemanager/configuring-the-service-manager/">configured the service manager</a>:</p>
+<pre class="highlight"><code class="language-php">use Interop\Container\ContainerInterface;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\Adapter\AdapterServiceDelegator;
+use Laminas\Db\Adapter\AdapterAwareTrait;
+use Laminas\Db\Adapter\AdapterAwareInterface;
+
+$serviceManager = new Laminas\ServiceManager\ServiceManager([
+    'factories' =&gt; [
+        // Database adapter
+        AdapterInterface::class =&gt; static function(ContainerInterface $container) {
+            return new Laminas\Db\Adapter\Adapter([
+                'driver'   =&gt; 'Pdo_Sqlite',
+                'database' =&gt; 'path/to/sqlite.db',
+            ]);
+        }
+    ],
+    'invokables' =&gt; [
+        // Example class
+        Example::class =&gt; Example::class,
+    ],
+    'delegators' =&gt; [
+        // Delegator for Example class to set the adapter
+        Example::class =&gt; [
+            AdapterServiceDelegator::class,
+        ],
+    ],
+]);</code></pre>
+<h3>Get Instance of Class</h3>
+<p><a href="https://docs.laminas.dev/laminas-servicemanager/quick-start/#3-retrieving-objects">Retrieving an instance</a>
+of the <code>Example</code> class with a database adapter:</p>
+<pre class="highlight"><code class="language-php">/** @var Example $example */
+$example = $serviceManager-&gt;get(Example::class);
+
+var_dump($example-&gt;getAdapter() instanceof Laminas\Db\Adapter\Adapter); // true</code></pre>
+<h2 id="concrete-implementations">Concrete Implementations</h2>
+<p>The validators <a href="https://docs.laminas.dev/laminas-validator/validators/db/"><code>Db\RecordExists</code> and <code>Db\NoRecordExists</code></a>
+implements the trait and the plugin manager of <a href="https://docs.laminas.dev/laminas-validator/">laminas-validator</a>
+includes the delegator to set the database adapter for both validators.</p>
 
 
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../../adapter/">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../../result-set/">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/laminas/laminas-db/edit/master/docs/book/adapters/adapter-aware-trait.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
+                
             </div>
             <div class="col-md-3 col-sm-12 sidebar">
                 <div class="donation-banner">
@@ -355,7 +537,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../.">laminas-db</a>
+            <a href="../..">laminas-db</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -375,13 +557,13 @@
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../adapter/" class="subnavigation__link">Introduction</a>
+        <a href="../../adapter/" class="subnavigation__link">Introduction</a>
     </li>
 
                                     
                                         
-    <li class="subnavigation__list-item ">
-        <a href="../adapters/adapter-aware-trait/" class="subnavigation__link">AdapterAwareTrait</a>
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">AdapterAwareTrait</a>
     </li>
 
                                     
@@ -399,7 +581,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../result-set/" class="subnavigation__link">Result Sets</a>
+                                <a href="../../result-set/" class="subnavigation__link">Result Sets</a>
                             </li>
                         
                     
@@ -413,7 +595,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../sql/" class="subnavigation__link">SQL Abstraction</a>
+                                <a href="../../sql/" class="subnavigation__link">SQL Abstraction</a>
                             </li>
                         
                     
@@ -427,7 +609,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
+                                <a href="../../sql-ddl/" class="subnavigation__link">DDL Abstraction</a>
                             </li>
                         
                     
@@ -441,7 +623,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../table-gateway/" class="subnavigation__link">Table Gateways</a>
+                                <a href="../../table-gateway/" class="subnavigation__link">Table Gateways</a>
                             </li>
                         
                     
@@ -455,7 +637,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../row-gateway/" class="subnavigation__link">Row Gateways</a>
+                                <a href="../../row-gateway/" class="subnavigation__link">Row Gateways</a>
                             </li>
                         
                     
@@ -469,7 +651,7 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../metadata/" class="subnavigation__link">RDBMS Metadata</a>
+                                <a href="../../metadata/" class="subnavigation__link">RDBMS Metadata</a>
                             </li>
                         
                     
@@ -488,7 +670,7 @@
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Integrating in a Laminas MVC application</a>
+        <a href="../../application-integration/usage-in-a-laminas-mvc-application/" class="subnavigation__link">Integrating in a Laminas MVC application</a>
     </li>
 
                                     
@@ -584,13 +766,13 @@
 </footer>
 
     <script>
-        let base_url = '..',
+        let base_url = '../..',
             project  = "components",
             siteName = 'laminas-db';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
     
-        <script src="../search/main.js"></script>
+        <script src="../../search/main.js"></script>
     
 
     
