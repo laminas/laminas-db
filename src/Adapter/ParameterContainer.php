@@ -88,8 +88,11 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
             return $this->data[$name];
         }
 
-        if (isset($this->nameMapping[ltrim($name, ':')]) && isset($this->data[$this->nameMapping[ltrim($name, ':')]])) {
-            return $this->data[$this->nameMapping[ltrim($name, ':')]];
+        $normalizedName = ltrim($name, ':');
+        if (isset($this->nameMapping[$normalizedName])
+            && isset($this->data[$this->nameMapping[$normalizedName]])
+        ) {
+            return $this->data[$this->nameMapping[$normalizedName]];
         }
 
         return null;
@@ -127,13 +130,17 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
             }
         } elseif (is_string($name)) {
             // is a string:
-            if (isset($this->nameMapping[ltrim($name, ':')])) {
-                //we have a mapping, get real name from it
-                $name = $this->nameMapping[ltrim($name, ':')];
+            $normalizedName = ltrim($name, ':');
+            if (isset($this->nameMapping[$normalizedName])) {
+                // We have a mapping; get real name from it
+                $name = $this->nameMapping[$normalizedName];
             }
+
             $position = array_key_exists($name, $this->data);
-            if (strpos($value, ':') === 0) { //FIXME: any data begining with a ":" will be considered a parameter
-                //We have named parameter, handle name mapping (container creation)
+
+            // @todo: this assumes that any data begining with a ":" will be considered a parameter
+            if (strpos($value, ':') === 0) {
+                // We have a named parameter; handle name mapping (container creation)
                 $this->nameMapping[ltrim($value, ':')] = $name;
             }
         } elseif ($name === null) {
