@@ -92,7 +92,7 @@ class CreateTableTest extends TestCase
     public function testRawStateViaColumn(CreateTable $ct)
     {
         $state = $ct->getRawState('columns');
-        self::assertInternalType('array', $state);
+        self::assertIsArray($state);
         $column = array_pop($state);
         self::assertInstanceOf('Laminas\Db\Sql\Ddl\Column\ColumnInterface', $column);
     }
@@ -115,7 +115,7 @@ class CreateTableTest extends TestCase
     public function testRawStateViaConstraint(CreateTable $ct)
     {
         $state = $ct->getRawState('constraints');
-        self::assertInternalType('array', $state);
+        self::assertIsArray($state);
         $constraint = array_pop($state);
         self::assertInstanceOf('Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface', $constraint);
     }

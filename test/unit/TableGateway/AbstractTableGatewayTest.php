@@ -16,12 +16,12 @@ use PHPUnit\Framework\TestCase;
 class AbstractTableGatewayTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_Generator
+     * @var \PHPUnit\Framework\MockObject\Generator
      */
     protected $mockAdapter;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_Generator
+     * @var \PHPUnit\Framework\MockObject\Generator
      */
     protected $mockSql;
 
@@ -34,7 +34,7 @@ class AbstractTableGatewayTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         // mock the adapter, driver, and parts
         $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
@@ -116,7 +116,7 @@ class AbstractTableGatewayTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 

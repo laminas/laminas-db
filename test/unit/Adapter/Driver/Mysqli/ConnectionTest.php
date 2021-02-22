@@ -23,7 +23,7 @@ class ConnectionTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
             $this->markTestSkipped('Mysqli test disabled');
@@ -35,7 +35,7 @@ class ConnectionTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
@@ -144,12 +144,28 @@ class ConnectionTest extends TestCase
         $mysqli->expects($flags ? $this->once() : $this->never())
             ->method('ssl_set')
             ->with(
-                $this->equalTo(null),
-                $this->equalTo(null),
-                $this->equalTo(null),
-                $this->equalTo(null),
-                $this->equalTo(null)
+                $this->equalTo(''),
+                $this->equalTo(''),
+                $this->equalTo(''),
+                $this->equalTo(''),
+                $this->equalTo('')
             );
+
+        if ($flags === 0) {
+            // Do not pass $flags argument if invalid flags provided
+            $mysqli->expects($this->once())
+                ->method('real_connect')
+                ->with(
+                    $this->equalTo('localhost'),
+                    $this->equalTo('superuser'),
+                    $this->equalTo('1234'),
+                    $this->equalTo('main'),
+                    $this->equalTo(123),
+                    $this->equalTo('')
+                )
+                ->willReturn(null);
+            return $mysqli;
+        }
 
         $mysqli->expects($this->once())
             ->method('real_connect')
@@ -159,7 +175,7 @@ class ConnectionTest extends TestCase
                 $this->equalTo('1234'),
                 $this->equalTo('main'),
                 $this->equalTo(123),
-                $this->equalTo(null),
+                $this->equalTo(''),
                 $this->equalTo($flags)
             )
             ->willReturn(null);

@@ -10,11 +10,14 @@ namespace LaminasTest\Db\Adapter\Driver\Pgsql;
 
 use Laminas\Db\Adapter\Driver\Pgsql\Connection;
 use Laminas\Db\Adapter\Exception as AdapterException;
+use LaminasTest\Db\DeprecatedAssertionsTrait;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 
 class ConnectionTest extends TestCase
 {
+    use DeprecatedAssertionsTrait;
+
     /**
      * @var Connection
      */
@@ -24,7 +27,7 @@ class ConnectionTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->connection = new Connection();
     }

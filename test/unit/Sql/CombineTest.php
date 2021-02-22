@@ -26,7 +26,7 @@ class CombineTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->combine = new Combine;
     }
@@ -178,7 +178,7 @@ class CombineTest extends TestCase
 
     /**
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Laminas\Db\Adapter\Adapter
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Laminas\Db\Adapter\Adapter
      */
     protected function getMockAdapter()
     {

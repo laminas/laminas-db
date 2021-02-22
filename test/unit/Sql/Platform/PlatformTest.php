@@ -112,7 +112,7 @@ class PlatformTest extends TestCase
                 break;
         }
 
-        /* @var $mockDriver \Laminas\Db\Adapter\Driver\DriverInterface|\PHPUnit_Framework_MockObject_MockObject */
+        /* @var $mockDriver \Laminas\Db\Adapter\Driver\DriverInterface|\PHPUnit\Framework\MockObject\MockObject */
         $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
 
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));

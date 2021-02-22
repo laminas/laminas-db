@@ -10,10 +10,13 @@ namespace LaminasTest\Db\Sql\Predicate;
 
 use Laminas\Db\Sql\Predicate\IsNull;
 use Laminas\Db\Sql\Predicate\PredicateSet;
+use LaminasTest\Db\DeprecatedAssertionsTrait;
 use PHPUnit\Framework\TestCase;
 
 class PredicateSetTest extends TestCase
 {
+    use DeprecatedAssertionsTrait;
+
     public function testEmptyConstructorYieldsCountOfZero()
     {
         $predicateSet = new PredicateSet();
@@ -27,8 +30,8 @@ class PredicateSetTest extends TestCase
                   ->addPredicate(new IsNull('bar'));
         $parts = $predicateSet->getExpressionData();
         self::assertCount(3, $parts);
-        self::assertContains('AND', $parts[1]);
-        self::assertNotContains('OR', $parts[1]);
+        self::assertStringContainsString('AND', $parts[1]);
+        self::assertStringNotContainsString('OR', $parts[1]);
     }
 
     public function testCanPassPredicatesAndDefaultCombinationViaConstructor()
@@ -40,8 +43,8 @@ class PredicateSetTest extends TestCase
         ], 'OR');
         $parts = $set->getExpressionData();
         self::assertCount(3, $parts);
-        self::assertContains('OR', $parts[1]);
-        self::assertNotContains('AND', $parts[1]);
+        self::assertStringContainsString('OR', $parts[1]);
+        self::assertStringNotContainsString('AND', $parts[1]);
     }
 
     public function testCanPassBothPredicateAndCombinationToAddPredicate()
@@ -54,14 +57,14 @@ class PredicateSetTest extends TestCase
         $parts = $predicateSet->getExpressionData();
         self::assertCount(7, $parts);
 
-        self::assertNotContains('OR', $parts[1], var_export($parts, 1));
-        self::assertContains('AND', $parts[1]);
+        self::assertStringNotContainsString('OR', $parts[1], var_export($parts, 1));
+        self::assertStringContainsString('AND', $parts[1]);
 
-        self::assertContains('OR', $parts[3]);
-        self::assertNotContains('AND', $parts[3]);
+        self::assertStringContainsString('OR', $parts[3]);
+        self::assertStringNotContainsString('AND', $parts[3]);
 
-        self::assertNotContains('OR', $parts[5]);
-        self::assertContains('AND', $parts[5]);
+        self::assertStringNotContainsString('OR', $parts[5]);
+        self::assertStringContainsString('AND', $parts[5]);
     }
 
     public function testCanUseOrPredicateAndAndPredicateMethods()
@@ -74,14 +77,14 @@ class PredicateSetTest extends TestCase
         $parts = $predicateSet->getExpressionData();
         self::assertCount(7, $parts);
 
-        self::assertNotContains('OR', $parts[1], var_export($parts, 1));
-        self::assertContains('AND', $parts[1]);
+        self::assertStringNotContainsString('OR', $parts[1], var_export($parts, 1));
+        self::assertStringContainsString('AND', $parts[1]);
 
-        self::assertContains('OR', $parts[3]);
-        self::assertNotContains('AND', $parts[3]);
+        self::assertStringContainsString('OR', $parts[3]);
+        self::assertStringNotContainsString('AND', $parts[3]);
 
-        self::assertNotContains('OR', $parts[5]);
-        self::assertContains('AND', $parts[5]);
+        self::assertStringNotContainsString('OR', $parts[5]);
+        self::assertStringContainsString('AND', $parts[5]);
     }
 
     /**

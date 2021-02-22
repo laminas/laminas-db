@@ -18,7 +18,7 @@ class BetweenTest extends TestCase
      */
     protected $between;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->between = new Between();
     }

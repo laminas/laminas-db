@@ -12,12 +12,15 @@ use Laminas\Db\Sql\Expression;
 use Laminas\Db\Sql\InsertIgnore;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\TableIdentifier;
+use LaminasTest\Db\DeprecatedAssertionsTrait;
 use LaminasTest\Db\TestAsset\Replace;
 use LaminasTest\Db\TestAsset\TrustingSql92Platform;
 use PHPUnit\Framework\TestCase;
 
 class InsertIgnoreTest extends TestCase
 {
+    use DeprecatedAssertionsTrait;
+
     /**
      * @var InsertIgnore
      */
@@ -27,7 +30,7 @@ class InsertIgnoreTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->insert = new InsertIgnore;
     }

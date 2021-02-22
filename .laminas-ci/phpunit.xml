@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         colors="true">
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    colors="true">
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+        <exclude>
+            <file>./src/Sql/Ddl/Column/Float.php</file>
+        </exclude>
+    </coverage>
+
     <testsuites>
         <testsuite name="unit test">
             <directory>./test/unit</directory>
@@ -12,24 +22,11 @@
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-            <exclude>
-                <file>./src/Sql/Ddl/Column/Float.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
-
     <listeners>
-        <listener class="LaminasIntegrationTest\Db\IntegrationTestListener" file="./test/integration/IntegrationTestListener.php" />
+        <listener class="LaminasIntegrationTest\Db\IntegrationTestListener" file="./test/integration/IntegrationTestListener.php"/>
     </listeners>
 
     <php>
-        <!-- Note: the following is a FULL list of ALL POSSIBLE constants
-             currently in use in Laminas for ALL COMPONENTS; you should choose the
-             constants appropriate to the component you are migrating. -->
-
         <!-- Integration Test Variables -->
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL" value="true" />
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="mysql" />

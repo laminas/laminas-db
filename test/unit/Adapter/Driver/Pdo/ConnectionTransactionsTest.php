@@ -27,7 +27,7 @@ class ConnectionTransactionsTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->wrapper = new ConnectionWrapper();
     }

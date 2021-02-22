@@ -16,7 +16,7 @@ class RowGatewayTest extends TestCase
     protected $mockAdapter;
     protected $rowGateway;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // mock the adapter, driver, and parts
         $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();

@@ -25,7 +25,7 @@ class SequenceFeatureTest extends TestCase
     /** @var string  sequence name */
     protected $sequenceName = 'table_sequence';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->feature = new SequenceFeature($this->primaryKeyField, $this->sequenceName);
     }
@@ -35,7 +35,7 @@ class SequenceFeatureTest extends TestCase
      */
     public function testNextSequenceId($platformName, $statementSql)
     {
-        $platform = $this->getMockForAbstractClass('Laminas\Db\Adapter\Platform\PlatformInterface', ['getName']);
+        $platform = $this->createMock('Laminas\Db\Adapter\Platform\PlatformInterface');
         $platform->expects($this->any())
             ->method('getName')
             ->will($this->returnValue($platformName));
@@ -49,27 +49,11 @@ class SequenceFeatureTest extends TestCase
         $adapter->expects($this->any())
             ->method('getPlatform')
             ->will($this->returnValue($platform));
-        $result = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\ResultInterface',
-            [],
-            '',
-            false,
-            true,
-            true,
-            ['current']
-        );
+        $result = $this->createMock('Laminas\Db\Adapter\Driver\ResultInterface');
         $result->expects($this->any())
             ->method('current')
             ->will($this->returnValue(['nextval' => 2]));
-        $statement = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\StatementInterface',
-            [],
-            '',
-            false,
-            true,
-            true,
-            ['prepare', 'execute']
-        );
+        $statement = $this->createMock('Laminas\Db\Adapter\Driver\StatementInterface');
         $statement->expects($this->any())
             ->method('execute')
             ->will($this->returnValue($result));

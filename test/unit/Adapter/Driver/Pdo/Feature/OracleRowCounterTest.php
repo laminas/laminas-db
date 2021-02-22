@@ -18,7 +18,7 @@ class OracleRowCounterTest extends TestCase
      */
     protected $rowCounter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->rowCounter = new OracleRowCounter();
     }
@@ -69,7 +69,7 @@ class OracleRowCounterTest extends TestCase
 
     protected function getMockStatement($sql, $returnValue)
     {
-        /** @var \Laminas\Db\Adapter\Driver\Pdo\Statement|\PHPUnit_Framework_MockObject_MockObject $statement */
+        /** @var \Laminas\Db\Adapter\Driver\Pdo\Statement|\PHPUnit\Framework\MockObject\MockObject $statement */
         $statement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Pdo\Statement')
             ->setMethods(['prepare', 'execute'])
             ->disableOriginalConstructor()

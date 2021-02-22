@@ -9,6 +9,7 @@
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
 use Laminas\Db\Adapter\Driver\Pdo\Result as PdoResult;
+use Laminas\Db\Adapter\Exception\RuntimeException;
 use Laminas\Db\ResultSet\ResultSet;
 use PHPUnit\Framework\TestCase;
 
@@ -59,11 +60,9 @@ class QueryTest extends TestCase
         $this->assertInstanceOf(PdoResult::class, $result);
     }
 
-    /**
-     * @expectedException Laminas\Db\Adapter\Exception\RuntimeException
-     */
     public function testSelectWithNotPermittedBindParamName()
     {
-        $result = $this->adapter->query('SET @@session.time_zone = :tz$', [':tz$' => 'SYSTEM']);
+        $this->expectException(RuntimeException::class);
+        $this->adapter->query('SET @@session.time_zone = :tz$', [':tz$' => 'SYSTEM']);
     }
 }

@@ -20,7 +20,7 @@ class AbstractRowGatewayTest extends TestCase
 
     protected $mockResult;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // mock the adapter, driver, and parts
         $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();

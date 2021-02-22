@@ -23,7 +23,7 @@ class SqlTest extends TestCase
      */
     protected $sql;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // mock the adapter, driver, and parts
         $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
@@ -189,7 +189,7 @@ class SqlTest extends TestCase
         $this->sql->prepareStatementForSqlObject($select, null, $adapterOracle);
 
         // SqlServer
-        self::assertContains(
+        self::assertStringContainsString(
             'WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN 10+1 AND 0+10',
             $this->sql->buildSqlString($select, $adapterSqlServer)
         );

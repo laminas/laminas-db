@@ -13,12 +13,15 @@ use Laminas\Db\Sql\Join;
 use Laminas\Db\Sql\TableIdentifier;
 use Laminas\Db\Sql\Update;
 use Laminas\Db\Sql\Where;
+use LaminasTest\Db\DeprecatedAssertionsTrait;
 use LaminasTest\Db\TestAsset\TrustingSql92Platform;
 use LaminasTest\Db\TestAsset\UpdateIgnore;
 use PHPUnit\Framework\TestCase;
 
 class UpdateTest extends TestCase
 {
+    use DeprecatedAssertionsTrait;
+
     /**
      * @var Update
      */
@@ -28,7 +31,7 @@ class UpdateTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->update = new Update;
     }
@@ -37,7 +40,7 @@ class UpdateTest extends TestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 

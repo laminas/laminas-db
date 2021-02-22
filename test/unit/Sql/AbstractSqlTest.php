@@ -20,13 +20,13 @@ use PHPUnit\Framework\TestCase;
 class AbstractSqlTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $abstractSql;
 
     protected $mockDriver;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->abstractSql = $this->getMockForAbstractClass('Laminas\Db\Sql\AbstractSql');
 
@@ -65,7 +65,7 @@ class AbstractSqlTest extends TestCase
 
         $parameters = $parameterContainer->getNamedArray();
 
-        self::assertRegExp('#"x" > :expr\d\d\d\dParam1 AND y < :expr\d\d\d\dParam2#', $sqlAndParams);
+        self::assertMatchesRegularExpression('#"x" > :expr\d\d\d\dParam1 AND y < :expr\d\d\d\dParam2#', $sqlAndParams);
 
         // test keys and values
         preg_match('#expr(\d\d\d\d)Param1#', key($parameters), $matches);

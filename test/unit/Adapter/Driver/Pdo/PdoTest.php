@@ -10,6 +10,7 @@ namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Pdo\Pdo;
+use Laminas\Db\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 
 class PdoTest extends TestCase
@@ -23,7 +24,7 @@ class PdoTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->pdo = new Pdo([]);
     }
@@ -77,10 +78,10 @@ class PdoTest extends TestCase
 
     /**
      * @dataProvider getInvalidParamName
-     * @expectedException Laminas\Db\Exception\RuntimeException
      */
     public function testFormatParameterNameWithInvalidCharacters($name)
     {
+        $this->expectException(RuntimeException::class);
         $this->pdo->formatParameterName($name);
     }
 }

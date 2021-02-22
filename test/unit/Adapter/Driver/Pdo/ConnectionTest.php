@@ -22,7 +22,7 @@ class ConnectionTest extends TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->connection = new Connection();
     }
@@ -75,10 +75,10 @@ class ConnectionTest extends TestCase
         $responseString = $this->connection->getDsn();
 
         self::assertStringStartsWith('mysql:', $responseString);
-        self::assertContains('charset=utf8', $responseString);
-        self::assertContains('dbname=foo', $responseString);
-        self::assertContains('port=3306', $responseString);
-        self::assertContains('unix_socket=/var/run/mysqld/mysqld.sock', $responseString);
+        self::assertStringContainsString('charset=utf8', $responseString);
+        self::assertStringContainsString('dbname=foo', $responseString);
+        self::assertStringContainsString('port=3306', $responseString);
+        self::assertStringContainsString('unix_socket=/var/run/mysqld/mysqld.sock', $responseString);
     }
 
     public function testHostnameAndUnixSocketThrowsInvalidConnectionParametersException()
@@ -114,9 +114,9 @@ class ConnectionTest extends TestCase
         $responseString = $this->connection->getDsn();
 
         $this->assertStringStartsWith('dblib:', $responseString);
-        $this->assertContains('charset=UTF-8', $responseString);
-        $this->assertContains('dbname=foo', $responseString);
-        $this->assertContains('port=1433', $responseString);
-        $this->assertContains('version=7.3', $responseString);
+        $this->assertStringContainsString('charset=UTF-8', $responseString);
+        $this->assertStringContainsString('dbname=foo', $responseString);
+        $this->assertStringContainsString('port=1433', $responseString);
+        $this->assertStringContainsString('version=7.3', $responseString);
     }
 }

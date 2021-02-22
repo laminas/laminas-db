@@ -9,10 +9,13 @@
 namespace LaminasTest\Db\Adapter;
 
 use Laminas\Db\Adapter\Adapter;
+use LaminasTest\Db\DeprecatedAssertionsTrait;
 use PHPUnit\Framework\TestCase;
 
 class AdapterAwareTraitTest extends TestCase
 {
+    use DeprecatedAssertionsTrait;
+
     public function testSetDbAdapter()
     {
         $object = $this->getObjectForTrait('\Laminas\Db\Adapter\AdapterAwareTrait');
