@@ -8,9 +8,6 @@
         <include>
             <directory suffix=".php">./src</directory>
         </include>
-        <exclude>
-            <file>./src/Sql/Ddl/Column/Float.php</file>
-        </exclude>
     </coverage>
 
     <testsuites>
