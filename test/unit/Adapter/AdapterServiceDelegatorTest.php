@@ -18,11 +18,14 @@ use Laminas\ServiceManager\ServiceManager;
 use LaminasTest\Db\Adapter\TestAsset\ConcreteAdapterAwareObject;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 use stdClass;
 
 class AdapterServiceDelegatorTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testSetAdapterShouldBeCalledForExistingAdapter() : void
     {
         $container = $this->prophesize(ContainerInterface::class);
