@@ -10,7 +10,7 @@ instance of `Laminas\Db\Adapter\Adapter`:
 
 ```php
 public function setDbAdapter(\Laminas\Db\Adapter\Adapter $adapter) : self;
-``` 
+```
 
 ## Basic Usage
 
