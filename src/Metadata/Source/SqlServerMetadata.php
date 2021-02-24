@@ -10,152 +10,8 @@ namespace Laminas\Db\Metadata\Source;
 
 use Laminas\Db\Adapter\Adapter;
 
-class SqlServerMetadata extends AbstractSource
+class SqlServerMetadata extends AnsiMetadata
 {
-    protected function loadSchemaData()
-    {
-        if (isset($this->data['schemas'])) {
-            return;
-        }
-        $this->prepareDataHierarchy('schemas');
-
-        $p = $this->adapter->getPlatform();
-
-        $sql = 'SELECT ' . $p->quoteIdentifier('SCHEMA_NAME')
-            . ' FROM ' . $p->quoteIdentifierChain(['INFORMATION_SCHEMA', 'SCHEMATA'])
-            . ' WHERE ' . $p->quoteIdentifier('SCHEMA_NAME')
-            . ' != \'INFORMATION_SCHEMA\'';
-
-        $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
-
-        $schemas = [];
-        foreach ($results->toArray() as $row) {
-            $schemas[] = $row['SCHEMA_NAME'];
-        }
-
-        $this->data['schemas'] = $schemas;
-    }
-
-    protected function loadTableNameData($schema)
-    {
-        if (isset($this->data['table_names'][$schema])) {
-            return;
-        }
-        $this->prepareDataHierarchy('table_names', $schema);
-
-        $p = $this->adapter->getPlatform();
-
-        $isColumns = [
-            ['T', 'TABLE_NAME'],
-            ['T', 'TABLE_TYPE'],
-            ['V', 'VIEW_DEFINITION'],
-            ['V', 'CHECK_OPTION'],
-            ['V', 'IS_UPDATABLE'],
-        ];
-
-        array_walk($isColumns, function (&$c) use ($p) {
-            $c = $p->quoteIdentifierChain($c);
-        });
-
-        $sql = 'SELECT ' . implode(', ', $isColumns)
-            . ' FROM ' . $p->quoteIdentifierChain(['INFORMATION_SCHEMA', 'TABLES']) . ' t'
-
-            . ' LEFT JOIN ' . $p->quoteIdentifierChain(['INFORMATION_SCHEMA', 'VIEWS']) . ' v'
-            . ' ON ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
-            . '  = ' . $p->quoteIdentifierChain(['V', 'TABLE_SCHEMA'])
-            . ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_NAME'])
-            . '  = ' . $p->quoteIdentifierChain(['V', 'TABLE_NAME'])
-
-            . ' WHERE ' . $p->quoteIdentifierChain(['T', 'TABLE_TYPE'])
-            . ' IN (\'BASE TABLE\', \'VIEW\')';
-
-        if ($schema != self::DEFAULT_SCHEMA) {
-            $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
-                . ' = ' . $p->quoteTrustedValue($schema);
-        } else {
-            $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
-                . ' != \'INFORMATION_SCHEMA\'';
-        }
-
-        $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
-
-        $tables = [];
-        foreach ($results->toArray() as $row) {
-            $tables[$row['TABLE_NAME']] = [
-                'table_type' => $row['TABLE_TYPE'],
-                'view_definition' => $row['VIEW_DEFINITION'],
-                'check_option' => $row['CHECK_OPTION'],
-                'is_updatable' => ('YES' == $row['IS_UPDATABLE']),
-            ];
-        }
-
-        $this->data['table_names'][$schema] = $tables;
-    }
-
-    protected function loadColumnData($table, $schema)
-    {
-        if (isset($this->data['columns'][$schema][$table])) {
-            return;
-        }
-        $this->prepareDataHierarchy('columns', $schema, $table);
-        $p = $this->adapter->getPlatform();
-
-        $isColumns = [
-            ['C', 'ORDINAL_POSITION'],
-            ['C', 'COLUMN_DEFAULT'],
-            ['C', 'IS_NULLABLE'],
-            ['C', 'DATA_TYPE'],
-            ['C', 'CHARACTER_MAXIMUM_LENGTH'],
-            ['C', 'CHARACTER_OCTET_LENGTH'],
-            ['C', 'NUMERIC_PRECISION'],
-            ['C', 'NUMERIC_SCALE'],
-            ['C', 'COLUMN_NAME'],
-        ];
-
-        array_walk($isColumns, function (&$c) use ($p) {
-            $c = $p->quoteIdentifierChain($c);
-        });
-
-        $sql = 'SELECT ' . implode(', ', $isColumns)
-            . ' FROM ' . $p->quoteIdentifierChain(['INFORMATION_SCHEMA', 'TABLES']) . 'T'
-            . ' INNER JOIN ' . $p->quoteIdentifierChain(['INFORMATION_SCHEMA', 'COLUMNS']) . 'C'
-            . ' ON ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
-            . '  = ' . $p->quoteIdentifierChain(['C', 'TABLE_SCHEMA'])
-            . ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_NAME'])
-            . '  = ' . $p->quoteIdentifierChain(['C', 'TABLE_NAME'])
-            . ' WHERE ' . $p->quoteIdentifierChain(['T', 'TABLE_TYPE'])
-            . ' IN (\'BASE TABLE\', \'VIEW\')'
-            . ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_NAME'])
-            . '  = ' . $p->quoteTrustedValue($table);
-
-        if ($schema != self::DEFAULT_SCHEMA) {
-            $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
-                . ' = ' . $p->quoteTrustedValue($schema);
-        } else {
-            $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
-                . ' != \'INFORMATION_SCHEMA\'';
-        }
-
-        $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
-        $columns = [];
-        foreach ($results->toArray() as $row) {
-            $columns[$row['COLUMN_NAME']] = [
-                'ordinal_position'          => $row['ORDINAL_POSITION'],
-                'column_default'            => $row['COLUMN_DEFAULT'],
-                'is_nullable'               => ('YES' == $row['IS_NULLABLE']),
-                'data_type'                 => $row['DATA_TYPE'],
-                'character_maximum_length'  => $row['CHARACTER_MAXIMUM_LENGTH'],
-                'character_octet_length'    => $row['CHARACTER_OCTET_LENGTH'],
-                'numeric_precision'         => $row['NUMERIC_PRECISION'],
-                'numeric_scale'             => $row['NUMERIC_SCALE'],
-                'numeric_unsigned'          => null,
-                'erratas'                   => [],
-            ];
-        }
-
-        $this->data['columns'][$schema][$table] = $columns;
-    }
-
     protected function loadConstraintData($table, $schema)
     {
         if (isset($this->data['constraints'][$schema][$table])) {
@@ -295,38 +151,51 @@ class SqlServerMetadata extends AbstractSource
         $p = $this->adapter->getPlatform();
 
         $isColumns = [
-            'TRIGGER_NAME',
-            'EVENT_MANIPULATION',
-            'EVENT_OBJECT_CATALOG',
-            'EVENT_OBJECT_SCHEMA',
-            'EVENT_OBJECT_TABLE',
-            'ACTION_ORDER',
-            'ACTION_CONDITION',
-            'ACTION_STATEMENT',
-            'ACTION_ORIENTATION',
-            'ACTION_TIMING',
-            'ACTION_REFERENCE_OLD_TABLE',
-            'ACTION_REFERENCE_NEW_TABLE',
-            'ACTION_REFERENCE_OLD_ROW',
-            'ACTION_REFERENCE_NEW_ROW',
-            'CREATED',
+//            'trigger_catalog',
+//            'trigger_schema',
+            'trigger_name',
+            'event_manipulation',
+//             'event_object_catalog',
+            'event_object_schema',
+            'event_object_table',
+            'action_order',
+            'action_condition',
+            'action_statement',
+            'action_orientation',
+            'action_timing',
+            'action_reference_old_table',
+            'action_reference_new_table',
+            'action_reference_old_row',
+            'action_reference_new_row',
+            'created',
         ];
 
         array_walk($isColumns, function (&$c) use ($p) {
             $c = $p->quoteIdentifier($c);
         });
 
-        $sql = 'SELECT ' . implode(', ', $isColumns)
-            . ' FROM ' . $p->quoteIdentifierChain(['INFORMATION_SCHEMA', 'TRIGGERS'])
-            . ' WHERE ';
-
-        if ($schema != self::DEFAULT_SCHEMA) {
-            $sql .= $p->quoteIdentifier('TRIGGER_SCHEMA')
-                . ' = ' . $p->quoteTrustedValue($schema);
-        } else {
-            $sql .= $p->quoteIdentifier('TRIGGER_SCHEMA')
-                . ' != \'INFORMATION_SCHEMA\'';
-        }
+        $sql = "SELECT 
+                    sysobjects.name AS trigger_name,
+                    USER_NAME(sysobjects.uid) AS trigger_owner,
+                    s.name AS table_schema,
+                    OBJECT_NAME(parent_obj) AS table_name,
+                    OBJECTPROPERTY( id, 'ExecIsUpdateTrigger') AS isupdate,
+                    OBJECTPROPERTY( id, 'ExecIsDeleteTrigger') AS isdelete,
+                    OBJECTPROPERTY( id, 'ExecIsInsertTrigger') AS isinsert,
+                    OBJECTPROPERTY( id, 'ExecIsAfterTrigger') AS isafter,
+                    OBJECTPROPERTY( id, 'ExecIsInsteadOfTrigger') AS isinsteadof,
+                    OBJECTPROPERTY(id, 'ExecIsTriggerDisabled') AS [disabled],
+                    sysobjects.crdate AS CREATED
+                FROM sysobjects
+                     INNER JOIN sysusers
+                                ON sysobjects.uid = sysusers.uid
+            
+                     INNER JOIN sys.tables t
+                                ON sysobjects.parent_obj = t.object_id
+            
+                     INNER JOIN sys.schemas s
+                                ON t.schema_id = s.schema_id
+                WHERE sysobjects.type = 'TR' AND s.name= " . $p->quoteTrustedValue($schema);
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
 
@@ -336,7 +205,10 @@ class SqlServerMetadata extends AbstractSource
             if (null !== $row['created']) {
                 $row['created'] = new \DateTime($row['created']);
             }
-            $data[$row['trigger_name']] = $row;
+            $data[$row['trigger_name']] = array_merge(
+                array_flip($isColumns),
+                $row
+            );
         }
 
         $this->data['triggers'][$schema] = $data;
