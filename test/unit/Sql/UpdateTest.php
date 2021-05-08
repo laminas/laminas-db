@@ -185,7 +185,7 @@ class UpdateTest extends TestCase
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
-            ->setMethods()
+            ->addMethods([])
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
@@ -193,7 +193,7 @@ class UpdateTest extends TestCase
         $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
-        $mockStatement->expects($this->at(1))
+        $mockStatement->expects($this->exactly(1))
             ->method('setSql')
             ->with($this->equalTo('UPDATE "foo" SET "bar" = ?, "boo" = NOW() WHERE x = y'));
 
@@ -209,7 +209,7 @@ class UpdateTest extends TestCase
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
-            ->setMethods()
+            ->addMethods([])
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
@@ -217,7 +217,7 @@ class UpdateTest extends TestCase
         $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
-        $mockStatement->expects($this->at(1))
+        $mockStatement->expects($this->exactly(1))
             ->method('setSql')
             ->with($this->equalTo('UPDATE "sch"."foo" SET "bar" = ?, "boo" = NOW() WHERE x = y'));
 
@@ -321,7 +321,7 @@ class UpdateTest extends TestCase
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
-            ->setMethods()
+            ->addMethods([])
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
@@ -329,7 +329,7 @@ class UpdateTest extends TestCase
         $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
-        $mockStatement->expects($this->at(1))
+        $mockStatement->expects($this->exactly(1))
             ->method('setSql')
             ->with($this->equalTo('UPDATE IGNORE "foo" SET "bar" = ?, "boo" = NOW() WHERE x = y'));
 
