@@ -24,7 +24,8 @@ class UpdateDecoratorTest extends TestCase
         $decorator_update = new UpdateDecorator;
         $decorator_update->setSubject($update);
 
-        $this->assertEquals(
+        $this
+            ->assertEquals(
             $expected,
             $decorator_update->getSqlString(new TrustingMysqlPlatform())
         );
@@ -32,7 +33,8 @@ class UpdateDecoratorTest extends TestCase
 
     public function dataProvider(): array {
         $update = new Update;
-        $update->table('foo')
+        $update
+            ->table('foo')
             ->set(
                 ['data->foo.is_checked' => true]
             )
@@ -42,7 +44,8 @@ class UpdateDecoratorTest extends TestCase
         ;
 
         $update2 = new Update;
-        $update2->table('foo')
+        $update2
+            ->table('foo')
             ->set(
                 [
                     'data->foo.is_checked' => 1,
@@ -69,8 +72,16 @@ class UpdateDecoratorTest extends TestCase
 
         return [
             [$update, "UPDATE `foo` SET `data` = JSON_SET(`data`, '$.foo.is_checked', '1') WHERE id = '1'"],
-            [$update2, "UPDATE `foo` SET `data` = JSON_SET(`data`, '$.foo.is_checked', '1'), `data1` = '5' WHERE id = '1'"],
-            [$update3, "UPDATE `foo` SET `x` = (SELECT `foo`.* FROM `foo`), `data` = JSON_SET(`data`, '$.tbl.fld', 'test_data') WHERE id = '5'"],
+            [
+                $update2,
+                "UPDATE `foo` SET `data` = JSON_SET(`data`, '$.foo.is_checked', '1'), `data1` = '5' WHERE id = '1'",
+            ],
+            [
+                $update3,
+                "UPDATE `foo` SET `x` = (SELECT `foo`.* FROM `foo`), "
+                .
+                "`data` = JSON_SET(`data`, '$.tbl.fld', 'test_data') WHERE id = '5'",
+            ],
         ];
     }
 }
