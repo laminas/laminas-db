@@ -11,6 +11,7 @@ namespace Laminas\Db\Sql\Platform\Mysql;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Sql\Ddl\Column\JsonRemove;
 use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
 use Laminas\Db\Sql\Update;
 
@@ -81,13 +82,17 @@ class UpdateDecorator extends Update implements PlatformDecoratorInterface
                 'column'
             );
 
-        $value = $this->resolveColumnValue(
-            $value,
-            $platform,
-            $driver,
-            $parameterContainer
-        );
+        if ($value instanceof JsonRemove) {
+            return "{$json_column} = JSON_REMOVE({$json_column}, '$.{$json_path}')";
+        } else {
+            $value = $this->resolveColumnValue(
+                $value,
+                $platform,
+                $driver,
+                $parameterContainer
+            );
 
-        return "{$json_column} = JSON_SET({$json_column}, '$.{$json_path}', {$value})";
+            return "{$json_column} = JSON_SET({$json_column}, '$.{$json_path}', {$value})";
+        }
     }
 }
