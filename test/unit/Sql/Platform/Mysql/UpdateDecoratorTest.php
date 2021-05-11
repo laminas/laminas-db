@@ -27,9 +27,9 @@ class UpdateDecoratorTest extends TestCase
 
         $this
             ->assertEquals(
-            $expected,
-            $decorator_update->getSqlString(new TrustingMysqlPlatform())
-        );
+                $expected,
+                $decorator_update->getSqlString(new TrustingMysqlPlatform())
+            );
     }
 
     public function dataProvider(): array
