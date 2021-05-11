@@ -295,19 +295,19 @@ class SqlFunctionalTest extends TestCase
                         'prepare'    => 'UPDATE "foo" SET "x" = (SELECT "foo".* FROM "foo" WHERE "x" = ?)',
                         'parameters' => ['subselect1where1' => 'y'],
                     ],
-                    'MySql'     => [
-                        'string'     => 'UPDATE `foo` SET `x` = (SELECT `foo`.* FROM `foo` WHERE `x` = \'y\')',
-                        'prepare'    => 'UPDATE `foo` SET `x` = (SELECT `foo`.* FROM `foo` WHERE `x` = ?)',
-                        'parameters' => ['subselect2where1' => 'y'],
-                    ],
                     'Oracle'    => [
                         'string'     => 'UPDATE "foo" SET "x" = (SELECT "foo".* FROM "foo" WHERE "x" = \'y\')',
                         'prepare'    => 'UPDATE "foo" SET "x" = (SELECT "foo".* FROM "foo" WHERE "x" = ?)',
-                        'parameters' => ['subselect3where1' => 'y'],
+                        'parameters' => ['subselect2where1' => 'y'],
                     ],
                     'SqlServer' => [
                         'string'     => 'UPDATE [foo] SET [x] = (SELECT [foo].* FROM [foo] WHERE [x] = \'y\')',
                         'prepare'    => 'UPDATE [foo] SET [x] = (SELECT [foo].* FROM [foo] WHERE [x] = ?)',
+                        'parameters' => ['subselect3where1' => 'y'],
+                    ],
+                    'MySql'     => [
+                        'string'     => 'UPDATE `foo` SET `x` = (SELECT `foo`.* FROM `foo` WHERE `x` = \'y\')',
+                        'prepare'    => 'UPDATE `foo` SET `x` = (SELECT `foo`.* FROM `foo` WHERE `x` = ?)',
                         'parameters' => ['subselect4where1' => 'y'],
                     ],
                 ],
@@ -545,7 +545,7 @@ class SqlFunctionalTest extends TestCase
 
         $expectedString = is_string($expected) ? $expected : (isset($expected['string']) ? $expected['string'] : null);
         if ($expectedString) {
-            $actual = $sql->getSqlStringForSqlObject($sqlObject);
+            $actual = $sql->buildSqlString($sqlObject);
             self::assertEquals($expectedString, $actual, "getSqlString()");
         }
         if (is_array($expected) && isset($expected['prepare'])) {
@@ -562,7 +562,7 @@ class SqlFunctionalTest extends TestCase
     {
         if (is_array($decorator)) {
             $decoratorMock = $this->getMockBuilder($decorator[0])
-                ->setMethods(['buildSqlString'])
+                ->addMethods(['buildSqlString'])
                 ->setConstructorArgs([null])
                 ->getMock();
             $decoratorMock->expects($this->any())->method('buildSqlString')->will($this->returnValue($decorator[1]));
@@ -571,7 +571,6 @@ class SqlFunctionalTest extends TestCase
         if ($decorator instanceof Sql\Platform\PlatformDecoratorInterface) {
             return $decorator;
         }
-        return;
     }
 
     protected function resolveAdapter($platform)

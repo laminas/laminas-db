@@ -15,6 +15,7 @@ class Mysql extends AbstractPlatform
     public function __construct()
     {
         $this->setTypeDecorator('Laminas\Db\Sql\Select', new SelectDecorator());
+        $this->setTypeDecorator('Laminas\Db\Sql\Update', new UpdateDecorator());
         $this->setTypeDecorator('Laminas\Db\Sql\Ddl\CreateTable', new Ddl\CreateTableDecorator());
         $this->setTypeDecorator('Laminas\Db\Sql\Ddl\AlterTable', new Ddl\AlterTableDecorator());
     }

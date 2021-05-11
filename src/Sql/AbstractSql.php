@@ -285,11 +285,10 @@ abstract class AbstractSql implements SqlInterface
         DriverInterface $driver = null,
         ParameterContainer $parameterContainer = null
     ) {
-        if ($this instanceof PlatformDecoratorInterface) {
+        $decorator = $subselect;
+        if ($this instanceof PlatformDecoratorInterface && $this instanceof Select) {
             $decorator = clone $this;
             $decorator->setSubject($subselect);
-        } else {
-            $decorator = $subselect;
         }
 
         if ($parameterContainer) {
