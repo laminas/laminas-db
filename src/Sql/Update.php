@@ -259,8 +259,8 @@ class Update extends AbstractPreparableSql
         int $index,
         PlatformInterface $platform,
         DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null): string
-    {
+        ParameterContainer $parameterContainer = null
+    ): string {
         $prefix = $this->resolveColumnValue(
             [
                 'column'       => $column,
