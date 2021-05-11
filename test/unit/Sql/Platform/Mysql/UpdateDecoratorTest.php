@@ -21,7 +21,8 @@ class UpdateDecoratorTest extends TestCase
      * @covers
      * @dataProvider dataProvider
      */
-    public function testJsonUpdate(Update $update, string $expected) {
+    public function testJsonUpdate(Update $update, string $expected)
+    {
         $decorator_update = new UpdateDecorator;
         $decorator_update->setSubject($update);
 
@@ -32,7 +33,8 @@ class UpdateDecoratorTest extends TestCase
             );
     }
 
-    public function dataProvider(): array {
+    public function dataProvider(): array
+    {
         $update = new Update;
         $update
             ->table('foo')
@@ -100,7 +102,7 @@ class UpdateDecoratorTest extends TestCase
             ],
             [
                 $update4,
-                "UPDATE `foo` SET `data` = JSON_SET(`data`, '$.foo.is_checked', '1')"
+                "UPDATE `foo` SET `data` = JSON_SET(`data`, '$.foo.is_checked', '1'),"
                 .
                 " `data` = JSON_REMOVE(`data`, '$.foo.field1') WHERE id = '1'"
             ],
