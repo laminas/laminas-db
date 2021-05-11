@@ -140,9 +140,9 @@ class Update extends AbstractPreparableSql
     /**
      * Create join clause
      *
-     * @param  string|array $name
-     * @param  string $on
-     * @param  string $type one of the JOIN_* constants
+     * @param string|array $name
+     * @param string $on
+     * @param string $type one of the JOIN_* constants
      * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
@@ -184,34 +184,8 @@ class Update extends AbstractPreparableSql
         $setSql = [];
         $i      = 0;
         foreach ($this->set as $column => $value) {
-            $prefix = $this->resolveColumnValue(
-                [
-                    'column'       => $column,
-                    'fromTable'    => '',
-                    'isIdentifier' => true,
-                ],
-                $platform,
-                $driver,
-                $parameterContainer,
-                'column'
-            );
-            $prefix .= ' = ';
-            if (is_scalar($value) && $parameterContainer) {
-                // use incremental value instead of column name for PDO
-                // @see https://github.com/zendframework/zend-db/issues/35
-                if ($driver instanceof Pdo) {
-                    $column = 'c_' . $i++;
-                }
-                $setSql[] = $prefix . $driver->formatParameterName($column);
-                $parameterContainer->offsetSet($column, $value);
-            } else {
-                $setSql[] = $prefix . $this->resolveColumnValue(
-                    $value,
-                    $platform,
-                    $driver,
-                    $parameterContainer
-                );
-            }
+            $setSql[] = $this->processColumnValue($column, $value, $i, $platform, $driver, $parameterContainer);
+            $i++;
         }
 
         return sprintf(
@@ -268,5 +242,56 @@ class Update extends AbstractPreparableSql
     {
         $this->where = clone $this->where;
         $this->set = clone $this->set;
+    }
+
+    /**
+     * @param $column
+     * @param $value
+     * @param int $index
+     * @param PlatformInterface $platform
+     * @param DriverInterface|null $driver
+     * @param ParameterContainer|null $parameterContainer
+     * @return string
+     */
+    protected function processColumnValue(
+        $column,
+        $value,
+        int $index,
+        PlatformInterface $platform,
+        DriverInterface $driver = null,
+        ParameterContainer $parameterContainer = null): string
+    {
+        $prefix = $this->resolveColumnValue(
+            [
+                'column'       => $column,
+                'fromTable'    => '',
+                'isIdentifier' => true,
+            ],
+            $platform,
+            $driver,
+            $parameterContainer,
+            'column'
+        );
+        $prefix .= ' = ';
+        if (is_scalar($value) && $parameterContainer) {
+            // use incremental value instead of column name for PDO
+            // @see https://github.com/zendframework/zend-db/issues/35
+            if ($driver instanceof Pdo) {
+                $column = 'c_' . $index;
+            }
+            $parameterContainer->offsetSet($column, $value);
+
+            return $prefix . $driver->formatParameterName($column);
+        } else {
+            return
+                $prefix
+                .
+                $this->resolveColumnValue(
+                    $value,
+                    $platform,
+                    $driver,
+                    $parameterContainer
+                );
+        }
     }
 }
