@@ -128,7 +128,7 @@ class InsertTest extends TestCase
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
-            ->setMethods()
+            ->addMethods([])
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
@@ -150,7 +150,7 @@ class InsertTest extends TestCase
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
-            ->setMethods()
+            ->addMethods([])
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
@@ -176,7 +176,7 @@ class InsertTest extends TestCase
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
-            ->setMethods()
+            ->addMethods([])
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
@@ -341,7 +341,7 @@ class InsertTest extends TestCase
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
-            ->setMethods()
+            ->addMethods([])
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
@@ -364,7 +364,7 @@ class InsertTest extends TestCase
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
-            ->setMethods()
+            ->addMethods([])
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
