@@ -1,33 +1,19 @@
 {
     "name": "laminas/laminas-db",
     "description": "Database abstraction layer, SQL abstraction, result set abstraction, and RowDataGateway and TableDataGateway implementations",
-    "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
         "db"
     ],
     "homepage": "https://laminas.dev",
-    "support": {
-        "docs": "https://docs.laminas.dev/laminas-db/",
-        "issues": "https://github.com/laminas/laminas-db/issues",
-        "source": "https://github.com/laminas/laminas-db",
-        "rss": "https://github.com/laminas/laminas-db/releases.atom",
-        "chat": "https://laminas.dev/chat",
-        "forum": "https://discourse.laminas.dev"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laminas": {
-            "component": "Laminas\\Db",
-            "config-provider": "Laminas\\Db\\ConfigProvider"
-        }
-    },
+    "license": "BSD-3-Clause",
     "require": {
         "php": "^7.3 || ~8.0.0",
         "laminas/laminas-stdlib": "^3.3",
         "laminas/laminas-zendframework-bridge": "^1.0"
+    },
+    "replace": {
+        "zendframework/zend-db": "^2.11.0"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~1.0.0",
@@ -41,6 +27,15 @@
         "laminas/laminas-eventmanager": "Laminas\\EventManager component",
         "laminas/laminas-hydrator": "(^3.2 || ^4.0) Laminas\\Hydrator component for using HydratingResultSets",
         "laminas/laminas-servicemanager": "Laminas\\ServiceManager component"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laminas": {
+            "component": "Laminas\\Db",
+            "config-provider": "Laminas\\Db\\ConfigProvider"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -65,7 +60,12 @@
         "test-integration": "phpunit --colors=always --testsuite \"integration test\"",
         "upload-coverage": "coveralls -v"
     },
-    "replace": {
-        "zendframework/zend-db": "^2.11.0"
+    "support": {
+        "issues": "https://github.com/laminas/laminas-db/issues",
+        "forum": "https://discourse.laminas.dev",
+        "chat": "https://laminas.dev/chat",
+        "source": "https://github.com/laminas/laminas-db",
+        "docs": "https://docs.laminas.dev/laminas-db/",
+        "rss": "https://github.com/laminas/laminas-db/releases.atom"
     }
 }
