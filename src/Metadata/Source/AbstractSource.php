@@ -243,7 +243,7 @@ abstract class AbstractSource implements MetadataInterface
             'ordinal_position', 'column_default', 'is_nullable',
             'data_type', 'character_maximum_length', 'character_octet_length',
             'numeric_precision', 'numeric_scale', 'numeric_unsigned',
-            'erratas'
+            'erratas', 'column_key', 'extra'
         ];
         foreach ($props as $prop) {
             if (isset($info[$prop])) {
@@ -261,6 +261,8 @@ abstract class AbstractSource implements MetadataInterface
         $column->setNumericScale($info['numeric_scale']);
         $column->setNumericUnsigned($info['numeric_unsigned']);
         $column->setErratas($info['erratas']);
+        $column->setColumnKey($info['column_key']);
+        $column->setExtra($info['extra']);
 
         return $column;
     }

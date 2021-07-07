@@ -83,6 +83,18 @@ class ColumnObject
     protected $errata = [];
 
     /**
+     *
+     * @var string
+     */
+    protected $column_key = null;
+
+    /**
+     *
+     * @var string
+     */
+    protected $extra = null;
+
+    /**
      * Constructor
      *
      * @param string $name
@@ -376,6 +388,42 @@ class ColumnObject
     public function setErrata($errataName, $errataValue)
     {
         $this->errata[$errataName] = $errataValue;
+        return $this;
+    }
+
+    /**
+     * @return null|string the $columnKey
+     */
+    public function getColumnKey()
+    {
+        return $this->column_key;
+    }
+
+    /**
+     * @param string $columnKey the $columnKey to set
+     * @return self Provides a fluent interface
+     */
+    public function setColumnKey($columnKey)
+    {
+        $this->column_key = $columnKey;
+        return $this;
+    }
+
+    /**
+     * @return null|string the $extra
+     */
+    public function getExtra()
+    {
+        return $this->extra;
+    }
+
+    /**
+     * @param string $extra the $extra to set
+     * @return self Provides a fluent interface
+     */
+    public function setExtra($extra)
+    {
+        $this->extra = $extra;
         return $this;
     }
 }
