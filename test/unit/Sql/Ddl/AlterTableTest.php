@@ -82,6 +82,16 @@ class AlterTableTest extends TestCase
     }
 
     /**
+     * @covers \Laminas\Db\Sql\Ddl\AlterTable::dropIndex
+     */
+    public function testDropIndex()
+    {
+        $at = new AlterTable();
+        self::assertSame($at, $at->dropIndex('foo'));
+        self::assertEquals(['foo'], $at->getRawState($at::DROP_INDEXES));
+    }
+
+    /**
      * @covers \Laminas\Db\Sql\Ddl\AlterTable::getSqlString
      * @todo   Implement testGetSqlString().
      */
@@ -92,14 +102,16 @@ class AlterTableTest extends TestCase
         $at->changeColumn('name', new Column\Varchar('new_name', 50));
         $at->dropColumn('foo');
         $at->addConstraint(new Constraint\ForeignKey('my_fk', 'other_id', 'other_table', 'id', 'CASCADE', 'CASCADE'));
-        $at->dropConstraint('my_index');
+        $at->dropConstraint('my_constraint');
+        $at->dropIndex('my_index');
         $expected = <<<EOS
 ALTER TABLE "foo"
  ADD COLUMN "another" VARCHAR(255) NOT NULL,
  CHANGE COLUMN "name" "new_name" VARCHAR(50) NOT NULL,
  DROP COLUMN "foo",
  ADD CONSTRAINT "my_fk" FOREIGN KEY ("other_id") REFERENCES "other_table" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
- DROP CONSTRAINT "my_index"
+ DROP CONSTRAINT "my_constraint"
+ DROP INDEX "my_index"
 EOS;
 
         $actual = $at->getSqlString();
