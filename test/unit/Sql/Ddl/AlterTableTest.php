@@ -110,7 +110,7 @@ ALTER TABLE "foo"
  CHANGE COLUMN "name" "new_name" VARCHAR(50) NOT NULL,
  DROP COLUMN "foo",
  ADD CONSTRAINT "my_fk" FOREIGN KEY ("other_id") REFERENCES "other_table" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
- DROP CONSTRAINT "my_constraint"
+ DROP CONSTRAINT "my_constraint",
  DROP INDEX "my_index"
 EOS;
 
