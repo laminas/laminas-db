@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class TinyIntegerTest extends TestCase
 {
     /**
-     * @covers \Laminas\Db\Sql\Ddl\Column\SmallInteger::__construct
+     * @covers \Laminas\Db\Sql\Ddl\Column\TinyInteger::__construct
      */
     public function testObjectConstruction()
     {
