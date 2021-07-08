@@ -171,12 +171,15 @@ Column (generic) | `$name = null`
 Date             | `$name`
 DateTime         | `$name`
 Decimal          | `$name`, `$precision`, `$scale = null`
+Double           | `$name`, `$digits`, `$decimal`
 Float            | `$name`, `$digits`, `$decimal` (Note: this class is deprecated as of 2.4.0; use Floating instead)
 Floating         | `$name`, `$digits`, `$decimal`
 Integer          | `$name`, `$nullable = false`, `default = null`, `array $options = array()`
+SmallInteger     | `$name`, `$nullable = false`, `$default = null`, `array $options = array()`
 Text             | `$name`, `$length`, `nullable = false`, `$default = null`, `array $options = array()`
 Time             | `$name`
 Timestamp        | `$name`
+TinyInteger      | `$name`, `$nullable = false`, `$default = null`, `array $options = array()`
 Varbinary        | `$name`, `$length`
 Varchar          | `$name`, `$length`
 
