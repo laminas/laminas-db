@@ -154,7 +154,7 @@ class Result implements ResultInterface
      */
     public function getResource()
     {
-        // TODO: Implement getResource() method.
+        return $this->resource;
     }
 
     /**
