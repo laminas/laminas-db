@@ -133,8 +133,6 @@ class ConnectionTest extends TestCase
     protected function createMockMysqli($flags)
     {
         $mysqli = $this->getMockBuilder('\mysqli')->getMock();
-        $mysqli->expects($this->once())
-            ->method('init');
         $mysqli->expects($flags ? $this->once() : $this->never())
             ->method('ssl_set')
             ->with(

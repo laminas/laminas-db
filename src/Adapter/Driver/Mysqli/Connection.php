@@ -114,7 +114,6 @@ class Connection extends AbstractConnection
         $cipher = (isset($p['cipher'])) ? $p['cipher'] : '';
 
         $this->resource = $this->createResource();
-        $this->resource->init();
 
         if (! empty($p['driver_options'])) {
             foreach ($p['driver_options'] as $option => $value) {
