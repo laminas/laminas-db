@@ -157,7 +157,7 @@ class ConnectionTest extends TestCase
                     $this->equalTo(123),
                     $this->equalTo('')
                 )
-                ->willReturn(null);
+                ->willReturn(true);
             return $mysqli;
         }
 
@@ -172,7 +172,7 @@ class ConnectionTest extends TestCase
                 $this->equalTo(''),
                 $this->equalTo($flags)
             )
-            ->willReturn(null);
+            ->willReturn(true);
 
         return $mysqli;
     }
