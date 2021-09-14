@@ -4,16 +4,15 @@ namespace LaminasTest\Db\ResultSet;
 
 use ArrayIterator;
 use ArrayObject;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\ResultSet\Exception\RuntimeException;
 use Laminas\Db\ResultSet\ResultSet;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use SplStack;
 use stdClass;
 
 class ResultSetIntegrationTest extends TestCase
 {
-    use ProphecyTrait;
-
     /**
      * @var ResultSet
      */
@@ -220,12 +219,10 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testBufferCalledAfterIterationThrowsException()
     {
-        $this->resultSet->initialize(
-            $this->prophesize('Laminas\Db\Adapter\Driver\ResultInterface')->reveal()
-        );
+        $this->resultSet->initialize($this->createMock(ResultInterface::class));
         $this->resultSet->current();
 
-        $this->expectException('Laminas\Db\ResultSet\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Buffering must be enabled before iteration is started');
         $this->resultSet->buffer();
     }
@@ -235,7 +232,7 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testCurrentReturnsNullForNonExistingValues()
     {
-        $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
+        $mockResult = $this->createMock(ResultInterface::class);
         $mockResult->expects($this->once())->method('current')->will($this->returnValue("Not an Array"));
 
         $this->resultSet->initialize($mockResult);

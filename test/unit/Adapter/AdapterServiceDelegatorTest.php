@@ -11,35 +11,33 @@ use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\ServiceManager;
 use LaminasTest\Db\Adapter\TestAsset\ConcreteAdapterAwareObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 use stdClass;
 
-class AdapterServiceDelegatorTest extends TestCase
+final class AdapterServiceDelegatorTest extends TestCase
 {
-    use ProphecyTrait;
-
     public function testSetAdapterShouldBeCalledForExistingAdapter() : void
     {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has(AdapterInterface::class)
-            ->shouldBeCalledOnce()
+        $container = $this->createMock(ContainerInterface::class);
+        $container
+            ->expects(self::once())
+            ->method('has')
+            ->with(AdapterInterface::class)
             ->willReturn(true);
-        $container->get(AdapterInterface::class)
-            ->shouldBeCalledOnce()
-            ->willReturn(
-                $this->prophesize(Adapter::class)->reveal()
-            );
+        $container
+            ->expects(self::once())
+            ->method('get')
+            ->with(AdapterInterface::class)
+            ->willReturn($this->createMock(Adapter::class));
 
-        $callback = static function () {
+        $callback = static function (): ConcreteAdapterAwareObject {
             return new ConcreteAdapterAwareObject();
         };
 
         /** @var ConcreteAdapterAwareObject $result */
         $result = (new AdapterServiceDelegator())(
-            $container->reveal(),
-            'name',
+            $container,
+            ConcreteAdapterAwareObject::class,
             $callback
         );
 
@@ -51,24 +49,28 @@ class AdapterServiceDelegatorTest extends TestCase
 
     public function testSetAdapterShouldBeCalledForOnlyConcreteAdapter() : void
     {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has(AdapterInterface::class)
-            ->shouldBeCalledOnce()
+        $container = $this
+            ->createMock(ContainerInterface::class);
+        $container
+            ->expects(self::once())
+            ->method('has')
+            ->with(AdapterInterface::class)
             ->willReturn(true);
-        $container->get(AdapterInterface::class)
-            ->shouldBeCalledOnce()
-            ->willReturn(
-                $this->prophesize(AdapterInterface::class)->reveal()
-            );
 
-        $callback = static function () {
+        $container
+            ->expects(self::once())
+            ->method('get')
+            ->with(AdapterInterface::class)
+            ->willReturn($this->createMock(AdapterInterface::class));
+
+        $callback = static function (): ConcreteAdapterAwareObject {
             return new ConcreteAdapterAwareObject();
         };
 
         /** @var ConcreteAdapterAwareObject $result */
         $result = (new AdapterServiceDelegator())(
-            $container->reveal(),
-            'name',
+            $container,
+            ConcreteAdapterAwareObject::class,
             $callback
         );
 
@@ -77,20 +79,24 @@ class AdapterServiceDelegatorTest extends TestCase
 
     public function testSetAdapterShouldNotBeCalledForMissingAdapter() : void
     {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has(AdapterInterface::class)
-            ->shouldBeCalledOnce()
+        $container = $this->createMock(ContainerInterface::class);
+        $container
+            ->expects(self::once())
+            ->method('has')
+            ->with(AdapterInterface::class)
             ->willReturn(false);
-        $container->get(Argument::any())->shouldNotBeCalled();
+        $container
+            ->expects(self::never())
+            ->method('get');
 
-        $callback = static function () {
+        $callback = static function (): ConcreteAdapterAwareObject {
             return new ConcreteAdapterAwareObject();
         };
 
         /** @var ConcreteAdapterAwareObject $result */
         $result = (new AdapterServiceDelegator())(
-            $container->reveal(),
-            'name',
+            $container,
+            ConcreteAdapterAwareObject::class,
             $callback
         );
 
@@ -99,27 +105,27 @@ class AdapterServiceDelegatorTest extends TestCase
 
     public function testSetAdapterShouldNotBeCalledForWrongClassInstance() : void
     {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has(Argument::any())->shouldNotBeCalled();
+        $container = $this->createMock(ContainerInterface::class);
+        $container
+            ->expects(self::never())
+            ->method('has');
 
-        $callback = static function () {
+        $callback = static function (): stdClass {
             return new stdClass();
         };
 
         $result = (new AdapterServiceDelegator())(
-            $container->reveal(),
-            'name',
+            $container,
+            stdClass::class,
             $callback
         );
 
         $this->assertNotInstanceOf(AdapterAwareInterface::class, $result);
     }
 
-    public function testDelegatorWithServiceManager()
+    public function testDelegatorWithServiceManager() : void
     {
-        $databaseAdapter = new Adapter(
-            $this->prophesize(DriverInterface::class)->reveal()
-        );
+        $databaseAdapter = new Adapter($this->createMock(DriverInterface::class));
 
         $container = new ServiceManager([
             'invokables' => [
@@ -150,9 +156,7 @@ class AdapterServiceDelegatorTest extends TestCase
 
     public function testDelegatorWithServiceManagerAndCustomAdapterName()
     {
-        $databaseAdapter = new Adapter(
-            $this->prophesize(DriverInterface::class)->reveal()
-        );
+        $databaseAdapter = new Adapter($this->createMock(DriverInterface::class));
 
         $container = new ServiceManager([
             'invokables' => [
@@ -183,9 +187,7 @@ class AdapterServiceDelegatorTest extends TestCase
 
     public function testDelegatorWithPluginManager()
     {
-        $databaseAdapter = new Adapter(
-            $this->prophesize(DriverInterface::class)->reveal()
-        );
+        $databaseAdapter = new Adapter($this->createMock(DriverInterface::class));
 
         $container           = new ServiceManager([
             'factories' => [
