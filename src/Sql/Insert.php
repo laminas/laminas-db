@@ -7,6 +7,19 @@ use Laminas\Db\Adapter\Driver\Pdo\Pdo;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Platform\PlatformInterface;
 
+use function array_combine;
+use function array_flip;
+use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function array_values;
+use function count;
+use function implode;
+use function is_array;
+use function is_scalar;
+use function range;
+use function sprintf;
+
 class Insert extends AbstractPreparableSql
 {
     /**
@@ -14,30 +27,26 @@ class Insert extends AbstractPreparableSql
      *
      * @const
      */
-    const SPECIFICATION_INSERT = 'insert';
-    const SPECIFICATION_SELECT = 'select';
-    const VALUES_MERGE = 'merge';
-    const VALUES_SET   = 'set';
+    public const SPECIFICATION_INSERT = 'insert';
+    public const SPECIFICATION_SELECT = 'select';
+    public const VALUES_MERGE         = 'merge';
+    public const VALUES_SET           = 'set';
     /**#@-*/
 
-    /**
-     * @var array Specification array
-     */
+    /** @var array Specification array */
     protected $specifications = [
         self::SPECIFICATION_INSERT => 'INSERT INTO %1$s (%2$s) VALUES (%3$s)',
         self::SPECIFICATION_SELECT => 'INSERT INTO %1$s %2$s %3$s',
     ];
 
-    /**
-     * @var string|TableIdentifier
-     */
-    protected $table            = null;
-    protected $columns          = [];
+    /** @var string|TableIdentifier */
+    protected $table;
 
-    /**
-     * @var array|Select
-     */
-    protected $select           = null;
+    /** @var string[] */
+    protected $columns = [];
+
+    /** @var array|Select */
+    protected $select;
 
     /**
      * Constructor
@@ -86,7 +95,7 @@ class Insert extends AbstractPreparableSql
     public function values($values, $flag = self::VALUES_SET)
     {
         if ($values instanceof Select) {
-            if ($flag == self::VALUES_MERGE) {
+            if ($flag === self::VALUES_MERGE) {
                 throw new Exception\InvalidArgumentException(
                     'A Laminas\Db\Sql\Select instance cannot be provided with the merge flag'
                 );
@@ -101,14 +110,14 @@ class Insert extends AbstractPreparableSql
             );
         }
 
-        if ($this->select && $flag == self::VALUES_MERGE) {
+        if ($this->select && $flag === self::VALUES_MERGE) {
             throw new Exception\InvalidArgumentException(
                 'An array of values cannot be provided with the merge flag when a Laminas\Db\Sql\Select'
                 . ' instance already exists as the value source'
             );
         }
 
-        if ($flag == self::VALUES_SET) {
+        if ($flag === self::VALUES_SET) {
             $this->columns = $this->isAssocativeArray($values)
                 ? $values
                 : array_combine(array_keys($this->columns), array_values($values));
@@ -120,11 +129,11 @@ class Insert extends AbstractPreparableSql
         return $this;
     }
 
-
     /**
      * Simple test for an associative array
      *
      * @link http://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
+     *
      * @param array $array
      * @return bool
      */
@@ -136,7 +145,6 @@ class Insert extends AbstractPreparableSql
     /**
      * Create INTO SELECT clause
      *
-     * @param Select $select
      * @return self
      */
     public function select(Select $select)
@@ -153,17 +161,17 @@ class Insert extends AbstractPreparableSql
     public function getRawState($key = null)
     {
         $rawState = [
-            'table' => $this->table,
+            'table'   => $this->table,
             'columns' => array_keys($this->columns),
-            'values' => array_values($this->columns)
+            'values'  => array_values($this->columns),
         ];
-        return (isset($key) && array_key_exists($key, $rawState)) ? $rawState[$key] : $rawState;
+        return isset($key) && array_key_exists($key, $rawState) ? $rawState[$key] : $rawState;
     }
 
     protected function processInsert(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         if ($this->select) {
             return;
@@ -205,8 +213,8 @@ class Insert extends AbstractPreparableSql
 
     protected function processSelect(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         if (! $this->select) {
             return;

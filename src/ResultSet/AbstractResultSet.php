@@ -8,6 +8,15 @@ use Iterator;
 use IteratorAggregate;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 
+use function count;
+use function current;
+use function gettype;
+use function is_array;
+use function is_object;
+use function key;
+use function method_exists;
+use function reset;
+
 abstract class AbstractResultSet implements Iterator, ResultSetInterface
 {
     /**
@@ -16,28 +25,21 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      * if false, explicitly disabled
      * if null, default state - nothing, but can buffer until iteration started
      * if array, already buffering
+     *
      * @var mixed
      */
-    protected $buffer = null;
+    protected $buffer;
 
-    /**
-     * @var null|int
-     */
-    protected $count = null;
+    /** @var null|int */
+    protected $count;
 
-    /**
-     * @var Iterator|IteratorAggregate|ResultInterface
-     */
-    protected $dataSource = null;
+    /** @var Iterator|IteratorAggregate|ResultInterface */
+    protected $dataSource;
 
-    /**
-     * @var int
-     */
-    protected $fieldCount = null;
+    /** @var int */
+    protected $fieldCount;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $position = 0;
 
     /**
@@ -72,7 +74,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
             reset($dataSource);
             $this->fieldCount = $first === false ? 0 : count($first);
             $this->dataSource = new ArrayIterator($dataSource);
-            $this->buffer = -1; // array's are a natural buffer
+            $this->buffer     = -1; // array's are a natural buffer
         } elseif ($dataSource instanceof IteratorAggregate) {
             $this->dataSource = $dataSource->getIterator();
         } elseif ($dataSource instanceof Iterator) {
@@ -103,6 +105,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
         return $this;
     }
 
+    /** @return bool */
     public function isBuffered()
     {
         if ($this->buffer === -1 || is_array($this->buffer)) {
@@ -149,7 +152,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
             return $this->fieldCount;
         }
 
-        $row = (array) $row;
+        $row              = (array) $row;
         $this->fieldCount = count($row);
         return $this->fieldCount;
     }
@@ -164,7 +167,8 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
         if ($this->buffer === null) {
             $this->buffer = -2; // implicitly disable buffering from here on
         }
-        if (! is_array($this->buffer) || $this->position == $this->dataSource->key()) {
+
+        if (! is_array($this->buffer) || $this->position === $this->dataSource->key()) {
             $this->dataSource->next();
         }
         $this->position++;
@@ -218,7 +222,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
             return $this->dataSource->valid();
         } else {
             $key = key($this->dataSource);
-            return ($key !== null);
+            return $key !== null;
         }
     }
 
@@ -261,7 +265,7 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
      * Cast result set to array of arrays
      *
      * @return array
-     * @throws Exception\RuntimeException if any row is not castable to an array
+     * @throws Exception\RuntimeException If any row is not castable to an array.
      */
     public function toArray()
     {
@@ -272,7 +276,8 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
                 continue;
             }
 
-            if (! is_object($row)
+            if (
+                ! is_object($row)
                 || (
                     ! method_exists($row, 'toArray')
                     && ! method_exists($row, 'getArrayCopy')

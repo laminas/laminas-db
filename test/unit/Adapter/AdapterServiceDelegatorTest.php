@@ -20,7 +20,7 @@ class AdapterServiceDelegatorTest extends TestCase
 {
     use ProphecyTrait;
 
-    public function testSetAdapterShouldBeCalledForExistingAdapter() : void
+    public function testSetAdapterShouldBeCalledForExistingAdapter(): void
     {
         $container = $this->prophesize(ContainerInterface::class);
         $container->has(AdapterInterface::class)
@@ -49,7 +49,7 @@ class AdapterServiceDelegatorTest extends TestCase
         );
     }
 
-    public function testSetAdapterShouldBeCalledForOnlyConcreteAdapter() : void
+    public function testSetAdapterShouldBeCalledForOnlyConcreteAdapter(): void
     {
         $container = $this->prophesize(ContainerInterface::class);
         $container->has(AdapterInterface::class)
@@ -75,7 +75,7 @@ class AdapterServiceDelegatorTest extends TestCase
         $this->assertNull($result->getAdapter());
     }
 
-    public function testSetAdapterShouldNotBeCalledForMissingAdapter() : void
+    public function testSetAdapterShouldNotBeCalledForMissingAdapter(): void
     {
         $container = $this->prophesize(ContainerInterface::class);
         $container->has(AdapterInterface::class)
@@ -97,7 +97,7 @@ class AdapterServiceDelegatorTest extends TestCase
         $this->assertNull($result->getAdapter());
     }
 
-    public function testSetAdapterShouldNotBeCalledForWrongClassInstance() : void
+    public function testSetAdapterShouldNotBeCalledForWrongClassInstance(): void
     {
         $container = $this->prophesize(ContainerInterface::class);
         $container->has(Argument::any())->shouldNotBeCalled();
@@ -208,8 +208,7 @@ class AdapterServiceDelegatorTest extends TestCase
         ];
 
         /** @var AbstractPluginManager $pluginManager */
-        $pluginManager = new class($container, $pluginManagerConfig)
-            extends AbstractPluginManager {
+        $pluginManager = new class ($container, $pluginManagerConfig) extends AbstractPluginManager {
         };
 
         $options = [

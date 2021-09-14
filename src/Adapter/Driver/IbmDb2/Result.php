@@ -7,30 +7,20 @@ use Laminas\Db\Adapter\Exception;
 
 class Result implements ResultInterface
 {
-    /**
-     * @var resource
-     */
+    /** @var resource */
     protected $resource;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $position = 0;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $currentComplete = false;
 
-    /**
-     * @var mixed
-     */
-    protected $currentData = null;
+    /** @var mixed */
+    protected $currentData;
 
-    /**
-     * @var mixed
-     */
-    protected $generatedValue = null;
+    /** @var mixed */
+    protected $generatedValue;
 
     /**
      * @param  resource $resource
@@ -39,7 +29,7 @@ class Result implements ResultInterface
      */
     public function initialize($resource, $generatedValue = null)
     {
-        $this->resource = $resource;
+        $this->resource       = $resource;
         $this->generatedValue = $generatedValue;
         return $this;
     }
@@ -47,7 +37,9 @@ class Result implements ResultInterface
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element
+     *
      * @link http://php.net/manual/en/iterator.current.php
+     *
      * @return mixed Can return any type.
      */
     public function current()
@@ -65,7 +57,7 @@ class Result implements ResultInterface
      */
     public function next()
     {
-        $this->currentData = db2_fetch_assoc($this->resource);
+        $this->currentData     = db2_fetch_assoc($this->resource);
         $this->currentComplete = true;
         $this->position++;
         return $this->currentData;
@@ -84,13 +76,15 @@ class Result implements ResultInterface
      */
     public function valid()
     {
-        return ($this->currentData !== false);
+        return $this->currentData !== false;
     }
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Rewind the Iterator to the first element
+     *
      * @link http://php.net/manual/en/iterator.rewind.php
+     *
      * @return void Any returned value is ignored.
      */
     public function rewind()
@@ -100,19 +94,19 @@ class Result implements ResultInterface
                 'This result is a forward only result set, calling rewind() after moving forward is not supported'
             );
         }
-        $this->currentData = db2_fetch_assoc($this->resource);
+        $this->currentData     = db2_fetch_assoc($this->resource);
         $this->currentComplete = true;
-        $this->position = 1;
+        $this->position        = 1;
     }
 
     /**
      * Force buffering
      *
-     * @return void
+     * @return null
      */
     public function buffer()
     {
-        return;
+        return null;
     }
 
     /**
@@ -132,7 +126,7 @@ class Result implements ResultInterface
      */
     public function isQueryResult()
     {
-        return (db2_num_fields($this->resource) > 0);
+        return db2_num_fields($this->resource) > 0;
     }
 
     /**
@@ -176,10 +170,10 @@ class Result implements ResultInterface
     }
 
     /**
-     * @return null|int
+     * @return int
      */
     public function count()
     {
-        return;
+        return 0;
     }
 }

@@ -6,46 +6,39 @@ use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\Profiler;
 
+use function extension_loaded;
+use function is_resource;
+use function is_string;
+
 class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
 {
-    /**
-     * @var Connection
-     */
-    protected $connection = null;
+    /** @var Connection */
+    protected $connection;
 
-    /**
-     * @var Statement
-     */
-    protected $statementPrototype = null;
+    /** @var Statement */
+    protected $statementPrototype;
 
-    /**
-     * @var Result
-     */
-    protected $resultPrototype = null;
+    /** @var Result */
+    protected $resultPrototype;
 
-    /**
-     * @var null|Profiler\ProfilerInterface
-     */
-    protected $profiler = null;
+    /** @var null|Profiler\ProfilerInterface */
+    protected $profiler;
 
     /**
      * @param array|Connection|resource $connection
-     * @param null|Statement $statementPrototype
-     * @param null|Result $resultPrototype
      */
-    public function __construct($connection, Statement $statementPrototype = null, Result $resultPrototype = null)
+    public function __construct($connection, ?Statement $statementPrototype = null, ?Result $resultPrototype = null)
     {
         if (! $connection instanceof Connection) {
             $connection = new Connection($connection);
         }
 
         $this->registerConnection($connection);
-        $this->registerStatementPrototype(($statementPrototype) ?: new Statement());
-        $this->registerResultPrototype(($resultPrototype) ?: new Result());
+        $this->registerStatementPrototype($statementPrototype ?: new Statement());
+        $this->registerResultPrototype($resultPrototype ?: new Result());
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -71,7 +64,6 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Register connection
      *
-     * @param  Connection $connection
      * @return self Provides a fluent interface
      */
     public function registerConnection(Connection $connection)
@@ -84,7 +76,6 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Register statement prototype
      *
-     * @param Statement $statementPrototype
      * @return self Provides a fluent interface
      */
     public function registerStatementPrototype(Statement $statementPrototype)
@@ -97,7 +88,6 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Register result prototype
      *
-     * @param Result $resultPrototype
      * @return self Provides a fluent interface
      */
     public function registerResultPrototype(Result $resultPrototype)
@@ -114,7 +104,7 @@ class Sqlsrv implements DriverInterface, Profiler\ProfilerAwareInterface
      */
     public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE)
     {
-        if ($nameFormat == self::NAME_FORMAT_CAMELCASE) {
+        if ($nameFormat === self::NAME_FORMAT_CAMELCASE) {
             return 'SqlServer';
         }
 

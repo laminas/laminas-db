@@ -7,9 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class BetweenTest extends TestCase
 {
-    /**
-     * @var Between
-     */
+    /** @var Between */
     protected $between;
 
     protected function setUp(): void
@@ -62,8 +60,6 @@ class BetweenTest extends TestCase
         self::assertEquals('%1$s BETWEEN %2$s AND %3$s', $this->between->getSpecification());
     }
 
-
-
     /**
      * @covers \Laminas\Db\Sql\Predicate\Between::setIdentifier
      * @covers \Laminas\Db\Sql\Predicate\Between::getIdentifier
@@ -112,21 +108,25 @@ class BetweenTest extends TestCase
         $this->between->setIdentifier('foo.bar')
                       ->setMinValue(10)
                       ->setMaxValue(19);
-        $expected = [[
-            $this->between->getSpecification(),
-            ['foo.bar', 10, 19],
-            [Between::TYPE_IDENTIFIER, Between::TYPE_VALUE, Between::TYPE_VALUE],
-        ]];
+        $expected = [
+            [
+                $this->between->getSpecification(),
+                ['foo.bar', 10, 19],
+                [Between::TYPE_IDENTIFIER, Between::TYPE_VALUE, Between::TYPE_VALUE],
+            ],
+        ];
         self::assertEquals($expected, $this->between->getExpressionData());
 
         $this->between->setIdentifier([10 => Between::TYPE_VALUE])
                       ->setMinValue(['foo.bar' => Between::TYPE_IDENTIFIER])
                       ->setMaxValue(['foo.baz' => Between::TYPE_IDENTIFIER]);
-        $expected = [[
-            $this->between->getSpecification(),
-            [10, 'foo.bar', 'foo.baz'],
-            [Between::TYPE_VALUE, Between::TYPE_IDENTIFIER, Between::TYPE_IDENTIFIER],
-        ]];
+        $expected = [
+            [
+                $this->between->getSpecification(),
+                [10, 'foo.bar', 'foo.baz'],
+                [Between::TYPE_VALUE, Between::TYPE_IDENTIFIER, Between::TYPE_IDENTIFIER],
+            ],
+        ];
         self::assertEquals($expected, $this->between->getExpressionData());
     }
 }

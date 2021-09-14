@@ -18,12 +18,12 @@ class ConcreteAdapterAwareObject implements AdapterAwareInterface
         $this->options = $options;
     }
 
-    public function getAdapter() : ?AdapterInterface
+    public function getAdapter(): ?AdapterInterface
     {
         return $this->adapter;
     }
 
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }

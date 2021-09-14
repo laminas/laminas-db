@@ -6,10 +6,11 @@ use Laminas\Db\Sql;
 
 class UpdateDecorator extends Sql\Update implements Sql\Platform\PlatformDecoratorInterface
 {
+    /** @var null|object $subject */
     protected $subject;
 
     /**
-     * @param $subject
+     * @param null|object $subject
      * @return self Provides a fluent interface
      */
     public function setSubject($subject)

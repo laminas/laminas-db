@@ -5,34 +5,24 @@ namespace Laminas\Db\Adapter\Driver\Sqlsrv;
 use Iterator;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 
+use function is_bool;
+
 class Result implements Iterator, ResultInterface
 {
-    /**
-     * @var resource
-     */
-    protected $resource = null;
+    /** @var resource */
+    protected $resource;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $currentData = false;
 
-    /**
-     *
-     * @var bool
-     */
+    /** @var bool */
     protected $currentComplete = false;
 
-    /**
-     *
-     * @var int
-     */
+    /** @var int */
     protected $position = -1;
 
-    /**
-     * @var mixed
-     */
-    protected $generatedValue = null;
+    /** @var mixed */
+    protected $generatedValue;
 
     /**
      * Initialize
@@ -43,7 +33,7 @@ class Result implements Iterator, ResultInterface
      */
     public function initialize($resource, $generatedValue = null)
     {
-        $this->resource = $resource;
+        $this->resource       = $resource;
         $this->generatedValue = $generatedValue;
         return $this;
     }
@@ -53,7 +43,7 @@ class Result implements Iterator, ResultInterface
      */
     public function buffer()
     {
-        return;
+        return null;
     }
 
     /**
@@ -108,7 +98,7 @@ class Result implements Iterator, ResultInterface
      */
     protected function load($row = SQLSRV_SCROLL_NEXT)
     {
-        $this->currentData = sqlsrv_fetch_array($this->resource, SQLSRV_FETCH_ASSOC, $row);
+        $this->currentData     = sqlsrv_fetch_array($this->resource, SQLSRV_FETCH_ASSOC, $row);
         $this->currentComplete = true;
         $this->position++;
         return $this->currentData;
@@ -178,7 +168,7 @@ class Result implements Iterator, ResultInterface
         if (is_bool($this->resource)) {
             return false;
         }
-        return (sqlsrv_num_fields($this->resource) > 0);
+        return sqlsrv_num_fields($this->resource) > 0;
     }
 
     /**

@@ -17,7 +17,7 @@ class CreateTableDecoratorTest extends TestCase
     public function testSetSubject()
     {
         $ctd = new CreateTableDecorator();
-        $ct = new CreateTable;
+        $ct  = new CreateTable();
         self::assertSame($ctd, $ctd->setSubject($ct));
     }
 
@@ -27,7 +27,7 @@ class CreateTableDecoratorTest extends TestCase
     public function testGetSqlString()
     {
         $ctd = new CreateTableDecorator();
-        $ct = new CreateTable('foo');
+        $ct  = new CreateTable('foo');
         $ctd->setSubject($ct);
 
         $col = new Column('bar');

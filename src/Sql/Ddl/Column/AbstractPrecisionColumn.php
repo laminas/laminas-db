@@ -4,9 +4,7 @@ namespace Laminas\Db\Sql\Ddl\Column;
 
 abstract class AbstractPrecisionColumn extends AbstractLengthColumn
 {
-    /**
-     * @var int|null
-     */
+    /** @var int|null */
     protected $decimal;
 
     /**
@@ -30,7 +28,6 @@ abstract class AbstractPrecisionColumn extends AbstractLengthColumn
 
     /**
      * @param  int $digits
-     *
      * @return self
      */
     public function setDigits($digits)

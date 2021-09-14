@@ -10,10 +10,8 @@ use Laminas\Db\Sql\Select;
 
 class SelectDecorator extends Select implements PlatformDecoratorInterface
 {
-    /**
-     * @var Select
-     */
-    protected $subject = null;
+    /** @var Select */
+    protected $subject;
 
     /**
      * @param Select $select
@@ -31,16 +29,17 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
         }
     }
 
+    /** @return null|string[] */
     protected function processLimit(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         if ($this->limit === null && $this->offset !== null) {
             return [''];
         }
         if ($this->limit === null) {
-            return;
+            return null;
         }
         if ($parameterContainer) {
             $paramPrefix = $this->processInfo['paramPrefix'];
@@ -53,8 +52,8 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
 
     protected function processOffset(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         if ($this->offset === null) {
             return;

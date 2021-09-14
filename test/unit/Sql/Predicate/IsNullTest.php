@@ -22,7 +22,7 @@ class IsNullTest extends TestCase
     public function testCanPassIdentifierToConstructor()
     {
         $isNotNull = new IsNotNull();
-        $isnull = new IsNotNull('foo.bar');
+        $isnull    = new IsNotNull('foo.bar');
         self::assertEquals('foo.bar', $isnull->getIdentifier());
     }
 
@@ -44,11 +44,13 @@ class IsNullTest extends TestCase
     {
         $isNotNull = new IsNotNull();
         $isNotNull->setIdentifier('foo.bar');
-        $expected = [[
-            $isNotNull->getSpecification(),
-            ['foo.bar'],
-            [IsNotNull::TYPE_IDENTIFIER],
-        ]];
+        $expected = [
+            [
+                $isNotNull->getSpecification(),
+                ['foo.bar'],
+                [IsNotNull::TYPE_IDENTIFIER],
+            ],
+        ];
         self::assertEquals($expected, $isNotNull->getExpressionData());
     }
 }

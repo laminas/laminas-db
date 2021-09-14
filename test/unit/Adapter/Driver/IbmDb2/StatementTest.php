@@ -8,13 +8,13 @@ use Laminas\Db\Adapter\Exception\RuntimeException;
 use Laminas\Db\Adapter\ParameterContainer;
 use PHPUnit\Framework\TestCase;
 
+use function error_reporting;
+
 include __DIR__ . '/TestAsset/Db2Functions.php';
 
 class StatementTest extends TestCase
 {
-    /**
-     * @var Statement
-     */
+    /** @var Statement */
     protected $statement;
 
     /**
@@ -26,7 +26,7 @@ class StatementTest extends TestCase
         // store current error_reporting value as we may change it
         // in a test
         $this->currentErrorReporting = error_reporting();
-        $this->statement = new Statement;
+        $this->statement             = new Statement();
     }
 
     /**
@@ -52,7 +52,7 @@ class StatementTest extends TestCase
      */
     public function testSetParameterContainer()
     {
-        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
+        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer()));
     }
 
     /**
@@ -61,7 +61,7 @@ class StatementTest extends TestCase
      */
     public function testGetParameterContainer()
     {
-        $container = new ParameterContainer;
+        $container = new ParameterContainer();
         $this->statement->setParameterContainer($container);
         self::assertSame($container, $this->statement->getParameterContainer());
     }

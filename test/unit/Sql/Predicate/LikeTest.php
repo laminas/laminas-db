@@ -54,8 +54,8 @@ class LikeTest extends TestCase
     public function testInstanceOfPerSetters()
     {
         $like = new Like();
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Like', $like->setIdentifier('bar'));
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Like', $like->setSpecification('%1$s LIKE %2$s'));
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Like', $like->setLike('foo%'));
+        self::assertInstanceOf(Like::class, $like->setIdentifier('bar'));
+        self::assertInstanceOf(Like::class, $like->setSpecification('%1$s LIKE %2$s'));
+        self::assertInstanceOf(Like::class, $like->setLike('foo%'));
     }
 }

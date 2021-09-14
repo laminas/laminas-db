@@ -6,9 +6,6 @@ use Laminas\Db\Adapter\Driver\Oci8\Result;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ResultTest
- *
- * @package LaminasTest\Db\Adapter\Driver\Oci8
  * @group result-oci8
  */
 class ResultTest extends TestCase
@@ -63,13 +60,13 @@ class ResultTest extends TestCase
      */
     public function testNext()
     {
-        $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Oci8\Result')
+        $mockResult = $this->getMockBuilder(Result::class)
             ->setMethods(['loadData'])
             ->getMock();
         $mockResult->expects($this->any())
             ->method('loadData')
-            ->will($this->returnValue(true));
-        self::assertTrue($mockResult->next());
+            ->willReturn(null);
+        self::assertNull($mockResult->next());
     }
 
     /**

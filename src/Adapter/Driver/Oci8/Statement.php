@@ -7,26 +7,22 @@ use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Profiler;
 
+use function is_array;
+use function is_string;
+use function sprintf;
+
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
-    /**
-     * @var resource
-     */
-    protected $oci8 = null;
+    /** @var resource */
+    protected $oci8;
 
-    /**
-     * @var Oci8
-     */
-    protected $driver = null;
+    /** @var Oci8 */
+    protected $driver;
 
-    /**
-     * @var Profiler\ProfilerInterface
-     */
-    protected $profiler = null;
+    /** @var Profiler\ProfilerInterface */
+    protected $profiler;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $sql = '';
 
     /**
@@ -34,12 +30,10 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      *
      * @var ParameterContainer
      */
-    protected $parameterContainer = null;
+    protected $parameterContainer;
 
-    /**
-     * @var resource
-     */
-    protected $resource = null;
+    /** @var resource */
+    protected $resource;
 
     /**
      * Is prepared
@@ -48,9 +42,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      */
     protected $isPrepared = false;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $bufferResults = false;
 
     /**
@@ -66,7 +58,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -110,7 +101,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set Parameter container
      *
-     * @param ParameterContainer $parameterContainer
      * @return self Provides a fluent interface
      */
     public function setParameterContainer(ParameterContainer $parameterContainer)
@@ -138,13 +128,13 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     public function setResource($oci8Statement)
     {
         $type = oci_statement_type($oci8Statement);
-        if (false === $type || 'UNKNOWN' == $type) {
+        if (false === $type || 'UNKNOWN' === $type) {
             throw new Exception\InvalidArgumentException(sprintf(
                 'Invalid statement provided to %s',
                 __METHOD__
             ));
         }
-        $this->resource = $oci8Statement;
+        $this->resource   = $oci8Statement;
         $this->isPrepared = true;
         return $this;
     }
@@ -185,7 +175,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             throw new Exception\RuntimeException('This statement has already been prepared');
         }
 
-        $sql = ($sql) ?: $this->sql;
+        $sql = $sql ?: $this->sql;
 
         // get oci8 statement resource
         $this->resource = oci_parse($this->oci8, $sql);
@@ -219,7 +209,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         if (! $this->parameterContainer instanceof ParameterContainer) {
             if ($parameters instanceof ParameterContainer) {
                 $this->parameterContainer = $parameters;
-                $parameters = null;
+                $parameters               = null;
             } else {
                 $this->parameterContainer = new ParameterContainer();
             }
@@ -253,8 +243,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             throw new Exception\RuntimeException($e['message'], $e['code']);
         }
 
-        $result = $this->driver->createResult($this->resource, $this);
-        return $result;
+        return $this->driver->createResult($this->resource, $this);
     }
 
     /**
@@ -268,7 +257,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             if ($this->parameterContainer->offsetHasErrata($name)) {
                 switch ($this->parameterContainer->offsetGetErrata($name)) {
                     case ParameterContainer::TYPE_NULL:
-                        $type = null;
+                        $type  = null;
                         $value = null;
                         break;
                     case ParameterContainer::TYPE_DOUBLE:
@@ -310,9 +299,9 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      */
     public function __clone()
     {
-        $this->isPrepared = false;
+        $this->isPrepared      = false;
         $this->parametersBound = false;
-        $this->resource = null;
+        $this->resource        = null;
         if ($this->parameterContainer) {
             $this->parameterContainer = clone $this->parameterContainer;
         }

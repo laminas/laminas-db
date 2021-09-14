@@ -2,8 +2,14 @@
 
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Mysqli;
 
+use function extension_loaded;
+use function getenv;
+use function sprintf;
+
+// phpcs:ignore WebimpressCodingStandard.NamingConventions.Trait.Suffix
 trait TraitSetup
 {
+    /** @var array<string, string> */
     protected $variables = [
         'hostname' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME',
         'username' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME',
@@ -11,6 +17,7 @@ trait TraitSetup
         'database' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE',
     ];
 
+    /** @var array<string, string> */
     protected $optional = [
         'port' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PORT',
     ];

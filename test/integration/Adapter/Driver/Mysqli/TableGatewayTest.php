@@ -15,16 +15,16 @@ class TableGatewayTest extends TestCase
      */
     public function testSelectWithEmptyCurrentWithBufferResult()
     {
-        $adapter = new Adapter([
+        $adapter      = new Adapter([
             'driver'   => 'mysqli',
             'database' => $this->variables['database'],
             'hostname' => $this->variables['hostname'],
             'username' => $this->variables['username'],
             'password' => $this->variables['password'],
-            'options'   => ['buffer_results' => true]
+            'options'  => ['buffer_results' => true],
         ]);
         $tableGateway = new TableGateway('test', $adapter);
-        $rowset = $tableGateway->select('id = 0');
+        $rowset       = $tableGateway->select('id = 0');
 
         $this->assertNull($rowset->current());
 
@@ -36,16 +36,16 @@ class TableGatewayTest extends TestCase
      */
     public function testSelectWithEmptyCurrentWithoutBufferResult()
     {
-        $adapter = new Adapter([
+        $adapter      = new Adapter([
             'driver'   => 'mysqli',
             'database' => $this->variables['database'],
             'hostname' => $this->variables['hostname'],
             'username' => $this->variables['username'],
             'password' => $this->variables['password'],
-            'options'   => ['buffer_results' => false]
+            'options'  => ['buffer_results' => false],
         ]);
         $tableGateway = new TableGateway('test', $adapter);
-        $rowset = $tableGateway->select('id = 0');
+        $rowset       = $tableGateway->select('id = 0');
 
         $this->assertNull($rowset->current());
 

@@ -2,14 +2,18 @@
 
 namespace LaminasTest\Db\Adapter\Platform;
 
+use Laminas\Db\Adapter\Driver\Pdo\Pdo;
 use Laminas\Db\Adapter\Platform\Sqlite;
 use PHPUnit\Framework\TestCase;
 
+use function file_exists;
+use function realpath;
+use function touch;
+use function unlink;
+
 class SqliteTest extends TestCase
 {
-    /**
-     * @var Sqlite
-     */
+    /** @var Sqlite */
     protected $platform;
 
     /**
@@ -18,7 +22,7 @@ class SqliteTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->platform = new Sqlite;
+        $this->platform = new Sqlite();
     }
 
     /**
@@ -178,8 +182,8 @@ class SqliteTest extends TestCase
             touch($filePath);
         }
 
-        $driver = new \Laminas\Db\Adapter\Driver\Pdo\Pdo([
-            'driver' => 'Pdo_Sqlite',
+        $driver = new Pdo([
+            'driver'   => 'Pdo_Sqlite',
             'database' => $filePath,
         ]);
 

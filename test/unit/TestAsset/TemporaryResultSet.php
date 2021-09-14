@@ -2,6 +2,8 @@
 
 namespace LaminasTest\Db\TestAsset;
 
-class TemporaryResultSet extends \Laminas\Db\ResultSet\ResultSet
+use Laminas\Db\ResultSet\ResultSet;
+
+class TemporaryResultSet extends ResultSet
 {
 }

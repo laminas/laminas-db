@@ -14,11 +14,13 @@ class UniqueKeyTest extends TestCase
     {
         $uk = new UniqueKey('foo', 'my_uk');
         self::assertEquals(
-            [[
-                'CONSTRAINT %s UNIQUE (%s)',
-                ['my_uk', 'foo'],
-                [$uk::TYPE_IDENTIFIER, $uk::TYPE_IDENTIFIER],
-            ]],
+            [
+                [
+                    'CONSTRAINT %s UNIQUE (%s)',
+                    ['my_uk', 'foo'],
+                    [$uk::TYPE_IDENTIFIER, $uk::TYPE_IDENTIFIER],
+                ],
+            ],
             $uk->getExpressionData()
         );
     }

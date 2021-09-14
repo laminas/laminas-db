@@ -2,31 +2,27 @@
 
 namespace Laminas\Db\Sql\Ddl\Constraint;
 
+use function array_fill;
+use function array_merge;
+use function count;
+use function implode;
+use function sprintf;
+
 abstract class AbstractConstraint implements ConstraintInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $columnSpecification = ' (%s)';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $namedSpecification = 'CONSTRAINT %s ';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $specification = '';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $name = '';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $columns = [];
 
     /**
@@ -94,30 +90,32 @@ abstract class AbstractConstraint implements ConstraintInterface
      */
     public function getExpressionData()
     {
-        $colCount = count($this->columns);
+        $colCount     = count($this->columns);
         $newSpecTypes = [];
-        $values = [];
-        $newSpec = '';
+        $values       = [];
+        $newSpec      = '';
 
         if ($this->name) {
-            $newSpec .= $this->namedSpecification;
-            $values[] = $this->name;
+            $newSpec       .= $this->namedSpecification;
+            $values[]       = $this->name;
             $newSpecTypes[] = self::TYPE_IDENTIFIER;
         }
 
         $newSpec .= $this->specification;
 
         if ($colCount) {
-            $values = array_merge($values, $this->columns);
+            $values       = array_merge($values, $this->columns);
             $newSpecParts = array_fill(0, $colCount, '%s');
             $newSpecTypes = array_merge($newSpecTypes, array_fill(0, $colCount, self::TYPE_IDENTIFIER));
-            $newSpec .= sprintf($this->columnSpecification, implode(', ', $newSpecParts));
+            $newSpec     .= sprintf($this->columnSpecification, implode(', ', $newSpecParts));
         }
 
-        return [[
-            $newSpec,
-            $values,
-            $newSpecTypes,
-        ]];
+        return [
+            [
+                $newSpec,
+                $values,
+                $newSpecTypes,
+            ],
+        ];
     }
 }

@@ -14,7 +14,6 @@ class Factory
     /**
      * Create source from adapter
      *
-     * @param  Adapter $adapter
      * @return MetadataInterface
      * @throws InvalidArgumentException If adapter platform name not recognized.
      */

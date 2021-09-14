@@ -23,7 +23,7 @@ interface DriverFeatureInterface
     /**
      * Get feature
      *
-     * @param $name
+     * @param string $name
      * @return mixed|false
      */
     public function getFeature($name);

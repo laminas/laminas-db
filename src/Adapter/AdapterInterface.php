@@ -3,7 +3,6 @@
 namespace Laminas\Db\Adapter;
 
 /**
- *
  * @property Driver\DriverInterface $driver
  * @property Platform\PlatformInterface $platform
  */

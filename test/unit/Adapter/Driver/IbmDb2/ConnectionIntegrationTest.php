@@ -4,6 +4,10 @@ namespace LaminasTest\Db\Adapter\Driver\IbmDb2;
 
 use Laminas\Db\Adapter\Driver\IbmDb2\Connection;
 use Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2;
+use Laminas\Db\Adapter\Driver\IbmDb2\Result;
+
+use function ini_get;
+use function php_uname;
 
 /**
  * @group integration
@@ -25,7 +29,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testSetResource()
     {
-        $resource = db2_connect(
+        $resource   = db2_connect(
             $this->variables['database'],
             $this->variables['username'],
             $this->variables['password']
@@ -155,9 +159,9 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     protected function isTransactionEnabled()
     {
-        $os = (php_uname('s') == 'OS400');
+        $os = php_uname('s') === 'OS400';
         if ($os) {
-            return ini_get('ibm_db2.i5_allow_commit') == 1;
+            return ini_get('ibm_db2.i5_allow_commit') === 1;
         }
 
         return true;
@@ -168,11 +172,11 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testExecute()
     {
-        $ibmdb2 = new IbmDb2($this->variables);
+        $ibmdb2     = new IbmDb2($this->variables);
         $connection = $ibmdb2->getConnection();
 
         $result = $connection->execute('SELECT \'foo\' FROM SYSIBM.SYSDUMMY1');
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\IbmDb2\Result', $result);
+        self::assertInstanceOf(Result::class, $result);
     }
 
     /**
@@ -190,7 +194,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testConnectReturnsConnectionWhenResourceSet()
     {
-        $resource = db2_connect(
+        $resource   = db2_connect(
             $this->variables['database'],
             $this->variables['username'],
             $this->variables['password']

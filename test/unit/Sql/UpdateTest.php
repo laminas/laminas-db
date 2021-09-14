@@ -2,8 +2,18 @@
 
 namespace LaminasTest\Db\Sql;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Sql\Exception\InvalidArgumentException;
 use Laminas\Db\Sql\Expression;
 use Laminas\Db\Sql\Join;
+use Laminas\Db\Sql\Predicate\In;
+use Laminas\Db\Sql\Predicate\IsNotNull;
+use Laminas\Db\Sql\Predicate\IsNull;
+use Laminas\Db\Sql\Predicate\Literal;
+use Laminas\Db\Sql\Predicate\Operator;
 use Laminas\Db\Sql\TableIdentifier;
 use Laminas\Db\Sql\Update;
 use Laminas\Db\Sql\Where;
@@ -16,9 +26,7 @@ class UpdateTest extends TestCase
 {
     use DeprecatedAssertionsTrait;
 
-    /**
-     * @var Update
-     */
+    /** @var Update */
     protected $update;
 
     /**
@@ -27,7 +35,7 @@ class UpdateTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->update = new Update;
+        $this->update = new Update();
     }
 
     /**
@@ -101,32 +109,32 @@ class UpdateTest extends TestCase
         $this->update->where(['a = b'], Where::OP_OR);
         $this->update->where(['c1' => null]);
         $this->update->where(['c2' => [1, 2, 3]]);
-        $this->update->where([new \Laminas\Db\Sql\Predicate\IsNotNull('c3')]);
+        $this->update->where([new IsNotNull('c3')]);
         $where = $this->update->where;
 
         $predicates = $this->readAttribute($where, 'predicates');
         self::assertEquals('AND', $predicates[0][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertInstanceOf(Literal::class, $predicates[0][1]);
 
         self::assertEquals('AND', $predicates[1][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Expression', $predicates[1][1]);
+        self::assertInstanceOf(\Laminas\Db\Sql\Predicate\Expression::class, $predicates[1][1]);
 
         self::assertEquals('AND', $predicates[2][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Operator', $predicates[2][1]);
+        self::assertInstanceOf(Operator::class, $predicates[2][1]);
 
         self::assertEquals('OR', $predicates[3][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[3][1]);
+        self::assertInstanceOf(Literal::class, $predicates[3][1]);
 
         self::assertEquals('AND', $predicates[4][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\IsNull', $predicates[4][1]);
+        self::assertInstanceOf(IsNull::class, $predicates[4][1]);
 
         self::assertEquals('AND', $predicates[5][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\In', $predicates[5][1]);
+        self::assertInstanceOf(In::class, $predicates[5][1]);
 
         self::assertEquals('AND', $predicates[6][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\IsNotNull', $predicates[6][1]);
+        self::assertInstanceOf(IsNotNull::class, $predicates[6][1]);
 
-        $where = new Where;
+        $where = new Where();
         $this->update->where($where);
         self::assertSame($where, $this->update->where);
 
@@ -134,7 +142,7 @@ class UpdateTest extends TestCase
             self::assertSame($where, $what);
         });
 
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Predicate cannot be null');
         $this->update->where(null);
     }
@@ -167,7 +175,7 @@ class UpdateTest extends TestCase
         self::assertEquals('foo', $this->update->getRawState('table'));
         self::assertEquals(true, $this->update->getRawState('emptyWhereProtection'));
         self::assertEquals(['bar' => 'baz'], $this->update->getRawState('set'));
-        self::assertInstanceOf('Laminas\Db\Sql\Where', $this->update->getRawState('where'));
+        self::assertInstanceOf(Where::class, $this->update->getRawState('where'));
     }
 
     /**
@@ -175,16 +183,16 @@ class UpdateTest extends TestCase
      */
     public function testPrepareStatement()
     {
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
-        $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
+        $pContainer    = new ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
         $mockStatement->expects($this->at(1))
@@ -198,17 +206,17 @@ class UpdateTest extends TestCase
         $this->update->prepareStatement($mockAdapter, $mockStatement);
 
         // with TableIdentifier
-        $this->update = new Update;
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $this->update = new Update();
+        $mockDriver   = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
-        $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
+        $pContainer    = new ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
         $mockStatement->expects($this->at(1))
@@ -237,7 +245,7 @@ class UpdateTest extends TestCase
         );
 
         // with TableIdentifier
-        $this->update = new Update;
+        $this->update = new Update();
         $this->update->table(new TableIdentifier('foo', 'sch'))
             ->set(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null])
             ->where('x = y');
@@ -254,7 +262,7 @@ class UpdateTest extends TestCase
      */
     public function testGetSqlStringForFalseUpdateValueParameter()
     {
-        $this->update = new Update;
+        $this->update = new Update();
         $this->update->table(new TableIdentifier('foo', 'sch'))
             ->set(['bar' => false, 'boo' => 'test', 'bam' => true])
             ->where('x = y');
@@ -270,7 +278,7 @@ class UpdateTest extends TestCase
     public function testGetUpdate()
     {
         $getWhere = $this->update->__get('where');
-        self::assertInstanceOf('Laminas\Db\Sql\Where', $getWhere);
+        self::assertInstanceOf(Where::class, $getWhere);
     }
 
     /**
@@ -300,7 +308,7 @@ class UpdateTest extends TestCase
             ]);
         self::assertEquals(
             'UPDATE "foo" SET "bar" = \'baz\' WHERE id = \'1\'',
-            $update2->getSqlString(new TrustingSql92Platform)
+            $update2->getSqlString(new TrustingSql92Platform())
         );
     }
 
@@ -311,16 +319,16 @@ class UpdateTest extends TestCase
     {
         $updateIgnore = new UpdateIgnore();
 
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
-        $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
+        $pContainer    = new ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
 
         $mockStatement->expects($this->at(1))

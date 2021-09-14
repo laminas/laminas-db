@@ -5,6 +5,8 @@ namespace LaminasTest\Db\Sql\Predicate;
 use Laminas\Db\Sql\Predicate\Operator;
 use PHPUnit\Framework\TestCase;
 
+use function var_export;
+
 class OperatorTest extends TestCase
 {
     public function testEmptyConstructorYieldsNullLeftAndRightValues()
@@ -85,12 +87,14 @@ class OperatorTest extends TestCase
             ->setRight('foo.bar')
             ->setLeftType(Operator::TYPE_VALUE)
             ->setRightType(Operator::TYPE_IDENTIFIER);
-        $expected = [[
-            '%s >= %s',
-            ['foo', 'foo.bar'],
-            [Operator::TYPE_VALUE, Operator::TYPE_IDENTIFIER],
-        ]];
-        $test = $operator->getExpressionData();
+        $expected = [
+            [
+                '%s >= %s',
+                ['foo', 'foo.bar'],
+                [Operator::TYPE_VALUE, Operator::TYPE_IDENTIFIER],
+            ],
+        ];
+        $test     = $operator->getExpressionData();
         self::assertEquals($expected, $test, var_export($test, 1));
     }
 }

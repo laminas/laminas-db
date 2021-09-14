@@ -2,14 +2,14 @@
 
 namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
+use Exception;
 use Laminas\Db\Adapter\Driver\Pdo\Connection;
+use Laminas\Db\Adapter\Exception\InvalidConnectionParametersException;
 use PHPUnit\Framework\TestCase;
 
 class ConnectionTest extends TestCase
 {
-    /**
-     * @var Connection
-     */
+    /** @var Connection */
     protected $connection;
 
     /**
@@ -28,7 +28,7 @@ class ConnectionTest extends TestCase
      */
     public function testResource()
     {
-        $this->expectException('Laminas\Db\Adapter\Exception\InvalidConnectionParametersException');
+        $this->expectException(InvalidConnectionParametersException::class);
         $this->connection->getResource();
     }
 
@@ -43,7 +43,7 @@ class ConnectionTest extends TestCase
         $this->connection->setConnectionParameters(['dsn' => $dsn]);
         try {
             $this->connection->connect();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
         $responseString = $this->connection->getDsn();
 
@@ -56,15 +56,15 @@ class ConnectionTest extends TestCase
     public function testArrayOfConnectionParametersCreatesCorrectDsn()
     {
         $this->connection->setConnectionParameters([
-            'driver'  => 'pdo_mysql',
-            'charset' => 'utf8',
-            'dbname'  => 'foo',
-            'port'    => '3306',
+            'driver'      => 'pdo_mysql',
+            'charset'     => 'utf8',
+            'dbname'      => 'foo',
+            'port'        => '3306',
             'unix_socket' => '/var/run/mysqld/mysqld.sock',
         ]);
         try {
             $this->connection->connect();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
         $responseString = $this->connection->getDsn();
 
@@ -77,16 +77,16 @@ class ConnectionTest extends TestCase
 
     public function testHostnameAndUnixSocketThrowsInvalidConnectionParametersException()
     {
-        $this->expectException('Laminas\Db\Adapter\Exception\InvalidConnectionParametersException');
+        $this->expectException(InvalidConnectionParametersException::class);
         $this->expectExceptionMessage(
             'Ambiguous connection parameters, both hostname and unix_socket parameters were set'
         );
 
         $this->connection->setConnectionParameters([
-            'driver'  => 'pdo_mysql',
-            'host'    => '127.0.0.1',
-            'dbname'  => 'foo',
-            'port'    => '3306',
+            'driver'      => 'pdo_mysql',
+            'host'        => '127.0.0.1',
+            'dbname'      => 'foo',
+            'port'        => '3306',
             'unix_socket' => '/var/run/mysqld/mysqld.sock',
         ]);
         $this->connection->connect();
@@ -103,7 +103,7 @@ class ConnectionTest extends TestCase
         ]);
         try {
             $this->connection->connect();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
         $responseString = $this->connection->getDsn();
 

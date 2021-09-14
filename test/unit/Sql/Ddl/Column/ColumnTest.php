@@ -10,7 +10,7 @@ class ColumnTest extends TestCase
     /**
      * @covers \Laminas\Db\Sql\Ddl\Column\Column::setName
      */
-    public function testSetName()
+    public function testSetName(): Column
     {
         $column = new Column();
         self::assertSame($column, $column->setName('foo'));
@@ -29,9 +29,9 @@ class ColumnTest extends TestCase
     /**
      * @covers \Laminas\Db\Sql\Ddl\Column\Column::setNullable
      */
-    public function testSetNullable()
+    public function testSetNullable(): Column
     {
-        $column = new Column;
+        $column = new Column();
         self::assertSame($column, $column->setNullable(true));
         return $column;
     }
@@ -50,9 +50,9 @@ class ColumnTest extends TestCase
     /**
      * @covers \Laminas\Db\Sql\Ddl\Column\Column::setDefault
      */
-    public function testSetDefault()
+    public function testSetDefault(): Column
     {
-        $column = new Column;
+        $column = new Column();
         self::assertSame($column, $column->setDefault('foo bar'));
         return $column;
     }
@@ -69,9 +69,9 @@ class ColumnTest extends TestCase
     /**
      * @covers \Laminas\Db\Sql\Ddl\Column\Column::setOptions
      */
-    public function testSetOptions()
+    public function testSetOptions(): Column
     {
-        $column = new Column;
+        $column = new Column();
         self::assertSame($column, $column->setOptions(['autoincrement' => true]));
         return $column;
     }
@@ -81,7 +81,7 @@ class ColumnTest extends TestCase
      */
     public function testSetOption()
     {
-        $column = new Column;
+        $column = new Column();
         self::assertSame($column, $column->setOption('primary', true));
     }
 
@@ -99,7 +99,7 @@ class ColumnTest extends TestCase
      */
     public function testGetExpressionData()
     {
-        $column = new Column;
+        $column = new Column();
         $column->setName('foo');
         self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'INTEGER'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],
@@ -114,11 +114,13 @@ class ColumnTest extends TestCase
 
         $column->setDefault('bar');
         self::assertEquals(
-            [[
-                '%s %s DEFAULT %s',
-                ['foo', 'INTEGER', 'bar'],
-                [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL, $column::TYPE_VALUE],
-            ]],
+            [
+                [
+                    '%s %s DEFAULT %s',
+                    ['foo', 'INTEGER', 'bar'],
+                    [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL, $column::TYPE_VALUE],
+                ],
+            ],
             $column->getExpressionData()
         );
     }

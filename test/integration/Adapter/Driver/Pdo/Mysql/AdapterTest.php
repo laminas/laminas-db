@@ -8,5 +8,5 @@ class AdapterTest extends AbstractAdapterTest
 {
     use AdapterTrait;
 
-    const DB_SERVER_PORT = 3306;
+    public const DB_SERVER_PORT = 3306;
 }

@@ -4,13 +4,19 @@ namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
 use PHPUnit\Framework\TestCase;
 
+use function extension_loaded;
+use function getenv;
+
 abstract class AbstractIntegrationTest extends TestCase
 {
+    /** @var array<string, string> */
     protected $variables = [
         'hostname' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME',
         'username' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME',
         'password' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD',
     ];
+
+    /** @var array<string, resource> */
     protected $adapters;
 
     /**

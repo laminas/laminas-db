@@ -4,8 +4,12 @@ namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
 use PHPUnit\Framework\TestCase;
 
+use function extension_loaded;
+use function getenv;
+
 abstract class AbstractIntegrationTest extends TestCase
 {
+    /** @var array<string, string> */
     protected $variables = [
         'hostname' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_HOSTNAME',
         'username' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_USERNAME',

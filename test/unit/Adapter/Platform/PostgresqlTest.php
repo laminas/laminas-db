@@ -7,9 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class PostgresqlTest extends TestCase
 {
-    /**
-     * @var Postgresql
-     */
+    /** @var Postgresql */
     protected $platform;
 
     /**
@@ -18,7 +16,7 @@ class PostgresqlTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->platform = new Postgresql;
+        $this->platform = new Postgresql();
     }
 
     /**

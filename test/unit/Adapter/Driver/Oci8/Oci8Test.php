@@ -2,14 +2,15 @@
 
 namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
+use Laminas\Db\Adapter\Driver\Oci8\Connection;
 use Laminas\Db\Adapter\Driver\Oci8\Oci8;
+use Laminas\Db\Adapter\Driver\Oci8\Result;
+use Laminas\Db\Adapter\Driver\Oci8\Statement;
 use PHPUnit\Framework\TestCase;
 
 class Oci8Test extends TestCase
 {
-    /**
-     * @var Oci8
-     */
+    /** @var Oci8 */
     protected $oci8;
 
     /**
@@ -27,7 +28,7 @@ class Oci8Test extends TestCase
     public function testRegisterConnection()
     {
         $mockConnection = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\Oci8\Connection',
+            Connection::class,
             [[]],
             '',
             true,
@@ -44,9 +45,9 @@ class Oci8Test extends TestCase
      */
     public function testRegisterStatementPrototype()
     {
-        $this->oci8 = new Oci8([]);
+        $this->oci8    = new Oci8([]);
         $mockStatement = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\Oci8\Statement',
+            Statement::class,
             [],
             '',
             true,
@@ -63,9 +64,9 @@ class Oci8Test extends TestCase
      */
     public function testRegisterResultPrototype()
     {
-        $this->oci8 = new Oci8([]);
+        $this->oci8    = new Oci8([]);
         $mockStatement = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\Oci8\Result',
+            Result::class,
             [],
             '',
             true,
@@ -90,9 +91,9 @@ class Oci8Test extends TestCase
      * @depends testRegisterConnection
      * @covers \Laminas\Db\Adapter\Driver\Oci8\Oci8::getConnection
      */
-    public function testGetConnection($mockConnection)
+    public function testGetConnection()
     {
-        $conn = new \Laminas\Db\Adapter\Driver\Oci8\Connection([]);
+        $conn = new Connection([]);
         $this->oci8->registerConnection($conn);
         self::assertSame($conn, $this->oci8->getConnection());
     }

@@ -2,15 +2,17 @@
 
 namespace LaminasTest\Db\Adapter;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\AdapterAbstractServiceFactory;
 use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\ServiceManager\ServiceManager;
 use PHPUnit\Framework\TestCase;
 
 class AdapterAbstractServiceFactoryTest extends TestCase
 {
-    /**
-     * @var \Laminas\ServiceManager\ServiceLocatorInterface
-     */
+    /** @var ServiceLocatorInterface */
     private $serviceManager;
 
     protected function setUp(): void
@@ -18,7 +20,7 @@ class AdapterAbstractServiceFactoryTest extends TestCase
         $this->serviceManager = new ServiceManager();
 
         $config = new Config([
-            'abstract_factories' => ['Laminas\Db\Adapter\AdapterAbstractServiceFactory'],
+            'abstract_factories' => [AdapterAbstractServiceFactory::class],
         ]);
         $config->configureServiceManager($this->serviceManager);
 
@@ -65,17 +67,16 @@ class AdapterAbstractServiceFactoryTest extends TestCase
     public function testValidService($service)
     {
         $actual = $this->serviceManager->get($service);
-        self::assertInstanceOf('Laminas\Db\Adapter\Adapter', $actual);
+        self::assertInstanceOf(Adapter::class, $actual);
     }
 
     /**
      * @dataProvider providerInvalidService
-     *
      * @param string $service
      */
     public function testInvalidService($service)
     {
-        $this->expectException('\Laminas\ServiceManager\Exception\ServiceNotFoundException');
+        $this->expectException(ServiceNotFoundException::class);
         $this->serviceManager->get($service);
     }
 }

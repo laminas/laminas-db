@@ -4,17 +4,19 @@ namespace LaminasTest\Db\Adapter\Driver\Pgsql;
 
 use Laminas\Db\Adapter\Driver\Pgsql\Connection;
 use Laminas\Db\Adapter\Exception as AdapterException;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
+use Laminas\Db\Adapter\Exception\RuntimeException;
 use LaminasTest\Db\DeprecatedAssertionsTrait;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
+
+use function extension_loaded;
 
 class ConnectionTest extends TestCase
 {
     use DeprecatedAssertionsTrait;
 
-    /**
-     * @var Connection
-     */
+    /** @var Connection */
     protected $connection;
 
     /**
@@ -67,7 +69,7 @@ class ConnectionTest extends TestCase
             self::assertInternalType('resource', $resource);
         } catch (AdapterException\RuntimeException $exc) {
             // If it throws an exception it has failed to connect
-            $this->expectException('Laminas\Db\Adapter\Exception\RuntimeException');
+            $this->expectException(RuntimeException::class);
             throw $exc;
         }
     }
@@ -88,18 +90,18 @@ class ConnectionTest extends TestCase
     public function testGetConnectionStringEncodeSpecialSymbol()
     {
         $connectionParameters = [
-            'driver'    => 'pgsql',
-            'host' => 'localhost',
-            'post' => '5432',
-            'dbname' => 'test',
-            'username'  => 'test',
-            'password'  => 'test123!',
+            'driver'   => 'pgsql',
+            'host'     => 'localhost',
+            'post'     => '5432',
+            'dbname'   => 'test',
+            'username' => 'test',
+            'password' => 'test123!',
         ];
 
         $this->connection->setConnectionParameters($connectionParameters);
 
         $getConnectionString = new ReflectionMethod(
-            'Laminas\Db\Adapter\Driver\Pgsql\Connection',
+            Connection::class,
             'getConnectionString'
         );
 
@@ -117,7 +119,7 @@ class ConnectionTest extends TestCase
             $this->markTestSkipped('pgsql extension not loaded');
         }
 
-        $this->expectException('\Laminas\Db\Adapter\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->connection->setType(3);
     }
 
@@ -171,7 +173,7 @@ class ConnectionTest extends TestCase
             $this->markTestSkipped('pgsql extension not loaded');
         }
 
-        $this->expectException('Laminas\Db\Adapter\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
 
         $this->connection->setConnectionParameters([
             'driver'   => 'pgsql',

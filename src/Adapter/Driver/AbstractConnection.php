@@ -7,19 +7,13 @@ use Laminas\Db\Adapter\Profiler\ProfilerInterface;
 
 abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareInterface
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $connectionParameters = [];
 
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     protected $driverName;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $inTransaction = false;
 
     /**
@@ -29,14 +23,10 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
      */
     protected $nestedTransactionsCount = 0;
 
-    /**
-     * @var ProfilerInterface|null
-     */
+    /** @var ProfilerInterface|null */
     protected $profiler;
 
-    /**
-     * @var resource|null
-     */
+    /** @var resource|null */
     protected $resource;
 
     /**

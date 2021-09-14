@@ -6,54 +6,53 @@ use Iterator;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Exception;
 
+use function call_user_func;
+use function get_resource_type;
+use function is_callable;
+use function is_int;
+use function is_resource;
+
 class Result implements Iterator, ResultInterface
 {
-    /**
-     * @var resource
-     */
-    protected $resource = null;
+    /** @var resource */
+    protected $resource;
 
-    /**
-     * @var null|int
-     */
-    protected $rowCount = null;
+    /** @var null|int */
+    protected $rowCount;
 
     /**
      * Cursor position
+     *
      * @var int
      */
     protected $position = 0;
 
     /**
      * Number of known rows
+     *
      * @var int
      */
     protected $numberOfRows = -1;
 
     /**
      * Is the current() operation already complete for this pointer position?
+     *
      * @var bool
      */
     protected $currentComplete = false;
 
-    /**
-     * @var bool|array
-     */
+    /** @var bool|array */
     protected $currentData = false;
 
-    /**
-     *
-     * @var array
-     */
+    /** @var array */
     protected $statementBindValues = ['keys' => null, 'values' => []];
 
-    /**
-     * @var mixed
-     */
-    protected $generatedValue = null;
+    /** @var mixed */
+    protected $generatedValue;
 
     /**
      * Initialize
+     *
      * @param resource $resource
      * @param null|int $generatedValue
      * @param null|int $rowCount
@@ -64,9 +63,9 @@ class Result implements Iterator, ResultInterface
         if (! is_resource($resource) && get_resource_type($resource) !== 'oci8 statement') {
             throw new Exception\InvalidArgumentException('Invalid resource provided.');
         }
-        $this->resource = $resource;
+        $this->resource       = $resource;
         $this->generatedValue = $generatedValue;
-        $this->rowCount = $rowCount;
+        $this->rowCount       = $rowCount;
         return $this;
     }
 
@@ -75,11 +74,11 @@ class Result implements Iterator, ResultInterface
      *
      * Oracle does not support this, to my knowledge (@ralphschindler)
      *
-     * @throws Exception\RuntimeException
+     * @return null
      */
     public function buffer()
     {
-        return;
+        return null;
     }
 
     /**
@@ -94,6 +93,7 @@ class Result implements Iterator, ResultInterface
 
     /**
      * Return the resource
+     *
      * @return mixed
      */
     public function getResource()
@@ -108,11 +108,12 @@ class Result implements Iterator, ResultInterface
      */
     public function isQueryResult()
     {
-        return (oci_num_fields($this->resource) > 0);
+        return oci_num_fields($this->resource) > 0;
     }
 
     /**
      * Get affected rows
+     *
      * @return int
      */
     public function getAffectedRows()
@@ -120,13 +121,10 @@ class Result implements Iterator, ResultInterface
         return oci_num_rows($this->resource);
     }
 
-    /**
-     * Current
-     * @return mixed
-     */
+    /** @return mixed */
     public function current()
     {
-        if ($this->currentComplete == false) {
+        if ($this->currentComplete === false) {
             if ($this->loadData() === false) {
                 return false;
             }
@@ -142,7 +140,7 @@ class Result implements Iterator, ResultInterface
     protected function loadData()
     {
         $this->currentComplete = true;
-        $this->currentData = oci_fetch_assoc($this->resource);
+        $this->currentData     = oci_fetch_assoc($this->resource);
         if ($this->currentData !== false) {
             $this->position++;
             return true;
@@ -150,26 +148,19 @@ class Result implements Iterator, ResultInterface
         return false;
     }
 
-    /**
-     * Next
-     */
+    /** @return void */
     public function next()
     {
-        return $this->loadData();
+        $this->loadData();
     }
 
-    /**
-     * Key
-     * @return mixed
-     */
+    /** @return int|string */
     public function key()
     {
         return $this->position;
     }
 
-    /**
-     * Rewind
-     */
+    /** @return void */
     public function rewind()
     {
         if ($this->position > 0) {
@@ -177,32 +168,28 @@ class Result implements Iterator, ResultInterface
         }
     }
 
-    /**
-     * Valid
-     * @return bool
-     */
+    /** @return bool */
     public function valid()
     {
         if ($this->currentComplete) {
-            return ($this->currentData !== false);
+            return $this->currentData !== false;
         }
         return $this->loadData();
     }
 
-    /**
-     * Count
-     * @return null|int
-     */
+    /** @return int */
     public function count()
     {
         if (is_int($this->rowCount)) {
             return $this->rowCount;
         }
+
         if (is_callable($this->rowCount)) {
             $this->rowCount = (int) call_user_func($this->rowCount);
             return $this->rowCount;
         }
-        return;
+
+        return 0;
     }
 
     /**
@@ -214,11 +201,11 @@ class Result implements Iterator, ResultInterface
     }
 
     /**
+     * @todo OCI8 generated value in Driver Result
      * @return null
      */
     public function getGeneratedValue()
     {
-        // @todo OCI8 generated value in Driver Result
-        return;
+        return null;
     }
 }

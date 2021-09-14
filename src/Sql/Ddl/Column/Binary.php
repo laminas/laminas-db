@@ -4,8 +4,6 @@ namespace Laminas\Db\Sql\Ddl\Column;
 
 class Binary extends AbstractLengthColumn
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $type = 'BINARY';
 }

@@ -4,9 +4,7 @@ namespace Laminas\Db\Adapter\Exception;
 
 class InvalidConnectionParametersException extends RuntimeException implements ExceptionInterface
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $parameters;
 
     /**

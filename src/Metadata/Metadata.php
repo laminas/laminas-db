@@ -9,15 +9,11 @@ use Laminas\Db\Adapter\Adapter;
  */
 class Metadata implements MetadataInterface
 {
-    /**
-     * @var MetadataInterface
-     */
-    protected $source = null;
+    /** @var MetadataInterface */
+    protected $source;
 
     /**
      * Constructor
-     *
-     * @param Adapter $adapter
      */
     public function __construct(Adapter $adapter)
     {

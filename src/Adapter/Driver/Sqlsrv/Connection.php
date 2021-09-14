@@ -5,19 +5,24 @@ namespace Laminas\Db\Adapter\Driver\Sqlsrv;
 use Laminas\Db\Adapter\Driver\AbstractConnection;
 use Laminas\Db\Adapter\Driver\Sqlsrv\Exception\ErrorException;
 use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
+
+use function array_merge;
+use function get_resource_type;
+use function is_array;
+use function is_resource;
+use function strtolower;
 
 class Connection extends AbstractConnection
 {
-    /**
-     * @var Sqlsrv
-     */
-    protected $driver = null;
+    /** @var Sqlsrv */
+    protected $driver;
 
     /**
      * Constructor
      *
      * @param  array|resource                                      $connectionInfo
-     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($connectionInfo)
     {
@@ -33,7 +38,6 @@ class Connection extends AbstractConnection
     /**
      * Set driver
      *
-     * @param  Sqlsrv $driver
      * @return self Provides a fluent interface
      */
     public function setDriver(Sqlsrv $driver)
@@ -53,7 +57,7 @@ class Connection extends AbstractConnection
         }
 
         $result = sqlsrv_query($this->resource, 'SELECT SCHEMA_NAME()');
-        $r = sqlsrv_fetch_array($result);
+        $r      = sqlsrv_fetch_array($result);
 
         return $r[0];
     }
@@ -87,8 +91,8 @@ class Connection extends AbstractConnection
         }
 
         $serverName = '.';
-        $params = [
-            'ReturnDatesAsStrings' => true
+        $params     = [
+            'ReturnDatesAsStrings' => true,
         ];
         foreach ($this->connectionParameters as $key => $value) {
             switch (strtolower($key)) {
@@ -136,7 +140,7 @@ class Connection extends AbstractConnection
      */
     public function isConnected()
     {
-        return (is_resource($this->resource));
+        return is_resource($this->resource);
     }
 
     /**
@@ -232,7 +236,7 @@ class Connection extends AbstractConnection
         if ($returnValue === false) {
             $errors = sqlsrv_errors();
             // ignore general warnings
-            if ($errors[0]['SQLSTATE'] != '01000') {
+            if ($errors[0]['SQLSTATE'] !== '01000') {
                 throw new Exception\RuntimeException(
                     'An exception occurred while trying to execute the provided $sql',
                     null,
@@ -241,9 +245,7 @@ class Connection extends AbstractConnection
             }
         }
 
-        $result = $this->driver->createResult($returnValue);
-
-        return $result;
+        return $this->driver->createResult($returnValue);
     }
 
     /**
@@ -258,9 +260,7 @@ class Connection extends AbstractConnection
             $this->connect();
         }
 
-        $statement = $this->driver->createStatement($sql);
-
-        return $statement;
+        return $this->driver->createStatement($sql);
     }
 
     /**
@@ -273,9 +273,9 @@ class Connection extends AbstractConnection
         if (! $this->resource) {
             $this->connect();
         }
-        $sql = 'SELECT @@IDENTITY as Current_Identity';
+        $sql    = 'SELECT @@IDENTITY as Current_Identity';
         $result = sqlsrv_query($this->resource, $sql);
-        $row = sqlsrv_fetch_array($result);
+        $row    = sqlsrv_fetch_array($result);
 
         return $row['Current_Identity'];
     }

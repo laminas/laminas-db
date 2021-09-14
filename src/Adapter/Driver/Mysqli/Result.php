@@ -5,59 +5,56 @@ namespace Laminas\Db\Adapter\Driver\Mysqli;
 use Iterator;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Exception;
+use mysqli;
+use mysqli_result;
+use mysqli_stmt;
+
+use function array_fill;
+use function call_user_func_array;
+use function count;
 
 class Result implements
     Iterator,
     ResultInterface
 {
-    /**
-     * @var \mysqli|\mysqli_result|\mysqli_stmt
-     */
-    protected $resource = null;
+    /** @var mysqli|mysqli_result|mysqli_stmt */
+    protected $resource;
 
-    /**
-     * @var bool
-     */
-    protected $isBuffered = null;
+    /** @var bool */
+    protected $isBuffered;
 
     /**
      * Cursor position
+     *
      * @var int
      */
     protected $position = 0;
 
     /**
      * Number of known rows
+     *
      * @var int
      */
     protected $numberOfRows = -1;
 
     /**
      * Is the current() operation already complete for this pointer position?
+     *
      * @var bool
      */
     protected $currentComplete = false;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $nextComplete = false;
 
-    /**
-     * @var mixed
-     */
-    protected $currentData = null;
+    /** @var mixed */
+    protected $currentData;
 
-    /**
-     *
-     * @var array
-     */
+    /** @var array */
     protected $statementBindValues = ['keys' => null, 'values' => []];
 
-    /**
-     * @var mixed
-     */
-    protected $generatedValue = null;
+    /** @var mixed */
+    protected $generatedValue;
 
     /**
      * Initialize
@@ -70,9 +67,10 @@ class Result implements
      */
     public function initialize($resource, $generatedValue, $isBuffered = null)
     {
-        if (! $resource instanceof \mysqli
-            && ! $resource instanceof \mysqli_result
-            && ! $resource instanceof \mysqli_stmt
+        if (
+            ! $resource instanceof mysqli
+            && ! $resource instanceof mysqli_result
+            && ! $resource instanceof mysqli_stmt
         ) {
             throw new Exception\InvalidArgumentException('Invalid resource provided.');
         }
@@ -80,13 +78,15 @@ class Result implements
         if ($isBuffered !== null) {
             $this->isBuffered = $isBuffered;
         } else {
-            if ($resource instanceof \mysqli || $resource instanceof \mysqli_result
-                || $resource instanceof \mysqli_stmt && $resource->num_rows != 0) {
+            if (
+                $resource instanceof mysqli || $resource instanceof mysqli_result
+                || $resource instanceof mysqli_stmt && $resource->num_rows !== 0
+            ) {
                 $this->isBuffered = true;
             }
         }
 
-        $this->resource = $resource;
+        $this->resource       = $resource;
         $this->generatedValue = $generatedValue;
         return $this;
     }
@@ -98,7 +98,7 @@ class Result implements
      */
     public function buffer()
     {
-        if ($this->resource instanceof \mysqli_stmt && $this->isBuffered !== true) {
+        if ($this->resource instanceof mysqli_stmt && $this->isBuffered !== true) {
             if ($this->position > 0) {
                 throw new Exception\RuntimeException('Cannot buffer a result set that has started iteration.');
             }
@@ -134,7 +134,7 @@ class Result implements
      */
     public function isQueryResult()
     {
-        return ($this->resource->field_count > 0);
+        return $this->resource->field_count > 0;
     }
 
     /**
@@ -144,7 +144,7 @@ class Result implements
      */
     public function getAffectedRows()
     {
-        if ($this->resource instanceof \mysqli || $this->resource instanceof \mysqli_stmt) {
+        if ($this->resource instanceof mysqli || $this->resource instanceof mysqli_stmt) {
             return $this->resource->affected_rows;
         }
 
@@ -162,7 +162,7 @@ class Result implements
             return $this->currentData;
         }
 
-        if ($this->resource instanceof \mysqli_stmt) {
+        if ($this->resource instanceof mysqli_stmt) {
             $this->loadDataFromMysqliStatement();
             return $this->currentData;
         } else {
@@ -176,6 +176,7 @@ class Result implements
      *
      * Mysqli requires you to bind variables to the extension in order to
      * get data out.  These values have to be references:
+     *
      * @see http://php.net/manual/en/mysqli-stmt.bind-result.php
      *
      * @throws Exception\RuntimeException
@@ -186,12 +187,12 @@ class Result implements
         // build the default reference based bind structure, if it does not already exist
         if ($this->statementBindValues['keys'] === null) {
             $this->statementBindValues['keys'] = [];
-            $resultResource = $this->resource->result_metadata();
+            $resultResource                    = $this->resource->result_metadata();
             foreach ($resultResource->fetch_fields() as $col) {
                 $this->statementBindValues['keys'][] = $col->name;
             }
             $this->statementBindValues['values'] = array_fill(0, count($this->statementBindValues['keys']), null);
-            $refs = [];
+            $refs                                = [];
             foreach ($this->statementBindValues['values'] as $i => &$f) {
                 $refs[$i] = &$f;
             }
@@ -212,7 +213,7 @@ class Result implements
             $this->currentData[$this->statementBindValues['keys'][$i]] = $this->statementBindValues['values'][$i];
         }
         $this->currentComplete = true;
-        $this->nextComplete = true;
+        $this->nextComplete    = true;
         $this->position++;
         return true;
     }
@@ -231,9 +232,9 @@ class Result implements
         }
 
         $this->position++;
-        $this->currentData = $data;
+        $this->currentData     = $data;
         $this->currentComplete = true;
-        $this->nextComplete = true;
+        $this->nextComplete    = true;
         $this->position++;
         return true;
     }
@@ -247,7 +248,7 @@ class Result implements
     {
         $this->currentComplete = false;
 
-        if ($this->nextComplete == false) {
+        if ($this->nextComplete === false) {
             $this->position++;
         }
 
@@ -278,7 +279,7 @@ class Result implements
 
         $this->resource->data_seek(0); // works for both mysqli_result & mysqli_stmt
         $this->currentComplete = false;
-        $this->position = 0;
+        $this->position        = 0;
     }
 
     /**
@@ -292,7 +293,7 @@ class Result implements
             return true;
         }
 
-        if ($this->resource instanceof \mysqli_stmt) {
+        if ($this->resource instanceof mysqli_stmt) {
             return $this->loadDataFromMysqliStatement();
         }
 

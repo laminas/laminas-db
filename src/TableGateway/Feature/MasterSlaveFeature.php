@@ -7,28 +7,19 @@ use Laminas\Db\Sql\Sql;
 
 class MasterSlaveFeature extends AbstractFeature
 {
-    /**
-     * @var AdapterInterface
-     */
-    protected $slaveAdapter = null;
+    /** @var AdapterInterface */
+    protected $slaveAdapter;
 
-    /**
-     * @var Sql
-     */
-    protected $masterSql = null;
+    /** @var Sql */
+    protected $masterSql;
 
-    /**
-     * @var Sql
-     */
-    protected $slaveSql = null;
+    /** @var Sql */
+    protected $slaveSql;
 
     /**
      * Constructor
-     *
-     * @param AdapterInterface $slaveAdapter
-     * @param Sql|null $slaveSql
      */
-    public function __construct(AdapterInterface $slaveAdapter, Sql $slaveSql = null)
+    public function __construct(AdapterInterface $slaveAdapter, ?Sql $slaveSql = null)
     {
         $this->slaveAdapter = $slaveAdapter;
         if ($slaveSql) {
@@ -36,6 +27,7 @@ class MasterSlaveFeature extends AbstractFeature
         }
     }
 
+    /** @return AdapterInterface */
     public function getSlaveAdapter()
     {
         return $this->slaveAdapter;

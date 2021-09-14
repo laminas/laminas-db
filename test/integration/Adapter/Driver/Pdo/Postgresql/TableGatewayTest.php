@@ -14,7 +14,7 @@ class TableGatewayTest extends TestCase
 
     public function testLastInsertValue()
     {
-        $table = new TableIdentifier('test_seq');
+        $table      = new TableIdentifier('test_seq');
         $featureSet = new FeatureSet();
         $featureSet->addFeature(new SequenceFeature('id', 'test_seq_id_seq'));
 

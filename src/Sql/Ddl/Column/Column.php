@@ -4,41 +4,29 @@ namespace Laminas\Db\Sql\Ddl\Column;
 
 use Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface;
 
+use function array_merge;
+
 class Column implements ColumnInterface
 {
-    /**
-     * @var null|string|int
-     */
+    /** @var null|string|int */
     protected $default;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $isNullable = false;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $name = '';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $options = [];
 
-    /**
-     * @var ConstraintInterface[]
-     */
+    /** @var ConstraintInterface[] */
     protected $constraints = [];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $specification = '%s %s';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $type = 'INTEGER';
 
     /**
@@ -139,8 +127,6 @@ class Column implements ColumnInterface
     }
 
     /**
-     * @param ConstraintInterface $constraint
-     *
      * @return self Provides a fluent interface
      */
     public function addConstraint(ConstraintInterface $constraint)
@@ -173,15 +159,17 @@ class Column implements ColumnInterface
             $types[]  = self::TYPE_VALUE;
         }
 
-        $data = [[
-            $spec,
-            $params,
-            $types,
-        ]];
+        $data = [
+            [
+                $spec,
+                $params,
+                $types,
+            ],
+        ];
 
         foreach ($this->constraints as $constraint) {
             $data[] = ' ';
-            $data = array_merge($data, $constraint->getExpressionData());
+            $data   = array_merge($data, $constraint->getExpressionData());
         }
 
         return $data;

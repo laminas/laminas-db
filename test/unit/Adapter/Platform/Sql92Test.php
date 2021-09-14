@@ -7,9 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class Sql92Test extends TestCase
 {
-    /**
-     * @var Sql92
-     */
+    /** @var Sql92 */
     protected $platform;
 
     /**
@@ -18,7 +16,7 @@ class Sql92Test extends TestCase
      */
     protected function setUp(): void
     {
-        $this->platform = new Sql92;
+        $this->platform = new Sql92();
     }
 
     /**

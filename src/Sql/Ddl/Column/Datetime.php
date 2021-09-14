@@ -4,8 +4,6 @@ namespace Laminas\Db\Sql\Ddl\Column;
 
 class Datetime extends Column
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $type = 'DATETIME';
 }

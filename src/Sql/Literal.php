@@ -2,15 +2,15 @@
 
 namespace Laminas\Db\Sql;
 
+use function str_replace;
+
 class Literal implements ExpressionInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $literal = '';
 
     /**
-     * @param $literal
+     * @param string $literal
      */
     public function __construct($literal = '')
     {
@@ -40,10 +40,12 @@ class Literal implements ExpressionInterface
      */
     public function getExpressionData()
     {
-        return [[
-            str_replace('%', '%%', $this->literal),
-            [],
-            []
-        ]];
+        return [
+            [
+                str_replace('%', '%%', $this->literal),
+                [],
+                [],
+            ],
+        ];
     }
 }

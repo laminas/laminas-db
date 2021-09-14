@@ -11,9 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ResultIntegrationTest extends TestCase
 {
-    /**
-     * @var Result
-     */
+    /** @var Result */
     protected $object;
 
     /**
@@ -22,7 +20,7 @@ class ResultIntegrationTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->object = new Result;
+        $this->object = new Result();
     }
 
     /**

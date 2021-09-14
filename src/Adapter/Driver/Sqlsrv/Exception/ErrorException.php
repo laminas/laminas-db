@@ -20,6 +20,6 @@ class ErrorException extends Exception\ErrorException implements ExceptionInterf
      */
     public function __construct($errors = false)
     {
-        $this->errors = ($errors === false) ? sqlsrv_errors() : $errors;
+        $this->errors = $errors === false ? sqlsrv_errors() : $errors;
     }
 }

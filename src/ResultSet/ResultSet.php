@@ -4,10 +4,15 @@ namespace Laminas\Db\ResultSet;
 
 use ArrayObject;
 
+use function in_array;
+use function is_array;
+use function is_object;
+use function method_exists;
+
 class ResultSet extends AbstractResultSet
 {
-    const TYPE_ARRAYOBJECT = 'arrayobject';
-    const TYPE_ARRAY  = 'array';
+    public const TYPE_ARRAYOBJECT = 'arrayobject';
+    public const TYPE_ARRAY       = 'array';
 
     /**
      * Allowed return types
@@ -19,10 +24,8 @@ class ResultSet extends AbstractResultSet
         self::TYPE_ARRAY,
     ];
 
-    /**
-     * @var ArrayObject
-     */
-    protected $arrayObjectPrototype = null;
+    /** @var ArrayObject */
+    protected $arrayObjectPrototype;
 
     /**
      * Return type to use when returning an object from the set
@@ -45,7 +48,7 @@ class ResultSet extends AbstractResultSet
             $this->returnType = self::TYPE_ARRAYOBJECT;
         }
         if ($this->returnType === self::TYPE_ARRAYOBJECT) {
-            $this->setArrayObjectPrototype(($arrayObjectPrototype) ?: new ArrayObject([], ArrayObject::ARRAY_AS_PROPS));
+            $this->setArrayObjectPrototype($arrayObjectPrototype ?: new ArrayObject([], ArrayObject::ARRAY_AS_PROPS));
         }
     }
 
@@ -58,7 +61,8 @@ class ResultSet extends AbstractResultSet
      */
     public function setArrayObjectPrototype($arrayObjectPrototype)
     {
-        if (! is_object($arrayObjectPrototype)
+        if (
+            ! is_object($arrayObjectPrototype)
             || (
                 ! $arrayObjectPrototype instanceof ArrayObject
                 && ! method_exists($arrayObjectPrototype, 'exchangeArray')
@@ -93,14 +97,14 @@ class ResultSet extends AbstractResultSet
     }
 
     /**
-     * @return array|\ArrayObject|null
+     * @return array|ArrayObject|null
      */
     public function current()
     {
         $data = parent::current();
 
         if ($this->returnType === self::TYPE_ARRAYOBJECT && is_array($data)) {
-            /** @var $ao ArrayObject */
+            /** @var ArrayObject $ao */
             $ao = clone $this->arrayObjectPrototype;
             if ($ao instanceof ArrayObject || method_exists($ao, 'exchangeArray')) {
                 $ao->exchangeArray($data);

@@ -9,6 +9,8 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+use function extension_loaded;
+
 class AdapterServiceFactoryTest extends TestCase
 {
     use ProphecyTrait;
@@ -29,7 +31,7 @@ class AdapterServiceFactoryTest extends TestCase
     {
         $this->services->get('config')->willReturn([
             'db' => [
-                'driver' => 'Pdo_Sqlite',
+                'driver'   => 'Pdo_Sqlite',
                 'database' => 'sqlite::memory:',
             ],
         ]);
@@ -42,7 +44,7 @@ class AdapterServiceFactoryTest extends TestCase
     {
         $this->services->get('config')->willReturn([
             'db' => [
-                'driver' => 'Pdo_Sqlite',
+                'driver'   => 'Pdo_Sqlite',
                 'database' => 'sqlite::memory:',
             ],
         ]);
