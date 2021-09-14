@@ -270,7 +270,7 @@ class Connection extends AbstractConnection
         } catch (\PDOException $e) {
             $code = $e->getCode();
             if (! is_long($code)) {
-                $code = null;
+                $code = 0;
             }
             throw new Exception\RuntimeException('Connect Error: ' . $e->getMessage(), $code, $e);
         }

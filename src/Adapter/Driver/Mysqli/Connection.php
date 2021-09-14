@@ -151,7 +151,7 @@ class Connection extends AbstractConnection
         } catch (GenericException $e) {
             throw new Exception\RuntimeException(
                 'Connection error',
-                null,
+                0,
                 new Exception\ErrorException($this->resource->connect_error, $this->resource->connect_errno)
             );
         }
@@ -159,7 +159,7 @@ class Connection extends AbstractConnection
         if ($this->resource->connect_error) {
             throw new Exception\RuntimeException(
                 'Connection error',
-                null,
+                0,
                 new Exception\ErrorException($this->resource->connect_error, $this->resource->connect_errno)
             );
         }

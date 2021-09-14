@@ -194,7 +194,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             $e = oci_error($this->oci8);
             throw new Exception\InvalidQueryException(
                 'Statement couldn\'t be produced with sql: ' . $sql,
-                null,
+                0,
                 new Exception\ErrorException($e['message'], $e['code'])
             );
         }

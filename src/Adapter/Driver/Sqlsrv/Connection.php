@@ -123,7 +123,7 @@ class Connection extends AbstractConnection
         if (! $this->resource) {
             throw new Exception\RuntimeException(
                 'Connect Error',
-                null,
+                0,
                 new ErrorException(sqlsrv_errors())
             );
         }
@@ -235,7 +235,7 @@ class Connection extends AbstractConnection
             if ($errors[0]['SQLSTATE'] != '01000') {
                 throw new Exception\RuntimeException(
                     'An exception occurred while trying to execute the provided $sql',
-                    null,
+                    0,
                     new ErrorException($errors)
                 );
             }

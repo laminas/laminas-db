@@ -236,7 +236,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             }
             throw new Exception\InvalidQueryException(
                 'Statement could not be executed (' . implode(' - ', $this->resource->errorInfo()) . ')',
-                null,
+                0,
                 $e
             );
         }
