@@ -79,6 +79,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         if ($this->currentComplete) {
@@ -94,6 +95,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $this->load();
@@ -119,6 +121,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->position;
@@ -129,6 +132,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->position = 0;
@@ -141,6 +145,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         if ($this->currentComplete && $this->currentData) {
@@ -155,6 +160,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return sqlsrv_num_rows($this->resource);

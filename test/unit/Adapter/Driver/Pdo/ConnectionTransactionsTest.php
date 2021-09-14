@@ -14,16 +14,14 @@ use PHPUnit\Framework\TestCase;
 class ConnectionTransactionsTest extends TestCase
 {
     /**
-     * @var Wrapper
+     * @var ConnectionWrapper
      */
     protected $wrapper;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         $this->wrapper = new ConnectionWrapper();
+        parent::setUp();
     }
 
     /**

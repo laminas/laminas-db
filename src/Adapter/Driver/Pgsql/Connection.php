@@ -116,11 +116,11 @@ class Connection extends AbstractConnection
         }
 
         $connection = $this->getConnectionString();
-        set_error_handler(function ($number, $string) {
+        set_error_handler(function (int $number, string $error) {
             throw new Exception\RuntimeException(
                 __CLASS__ . '::connect: Unable to connect to database',
-                null,
-                new Exception\ErrorException($string, $number)
+                0,
+                new Exception\ErrorException($error, $number)
             );
         });
         try {
@@ -304,6 +304,6 @@ class Connection extends AbstractConnection
             'socket'   => isset($p['socket']) ? $p['socket'] : null,
         ];
 
-        return urldecode(http_build_query(array_filter($connectionParameters), null, ' '));
+        return urldecode(http_build_query(array_filter($connectionParameters), '', ' '));
     }
 }

@@ -3,12 +3,12 @@ namespace LaminasTest\Db\TestAsset;
 
 class PdoStubDriver extends \PDO
 {
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         return true;
     }
 
-    public function commit()
+    public function commit(): bool
     {
         return true;
     }
@@ -17,7 +17,7 @@ class PdoStubDriver extends \PDO
     {
     }
 
-    public function rollBack()
+    public function rollBack(): bool
     {
         return true;
     }

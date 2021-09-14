@@ -65,10 +65,10 @@ class AbstractSqlTest extends TestCase
         preg_match('#expr(\d\d\d\d)Param1#', key($parameters), $matches);
         $expressionNumber = $matches[1];
 
-        self::assertRegExp('#expr\d\d\d\dParam1#', key($parameters));
+        self::assertMatchesRegularExpression('#expr\d\d\d\dParam1#', key($parameters));
         self::assertEquals(5, current($parameters));
         next($parameters);
-        self::assertRegExp('#expr\d\d\d\dParam2#', key($parameters));
+        self::assertMatchesRegularExpression('#expr\d\d\d\dParam2#', key($parameters));
         self::assertEquals(10, current($parameters));
 
         // ensure next invocation increases number by 1

@@ -193,6 +193,6 @@ class SqliteTest extends TestCase
 
         @unlink($filePath);
 
-        self::assertFileNotExists($filePath);
+        self::assertFileDoesNotExist($filePath);
     }
 }

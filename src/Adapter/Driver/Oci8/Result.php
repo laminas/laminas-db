@@ -124,6 +124,7 @@ class Result implements Iterator, ResultInterface
      * Current
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         if ($this->currentComplete == false) {
@@ -153,6 +154,7 @@ class Result implements Iterator, ResultInterface
     /**
      * Next
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         return $this->loadData();
@@ -162,6 +164,7 @@ class Result implements Iterator, ResultInterface
      * Key
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->position;
@@ -170,6 +173,7 @@ class Result implements Iterator, ResultInterface
     /**
      * Rewind
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         if ($this->position > 0) {
@@ -181,6 +185,7 @@ class Result implements Iterator, ResultInterface
      * Valid
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         if ($this->currentComplete) {
@@ -193,6 +198,7 @@ class Result implements Iterator, ResultInterface
      * Count
      * @return null|int
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         if (is_int($this->rowCount)) {
