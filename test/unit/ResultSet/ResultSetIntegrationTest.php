@@ -9,7 +9,6 @@ use Laminas\Db\ResultSet\Exception\InvalidArgumentException;
 use Laminas\Db\ResultSet\Exception\RuntimeException;
 use Laminas\Db\ResultSet\ResultSet;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use SplStack;
 use stdClass;
 
@@ -19,8 +18,6 @@ use function var_export;
 
 class ResultSetIntegrationTest extends TestCase
 {
-    use ProphecyTrait;
-
     /** @var ResultSet */
     protected $resultSet;
 
@@ -228,9 +225,7 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testBufferCalledAfterIterationThrowsException()
     {
-        $this->resultSet->initialize(
-            $this->prophesize(ResultInterface::class)->reveal()
-        );
+        $this->resultSet->initialize($this->createMock(ResultInterface::class));
         $this->resultSet->current();
 
         $this->expectException(RuntimeException::class);
@@ -243,7 +238,7 @@ class ResultSetIntegrationTest extends TestCase
      */
     public function testCurrentReturnsNullForNonExistingValues()
     {
-        $mockResult = $this->getMockBuilder(ResultInterface::class)->getMock();
+        $mockResult = $this->createMock(ResultInterface::class);
         $mockResult->expects($this->once())->method('current')->will($this->returnValue("Not an Array"));
 
         $this->resultSet->initialize($mockResult);
