@@ -5,6 +5,7 @@ namespace Laminas\Db\Sql\Predicate;
 use Closure;
 use Countable;
 use Laminas\Db\Sql\Exception;
+use ReturnTypeWillChange;
 
 use function array_merge;
 use function count;
@@ -196,6 +197,7 @@ class PredicateSet implements PredicateInterface, Countable
      *
      * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return count($this->predicates);

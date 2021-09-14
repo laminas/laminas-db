@@ -111,7 +111,7 @@ abstract class AbstractSql implements SqlInterface
         $namedParameterPrefix = null
     ) {
         $namedParameterPrefix = ! $namedParameterPrefix
-            ? $namedParameterPrefix
+            ? ''
             : $this->processInfo['paramPrefix'] . $namedParameterPrefix;
         // static counter for the number of times this method was invoked across the PHP runtime
         static $runtimeExpressionPrefix = 0;

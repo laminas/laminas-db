@@ -8,6 +8,7 @@ use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Exception;
 use PDO;
 use PDOStatement;
+use ReturnTypeWillChange;
 
 use function call_user_func;
 use function in_array;
@@ -150,6 +151,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
         if ($this->currentComplete) {
@@ -166,6 +168,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function next()
     {
         $this->currentData     = $this->resource->fetch($this->fetchMode);
@@ -179,6 +182,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->position;
@@ -188,6 +192,7 @@ class Result implements Iterator, ResultInterface
      * @throws Exception\RuntimeException
      * @return void
      */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         if ($this->statementMode === self::STATEMENT_MODE_FORWARD && $this->position > 0) {
@@ -205,6 +210,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return $this->currentData !== false;
@@ -215,6 +221,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         if (is_int($this->rowCount)) {

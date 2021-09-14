@@ -116,7 +116,6 @@ class Connection extends AbstractConnection
         $cipher     = $p['cipher'] ?? '';
 
         $this->resource = $this->createResource();
-        $this->resource->init();
 
         if (! empty($p['driver_options'])) {
             foreach ($p['driver_options'] as $option => $value) {
@@ -156,7 +155,7 @@ class Connection extends AbstractConnection
         } catch (GenericException $e) {
             throw new Exception\RuntimeException(
                 'Connection error',
-                null,
+                $this->resource->connect_errno,
                 new Exception\ErrorException($this->resource->connect_error, $this->resource->connect_errno)
             );
         }
@@ -164,7 +163,7 @@ class Connection extends AbstractConnection
         if ($this->resource->connect_error) {
             throw new Exception\RuntimeException(
                 'Connection error',
-                null,
+                $this->resource->connect_errno,
                 new Exception\ErrorException($this->resource->connect_error, $this->resource->connect_errno)
             );
         }

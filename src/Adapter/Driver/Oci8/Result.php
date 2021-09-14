@@ -5,6 +5,7 @@ namespace Laminas\Db\Adapter\Driver\Oci8;
 use Iterator;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Exception;
+use ReturnTypeWillChange;
 
 use function call_user_func;
 use function get_resource_type;
@@ -122,6 +123,7 @@ class Result implements Iterator, ResultInterface
     }
 
     /** @return mixed */
+    #[ReturnTypeWillChange]
     public function current()
     {
         if ($this->currentComplete === false) {
@@ -149,18 +151,21 @@ class Result implements Iterator, ResultInterface
     }
 
     /** @return void */
+    #[ReturnTypeWillChange]
     public function next()
     {
         $this->loadData();
     }
 
     /** @return int|string */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->position;
     }
 
     /** @return void */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         if ($this->position > 0) {
@@ -169,6 +174,7 @@ class Result implements Iterator, ResultInterface
     }
 
     /** @return bool */
+    #[ReturnTypeWillChange]
     public function valid()
     {
         if ($this->currentComplete) {
@@ -178,6 +184,7 @@ class Result implements Iterator, ResultInterface
     }
 
     /** @return int */
+    #[ReturnTypeWillChange]
     public function count()
     {
         if (is_int($this->rowCount)) {

@@ -6,6 +6,7 @@ use ArrayAccess;
 use Countable;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Sql\TableIdentifier;
+use ReturnTypeWillChange;
 
 use function array_key_exists;
 use function count;
@@ -213,6 +214,7 @@ abstract class AbstractRowGateway implements ArrayAccess, Countable, RowGatewayI
      * @param  string $offset
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->data);
@@ -224,6 +226,7 @@ abstract class AbstractRowGateway implements ArrayAccess, Countable, RowGatewayI
      * @param  string $offset
      * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->data[$offset];
@@ -236,6 +239,7 @@ abstract class AbstractRowGateway implements ArrayAccess, Countable, RowGatewayI
      * @param  mixed $value
      * @return self Provides a fluent interface
      */
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->data[$offset] = $value;
@@ -248,6 +252,7 @@ abstract class AbstractRowGateway implements ArrayAccess, Countable, RowGatewayI
      * @param  string $offset
      * @return self Provides a fluent interface
      */
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         $this->data[$offset] = null;
@@ -257,6 +262,7 @@ abstract class AbstractRowGateway implements ArrayAccess, Countable, RowGatewayI
     /**
      * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return count($this->data);
