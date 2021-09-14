@@ -1,4 +1,5 @@
 /.phpunit.result.cache
+/.vagrant/
 /clover.xml
 /coveralls-upload.json
 /docs/html/
