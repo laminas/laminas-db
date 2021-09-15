@@ -8,10 +8,16 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class CtorlessPdo extends PDO
 {
-    /** @var PDOStatement&MockObject */
+    /**
+     * @var PDOStatement
+     * @psalm-var PDOStatement&MockObject
+     */
     protected $mockStatement;
 
-    /** @param PDOStatement&MockObject $mockStatement */
+    /**
+     * @param PDOStatement $mockStatement
+     * @psalm-param PDOStatement&MockObject $mockStatement
+     */
     public function __construct($mockStatement)
     {
         $this->mockStatement = $mockStatement;
@@ -20,9 +26,9 @@ class CtorlessPdo extends PDO
     /**
      * @param string $sql
      * @param null|array $options
-     * @return PDOStatement
+     * @return PDOStatement|false
      */
-    public function prepare($sql, $options = null)
+    public function prepare(string $sql, array $options = null): PDOStatement
     {
         return $this->mockStatement;
     }

@@ -6,14 +6,12 @@ use PDO;
 
 class PdoStubDriver extends PDO
 {
-    /** @return bool */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         return true;
     }
 
-    /** @return bool */
-    public function commit()
+    public function commit(): bool
     {
         return true;
     }
@@ -27,8 +25,7 @@ class PdoStubDriver extends PDO
     {
     }
 
-    /** @return bool */
-    public function rollBack()
+    public function rollBack(): bool
     {
         return true;
     }
