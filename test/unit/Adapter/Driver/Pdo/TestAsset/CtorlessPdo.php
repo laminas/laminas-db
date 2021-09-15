@@ -5,6 +5,8 @@ namespace LaminasTest\Db\Adapter\Driver\Pdo\TestAsset;
 use PDO;
 use PDOStatement;
 use PHPUnit\Framework\MockObject\MockObject;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
+use ReturnTypeWillChange;
 
 class CtorlessPdo extends PDO
 {
@@ -26,7 +28,8 @@ class CtorlessPdo extends PDO
     /**
      * @return PDOStatement|false
      */
-    public function prepare(string $sql, array $options = []): PDOStatement
+    #[ReturnTypeWillChange]
+    public function prepare($sql, $options = null)
     {
         return $this->mockStatement;
     }
