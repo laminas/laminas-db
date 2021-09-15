@@ -26,6 +26,8 @@ class CtorlessPdo extends PDO
     }
 
     /**
+     * @param string $sql
+     * @param null|array $options
      * @return PDOStatement|false
      */
     #[ReturnTypeWillChange]
