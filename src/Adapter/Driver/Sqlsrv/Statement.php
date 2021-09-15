@@ -9,7 +9,12 @@ use Laminas\Db\Adapter\Profiler;
 
 use function get_resource_type;
 use function is_array;
+use function sqlsrv_errors;
+use function sqlsrv_execute;
+use function sqlsrv_prepare;
 use function substr_count;
+
+use const SQLSRV_PARAM_IN;
 
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {

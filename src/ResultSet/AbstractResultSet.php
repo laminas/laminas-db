@@ -7,6 +7,7 @@ use Countable;
 use Iterator;
 use IteratorAggregate;
 use Laminas\Db\Adapter\Driver\ResultInterface;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use ReturnTypeWillChange;
 
 use function count;

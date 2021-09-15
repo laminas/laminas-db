@@ -24,11 +24,9 @@ class CtorlessPdo extends PDO
     }
 
     /**
-     * @param string $sql
-     * @param null|array $options
      * @return PDOStatement|false
      */
-    public function prepare(string $sql, array $options = null): PDOStatement
+    public function prepare(string $sql, array $options = []): PDOStatement
     {
         return $this->mockStatement;
     }

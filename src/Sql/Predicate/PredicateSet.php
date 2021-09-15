@@ -5,6 +5,7 @@ namespace Laminas\Db\Sql\Predicate;
 use Closure;
 use Countable;
 use Laminas\Db\Sql\Exception;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use ReturnTypeWillChange;
 
 use function array_merge;

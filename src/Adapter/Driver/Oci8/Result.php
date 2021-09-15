@@ -5,6 +5,7 @@ namespace Laminas\Db\Adapter\Driver\Oci8;
 use Iterator;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Exception;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use ReturnTypeWillChange;
 
 use function call_user_func;

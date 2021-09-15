@@ -13,6 +13,9 @@ use function is_array;
 use function is_string;
 use function strtoupper;
 
+use const MYSQLI_CLIENT_SSL;
+use const MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+
 class Connection extends AbstractConnection
 {
     /** @var Mysqli */

@@ -10,6 +10,9 @@ use Laminas\Db\Adapter\Profiler;
 use function get_resource_type;
 use function is_array;
 use function is_resource;
+use function pg_execute;
+use function pg_last_error;
+use function pg_prepare;
 use function preg_replace_callback;
 use function sprintf;
 

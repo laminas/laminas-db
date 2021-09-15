@@ -7,6 +7,8 @@ use Laminas\Db\Adapter\Driver\Sqlsrv\Result;
 use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 use Laminas\Db\Adapter\Driver\Sqlsrv\Statement;
 
+use function sqlsrv_connect;
+
 /**
  * @group integration
  * @group integration-sqlserver

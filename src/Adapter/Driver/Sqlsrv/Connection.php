@@ -11,6 +11,14 @@ use function array_merge;
 use function get_resource_type;
 use function is_array;
 use function is_resource;
+use function sqlsrv_begin_transaction;
+use function sqlsrv_close;
+use function sqlsrv_commit;
+use function sqlsrv_connect;
+use function sqlsrv_errors;
+use function sqlsrv_fetch_array;
+use function sqlsrv_query;
+use function sqlsrv_rollback;
 use function strtolower;
 
 class Connection extends AbstractConnection

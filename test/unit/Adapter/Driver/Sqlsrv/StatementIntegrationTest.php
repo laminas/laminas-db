@@ -7,6 +7,7 @@ use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 use Laminas\Db\Adapter\Driver\Sqlsrv\Statement;
 
 use function get_resource_type;
+use function sqlsrv_connect;
 
 /**
  * @group integration

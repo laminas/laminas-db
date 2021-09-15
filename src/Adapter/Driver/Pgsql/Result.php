@@ -4,10 +4,15 @@ namespace Laminas\Db\Adapter\Driver\Pgsql;
 
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Exception;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use ReturnTypeWillChange;
 
 use function get_resource_type;
 use function is_resource;
+use function pg_affected_rows;
+use function pg_fetch_assoc;
+use function pg_num_fields;
+use function pg_num_rows;
 
 class Result implements ResultInterface
 {

@@ -8,6 +8,7 @@ use Laminas\Db\Adapter\Exception;
 use mysqli;
 use mysqli_result;
 use mysqli_stmt;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use ReturnTypeWillChange;
 
 use function array_fill;

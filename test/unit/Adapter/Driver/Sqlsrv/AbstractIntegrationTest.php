@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use function extension_loaded;
 use function getenv;
+use function sqlsrv_connect;
 
 abstract class AbstractIntegrationTest extends TestCase
 {

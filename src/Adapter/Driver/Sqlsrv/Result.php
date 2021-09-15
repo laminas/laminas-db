@@ -4,9 +4,18 @@ namespace Laminas\Db\Adapter\Driver\Sqlsrv;
 
 use Iterator;
 use Laminas\Db\Adapter\Driver\ResultInterface;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use ReturnTypeWillChange;
 
 use function is_bool;
+use function sqlsrv_fetch_array;
+use function sqlsrv_num_fields;
+use function sqlsrv_num_rows;
+use function sqlsrv_rows_affected;
+
+use const SQLSRV_FETCH_ASSOC;
+use const SQLSRV_SCROLL_FIRST;
+use const SQLSRV_SCROLL_NEXT;
 
 class Result implements Iterator, ResultInterface
 {

@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
 
 use function getenv;
 
+use const MYSQLI_CLIENT_SSL;
+use const MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+
 class ConnectionTest extends TestCase
 {
     /** @var Connection */
@@ -133,7 +136,7 @@ class ConnectionTest extends TestCase
      */
     protected function createMockMysqli($flags)
     {
-        $mysqli = $this->getMockBuilder('\mysqli')->getMock();
+        $mysqli = $this->getMockBuilder(\mysqli::class)->getMock();
         $mysqli->expects($flags ? $this->once() : $this->never())
             ->method('ssl_set')
             ->with(

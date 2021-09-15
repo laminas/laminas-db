@@ -11,6 +11,9 @@ use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 
 use function extension_loaded;
+use function pg_client_encoding;
+
+use const PGSQL_CONNECT_FORCE_NEW;
 
 class ConnectionTest extends TestCase
 {
@@ -66,7 +69,7 @@ class ConnectionTest extends TestCase
         try {
             $resource = $this->connection->getResource();
             // connected with empty string
-            self::assertInternalType('resource', $resource);
+            self::assertIsResource($resource);
         } catch (AdapterException\RuntimeException $exc) {
             // If it throws an exception it has failed to connect
             $this->expectException(RuntimeException::class);

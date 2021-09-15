@@ -11,7 +11,7 @@ use PDOStatement;
 use function array_diff_key;
 use function implode;
 use function is_array;
-use function is_float;
+use function is_int;
 use function str_replace;
 use function strpos;
 use function strtolower;

@@ -4,6 +4,7 @@ namespace Laminas\Db\Adapter\Driver\IbmDb2;
 
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Exception;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use ReturnTypeWillChange;
 
 class Result implements ResultInterface

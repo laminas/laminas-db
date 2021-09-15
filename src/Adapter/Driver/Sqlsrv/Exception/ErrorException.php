@@ -4,6 +4,8 @@ namespace Laminas\Db\Adapter\Driver\Sqlsrv\Exception;
 
 use Laminas\Db\Adapter\Exception;
 
+use function sqlsrv_errors;
+
 class ErrorException extends Exception\ErrorException implements ExceptionInterface
 {
     /**

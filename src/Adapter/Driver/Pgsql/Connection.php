@@ -11,11 +11,19 @@ use function defined;
 use function http_build_query;
 use function is_array;
 use function is_resource;
+use function pg_connect;
+use function pg_errormessage;
+use function pg_fetch_result;
+use function pg_query;
+use function pg_set_client_encoding;
 use function restore_error_handler;
 use function set_error_handler;
 use function sprintf;
 use function str_replace;
 use function urldecode;
+
+use const PGSQL_CONNECT_ASYNC;
+use const PGSQL_CONNECT_FORCE_NEW;
 
 class Connection extends AbstractConnection
 {
@@ -168,6 +176,7 @@ class Connection extends AbstractConnection
      */
     public function disconnect()
     {
+        // phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFallbackGlobalName
         pg_close($this->resource);
         return $this;
     }
