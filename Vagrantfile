@@ -22,6 +22,7 @@ apt-get -yq install mysql-server
 # Allow external connections to MySQL as root (with password Password123)
 sed -i 's/127\.0\.0\.1/0\.0\.0\.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 mysql -u root -pPassword123 -e 'USE mysql; UPDATE `user` SET `Host`="%" WHERE `User`="root" AND `Host`="localhost"; DELETE FROM `user` WHERE `Host` != "%" AND `User`="root"; FLUSH PRIVILEGES;'
+mysql -h localhost -u root -pPassword123 -e "ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'Password123';"
 service mysql restart
 
 # INSTALL SQL Server
