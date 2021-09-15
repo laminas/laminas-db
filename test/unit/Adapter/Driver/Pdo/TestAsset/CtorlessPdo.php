@@ -31,7 +31,7 @@ class CtorlessPdo extends PDO
      * @return PDOStatement|false
      */
     #[ReturnTypeWillChange]
-    public function prepare($sql, $options = null)
+    public function prepare($sql, $options = null): PDOStatement
     {
         return $this->mockStatement;
     }
