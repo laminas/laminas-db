@@ -274,8 +274,8 @@ class Connection extends AbstractConnection
             $this->driverName = strtolower($this->resource->getAttribute(\PDO::ATTR_DRIVER_NAME));
         } catch (PDOException $e) {
             $code = $e->getCode();
-            if (! is_float($code)) {
-                $code = null;
+            if (! is_int($code)) {
+                $code = 0;
             }
             throw new Exception\RuntimeException('Connect Error: ' . $e->getMessage(), $code, $e);
         }

@@ -214,9 +214,15 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             if ($this->profiler) {
                 $this->profiler->profilerFinish();
             }
+
+            $code = $e->getCode();
+            if (! is_int($code)) {
+                $code = 0;
+            }
+
             throw new Exception\InvalidQueryException(
                 'Statement could not be executed (' . implode(' - ', $this->resource->errorInfo()) . ')',
-                null,
+                $code,
                 $e
             );
         }
