@@ -6,10 +6,11 @@ use Laminas\Db\Sql;
 
 class DeleteDecorator extends Sql\Delete implements Sql\Platform\PlatformDecoratorInterface
 {
+    /** @var null|object */
     protected $subject;
 
     /**
-     * @param $subject
+     * @param null|object $subject
      * @return self Provides a fluent interface
      */
     public function setSubject($subject)

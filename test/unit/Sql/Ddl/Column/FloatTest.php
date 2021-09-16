@@ -6,6 +6,10 @@ use Laminas\Db\Sql\Ddl\Column\Float as FloatColumn;
 use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 
+use function version_compare;
+
+use const PHP_VERSION;
+
 class FloatTest extends TestCase
 {
     protected function setUp(): void

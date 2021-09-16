@@ -4,14 +4,13 @@ namespace Laminas\Db\Sql;
 
 interface ExpressionInterface
 {
-    const TYPE_IDENTIFIER = 'identifier';
-    const TYPE_VALUE = 'value';
-    const TYPE_LITERAL = 'literal';
-    const TYPE_SELECT = 'select';
+    public const TYPE_IDENTIFIER = 'identifier';
+    public const TYPE_VALUE      = 'value';
+    public const TYPE_LITERAL    = 'literal';
+    public const TYPE_SELECT     = 'select';
 
     /**
      * @abstract
-     *
      * @return array of array|string should return an array in the format:
      *
      * array (
@@ -24,7 +23,6 @@ interface ExpressionInterface
      *    // an array of equal length of the $values array, with either TYPE_IDENTIFIER or TYPE_VALUE for each value
      *    array $types,
      * )
-     *
      */
     public function getExpressionData();
 }

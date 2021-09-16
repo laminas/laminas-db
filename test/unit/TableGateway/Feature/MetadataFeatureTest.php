@@ -18,8 +18,8 @@ class MetadataFeatureTest extends TestCase
      */
     public function testPostInitialize()
     {
-        $tableGatewayMock = $this->getMockForAbstractClass('Laminas\Db\TableGateway\AbstractTableGateway');
-        $metadataMock = $this->getMockBuilder('Laminas\Db\Metadata\MetadataInterface')->getMock();
+        $tableGatewayMock = $this->getMockForAbstractClass(AbstractTableGateway::class);
+        $metadataMock     = $this->getMockBuilder(MetadataInterface::class)->getMock();
         $metadataMock->expects($this->any())->method('getColumnNames')->will($this->returnValue(['id', 'name']));
 
         $constraintObject = new ConstraintObject('id_pk', 'table');
@@ -39,12 +39,11 @@ class MetadataFeatureTest extends TestCase
     {
         /** @var AbstractTableGateway $tableGatewayMock */
         $tableGatewayMock = $this->getMockForAbstractClass(AbstractTableGateway::class);
-        $metadataMock = $this->getMockBuilder(MetadataInterface::class)->getMock();
+        $metadataMock     = $this->getMockBuilder(MetadataInterface::class)->getMock();
         $metadataMock->expects($this->any())->method('getColumnNames')->will($this->returnValue(['id', 'name']));
         $metadataMock->expects($this->any())
             ->method('getTable')
             ->will($this->returnValue(new TableObject('foo')));
-
 
         $constraintObject = new ConstraintObject('id_pk', 'table');
         $constraintObject->setColumns(['id']);
@@ -71,12 +70,11 @@ class MetadataFeatureTest extends TestCase
     {
         /** @var AbstractTableGateway $tableGatewayMock */
         $tableGatewayMock = $this->getMockForAbstractClass(AbstractTableGateway::class);
-        $metadataMock = $this->getMockBuilder(MetadataInterface::class)->getMock();
+        $metadataMock     = $this->getMockBuilder(MetadataInterface::class)->getMock();
         $metadataMock->expects($this->any())->method('getColumnNames')->will($this->returnValue(['id', 'name']));
         $metadataMock->expects($this->any())
             ->method('getTable')
             ->will($this->returnValue(new TableObject('foo')));
-
 
         $constraintObject = new ConstraintObject('id_pk', 'table');
         $constraintObject->setColumns(['composite', 'id']);
@@ -103,7 +101,7 @@ class MetadataFeatureTest extends TestCase
     {
         /** @var AbstractTableGateway $tableGatewayMock */
         $tableGatewayMock = $this->getMockForAbstractClass(AbstractTableGateway::class);
-        $metadataMock = $this->getMockBuilder(MetadataInterface::class)->getMock();
+        $metadataMock     = $this->getMockBuilder(MetadataInterface::class)->getMock();
         $metadataMock->expects($this->any())->method('getColumnNames')->will($this->returnValue(['id', 'name']));
         $metadataMock->expects($this->any())
             ->method('getTable')

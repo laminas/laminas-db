@@ -6,24 +6,30 @@ use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\Platform\PlatformInterface;
 
+use function is_array;
+use function is_string;
+use function sprintf;
+
 class Sql
 {
     /** @var AdapterInterface */
-    protected $adapter = null;
+    protected $adapter;
 
     /** @var string|array|TableIdentifier */
-    protected $table = null;
+    protected $table;
 
     /** @var Platform\Platform */
-    protected $sqlPlatform = null;
+    protected $sqlPlatform;
 
     /**
-     * @param AdapterInterface                  $adapter
      * @param null|string|array|TableIdentifier $table
      * @param null|Platform\AbstractPlatform    $sqlPlatform @deprecated since version 3.0
      */
-    public function __construct(AdapterInterface $adapter, $table = null, Platform\AbstractPlatform $sqlPlatform = null)
-    {
+    public function __construct(
+        AdapterInterface $adapter,
+        $table = null,
+        ?Platform\AbstractPlatform $sqlPlatform = null
+    ) {
         $this->adapter = $adapter;
         if ($table) {
             $this->setTable($table);
@@ -32,16 +38,17 @@ class Sql
     }
 
     /**
-     * @return null|\Laminas\Db\Adapter\AdapterInterface
+     * @return null|AdapterInterface
      */
     public function getAdapter()
     {
         return $this->adapter;
     }
 
+    /** @return bool */
     public function hasTable()
     {
-        return ($this->table !== null);
+        return $this->table !== null;
     }
 
     /**
@@ -61,16 +68,22 @@ class Sql
         return $this;
     }
 
+    /** @return string|array|TableIdentifier */
     public function getTable()
     {
         return $this->table;
     }
 
+    /** @return Platform\Platform */
     public function getSqlPlatform()
     {
         return $this->sqlPlatform;
     }
 
+    /**
+     * @param null|string|TableIdentifier $table
+     * @return Select
+     */
     public function select($table = null)
     {
         if ($this->table !== null && $table !== null) {
@@ -79,9 +92,13 @@ class Sql
                 $this->table
             ));
         }
-        return new Select(($table) ?: $this->table);
+        return new Select($table ?: $this->table);
     }
 
+    /**
+     * @param null|string|TableIdentifier $table
+     * @return Insert
+     */
     public function insert($table = null)
     {
         if ($this->table !== null && $table !== null) {
@@ -90,9 +107,13 @@ class Sql
                 $this->table
             ));
         }
-        return new Insert(($table) ?: $this->table);
+        return new Insert($table ?: $this->table);
     }
 
+    /**
+     * @param null|string|TableIdentifier $table
+     * @return Update
+     */
     public function update($table = null)
     {
         if ($this->table !== null && $table !== null) {
@@ -101,9 +122,13 @@ class Sql
                 $this->table
             ));
         }
-        return new Update(($table) ?: $this->table);
+        return new Update($table ?: $this->table);
     }
 
+    /**
+     * @param null|string|TableIdentifier $table
+     * @return Delete
+     */
     public function delete($table = null)
     {
         if ($this->table !== null && $table !== null) {
@@ -112,20 +137,16 @@ class Sql
                 $this->table
             ));
         }
-        return new Delete(($table) ?: $this->table);
+        return new Delete($table ?: $this->table);
     }
 
     /**
-     * @param PreparableSqlInterface $sqlObject
-     * @param StatementInterface     $statement
-     * @param AdapterInterface       $adapter
-     *
      * @return StatementInterface
      */
     public function prepareStatementForSqlObject(
         PreparableSqlInterface $sqlObject,
-        StatementInterface $statement = null,
-        AdapterInterface $adapter = null
+        ?StatementInterface $statement = null,
+        ?AdapterInterface $adapter = null
     ) {
         $adapter   = $adapter ?: $this->adapter;
         $statement = $statement ?: $adapter->getDriver()->createStatement();
@@ -136,28 +157,21 @@ class Sql
     /**
      * Get sql string using platform or sql object
      *
-     * @param SqlInterface           $sqlObject
-     * @param PlatformInterface|null $platform
+     * @deprecated Deprecated in 2.4. Use buildSqlString() instead
      *
      * @return string
-     *
-     * @deprecated Deprecated in 2.4. Use buildSqlString() instead
      */
-    public function getSqlStringForSqlObject(SqlInterface $sqlObject, PlatformInterface $platform = null)
+    public function getSqlStringForSqlObject(SqlInterface $sqlObject, ?PlatformInterface $platform = null)
     {
-        $platform = ($platform) ?: $this->adapter->getPlatform();
+        $platform = $platform ?: $this->adapter->getPlatform();
         return $this->sqlPlatform->setSubject($sqlObject)->getSqlString($platform);
     }
 
     /**
-     * @param SqlInterface     $sqlObject
-     * @param AdapterInterface $adapter
-     *
      * @return string
-     *
      * @throws Exception\InvalidArgumentException
      */
-    public function buildSqlString(SqlInterface $sqlObject, AdapterInterface $adapter = null)
+    public function buildSqlString(SqlInterface $sqlObject, ?AdapterInterface $adapter = null)
     {
         return $this
             ->sqlPlatform

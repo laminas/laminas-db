@@ -2,9 +2,12 @@
 
 namespace LaminasTest\Db\Sql;
 
+use Laminas\Db\Sql\Exception\InvalidArgumentException;
 use Laminas\Db\Sql\TableIdentifier;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+
+use function array_merge;
 
 /**
  * Tests for {@see \Laminas\Db\Sql\TableIdentifier}
@@ -60,24 +63,22 @@ class TableIdentifierTest extends TestCase
 
     /**
      * @dataProvider invalidTableProvider
-     *
      * @param mixed $invalidTable
      */
     public function testRejectsInvalidTable($invalidTable)
     {
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
 
         new TableIdentifier($invalidTable);
     }
 
     /**
      * @dataProvider invalidSchemaProvider
-     *
      * @param mixed $invalidSchema
      */
     public function testRejectsInvalidSchema($invalidSchema)
     {
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
 
         new TableIdentifier('foo', $invalidSchema);
     }

@@ -4,9 +4,13 @@ namespace LaminasTest\Db\Sql\Ddl;
 
 use Laminas\Db\Sql\Ddl\AlterTable;
 use Laminas\Db\Sql\Ddl\Column;
+use Laminas\Db\Sql\Ddl\Column\ColumnInterface;
 use Laminas\Db\Sql\Ddl\Constraint;
+use Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface;
 use Laminas\Db\Sql\TableIdentifier;
 use PHPUnit\Framework\TestCase;
+
+use function str_replace;
 
 class AlterTableTest extends TestCase
 {
@@ -27,8 +31,8 @@ class AlterTableTest extends TestCase
     public function testAddColumn()
     {
         $at = new AlterTable();
-        /** @var \Laminas\Db\Sql\Ddl\Column\ColumnInterface $colMock */
-        $colMock = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
+        /** @var ColumnInterface $colMock */
+        $colMock = $this->getMockBuilder(ColumnInterface::class)->getMock();
         self::assertSame($at, $at->addColumn($colMock));
         self::assertEquals([$colMock], $at->getRawState($at::ADD_COLUMNS));
     }
@@ -39,8 +43,8 @@ class AlterTableTest extends TestCase
     public function testChangeColumn()
     {
         $at = new AlterTable();
-        /** @var \Laminas\Db\Sql\Ddl\Column\ColumnInterface $colMock */
-        $colMock = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
+        /** @var ColumnInterface $colMock */
+        $colMock = $this->getMockBuilder(ColumnInterface::class)->getMock();
         self::assertSame($at, $at->changeColumn('newname', $colMock));
         self::assertEquals(['newname' => $colMock], $at->getRawState($at::CHANGE_COLUMNS));
     }
@@ -71,8 +75,8 @@ class AlterTableTest extends TestCase
     public function testAddConstraint()
     {
         $at = new AlterTable();
-        /** @var \Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface $conMock */
-        $conMock = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface')->getMock();
+        /** @var ConstraintInterface $conMock */
+        $conMock = $this->getMockBuilder(ConstraintInterface::class)->getMock();
         self::assertSame($at, $at->addConstraint($conMock));
         self::assertEquals([$conMock], $at->getRawState($at::ADD_CONSTRAINTS));
     }

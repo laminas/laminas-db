@@ -4,11 +4,12 @@ namespace LaminasTest\Db\Adapter\Driver\IbmDb2;
 
 use PHPUnit\Framework\TestCase;
 
+use function extension_loaded;
+use function getenv;
+
 abstract class AbstractIntegrationTest extends TestCase
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $variables = [
         'database' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_IBMDB2_DATABASE',
         'username' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_IBMDB2_USERNAME',

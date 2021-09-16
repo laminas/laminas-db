@@ -11,9 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class StatementTest extends TestCase
 {
-    /**
-     * @var Statement
-     */
+    /** @var Statement */
     protected $statement;
 
     /**
@@ -22,7 +20,7 @@ class StatementTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->statement = new Statement;
+        $this->statement = new Statement();
     }
 
     /**
@@ -46,7 +44,7 @@ class StatementTest extends TestCase
      */
     public function testSetParameterContainer()
     {
-        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
+        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer()));
     }
 
     /**
@@ -55,7 +53,7 @@ class StatementTest extends TestCase
      */
     public function testGetParameterContainer()
     {
-        $container = new ParameterContainer;
+        $container = new ParameterContainer();
         $this->statement->setParameterContainer($container);
         self::assertSame($container, $this->statement->getParameterContainer());
     }
@@ -65,7 +63,7 @@ class StatementTest extends TestCase
      */
     public function testGetResource()
     {
-        $pdo = new TestAsset\SqliteMemoryPdo();
+        $pdo  = new TestAsset\SqliteMemoryPdo();
         $stmt = $pdo->prepare('SELECT 1');
         $this->statement->setResource($stmt);
 
@@ -119,6 +117,6 @@ class StatementTest extends TestCase
         $this->statement->setDriver(new Pdo(new Connection($pdo = new TestAsset\SqliteMemoryPdo())));
         $this->statement->initialize($pdo);
         $this->statement->prepare('SELECT 1');
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Pdo\Result', $this->statement->execute());
+        self::assertInstanceOf(Result::class, $this->statement->execute());
     }
 }

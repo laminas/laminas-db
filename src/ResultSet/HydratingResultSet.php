@@ -7,31 +7,31 @@ use Laminas\Hydrator\ArraySerializable;
 use Laminas\Hydrator\ArraySerializableHydrator;
 use Laminas\Hydrator\HydratorInterface;
 
+use function class_exists;
+use function gettype;
+use function is_array;
+use function is_object;
+
 class HydratingResultSet extends AbstractResultSet
 {
-    /**
-     * @var HydratorInterface
-     */
-    protected $hydrator = null;
+    /** @var HydratorInterface */
+    protected $hydrator;
 
-    /**
-     * @var null|object
-     */
-    protected $objectPrototype = null;
+    /** @var null|object */
+    protected $objectPrototype;
 
     /**
      * Constructor
      *
-     * @param  null|HydratorInterface $hydrator
      * @param  null|object $objectPrototype
      */
-    public function __construct(HydratorInterface $hydrator = null, $objectPrototype = null)
+    public function __construct(?HydratorInterface $hydrator = null, $objectPrototype = null)
     {
         $defaultHydratorClass = class_exists(ArraySerializableHydrator::class)
             ? ArraySerializableHydrator::class
             : ArraySerializable::class;
         $this->setHydrator($hydrator ?: new $defaultHydratorClass());
-        $this->setObjectPrototype(($objectPrototype) ?: new ArrayObject);
+        $this->setObjectPrototype($objectPrototype ?: new ArrayObject());
     }
 
     /**
@@ -65,7 +65,6 @@ class HydratingResultSet extends AbstractResultSet
     /**
      * Set the hydrator to use for each row object
      *
-     * @param HydratorInterface $hydrator
      * @return self Provides a fluent interface
      */
     public function setHydrator(HydratorInterface $hydrator)
@@ -96,7 +95,7 @@ class HydratingResultSet extends AbstractResultSet
         } elseif (is_array($this->buffer) && isset($this->buffer[$this->position])) {
             return $this->buffer[$this->position];
         }
-        $data = $this->dataSource->current();
+        $data    = $this->dataSource->current();
         $current = is_array($data) ? $this->hydrator->hydrate($data, clone $this->objectPrototype) : null;
 
         if (is_array($this->buffer)) {
@@ -110,7 +109,7 @@ class HydratingResultSet extends AbstractResultSet
      * Cast result set to array of arrays
      *
      * @return array
-     * @throws Exception\RuntimeException if any row is not castable to an array
+     * @throws Exception\RuntimeException If any row is not castable to an array.
      */
     public function toArray()
     {

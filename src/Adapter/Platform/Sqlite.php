@@ -8,24 +8,18 @@ use Laminas\Db\Adapter\Exception;
 
 class Sqlite extends AbstractPlatform
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected $quoteIdentifier = ['"','"'];
+    /** @var string[] */
+    protected $quoteIdentifier = ['"', '"'];
 
     /**
      * {@inheritDoc}
      */
     protected $quoteIdentifierTo = '\'';
 
-    /**
-     * @var \PDO
-     */
-    protected $resource = null;
+    /** @var \PDO */
+    protected $resource;
 
-    /**
-     * @param null|\Laminas\Db\Adapter\Driver\Pdo\Pdo||\PDO $driver
-     */
+    /** @param null|Pdo\Pdo|\PDO $driver */
     public function __construct($driver = null)
     {
         if ($driver) {
@@ -34,14 +28,21 @@ class Sqlite extends AbstractPlatform
     }
 
     /**
-     * @param \Laminas\Db\Adapter\Driver\Pdo\Pdo|\PDO $driver
+     * @param Pdo\Pdo|\PDO $driver
      * @return self Provides a fluent interface
-     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
+     * @throws Exception\InvalidArgumentException
      */
     public function setDriver($driver)
     {
-        if (($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'sqlite')
-            || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Sqlite')
+        if (
+            (
+                $driver instanceof \PDO
+                && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'sqlite'
+            )
+            || (
+                $driver instanceof Pdo\Pdo
+                && $driver->getDatabasePlatformName() === 'Sqlite'
+            )
         ) {
             $this->resource = $driver;
             return $this;

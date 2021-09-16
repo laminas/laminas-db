@@ -7,6 +7,8 @@ use Laminas\Db\TableGateway\Feature\MetadataFeature;
 use Laminas\Db\TableGateway\TableGateway;
 use PHPUnit\Framework\TestCase;
 
+use function count;
+
 class TableGatewayTest extends TestCase
 {
     use AdapterTrait;
@@ -26,7 +28,7 @@ class TableGatewayTest extends TestCase
     public function testSelect()
     {
         $tableGateway = new TableGateway('test', $this->adapter);
-        $rowset = $tableGateway->select();
+        $rowset       = $tableGateway->select();
 
         $this->assertTrue(count($rowset) > 0);
         foreach ($rowset as $row) {
@@ -44,16 +46,16 @@ class TableGatewayTest extends TestCase
     {
         $tableGateway = new TableGateway('test', $this->adapter);
 
-        $rowset = $tableGateway->select();
-        $data = [
+        $rowset       = $tableGateway->select();
+        $data         = [
             'name'  => 'test_name',
-            'value' => 'test_value'
+            'value' => 'test_value',
         ];
         $affectedRows = $tableGateway->insert($data);
         $this->assertEquals(1, $affectedRows);
 
         $rowSet = $tableGateway->select(['id' => $tableGateway->getLastInsertValue()]);
-        $row = $rowSet->current();
+        $row    = $rowSet->current();
 
         foreach ($data as $key => $value) {
             $this->assertEquals($row->$key, $value);
@@ -63,6 +65,8 @@ class TableGatewayTest extends TestCase
     /**
      * @see https://github.com/zendframework/zend-db/issues/35
      * @see https://github.com/zendframework/zend-db/pull/178
+     *
+     * @return mixed
      */
     public function testInsertWithExtendedCharsetFieldName()
     {
@@ -70,7 +74,7 @@ class TableGatewayTest extends TestCase
 
         $affectedRows = $tableGateway->insert([
             'field$' => 'test_value1',
-            'field_' => 'test_value2'
+            'field_' => 'test_value2',
         ]);
         $this->assertEquals(1, $affectedRows);
         return $tableGateway->getLastInsertValue();
@@ -78,20 +82,21 @@ class TableGatewayTest extends TestCase
 
     /**
      * @depends testInsertWithExtendedCharsetFieldName
+     * @param mixed $id
      */
     public function testUpdateWithExtendedCharsetFieldName($id)
     {
         $tableGateway = new TableGateway('test_charset', $this->adapter);
 
-        $data = [
+        $data         = [
             'field$' => 'test_value3',
-            'field_' => 'test_value4'
+            'field_' => 'test_value4',
         ];
         $affectedRows = $tableGateway->update($data, ['id' => $id]);
         $this->assertEquals(1, $affectedRows);
 
         $rowSet = $tableGateway->select(['id' => $id]);
-        $row = $rowSet->current();
+        $row    = $rowSet->current();
 
         foreach ($data as $key => $value) {
             $this->assertEquals($row->$key, $value);
@@ -110,7 +115,8 @@ class TableGatewayTest extends TestCase
         self::assertSame($table, $tableGateway->getTable());
     }
 
-    public function tableProvider()
+    /** @psalm-return array<string, array{0: mixed}> */
+    public function tableProvider(): array
     {
         return [
             'string'                  => ['test'],

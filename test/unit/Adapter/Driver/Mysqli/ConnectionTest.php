@@ -4,13 +4,18 @@ namespace LaminasTest\Db\Adapter\Driver\Mysqli;
 
 use Laminas\Db\Adapter\Driver\Mysqli\Connection;
 use Laminas\Db\Adapter\Driver\Mysqli\Mysqli;
+use Laminas\Db\Adapter\Exception\RuntimeException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+
+use function getenv;
+
+use const MYSQLI_CLIENT_SSL;
+use const MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
 
 class ConnectionTest extends TestCase
 {
-    /**
-     * @var Connection
-     */
+    /** @var Connection */
     protected $connection;
 
     /**
@@ -60,7 +65,7 @@ class ConnectionTest extends TestCase
 
     public function testNonSecureConnection()
     {
-        $mysqli = $this->createMockMysqli(0);
+        $mysqli     = $this->createMockMysqli(0);
         $connection = $this->createMockConnection(
             $mysqli,
             [
@@ -68,7 +73,7 @@ class ConnectionTest extends TestCase
                 'username' => 'superuser',
                 'password' => '1234',
                 'database' => 'main',
-                'port' => 123,
+                'port'     => 123,
             ]
         );
 
@@ -77,7 +82,7 @@ class ConnectionTest extends TestCase
 
     public function testSslConnection()
     {
-        $mysqli = $this->createMockMysqli(MYSQLI_CLIENT_SSL);
+        $mysqli     = $this->createMockMysqli(MYSQLI_CLIENT_SSL);
         $connection = $this->createMockConnection(
             $mysqli,
             [
@@ -85,8 +90,8 @@ class ConnectionTest extends TestCase
                 'username' => 'superuser',
                 'password' => '1234',
                 'database' => 'main',
-                'port' => 123,
-                'use_ssl' => true,
+                'port'     => 123,
+                'use_ssl'  => true,
             ]
         );
 
@@ -95,18 +100,18 @@ class ConnectionTest extends TestCase
 
     public function testSslConnectionNoVerify()
     {
-        $mysqli = $this->createMockMysqli(MYSQLI_CLIENT_SSL | MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+        $mysqli     = $this->createMockMysqli(MYSQLI_CLIENT_SSL | MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
         $connection = $this->createMockConnection(
             $mysqli,
             [
-                'hostname' => 'localhost',
-                'username' => 'superuser',
-                'password' => '1234',
-                'database' => 'main',
-                'port' => 123,
-                'use_ssl' => true,
+                'hostname'       => 'localhost',
+                'username'       => 'superuser',
+                'password'       => '1234',
+                'database'       => 'main',
+                'port'           => 123,
+                'use_ssl'        => true,
                 'driver_options' => [
-                    MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT => true
+                    MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT => true,
                 ],
             ]
         );
@@ -118,7 +123,7 @@ class ConnectionTest extends TestCase
     {
         $connection = new Connection([]);
 
-        $this->expectException('\Laminas\Db\Adapter\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Connection error');
         $connection->connect();
     }
@@ -127,14 +132,11 @@ class ConnectionTest extends TestCase
      * Create a mock mysqli
      *
      * @param int $flags Expected flags to real_connect
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function createMockMysqli($flags)
     {
-        $mysqli = $this->getMockBuilder('\mysqli')->getMock();
-        $mysqli->expects($this->once())
-            ->method('init');
+        $mysqli = $this->getMockBuilder(\mysqli::class)->getMock();
         $mysqli->expects($flags ? $this->once() : $this->never())
             ->method('ssl_set')
             ->with(
@@ -157,7 +159,7 @@ class ConnectionTest extends TestCase
                     $this->equalTo(123),
                     $this->equalTo('')
                 )
-                ->willReturn(null);
+                ->willReturn(true);
             return $mysqli;
         }
 
@@ -172,7 +174,7 @@ class ConnectionTest extends TestCase
                 $this->equalTo(''),
                 $this->equalTo($flags)
             )
-            ->willReturn(null);
+            ->willReturn(true);
 
         return $mysqli;
     }
@@ -180,14 +182,13 @@ class ConnectionTest extends TestCase
     /**
      * Create a mock connection
      *
-     * @param \PHPUnit\Framework\MockObject\MockObject $mysqli Mock mysqli object
+     * @param MockObject $mysqli Mock mysqli object
      * @param array                                    $params Connection params
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function createMockConnection($mysqli, $params)
     {
-        $connection = $this->getMockBuilder('\Laminas\Db\Adapter\Driver\Mysqli\Connection')
+        $connection = $this->getMockBuilder(Connection::class)
             ->setMethods(['createResource'])
             ->setConstructorArgs([$params])
             ->getMock();

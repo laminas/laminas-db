@@ -4,23 +4,37 @@ namespace Laminas\Db\Adapter\Driver\Pgsql;
 
 use Laminas\Db\Adapter\Driver\AbstractConnection;
 use Laminas\Db\Adapter\Exception;
+use Laminas\Db\ResultSet\ResultSetInterface;
+
+use function array_filter;
+use function defined;
+use function http_build_query;
+use function is_array;
+use function is_resource;
+use function pg_connect;
+use function pg_errormessage;
+use function pg_fetch_result;
+use function pg_query;
+use function pg_set_client_encoding;
+use function restore_error_handler;
+use function set_error_handler;
+use function sprintf;
+use function str_replace;
+use function urldecode;
+
+use const PGSQL_CONNECT_ASYNC;
+use const PGSQL_CONNECT_FORCE_NEW;
 
 class Connection extends AbstractConnection
 {
-    /**
-     * @var Pgsql
-     */
-    protected $driver = null;
+    /** @var Pgsql */
+    protected $driver;
 
-    /**
-     * @var resource
-     */
-    protected $resource = null;
+    /** @var resource */
+    protected $resource;
 
-    /**
-     * @var null|int PostgreSQL connection type
-     */
-    protected $type = null;
+    /** @var null|int PostgreSQL connection type */
+    protected $type;
 
     /**
      * Constructor
@@ -49,11 +63,9 @@ class Connection extends AbstractConnection
         return $this;
     }
 
-
     /**
      * Set driver
      *
-     * @param  Pgsql $driver
      * @return self Provides a fluent interface
      */
     public function setDriver(Pgsql $driver)
@@ -69,11 +81,11 @@ class Connection extends AbstractConnection
      */
     public function setType($type)
     {
-        $invalidConectionType = ($type !== PGSQL_CONNECT_FORCE_NEW);
+        $invalidConectionType = $type !== PGSQL_CONNECT_FORCE_NEW;
 
         // Compatibility with PHP < 5.6
         if ($invalidConectionType && defined('PGSQL_CONNECT_ASYNC')) {
-            $invalidConectionType = ($type !== PGSQL_CONNECT_ASYNC);
+            $invalidConectionType = $type !== PGSQL_CONNECT_ASYNC;
         }
 
         if ($invalidConectionType) {
@@ -97,8 +109,8 @@ class Connection extends AbstractConnection
         }
 
         $result = pg_query($this->resource, 'SELECT CURRENT_SCHEMA AS "currentschema"');
-        if ($result == false) {
-            return;
+        if ($result === false) {
+            return null;
         }
 
         return pg_fetch_result($result, 0, 'currentschema');
@@ -107,7 +119,7 @@ class Connection extends AbstractConnection
     /**
      * {@inheritDoc}
      *
-     * @throws Exception\RuntimeException on failure
+     * @throws Exception\RuntimeException On failure.
      */
     public function connect()
     {
@@ -118,9 +130,9 @@ class Connection extends AbstractConnection
         $connection = $this->getConnectionString();
         set_error_handler(function ($number, $string) {
             throw new Exception\RuntimeException(
-                __CLASS__ . '::connect: Unable to connect to database',
-                null,
-                new Exception\ErrorException($string, $number)
+                self::class . '::connect: Unable to connect to database',
+                $number ?? 0,
+                new Exception\ErrorException($string, $number ?? 0)
             );
         });
         try {
@@ -156,7 +168,7 @@ class Connection extends AbstractConnection
      */
     public function isConnected()
     {
-        return (is_resource($this->resource));
+        return is_resource($this->resource);
     }
 
     /**
@@ -164,6 +176,7 @@ class Connection extends AbstractConnection
      */
     public function disconnect()
     {
+        // phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFallbackGlobalName
         pg_close($this->resource);
         return $this;
     }
@@ -229,7 +242,7 @@ class Connection extends AbstractConnection
      * {@inheritDoc}
      *
      * @throws Exception\InvalidQueryException
-     * @return resource|\Laminas\Db\ResultSet\ResultSetInterface
+     * @return resource|ResultSetInterface
      */
     public function execute($sql)
     {
@@ -252,9 +265,7 @@ class Connection extends AbstractConnection
             throw new Exception\InvalidQueryException(pg_errormessage());
         }
 
-        $resultPrototype = $this->driver->createResult(($resultResource === true) ? $this->resource : $resultResource);
-
-        return $resultPrototype;
+        return $this->driver->createResult($resultResource === true ? $this->resource : $resultResource);
     }
 
     /**
@@ -301,9 +312,9 @@ class Connection extends AbstractConnection
             'password' => $findParameterValue(['password', 'passwd', 'pw']),
             'dbname'   => $findParameterValue(['database', 'dbname', 'db', 'schema']),
             'port'     => isset($p['port']) ? (int) $p['port'] : null,
-            'socket'   => isset($p['socket']) ? $p['socket'] : null,
+            'socket'   => $p['socket'] ?? null,
         ];
 
-        return urldecode(http_build_query(array_filter($connectionParameters), null, ' '));
+        return urldecode(http_build_query(array_filter($connectionParameters), '', ' '));
     }
 }

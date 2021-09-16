@@ -4,8 +4,6 @@ namespace Laminas\Db\Sql\Ddl\Constraint;
 
 class UniqueKey extends AbstractConstraint
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $specification = 'UNIQUE';
 }

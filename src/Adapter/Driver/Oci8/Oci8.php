@@ -7,51 +7,45 @@ use Laminas\Db\Adapter\Driver\Feature\AbstractFeature;
 use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\Profiler;
 
+use function array_intersect_key;
+use function array_merge;
+use function extension_loaded;
+use function get_resource_type;
+use function is_array;
+use function is_resource;
+use function is_string;
+
 class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
 {
-    const FEATURES_DEFAULT = 'default';
+    public const FEATURES_DEFAULT = 'default';
 
-    /**
-     * @var Connection
-     */
-    protected $connection = null;
+    /** @var Connection */
+    protected $connection;
 
-    /**
-     * @var Statement
-     */
-    protected $statementPrototype = null;
+    /** @var Statement */
+    protected $statementPrototype;
 
-    /**
-     * @var Result
-     */
-    protected $resultPrototype = null;
+    /** @var Result */
+    protected $resultPrototype;
 
-    /**
-     * @var Profiler\ProfilerInterface
-     */
-    protected $profiler = null;
+    /** @var Profiler\ProfilerInterface */
+    protected $profiler;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $options = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $features = [];
 
     /**
      * @param array|Connection|\oci8 $connection
-     * @param null|Statement $statementPrototype
-     * @param null|Result $resultPrototype
      * @param array $options
      * @param string $features
      */
     public function __construct(
         $connection,
-        Statement $statementPrototype = null,
-        Result $resultPrototype = null,
+        ?Statement $statementPrototype = null,
+        ?Result $resultPrototype = null,
         array $options = [],
         $features = self::FEATURES_DEFAULT
     ) {
@@ -61,8 +55,8 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
 
         $options = array_intersect_key(array_merge($this->options, $options), $this->options);
         $this->registerConnection($connection);
-        $this->registerStatementPrototype(($statementPrototype) ?: new Statement());
-        $this->registerResultPrototype(($resultPrototype) ?: new Result());
+        $this->registerStatementPrototype($statementPrototype ?: new Statement());
+        $this->registerResultPrototype($resultPrototype ?: new Result());
         if (is_array($features)) {
             foreach ($features as $name => $feature) {
                 $this->addFeature($name, $feature);
@@ -75,7 +69,6 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -101,7 +94,6 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Register connection
      *
-     * @param  Connection $connection
      * @return self Provides a fluent interface
      */
     public function registerConnection(Connection $connection)
@@ -114,7 +106,6 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Register statement prototype
      *
-     * @param Statement $statementPrototype
      * @return self Provides a fluent interface
      */
     public function registerStatementPrototype(Statement $statementPrototype)
@@ -135,7 +126,6 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Register result prototype
      *
-     * @param Result $resultPrototype
      * @return self Provides a fluent interface
      */
     public function registerResultPrototype(Result $resultPrototype)
@@ -232,7 +222,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
     public function createStatement($sqlOrResource = null)
     {
         $statement = clone $this->statementPrototype;
-        if (is_resource($sqlOrResource) && get_resource_type($sqlOrResource) == 'oci8 statement') {
+        if (is_resource($sqlOrResource) && get_resource_type($sqlOrResource) === 'oci8 statement') {
             $statement->setResource($sqlOrResource);
         } else {
             if (is_string($sqlOrResource)) {
@@ -257,7 +247,7 @@ class Oci8 implements DriverInterface, Profiler\ProfilerAwareInterface
      */
     public function createResult($resource, $context = null)
     {
-        $result = clone $this->resultPrototype;
+        $result   = clone $this->resultPrototype;
         $rowCount = null;
         // special feature, oracle Oci counter
         if ($context && ($rowCounter = $this->getFeature('RowCounter')) && oci_num_fields($resource) > 0) {

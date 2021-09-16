@@ -14,11 +14,13 @@ class FloatingTest extends TestCase
     {
         $column = new Floating('foo', 10, 5);
         self::assertEquals(
-            [[
-                '%s %s NOT NULL',
-                ['foo', 'FLOAT(10,5)'],
-                [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL],
-            ]],
+            [
+                [
+                    '%s %s NOT NULL',
+                    ['foo', 'FLOAT(10,5)'],
+                    [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL],
+                ],
+            ],
             $column->getExpressionData()
         );
     }

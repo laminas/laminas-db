@@ -2,9 +2,9 @@
 
 namespace Laminas\Db\Sql\Ddl\Column;
 
+use function array_merge;
+
 /**
- * Class AbstractTimestampColumn
- * @package Laminas\Db\Sql\Ddl\Column
  * @see doc section http://dev.mysql.com/doc/refman/5.6/en/timestamp-initialization.html
  */
 abstract class AbstractTimestampColumn extends Column
@@ -40,15 +40,17 @@ abstract class AbstractTimestampColumn extends Column
             $types[]  = self::TYPE_LITERAL;
         }
 
-        $data = [[
-            $spec,
-            $params,
-            $types,
-        ]];
+        $data = [
+            [
+                $spec,
+                $params,
+                $types,
+            ],
+        ];
 
         foreach ($this->constraints as $constraint) {
             $data[] = ' ';
-            $data = array_merge($data, $constraint->getExpressionData());
+            $data   = array_merge($data, $constraint->getExpressionData());
         }
 
         return $data;

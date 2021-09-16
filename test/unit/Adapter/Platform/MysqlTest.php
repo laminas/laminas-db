@@ -7,9 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class MysqlTest extends TestCase
 {
-    /**
-     * @var Mysql
-     */
+    /** @var Mysql */
     protected $platform;
 
     /**
@@ -18,7 +16,7 @@ class MysqlTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->platform = new Mysql;
+        $this->platform = new Mysql();
     }
 
     /**

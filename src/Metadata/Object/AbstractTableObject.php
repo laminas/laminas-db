@@ -9,29 +9,17 @@ abstract class AbstractTableObject
     protected $schemaName = null;
     */
 
-    /**
-     *
-     * @var string
-     */
-    protected $name = null;
+    /** @var string */
+    protected $name;
 
-    /**
-     *
-     * @var string
-     */
-    protected $type = null;
+    /** @var string */
+    protected $type;
 
-    /**
-     *
-     * @var array
-     */
-    protected $columns = null;
+    /** @var array */
+    protected $columns;
 
-    /**
-     *
-     * @var array
-     */
-    protected $constraints = null;
+    /** @var array */
+    protected $constraints;
 
     /**
      * Constructor

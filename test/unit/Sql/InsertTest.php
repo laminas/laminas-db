@@ -2,6 +2,12 @@
 
 namespace LaminasTest\Db\Sql;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\StatementContainer;
+use Laminas\Db\Sql\Exception\InvalidArgumentException;
 use Laminas\Db\Sql\Expression;
 use Laminas\Db\Sql\Insert;
 use Laminas\Db\Sql\Select;
@@ -15,9 +21,7 @@ class InsertTest extends TestCase
 {
     use DeprecatedAssertionsTrait;
 
-    /**
-     * @var Insert
-     */
+    /** @var Insert */
     protected $insert;
 
     /**
@@ -26,7 +30,7 @@ class InsertTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->insert = new Insert;
+        $this->insert = new Insert();
     }
 
     /**
@@ -77,7 +81,7 @@ class InsertTest extends TestCase
      */
     public function testValuesThrowsExceptionWhenNotArrayOrSelect()
     {
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('values() expects an array of values or Laminas\Db\Sql\Select instance');
         $this->insert->values(5);
     }
@@ -89,9 +93,9 @@ class InsertTest extends TestCase
     {
         $this->insert->values(['foo' => 'bar']);
 
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('A Laminas\Db\Sql\Select instance cannot be provided with the merge flag');
-        $this->insert->values(new Select, Insert::VALUES_MERGE);
+        $this->insert->values(new Select(), Insert::VALUES_MERGE);
     }
 
     /**
@@ -99,9 +103,9 @@ class InsertTest extends TestCase
      */
     public function testValuesThrowsExceptionWhenArrayMergeOverSelect()
     {
-        $this->insert->values(new Select);
+        $this->insert->values(new Select());
 
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             'An array of values cannot be provided with the merge flag when a Laminas\Db\Sql\Select instance already '
             . 'exists as the value source'
@@ -124,16 +128,16 @@ class InsertTest extends TestCase
      */
     public function testPrepareStatement()
     {
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
-        $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
+        $pContainer    = new ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
         $mockStatement->expects($this->at(1))
             ->method('setSql')
@@ -145,17 +149,17 @@ class InsertTest extends TestCase
         $this->insert->prepareStatement($mockAdapter, $mockStatement);
 
         // with TableIdentifier
-        $this->insert = new Insert;
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $this->insert = new Insert();
+        $mockDriver   = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
-        $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
+        $pContainer    = new ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
         $mockStatement->expects($this->at(1))
             ->method('setSql')
@@ -172,15 +176,15 @@ class InsertTest extends TestCase
      */
     public function testPrepareStatementWithSelect()
     {
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = new \Laminas\Db\Adapter\StatementContainer();
+        $mockStatement = new StatementContainer();
 
         $select = new Select('bar');
         $this->insert
@@ -211,7 +215,7 @@ class InsertTest extends TestCase
         );
 
         // with TableIdentifier
-        $this->insert = new Insert;
+        $this->insert = new Insert();
         $this->insert->into(new TableIdentifier('foo', 'sch'))
             ->values(['bar' => 'baz', 'boo' => new Expression('NOW()'), 'bam' => null]);
 
@@ -221,8 +225,8 @@ class InsertTest extends TestCase
         );
 
         // with Select
-        $this->insert = new Insert;
-        $select = new Select();
+        $this->insert = new Insert();
+        $select       = new Select();
         $this->insert->into('foo')->select($select->from('bar'));
 
         self::assertEquals(
@@ -337,16 +341,16 @@ class InsertTest extends TestCase
     {
         $replace = new Replace();
 
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
-        $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
+        $pContainer    = new ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
         $mockStatement->expects($this->at(1))
             ->method('setSql')
@@ -360,16 +364,16 @@ class InsertTest extends TestCase
         // with TableIdentifier
         $replace = new Replace();
 
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('getPrepareType')->will($this->returnValue('positional'));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
-        $mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
-        $pContainer = new \Laminas\Db\Adapter\ParameterContainer([]);
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
+        $pContainer    = new ParameterContainer([]);
         $mockStatement->expects($this->any())->method('getParameterContainer')->will($this->returnValue($pContainer));
         $mockStatement->expects($this->at(1))
             ->method('setSql')

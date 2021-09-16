@@ -13,9 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class StatementTest extends TestCase
 {
-    /**
-     * @var Statement
-     */
+    /** @var Statement */
     protected $statement;
 
     /**
@@ -24,7 +22,7 @@ class StatementTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->statement = new Statement;
+        $this->statement = new Statement();
     }
 
     /**
@@ -84,7 +82,7 @@ class StatementTest extends TestCase
      */
     public function testSetParameterContainer()
     {
-        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer));
+        self::assertSame($this->statement, $this->statement->setParameterContainer(new ParameterContainer()));
     }
 
     /**
@@ -93,7 +91,7 @@ class StatementTest extends TestCase
      */
     public function testGetParameterContainer()
     {
-        $container = new ParameterContainer;
+        $container = new ParameterContainer();
         $this->statement->setParameterContainer($container);
         self::assertSame($container, $this->statement->getParameterContainer());
     }

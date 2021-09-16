@@ -56,8 +56,8 @@ interface PlatformInterface
      *
      * The ability to quote values without notices
      *
-     * @param $value
-     * @return mixed
+     * @param scalar $value
+     * @return string
      */
     public function quoteTrustedValue($value);
 

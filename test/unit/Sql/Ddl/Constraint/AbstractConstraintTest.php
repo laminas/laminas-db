@@ -2,16 +2,17 @@
 
 namespace LaminasTest\Db\Sql\Ddl\Constraint;
 
+use Laminas\Db\Sql\Ddl\Constraint\AbstractConstraint;
 use PHPUnit\Framework\TestCase;
 
 class AbstractConstraintTest extends TestCase
 {
-    /** @var \Laminas\Db\Sql\Ddl\Constraint\AbstractConstraint */
+    /** @var AbstractConstraint */
     protected $ac;
 
     protected function setUp(): void
     {
-        $this->ac = $this->getMockForAbstractClass('Laminas\Db\Sql\Ddl\Constraint\AbstractConstraint');
+        $this->ac = $this->getMockForAbstractClass(AbstractConstraint::class);
     }
 
     /**

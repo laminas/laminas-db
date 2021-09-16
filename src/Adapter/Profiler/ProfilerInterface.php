@@ -2,12 +2,15 @@
 
 namespace Laminas\Db\Adapter\Profiler;
 
+use Laminas\Db\Adapter\StatementContainerInterface;
+
 interface ProfilerInterface
 {
     /**
-     * @param string|\Laminas\Db\Adapter\StatementContainerInterface $target
+     * @param string|StatementContainerInterface $target
      * @return mixed
      */
     public function profilerStart($target);
+
     public function profilerFinish();
 }

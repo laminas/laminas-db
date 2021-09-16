@@ -8,18 +8,14 @@ use Laminas\Db\Sql\TableIdentifier;
 
 class DropTable extends AbstractSql implements SqlInterface
 {
-    const TABLE = 'table';
+    public const TABLE = 'table';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $specifications = [
-        self::TABLE => 'DROP TABLE %1$s'
+        self::TABLE => 'DROP TABLE %1$s',
     ];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $table = '';
 
     /**
@@ -30,7 +26,8 @@ class DropTable extends AbstractSql implements SqlInterface
         $this->table = $table;
     }
 
-    protected function processTable(PlatformInterface $adapterPlatform = null)
+    /** @return string[] */
+    protected function processTable(?PlatformInterface $adapterPlatform = null)
     {
         return [$this->resolveTable($this->table, $adapterPlatform)];
     }

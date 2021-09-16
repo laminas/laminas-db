@@ -2,6 +2,8 @@
 
 namespace Laminas\Db\Exception;
 
-class ErrorException extends \Exception implements ExceptionInterface
+use Exception;
+
+class ErrorException extends Exception implements ExceptionInterface
 {
 }

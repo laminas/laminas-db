@@ -4,45 +4,46 @@ namespace Laminas\Db\Adapter\Driver\Pgsql;
 
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Exception;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
+use ReturnTypeWillChange;
+
+use function get_resource_type;
+use function is_resource;
+use function pg_affected_rows;
+use function pg_fetch_assoc;
+use function pg_num_fields;
+use function pg_num_rows;
 
 class Result implements ResultInterface
 {
-    /**
-     * @var resource
-     */
-    protected $resource = null;
+    /** @var resource */
+    protected $resource;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $position = 0;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $count = 0;
 
-    /**
-     * @var null|mixed
-     */
-    protected $generatedValue = null;
+    /** @var null|mixed */
+    protected $generatedValue;
 
     /**
      * Initialize
      *
-     * @param $resource
-     * @param $generatedValue
+     * @param resource $resource
+     * @param int|string $generatedValue
      * @return void
      * @throws Exception\InvalidArgumentException
      */
     public function initialize($resource, $generatedValue)
     {
-        if (! is_resource($resource) || get_resource_type($resource) != 'pgsql result') {
+        if (! is_resource($resource) || get_resource_type($resource) !== 'pgsql result') {
             throw new Exception\InvalidArgumentException('Resource not of the correct type.');
         }
 
-        $this->resource = $resource;
-        $this->count = pg_num_rows($this->resource);
+        $this->resource       = $resource;
+        $this->count          = pg_num_rows($this->resource);
         $this->generatedValue = $generatedValue;
     }
 
@@ -51,6 +52,7 @@ class Result implements ResultInterface
      *
      * @return array|bool|mixed
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
         if ($this->count === 0) {
@@ -64,6 +66,7 @@ class Result implements ResultInterface
      *
      * @return void
      */
+    #[ReturnTypeWillChange]
     public function next()
     {
         $this->position++;
@@ -74,6 +77,7 @@ class Result implements ResultInterface
      *
      * @return int|mixed
      */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->position;
@@ -84,9 +88,10 @@ class Result implements ResultInterface
      *
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function valid()
     {
-        return ($this->position < $this->count);
+        return $this->position < $this->count;
     }
 
     /**
@@ -94,6 +99,7 @@ class Result implements ResultInterface
      *
      * @return void
      */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->position = 0;
@@ -106,7 +112,7 @@ class Result implements ResultInterface
      */
     public function buffer()
     {
-        return;
+        return null;
     }
 
     /**
@@ -126,7 +132,7 @@ class Result implements ResultInterface
      */
     public function isQueryResult()
     {
-        return (pg_num_fields($this->resource) > 0);
+        return pg_num_fields($this->resource) > 0;
     }
 
     /**
@@ -160,14 +166,9 @@ class Result implements ResultInterface
     /**
      * Count
      *
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Count elements of an object
-     * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return $this->count;

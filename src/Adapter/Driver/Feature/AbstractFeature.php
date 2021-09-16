@@ -6,15 +6,12 @@ use Laminas\Db\Adapter\Driver\DriverInterface;
 
 abstract class AbstractFeature
 {
-    /**
-     * @var DriverInterface
-     */
-    protected $driver = null;
+    /** @var DriverInterface */
+    protected $driver;
 
     /**
      * Set driver
      *
-     * @param DriverInterface $driver
      * @return void
      */
     public function setDriver(DriverInterface $driver)

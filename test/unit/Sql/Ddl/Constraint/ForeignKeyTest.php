@@ -10,7 +10,7 @@ class ForeignKeyTest extends TestCase
     /**
      * @covers \Laminas\Db\Sql\Ddl\Constraint\ForeignKey::setName
      */
-    public function testSetName()
+    public function testSetName(): ForeignKey
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam');
         self::assertSame($fk, $fk->setName('xxxx'));
@@ -29,7 +29,7 @@ class ForeignKeyTest extends TestCase
     /**
      * @covers \Laminas\Db\Sql\Ddl\Constraint\ForeignKey::setReferenceTable
      */
-    public function testSetReferenceTable()
+    public function testSetReferenceTable(): ForeignKey
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam');
         self::assertSame($fk, $fk->setReferenceTable('xxxx'));
@@ -48,7 +48,7 @@ class ForeignKeyTest extends TestCase
     /**
      * @covers \Laminas\Db\Sql\Ddl\Constraint\ForeignKey::setReferenceColumn
      */
-    public function testSetReferenceColumn()
+    public function testSetReferenceColumn(): ForeignKey
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam');
         self::assertSame($fk, $fk->setReferenceColumn('xxxx'));
@@ -67,7 +67,7 @@ class ForeignKeyTest extends TestCase
     /**
      * @covers \Laminas\Db\Sql\Ddl\Constraint\ForeignKey::setOnDeleteRule
      */
-    public function testSetOnDeleteRule()
+    public function testSetOnDeleteRule(): ForeignKey
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam');
         self::assertSame($fk, $fk->setOnDeleteRule('CASCADE'));
@@ -86,7 +86,7 @@ class ForeignKeyTest extends TestCase
     /**
      * @covers \Laminas\Db\Sql\Ddl\Constraint\ForeignKey::setOnUpdateRule
      */
-    public function testSetOnUpdateRule()
+    public function testSetOnUpdateRule(): ForeignKey
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam');
         self::assertSame($fk, $fk->setOnUpdateRule('CASCADE'));
@@ -109,18 +109,20 @@ class ForeignKeyTest extends TestCase
     {
         $fk = new ForeignKey('foo', 'bar', 'baz', 'bam', 'CASCADE', 'SET NULL');
         self::assertEquals(
-            [[
-                'CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s) ON DELETE %s ON UPDATE %s',
-                ['foo', 'bar', 'baz', 'bam', 'CASCADE', 'SET NULL'],
+            [
                 [
-                    $fk::TYPE_IDENTIFIER,
-                    $fk::TYPE_IDENTIFIER,
-                    $fk::TYPE_IDENTIFIER,
-                    $fk::TYPE_IDENTIFIER,
-                    $fk::TYPE_LITERAL,
-                    $fk::TYPE_LITERAL,
+                    'CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s) ON DELETE %s ON UPDATE %s',
+                    ['foo', 'bar', 'baz', 'bam', 'CASCADE', 'SET NULL'],
+                    [
+                        $fk::TYPE_IDENTIFIER,
+                        $fk::TYPE_IDENTIFIER,
+                        $fk::TYPE_IDENTIFIER,
+                        $fk::TYPE_IDENTIFIER,
+                        $fk::TYPE_LITERAL,
+                        $fk::TYPE_LITERAL,
+                    ],
                 ],
-            ]],
+            ],
             $fk->getExpressionData()
         );
     }

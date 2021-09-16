@@ -2,18 +2,19 @@
 
 namespace Laminas\Db\Sql;
 
-/**
- */
+use function get_class;
+use function gettype;
+use function is_callable;
+use function is_object;
+use function is_string;
+use function sprintf;
+
 class TableIdentifier
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $table;
 
-    /**
-     * @var null|string
-     */
+    /** @var null|string */
     protected $schema;
 
     /**
@@ -56,9 +57,9 @@ class TableIdentifier
     }
 
     /**
-     * @param string $table
-     *
      * @deprecated please use the constructor and build a new {@see TableIdentifier} instead
+     *
+     * @param string $table
      */
     public function setTable($table)
     {
@@ -78,13 +79,14 @@ class TableIdentifier
      */
     public function hasSchema()
     {
-        return ($this->schema !== null);
+        return $this->schema !== null;
     }
 
     /**
-     * @param $schema
-     *
      * @deprecated please use the constructor and build a new {@see TableIdentifier} instead
+     *
+     * @param null|string $schema
+     * @return void
      */
     public function setSchema($schema)
     {
@@ -99,6 +101,7 @@ class TableIdentifier
         return $this->schema;
     }
 
+    /** @return array{0: string, 1: null|string} */
     public function getTableAndSchema()
     {
         return [$this->table, $this->schema];

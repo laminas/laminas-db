@@ -6,8 +6,6 @@ use Laminas\Db\Sql\ExpressionInterface;
 
 /**
  * Interface ColumnInterface describes the protocol on how Column objects interact
- *
- * @package Laminas\Db\Sql\Ddl\Column
  */
 interface ColumnInterface extends ExpressionInterface
 {

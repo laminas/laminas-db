@@ -7,9 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ParameterContainerTest extends TestCase
 {
-    /**
-     * @var ParameterContainer
-     */
+    /** @var ParameterContainer */
     protected $parameterContainer;
 
     /**
@@ -78,16 +76,16 @@ class ParameterContainerTest extends TestCase
 
         // test no-index applies
         $this->parameterContainer['buffer'] = 'A buffer Element';
-        $this->parameterContainer[] = 'Second To Last';
-        $this->parameterContainer[] = 'Last';
+        $this->parameterContainer[]         = 'Second To Last';
+        $this->parameterContainer[]         = 'Last';
         self::assertEquals(
             [
-                'foo' => 'Zero',
-                'boo' => 'One',
-                '1' => 'book',
+                'foo'    => 'Zero',
+                'boo'    => 'One',
+                '1'      => 'book',
                 'buffer' => 'A buffer Element',
-                '4' => 'Second To Last',
-                '5' => 'Last',
+                '4'      => 'Second To Last',
+                '5'      => 'Last',
             ],
             $this->parameterContainer->getNamedArray()
         );
@@ -106,7 +104,6 @@ class ParameterContainerTest extends TestCase
         $this->parameterContainer->offsetSet('boo', 'baz');
         self::assertTrue($this->parameterContainer->offsetExists('boo'));
 
-
         $this->parameterContainer->offsetUnset('boo');
         self::assertFalse($this->parameterContainer->offsetExists('boo'));
     }
@@ -122,8 +119,8 @@ class ParameterContainerTest extends TestCase
     }
 
     /**
-     *
      * Handle statement parameters - https://github.com/laminas/laminas-db/issues/47
+     *
      * @see Insert::procesInsert as example
      *
      * @covers \Laminas\Db\Adapter\ParameterContainer::setFromArray

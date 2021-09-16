@@ -4,59 +4,35 @@ namespace Laminas\Db\Metadata\Object;
 
 class ConstraintKeyObject
 {
-    const FK_CASCADE = 'CASCADE';
-    const FK_SET_NULL = 'SET NULL';
-    const FK_NO_ACTION = 'NO ACTION';
-    const FK_RESTRICT = 'RESTRICT';
-    const FK_SET_DEFAULT = 'SET DEFAULT';
+    public const FK_CASCADE     = 'CASCADE';
+    public const FK_SET_NULL    = 'SET NULL';
+    public const FK_NO_ACTION   = 'NO ACTION';
+    public const FK_RESTRICT    = 'RESTRICT';
+    public const FK_SET_DEFAULT = 'SET DEFAULT';
 
-    /**
-     *
-     * @var string
-     */
-    protected $columnName = null;
+    /** @var string */
+    protected $columnName;
 
-    /**
-     *
-     * @var int
-     */
-    protected $ordinalPosition = null;
+    /** @var int */
+    protected $ordinalPosition;
 
-    /**
-     *
-     * @var bool
-     */
-    protected $positionInUniqueConstraint = null;
+    /** @var bool */
+    protected $positionInUniqueConstraint;
 
-    /**
-     *
-     * @var string
-     */
-    protected $referencedTableSchema = null;
+    /** @var string */
+    protected $referencedTableSchema;
 
-    /**
-     *
-     * @var string
-     */
-    protected $referencedTableName = null;
+    /** @var string */
+    protected $referencedTableName;
 
-    /**
-     *
-     * @var string
-     */
-    protected $referencedColumnName = null;
+    /** @var string */
+    protected $referencedColumnName;
 
-    /**
-     *
-     * @var string
-     */
-    protected $foreignKeyUpdateRule = null;
+    /** @var string */
+    protected $foreignKeyUpdateRule;
 
-    /**
-     *
-     * @var string
-     */
-    protected $foreignKeyDeleteRule = null;
+    /** @var string */
+    protected $foreignKeyDeleteRule;
 
     /**
      * Constructor

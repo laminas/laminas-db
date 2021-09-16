@@ -29,11 +29,13 @@ class LiteralTest extends TestCase
     {
         $expression = new Literal('X LIKE "foo%"');
         self::assertEquals(
-            [[
-                'X LIKE "foo%%"',
-                [],
-                [],
-            ]],
+            [
+                [
+                    'X LIKE "foo%%"',
+                    [],
+                    [],
+                ],
+            ],
             $expression->getExpressionData()
         );
     }

@@ -2,6 +2,9 @@
 
 namespace Laminas\Db\Adapter\Platform;
 
+use function addcslashes;
+use function trigger_error;
+
 class Sql92 extends AbstractPlatform
 {
     /**

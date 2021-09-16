@@ -5,8 +5,7 @@ namespace Laminas\Db\Sql\Platform;
 interface PlatformDecoratorInterface
 {
     /**
-     * @param $subject
-     *
+     * @param null|object $subject
      * @return self
      */
     public function setSubject($subject);

@@ -11,14 +11,10 @@ use Laminas\Db\Sql\SqlInterface;
 
 class AbstractPlatform implements PlatformDecoratorInterface, PreparableSqlInterface, SqlInterface
 {
-    /**
-     * @var object|null
-     */
+    /** @var object|null */
     protected $subject;
 
-    /**
-     * @var PlatformDecoratorInterface[]
-     */
+    /** @var PlatformDecoratorInterface[] */
     protected $decorators = [];
 
     /**
@@ -33,8 +29,6 @@ class AbstractPlatform implements PlatformDecoratorInterface, PreparableSqlInter
 
     /**
      * @param string                     $type
-     * @param PlatformDecoratorInterface $decorator
-     *
      * @return void
      */
     public function setTypeDecorator($type, PlatformDecoratorInterface $decorator)
@@ -91,7 +85,7 @@ class AbstractPlatform implements PlatformDecoratorInterface, PreparableSqlInter
      *
      * @throws Exception\RuntimeException
      */
-    public function getSqlString(PlatformInterface $adapterPlatform = null)
+    public function getSqlString(?PlatformInterface $adapterPlatform = null)
     {
         if (! $this->subject instanceof SqlInterface) {
             throw new Exception\RuntimeException(
