@@ -135,7 +135,7 @@ class Connection extends AbstractConnection
         if (! $this->resource) {
             throw new Exception\RuntimeException(
                 'Connect Error',
-                null,
+                0,
                 new ErrorException(sqlsrv_errors())
             );
         }

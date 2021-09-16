@@ -316,7 +316,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
         }
 
         if (! isset($driver) || ! $driver instanceof Driver\DriverInterface) {
-            throw new Exception\InvalidArgumentException('DriverInterface expected', null, null);
+            throw new Exception\InvalidArgumentException('DriverInterface expected');
         }
 
         return $driver;

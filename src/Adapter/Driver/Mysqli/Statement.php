@@ -188,7 +188,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         if (! $this->resource instanceof mysqli_stmt) {
             throw new Exception\InvalidQueryException(
                 'Statement couldn\'t be produced with sql: ' . $sql,
-                null,
+                $this->mysqli->errno,
                 new Exception\ErrorException($this->mysqli->error, $this->mysqli->errno)
             );
         }
