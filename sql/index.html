@@ -491,7 +491,7 @@ specify various select statement parts:</p>
     public function limit(int $limit) : self;
     public function offset(int $offset) : self;
 }</code></pre>
-<h3>from()</h3>
+<h3 id="from">from()</h3>
 <pre class="highlight"><code class="language-php">// As a string:
 $select-&gt;from('foo');
 
@@ -502,7 +502,7 @@ $select-&gt;from(['t' =&gt; 'table']);
 // Using a Sql\TableIdentifier:
 // (same output as above)
 $select-&gt;from(['t' =&gt; new TableIdentifier('table')]);</code></pre>
-<h3>columns()</h3>
+<h3 id="columns">columns()</h3>
 <pre class="highlight"><code class="language-php">// As an array of names
 $select-&gt;columns(['foo', 'bar']);
 
@@ -518,7 +518,7 @@ $select-&gt;columns([
 $select-&gt;columns([
     'foo' =&gt; new \Laminas\Db\Sql\Expression("CONCAT_WS('/', 'bar', 'bax')")
 ]);</code></pre>
-<h3>join()</h3>
+<h3 id="join">join()</h3>
 <pre class="highlight"><code class="language-php">$select-&gt;join(
     'foo',              // table name
     'id = bar.id',      // expression to join on (will be quoted by platform object before insertion),
@@ -532,7 +532,7 @@ $select
         ['b' =&gt; 'bar'],        // join table with alias
         'f.foo_id = b.foo_id'  // join expression
     );</code></pre>
-<h3>where(), having()</h3>
+<h3 id="where-having">where(), having()</h3>
 <p><code>Laminas\Db\Sql\Select</code> provides bit of flexibility as it regards to what kind of
 parameters are acceptable when calling <code>where()</code> or <code>having()</code>. The method
 signature is listed as:</p>
@@ -609,7 +609,7 @@ $select-&gt;from('foo')-&gt;where([
     -&gt;equalTo('column1', '2')
     -&gt;unnest();  // bracket closed
     -&gt;equalTo('column2', '3');</code></pre>
-<h3>order()</h3>
+<h3 id="order">order()</h3>
 <pre class="highlight"><code class="language-php">$select = new Select;
 $select-&gt;order('id DESC'); // produces 'id' DESC
 
@@ -620,7 +620,7 @@ $select
 
 $select = new Select;
 $select-&gt;order(['name ASC', 'age DESC']); // produces 'name' ASC, 'age' DESC</code></pre>
-<h3>limit() and offset()</h3>
+<h3 id="limit-and-offset">limit() and offset()</h3>
 <pre class="highlight"><code class="language-php">$select = new Select;
 $select-&gt;limit(5);   // always takes an integer/numeric
 $select-&gt;offset(10); // similarly takes an integer/numeric</code></pre>
@@ -638,9 +638,9 @@ $select-&gt;offset(10); // similarly takes an integer/numeric</code></pre>
 }</code></pre>
 <p>As with <code>Select</code>, the table may be provided during instantiation or via the
 <code>into()</code> method.</p>
-<h3>columns()</h3>
+<h3 id="columns_1">columns()</h3>
 <pre class="highlight"><code class="language-php">$insert-&gt;columns(['foo', 'bar']); // set the valid columns</code></pre>
-<h3>values()</h3>
+<h3 id="values">values()</h3>
 <p>The default behavior of values is to set the values. Successive calls will not
 preserve values from previous calls.</p>
 <pre class="highlight"><code class="language-php">$insert-&gt;values([
@@ -662,9 +662,9 @@ preserve values from previous calls.</p>
     public function set(array $values, string $flag = self::VALUES_SET) : self;
     public function where(Where|callable|string|array|PredicateInterface $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;
 }</code></pre>
-<h3>set()</h3>
+<h3 id="set">set()</h3>
 <pre class="highlight"><code class="language-php">$update-&gt;set(['foo' =&gt; 'bar', 'baz' =&gt; 'bax']);</code></pre>
-<h3>where()</h3>
+<h3 id="where">where()</h3>
 <p>See the <a href="#where-and-having">section on Where and Having</a>.</p>
 <h2 id="delete">Delete</h2>
 <pre class="highlight"><code class="language-php">class Delete
@@ -675,7 +675,7 @@ preserve values from previous calls.</p>
     public function from(string|TableIdentifier $table);
     public function where(Where|callable|string|array|PredicateInterface $predicate, string $combination = Predicate\PredicateSet::OP_AND) : self;
 }</code></pre>
-<h3>where()</h3>
+<h3 id="where_1">where()</h3>
 <p>See the <a href="#where-and-having">section on Where and Having</a>.</p>
 <h2 id="where-and-having">Where and Having</h2>
 <p>In the following, we will talk about <code>Where</code>; note, however, that <code>Having</code>
@@ -697,7 +697,7 @@ There is also a special use case type for literal values (<code>TYPE_LITERAL</co
 element types are expressed via the <code>Laminas\Db\Sql\ExpressionInterface</code>
 interface.</p>
 <blockquote>
-<h3>Literals</h3>
+<h3 id="literals">Literals</h3>
 <p>In Laminas 2.1, an actual <code>Literal</code> type was added. <code>Laminas\Db\Sql</code> now makes the
 distinction that literals will not have any parameters that need
 interpolating, while <code>Expression</code> objects <em>might</em> have parameters that need
@@ -787,7 +787,7 @@ class Predicate extends PredicateSet
 }</code></pre>
 <p>Each method in the API will produce a corresponding <code>Predicate</code> object of a similarly named
 type, as described below.</p>
-<h3>equalTo(), lessThan(), greaterThan(), lessThanOrEqualTo(), greaterThanOrEqualTo()</h3>
+<h3 id="equalto-lessthan-greaterthan-lessthanorequalto-greaterthanorequalto">equalTo(), lessThan(), greaterThan(), lessThanOrEqualTo(), greaterThanOrEqualTo()</h3>
 <pre class="highlight"><code class="language-php">$where-&gt;equalTo('id', 5);
 
 // The above is equivalent to:
@@ -829,7 +829,7 @@ $where-&gt;addPredicate(
     public function getRightType() : string;
     public function getExpressionData() : array;
 }</code></pre>
-<h3>like($identifier, $like), notLike($identifier, $notLike)</h3>
+<h3 id="likeidentifier-like-notlikeidentifier-notlike">like($identifier, $like), notLike($identifier, $notLike)</h3>
 <pre class="highlight"><code class="language-php">$where-&gt;like($identifier, $like):
 
 // The above is equivalent to:
@@ -845,7 +845,7 @@ $where-&gt;addPredicate(
     public function setLike(string $like) : self;
     public function getLike() : string;
 }</code></pre>
-<h3>literal($literal)</h3>
+<h3 id="literalliteral">literal($literal)</h3>
 <pre class="highlight"><code class="language-php">$where-&gt;literal($literal);
 
 // The above is equivalent to:
@@ -860,7 +860,7 @@ $where-&gt;addPredicate(
     public function setLiteral(string $literal) : self;
     public function getLiteral() : string;
 }</code></pre>
-<h3>expression($expression, $parameter)</h3>
+<h3 id="expressionexpression-parameter">expression($expression, $parameter)</h3>
 <pre class="highlight"><code class="language-php">$where-&gt;expression($expression, $parameter);
 
 // The above is equivalent to:
@@ -882,7 +882,7 @@ $where-&gt;addPredicate(
     public function setParameters(int|float|bool|string|array $parameters) : self;
     public function getParameters() : array;
 }</code></pre>
-<h3>isNull($identifier)</h3>
+<h3 id="isnullidentifier">isNull($identifier)</h3>
 <pre class="highlight"><code class="language-php">$where-&gt;isNull($identifier);
 
 // The above is equivalent to:
@@ -896,7 +896,7 @@ $where-&gt;addPredicate(
     public function setIdentifier(string $identifier) : self;
     public function getIdentifier() : string;
 }</code></pre>
-<h3>isNotNull($identifier)</h3>
+<h3 id="isnotnullidentifier">isNotNull($identifier)</h3>
 <pre class="highlight"><code class="language-php">$where-&gt;isNotNull($identifier);
 
 // The above is equivalent to:
@@ -910,7 +910,7 @@ $where-&gt;addPredicate(
     public function setIdentifier(string $identifier) : self;
     public function getIdentifier() : string;
 }</code></pre>
-<h3>in($identifier, $valueSet), notIn($identifier, $valueSet)</h3>
+<h3 id="inidentifier-valueset-notinidentifier-valueset">in($identifier, $valueSet), notIn($identifier, $valueSet)</h3>
 <pre class="highlight"><code class="language-php">$where-&gt;in($identifier, $valueSet);
 
 // The above is equivalent to:
@@ -929,7 +929,7 @@ $where-&gt;addPredicate(
     public function setValueSet(array|Select $valueSet) : self;
     public function getValueSet() : array|Select;
 }</code></pre>
-<h3>between($identifier, $minValue, $maxValue), notBetween($identifier, $minValue, $maxValue)</h3>
+<h3 id="betweenidentifier-minvalue-maxvalue-notbetweenidentifier-minvalue-maxvalue">between($identifier, $minValue, $maxValue), notBetween($identifier, $minValue, $maxValue)</h3>
 <pre class="highlight"><code class="language-php">$where-&gt;between($identifier, $minValue, $maxValue);
 
 // The above is equivalent to:
@@ -980,16 +980,6 @@ $where-&gt;addPredicate(
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-db/edit/master/docs/book/sql.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>

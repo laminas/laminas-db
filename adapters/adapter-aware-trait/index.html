@@ -389,7 +389,7 @@ applications.</p>
 instance of <code>Laminas\Db\Adapter\Adapter</code>:</p>
 <pre class="highlight"><code class="language-php">public function setDbAdapter(\Laminas\Db\Adapter\Adapter $adapter) : self;</code></pre>
 <h2 id="basic-usage">Basic Usage</h2>
-<h3>Create Class and Add Trait</h3>
+<h3 id="create-class-and-add-trait">Create Class and Add Trait</h3>
 <pre class="highlight"><code class="language-php">use Laminas\Db\Adapter\AdapterAwareTrait;
 use Laminas\Db\Adapter\AdapterAwareInterface;
 
@@ -397,7 +397,7 @@ class Example implements AdapterAwareInterface
 {
     use AdapterAwareTrait;
 }</code></pre>
-<h3>Create and Set Adapter</h3>
+<h3 id="create-and-set-adapter">Create and Set Adapter</h3>
 <p><a href="../../adapter/#creating-an-adapter-using-configuration">Create a database adapter</a> and set the adapter to the instance of the <code>Example</code>
 class:</p>
 <pre class="highlight"><code class="language-php">$adapter = new Laminas\Db\Adapter\Adapter([
@@ -416,11 +416,11 @@ adapter via the <a href="https://docs.laminas.dev/laminas-servicemanager/quick-s
 adapter to the requested service. The adapter itself must be an instance of
 <code>Laminas\Db\Adapter\Adapter</code>.</p>
 <blockquote>
-<h3>Integration for Mezzio and laminas-mvc based Applications</h3>
+<h3 id="integration-for-mezzio-and-laminas-mvc-based-applications">Integration for Mezzio and laminas-mvc based Applications</h3>
 <p>In a Mezzio or laminas-mvc based application the database adapter is already
 registered during the installation with the laminas-component-installer.</p>
 </blockquote>
-<h3>Create Class and Use Trait</h3>
+<h3 id="create-class-and-use-trait">Create Class and Use Trait</h3>
 <p>Create a class and add the trait <code>AdapterAwareTrait</code>.</p>
 <pre class="highlight"><code class="language-php">use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterInterface;
@@ -435,7 +435,7 @@ class Example implements AdapterAwareInterface
     }
 }</code></pre>
 <p>(A getter method is also added for demonstration.)</p>
-<h3>Create and Configure Service Manager</h3>
+<h3 id="create-and-configure-service-manager">Create and Configure Service Manager</h3>
 <p>Create and <a href="https://docs.laminas.dev/laminas-servicemanager/configuring-the-service-manager/">configured the service manager</a>:</p>
 <pre class="highlight"><code class="language-php">use Interop\Container\ContainerInterface;
 use Laminas\Db\Adapter\AdapterInterface;
@@ -464,7 +464,7 @@ $serviceManager = new Laminas\ServiceManager\ServiceManager([
         ],
     ],
 ]);</code></pre>
-<h3>Get Instance of Class</h3>
+<h3 id="get-instance-of-class">Get Instance of Class</h3>
 <p><a href="https://docs.laminas.dev/laminas-servicemanager/quick-start/#3-retrieving-objects">Retrieving an instance</a>
 of the <code>Example</code> class with a database adapter:</p>
 <pre class="highlight"><code class="language-php">/** @var Example $example */
@@ -503,16 +503,6 @@ includes the delegator to set the database adapter for both validators.</p>
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-db/edit/master/docs/book/adapters/adapter-aware-trait.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>

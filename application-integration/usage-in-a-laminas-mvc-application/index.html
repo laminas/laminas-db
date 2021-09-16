@@ -396,9 +396,9 @@
 <p>If the MVC application is already created, then use Composer to <a href="../..">add the laminas-db</a> package.</p>
 <h2 id="the-abstract-factory">The Abstract Factory</h2>
 <p>Now that the laminas-db package is installed, the abstract factory <code>Laminas\Db\Adapter\AdapterAbstractServiceFactory</code> is available to be used with the service configuration.</p>
-<h3>Configuring the adapter</h3>
+<h3 id="configuring-the-adapter">Configuring the adapter</h3>
 <p>The abstract factory expects the configuration key <code>db</code> in order to create a <code>Laminas\Db\Adapter\Adapter</code> instance.</p>
-<h3>Working with a Sqlite database</h3>
+<h3 id="working-with-a-sqlite-database">Working with a Sqlite database</h3>
 <p>Sqlite is a lightweight option to have the application working with a database.</p>
 <p>Here is an example of the configuration array for a sqlite database.
 Assuming the sqlite file path is <code>data/sample.sqlite</code>, the following configuration will produce the adapter:</p>
@@ -414,7 +414,7 @@ Assuming the sqlite file path is <code>data/sample.sqlite</code>, the following 
     ],
 ];</code></pre>
 <p>The <code>data/</code> filepath for the sqlite file is the default <code>data/</code> directory from the Laminas MVC application.</p>
-<h3>Working with a MySQL database</h3>
+<h3 id="working-with-a-mysql-database">Working with a MySQL database</h3>
 <p>Unlike a sqlite database, the MySQL database adapter requires a MySQL server.</p>
 <p>Here is an example of a configuration array for a MySQL database.</p>
 <pre class="highlight"><code class="language-php">return [
@@ -447,7 +447,7 @@ $adapter = $container-&gt;get(mysqlAdapter::class) ;</code></pre>
 <p>You can read more about the <a href="../../adapter/">adapter in the adapter chapter of the documentation</a>.</p>
 <h2 id="running-with-docker">Running with Docker</h2>
 <p>When working with a MySQL database and when running the application with Docker, some files need to be added or adjusted.</p>
-<h3>Adding the MySQL extension to the PHP container</h3>
+<h3 id="adding-the-mysql-extension-to-the-php-container">Adding the MySQL extension to the PHP container</h3>
 <p>Change the <code>Dockerfile</code> to add the PDO MySQL extension to PHP.</p>
 <pre class="highlight"><code class="language-Dockerfile">FROM php:7.3-apache
 
@@ -461,7 +461,7 @@ RUN apt-get update \
   | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /var/www</code></pre>
-<h3>Adding the mysql container</h3>
+<h3 id="adding-the-mysql-container">Adding the mysql container</h3>
 <p>Change the <code>docker-compose.yml</code> file to add a new container for mysql.</p>
 <pre class="highlight"><code class="language-yaml">  mysql:
     image: mysql
@@ -481,7 +481,7 @@ WORKDIR /var/www</code></pre>
 <li>SQL schemas will need to be added to the <code>/.docker/mysql/</code> directory so that Docker will be able to build and populate the database(s).</li>
 <li>The mysql docker image is using the <code>$MYSQL_ROOT_PASSWORD</code> environment variable to set the mysql root password.</li>
 </ul>
-<h3>Link the containers</h3>
+<h3 id="link-the-containers">Link the containers</h3>
 <p>Now link the mysql container and the laminas container so that the application knows where to find the mysql server.</p>
 <pre class="highlight"><code class="language-yaml">  laminas:
     build:
@@ -493,7 +493,7 @@ WORKDIR /var/www</code></pre>
      - .:/var/www
     links:
      - mysql:mysql</code></pre>
-<h3>Adding phpMyAdmin</h3>
+<h3 id="adding-phpmyadmin">Adding phpMyAdmin</h3>
 <p>Optionnally, you can also add a container for phpMyAdmin.</p>
 <pre class="highlight"><code class="language-yaml">  phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -533,12 +533,12 @@ services:
      - 8081:80
     environment:
      - PMA_HOST=${PMA_HOST}</code></pre>
-<h3>Defining credentials</h3>
+<h3 id="defining-credentials">Defining credentials</h3>
 <p>The <code>docker-compose.yml</code> file uses ENV variables to define the credentials.</p>
 <p>Docker will read the ENV variables from a <code>.env</code> file.</p>
 <pre class="highlight"><code class="language-env">MYSQL_ROOT_PASSWORD=rootpassword
 PMA_HOST=mysql</code></pre>
-<h3>Initiating the database schemas</h3>
+<h3 id="initiating-the-database-schemas">Initiating the database schemas</h3>
 <p>At build, if the <code>/.data/db</code> directory is missing, Docker will create the mysql database with any <code>.sql</code> files found in the <code>.docker/mysql/</code> directory.
 (These are the files with the <code>CREATE DATABASE</code>, <code>USE (database)</code>, and <code>CREATE TABLE, INSERT INTO</code> directives defined earlier in this document).
 If multiple <code>.sql</code> files are present, it is a good idea to safely order the list because Docker will read the files in ascending order.</p>
@@ -566,16 +566,6 @@ If multiple <code>.sql</code> files are present, it is a good idea to safely ord
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-db/edit/master/docs/book/application-integration/usage-in-a-laminas-mvc-application.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>

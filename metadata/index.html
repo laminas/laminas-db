@@ -454,7 +454,7 @@ foreach ($tableNames as $tableName) {
 <h2 id="metadata-value-objects">Metadata value objects</h2>
 <p>Metadata returns value objects that provide an interface to help developers
 better explore the metadata. Below is the API for the various value objects:</p>
-<h3>TableObject</h3>
+<h3 id="tableobject">TableObject</h3>
 <pre class="highlight"><code class="language-php">class Laminas\Db\Metadata\Object\TableObject
 {
     public function __construct($name);
@@ -465,7 +465,7 @@ better explore the metadata. Below is the API for the various value objects:</p>
     public function setName($name);
     public function getName();
 }</code></pre>
-<h3>ColumnObject</h3>
+<h3 id="columnobject">ColumnObject</h3>
 <pre class="highlight"><code class="language-php">class Laminas\Db\Metadata\Object\ColumnObject
 {
     public function __construct($name, $tableName, $schemaName = null);
@@ -500,7 +500,7 @@ better explore the metadata. Below is the API for the various value objects:</p>
     public function getErrata($errataName);
     public function setErrata($errataName, $errataValue);
 }</code></pre>
-<h3>ConstraintObject</h3>
+<h3 id="constraintobject">ConstraintObject</h3>
 <pre class="highlight"><code class="language-php">class Laminas\Db\Metadata\Object\ConstraintObject
 {
     public function __construct($name, $tableName, $schemaName = null);
@@ -535,7 +535,7 @@ better explore the metadata. Below is the API for the various value objects:</p>
     public function isCheck();
 
 }</code></pre>
-<h3>TriggerObject</h3>
+<h3 id="triggerobject">TriggerObject</h3>
 <pre class="highlight"><code class="language-php">class Laminas\Db\Metadata\Object\TriggerObject
 {
     public function getName();
@@ -597,16 +597,6 @@ better explore the metadata. Below is the API for the various value objects:</p>
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-db/edit/master/docs/book/metadata.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
