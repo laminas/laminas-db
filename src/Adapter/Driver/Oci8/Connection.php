@@ -129,7 +129,7 @@ class Connection extends AbstractConnection
             $e = oci_error();
             throw new Exception\RuntimeException(
                 'Connection error',
-                null,
+                $e['code'],
                 new Exception\ErrorException($e['message'], $e['code'])
             );
         }
