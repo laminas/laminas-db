@@ -31,16 +31,16 @@ use function extension_loaded;
 
 class AdapterTest extends TestCase
 {
-    /** @var MockObject */
+    /** @var MockObject&DriverInterface */
     protected $mockDriver;
 
-    /** @var MockObject */
+    /** @var MockObject&PlatformInterface */
     protected $mockPlatform;
 
-    /** @var MockObject */
+    /** @var MockObject&ConnectionInterface */
     protected $mockConnection;
 
-    /** @var MockObject */
+    /** @var MockObject&StatementInterface */
     protected $mockStatement;
 
     /** @var Adapter */
@@ -48,14 +48,14 @@ class AdapterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->mockDriver     = $this->getMockBuilder(DriverInterface::class)->getMock();
-        $this->mockConnection = $this->getMockBuilder(ConnectionInterface::class)->getMock();
-        $this->mockDriver->expects($this->any())->method('checkEnvironment')->will($this->returnValue(true));
-        $this->mockDriver->expects($this->any())->method('getConnection')
+        $this->mockDriver     = $this->createMock(DriverInterface::class);
+        $this->mockConnection = $this->createMock(ConnectionInterface::class);
+        $this->mockDriver->method('checkEnvironment')->will($this->returnValue(true));
+        $this->mockDriver->method('getConnection')
             ->will($this->returnValue($this->mockConnection));
-        $this->mockPlatform  = $this->getMockBuilder(PlatformInterface::class)->getMock();
-        $this->mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
-        $this->mockDriver->expects($this->any())->method('createStatement')
+        $this->mockPlatform  = $this->createMock(PlatformInterface::class);
+        $this->mockStatement = $this->createMock(StatementInterface::class);
+        $this->mockDriver->method('createStatement')
             ->will($this->returnValue($this->mockStatement));
 
         $this->adapter = new Adapter($this->mockDriver, $this->mockPlatform);
@@ -220,6 +220,25 @@ class AdapterTest extends TestCase
     {
         $s = $this->adapter->query('SELECT foo');
         self::assertSame($this->mockStatement, $s);
+    }
+
+    /** @group #210 */
+    public function testProducedResultSetPrototypeIsDifferentForEachQuery()
+    {
+        $statement = $this->createMock(StatementInterface::class);
+        $result    = $this->createMock(ResultInterface::class);
+
+        $this->mockDriver->method('createStatement')
+            ->willReturn($statement);
+        $this->mockStatement->method('execute')
+            ->willReturn($result);
+        $result->method('isQueryResult')
+            ->willReturn(true);
+
+        self::assertNotSame(
+            $this->adapter->query('SELECT foo', []),
+            $this->adapter->query('SELECT foo', [])
+        );
     }
 
     /**

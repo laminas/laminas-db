@@ -195,9 +195,12 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
         }
 
         if ($result instanceof Driver\ResultInterface && $result->isQueryResult()) {
-            $resultSet = $resultPrototype !== null ? clone $resultPrototype : $this->queryResultSetPrototype;
-            $resultSet->initialize($result);
-            return $resultSet;
+            $resultSet     = $resultPrototype ?? $this->queryResultSetPrototype;
+            $resultSetCopy = clone $resultSet;
+
+            $resultSetCopy->initialize($result);
+
+            return $resultSetCopy;
         }
 
         return $result;
