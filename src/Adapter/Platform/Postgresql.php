@@ -6,6 +6,7 @@ use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Pdo;
 use Laminas\Db\Adapter\Driver\Pgsql;
 use Laminas\Db\Adapter\Exception;
+use PgSql\Connection as PgSqlConnection;
 
 use function get_resource_type;
 use function implode;
@@ -25,6 +26,12 @@ class Postgresql extends AbstractPlatform
 
     /** @var null|resource|\PDO|Pdo\Pdo|Pgsql\Pgsql */
     protected $driver;
+
+    /** @var string[] */
+    private $knownPgsqlResources = [
+        'pgsql link',
+        'pgsql link persistent',
+    ];
 
     /**
      * @param null|\Laminas\Db\Adapter\Driver\Pgsql\Pgsql|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
@@ -46,7 +53,8 @@ class Postgresql extends AbstractPlatform
         if (
             $driver instanceof Pgsql\Pgsql
             || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() === 'Postgresql')
-            || (is_resource($driver) && (in_array(get_resource_type($driver), ['pgsql link', 'pgsql link persistent'])))
+            || $driver instanceof PgSqlConnection // PHP 8.1+
+            || (is_resource($driver) && in_array(get_resource_type($driver), $this->knownPgsqlResources, true))
             || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'pgsql')
         ) {
             $this->driver = $driver;
@@ -108,15 +116,14 @@ class Postgresql extends AbstractPlatform
      */
     protected function quoteViaDriver($value)
     {
-        if ($this->driver instanceof DriverInterface) {
-            $resource = $this->driver->getConnection()->getResource();
-        } else {
-            $resource = $this->driver;
-        }
+        $resource = $this->driver instanceof DriverInterface
+            ? $this->driver->getConnection()->getResource()
+            : $this->driver;
 
-        if (is_resource($resource)) {
+        if ($resource instanceof PgSqlConnection || is_resource($resource)) {
             return '\'' . pg_escape_string($resource, $value) . '\'';
         }
+
         if ($resource instanceof \PDO) {
             return $resource->quote($value);
         }

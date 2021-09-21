@@ -4,6 +4,7 @@ namespace Laminas\Db\Adapter\Driver\Pgsql;
 
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Exception;
+use PgSql\Result as PgSqlResult;
 // phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use ReturnTypeWillChange;
 
@@ -38,7 +39,13 @@ class Result implements ResultInterface
      */
     public function initialize($resource, $generatedValue)
     {
-        if (! is_resource($resource) || get_resource_type($resource) !== 'pgsql result') {
+        if (
+            ! $resource instanceof PgSqlResult
+            && (
+                ! is_resource($resource)
+                || 'pgsql result' !== get_resource_type($resource)
+            )
+        ) {
             throw new Exception\InvalidArgumentException('Resource not of the correct type.');
         }
 
