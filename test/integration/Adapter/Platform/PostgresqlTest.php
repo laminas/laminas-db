@@ -5,6 +5,7 @@ namespace LaminasIntegrationTest\Db\Adapter\Platform;
 use Laminas\Db\Adapter\Driver\Pdo;
 use Laminas\Db\Adapter\Driver\Pgsql;
 use Laminas\Db\Adapter\Platform\Postgresql;
+use PgSql\Connection as PgSqlConnection;
 use PHPUnit\Framework\TestCase;
 
 use function extension_loaded;
@@ -46,7 +47,13 @@ class PostgresqlTest extends TestCase
 
     public function testQuoteValueWithPgsql()
     {
-        if (! is_resource($this->adapters['pgsql'])) {
+        if (
+            ! isset($this->adapters['pgsql'])
+            || (
+                ! $this->adapters['pgsql'] instanceof PgSqlConnection
+                && ! is_resource($this->adapters['pgsql'])
+            )
+        ) {
             $this->markTestSkipped('Postgres (pgsql) not configured in unit test configuration file');
         }
         $pgsql = new Postgresql($this->adapters['pgsql']);
@@ -60,7 +67,7 @@ class PostgresqlTest extends TestCase
 
     public function testQuoteValueWithPdoPgsql()
     {
-        if (! $this->adapters['pdo_pgsql'] instanceof \PDO) {
+        if (! isset($this->adapters['pdo_pgsql']) || ! $this->adapters['pdo_pgsql'] instanceof \PDO) {
             $this->markTestSkipped('Postgres (PDO_PGSQL) not configured in unit test configuration file');
         }
         $pgsql = new Postgresql($this->adapters['pdo_pgsql']);
