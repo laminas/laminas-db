@@ -10,6 +10,7 @@ use PgSql\Connection as PgSqlConnection;
 
 use function get_resource_type;
 use function implode;
+use function in_array;
 use function is_resource;
 use function pg_escape_string;
 use function str_replace;
