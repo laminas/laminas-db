@@ -6,6 +6,7 @@ use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Profiler;
+use PgSql\Connection as PgSqlConnection;
 
 use function get_resource_type;
 use function is_array;
@@ -77,7 +78,13 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      */
     public function initialize($pgsql)
     {
-        if (! is_resource($pgsql) || get_resource_type($pgsql) !== 'pgsql link') {
+        if (
+            ! $pgsql instanceof PgSqlConnection
+            && (
+                ! is_resource($pgsql)
+                || 'pgsql link' !== get_resource_type($pgsql)
+            )
+        ) {
             throw new Exception\RuntimeException(sprintf(
                 '%s: Invalid or missing postgresql connection; received "%s"',
                 __METHOD__,
