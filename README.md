@@ -9,7 +9,7 @@ Microsoft Sql Server, PDO, etc.
 
 ## Contributing
 
-Please be sure to read the [contributor's guide](/laminas/.github/blob/main/CONTRIBUTING.md) for general information on contributing.
+Please be sure to read the [contributor's guide](https://github.com/laminas/.github/blob/main/CONTRIBUTING.md) for general information on contributing.
 This section outlines specifics for laminas-db.
 
 ### Test suites
