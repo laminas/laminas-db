@@ -1,0 +1,26 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:${MYSQL_VERSION:-5.7}
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD:-Password123}
+      - MYSQL_DATABASE=${TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE:-laminasdb_test}
+
+  postgres:
+    image: postgres:${POSTGRES_VERSION:-13}
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME:-postgres}
+      - POSTGRES_PASSWORD=${TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD:-postgres}
+      - POSTGRES_DB=${TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE:-laminasdb_test}
+
+  sqlsrv:
+    image: mcr.microsoft.com/mssql/server:${SQLSRV_VERSION:-2019-latest}
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD:-Password123%}

@@ -8,9 +8,14 @@ use function getenv;
 
 trait AdapterTrait
 {
+    /**
+     * @var Adapter
+     */
+    protected $adapter;
+
     protected function setUp(): void
     {
-        if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL')) {
+        if (!filter_var(getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL'), FILTER_VALIDATE_BOOLEAN)) {
             $this->markTestSkipped('pdo_pgsql integration tests are not enabled!');
         }
 

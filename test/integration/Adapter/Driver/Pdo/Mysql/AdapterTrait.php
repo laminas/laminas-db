@@ -8,9 +8,14 @@ use function getenv;
 
 trait AdapterTrait
 {
+    /**
+     * @var Adapter
+     */
+    protected $adapter;
+
     protected function setUp(): void
     {
-        if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
+        if (!filter_var(getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL'), FILTER_VALIDATE_BOOLEAN)) {
             $this->markTestSkipped('pdo_mysql integration tests are not enabled!');
         }
 

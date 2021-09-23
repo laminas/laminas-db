@@ -20,7 +20,7 @@ class SqliteTest extends TestCase
 
     protected function setUp(): void
     {
-        if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLITE_MEMORY')) {
+        if (!filter_var(getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLITE_MEMORY'), FILTER_VALIDATE_BOOLEAN)) {
             $this->markTestSkipped(self::class . ' integration tests are not enabled!');
         }
         if (extension_loaded('pdo')) {

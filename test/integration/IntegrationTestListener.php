@@ -27,15 +27,15 @@ class IntegrationTestListener implements TestHook, TestListener
             return;
         }
 
-        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
+        if (filter_var(getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL'), FILTER_VALIDATE_BOOLEAN)) {
             $this->fixtureLoaders[] = new MysqlFixtureLoader();
         }
 
-        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL')) {
+        if (filter_var(getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL'), FILTER_VALIDATE_BOOLEAN)) {
             $this->fixtureLoaders[] = new PgsqlFixtureLoader();
         }
 
-        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV')) {
+        if (filter_var(getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV'), FILTER_VALIDATE_BOOLEAN)) {
             $this->fixtureLoaders[] = new SqlServerFixtureLoader();
         }
 
@@ -46,7 +46,11 @@ class IntegrationTestListener implements TestHook, TestListener
         printf("\nIntegration test started.\n");
 
         foreach ($this->fixtureLoaders as $fixtureLoader) {
-            $fixtureLoader->createDatabase();
+            try {
+                $fixtureLoader->createDatabase();
+            } catch (\Exception $ex) {
+                trigger_error($ex->getMessage(), E_USER_WARNING);
+            }
         }
     }
 
