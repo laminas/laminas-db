@@ -7,6 +7,7 @@ use Laminas\Db\TableGateway\Feature\FeatureSet;
 use Laminas\Db\TableGateway\Feature\SequenceFeature;
 use Laminas\Db\TableGateway\TableGateway;
 use PHPUnit\Framework\TestCase;
+use Laminas\Db\Sql\Select;
 
 class TableGatewayTest extends TestCase
 {
@@ -25,5 +26,27 @@ class TableGatewayTest extends TestCase
 
         $tableGateway->insert(['foo' => 'baz']);
         self::assertSame(2, $tableGateway->getLastInsertValue());
+    }
+
+    /**
+     * @covers \Laminas\Db\TableGateway\TableGateway::select
+     */
+    public function testSelectFetchColumn()
+    {
+        $tableGateway = new TableGateway('test', $this->adapter);
+
+        $select = new Select();
+        $select->from('test');
+        $select->columns([
+            'myid' => 'id'
+        ]);
+        $select->limit(1);
+
+        $statement = $tableGateway->getSql()
+            ->prepareStatementForSqlObject($select);
+
+        $result = $statement->execute();
+        $result->setFetchMode(\PDO::FETCH_COLUMN);
+        $this->assertSame(1, $result->next());
     }
 }

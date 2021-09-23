@@ -38,7 +38,7 @@ class Result implements Iterator, ResultInterface
         PDO::FETCH_BOTH, // 4
         PDO::FETCH_OBJ, // 5
         PDO::FETCH_BOUND, // 6
-        // \PDO::FETCH_COLUMN,  // 7 (not a valid fetch mode)
+        PDO::FETCH_COLUMN,  // 7 (not a valid fetch mode)
         PDO::FETCH_CLASS, // 8
         PDO::FETCH_INTO, // 9
         PDO::FETCH_FUNC, // 10

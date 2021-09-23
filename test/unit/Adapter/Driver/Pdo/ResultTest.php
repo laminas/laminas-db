@@ -80,4 +80,19 @@ class ResultTest extends TestCase
         self::assertEquals(11, $result->getFetchMode());
         self::assertInstanceOf('stdClass', $result->current());
     }
+
+    public function testFetchModeColumn()
+    {
+        $stub = $this->getMockBuilder('PDOStatement')->getMock();
+        $stub->expects($this->any())
+            ->method('fetch')
+            ->will($this->returnCallback(function () {
+                return 'column_value';
+            }));
+        $result = new Result();
+        $result->initialize($stub, null);
+        $result->setFetchMode(PDO::FETCH_COLUMN);
+        self::assertEquals(7, $result->getFetchMode());
+        self::assertSame('column_value', $result->current());
+    }
 }
