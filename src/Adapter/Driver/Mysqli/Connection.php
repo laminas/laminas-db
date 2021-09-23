@@ -118,6 +118,8 @@ class Connection extends AbstractConnection
         $caPath     = $p['ca_path'] ?? '';
         $cipher     = $p['cipher'] ?? '';
 
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        
         $this->resource = $this->createResource();
 
         if (! empty($p['driver_options'])) {
