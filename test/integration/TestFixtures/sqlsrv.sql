@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS test;
 CREATE TABLE test (
                       id INT NOT NULL IDENTITY,
                       name VARCHAR(255) NOT NULL,
@@ -11,6 +12,7 @@ INSERT INTO test (name, value) VALUES
 ('123a', 'bar'),
 ('123', 'bar');
 
+DROP TABLE IF EXISTS test_charset;
 CREATE TABLE test_charset (
                               id INT NOT NULL IDENTITY,
                               field$ VARCHAR(255) NOT NULL,
@@ -22,6 +24,7 @@ INSERT INTO test_charset (field$, field_) VALUES
 ('foo', 'bar'),
 ('bar', 'baz');
 
+DROP TABLE IF EXISTS test_audit_trail
 CREATE TABLE test_audit_trail (
                                   id INT NOT NULL IDENTITY,
                                   test_id INT NOT NULL,
