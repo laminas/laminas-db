@@ -105,13 +105,17 @@ class QueryTest extends TestCase
     public function testBindParamByIndexIsFail()
     {
         $stmt = $this->getStatementForTestBinding();
-        $this->expectExceptionMessage('Statement could not be executed (22007 - 1292 - Truncated incorrect DOUBLE value: \'bar\')');
-        //positional parameters - is invalid
-        $stmt->execute([
-            1,     //FAIL -- 0         ":c_0"        "name"       varchar(255)
-            'foo', //OK   -- 1         ":c_1"        "value"      varchar(255)
-            'bar', //FAIL -- 2         ":where1"     "id"         int
-        ]);
+        try {
+            //positional parameters - is invalid
+            $stmt->execute([
+                1,     //FAIL -- 0         ":c_0"        "name"       varchar(255)
+                'foo', //OK   -- 1         ":c_1"        "value"      varchar(255)
+                'bar', //FAIL -- 2         ":where1"     "id"         int
+            ]);
+            $this->assertTrue(false, __METHOD__, "/Fail. Extect exception.");
+        } catch (\Exception $e) {
+            $this->assertTrue(true, __METHOD__, "/Success. We have an exception: " . $e->getMessage());
+        }
     }
 
     /**
@@ -136,13 +140,17 @@ class QueryTest extends TestCase
     public function testBindParamByNameIsFail()
     {
         $stmt = $this->getStatementForTestBinding();
-        $this->expectExceptionMessage('Statement could not be executed (22007 - 1292 - Truncated incorrect DOUBLE value: \'bar\')');
-        //"mapped" named parameters
-        $stmt->execute([
-            'c_0' => 1,        //FAIL -- 0         ":c_0"        "name"       varchar(255)
-            'c_1' => 'foo',    //OK   -- 1         ":c_1"        "value"      varchar(255)
-            'where1' => 'bar', //FAIL -- 2         ":where1"     "id"         int
-        ]);
+        try {
+            //"mapped" named parameters
+            $stmt->execute([
+                'c_0' => 1,        //FAIL -- 0         ":c_0"        "name"       varchar(255)
+                'c_1' => 'foo',    //OK   -- 1         ":c_1"        "value"      varchar(255)
+                'where1' => 'bar', //FAIL -- 2         ":where1"     "id"         int
+            ]);
+            $this->assertTrue(false, __METHOD__, "/Fail. Extect exception.");
+        } catch (\Exception $e) {
+            $this->assertTrue(true, __METHOD__, "/Success. We have an exception: " . $e->getMessage());
+        }
     }
 
     /**
@@ -167,13 +175,17 @@ class QueryTest extends TestCase
     public function testBindParamByFieldNameIsFail()
     {
         $stmt = $this->getStatementForTestBinding();
-        $this->expectExceptionMessage('Statement could not be executed (22007 - 1292 - Truncated incorrect DOUBLE value: \'bar\')');
-        //real named parameters
-        $stmt->execute([
-            'name' => 1,       //FAIL -- 0         ":c_0"        "name"       varchar(255)
-            'value' => 'foo',  //OK   -- 1         ":c_1"        "value"      varchar(255)
-            'id' => 'bar',     //FAIL -- 2         ":where1"     "id"         int
-        ]);
+        try {
+            //real named parameters
+            $stmt->execute([
+                'name' => 1,       //FAIL -- 0         ":c_0"        "name"       varchar(255)
+                'value' => 'foo',  //OK   -- 1         ":c_1"        "value"      varchar(255)
+                'id' => 'bar',     //FAIL -- 2         ":where1"     "id"         int
+            ]);
+            $this->assertTrue(false, __METHOD__, "/Fail. Extect exception.");
+        } catch (\Exception $e) {
+            $this->assertTrue(true, __METHOD__, "/Success. We have an exception: " . $e->getMessage());
+        }
     }
 
     /**
