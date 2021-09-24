@@ -11,6 +11,7 @@ use Laminas\Db\Sql\ExpressionInterface;
 use Laminas\Db\Sql\Predicate;
 use Laminas\Db\Sql\Select;
 use LaminasTest\Db\TestAsset\TrustingSql92Platform;
+use PHPUnit\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
@@ -147,11 +148,39 @@ class AbstractSqlTest extends TestCase
     public function testProcessExpressionWorksWithNamedParameterPrefix()
     {
         $parameterContainer   = new ParameterContainer();
-        $namedParameterPrefix = uniqid();
+        $namedParameterPrefix = 'prefix-' . uniqid();
         $expression           = new Expression('FROM_UNIXTIME(?)', [10000000]);
         $this->invokeProcessExpressionMethod($expression, $parameterContainer, $namedParameterPrefix);
 
-        self::assertSame($namedParameterPrefix . '1', key($parameterContainer->getNamedArray()));
+        $expectedValue = $namedParameterPrefix . '1';
+        $currentValue  = key($parameterContainer->getNamedArray());
+
+        self::assertSame($expectedValue, $currentValue);
+    }
+
+    /**
+     * Numeric prefix give an error.
+     *
+     * @see: https://discourse.laminas.dev/t/why-qa-check-of-laminas-db-220-is-fail/2521
+     * @see: https://github.com/laminas/laminas-db/pull/220
+     */
+    public function testProcessExpressionWorksWithNamedParameterPrefixNumericIsFail()
+    {
+        $parameterContainer   = new ParameterContainer();
+        $namedParameterPrefix = 61507378202901;
+        $expression           = new Expression('FROM_UNIXTIME(?)', [10000000]);
+        $this->invokeProcessExpressionMethod($expression, $parameterContainer, $namedParameterPrefix);
+
+        $expectedValue = $namedParameterPrefix . '1';
+        $currentValue  = key($parameterContainer->getNamedArray());
+        try {
+            self::assertSame($expectedValue, $currentValue);
+        } catch (Exception $e) {
+            $expectedValue = 'Failed asserting that 615073782029011 is identical to \'615073782029011\'.';
+            $currentValue  = $e->getMessage();
+
+            self::assertSame($expectedValue, $currentValue);
+        }
     }
 
     public function testProcessExpressionWorksWithNamedParameterPrefixContainingWhitespace()
