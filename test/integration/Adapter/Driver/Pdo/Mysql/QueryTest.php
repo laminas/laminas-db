@@ -2,8 +2,10 @@
 
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
+use Exception;
 use Laminas\Db\Adapter\Driver\Pdo\Result as PdoResult;
 use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\Exception\RuntimeException;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\Sql\Sql;
@@ -47,7 +49,7 @@ class QueryTest extends TestCase
         $this->assertInstanceOf(ResultSet::class, $result);
         $current = $result->current();
         // test as array value
-        $this->assertEquals($expected, (array)$current);
+        $this->assertEquals($expected, (array) $current);
         // test as object value
         foreach ($expected as $key => $value) {
             $this->assertEquals($value, $current->$key);
@@ -76,9 +78,11 @@ class QueryTest extends TestCase
      * -- 0            ":c_0"      "name"       varchar(255)
      * -- 1            ":c_1"      "value"      varchar(255)
      * -- 2            ":where1"   "id"         int
+     *
      * @see https://github.com/laminas/laminas-db/issues/47
      * @see https://github.com/laminas/laminas-db/issues/214
-     * @return \Laminas\Db\Adapter\Driver\StatementInterface
+     *
+     * @return StatementInterface
      */
     protected function getStatementForTestBinding()
     {
@@ -88,14 +92,12 @@ class QueryTest extends TestCase
          */
         $update = $sql->update('test');
         $update->set([
-            'name' => ':name',
+            'name'  => ':name',
             'value' => ':value',
         ])->where([
-            'id' => ':id'
+            'id' => ':id',
         ]);
-        $stmt = $sql->prepareStatementForSqlObject($update);
-
-        return $stmt;
+        return $sql->prepareStatementForSqlObject($update);
     }
 
     /**
@@ -108,12 +110,12 @@ class QueryTest extends TestCase
         try {
             //positional parameters - is invalid
             $stmt->execute([
-                1,     //FAIL -- 0         ":c_0"        "name"       varchar(255)
+                1, //    FAIL -- 0         ":c_0"        "name"       varchar(255)
                 'foo', //OK   -- 1         ":c_1"        "value"      varchar(255)
                 'bar', //FAIL -- 2         ":where1"     "id"         int
             ]);
             $this->assertTrue(false, __METHOD__, "/Fail. Extect exception.");
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->assertTrue(true, __METHOD__, "/Success. We have an exception: " . $e->getMessage());
         }
     }
@@ -128,7 +130,7 @@ class QueryTest extends TestCase
         $result = $stmt->execute([
             'bar', //OK -- 0         ":c_0"        "name"       varchar(255)
             'foo', //OK -- 1         ":c_1"        "value"      varchar(255)
-            1,     //OK -- 2         ":where1"     "id"         int
+            1, //    OK -- 2         ":where1"     "id"         int
         ]);
         $this->assertInstanceOf(ResultInterface::class, $result);
     }
@@ -143,12 +145,12 @@ class QueryTest extends TestCase
         try {
             //"mapped" named parameters
             $stmt->execute([
-                'c_0' => 1,        //FAIL -- 0         ":c_0"        "name"       varchar(255)
-                'c_1' => 'foo',    //OK   -- 1         ":c_1"        "value"      varchar(255)
+                'c_0'    => 1, //    FAIL -- 0         ":c_0"        "name"       varchar(255)
+                'c_1'    => 'foo', //OK   -- 1         ":c_1"        "value"      varchar(255)
                 'where1' => 'bar', //FAIL -- 2         ":where1"     "id"         int
             ]);
             $this->assertTrue(false, __METHOD__, "/Fail. Extect exception.");
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->assertTrue(true, __METHOD__, "/Success. We have an exception: " . $e->getMessage());
         }
     }
@@ -161,9 +163,9 @@ class QueryTest extends TestCase
         $stmt = $this->getStatementForTestBinding();
         //"mapped" named parameters
         $result = $stmt->execute([
-            'c_0' => 'bar',  //OK -- 0         ":c_0"        "name"       varchar(255)
-            'c_1' => 'foo',  //OK -- 1         ":c_1"        "value"      varchar(255)
-            'where1' => 1,   //OK -- 2         ":where1"     "id"         int
+            'c_0'    => 'bar', //OK -- 0         ":c_0"        "name"       varchar(255)
+            'c_1'    => 'foo', //OK -- 1         ":c_1"        "value"      varchar(255)
+            'where1' => 1, //    OK -- 2         ":where1"     "id"         int
         ]);
         $this->assertInstanceOf(ResultInterface::class, $result);
     }
@@ -178,12 +180,12 @@ class QueryTest extends TestCase
         try {
             //real named parameters
             $stmt->execute([
-                'name' => 1,       //FAIL -- 0         ":c_0"        "name"       varchar(255)
-                'value' => 'foo',  //OK   -- 1         ":c_1"        "value"      varchar(255)
-                'id' => 'bar',     //FAIL -- 2         ":where1"     "id"         int
+                'name'  => 1, //    FAIL -- 0         ":c_0"        "name"       varchar(255)
+                'value' => 'foo', //OK   -- 1         ":c_1"        "value"      varchar(255)
+                'id'    => 'bar', //FAIL -- 2         ":where1"     "id"         int
             ]);
             $this->assertTrue(false, __METHOD__, "/Fail. Extect exception.");
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->assertTrue(true, __METHOD__, "/Success. We have an exception: " . $e->getMessage());
         }
     }
@@ -196,11 +198,10 @@ class QueryTest extends TestCase
         $stmt = $this->getStatementForTestBinding();
         //real named parameters
         $result = $stmt->execute([
-            'name' => 'bar',  //OK -- 0         ":c_0"        "name"       varchar(255)
+            'name'  => 'bar', //OK -- 0         ":c_0"        "name"       varchar(255)
             'value' => 'foo', //OK -- 1         ":c_1"        "value"      varchar(255)
-            'id' => 1,        //OK -- 2         ":where1"     "id"         int
+            'id'    => 1, //    OK -- 2         ":where1"     "id"         int
         ]);
         $this->assertInstanceOf(ResultInterface::class, $result);
     }
-
 }
