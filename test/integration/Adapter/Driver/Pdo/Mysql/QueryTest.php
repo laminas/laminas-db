@@ -172,7 +172,7 @@ class QueryTest extends TestCase
 
     /**
      * This test verify exception, if field names was confused.
-     * Field names "name" and "id" is confused.
+     * Field name "id" named "idFieldName" - it is wrong.
      */
     public function testBindParamByFieldNameIsFail()
     {
@@ -180,9 +180,9 @@ class QueryTest extends TestCase
         try {
             //real named parameters
             $stmt->execute([
-                'name'  => 1, //    FAIL -- 0         ":c_0"        "name"       varchar(255)
-                'value' => 'foo', //OK   -- 1         ":c_1"        "value"      varchar(255)
-                'id'    => 'bar', //FAIL -- 2         ":where1"     "id"         int
+                'name'  => 'bar', //   OK   -- 0         ":c_0"        "name"       varchar(255)
+                'value' => 'foo', //   OK   -- 1         ":c_1"        "value"      varchar(255)
+                'idFieldName' => 1, // FAIL -- 2         ":where1"     "id"         int
             ]);
             $this->assertTrue(false, __METHOD__, "/Fail. Extect exception.");
         } catch (Exception $e) {
