@@ -5,6 +5,7 @@ namespace LaminasIntegrationTest\Db;
 use LaminasIntegrationTest\Db\Platform\FixtureLoader;
 use LaminasIntegrationTest\Db\Platform\MysqlFixtureLoader;
 use LaminasIntegrationTest\Db\Platform\PgsqlFixtureLoader;
+use LaminasIntegrationTest\Db\Platform\SqliteFixtureLoader;
 use LaminasIntegrationTest\Db\Platform\SqlServerFixtureLoader;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
@@ -37,6 +38,9 @@ class IntegrationTestListener implements TestHook, TestListener
 
         if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV')) {
             $this->fixtureLoaders[] = new SqlServerFixtureLoader();
+        }
+        if (getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLITE_FILE')) {
+            $this->fixtureLoaders[] = new SqliteFixtureLoader();
         }
 
         if (empty($this->fixtureLoaders)) {
