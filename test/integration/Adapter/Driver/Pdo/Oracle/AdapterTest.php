@@ -31,7 +31,7 @@ class AdapterTest extends TestCase
     }
 
     /**
-     * Expect 4 records. @see "test/integration/TestFixtures/oracle/000010-20-table-test-fill.sql"
+     *
      */
     public function testQuerySelectCountId0Positional()
     {

@@ -4,6 +4,7 @@ namespace LaminasIntegrationTest\Db\Adapter\Driver\Oci8;
 
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\Driver\Oci8\Connection;
+use Laminas\Db\Adapter\Platform\Oracle;
 use function extension_loaded;
 use function getenv;
 use function sprintf;
@@ -71,16 +72,52 @@ trait TraitSetup
      */
     protected function createAdapter(): Adapter
     {
-        $adapter = new Adapter([
+        $driverConfig = [
+            'driver' => 'Oci8',
+            'hostname' => $this->variables['hostname'],
+            'username' => $this->variables['username'],
+            'password' => $this->variables['password'],
+            'charset' => 'AL32UTF8',
+            'platform_options' => [
+                'quote_identifiers' => false
+            ],
+        ];
+        //$platform = new Oracle();
+        $platform = null;
+        $queryResultPrototype = null;
+        $profiler = null;
+        $adapter = new Adapter($driverConfig, $platform, $queryResultPrototype, $profiler);
+        return $adapter;
+    }
+
+    /**
+     *
+     * @return Adapter
+     */
+    protected function createAdapterWithoutQuoteIdentifiers(): Adapter
+    {
+        /**
+         * @see \Laminas\Db\Adapter::createDriver ['oci8', 'pdo']
+         * @var $driverConfig - a config for oracle 'oci8' driver.
+         */
+        $driverConfig = [
             'driver' => 'oci8',
             'database' => $this->variables['database'],
             'hostname' => $this->variables['hostname'],
             'username' => $this->variables['username'],
             'password' => $this->variables['password'],
-            'options' => [
-                'buffer_results' => false
-            ],
-        ]);
+// commented quote 'quote_identifiers' - will be errors during execute SQL
+//            'platform_options' => [
+//                'quote_identifiers' => false,
+//            ],
+        ];
+        $platform = null;
+        $queryResultPrototype = null;
+        $profiler = null;
+
+        $adapter = new Adapter($driverConfig, $platform, $queryResultPrototype, $profiler);
         return $adapter;
     }
+
+
 }

@@ -25,15 +25,19 @@ class ConnectionTest extends TestCase
         $connection->disconnect();
     }
 
-//    public function testSelectWithEmptyCurrentWithoutBufferResult()
-//    {
-//        $adapter = $this->createAdapter();
-//        $tableGateway = new TableGateway('test', $adapter);
-//        $rowset = $tableGateway->select('id = 0');
-//
-//        $result = $rowset->current();
-//        $this->assertNull($result);
-//
-//        $adapter->getDriver()->getConnection()->disconnect();
-//    }
+    public function testSelectWithEmptyCurrentWithoutBufferResult()
+    {
+        $adapter = $this->createAdapter();
+        try {
+            $tableGateway = new TableGateway('test', $adapter);
+            $rowset = $tableGateway->select('id = 0');
+
+            $result = $rowset->current();
+            $this->assertNull($result);
+
+            $adapter->getDriver()->getConnection()->disconnect();
+        } finally {
+            $adapter->getDriver()->getConnection()->disconnect();
+        }
+    }
 }

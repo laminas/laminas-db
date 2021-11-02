@@ -19,42 +19,45 @@ class AdapterTest extends TestCase
 
     public function testQuerySelectCount()
     {
-        $adapter = $this->createAdapter();
-
-        $resultSet = $adapter->query(
-            'select count(1) as cntRows from test t where 1=-1',
-            Adapter::QUERY_MODE_EXECUTE
-        );
-        $resultArray = $resultSet->toArray();
-        $result = $resultArray['cntRows'];
-        $this->assertEquals(0, $result);
-
-        $adapter->getDriver()->getConnection()->disconnect();
+        $adapter = $this->createAdapterWithoutQuoteIdentifiers();
+        try {
+            $resultSet = $adapter->query(
+                'select count(1) as cntRows from test t where 1 = -1',
+                Adapter::QUERY_MODE_EXECUTE
+            );
+            $resultArray = $resultSet->toArray();
+            $result = $resultArray[0]['CNTROWS'];
+            $this->assertEquals('0', $result);
+        } finally {
+            $adapter->getDriver()->getConnection()->disconnect();
+        }
     }
 
     public function testQuerySelectCountId0Named()
     {
         $adapter = $this->createAdapter();
-
-        /**
-         * var StatementInterface $statement
-         */
-        $statement = $adapter->query(
-            'select count(1) as cntRows from test t where id = :id',
-            Adapter::QUERY_MODE_PREPARE
-        );
-        $parameterContainer = new ParameterContainer(['id' => 0]);
-        $statement->setParameterContainer($parameterContainer);
-        /**
-         * @var $result ResultInterface|Result
-         */
-        $result = $statement->execute();
-        $row = $result->current();
-        $result = $row['CNTROWS'];
-        $this->assertEquals('0', $result);
-
-        $adapter->getDriver()->getConnection()->disconnect();
+        try {
+            /**
+             * var StatementInterface $statement
+             */
+            $statement = $adapter->query(
+                'select count(1) as cntRows from test t where id = :id',
+                Adapter::QUERY_MODE_PREPARE
+            );
+            $parameterContainer = new ParameterContainer(['id' => 0]);
+            $statement->setParameterContainer($parameterContainer);
+            /**
+             * @var $result ResultInterface|Result
+             */
+            $result = $statement->execute();
+            $row = $result->current();
+            $result = $row['CNTROWS'];
+            $this->assertEquals('0', $result);
+        } finally {
+            $adapter->getDriver()->getConnection()->disconnect();
+        }
     }
+
 
     /*
      * @note: OCI8 does not support positional parameters
@@ -62,15 +65,15 @@ class AdapterTest extends TestCase
     public function testQuerySelectCountId0Positional()
     {
         $adapter = $this->createAdapter();
+        $actual = '';
         try {
-            $resultSet = $adapter->query('SELECT count(*) as cnt FROM test WHERE id = ?', [0]);
-            $rowData = $resultSet->current()->getArrayCopy();
-            $result = $rowData['CNT'];
-            self::assertTrue(false);
+            $resultSet = $adapter->query('SELECT count(*) as cntRows FROM test WHERE id = ?', [0]);
         } catch (\Exception $e) {
-            self::assertTrue(true);
+            $actual = $e->getMessage();
         } finally {
             $adapter->getDriver()->getConnection()->disconnect();
         }
+        $expect = 'oci_bind_by_name(): ORA-01036: illegal variable name/number';
+        $this->assertStringContainsString($expect, $actual);
     }
 }

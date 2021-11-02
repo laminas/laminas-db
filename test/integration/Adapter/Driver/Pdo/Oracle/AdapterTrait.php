@@ -32,12 +32,16 @@ trait AdapterTrait
 
     protected function createAdapter()
     {
-        $adapter = new Adapter([
+        $driverOptions = [
             'driver' => 'pdo_oci',
             'dsn' => $this->dsn,
             'username' => $this->username,
-            'password' => $this->password
-        ]);
+            'password' => $this->password,
+            'platform_options' => [
+                'quote_identifiers' => false
+            ],
+        ];
+        $adapter = new Adapter($driverOptions);
         return $adapter;
     }
 }
