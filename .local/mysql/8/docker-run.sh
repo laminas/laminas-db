@@ -7,12 +7,7 @@ cd $(dirname $(readlink -e $0))
 # @see https://github.com/docker-library/mysql
 # @see https://github.com/docker-library/mysql/blob/master/8.0/docker-entrypoint.sh
 # @see https://github.com/docker-library/mysql/blob/master/8.0/Dockerfile.debian
-#
-# FROM oraclelinux:8-slim
-# WORKDIR ${ORACLE_BASE} is '/opt/oracle'
-# sqlplus is /opt/oracle/product/18c/dbhomeXE/bin/sqlplus
 #----
-
 
 imageName=mysql:8.0.27
 
@@ -43,6 +38,5 @@ docker run --rm -ti \
   -e MYSQL_PASSWORD=${MYSQL_PASSWORD} \
   -v ${dbDir}:/var/lib/mysql \
   ${imageName}
-
 
 #------------------------------------------------------------------------------
