@@ -11,6 +11,102 @@ class ParameterContainerTest extends TestCase
 {
     use TraitSetup;
 
+    /**
+     * Test out parameter from procedure.
+     *
+     * Expect, bind param from reference.
+     * @see https://discourse.laminas.dev/t/how-to-use-parameters-by-reference-witch-laminas-db-adapter/1993
+     *
+     * <code classs="pl-sql">
+     * set serveroutput on;
+     * declare
+     *   out_result number;
+     * begin
+     *   ldbt$test.incOutProcedure(
+     *       p_val        => 5,
+     *       p_out_result => out_result
+     *   );
+     *   dbms_output.put_line('Result is '||out_result);
+     * end;
+     * -- Result is 6
+     * -- PL/SQL procedure successfully completed.
+     *</code>
+     */
+    public function testIncOutOnProcedure()
+    {
+        $adapter = $this->createAdapter();
+        try {
+            $sqlString = '
+declare
+begin
+  ldbt$test.incOutProcedure(
+      p_val        => :bind_p_val,
+      p_out_result => :bind_p_out_result
+  );
+end;
+            ';
+            $parameterContainer = new ParameterContainer([
+                'bind_p_val' => 5,
+                'bind_p_out_result' => null
+            ]);
+
+            $statement = $adapter->createStatement($sqlString, $parameterContainer);
+
+            //$statement = $adapter->query($sqlString, Adapter::QUERY_MODE_PREPARE);
+            //$statement->setParameterContainer($parameterContainer);
+
+            /**
+             * @type Result $result
+             */
+            $result = $statement->execute();
+            $actual = $parameterContainer->offsetGet('bind_p_out_result');
+            $this->assertSame('6', $actual);
+        } finally {
+            $adapter->getDriver()->getConnection()->disconnect();
+        }
+    }
+
+    /**
+     * Test out parameters from function.
+     */
+    public function testIncOutOnFunction()
+    {
+        $adapter = $this->createAdapter();
+        try {
+            $sqlString = '
+declare
+begin
+  :res := ldbt$test.incOutFunction(
+      p_val        => :bind_p_val,
+      p_out_result => :bind_p_out_result
+  );
+end;';
+            $parameterContainer = new ParameterContainer([
+                'bind_p_val' => 5,
+                'bind_p_out_result' => null,
+                'res' => null
+            ]);
+
+            $statement = $adapter->createStatement($sqlString, $parameterContainer);
+
+            //$statement = $adapter->query($sqlString, Adapter::QUERY_MODE_PREPARE);
+            //$statement->setParameterContainer($parameterContainer);
+
+            /**
+             * @type Result $result
+             */
+            $result = $statement->execute();
+
+
+            $res = $parameterContainer->offsetGet('res');
+            $bind_p_out_result = $parameterContainer->offsetGet('bind_p_out_result');
+            $this->assertSame('6', $res);
+            $this->assertSame($res, $bind_p_out_result);
+        } finally {
+            $adapter->getDriver()->getConnection()->disconnect();
+        }
+    }
+
     public function testPipelinedAdapterQuery()
     {
         $adapter = $this->createAdapter();
