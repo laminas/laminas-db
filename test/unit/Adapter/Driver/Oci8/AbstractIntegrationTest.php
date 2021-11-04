@@ -23,15 +23,19 @@ abstract class AbstractIntegrationTest extends TestCase
     protected function setUp(): void
     {
         foreach ($this->variables as $name => $value) {
-            if (! getenv($value)) {
+            if (!getenv($value)) {
                 $this->markTestSkipped(
                     'Missing required variable ' . $value . ' from phpunit.xml for this integration test'
                 );
             }
             $this->variables[$name] = getenv($value);
         }
+        $database = getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_DATABASE');
+        if (!empty($database)) {
+            $this->variables['connectionstring'] = sprintf('%s/%s', $this->variables['hostname'], $database);
+        }
 
-        if (! extension_loaded('oci8')) {
+        if (!extension_loaded('oci8')) {
             $this->fail('The phpunit group integration-oci8 was enabled, but the extension is not loaded.');
         }
     }
