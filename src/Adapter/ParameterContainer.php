@@ -358,7 +358,11 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
      */
     public function getNamedArray()
     {
-        return $this->data;
+        $result = [];
+        foreach ($this->data as $key => &$valueRef) {
+            $result[ $key ] = &$valueRef;
+        }
+        return $result;
     }
 
     /**
@@ -368,7 +372,11 @@ class ParameterContainer implements Iterator, ArrayAccess, Countable
      */
     public function getPositionalArray()
     {
-        return array_values($this->data);
+        $result = [];
+        foreach ($this->data as $key => &$valueRef) {
+            $result[] = &$valueRef;
+        }
+        return $result;
     }
 
     /**

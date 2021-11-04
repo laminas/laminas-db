@@ -1,4 +1,4 @@
-CREATE VIEW test_view
+CREATE OR ALTER VIEW test_view
 AS (
 SELECT
     name AS v_name,

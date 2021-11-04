@@ -1,4 +1,4 @@
-CREATE TRIGGER after_test_update ON test
+CREATE OR ALTER TRIGGER after_test_update ON test
     AFTER UPDATE
     AS
 BEGIN
