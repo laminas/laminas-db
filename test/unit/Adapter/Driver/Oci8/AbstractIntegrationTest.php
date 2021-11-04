@@ -32,7 +32,7 @@ abstract class AbstractIntegrationTest extends TestCase
         }
         $database = getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_DATABASE');
         if (!empty($database)) {
-            $this->variables['connectionstring'] = sprintf('%s/%s', $this->variables['hostname'], $database);
+            $this->variables['hostname'] = sprintf('%s/%s', $this->variables['hostname'], $database);
         }
 
         if (!extension_loaded('oci8')) {
