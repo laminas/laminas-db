@@ -181,7 +181,8 @@ There are a number of features built-in and shipped with laminas-db:
 
 - `MasterSlaveFeature`: the ability to use a master adapter for `insert()`,
   `update()`, and `delete()`, but switch to a slave adapter for all `select()`
-  operations.
+  operations. Calling `getAdapter()` on `TableGateway` will still return the
+  master adapter.
 
     ```php
     $table = new TableGateway('artist', $adapter, new Feature\MasterSlaveFeature($slaveAdapter));
