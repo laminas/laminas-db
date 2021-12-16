@@ -7,6 +7,7 @@ use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Pdo\Pdo;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Sql\Predicate\PredicateInterface;
 use Laminas\Stdlib\PriorityList;
 
 use function array_key_exists;
@@ -115,7 +116,7 @@ class Update extends AbstractPreparableSql
     /**
      * Create where clause
      *
-     * @param Where|Closure|string|array $predicate
+     * @param Where|Closure|string|array|PredicateInterface $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
      * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
