@@ -1,58 +1,43 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\Pgsql;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\Profiler;
 
+use function extension_loaded;
+use function is_string;
+
 class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
 {
-    /**
-     * @var Connection
-     */
-    protected $connection = null;
+    /** @var Connection */
+    protected $connection;
 
-    /**
-     * @var Statement
-     */
-    protected $statementPrototype = null;
+    /** @var Statement */
+    protected $statementPrototype;
 
-    /**
-     * @var Result
-     */
-    protected $resultPrototype = null;
+    /** @var Result */
+    protected $resultPrototype;
 
-    /**
-     * @var null|Profiler\ProfilerInterface
-     */
-    protected $profiler = null;
+    /** @var null|Profiler\ProfilerInterface */
+    protected $profiler;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $options = [
-        'buffer_results' => false
+        'buffer_results' => false,
     ];
 
     /**
      * Constructor
      *
      * @param array|Connection|resource $connection
-     * @param null|Statement $statementPrototype
-     * @param null|Result $resultPrototype
      * @param array $options
      */
     public function __construct(
         $connection,
-        Statement $statementPrototype = null,
-        Result $resultPrototype = null,
+        ?Statement $statementPrototype = null,
+        ?Result $resultPrototype = null,
         $options = null
     ) {
         if (! $connection instanceof Connection) {
@@ -60,12 +45,11 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
         }
 
         $this->registerConnection($connection);
-        $this->registerStatementPrototype(($statementPrototype) ?: new Statement());
-        $this->registerResultPrototype(($resultPrototype) ?: new Result());
+        $this->registerStatementPrototype($statementPrototype ?: new Statement());
+        $this->registerResultPrototype($resultPrototype ?: new Result());
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -91,7 +75,6 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Register connection
      *
-     * @param Connection $connection
      * @return self Provides a fluent interface
      */
     public function registerConnection(Connection $connection)
@@ -104,7 +87,6 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Register statement prototype
      *
-     * @param Statement $statement
      * @return self Provides a fluent interface
      */
     public function registerStatementPrototype(Statement $statement)
@@ -117,7 +99,6 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
     /**
      * Register result prototype
      *
-     * @param Result $result
      * @return self Provides a fluent interface
      */
     public function registerResultPrototype(Result $result)
@@ -134,7 +115,7 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
      */
     public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE)
     {
-        if ($nameFormat == self::NAME_FORMAT_CAMELCASE) {
+        if ($nameFormat === self::NAME_FORMAT_CAMELCASE) {
             return 'Postgresql';
         }
 
@@ -145,7 +126,7 @@ class Pgsql implements DriverInterface, Profiler\ProfilerAwareInterface
      * Check environment
      *
      * @throws Exception\RuntimeException
-     * @return bool
+     * @return void
      */
     public function checkEnvironment()
     {

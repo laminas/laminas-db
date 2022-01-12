@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Platform\IbmDb2;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
@@ -14,27 +8,28 @@ use Laminas\Db\Adapter\Platform\PlatformInterface;
 use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
 use Laminas\Db\Sql\Select;
 
+use function array_push;
+use function array_shift;
+use function array_unshift;
+use function current;
+use function preg_match;
+use function sprintf;
+use function strpos;
+
 class SelectDecorator extends Select implements PlatformDecoratorInterface
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $isSelectContainDistinct = false;
 
-    /**
-     * @var Select
-     */
-    protected $subject = null;
+    /** @var Select */
+    protected $subject;
 
-     /**
-     * @var bool
-     */
+     /** @var bool */
     protected $supportsLimitOffset = false;
 
-
    /**
-     * @return bool
-     */
+    * @return bool
+    */
     public function getIsSelectContainDistinct()
     {
         return $this->isSelectContainDistinct;
@@ -74,6 +69,10 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
 
     /**
      * @see Select::renderTable
+     *
+     * @param string $table
+     * @param null|string $alias
+     * @return string
      */
     protected function renderTable($table, $alias = null)
     {
@@ -91,16 +90,13 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
     }
 
     /**
-     * @param  PlatformInterface  $platform
-     * @param  DriverInterface    $driver
-     * @param  ParameterContainer $parameterContainer
      * @param  array              $sqls
      * @param  array              $parameters
      */
     protected function processLimitOffset(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null,
+        ?DriverInterface $driver,
+        ?ParameterContainer $parameterContainer,
         &$sqls,
         &$parameters
     ) {
@@ -129,8 +125,9 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
 
         $starSuffix = $platform->getIdentifierSeparator() . self::SQL_STAR;
         foreach ($selectParameters[0] as $i => $columnParameters) {
-            if ($columnParameters[0] == self::SQL_STAR
-                || (isset($columnParameters[1]) && $columnParameters[1] == self::SQL_STAR)
+            if (
+                $columnParameters[0] === self::SQL_STAR
+                || (isset($columnParameters[1]) && $columnParameters[1] === self::SQL_STAR)
                 || strpos($columnParameters[0], $starSuffix)
             ) {
                 $selectParameters[0] = [[self::SQL_STAR]];
@@ -155,8 +152,8 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
 
         if ($parameterContainer) {
             // create bottom part of query, with offset and limit using row_number
-            $limitParamName        = $driver->formatParameterName('limit');
-            $offsetParamName       = $driver->formatParameterName('offset');
+            $limitParamName  = $driver->formatParameterName('limit');
+            $offsetParamName = $driver->formatParameterName('offset');
 
             array_push($sqls, sprintf(
                 // @codingStandardsIgnoreStart

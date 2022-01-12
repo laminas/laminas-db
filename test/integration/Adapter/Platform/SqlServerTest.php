@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasIntegrationTest\Db\Adapter\Platform;
 
 use Laminas\Db\Adapter\Platform\SqlServer;
@@ -16,6 +10,7 @@ use function extension_loaded;
 use function getenv;
 use function sqlsrv_connect;
 use function sqlsrv_errors;
+use function var_dump;
 
 /**
  * @group integration
@@ -23,12 +18,13 @@ use function sqlsrv_errors;
  */
 class SqlServerTest extends TestCase
 {
+    /** @var array<string, resource> */
     public $adapters = [];
 
     protected function setUp(): void
     {
         if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV')) {
-            $this->markTestSkipped(__CLASS__ . ' integration tests are not enabled!');
+            $this->markTestSkipped(self::class . ' integration tests are not enabled!');
         }
 
         $database = getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_DATABASE');
@@ -38,8 +34,8 @@ class SqlServerTest extends TestCase
             $this->adapters['sqlsrv'] = sqlsrv_connect(
                 getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'),
                 [
-                    'UID' => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
-                    'PWD' => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
+                    'UID'      => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
+                    'PWD'      => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
                     'Database' => $database,
                 ]
             );
@@ -65,7 +61,7 @@ class SqlServerTest extends TestCase
             $this->markTestSkipped('SQLServer (pdo_sqlsrv) not configured in unit test configuration file');
         }
 
-        $db = new SqlServer($this->adapters['pdo_sqlsrv']);
+        $db    = new SqlServer($this->adapters['pdo_sqlsrv']);
         $value = $db->quoteValue('value');
         self::assertEquals("'value'", $value);
     }

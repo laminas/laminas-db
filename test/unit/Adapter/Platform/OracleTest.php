@@ -1,21 +1,15 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Platform;
 
+use Laminas\Db\Adapter\Driver\Oci8\Oci8;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
 use Laminas\Db\Adapter\Platform\Oracle;
 use PHPUnit\Framework\TestCase;
 
 class OracleTest extends TestCase
 {
-    /**
-     * @var Oracle
-     */
+    /** @var Oracle */
     protected $platform;
 
     /**
@@ -24,7 +18,7 @@ class OracleTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->platform = new Oracle;
+        $this->platform = new Oracle();
     }
 
     /**
@@ -45,7 +39,7 @@ class OracleTest extends TestCase
     public function testContructWithDriver()
     {
         $mockDriver = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\Oci8\Oci8',
+            Oci8::class,
             [[]],
             '',
             true,
@@ -53,7 +47,7 @@ class OracleTest extends TestCase
             true,
             []
         );
-        $platform = new Oracle([], $mockDriver);
+        $platform   = new Oracle([], $mockDriver);
         self::assertEquals($mockDriver, $platform->getDriver());
     }
 
@@ -63,7 +57,7 @@ class OracleTest extends TestCase
     public function testSetDriver()
     {
         $mockDriver = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\Oci8\Oci8',
+            Oci8::class,
             [[]],
             '',
             true,
@@ -71,7 +65,7 @@ class OracleTest extends TestCase
             true,
             []
         );
-        $platform = $this->platform->setDriver($mockDriver);
+        $platform   = $this->platform->setDriver($mockDriver);
         self::assertEquals($mockDriver, $platform->getDriver());
     }
 
@@ -80,7 +74,7 @@ class OracleTest extends TestCase
      */
     public function testSetDriverInvalid()
     {
-        $this->expectException('Laminas\Db\Adapter\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             '$driver must be a Oci8 or Oracle PDO Laminas\Db\Adapter\Driver, Oci8 instance, or Oci PDO instance'
         );

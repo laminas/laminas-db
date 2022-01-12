@@ -26,12 +26,17 @@
     <php>
         <!-- Note: the following is a FULL list of ALL POSSIBLE constants
             currently in use in Laminas for ALL COMPONENTS; you should choose the
-            constants appropriate to the component you are migrating. -->
+            constants appropriate to the component you are migrating.
+
+            The settings in this file are appropriate for use with the
+            Vagrantfile provided. Copy this file to phpunit.xml to provide local
+            values specific to your test environment.
+        -->
         <!-- Integration Test Variables -->
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL" value="false"/>
-        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="localhost"/>
-        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME" value="travis"/>
-        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD" value=""/>
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="192.168.20.20"/>
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME" value="root"/>
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD" value="Password123"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE" value="laminasdb_test"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV" value="false"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME" value="192.168.20.20"/>
@@ -49,9 +54,9 @@
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_IBMDB2_PASSWORD" value=""/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_IBMDB2_DATABASE" value=""/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL" value="false"/>
-        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="localhost"/>
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="192.168.20.20"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME" value="postgres"/>
-        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD" value=""/>
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD" value="postgres"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE" value="laminasdb_test"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLITE_MEMORY" value="true"/>
     </php>

@@ -1,17 +1,15 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Platform;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Mysqli;
 use Laminas\Db\Adapter\Driver\Pdo;
 use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
+
+use function implode;
+use function str_replace;
 
 class Mysql extends AbstractPlatform
 {
@@ -25,10 +23,8 @@ class Mysql extends AbstractPlatform
      */
     protected $quoteIdentifierTo = '``';
 
-    /**
-     * @var \mysqli|\PDO|Pdo\Pdo|Mysqli\Mysqli
-     */
-    protected $driver = null;
+    /** @var \mysqli|\PDO|Pdo\Pdo|Mysqli\Mysqli */
+    protected $driver;
 
     /**
      * NOTE: Include dashes for MySQL only, need tests for others platforms
@@ -50,15 +46,16 @@ class Mysql extends AbstractPlatform
     /**
      * @param \Laminas\Db\Adapter\Driver\Mysqli\Mysqli|\Laminas\Db\Adapter\Driver\Pdo\Pdo|\mysqli|\PDO $driver
      * @return self Provides a fluent interface
-     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function setDriver($driver)
     {
         // handle Laminas\Db drivers
-        if ($driver instanceof Mysqli\Mysqli
-            || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() == 'Mysql')
-            || ($driver instanceof \mysqli)
-            || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'mysql')
+        if (
+            $driver instanceof Mysqli\Mysqli
+            || ($driver instanceof Pdo\Pdo && $driver->getDatabasePlatformName() === 'Mysql')
+            || $driver instanceof \mysqli
+            || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql')
         ) {
             $this->driver = $driver;
             return $this;
@@ -92,7 +89,7 @@ class Mysql extends AbstractPlatform
     {
         $quotedViaDriverValue = $this->quoteViaDriver($value);
 
-        return $quotedViaDriverValue !== null ? $quotedViaDriverValue : parent::quoteValue($value);
+        return $quotedViaDriverValue ?? parent::quoteValue($value);
     }
 
     /**
@@ -102,7 +99,7 @@ class Mysql extends AbstractPlatform
     {
         $quotedViaDriverValue = $this->quoteViaDriver($value);
 
-        return $quotedViaDriverValue !== null ? $quotedViaDriverValue : parent::quoteTrustedValue($value);
+        return $quotedViaDriverValue ?? parent::quoteTrustedValue($value);
     }
 
     /**

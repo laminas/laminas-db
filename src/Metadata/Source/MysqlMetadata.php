@@ -1,14 +1,20 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Metadata\Source;
 
+use DateTime;
 use Laminas\Db\Adapter\Adapter;
+
+use function array_change_key_case;
+use function array_walk;
+use function implode;
+use function preg_match;
+use function preg_match_all;
+use function str_replace;
+use function strpos;
+
+use const CASE_LOWER;
+use const PREG_PATTERN_ORDER;
 
 class MysqlMetadata extends AbstractSource
 {
@@ -36,6 +42,10 @@ class MysqlMetadata extends AbstractSource
         $this->data['schemas'] = $schemas;
     }
 
+    /**
+     * @param string $schema
+     * @return void
+     */
     protected function loadTableNameData($schema)
     {
         if (isset($this->data['table_names'][$schema])) {
@@ -69,7 +79,7 @@ class MysqlMetadata extends AbstractSource
              . ' WHERE ' . $p->quoteIdentifierChain(['T', 'TABLE_TYPE'])
              . ' IN (\'BASE TABLE\', \'VIEW\')';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
                   . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -82,16 +92,21 @@ class MysqlMetadata extends AbstractSource
         $tables = [];
         foreach ($results->toArray() as $row) {
             $tables[$row['TABLE_NAME']] = [
-                'table_type' => $row['TABLE_TYPE'],
+                'table_type'      => $row['TABLE_TYPE'],
                 'view_definition' => $row['VIEW_DEFINITION'],
-                'check_option' => $row['CHECK_OPTION'],
-                'is_updatable' => ('YES' == $row['IS_UPDATABLE']),
+                'check_option'    => $row['CHECK_OPTION'],
+                'is_updatable'    => 'YES' === $row['IS_UPDATABLE'],
             ];
         }
 
         $this->data['table_names'][$schema] = $tables;
     }
 
+    /**
+     * @param string $table
+     * @param string $schema
+     * @return void
+     */
     protected function loadColumnData($table, $schema)
     {
         if (isset($this->data['columns'][$schema][$table])) {
@@ -129,7 +144,7 @@ class MysqlMetadata extends AbstractSource
              . ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_NAME'])
              . '  = ' . $p->quoteTrustedValue($table);
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
                   . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -144,12 +159,13 @@ class MysqlMetadata extends AbstractSource
             $matches = [];
             if (preg_match('/^(?:enum|set)\((.+)\)$/i', $row['COLUMN_TYPE'], $matches)) {
                 $permittedValues = $matches[1];
-                if (preg_match_all(
-                    "/\\s*'((?:[^']++|'')*+)'\\s*(?:,|\$)/",
-                    $permittedValues,
-                    $matches,
-                    PREG_PATTERN_ORDER
-                )
+                if (
+                    preg_match_all(
+                        "/\\s*'((?:[^']++|'')*+)'\\s*(?:,|\$)/",
+                        $permittedValues,
+                        $matches,
+                        PREG_PATTERN_ORDER
+                    )
                 ) {
                     $permittedValues = str_replace("''", "'", $matches[1]);
                 } else {
@@ -158,24 +174,30 @@ class MysqlMetadata extends AbstractSource
                 $erratas['permitted_values'] = $permittedValues;
             }
             $columns[$row['COLUMN_NAME']] = [
-                'ordinal_position'          => $row['ORDINAL_POSITION'],
-                'column_default'            => $row['COLUMN_DEFAULT'],
-                'is_nullable'               => ('YES' == $row['IS_NULLABLE']),
-                'data_type'                 => $row['DATA_TYPE'],
-                'character_maximum_length'  => $row['CHARACTER_MAXIMUM_LENGTH'],
-                'character_octet_length'    => $row['CHARACTER_OCTET_LENGTH'],
-                'numeric_precision'         => $row['NUMERIC_PRECISION'],
-                'numeric_scale'             => $row['NUMERIC_SCALE'],
-                'numeric_unsigned'          => (false !== strpos($row['COLUMN_TYPE'], 'unsigned')),
-                'erratas'                   => $erratas,
+                'ordinal_position'         => $row['ORDINAL_POSITION'],
+                'column_default'           => $row['COLUMN_DEFAULT'],
+                'is_nullable'              => 'YES' === $row['IS_NULLABLE'],
+                'data_type'                => $row['DATA_TYPE'],
+                'character_maximum_length' => $row['CHARACTER_MAXIMUM_LENGTH'],
+                'character_octet_length'   => $row['CHARACTER_OCTET_LENGTH'],
+                'numeric_precision'        => $row['NUMERIC_PRECISION'],
+                'numeric_scale'            => $row['NUMERIC_SCALE'],
+                'numeric_unsigned'         => false !== strpos($row['COLUMN_TYPE'], 'unsigned'),
+                'erratas'                  => $erratas,
             ];
         }
 
         $this->data['columns'][$schema][$table] = $columns;
     }
 
+    /**
+     * @param string $table
+     * @param string $schema
+     * @return void
+     */
     protected function loadConstraintData($table, $schema)
     {
+        // phpcs:disable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
         if (isset($this->data['constraints'][$schema][$table])) {
             return;
         }
@@ -229,7 +251,7 @@ class MysqlMetadata extends AbstractSource
              . ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_TYPE'])
              . ' IN (\'BASE TABLE\', \'VIEW\')';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
             . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -248,12 +270,12 @@ class MysqlMetadata extends AbstractSource
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
 
-        $realName = null;
+        $realName    = null;
         $constraints = [];
         foreach ($results->toArray() as $row) {
             if ($row['CONSTRAINT_NAME'] !== $realName) {
                 $realName = $row['CONSTRAINT_NAME'];
-                $isFK = ('FOREIGN KEY' == $row['CONSTRAINT_TYPE']);
+                $isFK     = 'FOREIGN KEY' === $row['CONSTRAINT_TYPE'];
                 if ($isFK) {
                     $name = $realName;
                 } else {
@@ -269,9 +291,9 @@ class MysqlMetadata extends AbstractSource
                     $constraints[$name]['referenced_table_schema'] = $row['REFERENCED_TABLE_SCHEMA'];
                     $constraints[$name]['referenced_table_name']   = $row['REFERENCED_TABLE_NAME'];
                     $constraints[$name]['referenced_columns']      = [];
-                    $constraints[$name]['match_option']       = $row['MATCH_OPTION'];
-                    $constraints[$name]['update_rule']        = $row['UPDATE_RULE'];
-                    $constraints[$name]['delete_rule']        = $row['DELETE_RULE'];
+                    $constraints[$name]['match_option']            = $row['MATCH_OPTION'];
+                    $constraints[$name]['update_rule']             = $row['UPDATE_RULE'];
+                    $constraints[$name]['delete_rule']             = $row['DELETE_RULE'];
                 }
             }
             $constraints[$name]['columns'][] = $row['COLUMN_NAME'];
@@ -281,8 +303,13 @@ class MysqlMetadata extends AbstractSource
         }
 
         $this->data['constraints'][$schema][$table] = $constraints;
+        // phpcs:enable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
     }
 
+    /**
+     * @param string $schema
+     * @return void
+     */
     protected function loadConstraintDataNames($schema)
     {
         if (isset($this->data['constraint_names'][$schema])) {
@@ -313,7 +340,7 @@ class MysqlMetadata extends AbstractSource
         . ' WHERE ' . $p->quoteIdentifierChain(['T', 'TABLE_TYPE'])
         . ' IN (\'BASE TABLE\', \'VIEW\')';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
             . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -331,6 +358,10 @@ class MysqlMetadata extends AbstractSource
         $this->data['constraint_names'][$schema] = $data;
     }
 
+    /**
+     * @param string $schema
+     * @return void
+     */
     protected function loadConstraintDataKeys($schema)
     {
         if (isset($this->data['constraint_keys'][$schema])) {
@@ -364,7 +395,7 @@ class MysqlMetadata extends AbstractSource
         . ' WHERE ' . $p->quoteIdentifierChain(['T', 'TABLE_TYPE'])
         . ' IN (\'BASE TABLE\', \'VIEW\')';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
             . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -382,6 +413,11 @@ class MysqlMetadata extends AbstractSource
         $this->data['constraint_keys'][$schema] = $data;
     }
 
+    /**
+     * @param string $table
+     * @param string $schema
+     * @return void
+     */
     protected function loadConstraintReferences($table, $schema)
     {
         parent::loadConstraintReferences($table, $schema);
@@ -422,7 +458,7 @@ class MysqlMetadata extends AbstractSource
         . 'WHERE ' . $p->quoteIdentifierChain(['T', 'TABLE_TYPE'])
         . ' IN (\'BASE TABLE\', \'VIEW\')';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
             . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -440,6 +476,10 @@ class MysqlMetadata extends AbstractSource
         $this->data['constraint_references'][$schema] = $data;
     }
 
+    /**
+     * @param string $schema
+     * @return void
+     */
     protected function loadTriggerData($schema)
     {
         if (isset($this->data['triggers'][$schema])) {
@@ -451,8 +491,8 @@ class MysqlMetadata extends AbstractSource
         $p = $this->adapter->getPlatform();
 
         $isColumns = [
-//            'TRIGGER_CATALOG',
-//            'TRIGGER_SCHEMA',
+            // 'TRIGGER_CATALOG',
+            // 'TRIGGER_SCHEMA',
             'TRIGGER_NAME',
             'EVENT_MANIPULATION',
             'EVENT_OBJECT_CATALOG',
@@ -478,7 +518,7 @@ class MysqlMetadata extends AbstractSource
         . ' FROM ' . $p->quoteIdentifierChain(['INFORMATION_SCHEMA', 'TRIGGERS'])
         . ' WHERE ';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= $p->quoteIdentifier('TRIGGER_SCHEMA')
             . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -492,7 +532,7 @@ class MysqlMetadata extends AbstractSource
         foreach ($results->toArray() as $row) {
             $row = array_change_key_case($row, CASE_LOWER);
             if (null !== $row['created']) {
-                $row['created'] = new \DateTime($row['created']);
+                $row['created'] = new DateTime($row['created']);
             }
             $data[$row['trigger_name']] = $row;
         }

@@ -1,22 +1,16 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Profiler;
 
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
+use Laminas\Db\Adapter\Exception\RuntimeException;
 use Laminas\Db\Adapter\Profiler\Profiler;
 use Laminas\Db\Adapter\StatementContainer;
 use PHPUnit\Framework\TestCase;
 
 class ProfilerTest extends TestCase
 {
-    /**
-     * @var Profiler
-     */
+    /** @var Profiler */
     protected $profiler;
 
     /**
@@ -25,7 +19,7 @@ class ProfilerTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->profiler = new Profiler;
+        $this->profiler = new Profiler();
     }
 
     /**
@@ -38,7 +32,7 @@ class ProfilerTest extends TestCase
         $ret = $this->profiler->profilerStart(new StatementContainer());
         self::assertSame($this->profiler, $ret);
 
-        $this->expectException('Laminas\Db\Adapter\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('profilerStart takes either a StatementContainer or a string');
         $this->profiler->profilerStart(5);
     }
@@ -52,8 +46,8 @@ class ProfilerTest extends TestCase
         $ret = $this->profiler->profilerFinish();
         self::assertSame($this->profiler, $ret);
 
-        $profiler = new Profiler;
-        $this->expectException('Laminas\Db\Adapter\Exception\RuntimeException');
+        $profiler = new Profiler();
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('A profile must be started before profilerFinish can be called');
         $profiler->profilerFinish();
     }

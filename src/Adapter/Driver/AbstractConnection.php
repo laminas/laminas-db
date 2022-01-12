@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver;
 
 use Laminas\Db\Adapter\Profiler\ProfilerAwareInterface;
@@ -13,19 +7,13 @@ use Laminas\Db\Adapter\Profiler\ProfilerInterface;
 
 abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareInterface
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $connectionParameters = [];
 
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     protected $driverName;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $inTransaction = false;
 
     /**
@@ -35,14 +23,10 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
      */
     protected $nestedTransactionsCount = 0;
 
-    /**
-     * @var ProfilerInterface|null
-     */
+    /** @var ProfilerInterface|null */
     protected $profiler;
 
-    /**
-     * @var resource|null
-     */
+    /** @var resource|null */
     protected $resource;
 
     /**

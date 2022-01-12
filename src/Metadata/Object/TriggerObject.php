@@ -1,118 +1,54 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Metadata\Object;
+
+use DateTime;
 
 class TriggerObject
 {
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $name;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $eventManipulation;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $eventObjectCatalog;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $eventObjectSchema;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $eventObjectTable;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $actionOrder;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $actionCondition;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $actionStatement;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $actionOrientation;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $actionTiming;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $actionReferenceOldTable;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $actionReferenceNewTable;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $actionReferenceOldRow;
 
-    /**
-     *
-     *
-     * @var string
-     */
+    /** @var string */
     protected $actionReferenceNewRow;
 
-    /**
-     *
-     *
-     * @var \DateTime
-     */
+    /** @var DateTime */
     protected $created;
 
     /**
@@ -426,7 +362,7 @@ class TriggerObject
     /**
      * Get Created.
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreated()
     {
@@ -436,7 +372,7 @@ class TriggerObject
     /**
      * Set Created.
      *
-     * @param \DateTime $created
+     * @param DateTime $created
      * @return self Provides a fluent interface
      */
     public function setCreated($created)

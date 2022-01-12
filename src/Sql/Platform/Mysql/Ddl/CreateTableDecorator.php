@@ -1,27 +1,27 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Platform\Mysql\Ddl;
 
 use Laminas\Db\Adapter\Platform\PlatformInterface;
 use Laminas\Db\Sql\Ddl\CreateTable;
 use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
 
+use function count;
+use function range;
+use function str_replace;
+use function strlen;
+use function strpos;
+use function strtolower;
+use function strtoupper;
+use function substr_replace;
+use function uksort;
+
 class CreateTableDecorator extends CreateTable implements PlatformDecoratorInterface
 {
-    /**
-     * @var CreateTable
-     */
+    /** @var CreateTable */
     protected $subject;
 
-    /**
-     * @var int[]
-     */
+    /** @var int[] */
     protected $columnOptionSortOrder = [
         'unsigned'      => 0,
         'zerofill'      => 1,
@@ -36,7 +36,6 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
 
     /**
      * @param CreateTable $subject
-     *
      * @return self Provides a fluent interface
      */
     public function setSubject($subject)
@@ -74,7 +73,7 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
         }
 
         foreach (range(0, 3) as $i) {
-            $insertStart[$i] = isset($insertStart[$i]) ? $insertStart[$i] : $sqlLength;
+            $insertStart[$i] = $insertStart[$i] ?? $sqlLength;
         }
 
         return $insertStart;
@@ -83,7 +82,7 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
     /**
      * {@inheritDoc}
      */
-    protected function processColumns(PlatformInterface $platform = null)
+    protected function processColumns(?PlatformInterface $platform = null)
     {
         if (! $this->columns) {
             return;
@@ -108,36 +107,36 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
                 switch ($this->normalizeColumnOption($coName)) {
                     case 'unsigned':
                         $insert = ' UNSIGNED';
-                        $j = 0;
+                        $j      = 0;
                         break;
                     case 'zerofill':
                         $insert = ' ZEROFILL';
-                        $j = 0;
+                        $j      = 0;
                         break;
                     case 'identity':
                     case 'serial':
                     case 'autoincrement':
                         $insert = ' AUTO_INCREMENT';
-                        $j = 1;
+                        $j      = 1;
                         break;
                     case 'comment':
                         $insert = ' COMMENT ' . $platform->quoteValue($coValue);
-                        $j = 2;
+                        $j      = 2;
                         break;
                     case 'columnformat':
                     case 'format':
                         $insert = ' COLUMN_FORMAT ' . strtoupper($coValue);
-                        $j = 2;
+                        $j      = 2;
                         break;
                     case 'storage':
                         $insert = ' STORAGE ' . strtoupper($coValue);
-                        $j = 2;
+                        $j      = 2;
                         break;
                 }
 
                 if ($insert) {
-                    $j = isset($j) ? $j : 0;
-                    $sql = substr_replace($sql, $insert, $insertStart[$j], 0);
+                    $j                = $j ?? 0;
+                    $sql              = substr_replace($sql, $insert, $insertStart[$j], 0);
                     $insertStartCount = count($insertStart);
                     for (; $j < $insertStartCount; ++$j) {
                         $insertStart[$j] += strlen($insert);
@@ -153,7 +152,6 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
 
     /**
      * @param string $name
-     *
      * @return string
      */
     private function normalizeColumnOption($name)
@@ -162,21 +160,18 @@ class CreateTableDecorator extends CreateTable implements PlatformDecoratorInter
     }
 
     /**
-     *
      * @param string $columnA
      * @param string $columnB
-     *
      * @return int
      */
+    // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
     private function compareColumnOptions($columnA, $columnB)
     {
         $columnA = $this->normalizeColumnOption($columnA);
-        $columnA = isset($this->columnOptionSortOrder[$columnA])
-            ? $this->columnOptionSortOrder[$columnA] : count($this->columnOptionSortOrder);
+        $columnA = $this->columnOptionSortOrder[$columnA] ?? count($this->columnOptionSortOrder);
 
         $columnB = $this->normalizeColumnOption($columnB);
-        $columnB = isset($this->columnOptionSortOrder[$columnB])
-            ? $this->columnOptionSortOrder[$columnB] : count($this->columnOptionSortOrder);
+        $columnB = $this->columnOptionSortOrder[$columnB] ?? count($this->columnOptionSortOrder);
 
         return $columnA - $columnB;
     }

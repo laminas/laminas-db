@@ -1,17 +1,19 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Sql\Predicate;
 
+use Laminas\Db\Sql\Exception\InvalidArgumentException;
+use Laminas\Db\Sql\Predicate\Expression;
+use Laminas\Db\Sql\Predicate\In;
+use Laminas\Db\Sql\Predicate\IsNotNull;
 use Laminas\Db\Sql\Predicate\IsNull;
+use Laminas\Db\Sql\Predicate\Literal;
+use Laminas\Db\Sql\Predicate\Operator;
 use Laminas\Db\Sql\Predicate\PredicateSet;
 use LaminasTest\Db\DeprecatedAssertionsTrait;
 use PHPUnit\Framework\TestCase;
+
+use function var_export;
 
 class PredicateSetTest extends TestCase
 {
@@ -37,11 +39,11 @@ class PredicateSetTest extends TestCase
     public function testCanPassPredicatesAndDefaultCombinationViaConstructor()
     {
         $predicateSet = new PredicateSet();
-        $set = new PredicateSet([
+        $set          = new PredicateSet([
             new IsNull('foo'),
             new IsNull('bar'),
         ], 'OR');
-        $parts = $set->getExpressionData();
+        $parts        = $set->getExpressionData();
         self::assertCount(3, $parts);
         self::assertStringContainsString('OR', $parts[1]);
         self::assertStringNotContainsString('AND', $parts[1]);
@@ -100,35 +102,35 @@ class PredicateSetTest extends TestCase
         $predicateSet->addPredicates(['a = b'], PredicateSet::OP_OR);
         $predicateSet->addPredicates(['c1' => null]);
         $predicateSet->addPredicates(['c2' => [1, 2, 3]]);
-        $predicateSet->addPredicates([new \Laminas\Db\Sql\Predicate\IsNotNull('c3')]);
+        $predicateSet->addPredicates([new IsNotNull('c3')]);
 
         $predicates = $this->readAttribute($predicateSet, 'predicates');
         self::assertEquals('AND', $predicates[0][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[0][1]);
+        self::assertInstanceOf(Literal::class, $predicates[0][1]);
 
         self::assertEquals('AND', $predicates[1][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Expression', $predicates[1][1]);
+        self::assertInstanceOf(Expression::class, $predicates[1][1]);
 
         self::assertEquals('AND', $predicates[2][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Operator', $predicates[2][1]);
+        self::assertInstanceOf(Operator::class, $predicates[2][1]);
 
         self::assertEquals('OR', $predicates[3][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Literal', $predicates[3][1]);
+        self::assertInstanceOf(Literal::class, $predicates[3][1]);
 
         self::assertEquals('AND', $predicates[4][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\IsNull', $predicates[4][1]);
+        self::assertInstanceOf(IsNull::class, $predicates[4][1]);
 
         self::assertEquals('AND', $predicates[5][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\In', $predicates[5][1]);
+        self::assertInstanceOf(In::class, $predicates[5][1]);
 
         self::assertEquals('AND', $predicates[6][0]);
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\IsNotNull', $predicates[6][1]);
+        self::assertInstanceOf(IsNotNull::class, $predicates[6][1]);
 
         $predicateSet->addPredicates(function ($what) use ($predicateSet) {
             self::assertSame($predicateSet, $what);
         });
 
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Predicate cannot be null');
         $predicateSet->addPredicates(null);
     }

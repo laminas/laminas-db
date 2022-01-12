@@ -1,21 +1,15 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Platform;
 
 use Laminas\Db\Adapter\Platform\IbmDb2;
 use PHPUnit\Framework\TestCase;
 
+use function function_exists;
+
 class IbmDb2Test extends TestCase
 {
-    /**
-     * @var IbmDb2
-     */
+    /** @var IbmDb2 */
     protected $platform;
 
     /**
@@ -24,7 +18,7 @@ class IbmDb2Test extends TestCase
      */
     protected function setUp(): void
     {
-        $this->platform = new IbmDb2;
+        $this->platform = new IbmDb2();
     }
 
     /**

@@ -1,25 +1,23 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Sql;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\StatementContainer;
+use Laminas\Db\Adapter\StatementContainerInterface;
 use Laminas\Db\Sql\Combine;
+use Laminas\Db\Sql\Exception\InvalidArgumentException;
 use Laminas\Db\Sql\Predicate\Expression;
 use Laminas\Db\Sql\Select;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CombineTest extends TestCase
 {
-    /**
-     * @var Combine
-     */
+    /** @var Combine */
     protected $combine;
 
     /**
@@ -28,12 +26,12 @@ class CombineTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->combine = new Combine;
+        $this->combine = new Combine();
     }
 
     public function testRejectsInvalidStatement()
     {
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
 
         $this->combine->combine('foo');
     }
@@ -111,8 +109,8 @@ class CombineTest extends TestCase
 
         $adapter = $this->getMockAdapter();
 
-        $statement = $this->combine->prepareStatement($adapter, new StatementContainer);
-        self::assertInstanceOf('Laminas\Db\Adapter\StatementContainerInterface', $statement);
+        $statement = $this->combine->prepareStatement($adapter, new StatementContainer());
+        self::assertInstanceOf(StatementContainerInterface::class, $statement);
         self::assertEquals(
             '(SELECT "t1".* FROM "t1" WHERE "x1" = ?) UNION (SELECT "t2".* FROM "t2" WHERE "x2" = ?)',
             $statement->getSql()
@@ -177,17 +175,15 @@ class CombineTest extends TestCase
     }
 
     /**
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Laminas\Db\Adapter\Adapter
+     * @return MockObject|Adapter
      */
     protected function getMockAdapter()
     {
         $parameterContainer = new ParameterContainer();
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
         $mockStatement->expects($this->any())->method('getParameterContainer')
             ->will($this->returnValue($parameterContainer));
-
 
         $setGetSqlFunction = function ($sql = null) use ($mockStatement) {
             static $sqlValue;
@@ -200,11 +196,11 @@ class CombineTest extends TestCase
         $mockStatement->expects($this->any())->method('setSql')->will($this->returnCallback($setGetSqlFunction));
         $mockStatement->expects($this->any())->method('getSql')->will($this->returnCallback($setGetSqlFunction));
 
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
 
-        return $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        return $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver])
             ->getMock();

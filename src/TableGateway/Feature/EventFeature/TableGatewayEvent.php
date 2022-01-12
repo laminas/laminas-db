@@ -1,31 +1,20 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\TableGateway\Feature\EventFeature;
 
+use ArrayAccess;
 use Laminas\Db\TableGateway\AbstractTableGateway;
 use Laminas\EventManager\EventInterface;
 
 class TableGatewayEvent implements EventInterface
 {
-    /**
-     * @var AbstractTableGateway
-     */
-    protected $target = null;
+    /** @var AbstractTableGateway */
+    protected $target;
 
-    /**
-     * @var null
-     */
-    protected $name = null;
+    /** @var null */
+    protected $name;
 
-    /**
-     * @var array|\ArrayAccess
-     */
+    /** @var array|ArrayAccess */
     protected $params = [];
 
     /**
@@ -51,7 +40,7 @@ class TableGatewayEvent implements EventInterface
     /**
      * Get parameters passed to the event
      *
-     * @return array|\ArrayAccess
+     * @return array|ArrayAccess
      */
     public function getParams()
     {
@@ -67,7 +56,7 @@ class TableGatewayEvent implements EventInterface
      */
     public function getParam($name, $default = null)
     {
-        return (isset($this->params[$name]) ? $this->params[$name] : $default);
+        return $this->params[$name] ?? $default;
     }
 
     /**
@@ -123,7 +112,6 @@ class TableGatewayEvent implements EventInterface
      */
     public function stopPropagation($flag = true)
     {
-        return;
     }
 
     /**

@@ -1,73 +1,51 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Profiler;
+use PDOException;
+use PDOStatement;
+
+use function implode;
+use function is_array;
+use function is_bool;
+use function is_int;
 
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
-    /**
-     * @var \PDO
-     */
-    protected $pdo = null;
+    /** @var \PDO */
+    protected $pdo;
 
-    /**
-     * @var Profiler\ProfilerInterface
-     */
-    protected $profiler = null;
+    /** @var Profiler\ProfilerInterface */
+    protected $profiler;
 
-    /**
-     * @var Pdo
-     */
-    protected $driver = null;
+    /** @var Pdo */
+    protected $driver;
 
-    /**
-     *
-     * @var string
-     */
+    /** @var string */
     protected $sql = '';
 
-    /**
-     *
-     * @var bool
-     */
-    protected $isQuery = null;
+    /** @var bool */
+    protected $isQuery;
 
-    /**
-     *
-     * @var ParameterContainer
-     */
-    protected $parameterContainer = null;
+    /** @var ParameterContainer */
+    protected $parameterContainer;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $parametersBound = false;
 
-    /**
-     * @var \PDOStatement
-     */
-    protected $resource = null;
+    /** @var PDOStatement */
+    protected $resource;
 
-    /**
-     *
-     * @var bool
-     */
+    /** @var bool */
     protected $isPrepared = false;
 
     /**
      * Set driver
      *
-     * @param  Pdo $driver
      * @return self Provides a fluent interface
      */
     public function setDriver(Pdo $driver)
@@ -77,7 +55,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -97,7 +74,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Initialize
      *
-     * @param  \PDO $connectionResource
      * @return self Provides a fluent interface
      */
     public function initialize(\PDO $connectionResource)
@@ -109,10 +85,9 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set resource
      *
-     * @param  \PDOStatement $pdoStatement
      * @return self Provides a fluent interface
      */
-    public function setResource(\PDOStatement $pdoStatement)
+    public function setResource(PDOStatement $pdoStatement)
     {
         $this->resource = $pdoStatement;
         return $this;
@@ -151,7 +126,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param ParameterContainer $parameterContainer
      * @return self Provides a fluent interface
      */
     public function setParameterContainer(ParameterContainer $parameterContainer)
@@ -215,7 +189,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         if (! $this->parameterContainer instanceof ParameterContainer) {
             if ($parameters instanceof ParameterContainer) {
                 $this->parameterContainer = $parameters;
-                $parameters = null;
+                $parameters               = null;
             } else {
                 $this->parameterContainer = new ParameterContainer();
             }
@@ -236,13 +210,19 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
         try {
             $this->resource->execute();
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             if ($this->profiler) {
                 $this->profiler->profilerFinish();
             }
+
+            $code = $e->getCode();
+            if (! is_int($code)) {
+                $code = 0;
+            }
+
             throw new Exception\InvalidQueryException(
                 'Statement could not be executed (' . implode(' - ', $this->resource->errorInfo()) . ')',
-                null,
+                $code,
                 $e
             );
         }
@@ -251,8 +231,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             $this->profiler->profilerFinish();
         }
 
-        $result = $this->driver->createResult($this->resource, $this);
-        return $result;
+        return $this->driver->createResult($this->resource, $this);
     }
 
     /**
@@ -288,20 +267,21 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             }
 
             // parameter is named or positional, value is reference
-            $parameter = is_int($name) ? ($name + 1) : $this->driver->formatParameterName($name);
+            $parameter = is_int($name) ? $name + 1 : $this->driver->formatParameterName($name);
             $this->resource->bindParam($parameter, $value, $type);
         }
     }
 
     /**
      * Perform a deep clone
-     * @return Statement A cloned statement
+     *
+     * @return void
      */
     public function __clone()
     {
-        $this->isPrepared = false;
+        $this->isPrepared      = false;
         $this->parametersBound = false;
-        $this->resource = null;
+        $this->resource        = null;
         if ($this->parameterContainer) {
             $this->parameterContainer = clone $this->parameterContainer;
         }

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Platform;
 
 use Laminas\Db\Adapter\Platform\Sql92;
@@ -13,9 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class Sql92Test extends TestCase
 {
-    /**
-     * @var Sql92
-     */
+    /** @var Sql92 */
     protected $platform;
 
     /**
@@ -24,7 +16,7 @@ class Sql92Test extends TestCase
      */
     protected function setUp(): void
     {
-        $this->platform = new Sql92;
+        $this->platform = new Sql92();
     }
 
     /**

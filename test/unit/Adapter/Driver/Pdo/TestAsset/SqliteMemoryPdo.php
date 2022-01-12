@@ -1,17 +1,21 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\Pdo\TestAsset;
 
-class SqliteMemoryPdo extends \Pdo
+use Exception;
+use PDO;
+use PDOStatement;
+use PHPUnit\Framework\MockObject\MockObject;
+
+use function implode;
+use function sprintf;
+
+class SqliteMemoryPdo extends PDO
 {
+    /** @var PDOStatement&MockObject */
     protected $mockStatement;
 
+    /** @param null|string $sql */
     public function __construct($sql = null)
     {
         parent::__construct('sqlite::memory:');
@@ -19,8 +23,9 @@ class SqliteMemoryPdo extends \Pdo
         if (empty($sql)) {
             return;
         }
+
         if (false === $this->exec($sql)) {
-            throw new \Exception(sprintf(
+            throw new Exception(sprintf(
                 "Error: %s, %s",
                 $this->errorCode(),
                 implode(",", $this->errorInfo())

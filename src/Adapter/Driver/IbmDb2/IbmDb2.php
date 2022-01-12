@@ -1,22 +1,19 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\IbmDb2;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\Profiler;
 
+use function extension_loaded;
+use function get_resource_type;
+use function is_resource;
+use function is_string;
+
 class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
 {
-    /**
-     * @var Connection
-     */
+    /** @var Connection */
     protected $connection;
 
     /** @var Statement */
@@ -25,29 +22,24 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     /** @var Result */
     protected $resultPrototype;
 
-    /**
-     * @var Profiler\ProfilerInterface
-     */
+    /** @var Profiler\ProfilerInterface */
     protected $profiler;
 
     /**
      * @param array|Connection|resource $connection
-     * @param null|Statement            $statementPrototype
-     * @param null|Result               $resultPrototype
      */
-    public function __construct($connection, Statement $statementPrototype = null, Result $resultPrototype = null)
+    public function __construct($connection, ?Statement $statementPrototype = null, ?Result $resultPrototype = null)
     {
         if (! $connection instanceof Connection) {
             $connection = new Connection($connection);
         }
 
         $this->registerConnection($connection);
-        $this->registerStatementPrototype(($statementPrototype) ?: new Statement());
-        $this->registerResultPrototype(($resultPrototype) ?: new Result());
+        $this->registerStatementPrototype($statementPrototype ?: new Statement());
+        $this->registerResultPrototype($resultPrototype ?: new Result());
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -71,7 +63,6 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param  Connection $connection
      * @return self Provides a fluent interface
      */
     public function registerConnection(Connection $connection)
@@ -82,7 +73,6 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param  Statement $statementPrototype
      * @return self Provides a fluent interface
      */
     public function registerStatementPrototype(Statement $statementPrototype)
@@ -93,7 +83,6 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param  Result $resultPrototype
      * @return self Provides a fluent interface
      */
     public function registerResultPrototype(Result $resultPrototype)
@@ -110,17 +99,15 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
      */
     public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE)
     {
-        if ($nameFormat == self::NAME_FORMAT_CAMELCASE) {
-            return 'IbmDb2';
-        } else {
-            return 'IBM DB2';
-        }
+        return $nameFormat === self::NAME_FORMAT_CAMELCASE
+            ? 'IbmDb2'
+            : 'IBM DB2';
     }
 
     /**
      * Check environment
      *
-     * @return bool
+     * @return void
      */
     public function checkEnvironment()
     {
@@ -148,7 +135,7 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     public function createStatement($sqlOrResource = null)
     {
         $statement = clone $this->statementPrototype;
-        if (is_resource($sqlOrResource) && get_resource_type($sqlOrResource) == 'DB2 Statement') {
+        if (is_resource($sqlOrResource) && get_resource_type($sqlOrResource) === 'DB2 Statement') {
             $statement->setResource($sqlOrResource);
         } else {
             if (is_string($sqlOrResource)) {

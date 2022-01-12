@@ -1,44 +1,39 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Profiler;
 
 use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
 use Laminas\Db\Adapter\StatementContainerInterface;
+
+use function end;
+use function is_string;
+use function microtime;
 
 class Profiler implements ProfilerInterface
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $profiles = [];
 
-    /**
-     * @var null
-     */
+    /** @var null */
     protected $currentIndex = 0;
 
     /**
      * @param string|StatementContainerInterface $target
      * @return self Provides a fluent interface
-     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function profilerStart($target)
     {
         $profileInformation = [
-            'sql' => '',
+            'sql'        => '',
             'parameters' => null,
-            'start' => microtime(true),
-            'end' => null,
-            'elapse' => null
+            'start'      => microtime(true),
+            'end'        => null,
+            'elapse'     => null,
         ];
         if ($target instanceof StatementContainerInterface) {
-            $profileInformation['sql'] = $target->getSql();
+            $profileInformation['sql']        = $target->getSql();
             $profileInformation['parameters'] = clone $target->getParameterContainer();
         } elseif (is_string($target)) {
             $profileInformation['sql'] = $target;
@@ -63,8 +58,8 @@ class Profiler implements ProfilerInterface
                 'A profile must be started before ' . __FUNCTION__ . ' can be called.'
             );
         }
-        $current = &$this->profiles[$this->currentIndex];
-        $current['end'] = microtime(true);
+        $current           = &$this->profiles[$this->currentIndex];
+        $current['end']    = microtime(true);
         $current['elapse'] = $current['end'] - $current['start'];
         $this->currentIndex++;
         return $this;

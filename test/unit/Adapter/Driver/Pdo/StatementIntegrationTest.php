@@ -1,26 +1,18 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\Pdo\Statement;
+use PDO;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class StatementIntegrationTest extends TestCase
 {
-    /**
-     * @var Statement
-     */
+    /** @var Statement */
     protected $statement;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var MockObject */
     protected $pdoStatementMock;
 
     /**
@@ -29,12 +21,12 @@ class StatementIntegrationTest extends TestCase
      */
     protected function setUp(): void
     {
-        $driver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Pdo\Pdo')
+        $driver = $this->getMockBuilder(\Laminas\Db\Adapter\Driver\Pdo\Pdo::class)
             ->setMethods(['createResult'])
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->statement = new Statement;
+        $this->statement = new Statement();
         $this->statement->setDriver($driver);
         $this->statement->initialize(new TestAsset\CtorlessPdo(
             $this->pdoStatementMock = $this->getMockBuilder('PDOStatement')
@@ -56,7 +48,7 @@ class StatementIntegrationTest extends TestCase
         $this->pdoStatementMock->expects($this->any())->method('bindParam')->with(
             $this->equalTo(':foo'),
             $this->equalTo(false),
-            $this->equalTo(\PDO::PARAM_BOOL)
+            $this->equalTo(PDO::PARAM_BOOL)
         );
         $this->statement->execute(['foo' => false]);
     }
@@ -66,7 +58,7 @@ class StatementIntegrationTest extends TestCase
         $this->pdoStatementMock->expects($this->any())->method('bindParam')->with(
             $this->equalTo(':foo'),
             $this->equalTo('bar'),
-            $this->equalTo(\PDO::PARAM_STR)
+            $this->equalTo(PDO::PARAM_STR)
         );
         $this->statement->execute(['foo' => 'bar']);
     }
@@ -76,7 +68,7 @@ class StatementIntegrationTest extends TestCase
         $this->pdoStatementMock->expects($this->any())->method('bindParam')->with(
             $this->equalTo(':foo'),
             $this->equalTo('123'),
-            $this->equalTo(\PDO::PARAM_STR)
+            $this->equalTo(PDO::PARAM_STR)
         );
         $this->statement->execute(['foo' => '123']);
     }
@@ -86,7 +78,7 @@ class StatementIntegrationTest extends TestCase
         $this->pdoStatementMock->expects($this->any())->method('bindParam')->with(
             $this->equalTo(':foo'),
             $this->equalTo(123),
-            $this->equalTo(\PDO::PARAM_INT)
+            $this->equalTo(PDO::PARAM_INT)
         );
         $this->statement->execute(['foo' => 123]);
     }

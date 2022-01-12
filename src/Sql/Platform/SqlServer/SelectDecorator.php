@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Platform\SqlServer;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
@@ -14,12 +8,17 @@ use Laminas\Db\Adapter\Platform\PlatformInterface;
 use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
 use Laminas\Db\Sql\Select;
 
+use function array_push;
+use function array_shift;
+use function array_unshift;
+use function array_values;
+use function current;
+use function strpos;
+
 class SelectDecorator extends Select implements PlatformDecoratorInterface
 {
-    /**
-     * @var Select
-     */
-    protected $subject = null;
+    /** @var Select */
+    protected $subject;
 
     /**
      * @param Select $select
@@ -40,17 +39,14 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
     }
 
     /**
-     * @param PlatformInterface $platform
-     * @param DriverInterface $driver
-     * @param ParameterContainer $parameterContainer
-     * @param $sqls
-     * @param $parameters
-     * @return null
+     * @param string[] $sqls
+     * @param array<string, array> $parameters
+     * @return void
      */
     protected function processLimitOffset(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null,
+        ?DriverInterface $driver,
+        ?ParameterContainer $parameterContainer,
         &$sqls,
         &$parameters
     ) {
@@ -65,13 +61,14 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
         if ($selectParameters[0] === 'DISTINCT') {
             unset($selectParameters[0]);
             $selectParameters = array_values($selectParameters);
-            $parameterIndex = 1;
+            $parameterIndex   = 1;
         }
 
         $starSuffix = $platform->getIdentifierSeparator() . self::SQL_STAR;
         foreach ($selectParameters[0] as $i => $columnParameters) {
-            if ($columnParameters[0] == self::SQL_STAR
-                || (isset($columnParameters[1]) && $columnParameters[1] == self::SQL_STAR)
+            if (
+                $columnParameters[0] === self::SQL_STAR
+                || (isset($columnParameters[1]) && $columnParameters[1] === self::SQL_STAR)
                 || strpos($columnParameters[0], $starSuffix)
             ) {
                 $selectParameters[0] = [[self::SQL_STAR]];
@@ -89,25 +86,38 @@ class SelectDecorator extends Select implements PlatformDecoratorInterface
             $selectParameters
         ));
 
+        // phpcs:disable Generic.Files.LineLength.TooLong
+
         if ($parameterContainer) {
             // create bottom part of query, with offset and limit using row_number
-            $limitParamName = $driver->formatParameterName('limit');
-            $offsetParamName = $driver->formatParameterName('offset');
+            $limitParamName        = $driver->formatParameterName('limit');
+            $offsetParamName       = $driver->formatParameterName('offset');
             $offsetForSumParamName = $driver->formatParameterName('offsetForSum');
-            // @codingStandardsIgnoreStart
-            array_push($sqls, ') AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN '
-                . $offsetParamName . '+1 AND ' . $limitParamName . '+' . $offsetForSumParamName);
-            // @codingStandardsIgnoreEnd
+            array_push(
+                $sqls,
+                ') AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN '
+                . $offsetParamName
+                . '+1 AND '
+                . $limitParamName
+                . '+'
+                . $offsetForSumParamName
+            );
             $parameterContainer->offsetSet('offset', $this->offset);
             $parameterContainer->offsetSet('limit', $this->limit);
             $parameterContainer->offsetSetReference('offsetForSum', 'offset');
         } else {
-            // @codingStandardsIgnoreStart
-            array_push($sqls, ') AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN '
-                . (int) $this->offset . '+1 AND '
-                . (int) $this->limit . '+' . (int) $this->offset);
-            // @codingStandardsIgnoreEnd
+            array_push(
+                $sqls,
+                ') AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN '
+                . (int) $this->offset
+                . '+1 AND '
+                . (int) $this->limit
+                . '+'
+                . (int) $this->offset
+            );
         }
+
+        // phpcs:enable Generic.Files.LineLength.TooLong
 
         if (isset($sqls[self::ORDER])) {
             $orderBy = $sqls[self::ORDER];

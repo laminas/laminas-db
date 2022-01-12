@@ -1,15 +1,13 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
 use Laminas\Db\Adapter\Driver\Sqlsrv\Connection;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Result;
 use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Statement;
+
+use function sqlsrv_connect;
 
 /**
  * @group integration
@@ -31,7 +29,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testSetResource()
     {
-        $resource = sqlsrv_connect(
+        $resource   = sqlsrv_connect(
             $this->variables['hostname'],
             [
                 'UID' => $this->variables['username'],
@@ -139,11 +137,11 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testExecute()
     {
-        $sqlsrv = new Sqlsrv($this->variables);
+        $sqlsrv     = new Sqlsrv($this->variables);
         $connection = $sqlsrv->getConnection();
 
         $result = $connection->execute('SELECT \'foo\'');
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Sqlsrv\Result', $result);
+        self::assertInstanceOf(Result::class, $result);
     }
 
     /**
@@ -151,11 +149,11 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testPrepare()
     {
-        $sqlsrv = new Sqlsrv($this->variables);
+        $sqlsrv     = new Sqlsrv($this->variables);
         $connection = $sqlsrv->getConnection();
 
         $statement = $connection->prepare('SELECT \'foo\'');
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Sqlsrv\Statement', $statement);
+        self::assertInstanceOf(Statement::class, $statement);
     }
 
     /**
@@ -173,7 +171,7 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testConnectReturnsConnectionWhenResourceSet()
     {
-        $resource = sqlsrv_connect(
+        $resource   = sqlsrv_connect(
             $this->variables['hostname'],
             [
                 'UID' => $this->variables['username'],

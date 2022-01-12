@@ -1,14 +1,17 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter;
 
+use InvalidArgumentException;
 use Laminas\Db\ResultSet;
+
+use function func_get_args;
+use function in_array;
+use function is_array;
+use function is_bool;
+use function is_string;
+use function strpos;
+use function strtolower;
 
 /**
  * @property Driver\DriverInterface $driver
@@ -19,58 +22,45 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     /**
      * Query Mode Constants
      */
-    const QUERY_MODE_EXECUTE = 'execute';
-    const QUERY_MODE_PREPARE = 'prepare';
+    public const QUERY_MODE_EXECUTE = 'execute';
+    public const QUERY_MODE_PREPARE = 'prepare';
 
     /**
      * Prepare Type Constants
      */
-    const PREPARE_TYPE_POSITIONAL = 'positional';
-    const PREPARE_TYPE_NAMED = 'named';
+    public const PREPARE_TYPE_POSITIONAL = 'positional';
+    public const PREPARE_TYPE_NAMED      = 'named';
 
-    const FUNCTION_FORMAT_PARAMETER_NAME = 'formatParameterName';
-    const FUNCTION_QUOTE_IDENTIFIER = 'quoteIdentifier';
-    const FUNCTION_QUOTE_VALUE = 'quoteValue';
+    public const FUNCTION_FORMAT_PARAMETER_NAME = 'formatParameterName';
+    public const FUNCTION_QUOTE_IDENTIFIER      = 'quoteIdentifier';
+    public const FUNCTION_QUOTE_VALUE           = 'quoteValue';
 
-    const VALUE_QUOTE_SEPARATOR = 'quoteSeparator';
+    public const VALUE_QUOTE_SEPARATOR = 'quoteSeparator';
 
-    /**
-     * @var Driver\DriverInterface
-     */
-    protected $driver = null;
+    /** @var Driver\DriverInterface */
+    protected $driver;
 
-    /**
-     * @var Platform\PlatformInterface
-     */
-    protected $platform = null;
+    /** @var Platform\PlatformInterface */
+    protected $platform;
 
-    /**
-     * @var Profiler\ProfilerInterface
-     */
-    protected $profiler = null;
+    /** @var Profiler\ProfilerInterface */
+    protected $profiler;
 
-    /**
-     * @var ResultSet\ResultSetInterface
-     */
-    protected $queryResultSetPrototype = null;
+    /** @var ResultSet\ResultSetInterface */
+    protected $queryResultSetPrototype;
 
-    /**
-     * @var Driver\StatementInterface
-     */
-    protected $lastPreparedStatement = null;
+    /** @var Driver\StatementInterface */
+    protected $lastPreparedStatement;
 
     /**
      * @param Driver\DriverInterface|array $driver
-     * @param Platform\PlatformInterface $platform
-     * @param ResultSet\ResultSetInterface $queryResultPrototype
-     * @param Profiler\ProfilerInterface $profiler
      * @throws Exception\InvalidArgumentException
      */
     public function __construct(
         $driver,
-        Platform\PlatformInterface $platform = null,
-        ResultSet\ResultSetInterface $queryResultPrototype = null,
-        Profiler\ProfilerInterface $profiler = null
+        ?Platform\PlatformInterface $platform = null,
+        ?ResultSet\ResultSetInterface $queryResultPrototype = null,
+        ?Profiler\ProfilerInterface $profiler = null
     ) {
         // first argument can be an array of parameters
         $parameters = [];
@@ -94,8 +84,8 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
             $platform = $this->createPlatform($parameters);
         }
 
-        $this->platform = $platform;
-        $this->queryResultSetPrototype = ($queryResultPrototype) ?: new ResultSet\ResultSet();
+        $this->platform                = $platform;
+        $this->queryResultSetPrototype = $queryResultPrototype ?: new ResultSet\ResultSet();
 
         if ($profiler) {
             $this->setProfiler($profiler);
@@ -103,7 +93,6 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -153,6 +142,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
         return $this->queryResultSetPrototype;
     }
 
+    /** @return string */
     public function getCurrentSchema()
     {
         return $this->driver->getConnection()->getCurrentSchema();
@@ -163,22 +153,22 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
      *
      * @param string $sql
      * @param string|array|ParameterContainer $parametersOrQueryMode
-     * @param \Laminas\Db\ResultSet\ResultSetInterface $resultPrototype
      * @throws Exception\InvalidArgumentException
      * @return Driver\StatementInterface|ResultSet\ResultSet
      */
     public function query(
         $sql,
         $parametersOrQueryMode = self::QUERY_MODE_PREPARE,
-        ResultSet\ResultSetInterface $resultPrototype = null
+        ?ResultSet\ResultSetInterface $resultPrototype = null
     ) {
-        if (is_string($parametersOrQueryMode)
+        if (
+            is_string($parametersOrQueryMode)
             && in_array($parametersOrQueryMode, [self::QUERY_MODE_PREPARE, self::QUERY_MODE_EXECUTE])
         ) {
-            $mode = $parametersOrQueryMode;
+            $mode       = $parametersOrQueryMode;
             $parameters = null;
         } elseif (is_array($parametersOrQueryMode) || $parametersOrQueryMode instanceof ParameterContainer) {
-            $mode = self::QUERY_MODE_PREPARE;
+            $mode       = self::QUERY_MODE_PREPARE;
             $parameters = $parametersOrQueryMode;
         } else {
             throw new Exception\InvalidArgumentException(
@@ -186,7 +176,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
             );
         }
 
-        if ($mode == self::QUERY_MODE_PREPARE) {
+        if ($mode === self::QUERY_MODE_PREPARE) {
             $this->lastPreparedStatement = null;
             $this->lastPreparedStatement = $this->driver->createStatement($sql);
             $this->lastPreparedStatement->prepare();
@@ -205,9 +195,12 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
         }
 
         if ($result instanceof Driver\ResultInterface && $result->isQueryResult()) {
-            $resultSet = clone ($resultPrototype ?: $this->queryResultSetPrototype);
-            $resultSet->initialize($result);
-            return $resultSet;
+            $resultSet     = $resultPrototype ?? $this->queryResultSetPrototype;
+            $resultSetCopy = clone $resultSet;
+
+            $resultSetCopy->initialize($result);
+
+            return $resultSetCopy;
         }
 
         return $result;
@@ -223,11 +216,12 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     public function createStatement($initialSql = null, $initialParameters = null)
     {
         $statement = $this->driver->createStatement($initialSql);
-        if ($initialParameters === null
+        if (
+            $initialParameters === null
             || ! $initialParameters instanceof ParameterContainer
             && is_array($initialParameters)
         ) {
-            $initialParameters = new ParameterContainer((is_array($initialParameters) ? $initialParameters : []));
+            $initialParameters = new ParameterContainer(is_array($initialParameters) ? $initialParameters : []);
         }
         $statement->setParameterContainer($initialParameters);
         return $statement;
@@ -236,7 +230,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     public function getHelpers()
     {
         $functions = [];
-        $platform = $this->platform;
+        $platform  = $this->platform;
         foreach (func_get_args() as $arg) {
             switch ($arg) {
                 case self::FUNCTION_QUOTE_IDENTIFIER:
@@ -254,7 +248,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @throws Exception\InvalidArgumentException
      * @return Driver\DriverInterface|Platform\PlatformInterface
      */
@@ -273,7 +267,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     /**
      * @param array $parameters
      * @return Driver\DriverInterface
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws Exception\InvalidArgumentException
      */
     protected function createDriver($parameters)
@@ -319,13 +313,13 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
                 break;
             case 'pdo':
             default:
-                if ($driverName == 'pdo' || strpos($driverName, 'pdo') === 0) {
+                if ($driverName === 'pdo' || strpos($driverName, 'pdo') === 0) {
                     $driver = new Driver\Pdo\Pdo($parameters);
                 }
         }
 
         if (! isset($driver) || ! $driver instanceof Driver\DriverInterface) {
-            throw new Exception\InvalidArgumentException('DriverInterface expected', null, null);
+            throw new Exception\InvalidArgumentException('DriverInterface expected');
         }
 
         return $driver;
@@ -348,7 +342,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
         }
 
         // currently only supported by the IbmDb2 & Oracle concrete implementations
-        $options = (isset($parameters['platform_options'])) ? $parameters['platform_options'] : [];
+        $options = $parameters['platform_options'] ?? [];
 
         switch ($platformName) {
             case 'Mysql':
@@ -361,7 +355,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
                 return new Platform\Mysql($driver);
             case 'SqlServer':
                 // PDO is only supported driver for quoting values in this platform
-                return new Platform\SqlServer(($this->driver instanceof Driver\Pdo\Pdo) ? $this->driver : null);
+                return new Platform\SqlServer($this->driver instanceof Driver\Pdo\Pdo ? $this->driver : null);
             case 'Oracle':
                 if ($this->driver instanceof Driver\Oci8\Oci8 || $this->driver instanceof Driver\Pdo\Pdo) {
                     $driver = $this->driver;
@@ -392,7 +386,6 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     *
      * @param array $parameters
      * @return Profiler\ProfilerInterface
      * @throws Exception\InvalidArgumentException
@@ -400,23 +393,25 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     protected function createProfiler($parameters)
     {
         if ($parameters['profiler'] instanceof Profiler\ProfilerInterface) {
-            $profiler = $parameters['profiler'];
-        } elseif (is_bool($parameters['profiler'])) {
-            $profiler = ($parameters['profiler'] == true) ? new Profiler\Profiler : null;
-        } else {
-            throw new Exception\InvalidArgumentException(
-                '"profiler" parameter must be an instance of ProfilerInterface or a boolean'
-            );
+            return $parameters['profiler'];
         }
-        return $profiler;
+
+        if (is_bool($parameters['profiler'])) {
+            return $parameters['profiler'] === true ? new Profiler\Profiler() : null;
+        }
+
+        throw new Exception\InvalidArgumentException(
+            '"profiler" parameter must be an instance of ProfilerInterface or a boolean'
+        );
     }
 
     /**
+     * @deprecated
+     *
      * @param array $parameters
      * @return Driver\DriverInterface
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws Exception\InvalidArgumentException
-     * @deprecated
      */
     protected function createDriverFromParameters(array $parameters)
     {
@@ -424,9 +419,9 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param Driver\DriverInterface $driver
-     * @return Platform\PlatformInterface
      * @deprecated
+     *
+     * @return Platform\PlatformInterface
      */
     protected function createPlatformFromDriver(Driver\DriverInterface $driver)
     {

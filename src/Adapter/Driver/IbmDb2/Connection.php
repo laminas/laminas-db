@@ -1,22 +1,25 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\IbmDb2;
 
 use Laminas\Db\Adapter\Driver\AbstractConnection;
 use Laminas\Db\Adapter\Exception;
 
+use function get_resource_type;
+use function ini_get;
+use function is_array;
+use function is_resource;
+use function php_uname;
+use function restore_error_handler;
+use function set_error_handler;
+use function sprintf;
+
+use const E_WARNING;
+
 class Connection extends AbstractConnection
 {
-    /**
-     * @var IbmDb2
-     */
-    protected $driver = null;
+    /** @var IbmDb2 */
+    protected $driver;
 
     /**
      * i5 OS
@@ -54,7 +57,6 @@ class Connection extends AbstractConnection
     /**
      * Set driver
      *
-     * @param  IbmDb2 $driver
      * @return self Provides a fluent interface
      */
     public function setDriver(IbmDb2 $driver)
@@ -89,7 +91,7 @@ class Connection extends AbstractConnection
 
         $info = db2_server_info($this->resource);
 
-        return (isset($info->DB_NAME) ? $info->DB_NAME : '');
+        return $info->DB_NAME ?? '';
     }
 
     /**
@@ -119,8 +121,8 @@ class Connection extends AbstractConnection
         $username     = $findParameterValue(['username', 'uid', 'UID']);
         $password     = $findParameterValue(['password', 'pwd', 'PWD']);
         $isPersistent = $findParameterValue(['persistent', 'PERSISTENT', 'Persistent']);
-        $options      = (isset($p['driver_options']) ? $p['driver_options'] : []);
-        $connect      = ((bool) $isPersistent) ? 'db2_pconnect' : 'db2_connect';
+        $options      = $p['driver_options'] ?? [];
+        $connect      = (bool) $isPersistent ? 'db2_pconnect' : 'db2_connect';
 
         $this->resource = $connect($database, $username, $password, $options);
 
@@ -139,7 +141,7 @@ class Connection extends AbstractConnection
      */
     public function isConnected()
     {
-        return ($this->resource !== null);
+        return $this->resource !== null;
     }
 
     /**
@@ -255,7 +257,7 @@ class Connection extends AbstractConnection
             throw new Exception\InvalidQueryException(db2_stmt_errormsg());
         }
 
-        return $this->driver->createResult(($resultResource === true) ? $this->resource : $resultResource);
+        return $this->driver->createResult($resultResource === true ? $this->resource : $resultResource);
     }
 
     /**
@@ -277,7 +279,7 @@ class Connection extends AbstractConnection
             return $this->i5;
         }
 
-        $this->i5 = (php_uname('s') == 'OS400');
+        $this->i5 = php_uname('s') === 'OS400';
 
         return $this->i5;
     }

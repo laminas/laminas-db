@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Sql\Predicate;
 
 use Laminas\Db\Sql\Predicate\Like;
@@ -60,8 +54,8 @@ class LikeTest extends TestCase
     public function testInstanceOfPerSetters()
     {
         $like = new Like();
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Like', $like->setIdentifier('bar'));
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Like', $like->setSpecification('%1$s LIKE %2$s'));
-        self::assertInstanceOf('Laminas\Db\Sql\Predicate\Like', $like->setLike('foo%'));
+        self::assertInstanceOf(Like::class, $like->setIdentifier('bar'));
+        self::assertInstanceOf(Like::class, $like->setSpecification('%1$s LIKE %2$s'));
+        self::assertInstanceOf(Like::class, $like->setLike('foo%'));
     }
 }

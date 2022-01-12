@@ -1,16 +1,12 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Sql\Predicate;
 
 use Laminas\Db\Sql\Predicate\Expression;
 use Laminas\Db\Sql\Predicate\IsNull;
 use PHPUnit\Framework\TestCase;
+
+use function var_export;
 
 class ExpressionTest extends TestCase
 {
@@ -63,7 +59,7 @@ class ExpressionTest extends TestCase
      */
     public function testCanPassSinglePredicateParameterToConstructor()
     {
-        $predicate = new IsNull('foo.baz');
+        $predicate  = new IsNull('foo.baz');
         $expression = new Expression('?', $predicate);
         self::assertEquals([$predicate], $expression->getParameters());
     }
@@ -91,7 +87,7 @@ class ExpressionTest extends TestCase
      */
     public function testCanPassMultiPredicateParametersToConstructor()
     {
-        $predicate = new IsNull('foo.baz');
+        $predicate  = new IsNull('foo.baz');
         $expression = new Expression('? OR ?', $predicate, $predicate);
         self::assertEquals([$predicate, $predicate], $expression->getParameters());
     }
@@ -137,7 +133,7 @@ class ExpressionTest extends TestCase
      */
     public function testCanPassArrayOfOnePredicateParameterToConstructor()
     {
-        $predicate = new IsNull('foo.baz');
+        $predicate  = new IsNull('foo.baz');
         $expression = new Expression('?', [$predicate]);
         self::assertEquals([$predicate], $expression->getParameters());
     }
@@ -147,7 +143,7 @@ class ExpressionTest extends TestCase
      */
     public function testCanPassArrayOfMultiPredicatesParameterToConstructor()
     {
-        $predicate = new IsNull('foo.baz');
+        $predicate  = new IsNull('foo.baz');
         $expression = new Expression('? OR ?', [$predicate, $predicate]);
         self::assertEquals([$predicate, $predicate], $expression->getParameters());
     }
@@ -171,12 +167,14 @@ class ExpressionTest extends TestCase
         $expression = new Expression();
         $expression->setExpression('foo.bar = ? AND id != ?')
                         ->setParameters(['foo', 'bar']);
-        $expected = [[
-            'foo.bar = %s AND id != %s',
-            ['foo', 'bar'],
-            [Expression::TYPE_VALUE, Expression::TYPE_VALUE],
-        ]];
-        $test = $expression->getExpressionData();
+        $expected = [
+            [
+                'foo.bar = %s AND id != %s',
+                ['foo', 'bar'],
+                [Expression::TYPE_VALUE, Expression::TYPE_VALUE],
+            ],
+        ];
+        $test     = $expression->getExpressionData();
         self::assertEquals($expected, $test, var_export($test, 1));
     }
 }

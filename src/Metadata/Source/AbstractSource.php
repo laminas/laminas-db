@@ -1,13 +1,8 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Metadata\Source;
 
+use Exception;
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Metadata\MetadataInterface;
 use Laminas\Db\Metadata\Object\ColumnObject;
@@ -17,42 +12,36 @@ use Laminas\Db\Metadata\Object\TableObject;
 use Laminas\Db\Metadata\Object\TriggerObject;
 use Laminas\Db\Metadata\Object\ViewObject;
 
+use function array_keys;
+use function func_get_args;
+use function str_replace;
+
 abstract class AbstractSource implements MetadataInterface
 {
-    const DEFAULT_SCHEMA = '__DEFAULT_SCHEMA__';
+    public const DEFAULT_SCHEMA = '__DEFAULT_SCHEMA__';
 
-    /**
-     *
-     * @var Adapter
-     */
-    protected $adapter = null;
+    /** @var Adapter */
+    protected $adapter;
 
-    /**
-     *
-     * @var string
-     */
-    protected $defaultSchema = null;
+    /** @var string */
+    protected $defaultSchema;
 
-    /**
-     *
-     * @var array
-     */
+    /** @var array */
     protected $data = [];
 
     /**
      * Constructor
-     *
-     * @param Adapter $adapter
      */
     public function __construct(Adapter $adapter)
     {
-        $this->adapter = $adapter;
-        $this->defaultSchema = ($adapter->getCurrentSchema()) ?: self::DEFAULT_SCHEMA;
+        $this->adapter       = $adapter;
+        $this->defaultSchema = $adapter->getCurrentSchema() ?: self::DEFAULT_SCHEMA;
     }
 
     /**
      * Get schemas
      *
+     * @return string[]
      */
     public function getSchemas()
     {
@@ -78,7 +67,7 @@ abstract class AbstractSource implements MetadataInterface
 
         $tableNames = [];
         foreach ($this->data['table_names'][$schema] as $tableName => $data) {
-            if ('BASE TABLE' == $data['table_type']) {
+            if ('BASE TABLE' === $data['table_type']) {
                 $tableNames[] = $tableName;
             }
         }
@@ -113,7 +102,7 @@ abstract class AbstractSource implements MetadataInterface
         $this->loadTableNameData($schema);
 
         if (! isset($this->data['table_names'][$schema][$tableName])) {
-            throw new \Exception('Table "' . $tableName . '" does not exist');
+            throw new Exception('Table "' . $tableName . '" does not exist');
         }
 
         $data = $this->data['table_names'][$schema][$tableName];
@@ -128,7 +117,7 @@ abstract class AbstractSource implements MetadataInterface
                 $table->setIsUpdatable($data['is_updatable']);
                 break;
             default:
-                throw new \Exception(
+                throw new Exception(
                     'Table "' . $tableName . '" is of an unsupported type "' . $data['table_type'] . '"'
                 );
         }
@@ -150,7 +139,7 @@ abstract class AbstractSource implements MetadataInterface
 
         $viewNames = [];
         foreach ($this->data['table_names'][$schema] as $tableName => $data) {
-            if ('VIEW' == $data['table_type']) {
+            if ('VIEW' === $data['table_type']) {
                 $viewNames[] = $tableName;
             }
         }
@@ -185,10 +174,10 @@ abstract class AbstractSource implements MetadataInterface
         $this->loadTableNameData($schema);
 
         $tableNames = $this->data['table_names'][$schema];
-        if (isset($tableNames[$viewName]) && 'VIEW' == $tableNames[$viewName]['table_type']) {
+        if (isset($tableNames[$viewName]) && 'VIEW' === $tableNames[$viewName]['table_type']) {
             return $this->getTable($viewName, $schema);
         }
-        throw new \Exception('View "' . $viewName . '" does not exist');
+        throw new Exception('View "' . $viewName . '" does not exist');
     }
 
     /**
@@ -203,7 +192,7 @@ abstract class AbstractSource implements MetadataInterface
         $this->loadColumnData($table, $schema);
 
         if (! isset($this->data['columns'][$schema][$table])) {
-            throw new \Exception('"' . $table . '" does not exist');
+            throw new Exception('"' . $table . '" does not exist');
         }
 
         return array_keys($this->data['columns'][$schema][$table]);
@@ -239,17 +228,23 @@ abstract class AbstractSource implements MetadataInterface
         $this->loadColumnData($table, $schema);
 
         if (! isset($this->data['columns'][$schema][$table][$columnName])) {
-            throw new \Exception('A column by that name was not found.');
+            throw new Exception('A column by that name was not found.');
         }
 
         $info = $this->data['columns'][$schema][$table][$columnName];
 
         $column = new ColumnObject($columnName, $table, $schema);
-        $props = [
-            'ordinal_position', 'column_default', 'is_nullable',
-            'data_type', 'character_maximum_length', 'character_octet_length',
-            'numeric_precision', 'numeric_scale', 'numeric_unsigned',
-            'erratas'
+        $props  = [
+            'ordinal_position',
+            'column_default',
+            'is_nullable',
+            'data_type',
+            'character_maximum_length',
+            'character_octet_length',
+            'numeric_precision',
+            'numeric_scale',
+            'numeric_unsigned',
+            'erratas',
         ];
         foreach ($props as $prop) {
             if (isset($info[$prop])) {
@@ -302,23 +297,25 @@ abstract class AbstractSource implements MetadataInterface
         $this->loadConstraintData($table, $schema);
 
         if (! isset($this->data['constraints'][$schema][$table][$constraintName])) {
-            throw new \Exception('Cannot find a constraint by that name in this table');
+            throw new Exception('Cannot find a constraint by that name in this table');
         }
 
-        $info = $this->data['constraints'][$schema][$table][$constraintName];
+        $info       = $this->data['constraints'][$schema][$table][$constraintName];
         $constraint = new ConstraintObject($constraintName, $table, $schema);
 
-        foreach ([
-            'constraint_type'         => 'setType',
-            'match_option'            => 'setMatchOption',
-            'update_rule'             => 'setUpdateRule',
-            'delete_rule'             => 'setDeleteRule',
-            'columns'                 => 'setColumns',
-            'referenced_table_schema' => 'setReferencedTableSchema',
-            'referenced_table_name'   => 'setReferencedTableName',
-            'referenced_columns'      => 'setReferencedColumns',
-            'check_clause'            => 'setCheckClause',
-        ] as $key => $setMethod) {
+        foreach (
+            [
+                'constraint_type'         => 'setType',
+                'match_option'            => 'setMatchOption',
+                'update_rule'             => 'setUpdateRule',
+                'delete_rule'             => 'setDeleteRule',
+                'columns'                 => 'setColumns',
+                'referenced_table_schema' => 'setReferencedTableSchema',
+                'referenced_table_name'   => 'setReferencedTableName',
+                'referenced_columns'      => 'setReferencedColumns',
+                'check_clause'            => 'setCheckClause',
+            ] as $key => $setMethod
+        ) {
             if (isset($info[$key])) {
                 $constraint->{$setMethod}($info[$key]);
             }
@@ -341,7 +338,7 @@ abstract class AbstractSource implements MetadataInterface
         // organize references first
         $references = [];
         foreach ($this->data['constraint_references'][$schema] as $refKeyInfo) {
-            if ($refKeyInfo['constraint_name'] == $constraint) {
+            if ($refKeyInfo['constraint_name'] === $constraint) {
                 $references[$refKeyInfo['constraint_name']] = $refKeyInfo;
             }
         }
@@ -350,7 +347,7 @@ abstract class AbstractSource implements MetadataInterface
 
         $keys = [];
         foreach ($this->data['constraint_keys'][$schema] as $constraintKeyInfo) {
-            if ($constraintKeyInfo['table_name'] == $table && $constraintKeyInfo['constraint_name'] === $constraint) {
+            if ($constraintKeyInfo['table_name'] === $table && $constraintKeyInfo['constraint_name'] === $constraint) {
                 $keys[] = $key = new ConstraintKeyObject($constraintKeyInfo['column_name']);
                 $key->setOrdinalPosition($constraintKeyInfo['ordinal_position']);
                 if (isset($references[$constraint])) {
@@ -409,7 +406,7 @@ abstract class AbstractSource implements MetadataInterface
         $this->loadTriggerData($schema);
 
         if (! isset($this->data['triggers'][$schema][$triggerName])) {
-            throw new \Exception('Trigger "' . $triggerName . '" does not exist');
+            throw new Exception('Trigger "' . $triggerName . '" does not exist');
         }
 
         $info = $this->data['triggers'][$schema][$triggerName];
@@ -439,7 +436,7 @@ abstract class AbstractSource implements MetadataInterface
      * Prepare data hierarchy
      *
      * @param string $type
-     * @param string $key ...
+     * @return void
      */
     protected function prepareDataHierarchy($type)
     {

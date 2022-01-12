@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo\Postgresql;
 
 use Laminas\Db\Sql\TableIdentifier;
@@ -20,7 +14,7 @@ class TableGatewayTest extends TestCase
 
     public function testLastInsertValue()
     {
-        $table = new TableIdentifier('test_seq');
+        $table      = new TableIdentifier('test_seq');
         $featureSet = new FeatureSet();
         $featureSet->addFeature(new SequenceFeature('id', 'test_seq_id_seq'));
 

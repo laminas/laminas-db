@@ -1,22 +1,19 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\Pgsql;
 
+use Laminas\Db\Adapter\Driver\Pgsql\Connection;
 use Laminas\Db\Adapter\Driver\Pgsql\Pgsql;
 use Laminas\Db\Adapter\Driver\Pgsql\Result;
+use Laminas\Db\Adapter\Driver\Pgsql\Statement;
+use Laminas\Db\Adapter\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
+
+use function extension_loaded;
 
 class PgsqlTest extends TestCase
 {
-    /**
-     * @var Pgsql
-     */
+    /** @var Pgsql */
     protected $pgsql;
 
     /**
@@ -34,7 +31,7 @@ class PgsqlTest extends TestCase
     public function testCheckEnvironment()
     {
         if (! extension_loaded('pgsql')) {
-            $this->expectException('Laminas\Db\Adapter\Exception\RuntimeException');
+            $this->expectException(RuntimeException::class);
         }
         $this->pgsql->checkEnvironment();
         self::assertTrue(true, 'No exception was thrown');
@@ -46,7 +43,7 @@ class PgsqlTest extends TestCase
     public function testRegisterConnection()
     {
         $mockConnection = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\Pgsql\Connection',
+            Connection::class,
             [[]],
             '',
             true,
@@ -63,9 +60,9 @@ class PgsqlTest extends TestCase
      */
     public function testRegisterStatementPrototype()
     {
-        $this->pgsql = new Pgsql([]);
+        $this->pgsql   = new Pgsql([]);
         $mockStatement = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\Pgsql\Statement',
+            Statement::class,
             [],
             '',
             true,
@@ -82,9 +79,9 @@ class PgsqlTest extends TestCase
      */
     public function testRegisterResultPrototype()
     {
-        $this->pgsql = new Pgsql([]);
+        $this->pgsql   = new Pgsql([]);
         $mockStatement = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\Pgsql\Result',
+            Result::class,
             [],
             '',
             true,
@@ -109,9 +106,9 @@ class PgsqlTest extends TestCase
      * @depends testRegisterConnection
      * @covers \Laminas\Db\Adapter\Driver\Pgsql\Pgsql::getConnection
      */
-    public function testGetConnection($mockConnection)
+    public function testGetConnection()
     {
-        $conn = new \Laminas\Db\Adapter\Driver\Pgsql\Connection([]);
+        $conn = new Connection([]);
         $this->pgsql->registerConnection($conn);
         self::assertSame($conn, $this->pgsql->getConnection());
     }

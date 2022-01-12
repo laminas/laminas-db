@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter;
 
 interface StatementContainerInterface
@@ -13,30 +7,29 @@ interface StatementContainerInterface
     /**
      * Set sql
      *
-     * @param $sql
-     * @return mixed
+     * @param null|string $sql
+     * @return static
      */
     public function setSql($sql);
 
     /**
      * Get sql
      *
-     * @return mixed
+     * @return null|string
      */
     public function getSql();
 
     /**
      * Set parameter container
      *
-     * @param ParameterContainer $parameterContainer
-     * @return mixed
+     * @return static
      */
     public function setParameterContainer(ParameterContainer $parameterContainer);
 
     /**
      * Get parameter container
      *
-     * @return mixed
+     * @return null|ParameterContainer
      */
     public function getParameterContainer();
 }

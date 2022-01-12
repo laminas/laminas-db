@@ -1,33 +1,30 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql;
+
+use function array_unique;
+use function count;
+use function is_array;
+use function is_scalar;
+use function is_string;
+use function preg_match_all;
+use function str_ireplace;
+use function str_replace;
 
 class Expression extends AbstractExpression
 {
     /**
      * @const
      */
-    const PLACEHOLDER = '?';
+    public const PLACEHOLDER = '?';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $expression = '';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $parameters = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $types = [];
 
     /**
@@ -45,7 +42,7 @@ class Expression extends AbstractExpression
             if (is_array($parameters)) {
                 foreach ($parameters as $i => $parameter) {
                     $parameters[$i] = [
-                        $parameter => isset($types[$i]) ? $types[$i] : self::TYPE_VALUE,
+                        $parameter => $types[$i] ?? self::TYPE_VALUE,
                     ];
                 }
             } elseif (is_scalar($parameters)) {
@@ -61,13 +58,13 @@ class Expression extends AbstractExpression
     }
 
     /**
-     * @param $expression
+     * @param string $expression
      * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function setExpression($expression)
     {
-        if (! is_string($expression) || $expression == '') {
+        if (! is_string($expression) || $expression === '') {
             throw new Exception\InvalidArgumentException('Supplied expression must be a string.');
         }
         $this->expression = $expression;
@@ -83,7 +80,7 @@ class Expression extends AbstractExpression
     }
 
     /**
-     * @param $parameters
+     * @param scalar|array $parameters
      * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
@@ -106,6 +103,7 @@ class Expression extends AbstractExpression
 
     /**
      * @deprecated
+     *
      * @param array $types
      * @return self Provides a fluent interface
      */
@@ -117,6 +115,7 @@ class Expression extends AbstractExpression
 
     /**
      * @deprecated
+     *
      * @return array
      */
     public function getTypes()
@@ -130,13 +129,13 @@ class Expression extends AbstractExpression
      */
     public function getExpressionData()
     {
-        $parameters = (is_scalar($this->parameters)) ? [$this->parameters] : $this->parameters;
+        $parameters      = is_scalar($this->parameters) ? [$this->parameters] : $this->parameters;
         $parametersCount = count($parameters);
-        $expression = str_replace('%', '%%', $this->expression);
+        $expression      = str_replace('%', '%%', $this->expression);
 
         if ($parametersCount === 0) {
             return [
-                str_ireplace(self::PLACEHOLDER, '', $expression)
+                str_ireplace(self::PLACEHOLDER, '', $expression),
             ];
         }
 
@@ -155,12 +154,14 @@ class Expression extends AbstractExpression
         }
 
         foreach ($parameters as $parameter) {
-            list($values[], $types[]) = $this->normalizeArgument($parameter, self::TYPE_VALUE);
+            [$values[], $types[]] = $this->normalizeArgument($parameter, self::TYPE_VALUE);
         }
-        return [[
-            $expression,
-            $values,
-            $types
-        ]];
+        return [
+            [
+                $expression,
+                $values,
+                $types,
+            ],
+        ];
     }
 }

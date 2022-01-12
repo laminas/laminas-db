@@ -1,33 +1,30 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Platform;
+
+use function addcslashes;
+use function array_map;
+use function implode;
+use function preg_split;
+use function str_replace;
+use function strtolower;
+use function trigger_error;
+
+use const PREG_SPLIT_DELIM_CAPTURE;
+use const PREG_SPLIT_NO_EMPTY;
 
 abstract class AbstractPlatform implements PlatformInterface
 {
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected $quoteIdentifier = ['"', '"'];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $quoteIdentifierTo = '\'';
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $quoteIdentifiers = true;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $quoteIdentifierFragmentPattern = '/([^0-9,a-z,A-Z$_:])/i';
 
     /**
@@ -109,8 +106,8 @@ abstract class AbstractPlatform implements PlatformInterface
     public function quoteValue($value)
     {
         trigger_error(
-            'Attempting to quote a value in ' . get_class($this) .
-            ' without extension/driver support can introduce security vulnerabilities in a production environment'
+            'Attempting to quote a value in ' . static::class
+            . ' without extension/driver support can introduce security vulnerabilities in a production environment'
         );
         return '\'' . addcslashes((string) $value, "\x00\n\r\\'\"\x1a") . '\'';
     }

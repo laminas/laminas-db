@@ -1,34 +1,34 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\Mysqli;
 
 use Exception as GenericException;
 use Laminas\Db\Adapter\Driver\AbstractConnection;
 use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
+
+use function constant;
+use function defined;
+use function is_array;
+use function is_string;
+use function strtoupper;
+
+use const MYSQLI_CLIENT_SSL;
+use const MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
 
 class Connection extends AbstractConnection
 {
-    /**
-     * @var Mysqli
-     */
-    protected $driver = null;
+    /** @var Mysqli */
+    protected $driver;
 
-    /**
-     * @var \mysqli
-     */
-    protected $resource = null;
+    /** @var \mysqli */
+    protected $resource;
 
     /**
      * Constructor
      *
      * @param array|mysqli|null $connectionInfo
-     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($connectionInfo = null)
     {
@@ -44,7 +44,6 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * @param  Mysqli $driver
      * @return self Provides a fluent interface
      */
     public function setDriver(Mysqli $driver)
@@ -64,7 +63,7 @@ class Connection extends AbstractConnection
         }
 
         $result = $this->resource->query('SELECT DATABASE()');
-        $r = $result->fetch_row();
+        $r      = $result->fetch_row();
 
         return $r[0];
     }
@@ -72,7 +71,6 @@ class Connection extends AbstractConnection
     /**
      * Set resource
      *
-     * @param  \mysqli $resource
      * @return self Provides a fluent interface
      */
     public function setResource(\mysqli $resource)
@@ -109,18 +107,18 @@ class Connection extends AbstractConnection
         $username = $findParameterValue(['username', 'user']);
         $password = $findParameterValue(['password', 'passwd', 'pw']);
         $database = $findParameterValue(['database', 'dbname', 'db', 'schema']);
-        $port     = (isset($p['port'])) ? (int) $p['port'] : null;
-        $socket   = (isset($p['socket'])) ? $p['socket'] : null;
+        $port     = isset($p['port']) ? (int) $p['port'] : null;
+        $socket   = $p['socket'] ?? null;
 
-        $useSSL = (isset($p['use_ssl'])) ? $p['use_ssl'] : 0;
-        $clientKey = (isset($p['client_key'])) ? $p['client_key'] : '';
-        $clientCert = (isset($p['client_cert'])) ? $p['client_cert'] : '';
-        $caCert = (isset($p['ca_cert'])) ? $p['ca_cert'] : '';
-        $caPath = (isset($p['ca_path'])) ? $p['ca_path'] : '';
-        $cipher = (isset($p['cipher'])) ? $p['cipher'] : '';
+        // phpcs:ignore WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
+        $useSSL     = $p['use_ssl'] ?? 0;
+        $clientKey  = $p['client_key'] ?? '';
+        $clientCert = $p['client_cert'] ?? '';
+        $caCert     = $p['ca_cert'] ?? '';
+        $caPath     = $p['ca_path'] ?? '';
+        $cipher     = $p['cipher'] ?? '';
 
         $this->resource = $this->createResource();
-        $this->resource->init();
 
         if (! empty($p['driver_options'])) {
             foreach ($p['driver_options'] as $option => $value) {
@@ -137,6 +135,7 @@ class Connection extends AbstractConnection
 
         $flags = null;
 
+        // phpcs:ignore WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
         if ($useSSL && ! $socket) {
             // Even though mysqli docs are not quite clear on this, MYSQLI_CLIENT_SSL
             // needs to be set to make sure SSL is used. ssl_set can also cause it to
@@ -144,7 +143,8 @@ class Connection extends AbstractConnection
             $flags = MYSQLI_CLIENT_SSL;
             $this->resource->ssl_set($clientKey, $clientCert, $caCert, $caPath, $cipher);
             //MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT is not valid option, needs to be set as flag
-            if (isset($p['driver_options'])
+            if (
+                isset($p['driver_options'])
                 && isset($p['driver_options'][MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT])
             ) {
                 $flags |= MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
@@ -158,7 +158,7 @@ class Connection extends AbstractConnection
         } catch (GenericException $e) {
             throw new Exception\RuntimeException(
                 'Connection error',
-                null,
+                $this->resource->connect_errno,
                 new Exception\ErrorException($this->resource->connect_error, $this->resource->connect_errno)
             );
         }
@@ -166,7 +166,7 @@ class Connection extends AbstractConnection
         if ($this->resource->connect_error) {
             throw new Exception\RuntimeException(
                 'Connection error',
-                null,
+                $this->resource->connect_errno,
                 new Exception\ErrorException($this->resource->connect_error, $this->resource->connect_errno)
             );
         }
@@ -183,7 +183,7 @@ class Connection extends AbstractConnection
      */
     public function isConnected()
     {
-        return ($this->resource instanceof \mysqli);
+        return $this->resource instanceof \mysqli;
     }
 
     /**
@@ -274,9 +274,7 @@ class Connection extends AbstractConnection
             throw new Exception\InvalidQueryException($this->resource->error);
         }
 
-        $resultPrototype = $this->driver->createResult(($resultResource === true) ? $this->resource : $resultResource);
-
-        return $resultPrototype;
+        return $this->driver->createResult($resultResource === true ? $this->resource : $resultResource);
     }
 
     /**

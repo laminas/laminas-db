@@ -1,14 +1,18 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Metadata\Source;
 
+use DateTime;
 use Laminas\Db\Adapter\Adapter;
+
+use function array_change_key_case;
+use function array_walk;
+use function implode;
+use function is_array;
+use function is_string;
+use function key;
+
+use const CASE_LOWER;
 
 class PostgresqlMetadata extends AbstractSource
 {
@@ -37,6 +41,10 @@ class PostgresqlMetadata extends AbstractSource
         $this->data['schemas'] = $schemas;
     }
 
+    /**
+     * @param string $schema
+     * @return void
+     */
     protected function loadTableNameData($schema)
     {
         if (isset($this->data['table_names'][$schema])) {
@@ -70,7 +78,7 @@ class PostgresqlMetadata extends AbstractSource
             . ' WHERE ' . $p->quoteIdentifierChain(['t', 'table_type'])
             . ' IN (\'BASE TABLE\', \'VIEW\')';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(['t', 'table_schema'])
                 . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -83,16 +91,21 @@ class PostgresqlMetadata extends AbstractSource
         $tables = [];
         foreach ($results->toArray() as $row) {
             $tables[$row['table_name']] = [
-                'table_type' => $row['table_type'],
+                'table_type'      => $row['table_type'],
                 'view_definition' => $row['view_definition'],
-                'check_option' => $row['check_option'],
-                'is_updatable' => ('YES' == $row['is_updatable']),
+                'check_option'    => $row['check_option'],
+                'is_updatable'    => 'YES' === $row['is_updatable'],
             ];
         }
 
         $this->data['table_names'][$schema] = $tables;
     }
 
+    /**
+     * @param string $table
+     * @param string $schema
+     * @return void
+     */
     protected function loadColumnData($table, $schema)
     {
         if (isset($this->data['columns'][$schema][$table])) {
@@ -128,7 +141,7 @@ class PostgresqlMetadata extends AbstractSource
             . ' AND ' . $platform->quoteIdentifier('table_name')
             . ' = ' . $platform->quoteTrustedValue($table);
 
-        if ($schema != '__DEFAULT_SCHEMA__') {
+        if ($schema !== '__DEFAULT_SCHEMA__') {
             $sql .= ' AND ' . $platform->quoteIdentifier('table_schema')
                 . ' = ' . $platform->quoteTrustedValue($schema);
         }
@@ -137,24 +150,30 @@ class PostgresqlMetadata extends AbstractSource
         $columns = [];
         foreach ($results->toArray() as $row) {
             $columns[$row['column_name']] = [
-                'ordinal_position'          => $row['ordinal_position'],
-                'column_default'            => $row['column_default'],
-                'is_nullable'               => ('YES' == $row['is_nullable']),
-                'data_type'                 => $row['data_type'],
-                'character_maximum_length'  => $row['character_maximum_length'],
-                'character_octet_length'    => $row['character_octet_length'],
-                'numeric_precision'         => $row['numeric_precision'],
-                'numeric_scale'             => $row['numeric_scale'],
-                'numeric_unsigned'          => null,
-                'erratas'                   => [],
+                'ordinal_position'         => $row['ordinal_position'],
+                'column_default'           => $row['column_default'],
+                'is_nullable'              => 'YES' === $row['is_nullable'],
+                'data_type'                => $row['data_type'],
+                'character_maximum_length' => $row['character_maximum_length'],
+                'character_octet_length'   => $row['character_octet_length'],
+                'numeric_precision'        => $row['numeric_precision'],
+                'numeric_scale'            => $row['numeric_scale'],
+                'numeric_unsigned'         => null,
+                'erratas'                  => [],
             ];
         }
 
         $this->data['columns'][$schema][$table] = $columns;
     }
 
+    /**
+     * @param string $table
+     * @param string $schema
+     * @return void
+     */
     protected function loadConstraintData($table, $schema)
     {
+        // phpcs:disable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
         if (isset($this->data['constraints'][$schema][$table])) {
             return;
         }
@@ -179,7 +198,7 @@ class PostgresqlMetadata extends AbstractSource
 
         array_walk($isColumns, function (&$c) use ($p) {
             $alias = key($c);
-            $c = $p->quoteIdentifierChain($c);
+            $c     = $p->quoteIdentifierChain($c);
             if (is_string($alias)) {
                 $c .= ' ' . $p->quoteIdentifier($alias);
             }
@@ -227,7 +246,7 @@ class PostgresqlMetadata extends AbstractSource
              . ' AND ' . $p->quoteIdentifierChain(['t', 'table_type'])
              . ' IN (\'BASE TABLE\', \'VIEW\')';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(['t', 'table_schema'])
             . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -246,29 +265,29 @@ class PostgresqlMetadata extends AbstractSource
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
 
-        $name = null;
+        $name        = null;
         $constraints = [];
         foreach ($results->toArray() as $row) {
             if ($row['constraint_name'] !== $name) {
-                $name = $row['constraint_name'];
+                $name               = $row['constraint_name'];
                 $constraints[$name] = [
                     'constraint_name' => $name,
                     'constraint_type' => $row['constraint_type'],
                     'table_name'      => $row['table_name'],
                 ];
-                if ('CHECK' == $row['constraint_type']) {
+                if ('CHECK' === $row['constraint_type']) {
                     $constraints[$name]['check_clause'] = $row['check_clause'];
                     continue;
                 }
                 $constraints[$name]['columns'] = [];
-                $isFK = ('FOREIGN KEY' == $row['constraint_type']);
+                $isFK                          = 'FOREIGN KEY' === $row['constraint_type'];
                 if ($isFK) {
                     $constraints[$name]['referenced_table_schema'] = $row['referenced_table_schema'];
                     $constraints[$name]['referenced_table_name']   = $row['referenced_table_name'];
                     $constraints[$name]['referenced_columns']      = [];
-                    $constraints[$name]['match_option']       = $row['match_option'];
-                    $constraints[$name]['update_rule']        = $row['update_rule'];
-                    $constraints[$name]['delete_rule']        = $row['delete_rule'];
+                    $constraints[$name]['match_option']            = $row['match_option'];
+                    $constraints[$name]['update_rule']             = $row['update_rule'];
+                    $constraints[$name]['delete_rule']             = $row['delete_rule'];
                 }
             }
             $constraints[$name]['columns'][] = $row['column_name'];
@@ -278,8 +297,13 @@ class PostgresqlMetadata extends AbstractSource
         }
 
         $this->data['constraints'][$schema][$table] = $constraints;
+        // phpcs:enable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
     }
 
+    /**
+     * @param string $schema
+     * @return void
+     */
     protected function loadTriggerData($schema)
     {
         if (isset($this->data['triggers'][$schema])) {
@@ -309,7 +333,7 @@ class PostgresqlMetadata extends AbstractSource
         array_walk($isColumns, function (&$c) use ($p) {
             if (is_array($c)) {
                 $alias = key($c);
-                $c = $p->quoteIdentifierChain($c);
+                $c     = $p->quoteIdentifierChain($c);
                 if (is_string($alias)) {
                     $c .= ' ' . $p->quoteIdentifier($alias);
                 }
@@ -322,7 +346,7 @@ class PostgresqlMetadata extends AbstractSource
             . ' FROM ' . $p->quoteIdentifierChain(['information_schema', 'triggers'])
             . ' WHERE ';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= $p->quoteIdentifier('trigger_schema')
                 . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -334,11 +358,11 @@ class PostgresqlMetadata extends AbstractSource
 
         $data = [];
         foreach ($results->toArray() as $row) {
-            $row = array_change_key_case($row, CASE_LOWER);
+            $row                             = array_change_key_case($row, CASE_LOWER);
             $row['action_reference_old_row'] = 'OLD';
             $row['action_reference_new_row'] = 'NEW';
             if (null !== $row['created']) {
-                $row['created'] = new \DateTime($row['created']);
+                $row['created'] = new DateTime($row['created']);
             }
             $data[$row['trigger_name']] = $row;
         }

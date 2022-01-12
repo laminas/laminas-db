@@ -9,17 +9,19 @@ use Laminas\Db\Sql\Delete;
 
 class DeleteIgnore extends Delete
 {
-    const SPECIFICATION_DELETE = 'deleteIgnore';
+    public const SPECIFICATION_DELETE = 'deleteIgnore';
 
+    /** @var array<string, string> */
     protected $specifications = [
         self::SPECIFICATION_DELETE => 'DELETE IGNORE FROM %1$s',
         self::SPECIFICATION_WHERE  => 'WHERE %1$s',
     ];
 
+    /** @return string */
     protected function processdeleteIgnore(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         return parent::processDelete($platform, $driver, $parameterContainer);
     }

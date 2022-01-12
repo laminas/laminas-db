@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\TableGateway\Feature;
 
 use Laminas\Db\Adapter\Driver\ResultInterface;
@@ -15,41 +9,36 @@ use Laminas\Db\Sql\Delete;
 use Laminas\Db\Sql\Insert;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Update;
+use Laminas\Db\TableGateway\TableGateway;
 use Laminas\EventManager\EventManager;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\EventsCapableInterface;
+
+use function get_class;
 
 class EventFeature extends AbstractFeature implements
     EventFeatureEventsInterface,
     EventsCapableInterface
 {
-    /**
-     * @var EventManagerInterface
-     */
-    protected $eventManager = null;
+    /** @var EventManagerInterface */
+    protected $eventManager;
 
-    /**
-     * @var null
-     */
-    protected $event = null;
+    /** @var null */
+    protected $event;
 
-    /**
-     * @param EventManagerInterface $eventManager
-     * @param EventFeature\TableGatewayEvent $tableGatewayEvent
-     */
     public function __construct(
-        EventManagerInterface $eventManager = null,
-        EventFeature\TableGatewayEvent $tableGatewayEvent = null
+        ?EventManagerInterface $eventManager = null,
+        ?EventFeature\TableGatewayEvent $tableGatewayEvent = null
     ) {
-        $this->eventManager = ($eventManager instanceof EventManagerInterface)
+        $this->eventManager = $eventManager instanceof EventManagerInterface
                             ? $eventManager
-                            : new EventManager;
+                            : new EventManager();
 
         $this->eventManager->addIdentifiers([
-            'Laminas\Db\TableGateway\TableGateway',
+            TableGateway::class,
         ]);
 
-        $this->event = ($tableGatewayEvent) ?: new EventFeature\TableGatewayEvent();
+        $this->event = $tableGatewayEvent ?: new EventFeature\TableGatewayEvent();
     }
 
     /**
@@ -83,7 +72,7 @@ class EventFeature extends AbstractFeature implements
      */
     public function preInitialize()
     {
-        if (get_class($this->tableGateway) != 'Laminas\Db\TableGateway\TableGateway') {
+        if (get_class($this->tableGateway) !== TableGateway::class) {
             $this->eventManager->addIdentifiers([get_class($this->tableGateway)]);
         }
 
@@ -109,7 +98,6 @@ class EventFeature extends AbstractFeature implements
      * Triggers the "preSelect" event mapping the following parameters:
      * - $select as "select"
      *
-     * @param  Select $select
      * @return void
      */
     public function preSelect(Select $select)
@@ -127,18 +115,15 @@ class EventFeature extends AbstractFeature implements
      * - $result as "result"
      * - $resultSet as "result_set"
      *
-     * @param  StatementInterface $statement
-     * @param  ResultInterface $result
-     * @param  ResultSetInterface $resultSet
      * @return void
      */
     public function postSelect(StatementInterface $statement, ResultInterface $result, ResultSetInterface $resultSet)
     {
         $this->event->setName(static::EVENT_POST_SELECT);
         $this->event->setParams([
-            'statement' => $statement,
-            'result' => $result,
-            'result_set' => $resultSet
+            'statement'  => $statement,
+            'result'     => $result,
+            'result_set' => $resultSet,
         ]);
         $this->eventManager->triggerEvent($this->event);
     }
@@ -149,7 +134,6 @@ class EventFeature extends AbstractFeature implements
      * Triggers the "preInsert" event mapping the following parameters:
      * - $insert as "insert"
      *
-     * @param  Insert $insert
      * @return void
      */
     public function preInsert(Insert $insert)
@@ -166,8 +150,6 @@ class EventFeature extends AbstractFeature implements
      * - $statement as "statement"
      * - $result as "result"
      *
-     * @param  StatementInterface $statement
-     * @param  ResultInterface $result
      * @return void
      */
     public function postInsert(StatementInterface $statement, ResultInterface $result)
@@ -175,7 +157,7 @@ class EventFeature extends AbstractFeature implements
         $this->event->setName(static::EVENT_POST_INSERT);
         $this->event->setParams([
             'statement' => $statement,
-            'result' => $result,
+            'result'    => $result,
         ]);
         $this->eventManager->triggerEvent($this->event);
     }
@@ -186,7 +168,6 @@ class EventFeature extends AbstractFeature implements
      * Triggers the "preUpdate" event mapping the following parameters:
      * - $update as "update"
      *
-     * @param  Update $update
      * @return void
      */
     public function preUpdate(Update $update)
@@ -203,8 +184,6 @@ class EventFeature extends AbstractFeature implements
      * - $statement as "statement"
      * - $result as "result"
      *
-     * @param  StatementInterface $statement
-     * @param  ResultInterface $result
      * @return void
      */
     public function postUpdate(StatementInterface $statement, ResultInterface $result)
@@ -212,7 +191,7 @@ class EventFeature extends AbstractFeature implements
         $this->event->setName(static::EVENT_POST_UPDATE);
         $this->event->setParams([
             'statement' => $statement,
-            'result' => $result,
+            'result'    => $result,
         ]);
         $this->eventManager->triggerEvent($this->event);
     }
@@ -223,7 +202,6 @@ class EventFeature extends AbstractFeature implements
      * Triggers the "preDelete" event mapping the following parameters:
      * - $delete as "delete"
      *
-     * @param  Delete $delete
      * @return void
      */
     public function preDelete(Delete $delete)
@@ -240,8 +218,6 @@ class EventFeature extends AbstractFeature implements
      * - $statement as "statement"
      * - $result as "result"
      *
-     * @param  StatementInterface $statement
-     * @param  ResultInterface $result
      * @return void
      */
     public function postDelete(StatementInterface $statement, ResultInterface $result)
@@ -249,7 +225,7 @@ class EventFeature extends AbstractFeature implements
         $this->event->setName(static::EVENT_POST_DELETE);
         $this->event->setParams([
             'statement' => $statement,
-            'result' => $result,
+            'result'    => $result,
         ]);
         $this->eventManager->triggerEvent($this->event);
     }

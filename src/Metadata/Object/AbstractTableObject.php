@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Metadata\Object;
 
 abstract class AbstractTableObject
@@ -15,29 +9,17 @@ abstract class AbstractTableObject
     protected $schemaName = null;
     */
 
-    /**
-     *
-     * @var string
-     */
-    protected $name = null;
+    /** @var string */
+    protected $name;
 
-    /**
-     *
-     * @var string
-     */
-    protected $type = null;
+    /** @var string */
+    protected $type;
 
-    /**
-     *
-     * @var array
-     */
-    protected $columns = null;
+    /** @var array */
+    protected $columns;
 
-    /**
-     *
-     * @var array
-     */
-    protected $constraints = null;
+    /** @var array */
+    protected $constraints;
 
     /**
      * Constructor

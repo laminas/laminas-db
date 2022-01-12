@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Platform;
 
 use Laminas\Db\Adapter\Platform\Postgresql;
@@ -13,9 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class PostgresqlTest extends TestCase
 {
-    /**
-     * @var Postgresql
-     */
+    /** @var Postgresql */
     protected $platform;
 
     /**
@@ -24,7 +16,7 @@ class PostgresqlTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->platform = new Postgresql;
+        $this->platform = new Postgresql();
     }
 
     /**

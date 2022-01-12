@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasIntegrationTest\Db\Adapter\Platform;
 
 use Laminas\Db\Adapter\Driver\Mysqli;
@@ -13,18 +7,22 @@ use Laminas\Db\Adapter\Driver\Pdo;
 use Laminas\Db\Adapter\Platform\Mysql;
 use PHPUnit\Framework\TestCase;
 
+use function extension_loaded;
+use function getenv;
+
 /**
  * @group integration
  * @group integration-mysql
  */
 class MysqlTest extends TestCase
 {
+    /** @var array<string, resource|\PDO> */
     public $adapters = [];
 
     protected function setUp(): void
     {
         if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL')) {
-            $this->markTestSkipped(__CLASS__ . ' integration tests are not enabled!');
+            $this->markTestSkipped(self::class . ' integration tests are not enabled!');
         }
         if (extension_loaded('mysqli')) {
             $this->adapters['mysqli'] = new \mysqli(

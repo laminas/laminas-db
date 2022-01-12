@@ -1,31 +1,27 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Metadata\Source;
 
 use Laminas\Db\Adapter\Adapter;
+
+use function implode;
+use function strtoupper;
 
 /**
  * Metadata source for Oracle
  */
 class OracleMetadata extends AbstractSource
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $constraintTypeMap = [
         'C' => 'CHECK',
         'P' => 'PRIMARY KEY',
-        'R' => 'FOREIGN_KEY'
+        'R' => 'FOREIGN_KEY',
     ];
 
     /**
      * {@inheritdoc}
+     *
      * @see \Laminas\Db\Metadata\Source\AbstractSource::loadColumnData()
      */
     protected function loadColumnData($table, $schema)
@@ -42,34 +38,34 @@ class OracleMetadata extends AbstractSource
             'DATA_TYPE',
             'DATA_LENGTH',
             'DATA_PRECISION',
-            'DATA_SCALE'
+            'DATA_SCALE',
         ];
 
         $this->prepareDataHierarchy('columns', $schema, $table);
         $parameters = [
             ':ownername' => $schema,
-            ':tablename' => $table
+            ':tablename' => $table,
         ];
 
         $sql = 'SELECT ' . implode(', ', $isColumns)
              . ' FROM all_tab_columns'
              . ' WHERE owner = :ownername AND table_name = :tablename';
 
-        $result = $this->adapter->query($sql)->execute($parameters);
+        $result  = $this->adapter->query($sql)->execute($parameters);
         $columns = [];
 
         foreach ($result as $row) {
             $columns[$row['COLUMN_NAME']] = [
-                'ordinal_position'          => $row['COLUMN_ID'],
-                'column_default'            => $row['DATA_DEFAULT'],
-                'is_nullable'               => ('Y' == $row['NULLABLE']),
-                'data_type'                 => $row['DATA_TYPE'],
-                'character_maximum_length'  => $row['DATA_LENGTH'],
-                'character_octet_length'    => null,
-                'numeric_precision'         => $row['DATA_PRECISION'],
-                'numeric_scale'             => $row['DATA_SCALE'],
-                'numeric_unsigned'          => false,
-                'erratas'                   => [],
+                'ordinal_position'         => $row['COLUMN_ID'],
+                'column_default'           => $row['DATA_DEFAULT'],
+                'is_nullable'              => 'Y' === $row['NULLABLE'],
+                'data_type'                => $row['DATA_TYPE'],
+                'character_maximum_length' => $row['DATA_LENGTH'],
+                'character_octet_length'   => null,
+                'numeric_precision'        => $row['DATA_PRECISION'],
+                'numeric_scale'            => $row['DATA_SCALE'],
+                'numeric_unsigned'         => false,
+                'erratas'                  => [],
             ];
         }
 
@@ -94,10 +90,12 @@ class OracleMetadata extends AbstractSource
 
     /**
      * {@inheritdoc}
+     *
      * @see \Laminas\Db\Metadata\Source\AbstractSource::loadConstraintData()
      */
     protected function loadConstraintData($table, $schema)
     {
+        // phpcs:disable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
         if (isset($this->data['constraints'][$schema][$table])) {
             return;
         }
@@ -130,31 +128,31 @@ class OracleMetadata extends AbstractSource
 
         $parameters = [
             ':ownername' => $schema,
-            ':tablename' => $table
+            ':tablename' => $table,
         ];
 
-        $results = $this->adapter->query($sql)->execute($parameters);
-        $isFK = false;
-        $name = null;
+        $results     = $this->adapter->query($sql)->execute($parameters);
+        $isFK        = false;
+        $name        = null;
         $constraints = [];
 
         foreach ($results as $row) {
             if ($row['CONSTRAINT_NAME'] !== $name) {
-                $name = $row['CONSTRAINT_NAME'];
+                $name               = $row['CONSTRAINT_NAME'];
                 $constraints[$name] = [
                     'constraint_name' => $name,
                     'constraint_type' => $this->getConstraintType($row['CONSTRAINT_TYPE']),
                     'table_name'      => $row['TABLE_NAME'],
                 ];
 
-                if ('C' == $row['CONSTRAINT_TYPE']) {
+                if ('C' === $row['CONSTRAINT_TYPE']) {
                     $constraints[$name]['CHECK_CLAUSE'] = $row['CHECK_CLAUSE'];
                     continue;
                 }
 
                 $constraints[$name]['columns'] = [];
 
-                $isFK = ('R' == $row['CONSTRAINT_TYPE']);
+                $isFK = 'R' === $row['CONSTRAINT_TYPE'];
                 if ($isFK) {
                     $constraints[$name]['referenced_table_schema'] = $row['REF_OWNER'];
                     $constraints[$name]['referenced_table_name']   = $row['REF_TABLE'];
@@ -174,10 +172,12 @@ class OracleMetadata extends AbstractSource
         $this->data['constraints'][$schema][$table] = $constraints;
 
         return $this;
+        // phpcs:enable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
     }
 
     /**
      * {@inheritdoc}
+     *
      * @see \Laminas\Db\Metadata\Source\AbstractSource::loadSchemaData()
      */
     protected function loadSchemaData()
@@ -187,7 +187,7 @@ class OracleMetadata extends AbstractSource
         }
 
         $this->prepareDataHierarchy('schemas');
-        $sql = 'SELECT USERNAME FROM ALL_USERS';
+        $sql     = 'SELECT USERNAME FROM ALL_USERS';
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
 
         $schemas = [];
@@ -200,6 +200,7 @@ class OracleMetadata extends AbstractSource
 
     /**
      * {@inheritdoc}
+     *
      * @see \Laminas\Db\Metadata\Source\AbstractSource::loadTableNameData()
      */
     protected function loadTableNameData($schema)
@@ -212,15 +213,15 @@ class OracleMetadata extends AbstractSource
         $tables = [];
 
         // Tables
-        $bind = [':OWNER' => strtoupper($schema)];
+        $bind   = [':OWNER' => strtoupper($schema)];
         $result = $this->adapter->query('SELECT TABLE_NAME FROM ALL_TABLES WHERE OWNER=:OWNER')->execute($bind);
 
         foreach ($result as $row) {
             $tables[$row['TABLE_NAME']] = [
-                'table_type' => 'BASE TABLE',
+                'table_type'      => 'BASE TABLE',
                 'view_definition' => null,
-                'check_option' => null,
-                'is_updatable' => false,
+                'check_option'    => null,
+                'is_updatable'    => false,
             ];
         }
 
@@ -228,10 +229,10 @@ class OracleMetadata extends AbstractSource
         $result = $this->adapter->query('SELECT VIEW_NAME, TEXT FROM ALL_VIEWS WHERE OWNER=:OWNER', $bind);
         foreach ($result as $row) {
             $tables[$row['VIEW_NAME']] = [
-                'table_type' => 'VIEW',
+                'table_type'      => 'VIEW',
                 'view_definition' => null,
-                'check_option' => 'NONE',
-                'is_updatable' => false,
+                'check_option'    => 'NONE',
+                'is_updatable'    => false,
             ];
         }
 

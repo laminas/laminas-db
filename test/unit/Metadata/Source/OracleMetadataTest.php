@@ -1,30 +1,26 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Metadata\Source;
 
 use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\Oci8\Statement;
+use Laminas\Db\Metadata\Object\ConstraintObject;
 use Laminas\Db\Metadata\Source\OracleMetadata;
 use LaminasTest\Db\Adapter\Driver\Oci8\AbstractIntegrationTest;
+use PHPUnit\Framework\MockObject\MockObject;
+
+use function count;
+use function extension_loaded;
 
 /**
  * @requires extension oci8
  */
 class OracleMetadataTest extends AbstractIntegrationTest
 {
-    /**
-     * @var OracleMetadata
-     */
+    /** @var OracleMetadata */
     protected $metadata;
 
-    /**
-     * @var Adapter
-     */
+    /** @var Adapter */
     protected $adapter;
 
     /**
@@ -38,25 +34,24 @@ class OracleMetadataTest extends AbstractIntegrationTest
         }
         parent::setUp();
         $this->variables['driver'] = 'OCI8';
-        $this->adapter = new Adapter($this->variables);
-        $this->metadata = new OracleMetadata($this->adapter);
+        $this->adapter             = new Adapter($this->variables);
+        $this->metadata            = new OracleMetadata($this->adapter);
     }
 
     /**
      * @dataProvider constraintDataProvider
-     *
      * @param array $constraintData
      */
     public function testGetConstraints(array $constraintData)
     {
-        $statement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Oci8\Statement')
+        $statement = $this->getMockBuilder(Statement::class)
             ->getMock();
         $statement->expects($this->once())
             ->method('execute')
             ->willReturn($constraintData);
 
-        /** @var \Laminas\Db\Adapter\Adapter|\PHPUnit\Framework\MockObject\MockObject $adapter */
-        $adapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        /** @var Adapter|MockObject $adapter */
+        $adapter = $this->getMockBuilder(Adapter::class)
             ->setConstructorArgs([$this->variables])
             ->getMock();
         $adapter->expects($this->once())
@@ -70,7 +65,7 @@ class OracleMetadataTest extends AbstractIntegrationTest
         self::assertCount(count($constraintData), $constraints);
 
         self::assertContainsOnlyInstancesOf(
-            'Laminas\Db\Metadata\Object\ConstraintObject',
+            ConstraintObject::class,
             $constraints
         );
     }
@@ -84,33 +79,33 @@ class OracleMetadataTest extends AbstractIntegrationTest
             [
                 [
                     // no constraints
-                ]
+                ],
             ],
             [
                 [
                     [
-                        'OWNER' => 'SYS',
+                        'OWNER'           => 'SYS',
                         'CONSTRAINT_NAME' => 'SYS_C000001',
                         'CONSTRAINT_TYPE' => 'C',
-                        'CHECK_CLAUSE' => '"COLUMN_1" IS NOT NULL',
-                        'TABLE_NAME' => 'TABLE',
-                        'DELETE_RULE' => null,
-                        'COLUMN_NAME' => 'COLUMN_1',
-                        'REF_TABLE' => null,
-                        'REF_COLUMN' => null,
-                        'REF_OWNER' => null,
+                        'CHECK_CLAUSE'    => '"COLUMN_1" IS NOT NULL',
+                        'TABLE_NAME'      => 'TABLE',
+                        'DELETE_RULE'     => null,
+                        'COLUMN_NAME'     => 'COLUMN_1',
+                        'REF_TABLE'       => null,
+                        'REF_COLUMN'      => null,
+                        'REF_OWNER'       => null,
                     ],
                     [
-                        'OWNER' => 'SYS',
+                        'OWNER'           => 'SYS',
                         'CONSTRAINT_NAME' => 'SYS_C000002',
                         'CONSTRAINT_TYPE' => 'C',
-                        'CHECK_CLAUSE' => '"COLUMN_2" IS NOT NULL',
-                        'TABLE_NAME' => 'TABLE',
-                        'DELETE_RULE' => null,
-                        'COLUMN_NAME' => 'COLUMN_2',
-                        'REF_TABLE' => null,
-                        'REF_COLUMN' => null,
-                        'REF_OWNER' => null,
+                        'CHECK_CLAUSE'    => '"COLUMN_2" IS NOT NULL',
+                        'TABLE_NAME'      => 'TABLE',
+                        'DELETE_RULE'     => null,
+                        'COLUMN_NAME'     => 'COLUMN_2',
+                        'REF_TABLE'       => null,
+                        'REF_COLUMN'      => null,
+                        'REF_OWNER'       => null,
                     ],
                 ],
             ],

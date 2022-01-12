@@ -1,36 +1,36 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Platform;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Pdo;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
 use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
+
+use function addcslashes;
+use function implode;
+use function in_array;
+use function str_replace;
+use function trigger_error;
 
 class SqlServer extends AbstractPlatform
 {
     /**
      * {@inheritDoc}
      */
-    protected $quoteIdentifier = ['[',']'];
+    protected $quoteIdentifier = ['[', ']'];
 
     /**
      * {@inheritDoc}
      */
     protected $quoteIdentifierTo = '\\';
 
-    /**
-     * @var resource|\PDO
-     */
-    protected $resource = null;
+    /** @var resource|\PDO */
+    protected $resource;
 
     /**
-     * @param null|\Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
+     * @param null|Sqlsrv|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
      */
     public function __construct($driver = null)
     {
@@ -40,14 +40,15 @@ class SqlServer extends AbstractPlatform
     }
 
     /**
-     * @param \Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
+     * @param Sqlsrv|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
      * @return self Provides a fluent interface
-     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function setDriver($driver)
     {
         // handle Laminas\Db drivers
-        if (($driver instanceof Pdo\Pdo && in_array($driver->getDatabasePlatformName(), ['SqlServer', 'Dblib']))
+        if (
+            ($driver instanceof Pdo\Pdo && in_array($driver->getDatabasePlatformName(), ['SqlServer', 'Dblib']))
             || ($driver instanceof \PDO && in_array($driver->getAttribute(\PDO::ATTR_DRIVER_NAME), ['sqlsrv', 'dblib']))
         ) {
             $this->resource = $driver;
@@ -97,7 +98,7 @@ class SqlServer extends AbstractPlatform
             return $resource->quote($value);
         }
         trigger_error(
-            'Attempting to quote a value in ' . __CLASS__ . ' without extension/driver support '
+            'Attempting to quote a value in ' . self::class . ' without extension/driver support '
                 . 'can introduce security vulnerabilities in a production environment.'
         );
 

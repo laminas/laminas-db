@@ -1,23 +1,22 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Sql\Ddl;
 
 use Laminas\Db\Sql\Ddl\Column\Column;
+use Laminas\Db\Sql\Ddl\Column\ColumnInterface;
 use Laminas\Db\Sql\Ddl\Constraint;
+use Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface;
 use Laminas\Db\Sql\Ddl\CreateTable;
 use Laminas\Db\Sql\TableIdentifier;
 use PHPUnit\Framework\TestCase;
+
+use function array_pop;
 
 class CreateTableTest extends TestCase
 {
     /**
      * test object construction
+     *
      * @covers \Laminas\Db\Sql\Ddl\CreateTable::__construct
      */
     public function testObjectConstruction()
@@ -57,7 +56,7 @@ class CreateTableTest extends TestCase
     /**
      * @covers \Laminas\Db\Sql\Ddl\CreateTable::setTable
      */
-    public function testSetTable()
+    public function testSetTable(): CreateTable
     {
         $ct = new CreateTable();
         self::assertEquals('', $ct->getRawState('table'));
@@ -77,10 +76,10 @@ class CreateTableTest extends TestCase
     /**
      * @covers \Laminas\Db\Sql\Ddl\CreateTable::addColumn
      */
-    public function testAddColumn()
+    public function testAddColumn(): CreateTable
     {
-        $column = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Column\ColumnInterface')->getMock();
-        $ct = new CreateTable;
+        $column = $this->getMockBuilder(ColumnInterface::class)->getMock();
+        $ct     = new CreateTable();
         self::assertSame($ct, $ct->addColumn($column));
         return $ct;
     }
@@ -94,16 +93,16 @@ class CreateTableTest extends TestCase
         $state = $ct->getRawState('columns');
         self::assertIsArray($state);
         $column = array_pop($state);
-        self::assertInstanceOf('Laminas\Db\Sql\Ddl\Column\ColumnInterface', $column);
+        self::assertInstanceOf(ColumnInterface::class, $column);
     }
 
     /**
      * @covers \Laminas\Db\Sql\Ddl\CreateTable::addConstraint
      */
-    public function testAddConstraint()
+    public function testAddConstraint(): CreateTable
     {
-        $constraint = $this->getMockBuilder('Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface')->getMock();
-        $ct = new CreateTable;
+        $constraint = $this->getMockBuilder(ConstraintInterface::class)->getMock();
+        $ct         = new CreateTable();
         self::assertSame($ct, $ct->addConstraint($constraint));
         return $ct;
     }
@@ -117,7 +116,7 @@ class CreateTableTest extends TestCase
         $state = $ct->getRawState('constraints');
         self::assertIsArray($state);
         $constraint = array_pop($state);
-        self::assertInstanceOf('Laminas\Db\Sql\Ddl\Constraint\ConstraintInterface', $constraint);
+        self::assertInstanceOf(ConstraintInterface::class, $constraint);
     }
 
     /**

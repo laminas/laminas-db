@@ -1,42 +1,28 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\IbmDb2;
 
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Exception;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
+use ReturnTypeWillChange;
 
 class Result implements ResultInterface
 {
-    /**
-     * @var resource
-     */
+    /** @var resource */
     protected $resource;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $position = 0;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $currentComplete = false;
 
-    /**
-     * @var mixed
-     */
-    protected $currentData = null;
+    /** @var mixed */
+    protected $currentData;
 
-    /**
-     * @var mixed
-     */
-    protected $generatedValue = null;
+    /** @var mixed */
+    protected $generatedValue;
 
     /**
      * @param  resource $resource
@@ -45,7 +31,7 @@ class Result implements ResultInterface
      */
     public function initialize($resource, $generatedValue = null)
     {
-        $this->resource = $resource;
+        $this->resource       = $resource;
         $this->generatedValue = $generatedValue;
         return $this;
     }
@@ -53,9 +39,12 @@ class Result implements ResultInterface
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element
+     *
      * @link http://php.net/manual/en/iterator.current.php
+     *
      * @return mixed Can return any type.
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
         if ($this->currentComplete) {
@@ -69,9 +58,10 @@ class Result implements ResultInterface
     /**
      * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function next()
     {
-        $this->currentData = db2_fetch_assoc($this->resource);
+        $this->currentData     = db2_fetch_assoc($this->resource);
         $this->currentComplete = true;
         $this->position++;
         return $this->currentData;
@@ -80,6 +70,7 @@ class Result implements ResultInterface
     /**
      * @return int|string
      */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->position;
@@ -88,17 +79,21 @@ class Result implements ResultInterface
     /**
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function valid()
     {
-        return ($this->currentData !== false);
+        return $this->currentData !== false;
     }
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Rewind the Iterator to the first element
+     *
      * @link http://php.net/manual/en/iterator.rewind.php
+     *
      * @return void Any returned value is ignored.
      */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         if ($this->position > 0) {
@@ -106,19 +101,19 @@ class Result implements ResultInterface
                 'This result is a forward only result set, calling rewind() after moving forward is not supported'
             );
         }
-        $this->currentData = db2_fetch_assoc($this->resource);
+        $this->currentData     = db2_fetch_assoc($this->resource);
         $this->currentComplete = true;
-        $this->position = 1;
+        $this->position        = 1;
     }
 
     /**
      * Force buffering
      *
-     * @return void
+     * @return null
      */
     public function buffer()
     {
-        return;
+        return null;
     }
 
     /**
@@ -138,7 +133,7 @@ class Result implements ResultInterface
      */
     public function isQueryResult()
     {
-        return (db2_num_fields($this->resource) > 0);
+        return db2_num_fields($this->resource) > 0;
     }
 
     /**
@@ -182,10 +177,11 @@ class Result implements ResultInterface
     }
 
     /**
-     * @return null|int
+     * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
-        return;
+        return 0;
     }
 }

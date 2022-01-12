@@ -1,58 +1,47 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\IbmDb2;
 
 use ErrorException;
 use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Profiler;
 
+use function error_reporting;
+use function get_resource_type;
+use function is_array;
+use function restore_error_handler;
+use function set_error_handler;
+
+use const E_WARNING;
+
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
-    /**
-     * @var resource
-     */
-    protected $db2 = null;
+    /** @var resource */
+    protected $db2;
 
-    /**
-     * @var IbmDb2
-     */
-    protected $driver = null;
+    /** @var IbmDb2 */
+    protected $driver;
 
-    /**
-     * @var Profiler\ProfilerInterface
-     */
-    protected $profiler = null;
+    /** @var Profiler\ProfilerInterface */
+    protected $profiler;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $sql = '';
 
-    /**
-     * @var ParameterContainer
-     */
-    protected $parameterContainer = null;
+    /** @var ParameterContainer */
+    protected $parameterContainer;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $isPrepared = false;
 
-    /**
-     * @var resource
-     */
-    protected $resource = null;
+    /** @var resource */
+    protected $resource;
 
     /**
-     * @param $resource
+     * @param resource $resource
      * @return self Provides a fluent interface
      */
     public function initialize($resource)
@@ -62,7 +51,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param IbmDb2 $driver
      * @return self Provides a fluent interface
      */
     public function setDriver(IbmDb2 $driver)
@@ -72,7 +60,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -92,7 +79,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set sql
      *
-     * @param $sql
+     * @param null|string $sql
      * @return self Provides a fluent interface
      */
     public function setSql($sql)
@@ -104,7 +91,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Get sql
      *
-     * @return mixed
+     * @return null|string
      */
     public function getSql()
     {
@@ -114,7 +101,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set parameter container
      *
-     * @param ParameterContainer $parameterContainer
      * @return self Provides a fluent interface
      */
     public function setParameterContainer(ParameterContainer $parameterContainer)
@@ -134,8 +120,8 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param $resource
-     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
+     * @param resource $resource
+     * @throws InvalidArgumentException
      */
     public function setResource($resource)
     {
@@ -215,7 +201,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         if (! $this->parameterContainer instanceof ParameterContainer) {
             if ($parameters instanceof ParameterContainer) {
                 $this->parameterContainer = $parameters;
-                $parameters = null;
+                $parameters               = null;
             } else {
                 $this->parameterContainer = new ParameterContainer();
             }
@@ -243,8 +229,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             throw new Exception\RuntimeException(db2_stmt_errormsg($this->resource));
         }
 
-        $result = $this->driver->createResult($this->resource);
-        return $result;
+        return $this->driver->createResult($this->resource);
     }
 
     /**

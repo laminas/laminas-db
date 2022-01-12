@@ -1,19 +1,17 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql;
 
+use Closure;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Platform\PlatformInterface;
 
+use function array_key_exists;
+use function sprintf;
+use function strtolower;
+
 /**
- *
  * @property Where $where
  */
 class Delete extends AbstractPreparableSql
@@ -21,8 +19,8 @@ class Delete extends AbstractPreparableSql
     /**@#+
      * @const
      */
-    const SPECIFICATION_DELETE = 'delete';
-    const SPECIFICATION_WHERE = 'where';
+    public const SPECIFICATION_DELETE = 'delete';
+    public const SPECIFICATION_WHERE  = 'where';
     /**@#-*/
 
     /**
@@ -30,28 +28,20 @@ class Delete extends AbstractPreparableSql
      */
     protected $specifications = [
         self::SPECIFICATION_DELETE => 'DELETE FROM %1$s',
-        self::SPECIFICATION_WHERE => 'WHERE %1$s'
+        self::SPECIFICATION_WHERE  => 'WHERE %1$s',
     ];
 
-    /**
-     * @var string|TableIdentifier
-     */
+    /** @var string|TableIdentifier */
     protected $table = '';
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $emptyWhereProtection = true;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $set = [];
 
-    /**
-     * @var null|string|Where
-     */
-    protected $where = null;
+    /** @var null|string|Where */
+    protected $where;
 
     /**
      * Constructor
@@ -80,26 +70,24 @@ class Delete extends AbstractPreparableSql
 
     /**
      * @param null $key
-     *
      * @return mixed
      */
     public function getRawState($key = null)
     {
         $rawState = [
             'emptyWhereProtection' => $this->emptyWhereProtection,
-            'table' => $this->table,
-            'set' => $this->set,
-            'where' => $this->where
+            'table'                => $this->table,
+            'set'                  => $this->set,
+            'where'                => $this->where,
         ];
-        return (isset($key) && array_key_exists($key, $rawState)) ? $rawState[$key] : $rawState;
+        return isset($key) && array_key_exists($key, $rawState) ? $rawState[$key] : $rawState;
     }
 
     /**
      * Create where clause
      *
-     * @param  Where|\Closure|string|array $predicate
+     * @param Where|Closure|string|array $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
-     *
      * @return self Provides a fluent interface
      */
     public function where($predicate, $combination = Predicate\PredicateSet::OP_AND)
@@ -113,16 +101,12 @@ class Delete extends AbstractPreparableSql
     }
 
     /**
-     * @param PlatformInterface       $platform
-     * @param DriverInterface|null    $driver
-     * @param ParameterContainer|null $parameterContainer
-     *
      * @return string
      */
     protected function processDelete(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         return sprintf(
             $this->specifications[static::SPECIFICATION_DELETE],
@@ -131,18 +115,14 @@ class Delete extends AbstractPreparableSql
     }
 
     /**
-     * @param PlatformInterface       $platform
-     * @param DriverInterface|null    $driver
-     * @param ParameterContainer|null $parameterContainer
-     *
      * @return null|string
      */
     protected function processWhere(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
-        if ($this->where->count() == 0) {
+        if ($this->where->count() === 0) {
             return;
         }
 
@@ -158,7 +138,6 @@ class Delete extends AbstractPreparableSql
      * Overloads "where" only.
      *
      * @param  string $name
-     *
      * @return Where|null
      */
     public function __get($name)

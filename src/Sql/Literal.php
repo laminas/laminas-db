@@ -1,22 +1,16 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql;
+
+use function str_replace;
 
 class Literal implements ExpressionInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $literal = '';
 
     /**
-     * @param $literal
+     * @param string $literal
      */
     public function __construct($literal = '')
     {
@@ -46,10 +40,12 @@ class Literal implements ExpressionInterface
      */
     public function getExpressionData()
     {
-        return [[
-            str_replace('%', '%%', $this->literal),
-            [],
-            []
-        ]];
+        return [
+            [
+                str_replace('%', '%%', $this->literal),
+                [],
+                [],
+            ],
+        ];
     }
 }

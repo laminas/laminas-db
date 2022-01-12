@@ -1,19 +1,13 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver;
 
 interface DriverInterface
 {
-    const PARAMETERIZATION_POSITIONAL = 'positional';
-    const PARAMETERIZATION_NAMED = 'named';
-    const NAME_FORMAT_CAMELCASE = 'camelCase';
-    const NAME_FORMAT_NATURAL = 'natural';
+    public const PARAMETERIZATION_POSITIONAL = 'positional';
+    public const PARAMETERIZATION_NAMED      = 'named';
+    public const NAME_FORMAT_CAMELCASE       = 'camelCase';
+    public const NAME_FORMAT_NATURAL         = 'natural';
 
     /**
      * Get database platform name

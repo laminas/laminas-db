@@ -1,22 +1,17 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Platform;
 
 use Laminas\Db\Adapter\Driver\Pdo\Pdo;
 use Laminas\Db\Adapter\Platform\SqlServer;
 use PHPUnit\Framework\TestCase;
 
+use function restore_error_handler;
+use function set_error_handler;
+
 class SqlServerTest extends TestCase
 {
-    /**
-     * @var SqlServer
-     */
+    /** @var SqlServer */
     protected $platform;
 
     /**
@@ -25,7 +20,7 @@ class SqlServerTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->platform = new SqlServer;
+        $this->platform = new SqlServer();
     }
 
     /**
@@ -185,7 +180,7 @@ class SqlServerTest extends TestCase
         set_error_handler(function () {
         });
         $string = "1\0";
-        $value = $this->platform->quoteValue($string);
+        $value  = $this->platform->quoteValue($string);
         restore_error_handler();
         self::assertEquals("'1\\000'", $value);
     }

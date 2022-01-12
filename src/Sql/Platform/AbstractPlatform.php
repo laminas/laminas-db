@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Platform;
 
 use Laminas\Db\Adapter\AdapterInterface;
@@ -17,14 +11,10 @@ use Laminas\Db\Sql\SqlInterface;
 
 class AbstractPlatform implements PlatformDecoratorInterface, PreparableSqlInterface, SqlInterface
 {
-    /**
-     * @var object|null
-     */
+    /** @var object|null */
     protected $subject;
 
-    /**
-     * @var PlatformDecoratorInterface[]
-     */
+    /** @var PlatformDecoratorInterface[] */
     protected $decorators = [];
 
     /**
@@ -39,8 +29,6 @@ class AbstractPlatform implements PlatformDecoratorInterface, PreparableSqlInter
 
     /**
      * @param string                     $type
-     * @param PlatformDecoratorInterface $decorator
-     *
      * @return void
      */
     public function setTypeDecorator($type, PlatformDecoratorInterface $decorator)
@@ -97,7 +85,7 @@ class AbstractPlatform implements PlatformDecoratorInterface, PreparableSqlInter
      *
      * @throws Exception\RuntimeException
      */
-    public function getSqlString(PlatformInterface $adapterPlatform = null)
+    public function getSqlString(?PlatformInterface $adapterPlatform = null)
     {
         if (! $this->subject instanceof SqlInterface) {
             throw new Exception\RuntimeException(

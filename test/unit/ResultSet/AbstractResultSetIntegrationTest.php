@@ -1,20 +1,15 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\ResultSet;
 
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\ResultSet\AbstractResultSet;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AbstractResultSetIntegrationTest extends TestCase
 {
-    /**
-     * @var \Laminas\Db\ResultSet\AbstractResultSet|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var AbstractResultSet|MockObject */
     protected $resultSet;
 
     /**
@@ -23,7 +18,7 @@ class AbstractResultSetIntegrationTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->resultSet = $this->getMockForAbstractClass('Laminas\Db\ResultSet\AbstractResultSet');
+        $this->resultSet = $this->getMockForAbstractClass(AbstractResultSet::class);
     }
 
     /**
@@ -31,7 +26,7 @@ class AbstractResultSetIntegrationTest extends TestCase
      */
     public function testCurrentCallsDataSourceCurrentAsManyTimesWithoutBuffer()
     {
-        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
+        $result = $this->getMockBuilder(ResultInterface::class)->getMock();
         $this->resultSet->initialize($result);
         $result->expects($this->exactly(3))->method('current')->will($this->returnValue(['foo' => 'bar']));
         $value1 = $this->resultSet->current();
@@ -45,7 +40,7 @@ class AbstractResultSetIntegrationTest extends TestCase
      */
     public function testCurrentCallsDataSourceCurrentOnceWithBuffer()
     {
-        $result = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
+        $result = $this->getMockBuilder(ResultInterface::class)->getMock();
         $this->resultSet->buffer();
         $this->resultSet->initialize($result);
         $result->expects($this->once())->method('current')->will($this->returnValue(['foo' => 'bar']));

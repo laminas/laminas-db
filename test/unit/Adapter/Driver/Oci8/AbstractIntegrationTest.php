@@ -1,17 +1,15 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
 use PHPUnit\Framework\TestCase;
 
+use function extension_loaded;
+use function getenv;
+
 abstract class AbstractIntegrationTest extends TestCase
 {
+    /** @var array<string, string> */
     protected $variables = [
         'hostname' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_HOSTNAME',
         'username' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_USERNAME',

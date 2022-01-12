@@ -1,23 +1,31 @@
 <?php
+
 namespace LaminasTest\Db\TestAsset;
 
-class PdoStubDriver extends \PDO
+use PDO;
+
+class PdoStubDriver extends PDO
 {
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         return true;
     }
 
-    public function commit()
+    public function commit(): bool
     {
         return true;
     }
 
+    /**
+     * @param string $dsn
+     * @param string $user
+     * @param string $password
+     */
     public function __construct($dsn, $user, $password)
     {
     }
 
-    public function rollBack()
+    public function rollBack(): bool
     {
         return true;
     }

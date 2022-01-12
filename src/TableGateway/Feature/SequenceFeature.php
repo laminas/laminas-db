@@ -1,34 +1,23 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\TableGateway\Feature;
 
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Sql\Insert;
 
+use function array_search;
+
 class SequenceFeature extends AbstractFeature
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $primaryKeyField;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $sequenceName;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $sequenceValue;
-
 
     /**
      * @param string $primaryKeyField
@@ -41,16 +30,15 @@ class SequenceFeature extends AbstractFeature
     }
 
     /**
-     * @param Insert $insert
      * @return Insert
      */
     public function preInsert(Insert $insert)
     {
         $columns = $insert->getRawState('columns');
-        $values = $insert->getRawState('values');
-        $key = array_search($this->primaryKeyField, $columns);
+        $values  = $insert->getRawState('values');
+        $key     = array_search($this->primaryKeyField, $columns);
         if ($key !== false) {
-            $this->sequenceValue = isset($values[$key]) ? $values[$key] : null;
+            $this->sequenceValue = $values[$key] ?? null;
             return $insert;
         }
 
@@ -63,10 +51,6 @@ class SequenceFeature extends AbstractFeature
         return $insert;
     }
 
-    /**
-     * @param StatementInterface $statement
-     * @param ResultInterface $result
-     */
     public function postInsert(StatementInterface $statement, ResultInterface $result)
     {
         if ($this->sequenceValue !== null) {
@@ -76,11 +60,12 @@ class SequenceFeature extends AbstractFeature
 
     /**
      * Generate a new value from the specified sequence in the database, and return it.
+     *
      * @return int
      */
     public function nextSequenceId()
     {
-        $platform = $this->tableGateway->adapter->getPlatform();
+        $platform     = $this->tableGateway->adapter->getPlatform();
         $platformName = $platform->getName();
 
         switch ($platformName) {
@@ -96,7 +81,7 @@ class SequenceFeature extends AbstractFeature
 
         $statement = $this->tableGateway->adapter->createStatement();
         $statement->prepare($sql);
-        $result = $statement->execute();
+        $result   = $statement->execute();
         $sequence = $result->current();
         unset($statement, $result);
         return $sequence['nextval'];
@@ -104,11 +89,12 @@ class SequenceFeature extends AbstractFeature
 
     /**
      * Return the most recent value from the specified sequence in the database.
+     *
      * @return int
      */
     public function lastSequenceId()
     {
-        $platform = $this->tableGateway->adapter->getPlatform();
+        $platform     = $this->tableGateway->adapter->getPlatform();
         $platformName = $platform->getName();
 
         switch ($platformName) {
@@ -124,7 +110,7 @@ class SequenceFeature extends AbstractFeature
 
         $statement = $this->tableGateway->adapter->createStatement();
         $statement->prepare($sql);
-        $result = $statement->execute();
+        $result   = $statement->execute();
         $sequence = $result->current();
         unset($statement, $result);
         return $sequence['currval'];

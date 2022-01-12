@@ -1,15 +1,18 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql;
 
 use Countable;
 use Iterator;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
+use ReturnTypeWillChange;
+
+use function array_shift;
+use function count;
+use function is_array;
+use function is_string;
+use function key;
+use function sprintf;
 
 /**
  * Aggregate JOIN specifications.
@@ -25,13 +28,13 @@ use Iterator;
  */
 class Join implements Iterator, Countable
 {
-    const JOIN_INNER       = 'inner';
-    const JOIN_OUTER       = 'outer';
-    const JOIN_FULL_OUTER  = 'full outer';
-    const JOIN_LEFT        = 'left';
-    const JOIN_RIGHT       = 'right';
-    const JOIN_RIGHT_OUTER = 'right outer';
-    const JOIN_LEFT_OUTER  = 'left outer';
+    public const JOIN_INNER       = 'inner';
+    public const JOIN_OUTER       = 'outer';
+    public const JOIN_FULL_OUTER  = 'full outer';
+    public const JOIN_LEFT        = 'left';
+    public const JOIN_RIGHT       = 'right';
+    public const JOIN_RIGHT_OUTER = 'right outer';
+    public const JOIN_LEFT_OUTER  = 'left outer';
 
     /**
      * Current iterator position.
@@ -58,6 +61,7 @@ class Join implements Iterator, Countable
     /**
      * Rewind iterator.
      */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         $this->position = 0;
@@ -68,6 +72,7 @@ class Join implements Iterator, Countable
      *
      * @return array
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
         return $this->joins[$this->position];
@@ -78,6 +83,7 @@ class Join implements Iterator, Countable
      *
      * @return int
      */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->position;
@@ -86,6 +92,7 @@ class Join implements Iterator, Countable
     /**
      * Advance to the next JOIN specification.
      */
+    #[ReturnTypeWillChange]
     public function next()
     {
         ++$this->position;
@@ -96,6 +103,7 @@ class Join implements Iterator, Countable
      *
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function valid()
     {
         return isset($this->joins[$this->position]);
@@ -118,9 +126,9 @@ class Join implements Iterator, Countable
      *     the columns to join.
      * @param string $type The JOIN type to use; see the JOIN_* constants.
      * @return self Provides a fluent interface
-     * @throws Exception\InvalidArgumentException for invalid $name values.
+     * @throws Exception\InvalidArgumentException For invalid $name values.
      */
-    public function join($name, $on, $columns = [Select::SQL_STAR], $type = Join::JOIN_INNER)
+    public function join($name, $on, $columns = [Select::SQL_STAR], $type = self::JOIN_INNER)
     {
         if (is_array($name) && (! is_string(key($name)) || count($name) !== 1)) {
             throw new Exception\InvalidArgumentException(
@@ -136,7 +144,7 @@ class Join implements Iterator, Countable
             'name'    => $name,
             'on'      => $on,
             'columns' => $columns,
-            'type'    => $type ? $type : Join::JOIN_INNER
+            'type'    => $type ? $type : self::JOIN_INNER,
         ];
 
         return $this;
@@ -158,6 +166,7 @@ class Join implements Iterator, Countable
      *
      * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         return count($this->joins);

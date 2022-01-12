@@ -1,32 +1,23 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\RowGateway\Feature;
 
 use Laminas\Db\RowGateway\AbstractRowGateway;
 
+use function call_user_func_array;
+use function method_exists;
+
 class FeatureSet
 {
-    const APPLY_HALT = 'halt';
+    public const APPLY_HALT = 'halt';
 
-    /**
-     * @var AbstractRowGateway
-     */
-    protected $rowGateway = null;
+    /** @var AbstractRowGateway */
+    protected $rowGateway;
 
-    /**
-     * @var AbstractFeature[]
-     */
+    /** @var AbstractFeature[] */
     protected $features = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $magicSpecifications = [];
 
     /**
@@ -40,7 +31,6 @@ class FeatureSet
     }
 
     /**
-     * @param AbstractRowGateway $rowGateway
      * @return self Provides a fluent interface
      */
     public function setRowGateway(AbstractRowGateway $rowGateway)
@@ -52,6 +42,10 @@ class FeatureSet
         return $this;
     }
 
+    /**
+     * @param string $featureClassName
+     * @return AbstractFeature
+     */
     public function getFeatureByClassName($featureClassName)
     {
         $feature = false;
@@ -77,7 +71,6 @@ class FeatureSet
     }
 
     /**
-     * @param AbstractFeature $feature
      * @return self Provides a fluent interface
      */
     public function addFeature(AbstractFeature $feature)
@@ -87,6 +80,11 @@ class FeatureSet
         return $this;
     }
 
+    /**
+     * @param string $method
+     * @param array $args
+     * @return void
+     */
     public function apply($method, $args)
     {
         foreach ($this->features as $feature) {
@@ -114,8 +112,7 @@ class FeatureSet
      */
     public function callMagicGet($property)
     {
-        $return = null;
-        return $return;
+        return null;
     }
 
     /**
@@ -128,14 +125,13 @@ class FeatureSet
     }
 
     /**
-     * @param $property
-     * @param $value
+     * @param string $property
+     * @param mixed $value
      * @return mixed
      */
     public function callMagicSet($property, $value)
     {
-        $return = null;
-        return $return;
+        return null;
     }
 
     /**
@@ -154,7 +150,6 @@ class FeatureSet
      */
     public function callMagicCall($method, $arguments)
     {
-        $return = null;
-        return $return;
+        return null;
     }
 }

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
 use Laminas\Db\Adapter\Driver\Sqlsrv\Result;
@@ -17,9 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ResultIntegrationTest extends TestCase
 {
-    /**
-     * @var Result
-     */
+    /** @var Result */
     protected $object;
 
     /**
@@ -28,7 +20,7 @@ class ResultIntegrationTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->object = new Result;
+        $this->object = new Result();
     }
 
     /**

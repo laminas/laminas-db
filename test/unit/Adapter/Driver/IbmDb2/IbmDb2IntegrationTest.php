@@ -1,14 +1,11 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\IbmDb2;
 
 use Laminas\Db\Adapter\Driver\IbmDb2\IbmDb2;
+use Laminas\Db\Adapter\Driver\IbmDb2\Statement;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
+use stdClass;
 
 /**
  * @group integration
@@ -41,14 +38,14 @@ class IbmDb2IntegrationTest extends AbstractIntegrationTest
         $driver->getConnection()->setResource($resource);
 
         $stmt = $driver->createStatement('SELECT 1 FROM SYSIBM.SYSDUMMY1');
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\IbmDb2\Statement', $stmt);
+        self::assertInstanceOf(Statement::class, $stmt);
         $stmt = $driver->createStatement($stmtResource);
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\IbmDb2\Statement', $stmt);
+        self::assertInstanceOf(Statement::class, $stmt);
         $stmt = $driver->createStatement();
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\IbmDb2\Statement', $stmt);
+        self::assertInstanceOf(Statement::class, $stmt);
 
-        $this->expectException('Laminas\Db\Adapter\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('only accepts an SQL string or an ibm_db2 resource');
-        $driver->createStatement(new \stdClass);
+        $driver->createStatement(new stdClass());
     }
 }

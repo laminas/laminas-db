@@ -1,14 +1,13 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\TableGateway\Feature;
 
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
 use Laminas\Db\TableGateway\Feature\SequenceFeature;
+use Laminas\Db\TableGateway\TableGateway;
 use PHPUnit\Framework\TestCase;
 
 class SequenceFeatureTest extends TestCase
@@ -16,7 +15,7 @@ class SequenceFeatureTest extends TestCase
     /** @var SequenceFeature */
     protected $feature;
 
-    /** @var \Laminas\Db\TableGateway\TableGateway */
+    /** @var TableGateway */
     protected $tableGateway;
 
     /**  @var string primary key name */
@@ -33,27 +32,27 @@ class SequenceFeatureTest extends TestCase
     /**
      * @dataProvider nextSequenceIdProvider
      */
-    public function testNextSequenceId($platformName, $statementSql)
+    public function testNextSequenceId(string $platformName, string $statementSql)
     {
-        $platform = $this->createMock('Laminas\Db\Adapter\Platform\PlatformInterface');
+        $platform = $this->createMock(PlatformInterface::class);
         $platform->expects($this->any())
             ->method('getName')
             ->will($this->returnValue($platformName));
         $platform->expects($this->any())
             ->method('quoteIdentifier')
             ->will($this->returnValue($this->sequenceName));
-        $adapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $adapter = $this->getMockBuilder(Adapter::class)
             ->setMethods(['getPlatform', 'createStatement'])
             ->disableOriginalConstructor()
             ->getMock();
         $adapter->expects($this->any())
             ->method('getPlatform')
             ->will($this->returnValue($platform));
-        $result = $this->createMock('Laminas\Db\Adapter\Driver\ResultInterface');
+        $result = $this->createMock(ResultInterface::class);
         $result->expects($this->any())
             ->method('current')
             ->will($this->returnValue(['nextval' => 2]));
-        $statement = $this->createMock('Laminas\Db\Adapter\Driver\StatementInterface');
+        $statement = $this->createMock(StatementInterface::class);
         $statement->expects($this->any())
             ->method('execute')
             ->will($this->returnValue($result));
@@ -64,7 +63,7 @@ class SequenceFeatureTest extends TestCase
             ->method('createStatement')
             ->will($this->returnValue($statement));
         $this->tableGateway = $this->getMockForAbstractClass(
-            'Laminas\Db\TableGateway\TableGateway',
+            TableGateway::class,
             ['table', $adapter],
             '',
             true
@@ -73,7 +72,8 @@ class SequenceFeatureTest extends TestCase
         $this->feature->nextSequenceId();
     }
 
-    public function nextSequenceIdProvider()
+    /** @psalm-return array<array-key, array{0: string, 1: string}> */
+    public function nextSequenceIdProvider(): array
     {
         return [
             ['PostgreSQL', 'SELECT NEXTVAL(\'"' . $this->sequenceName . '"\')'],

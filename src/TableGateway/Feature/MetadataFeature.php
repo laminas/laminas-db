@@ -1,39 +1,34 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\TableGateway\Feature;
 
 use Laminas\Db\Metadata\MetadataInterface;
+use Laminas\Db\Metadata\Object\ConstraintObject;
 use Laminas\Db\Metadata\Object\TableObject;
 use Laminas\Db\Metadata\Source\Factory as SourceFactory;
 use Laminas\Db\Sql\TableIdentifier;
 use Laminas\Db\TableGateway\Exception;
 
+use function count;
+use function current;
+use function is_array;
+
 class MetadataFeature extends AbstractFeature
 {
-    /**
-     * @var MetadataInterface
-     */
-    protected $metadata = null;
+    /** @var MetadataInterface */
+    protected $metadata;
 
     /**
      * Constructor
-     *
-     * @param MetadataInterface $metadata
      */
-    public function __construct(MetadataInterface $metadata = null)
+    public function __construct(?MetadataInterface $metadata = null)
     {
         if ($metadata) {
             $this->metadata = $metadata;
         }
         $this->sharedData['metadata'] = [
             'primaryKey' => null,
-            'columns' => []
+            'columns'    => [],
         ];
     }
 
@@ -50,30 +45,30 @@ class MetadataFeature extends AbstractFeature
         $tableGatewayTable = is_array($t->table) ? current($t->table) : $t->table;
 
         if ($tableGatewayTable instanceof TableIdentifier) {
-            $table = $tableGatewayTable->getTable();
+            $table  = $tableGatewayTable->getTable();
             $schema = $tableGatewayTable->getSchema();
         } else {
-            $table = $tableGatewayTable;
+            $table  = $tableGatewayTable;
             $schema = null;
         }
 
         // get column named
-        $columns = $m->getColumnNames($table, $schema);
+        $columns    = $m->getColumnNames($table, $schema);
         $t->columns = $columns;
 
         // set locally
         $this->sharedData['metadata']['columns'] = $columns;
 
         // process primary key only if table is a table; there are no PK constraints on views
-        if (! ($m->getTable($table, $schema) instanceof TableObject)) {
+        if (! $m->getTable($table, $schema) instanceof TableObject) {
             return;
         }
 
         $pkc = null;
 
         foreach ($m->getConstraints($table, $schema) as $constraint) {
-            /** @var $constraint \Laminas\Db\Metadata\Object\ConstraintObject */
-            if ($constraint->getType() == 'PRIMARY KEY') {
+            /** @var ConstraintObject $constraint */
+            if ($constraint->getType() === 'PRIMARY KEY') {
                 $pkc = $constraint;
                 break;
             }

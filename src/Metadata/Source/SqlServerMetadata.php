@@ -1,14 +1,17 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Metadata\Source;
 
+use DateTime;
 use Laminas\Db\Adapter\Adapter;
+
+use function array_change_key_case;
+use function array_walk;
+use function implode;
+use function is_string;
+use function key;
+
+use const CASE_LOWER;
 
 class SqlServerMetadata extends AbstractSource
 {
@@ -36,6 +39,10 @@ class SqlServerMetadata extends AbstractSource
         $this->data['schemas'] = $schemas;
     }
 
+    /**
+     * @param string $schema
+     * @return void
+     */
     protected function loadTableNameData($schema)
     {
         if (isset($this->data['table_names'][$schema])) {
@@ -69,7 +76,7 @@ class SqlServerMetadata extends AbstractSource
             . ' WHERE ' . $p->quoteIdentifierChain(['T', 'TABLE_TYPE'])
             . ' IN (\'BASE TABLE\', \'VIEW\')';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
                 . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -82,16 +89,21 @@ class SqlServerMetadata extends AbstractSource
         $tables = [];
         foreach ($results->toArray() as $row) {
             $tables[$row['TABLE_NAME']] = [
-                'table_type' => $row['TABLE_TYPE'],
+                'table_type'      => $row['TABLE_TYPE'],
                 'view_definition' => $row['VIEW_DEFINITION'],
-                'check_option' => $row['CHECK_OPTION'],
-                'is_updatable' => ('YES' == $row['IS_UPDATABLE']),
+                'check_option'    => $row['CHECK_OPTION'],
+                'is_updatable'    => 'YES' === $row['IS_UPDATABLE'],
             ];
         }
 
         $this->data['table_names'][$schema] = $tables;
     }
 
+    /**
+     * @param string $table
+     * @param string $schema
+     * @return string
+     */
     protected function loadColumnData($table, $schema)
     {
         if (isset($this->data['columns'][$schema][$table])) {
@@ -128,7 +140,7 @@ class SqlServerMetadata extends AbstractSource
             . ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_NAME'])
             . '  = ' . $p->quoteTrustedValue($table);
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
                 . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -140,24 +152,30 @@ class SqlServerMetadata extends AbstractSource
         $columns = [];
         foreach ($results->toArray() as $row) {
             $columns[$row['COLUMN_NAME']] = [
-                'ordinal_position'          => $row['ORDINAL_POSITION'],
-                'column_default'            => $row['COLUMN_DEFAULT'],
-                'is_nullable'               => ('YES' == $row['IS_NULLABLE']),
-                'data_type'                 => $row['DATA_TYPE'],
-                'character_maximum_length'  => $row['CHARACTER_MAXIMUM_LENGTH'],
-                'character_octet_length'    => $row['CHARACTER_OCTET_LENGTH'],
-                'numeric_precision'         => $row['NUMERIC_PRECISION'],
-                'numeric_scale'             => $row['NUMERIC_SCALE'],
-                'numeric_unsigned'          => null,
-                'erratas'                   => [],
+                'ordinal_position'         => $row['ORDINAL_POSITION'],
+                'column_default'           => $row['COLUMN_DEFAULT'],
+                'is_nullable'              => 'YES' === $row['IS_NULLABLE'],
+                'data_type'                => $row['DATA_TYPE'],
+                'character_maximum_length' => $row['CHARACTER_MAXIMUM_LENGTH'],
+                'character_octet_length'   => $row['CHARACTER_OCTET_LENGTH'],
+                'numeric_precision'        => $row['NUMERIC_PRECISION'],
+                'numeric_scale'            => $row['NUMERIC_SCALE'],
+                'numeric_unsigned'         => null,
+                'erratas'                  => [],
             ];
         }
 
         $this->data['columns'][$schema][$table] = $columns;
     }
 
+    /**
+     * @param string $table
+     * @param string $schema
+     * @return void
+     */
     protected function loadConstraintData($table, $schema)
     {
+        // phpcs:disable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
         if (isset($this->data['constraints'][$schema][$table])) {
             return;
         }
@@ -182,7 +200,7 @@ class SqlServerMetadata extends AbstractSource
 
         array_walk($isColumns, function (&$c) use ($p) {
             $alias = key($c);
-            $c = $p->quoteIdentifierChain($c);
+            $c     = $p->quoteIdentifierChain($c);
             if (is_string($alias)) {
                 $c .= ' ' . $p->quoteIdentifier($alias);
             }
@@ -230,7 +248,7 @@ class SqlServerMetadata extends AbstractSource
              . ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_TYPE'])
              . ' IN (\'BASE TABLE\', \'VIEW\')';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(['T', 'TABLE_SCHEMA'])
             . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -249,30 +267,30 @@ class SqlServerMetadata extends AbstractSource
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
 
-        $name = null;
+        $name        = null;
         $constraints = [];
-        $isFK = false;
+        $isFK        = false;
         foreach ($results->toArray() as $row) {
             if ($row['CONSTRAINT_NAME'] !== $name) {
-                $name = $row['CONSTRAINT_NAME'];
+                $name               = $row['CONSTRAINT_NAME'];
                 $constraints[$name] = [
                     'constraint_name' => $name,
                     'constraint_type' => $row['CONSTRAINT_TYPE'],
                     'table_name'      => $row['TABLE_NAME'],
                 ];
-                if ('CHECK' == $row['CONSTRAINT_TYPE']) {
+                if ('CHECK' === $row['CONSTRAINT_TYPE']) {
                     $constraints[$name]['check_clause'] = $row['CHECK_CLAUSE'];
                     continue;
                 }
                 $constraints[$name]['columns'] = [];
-                $isFK = ('FOREIGN KEY' == $row['CONSTRAINT_TYPE']);
+                $isFK                          = 'FOREIGN KEY' === $row['CONSTRAINT_TYPE'];
                 if ($isFK) {
                     $constraints[$name]['referenced_table_schema'] = $row['REFERENCED_TABLE_SCHEMA'];
                     $constraints[$name]['referenced_table_name']   = $row['REFERENCED_TABLE_NAME'];
                     $constraints[$name]['referenced_columns']      = [];
-                    $constraints[$name]['match_option']       = $row['MATCH_OPTION'];
-                    $constraints[$name]['update_rule']        = $row['UPDATE_RULE'];
-                    $constraints[$name]['delete_rule']        = $row['DELETE_RULE'];
+                    $constraints[$name]['match_option']            = $row['MATCH_OPTION'];
+                    $constraints[$name]['update_rule']             = $row['UPDATE_RULE'];
+                    $constraints[$name]['delete_rule']             = $row['DELETE_RULE'];
                 }
             }
             $constraints[$name]['columns'][] = $row['COLUMN_NAME'];
@@ -282,8 +300,13 @@ class SqlServerMetadata extends AbstractSource
         }
 
         $this->data['constraints'][$schema][$table] = $constraints;
+        // phpcs:enable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
     }
 
+    /**
+     * @param string $schema
+     * @return void
+     */
     protected function loadTriggerData($schema)
     {
         if (isset($this->data['triggers'][$schema])) {
@@ -320,7 +343,7 @@ class SqlServerMetadata extends AbstractSource
             . ' FROM ' . $p->quoteIdentifierChain(['INFORMATION_SCHEMA', 'TRIGGERS'])
             . ' WHERE ';
 
-        if ($schema != self::DEFAULT_SCHEMA) {
+        if ($schema !== self::DEFAULT_SCHEMA) {
             $sql .= $p->quoteIdentifier('TRIGGER_SCHEMA')
                 . ' = ' . $p->quoteTrustedValue($schema);
         } else {
@@ -334,7 +357,7 @@ class SqlServerMetadata extends AbstractSource
         foreach ($results->toArray() as $row) {
             $row = array_change_key_case($row, CASE_LOWER);
             if (null !== $row['created']) {
-                $row['created'] = new \DateTime($row['created']);
+                $row['created'] = new DateTime($row['created']);
             }
             $data[$row['trigger_name']] = $row;
         }

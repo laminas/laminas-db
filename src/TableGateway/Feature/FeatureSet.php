@@ -1,30 +1,24 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\TableGateway\Feature;
 
 use Laminas\Db\TableGateway\AbstractTableGateway;
 use Laminas\Db\TableGateway\TableGatewayInterface;
 
+use function call_user_func_array;
+use function method_exists;
+
 class FeatureSet
 {
-    const APPLY_HALT = 'halt';
+    public const APPLY_HALT = 'halt';
 
-    protected $tableGateway = null;
+    /** @var null|AbstractTableGateway */
+    protected $tableGateway;
 
-    /**
-     * @var AbstractFeature[]
-     */
+    /** @var AbstractFeature[] */
     protected $features = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $magicSpecifications = [];
 
     public function __construct(array $features = [])
@@ -35,7 +29,6 @@ class FeatureSet
     }
 
     /**
-     * @param AbstractTableGateway $tableGateway
      * @return self Provides a fluent interface
      */
     public function setTableGateway(AbstractTableGateway $tableGateway)
@@ -47,9 +40,13 @@ class FeatureSet
         return $this;
     }
 
+    /**
+     * @param string $featureClassName
+     * @return null|AbstractFeature
+     */
     public function getFeatureByClassName($featureClassName)
     {
-        $feature = false;
+        $feature = null;
         foreach ($this->features as $potentialFeature) {
             if ($potentialFeature instanceof $featureClassName) {
                 $feature = $potentialFeature;
@@ -72,7 +69,6 @@ class FeatureSet
     }
 
     /**
-     * @param AbstractFeature $feature
      * @return self Provides a fluent interface
      */
     public function addFeature(AbstractFeature $feature)
@@ -84,6 +80,11 @@ class FeatureSet
         return $this;
     }
 
+    /**
+     * @param string $method
+     * @param array $args
+     * @return void
+     */
     public function apply($method, $args)
     {
         foreach ($this->features as $feature) {
@@ -111,8 +112,7 @@ class FeatureSet
      */
     public function callMagicGet($property)
     {
-        $return = null;
-        return $return;
+        return null;
     }
 
     /**
@@ -125,18 +125,18 @@ class FeatureSet
     }
 
     /**
-     * @param $property
-     * @param $value
+     * @param string $property
+     * @param mixed $value
      * @return mixed
      */
     public function callMagicSet($property, $value)
     {
-        $return = null;
-        return $return;
+        return null;
     }
 
     /**
      * Is the method requested available in one of the added features
+     *
      * @param string $method
      * @return bool
      */
@@ -154,6 +154,7 @@ class FeatureSet
 
     /**
      * Call method of on added feature as though it were a local method
+     *
      * @param string $method
      * @param array $arguments
      * @return mixed
@@ -166,6 +167,6 @@ class FeatureSet
             }
         }
 
-        return;
+        return null;
     }
 }

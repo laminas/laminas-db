@@ -1,64 +1,63 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Metadata\Source;
 
 use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Metadata\MetadataInterface;
 use Laminas\Db\Metadata\Source\Factory;
+use Laminas\Db\Metadata\Source\MysqlMetadata;
+use Laminas\Db\Metadata\Source\OracleMetadata;
+use Laminas\Db\Metadata\Source\PostgresqlMetadata;
+use Laminas\Db\Metadata\Source\SqliteMetadata;
+use Laminas\Db\Metadata\Source\SqlServerMetadata;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase
 {
     /**
      * @dataProvider validAdapterProvider
-     *
-     * @param Adapter $adapter
      * @param string $expectedReturnClass
      */
     public function testCreateSourceFromAdapter(Adapter $adapter, $expectedReturnClass)
     {
         $source = Factory::createSourceFromAdapter($adapter);
 
-        self::assertInstanceOf('Laminas\Db\Metadata\MetadataInterface', $source);
+        self::assertInstanceOf(MetadataInterface::class, $source);
         self::assertInstanceOf($expectedReturnClass, $source);
     }
 
-    public function validAdapterProvider()
+    /** @psalm-return array<string, array{0: Adapter&MockObject, 1: MetadataInterface}> */
+    public function validAdapterProvider(): array
     {
-        $createAdapterForPlatform = function ($platformName) {
-            $platform = $this->getMockBuilder('Laminas\Db\Adapter\Platform\PlatformInterface')->getMock();
+        /** @return Adapter&MockObject */
+        $createAdapterForPlatform = function (string $platformName) {
+            $platform = $this->getMockBuilder(PlatformInterface::class)->getMock();
             $platform
                 ->expects($this->any())
                 ->method('getName')
-                ->willReturn($platformName)
-            ;
+                ->willReturn($platformName);
 
-            $adapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+            $adapter = $this->getMockBuilder(Adapter::class)
                 ->disableOriginalConstructor()
-                ->getMock()
-            ;
+                ->getMock();
 
             $adapter
                 ->expects($this->any())
                 ->method('getPlatform')
-                ->willReturn($platform)
-            ;
+                ->willReturn($platform);
 
             return $adapter;
         };
 
         return [
             // Description => [adapter, expected return class]
-            'MySQL' => [$createAdapterForPlatform('MySQL'), 'Laminas\Db\Metadata\Source\MysqlMetadata'],
-            'SQLServer' => [$createAdapterForPlatform('SQLServer'), 'Laminas\Db\Metadata\Source\SqlServerMetadata'],
-            'SQLite' => [$createAdapterForPlatform('SQLite'), 'Laminas\Db\Metadata\Source\SqliteMetadata'],
-            'PostgreSQL' => [$createAdapterForPlatform('PostgreSQL'), 'Laminas\Db\Metadata\Source\PostgresqlMetadata'],
-            'Oracle' => [$createAdapterForPlatform('Oracle'), 'Laminas\Db\Metadata\Source\OracleMetadata'],
+            'MySQL'      => [$createAdapterForPlatform('MySQL'), MysqlMetadata::class],
+            'SQLServer'  => [$createAdapterForPlatform('SQLServer'), SqlServerMetadata::class],
+            'SQLite'     => [$createAdapterForPlatform('SQLite'), SqliteMetadata::class],
+            'PostgreSQL' => [$createAdapterForPlatform('PostgreSQL'), PostgresqlMetadata::class],
+            'Oracle'     => [$createAdapterForPlatform('Oracle'), OracleMetadata::class],
         ];
     }
 }

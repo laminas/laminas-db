@@ -1,18 +1,23 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Platform;
+
+use function db2_escape_string;
+use function function_exists;
+use function implode;
+use function is_array;
+use function preg_split;
+use function sprintf;
+use function str_replace;
+use function strtolower;
+use function trigger_error;
+
+use const PREG_SPLIT_DELIM_CAPTURE;
+use const PREG_SPLIT_NO_EMPTY;
 
 class IbmDb2 extends AbstractPlatform
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $identifierSeparator = '.';
 
     /**
@@ -20,9 +25,11 @@ class IbmDb2 extends AbstractPlatform
      */
     public function __construct($options = [])
     {
-        if (isset($options['quote_identifiers'])
-            && ($options['quote_identifiers'] == false
-            || $options['quote_identifiers'] === 'false')
+        if (
+            isset($options['quote_identifiers'])
+            && ($options['quote_identifiers'] === false
+                || $options['quote_identifiers'] === 'false'
+            )
         ) {
             $this->quoteIdentifiers = false;
         }
@@ -52,13 +59,15 @@ class IbmDb2 extends AbstractPlatform
         foreach ($safeWords as $sWord) {
             $safeWordsInt[strtolower($sWord)] = true;
         }
-        $parts = preg_split(
+
+        $parts      = preg_split(
             '/([^0-9,a-z,A-Z$#_:])/i',
             $identifier,
             -1,
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
         );
         $identifier = '';
+
         foreach ($parts as $part) {
             $identifier .= isset($safeWordsInt[strtolower($part)])
                 ? $part
@@ -96,10 +105,11 @@ class IbmDb2 extends AbstractPlatform
         if (function_exists('db2_escape_string')) {
             return '\'' . db2_escape_string($value) . '\'';
         }
-        trigger_error(
-            'Attempting to quote a value in ' . __CLASS__ . ' without extension/driver support '
-            . 'can introduce security vulnerabilities in a production environment.'
-        );
+        trigger_error(sprintf(
+            'Attempting to quote a value in %s without extension/driver support '
+            . 'can introduce security vulnerabilities in a production environment.',
+            static::class
+        ));
         return '\'' . str_replace("'", "''", $value) . '\'';
     }
 

@@ -1,18 +1,38 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\TableGateway;
+
+use Closure;
+use Laminas\Db\ResultSet\ResultSetInterface;
+use Laminas\Db\Sql\Where;
 
 interface TableGatewayInterface
 {
+    /** @return string */
     public function getTable();
+
+    /**
+     * @param Where|Closure|string|array $where
+     * @return ResultSetInterface
+     */
     public function select($where = null);
+
+    /**
+     * @param array<string, mixed> $set
+     * @return int
+     */
     public function insert($set);
+
+    /**
+     * @param array<string, mixed> $set
+     * @param Where|Closure|string|array $where
+     * @return int
+     */
     public function update($set, $where = null);
+
+    /**
+     * @param Where|Closure|string|array $where
+     * @return int
+     */
     public function delete($where);
 }

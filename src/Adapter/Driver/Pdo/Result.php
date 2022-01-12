@@ -1,119 +1,109 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\Pdo;
 
+use Closure;
 use Iterator;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Adapter\Exception;
+use PDO;
 use PDOStatement;
+// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
+use ReturnTypeWillChange;
+
+use function call_user_func;
+use function in_array;
+use function is_int;
 
 class Result implements Iterator, ResultInterface
 {
-    const STATEMENT_MODE_SCROLLABLE = 'scrollable';
-    const STATEMENT_MODE_FORWARD    = 'forward';
+    public const STATEMENT_MODE_SCROLLABLE = 'scrollable';
+    public const STATEMENT_MODE_FORWARD    = 'forward';
 
-    /**
-     *
-     * @var string
-     */
+    /** @var string */
     protected $statementMode = self::STATEMENT_MODE_FORWARD;
 
-    /**
-     * @var int
-     */
-    protected $fetchMode = \PDO::FETCH_ASSOC;
+    /** @var int */
+    protected $fetchMode = PDO::FETCH_ASSOC;
 
      /**
-      * @var array
       * @internal
+      *
+      * @var array
       */
-    const VALID_FETCH_MODES = [
-        \PDO::FETCH_LAZY,       // 1
-        \PDO::FETCH_ASSOC,      // 2
-        \PDO::FETCH_NUM,        // 3
-        \PDO::FETCH_BOTH,       // 4
-        \PDO::FETCH_OBJ,        // 5
-        \PDO::FETCH_BOUND,      // 6
+    public const VALID_FETCH_MODES = [
+        PDO::FETCH_LAZY, // 1
+        PDO::FETCH_ASSOC, // 2
+        PDO::FETCH_NUM, // 3
+        PDO::FETCH_BOTH, // 4
+        PDO::FETCH_OBJ, // 5
+        PDO::FETCH_BOUND, // 6
         // \PDO::FETCH_COLUMN,  // 7 (not a valid fetch mode)
-        \PDO::FETCH_CLASS,      // 8
-        \PDO::FETCH_INTO,       // 9
-        \PDO::FETCH_FUNC,       // 10
-        \PDO::FETCH_NAMED,      // 11
-        \PDO::FETCH_KEY_PAIR,   // 12
-        \PDO::FETCH_PROPS_LATE, // Extra option for \PDO::FETCH_CLASS
+        PDO::FETCH_CLASS, // 8
+        PDO::FETCH_INTO, // 9
+        PDO::FETCH_FUNC, // 10
+        PDO::FETCH_NAMED, // 11
+        PDO::FETCH_KEY_PAIR, // 12
+        PDO::FETCH_PROPS_LATE, // Extra option for \PDO::FETCH_CLASS
         // \PDO::FETCH_SERIALIZE, // Seems to have been removed
         // \PDO::FETCH_UNIQUE,    // Option for fetchAll
-        \PDO::FETCH_CLASSTYPE,  // Extra option for \PDO::FETCH_CLASS
+        PDO::FETCH_CLASSTYPE, // Extra option for \PDO::FETCH_CLASS
     ];
 
+    /** @var PDOStatement */
+    protected $resource;
 
-    /**
-     * @var PDOStatement
-     */
-    protected $resource = null;
-
-    /**
-     * @var array Result options
-     */
+    /** @var array Result options */
     protected $options;
 
     /**
      * Is the current complete?
+     *
      * @var bool
      */
     protected $currentComplete = false;
 
     /**
      * Track current item in recordset
+     *
      * @var mixed
      */
-    protected $currentData = null;
+    protected $currentData;
 
     /**
      * Current position of scrollable statement
+     *
      * @var int
      */
     protected $position = -1;
 
-    /**
-     * @var mixed
-     */
-    protected $generatedValue = null;
+    /** @var mixed */
+    protected $generatedValue;
 
-    /**
-     * @var null
-     */
-    protected $rowCount = null;
+    /** @var null */
+    protected $rowCount;
 
     /**
      * Initialize
      *
-     * @param  PDOStatement $resource
-     * @param               $generatedValue
+     * @param  mixed        $generatedValue
      * @param  int          $rowCount
      * @return self Provides a fluent interface
      */
     public function initialize(PDOStatement $resource, $generatedValue, $rowCount = null)
     {
-        $this->resource = $resource;
+        $this->resource       = $resource;
         $this->generatedValue = $generatedValue;
-        $this->rowCount = $rowCount;
+        $this->rowCount       = $rowCount;
 
         return $this;
     }
 
     /**
-     * @return null
+     * @return void
      */
     public function buffer()
     {
-        return;
     }
 
     /**
@@ -126,7 +116,7 @@ class Result implements Iterator, ResultInterface
 
     /**
      * @param int $fetchMode
-     * @throws Exception\InvalidArgumentException on invalid fetch mode
+     * @throws Exception\InvalidArgumentException On invalid fetch mode.
      */
     public function setFetchMode($fetchMode)
     {
@@ -159,15 +149,17 @@ class Result implements Iterator, ResultInterface
 
     /**
      * Get the data
+     *
      * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function current()
     {
         if ($this->currentComplete) {
             return $this->currentData;
         }
 
-        $this->currentData = $this->resource->fetch($this->fetchMode);
+        $this->currentData     = $this->resource->fetch($this->fetchMode);
         $this->currentComplete = true;
         return $this->currentData;
     }
@@ -177,9 +169,10 @@ class Result implements Iterator, ResultInterface
      *
      * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function next()
     {
-        $this->currentData = $this->resource->fetch($this->fetchMode);
+        $this->currentData     = $this->resource->fetch($this->fetchMode);
         $this->currentComplete = true;
         $this->position++;
         return $this->currentData;
@@ -190,6 +183,7 @@ class Result implements Iterator, ResultInterface
      *
      * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return $this->position;
@@ -199,16 +193,17 @@ class Result implements Iterator, ResultInterface
      * @throws Exception\RuntimeException
      * @return void
      */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
-        if ($this->statementMode == self::STATEMENT_MODE_FORWARD && $this->position > 0) {
+        if ($this->statementMode === self::STATEMENT_MODE_FORWARD && $this->position > 0) {
             throw new Exception\RuntimeException(
                 'This result is a forward only result set, calling rewind() after moving forward is not supported'
             );
         }
-        $this->currentData = $this->resource->fetch($this->fetchMode);
+        $this->currentData     = $this->resource->fetch($this->fetchMode);
         $this->currentComplete = true;
-        $this->position = 0;
+        $this->position        = 0;
     }
 
     /**
@@ -216,9 +211,10 @@ class Result implements Iterator, ResultInterface
      *
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function valid()
     {
-        return ($this->currentData !== false);
+        return $this->currentData !== false;
     }
 
     /**
@@ -226,12 +222,13 @@ class Result implements Iterator, ResultInterface
      *
      * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         if (is_int($this->rowCount)) {
             return $this->rowCount;
         }
-        if ($this->rowCount instanceof \Closure) {
+        if ($this->rowCount instanceof Closure) {
             $this->rowCount = (int) call_user_func($this->rowCount);
         } else {
             $this->rowCount = (int) $this->resource->rowCount();
@@ -254,7 +251,7 @@ class Result implements Iterator, ResultInterface
      */
     public function isQueryResult()
     {
-        return ($this->resource->columnCount() > 0);
+        return $this->resource->columnCount() > 0;
     }
 
     /**

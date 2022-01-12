@@ -1,15 +1,10 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
 use Laminas\Db\Adapter\Driver\Oci8\Connection;
 use Laminas\Db\Adapter\Driver\Oci8\Oci8;
+use Laminas\Db\Adapter\Driver\Oci8\Result;
 
 /**
  * @group integration
@@ -139,11 +134,11 @@ class ConnectionIntegrationTest extends AbstractIntegrationTest
      */
     public function testExecute()
     {
-        $oci8 = new Oci8($this->variables);
+        $oci8       = new Oci8($this->variables);
         $connection = $oci8->getConnection();
 
         $result = $connection->execute('SELECT \'foo\' FROM DUAL');
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\Oci8\Result', $result);
+        self::assertInstanceOf(Result::class, $result);
     }
 
     /**

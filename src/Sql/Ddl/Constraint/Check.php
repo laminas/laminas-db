@@ -1,18 +1,14 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Ddl\Constraint;
+
+use Laminas\Db\Sql\ExpressionInterface;
+
+use function array_unshift;
 
 class Check extends AbstractConstraint
 {
-    /**
-     * @var string|\Laminas\Db\Sql\ExpressionInterface
-     */
+    /** @var string|ExpressionInterface */
     protected $expression;
 
     /**
@@ -21,7 +17,7 @@ class Check extends AbstractConstraint
     protected $specification = 'CHECK (%s)';
 
     /**
-     * @param  string|\Laminas\Db\Sql\ExpressionInterface $expression
+     * @param string|ExpressionInterface $expression
      * @param  null|string $name
      */
     public function __construct($expression, $name)
@@ -46,10 +42,12 @@ class Check extends AbstractConstraint
             array_unshift($newSpecTypes, self::TYPE_IDENTIFIER);
         }
 
-        return [[
-            $newSpec . $this->specification,
-            $values,
-            $newSpecTypes,
-        ]];
+        return [
+            [
+                $newSpec . $this->specification,
+                $values,
+                $newSpecTypes,
+            ],
+        ];
     }
 }

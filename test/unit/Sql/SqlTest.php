@@ -1,24 +1,30 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Sql;
 
 use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\ConnectionInterface;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\Sql\Delete;
+use Laminas\Db\Sql\Exception\InvalidArgumentException;
+use Laminas\Db\Sql\Insert;
+use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Update;
 use LaminasTest\Db\TestAsset;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class SqlTest extends TestCase
 {
+    /** @var Adapter&MockObject */
     protected $mockAdapter;
 
     /**
      * Sql object
+     *
      * @var Sql
      */
     protected $sql;
@@ -26,17 +32,17 @@ class SqlTest extends TestCase
     protected function setUp(): void
     {
         // mock the adapter, driver, and parts
-        $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ResultInterface')->getMock();
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
+        $mockResult    = $this->getMockBuilder(ResultInterface::class)->getMock();
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
         $mockStatement->expects($this->any())->method('execute')->will($this->returnValue($mockResult));
-        $mockConnection = $this->getMockBuilder('Laminas\Db\Adapter\Driver\ConnectionInterface')->getMock();
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockConnection = $this->getMockBuilder(ConnectionInterface::class)->getMock();
+        $mockDriver     = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
         $mockDriver->expects($this->any())->method('getConnection')->will($this->returnValue($mockConnection));
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
 
         // setup mock adapter
-        $this->mockAdapter = $this->getMockBuilder('Laminas\Db\Adapter\Adapter')
+        $this->mockAdapter = $this->getMockBuilder(Adapter::class)
             ->setMethods()
             ->setConstructorArgs([$mockDriver, new TestAsset\TrustingSql92Platform()])
             ->getMock();
@@ -58,7 +64,7 @@ class SqlTest extends TestCase
         $sql->setTable('foo');
         self::assertSame('foo', $sql->getTable());
 
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Table must be a string, array or instance of TableIdentifier.');
         $sql->setTable(null);
     }
@@ -69,10 +75,10 @@ class SqlTest extends TestCase
     public function testSelect()
     {
         $select = $this->sql->select();
-        self::assertInstanceOf('Laminas\Db\Sql\Select', $select);
+        self::assertInstanceOf(Select::class, $select);
         self::assertSame('foo', $select->getRawState('table'));
 
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
@@ -85,10 +91,10 @@ class SqlTest extends TestCase
     public function testInsert()
     {
         $insert = $this->sql->insert();
-        self::assertInstanceOf('Laminas\Db\Sql\Insert', $insert);
+        self::assertInstanceOf(Insert::class, $insert);
         self::assertSame('foo', $insert->getRawState('table'));
 
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
@@ -101,10 +107,10 @@ class SqlTest extends TestCase
     public function testUpdate()
     {
         $update = $this->sql->update();
-        self::assertInstanceOf('Laminas\Db\Sql\Update', $update);
+        self::assertInstanceOf(Update::class, $update);
         self::assertSame('foo', $update->getRawState('table'));
 
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
@@ -118,10 +124,10 @@ class SqlTest extends TestCase
     {
         $delete = $this->sql->delete();
 
-        self::assertInstanceOf('Laminas\Db\Sql\Delete', $delete);
+        self::assertInstanceOf(Delete::class, $delete);
         self::assertSame('foo', $delete->getRawState('table'));
 
-        $this->expectException('Laminas\Db\Sql\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             'This Sql object is intended to work with only the table "foo" provided at construction time.'
         );
@@ -134,8 +140,8 @@ class SqlTest extends TestCase
     public function testPrepareStatementForSqlObject()
     {
         $insert = $this->sql->insert()->columns(['foo'])->values(['foo' => 'bar']);
-        $stmt = $this->sql->prepareStatementForSqlObject($insert);
-        self::assertInstanceOf('Laminas\Db\Adapter\Driver\StatementInterface', $stmt);
+        $stmt   = $this->sql->prepareStatementForSqlObject($insert);
+        self::assertInstanceOf(StatementInterface::class, $stmt);
     }
 
     /**
@@ -204,30 +210,29 @@ class SqlTest extends TestCase
      * Data provider
      *
      * @param string $platform
-     *
      * @return Adapter
      */
     protected function getAdapterForPlatform($platform)
     {
         switch ($platform) {
             case 'sql92':
-                $platform  = new TestAsset\TrustingSql92Platform();
+                $platform = new TestAsset\TrustingSql92Platform();
                 break;
             case 'MySql':
-                $platform  = new TestAsset\TrustingMysqlPlatform();
+                $platform = new TestAsset\TrustingMysqlPlatform();
                 break;
             case 'Oracle':
-                $platform  = new TestAsset\TrustingOraclePlatform();
+                $platform = new TestAsset\TrustingOraclePlatform();
                 break;
             case 'SqlServer':
-                $platform  = new TestAsset\TrustingSqlServerPlatform();
+                $platform = new TestAsset\TrustingSqlServerPlatform();
                 break;
             default:
                 $platform = null;
         }
 
-        $mockStatement = $this->getMockBuilder('Laminas\Db\Adapter\Driver\StatementInterface')->getMock();
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockStatement = $this->getMockBuilder(StatementInterface::class)->getMock();
+        $mockDriver    = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnValue($mockStatement));
 

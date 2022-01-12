@@ -1,13 +1,8 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Sql;
 
+use InvalidArgumentException;
 use Laminas\Db\Sql\Join;
 use Laminas\Db\Sql\Select;
 use LaminasTest\Db\DeprecatedAssertionsTrait;
@@ -92,14 +87,14 @@ class JoinTest extends TestCase
      */
     public function testJoin()
     {
-        $join = new Join;
+        $join   = new Join();
         $return = $join->join('baz', 'foo.fooId = baz.fooId', Join::JOIN_LEFT);
         self::assertSame($join, $return);
     }
 
     public function testJoinFullOuter()
     {
-        $join = new Join;
+        $join   = new Join();
         $return = $join->join('baz', 'foo.fooId = baz.fooId', Join::JOIN_FULL_OUTER);
         self::assertSame($join, $return);
     }
@@ -108,7 +103,7 @@ class JoinTest extends TestCase
     {
         $join = new Join();
 
-        $this->expectException('\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("join() expects '' as a single element associative array");
         $join->join([], false);
     }
@@ -120,7 +115,7 @@ class JoinTest extends TestCase
      */
     public function testCount()
     {
-        $join = new Join;
+        $join = new Join();
         $join->join('baz', 'foo.fooId = baz.fooId', Join::JOIN_LEFT);
         $join->join('bar', 'foo.fooId = bar.fooId', Join::JOIN_LEFT);
 
@@ -136,7 +131,7 @@ class JoinTest extends TestCase
      */
     public function testReset()
     {
-        $join = new Join;
+        $join = new Join();
         $join->join('baz', 'foo.fooId = baz.fooId', Join::JOIN_LEFT);
         $join->join('bar', 'foo.fooId = bar.fooId', Join::JOIN_LEFT);
         $join->reset();

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\TableGateway;
 
 use Laminas\Db\Adapter\AdapterInterface;
@@ -14,25 +8,24 @@ use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Sql\TableIdentifier;
 
+use function is_array;
+use function is_string;
+
 class TableGateway extends AbstractTableGateway
 {
     /**
      * Constructor
      *
      * @param string|TableIdentifier|array                                              $table
-     * @param AdapterInterface                                                          $adapter
      * @param Feature\AbstractFeature|Feature\FeatureSet|Feature\AbstractFeature[]|null $features
-     * @param ResultSetInterface|null                                                   $resultSetPrototype
-     * @param Sql|null                                                                  $sql
-     *
      * @throws Exception\InvalidArgumentException
      */
     public function __construct(
         $table,
         AdapterInterface $adapter,
         $features = null,
-        ResultSetInterface $resultSetPrototype = null,
-        Sql $sql = null
+        ?ResultSetInterface $resultSetPrototype = null,
+        ?Sql $sql = null
     ) {
         // table
         if (! (is_string($table) || $table instanceof TableIdentifier || is_array($table))) {
@@ -65,13 +58,13 @@ class TableGateway extends AbstractTableGateway
         }
 
         // result prototype
-        $this->resultSetPrototype = ($resultSetPrototype) ?: new ResultSet;
+        $this->resultSetPrototype = $resultSetPrototype ?: new ResultSet();
 
         // Sql object (factory for select, insert, update, delete)
-        $this->sql = ($sql) ?: new Sql($this->adapter, $this->table);
+        $this->sql = $sql ?: new Sql($this->adapter, $this->table);
 
         // check sql object bound to same table
-        if ($this->sql->getTable() != $this->table) {
+        if ($this->sql->getTable() !== $this->table) {
             throw new Exception\InvalidArgumentException(
                 'The table inside the provided Sql object must match the table of this TableGateway'
             );

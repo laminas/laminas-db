@@ -1,16 +1,12 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\AbstractFactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+
+use function is_array;
 
 /**
  * Database adapter abstract service factory.
@@ -19,15 +15,12 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
  */
 class AdapterAbstractServiceFactory implements AbstractFactoryInterface
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $config;
 
     /**
      * Can we create an adapter by the requested name?
      *
-     * @param  ContainerInterface $container
      * @param  string $requestedName
      * @return bool
      */
@@ -38,17 +31,14 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
             return false;
         }
 
-        return (
-            isset($config[$requestedName])
+        return isset($config[$requestedName])
             && is_array($config[$requestedName])
-            && ! empty($config[$requestedName])
-        );
+            && ! empty($config[$requestedName]);
     }
 
     /**
      * Determine if we can create a service with name (SM v2 compatibility)
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @param string $name
      * @param string $requestedName
      * @return bool
@@ -61,12 +51,11 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Create a DB adapter
      *
-     * @param  ContainerInterface $container
      * @param  string $requestedName
      * @param  array $options
      * @return Adapter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $config = $this->getConfig($container);
         return new Adapter($config[$requestedName]);
@@ -75,7 +64,6 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Create service with name
      *
-     * @param ServiceLocatorInterface $serviceLocator
      * @param string $name
      * @param string $requestedName
      * @return Adapter
@@ -88,7 +76,6 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
     /**
      * Get db configuration, if any
      *
-     * @param  ContainerInterface $container
      * @return array
      */
     protected function getConfig(ContainerInterface $container)
@@ -103,7 +90,8 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
         }
 
         $config = $container->get('config');
-        if (! isset($config['db'])
+        if (
+            ! isset($config['db'])
             || ! is_array($config['db'])
         ) {
             $this->config = [];
@@ -111,7 +99,8 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
         }
 
         $config = $config['db'];
-        if (! isset($config['adapters'])
+        if (
+            ! isset($config['adapters'])
             || ! is_array($config['adapters'])
         ) {
             $this->config = [];

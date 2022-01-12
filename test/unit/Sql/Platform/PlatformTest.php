@@ -1,25 +1,23 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Sql\Platform;
 
 use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\StatementContainer;
+use Laminas\Db\Sql\Exception\RuntimeException;
 use Laminas\Db\Sql\Platform\Platform;
 use LaminasTest\Db\TestAsset;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
+use ReflectionProperty;
 
 class PlatformTest extends TestCase
 {
     public function testResolveDefaultPlatform()
     {
-        $adapter = $this->resolveAdapter('sql92');
+        $adapter  = $this->resolveAdapter('sql92');
         $platform = new Platform($adapter);
 
         $reflectionMethod = new ReflectionMethod($platform, 'resolvePlatform');
@@ -51,17 +49,17 @@ class PlatformTest extends TestCase
      */
     public function testAbstractPlatformCrashesGracefullyOnMissingDefaultPlatform()
     {
-        $adapter = $this->resolveAdapter('sql92');
-        $reflectionProperty = new \ReflectionProperty($adapter, 'platform');
+        $adapter            = $this->resolveAdapter('sql92');
+        $reflectionProperty = new ReflectionProperty($adapter, 'platform');
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($adapter, null);
 
-        $platform = new Platform($adapter);
+        $platform         = new Platform($adapter);
         $reflectionMethod = new ReflectionMethod($platform, 'resolvePlatform');
 
         $reflectionMethod->setAccessible(true);
 
-        $this->expectException('Laminas\Db\Sql\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('$this->defaultPlatform was not set');
 
         $reflectionMethod->invoke($platform, null);
@@ -72,17 +70,17 @@ class PlatformTest extends TestCase
      */
     public function testAbstractPlatformCrashesGracefullyOnMissingDefaultPlatformWithGetDecorators()
     {
-        $adapter = $this->resolveAdapter('sql92');
-        $reflectionProperty = new \ReflectionProperty($adapter, 'platform');
+        $adapter            = $this->resolveAdapter('sql92');
+        $reflectionProperty = new ReflectionProperty($adapter, 'platform');
         $reflectionProperty->setAccessible(true);
         $reflectionProperty->setValue($adapter, null);
 
-        $platform = new Platform($adapter);
+        $platform         = new Platform($adapter);
         $reflectionMethod = new ReflectionMethod($platform, 'resolvePlatform');
 
         $reflectionMethod->setAccessible(true);
 
-        $this->expectException('Laminas\Db\Sql\Exception\RuntimeException');
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('$this->defaultPlatform was not set');
 
         $platform->getDecorators();
@@ -90,7 +88,6 @@ class PlatformTest extends TestCase
 
     /**
      * @param string $platformName
-     *
      * @return Adapter
      */
     protected function resolveAdapter($platformName)
@@ -112,8 +109,8 @@ class PlatformTest extends TestCase
                 break;
         }
 
-        /* @var $mockDriver \Laminas\Db\Adapter\Driver\DriverInterface|\PHPUnit\Framework\MockObject\MockObject */
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        /** @var DriverInterface|MockObject $mockDriver */
+        $mockDriver = $this->getMockBuilder(DriverInterface::class)->getMock();
 
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnCallback(function () {

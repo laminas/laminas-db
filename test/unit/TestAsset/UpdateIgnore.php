@@ -9,18 +9,20 @@ use Laminas\Db\Sql\Update;
 
 class UpdateIgnore extends Update
 {
-    const SPECIFICATION_UPDATE = 'updateIgnore';
+    public const SPECIFICATION_UPDATE = 'updateIgnore';
 
+    /** @var array<string, string> */
     protected $specifications = [
         self::SPECIFICATION_UPDATE => 'UPDATE IGNORE %1$s',
-        self::SPECIFICATION_SET => 'SET %1$s',
+        self::SPECIFICATION_SET    => 'SET %1$s',
         self::SPECIFICATION_WHERE  => 'WHERE %1$s',
     ];
 
+    /** @return string */
     protected function processupdateIgnore(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         return parent::processUpdate($platform, $driver, $parameterContainer);
     }

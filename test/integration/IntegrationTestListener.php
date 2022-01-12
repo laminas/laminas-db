@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasIntegrationTest\Db;
 
 use LaminasIntegrationTest\Db\Platform\FixtureLoader;
@@ -14,16 +8,17 @@ use LaminasIntegrationTest\Db\Platform\PgsqlFixtureLoader;
 use LaminasIntegrationTest\Db\Platform\SqlServerFixtureLoader;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
-use PHPUnit\Framework\TestSuite as TestSuite;
+use PHPUnit\Framework\TestSuite;
 use PHPUnit\Runner\TestHook;
+
+use function getenv;
+use function printf;
 
 class IntegrationTestListener implements TestHook, TestListener
 {
     use TestListenerDefaultImplementation;
 
-    /**
-     * @var FixtureLoader[]
-     */
+    /** @var FixtureLoader[] */
     private $fixtureLoaders = [];
 
     public function startTestSuite(TestSuite $suite): void
@@ -57,7 +52,8 @@ class IntegrationTestListener implements TestHook, TestListener
 
     public function endTestSuite(TestSuite $suite): void
     {
-        if ($suite->getName() !== 'integration test'
+        if (
+            $suite->getName() !== 'integration test'
             || empty($this->fixtureLoader)
         ) {
             return;

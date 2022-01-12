@@ -1,23 +1,18 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Ddl\Index;
+
+use function array_merge;
+use function count;
+use function implode;
+use function str_replace;
 
 class Index extends AbstractIndex
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $specification = 'INDEX %s(...)';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $lengths;
 
     /**
@@ -34,7 +29,6 @@ class Index extends AbstractIndex
     }
 
     /**
-     *
      * @return array of array|string should return an array in the format:
      *
      * array (
@@ -47,7 +41,6 @@ class Index extends AbstractIndex
      *    // an array of equal length of the $values array, with either TYPE_IDENTIFIER or TYPE_VALUE for each value
      *    array $types,
      * )
-     *
      */
     public function getExpressionData()
     {
@@ -70,10 +63,12 @@ class Index extends AbstractIndex
 
         $newSpec = str_replace('...', implode(', ', $newSpecParts), $this->specification);
 
-        return [[
-            $newSpec,
-            array_merge($values, $this->columns),
-            $newSpecTypes,
-        ]];
+        return [
+            [
+                $newSpec,
+                array_merge($values, $this->columns),
+                $newSpecTypes,
+            ],
+        ];
     }
 }

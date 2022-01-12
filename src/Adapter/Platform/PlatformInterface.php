@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Platform;
 
 interface PlatformInterface
@@ -62,8 +56,8 @@ interface PlatformInterface
      *
      * The ability to quote values without notices
      *
-     * @param $value
-     * @return mixed
+     * @param scalar $value
+     * @return string
      */
     public function quoteTrustedValue($value);
 

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db;
 
 class ConfigProvider
@@ -33,15 +27,17 @@ class ConfigProvider
             'abstract_factories' => [
                 Adapter\AdapterAbstractServiceFactory::class,
             ],
-            'factories' => [
+            'factories'          => [
                 Adapter\AdapterInterface::class => Adapter\AdapterServiceFactory::class,
             ],
-            'aliases' => [
+            'aliases'            => [
                 Adapter\Adapter::class => Adapter\AdapterInterface::class,
 
                 // Legacy Zend Framework aliases
-                \Zend\Db\Adapter\AdapterInterface::class => Adapter\AdapterInterface::class,
-                \Zend\Db\Adapter\Adapter::class => Adapter\Adapter::class,
+                // phpcs:disable WebimpressCodingStandard.Formatting.StringClassReference.Found
+                'Zend\Db\Adapter\AdapterInterface' => Adapter\AdapterInterface::class,
+                'Zend\Db\Adapter\Adapter'          => Adapter\Adapter::class,
+                // phpcs:enable WebimpressCodingStandard.Formatting.StringClassReference.Found
             ],
         ];
     }

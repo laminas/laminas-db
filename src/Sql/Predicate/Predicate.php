@@ -1,14 +1,13 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Predicate;
 
 use Laminas\Db\Sql\Exception\RuntimeException;
+use Laminas\Db\Sql\Select;
+
+use function func_get_arg;
+use function func_num_args;
+use function strtolower;
 
 /**
  * @property Predicate $and
@@ -20,8 +19,11 @@ use Laminas\Db\Sql\Exception\RuntimeException;
  */
 class Predicate extends PredicateSet
 {
-    protected $unnest = null;
-    protected $nextPredicateCombineOperator = null;
+    /** @var null|Predicate */
+    protected $unnest;
+
+    /** @var null|string */
+    protected $nextPredicateCombineOperator;
 
     /**
      * Begin nesting predicates
@@ -32,7 +34,7 @@ class Predicate extends PredicateSet
     {
         $predicateSet = new Predicate();
         $predicateSet->setUnnest($this);
-        $this->addPredicate($predicateSet, ($this->nextPredicateCombineOperator) ?: $this->defaultCombination);
+        $this->addPredicate($predicateSet, $this->nextPredicateCombineOperator ?: $this->defaultCombination);
         $this->nextPredicateCombineOperator = null;
         return $predicateSet;
     }
@@ -40,7 +42,6 @@ class Predicate extends PredicateSet
     /**
      * Indicate what predicate will be unnested
      *
-     * @param  Predicate $predicate
      * @return void
      */
     public function setUnnest(Predicate $predicate)
@@ -79,7 +80,7 @@ class Predicate extends PredicateSet
     {
         $this->addPredicate(
             new Operator($left, Operator::OPERATOR_EQUAL_TO, $right, $leftType, $rightType),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -101,7 +102,7 @@ class Predicate extends PredicateSet
     {
         $this->addPredicate(
             new Operator($left, Operator::OPERATOR_NOT_EQUAL_TO, $right, $leftType, $rightType),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -123,7 +124,7 @@ class Predicate extends PredicateSet
     {
         $this->addPredicate(
             new Operator($left, Operator::OPERATOR_LESS_THAN, $right, $leftType, $rightType),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -145,7 +146,7 @@ class Predicate extends PredicateSet
     {
         $this->addPredicate(
             new Operator($left, Operator::OPERATOR_GREATER_THAN, $right, $leftType, $rightType),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -167,7 +168,7 @@ class Predicate extends PredicateSet
     {
         $this->addPredicate(
             new Operator($left, Operator::OPERATOR_LESS_THAN_OR_EQUAL_TO, $right, $leftType, $rightType),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -193,7 +194,7 @@ class Predicate extends PredicateSet
     ) {
         $this->addPredicate(
             new Operator($left, Operator::OPERATOR_GREATER_THAN_OR_EQUAL_TO, $right, $leftType, $rightType),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -213,12 +214,13 @@ class Predicate extends PredicateSet
     {
         $this->addPredicate(
             new Like($identifier, $like),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
         return $this;
     }
+
     /**
      * Create "notLike" predicate
      *
@@ -232,7 +234,7 @@ class Predicate extends PredicateSet
     {
         $this->addPredicate(
             new NotLike($identifier, $notLike),
-            ($this->nextPredicateCombineOperator) ? : $this->defaultCombination
+            $this->nextPredicateCombineOperator ? : $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
         return $this;
@@ -241,15 +243,15 @@ class Predicate extends PredicateSet
     /**
      * Create an expression, with parameter placeholders
      *
-     * @param $expression
-     * @param $parameters
+     * @param string $expression
+     * @param null|array $parameters
      * @return self Provides a fluent interface
      */
     public function expression($expression, $parameters = null)
     {
         $this->addPredicate(
             new Expression($expression, $parameters),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -269,7 +271,7 @@ class Predicate extends PredicateSet
         // process deprecated parameters from previous literal($literal, $parameters = null) signature
         if (func_num_args() >= 2) {
             $parameters = func_get_arg(1);
-            $predicate = new Expression($literal, $parameters);
+            $predicate  = new Expression($literal, $parameters);
         }
 
         // normal workflow for "Literals" here
@@ -279,7 +281,7 @@ class Predicate extends PredicateSet
 
         $this->addPredicate(
             $predicate,
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -298,7 +300,7 @@ class Predicate extends PredicateSet
     {
         $this->addPredicate(
             new IsNull($identifier),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -317,7 +319,7 @@ class Predicate extends PredicateSet
     {
         $this->addPredicate(
             new IsNotNull($identifier),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -330,14 +332,14 @@ class Predicate extends PredicateSet
      * Utilizes In predicate
      *
      * @param  string|Expression $identifier
-     * @param  array|\Laminas\Db\Sql\Select $valueSet
+     * @param array|Select $valueSet
      * @return self Provides a fluent interface
      */
     public function in($identifier, $valueSet = null)
     {
         $this->addPredicate(
             new In($identifier, $valueSet),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -350,14 +352,14 @@ class Predicate extends PredicateSet
      * Utilizes NotIn predicate
      *
      * @param  string|Expression $identifier
-     * @param  array|\Laminas\Db\Sql\Select $valueSet
+     * @param array|Select $valueSet
      * @return self Provides a fluent interface
      */
     public function notIn($identifier, $valueSet = null)
     {
         $this->addPredicate(
             new NotIn($identifier, $valueSet),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -378,7 +380,7 @@ class Predicate extends PredicateSet
     {
         $this->addPredicate(
             new Between($identifier, $minValue, $maxValue),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -399,7 +401,7 @@ class Predicate extends PredicateSet
     {
         $this->addPredicate(
             new NotBetween($identifier, $minValue, $maxValue),
-            ($this->nextPredicateCombineOperator) ?: $this->defaultCombination
+            $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
 
@@ -413,9 +415,9 @@ class Predicate extends PredicateSet
      * AND / OR combination operator, thus allowing generic predicates to be
      * used fluently within where chains as any other concrete predicate.
      *
-     * @param  PredicateInterface $predicate
      * @return self Provides a fluent interface
      */
+    // phpcs:ignore Generic.NamingConventions.ConstructorName.OldStyle
     public function predicate(PredicateInterface $predicate)
     {
         $this->addPredicate(

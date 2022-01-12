@@ -1,33 +1,33 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasIntegrationTest\Db\Platform;
 
 use Exception;
 use PDO;
 
+use function file_get_contents;
+use function getenv;
+use function print_r;
+use function sprintf;
+
 class MysqlFixtureLoader implements FixtureLoader
 {
+    /** @var string */
     private $fixtureFile = __DIR__ . '/../TestFixtures/mysql.sql';
 
-    /**
-     * @var PDO
-     */
+    /** @var PDO */
     private $pdo;
 
     public function createDatabase()
     {
         $this->connect();
 
-        if (false === $this->pdo->exec(sprintf(
-            "CREATE DATABASE IF NOT EXISTS %s",
-            getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
-        ))) {
+        if (
+            false === $this->pdo->exec(sprintf(
+                "CREATE DATABASE IF NOT EXISTS %s",
+                getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE')
+            ))
+        ) {
             throw new Exception(sprintf(
                 "I cannot create the MySQL %s test database: %s",
                 getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE'),

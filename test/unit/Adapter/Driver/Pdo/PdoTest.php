@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
@@ -16,9 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class PdoTest extends TestCase
 {
-    /**
-     * @var Pdo
-     */
+    /** @var Pdo */
     protected $pdo;
 
     /**
@@ -41,46 +33,49 @@ class PdoTest extends TestCase
         self::assertEquals('SQLServer', $this->pdo->getDatabasePlatformName(DriverInterface::NAME_FORMAT_NATURAL));
     }
 
-    public function getParamsAndType()
+    /** @psalm-return array<array-key, array{0: int|string, 1: null|string, 2: string}> */
+    public function getParamsAndType(): array
     {
         return [
-            [ 'foo', null, ':foo' ],
-            [ 'foo_bar', null, ':foo_bar' ],
-            [ '123foo', null, ':123foo' ],
-            [ 1, null, '?' ],
-            [ '1', null, '?' ],
-            [ 'foo', Pdo::PARAMETERIZATION_NAMED, ':foo' ],
-            [ 'foo_bar', Pdo::PARAMETERIZATION_NAMED, ':foo_bar' ],
-            [ '123foo', Pdo::PARAMETERIZATION_NAMED, ':123foo' ],
-            [ 1, Pdo::PARAMETERIZATION_NAMED, ':1' ],
-            [ '1', Pdo::PARAMETERIZATION_NAMED, ':1' ],
-            [ ':foo', null, ':foo' ],
+            ['foo', null, ':foo'],
+            ['foo_bar', null, ':foo_bar'],
+            ['123foo', null, ':123foo'],
+            [1, null, '?'],
+            ['1', null, '?'],
+            ['foo', Pdo::PARAMETERIZATION_NAMED, ':foo'],
+            ['foo_bar', Pdo::PARAMETERIZATION_NAMED, ':foo_bar'],
+            ['123foo', Pdo::PARAMETERIZATION_NAMED, ':123foo'],
+            [1, Pdo::PARAMETERIZATION_NAMED, ':1'],
+            ['1', Pdo::PARAMETERIZATION_NAMED, ':1'],
+            [':foo', null, ':foo'],
         ];
     }
 
     /**
      * @dataProvider getParamsAndType
+     * @param int|string $name
      */
-    public function testFormatParameterName($name, $type, $expected)
+    public function testFormatParameterName($name, ?string $type, string $expected)
     {
         $result = $this->pdo->formatParameterName($name, $type);
         $this->assertEquals($expected, $result);
     }
 
-    public function getInvalidParamName()
+    /** @psalm-return array<array-key, array{0: string}> */
+    public function getInvalidParamName(): array
     {
         return [
-            [ 'foo%' ],
-            [ 'foo-' ],
-            [ 'foo$' ],
-            [ 'foo0!' ]
+            ['foo%'],
+            ['foo-'],
+            ['foo$'],
+            ['foo0!'],
         ];
     }
 
     /**
      * @dataProvider getInvalidParamName
      */
-    public function testFormatParameterNameWithInvalidCharacters($name)
+    public function testFormatParameterNameWithInvalidCharacters(string $name)
     {
         $this->expectException(RuntimeException::class);
         $this->pdo->formatParameterName($name);

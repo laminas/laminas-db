@@ -1,13 +1,8 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Sql\Ddl\Column;
 
+use Laminas\Db\Sql\Ddl\Column\AbstractLengthColumn;
 use PHPUnit\Framework\TestCase;
 
 class AbstractLengthColumnTest extends TestCase
@@ -17,7 +12,7 @@ class AbstractLengthColumnTest extends TestCase
      */
     public function testSetLength()
     {
-        $column = $this->getMockForAbstractClass('Laminas\Db\Sql\Ddl\Column\AbstractLengthColumn', ['foo', 55]);
+        $column = $this->getMockForAbstractClass(AbstractLengthColumn::class, ['foo', 55]);
         self::assertEquals(55, $column->getLength());
         self::assertSame($column, $column->setLength(20));
         self::assertEquals(20, $column->getLength());
@@ -28,7 +23,7 @@ class AbstractLengthColumnTest extends TestCase
      */
     public function testGetLength()
     {
-        $column = $this->getMockForAbstractClass('Laminas\Db\Sql\Ddl\Column\AbstractLengthColumn', ['foo', 55]);
+        $column = $this->getMockForAbstractClass(AbstractLengthColumn::class, ['foo', 55]);
         self::assertEquals(55, $column->getLength());
     }
 
@@ -37,7 +32,7 @@ class AbstractLengthColumnTest extends TestCase
      */
     public function testGetExpressionData()
     {
-        $column = $this->getMockForAbstractClass('Laminas\Db\Sql\Ddl\Column\AbstractLengthColumn', ['foo', 4]);
+        $column = $this->getMockForAbstractClass(AbstractLengthColumn::class, ['foo', 4]);
 
         self::assertEquals(
             [['%s %s NOT NULL', ['foo', 'INTEGER(4)'], [$column::TYPE_IDENTIFIER, $column::TYPE_LITERAL]]],

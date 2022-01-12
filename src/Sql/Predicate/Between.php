@@ -1,21 +1,22 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Predicate;
 
 use Laminas\Db\Sql\AbstractExpression;
 
 class Between extends AbstractExpression implements PredicateInterface
 {
+    /** @var string */
     protected $specification = '%1$s BETWEEN %2$s AND %3$s';
-    protected $identifier    = null;
-    protected $minValue      = null;
-    protected $maxValue      = null;
+
+    /** @var string */
+    protected $identifier;
+
+    /** @var null|int */
+    protected $minValue;
+
+    /** @var null|int */
+    protected $maxValue;
 
     /**
      * Constructor
@@ -132,9 +133,9 @@ class Between extends AbstractExpression implements PredicateInterface
      */
     public function getExpressionData()
     {
-        list($values[], $types[]) = $this->normalizeArgument($this->identifier, self::TYPE_IDENTIFIER);
-        list($values[], $types[]) = $this->normalizeArgument($this->minValue, self::TYPE_VALUE);
-        list($values[], $types[]) = $this->normalizeArgument($this->maxValue, self::TYPE_VALUE);
+        [$values[], $types[]] = $this->normalizeArgument($this->identifier, self::TYPE_IDENTIFIER);
+        [$values[], $types[]] = $this->normalizeArgument($this->minValue, self::TYPE_VALUE);
+        [$values[], $types[]] = $this->normalizeArgument($this->maxValue, self::TYPE_VALUE);
         return [
             [
                 $this->getSpecification(),

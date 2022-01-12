@@ -1,24 +1,30 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Predicate;
 
 use Laminas\Db\Sql\AbstractExpression;
 use Laminas\Db\Sql\Exception;
 use Laminas\Db\Sql\Select;
 
+use function array_fill;
+use function count;
+use function gettype;
+use function implode;
+use function is_array;
+use function vsprintf;
+
 class In extends AbstractExpression implements PredicateInterface
 {
+    /** @var null|string|array */
     protected $identifier;
+
+    /** @var null|array|Select */
     protected $valueSet;
 
+    /** @var string */
     protected $specification = '%s IN %s';
 
+    /** @var string */
     protected $valueSpecSpecification = '%%s IN (%s)';
 
     /**
@@ -96,35 +102,35 @@ class In extends AbstractExpression implements PredicateInterface
      */
     public function getExpressionData()
     {
-        $identifier = $this->getIdentifier();
-        $values = $this->getValueSet();
+        $identifier   = $this->getIdentifier();
+        $values       = $this->getValueSet();
         $replacements = [];
 
         if (is_array($identifier)) {
-            $countIdentifier = count($identifier);
+            $countIdentifier        = count($identifier);
             $identifierSpecFragment = '(' . implode(', ', array_fill(0, $countIdentifier, '%s')) . ')';
-            $types = array_fill(0, $countIdentifier, self::TYPE_IDENTIFIER);
-            $replacements = $identifier;
+            $types                  = array_fill(0, $countIdentifier, self::TYPE_IDENTIFIER);
+            $replacements           = $identifier;
         } else {
             $identifierSpecFragment = '%s';
-            $replacements[] = $identifier;
-            $types = [self::TYPE_IDENTIFIER];
+            $replacements[]         = $identifier;
+            $types                  = [self::TYPE_IDENTIFIER];
         }
 
         if ($values instanceof Select) {
-            $specification = vsprintf(
+            $specification  = vsprintf(
                 $this->specification,
                 [$identifierSpecFragment, '%s']
             );
             $replacements[] = $values;
-            $types[] = self::TYPE_VALUE;
+            $types[]        = self::TYPE_VALUE;
         } else {
             foreach ($values as $argument) {
-                list($replacements[], $types[]) = $this->normalizeArgument($argument, self::TYPE_VALUE);
+                [$replacements[], $types[]] = $this->normalizeArgument($argument, self::TYPE_VALUE);
             }
-            $countValues = count($values);
+            $countValues       = count($values);
             $valuePlaceholders = $countValues > 0 ? array_fill(0, $countValues, '%s') : [];
-            $inValueList = implode(', ', $valuePlaceholders);
+            $inValueList       = implode(', ', $valuePlaceholders);
             if ('' === $inValueList) {
                 $inValueList = 'NULL';
             }
@@ -134,10 +140,12 @@ class In extends AbstractExpression implements PredicateInterface
             );
         }
 
-        return [[
-            $specification,
-            $replacements,
-            $types,
-        ]];
+        return [
+            [
+                $specification,
+                $replacements,
+                $types,
+            ],
+        ];
     }
 }

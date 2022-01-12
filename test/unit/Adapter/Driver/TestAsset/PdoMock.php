@@ -1,36 +1,40 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\TestAsset;
+
+use PDO;
 
 /**
  * Stub class
  */
-class PdoMock extends \PDO
+class PdoMock extends PDO
 {
     public function __construct()
     {
     }
 
+    /** @return bool */
     public function beginTransaction()
     {
         return true;
     }
 
+    /** @return bool */
     public function commit()
     {
         return true;
     }
 
+    /**
+     * @param string $attribute
+     * @return null
+     */
     public function getAttribute($attribute)
     {
+        return null;
     }
 
+    /** @return bool */
     public function rollBack()
     {
         return true;

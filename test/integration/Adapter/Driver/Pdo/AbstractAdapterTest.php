@@ -1,22 +1,19 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Adapter;
 use PHPUnit\Framework\TestCase;
+
+use function getmypid;
+use function shell_exec;
 
 /**
  * @property Adapter $adapter
  */
 abstract class AbstractAdapterTest extends TestCase
 {
-    const DB_SERVER_PORT = null;
+    public const DB_SERVER_PORT = null;
 
     /**
      * @covers \Laminas\Db\Adapter\Adapter::__construct()
@@ -61,7 +58,7 @@ abstract class AbstractAdapterTest extends TestCase
         }
     }
 
-    protected function isConnectedTcp()
+    protected function isConnectedTcp(): bool
     {
         $mypid  = getmypid();
         $dbPort = static::DB_SERVER_PORT;
@@ -70,7 +67,7 @@ abstract class AbstractAdapterTest extends TestCase
         return $lsof !== null;
     }
 
-    protected function isTcpConnection()
+    protected function isTcpConnection(): bool
     {
         return $this->getHostname() !== 'localhost';
     }

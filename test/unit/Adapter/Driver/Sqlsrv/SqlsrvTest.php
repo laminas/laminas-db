@@ -1,22 +1,16 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\Sqlsrv;
 
+use Laminas\Db\Adapter\Driver\Sqlsrv\Connection;
 use Laminas\Db\Adapter\Driver\Sqlsrv\Result;
 use Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv;
+use Laminas\Db\Adapter\Driver\Sqlsrv\Statement;
 use PHPUnit\Framework\TestCase;
 
 class SqlsrvTest extends TestCase
 {
-    /**
-     * @var Sqlsrv
-     */
+    /** @var Sqlsrv */
     protected $sqlsrv;
 
     /**
@@ -34,7 +28,7 @@ class SqlsrvTest extends TestCase
     public function testRegisterConnection()
     {
         $mockConnection = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\Sqlsrv\Connection',
+            Connection::class,
             [[]],
             '',
             true,
@@ -51,9 +45,9 @@ class SqlsrvTest extends TestCase
      */
     public function testRegisterStatementPrototype()
     {
-        $this->sqlsrv = new Sqlsrv([]);
+        $this->sqlsrv  = new Sqlsrv([]);
         $mockStatement = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\Sqlsrv\Statement',
+            Statement::class,
             [],
             '',
             true,
@@ -70,9 +64,9 @@ class SqlsrvTest extends TestCase
      */
     public function testRegisterResultPrototype()
     {
-        $this->sqlsrv = new Sqlsrv([]);
+        $this->sqlsrv  = new Sqlsrv([]);
         $mockStatement = $this->getMockForAbstractClass(
-            'Laminas\Db\Adapter\Driver\Sqlsrv\Result',
+            Result::class,
             [],
             '',
             true,
@@ -97,9 +91,9 @@ class SqlsrvTest extends TestCase
      * @depends testRegisterConnection
      * @covers \Laminas\Db\Adapter\Driver\Sqlsrv\Sqlsrv::getConnection
      */
-    public function testGetConnection($mockConnection)
+    public function testGetConnection()
     {
-        $conn = new \Laminas\Db\Adapter\Driver\Sqlsrv\Connection([]);
+        $conn = new Connection([]);
         $this->sqlsrv->registerConnection($conn);
         self::assertSame($conn, $this->sqlsrv->getConnection());
     }

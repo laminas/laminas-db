@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
@@ -15,43 +9,42 @@ use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\Profiler;
 use PDOStatement;
 
+use function extension_loaded;
+use function is_array;
+use function is_numeric;
+use function is_string;
+use function ltrim;
+use function preg_match;
+use function sprintf;
+use function ucfirst;
+
 class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerAwareInterface
 {
     /**
      * @const
      */
-    const FEATURES_DEFAULT = 'default';
+    public const FEATURES_DEFAULT = 'default';
 
-    /**
-     * @var Connection
-     */
-    protected $connection = null;
+    /** @var Connection */
+    protected $connection;
 
-    /**
-     * @var Statement
-     */
-    protected $statementPrototype = null;
+    /** @var Statement */
+    protected $statementPrototype;
 
-    /**
-     * @var Result
-     */
-    protected $resultPrototype = null;
+    /** @var Result */
+    protected $resultPrototype;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $features = [];
 
     /**
      * @param array|Connection|\PDO $connection
-     * @param null|Statement $statementPrototype
-     * @param null|Result $resultPrototype
      * @param string $features
      */
     public function __construct(
         $connection,
-        Statement $statementPrototype = null,
-        Result $resultPrototype = null,
+        ?Statement $statementPrototype = null,
+        ?Result $resultPrototype = null,
         $features = self::FEATURES_DEFAULT
     ) {
         if (! $connection instanceof Connection) {
@@ -59,8 +52,8 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
         }
 
         $this->registerConnection($connection);
-        $this->registerStatementPrototype(($statementPrototype) ?: new Statement());
-        $this->registerResultPrototype(($resultPrototype) ?: new Result());
+        $this->registerStatementPrototype($statementPrototype ?: new Statement());
+        $this->registerResultPrototype($resultPrototype ?: new Result());
         if (is_array($features)) {
             foreach ($features as $name => $feature) {
                 $this->addFeature($name, $feature);
@@ -73,7 +66,6 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -99,7 +91,6 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     /**
      * Register connection
      *
-     * @param  Connection $connection
      * @return self Provides a fluent interface
      */
     public function registerConnection(Connection $connection)
@@ -111,8 +102,6 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
 
     /**
      * Register statement prototype
-     *
-     * @param Statement $statementPrototype
      */
     public function registerStatementPrototype(Statement $statementPrototype)
     {
@@ -122,8 +111,6 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
 
     /**
      * Register result prototype
-     *
-     * @param Result $resultPrototype
      */
     public function registerResultPrototype(Result $resultPrototype)
     {
@@ -155,18 +142,23 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     public function setupDefaultFeatures()
     {
         $driverName = $this->connection->getDriverName();
-        if ($driverName == 'sqlite') {
-            $this->addFeature(null, new Feature\SqliteRowCounter);
-        } elseif ($driverName == 'oci') {
-            $this->addFeature(null, new Feature\OracleRowCounter);
+        if ($driverName === 'sqlite') {
+            $this->addFeature(null, new Feature\SqliteRowCounter());
+            return $this;
         }
+
+        if ($driverName === 'oci') {
+            $this->addFeature(null, new Feature\OracleRowCounter());
+            return $this;
+        }
+
         return $this;
     }
 
     /**
      * Get feature
      *
-     * @param $name
+     * @param string $name
      * @return AbstractFeature|false
      */
     public function getFeature($name)
@@ -186,7 +178,7 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
     public function getDatabasePlatformName($nameFormat = self::NAME_FORMAT_CAMELCASE)
     {
         $name = $this->getConnection()->getDriverName();
-        if ($nameFormat == self::NAME_FORMAT_CAMELCASE) {
+        if ($nameFormat === self::NAME_FORMAT_CAMELCASE) {
             switch ($name) {
                 case 'pgsql':
                     return 'Postgresql';
@@ -265,23 +257,26 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
      */
     public function createResult($resource, $context = null)
     {
-        $result = clone $this->resultPrototype;
+        $result   = clone $this->resultPrototype;
         $rowCount = null;
 
         // special feature, sqlite PDO counter
-        if ($this->connection->getDriverName() == 'sqlite'
+        if (
+            $this->connection->getDriverName() === 'sqlite'
             && ($sqliteRowCounter = $this->getFeature('SqliteRowCounter'))
-            && $resource->columnCount() > 0) {
+            && $resource->columnCount() > 0
+        ) {
             $rowCount = $sqliteRowCounter->getRowCountClosure($context);
         }
 
         // special feature, oracle PDO counter
-        if ($this->connection->getDriverName() == 'oci'
+        if (
+            $this->connection->getDriverName() === 'oci'
             && ($oracleRowCounter = $this->getFeature('OracleRowCounter'))
-            && $resource->columnCount() > 0) {
+            && $resource->columnCount() > 0
+        ) {
             $rowCount = $oracleRowCounter->getRowCountClosure($context);
         }
-
 
         $result->initialize($resource, $this->connection->getLastGeneratedValue(), $rowCount);
         return $result;
@@ -310,7 +305,7 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
      */
     public function formatParameterName($name, $type = null)
     {
-        if ($type === null && ! is_numeric($name) || $type == self::PARAMETERIZATION_NAMED) {
+        if ($type === null && ! is_numeric($name) || $type === self::PARAMETERIZATION_NAMED) {
             $name = ltrim($name, ':');
             // @see https://bugs.php.net/bug.php?id=43130
             if (preg_match('/[^a-zA-Z0-9_]/', $name)) {

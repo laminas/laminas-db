@@ -1,87 +1,72 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Ddl;
 
 use Laminas\Db\Adapter\Platform\PlatformInterface;
 use Laminas\Db\Sql\AbstractSql;
 use Laminas\Db\Sql\TableIdentifier;
 
+use function array_key_exists;
+
 class AlterTable extends AbstractSql implements SqlInterface
 {
-    const ADD_COLUMNS      = 'addColumns';
-    const ADD_CONSTRAINTS  = 'addConstraints';
-    const CHANGE_COLUMNS   = 'changeColumns';
-    const DROP_COLUMNS     = 'dropColumns';
-    const DROP_CONSTRAINTS = 'dropConstraints';
-    const TABLE            = 'table';
+    public const ADD_COLUMNS      = 'addColumns';
+    public const ADD_CONSTRAINTS  = 'addConstraints';
+    public const CHANGE_COLUMNS   = 'changeColumns';
+    public const DROP_COLUMNS     = 'dropColumns';
+    public const DROP_CONSTRAINTS = 'dropConstraints';
+    public const TABLE            = 'table';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $addColumns = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $addConstraints = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $changeColumns = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $dropColumns = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $dropConstraints = [];
 
     /**
      * Specifications for Sql String generation
+     *
      * @var array
      */
     protected $specifications = [
-        self::TABLE => "ALTER TABLE %1\$s\n",
-        self::ADD_COLUMNS  => [
+        self::TABLE            => "ALTER TABLE %1\$s\n",
+        self::ADD_COLUMNS      => [
             "%1\$s" => [
-                [1 => "ADD COLUMN %1\$s,\n", 'combinedby' => ""]
-            ]
+                [1 => "ADD COLUMN %1\$s,\n", 'combinedby' => ""],
+            ],
         ],
-        self::CHANGE_COLUMNS  => [
+        self::CHANGE_COLUMNS   => [
             "%1\$s" => [
                 [2 => "CHANGE COLUMN %1\$s %2\$s,\n", 'combinedby' => ""],
-            ]
+            ],
         ],
-        self::DROP_COLUMNS  => [
+        self::DROP_COLUMNS     => [
             "%1\$s" => [
                 [1 => "DROP COLUMN %1\$s,\n", 'combinedby' => ""],
-            ]
+            ],
         ],
         self::ADD_CONSTRAINTS  => [
             "%1\$s" => [
                 [1 => "ADD %1\$s,\n", 'combinedby' => ""],
-            ]
+            ],
         ],
-        self::DROP_CONSTRAINTS  => [
+        self::DROP_CONSTRAINTS => [
             "%1\$s" => [
                 [1 => "DROP CONSTRAINT %1\$s,\n", 'combinedby' => ""],
-            ]
-        ]
+            ],
+        ],
     ];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $table = '';
 
     /**
@@ -89,7 +74,7 @@ class AlterTable extends AbstractSql implements SqlInterface
      */
     public function __construct($table = '')
     {
-        ($table) ? $this->setTable($table) : null;
+        $table ? $this->setTable($table) : null;
     }
 
     /**
@@ -104,7 +89,6 @@ class AlterTable extends AbstractSql implements SqlInterface
     }
 
     /**
-     * @param  Column\ColumnInterface $column
      * @return self Provides a fluent interface
      */
     public function addColumn(Column\ColumnInterface $column)
@@ -116,7 +100,6 @@ class AlterTable extends AbstractSql implements SqlInterface
 
     /**
      * @param  string $name
-     * @param  Column\ColumnInterface $column
      * @return self Provides a fluent interface
      */
     public function changeColumn($name, Column\ColumnInterface $column)
@@ -149,7 +132,6 @@ class AlterTable extends AbstractSql implements SqlInterface
     }
 
     /**
-     * @param  Constraint\ConstraintInterface $constraint
      * @return self Provides a fluent interface
      */
     public function addConstraint(Constraint\ConstraintInterface $constraint)
@@ -166,23 +148,25 @@ class AlterTable extends AbstractSql implements SqlInterface
     public function getRawState($key = null)
     {
         $rawState = [
-            self::TABLE => $this->table,
-            self::ADD_COLUMNS => $this->addColumns,
-            self::DROP_COLUMNS => $this->dropColumns,
-            self::CHANGE_COLUMNS => $this->changeColumns,
-            self::ADD_CONSTRAINTS => $this->addConstraints,
+            self::TABLE            => $this->table,
+            self::ADD_COLUMNS      => $this->addColumns,
+            self::DROP_COLUMNS     => $this->dropColumns,
+            self::CHANGE_COLUMNS   => $this->changeColumns,
+            self::ADD_CONSTRAINTS  => $this->addConstraints,
             self::DROP_CONSTRAINTS => $this->dropConstraints,
         ];
 
-        return (isset($key) && array_key_exists($key, $rawState)) ? $rawState[$key] : $rawState;
+        return isset($key) && array_key_exists($key, $rawState) ? $rawState[$key] : $rawState;
     }
 
-    protected function processTable(PlatformInterface $adapterPlatform = null)
+    /** @return string[] */
+    protected function processTable(?PlatformInterface $adapterPlatform = null)
     {
         return [$this->resolveTable($this->table, $adapterPlatform)];
     }
 
-    protected function processAddColumns(PlatformInterface $adapterPlatform = null)
+    /** @return string[] */
+    protected function processAddColumns(?PlatformInterface $adapterPlatform = null)
     {
         $sqls = [];
         foreach ($this->addColumns as $column) {
@@ -192,20 +176,22 @@ class AlterTable extends AbstractSql implements SqlInterface
         return [$sqls];
     }
 
-    protected function processChangeColumns(PlatformInterface $adapterPlatform = null)
+    /** @return string[] */
+    protected function processChangeColumns(?PlatformInterface $adapterPlatform = null)
     {
         $sqls = [];
         foreach ($this->changeColumns as $name => $column) {
             $sqls[] = [
                 $adapterPlatform->quoteIdentifier($name),
-                $this->processExpression($column, $adapterPlatform)
+                $this->processExpression($column, $adapterPlatform),
             ];
         }
 
         return [$sqls];
     }
 
-    protected function processDropColumns(PlatformInterface $adapterPlatform = null)
+    /** @return string[] */
+    protected function processDropColumns(?PlatformInterface $adapterPlatform = null)
     {
         $sqls = [];
         foreach ($this->dropColumns as $column) {
@@ -215,7 +201,8 @@ class AlterTable extends AbstractSql implements SqlInterface
         return [$sqls];
     }
 
-    protected function processAddConstraints(PlatformInterface $adapterPlatform = null)
+    /** @return string[] */
+    protected function processAddConstraints(?PlatformInterface $adapterPlatform = null)
     {
         $sqls = [];
         foreach ($this->addConstraints as $constraint) {
@@ -225,7 +212,8 @@ class AlterTable extends AbstractSql implements SqlInterface
         return [$sqls];
     }
 
-    protected function processDropConstraints(PlatformInterface $adapterPlatform = null)
+    /** @return string[] */
+    protected function processDropConstraints(?PlatformInterface $adapterPlatform = null)
     {
         $sqls = [];
         foreach ($this->dropConstraints as $constraint) {

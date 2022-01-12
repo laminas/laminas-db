@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Sql\Platform\Mysql\Ddl;
 
 use Laminas\Db\Adapter\Platform\Mysql;
@@ -23,7 +17,7 @@ class CreateTableDecoratorTest extends TestCase
     public function testSetSubject()
     {
         $ctd = new CreateTableDecorator();
-        $ct = new CreateTable;
+        $ct  = new CreateTable();
         self::assertSame($ctd, $ctd->setSubject($ct));
     }
 
@@ -33,7 +27,7 @@ class CreateTableDecoratorTest extends TestCase
     public function testGetSqlString()
     {
         $ctd = new CreateTableDecorator();
-        $ct = new CreateTable('foo');
+        $ct  = new CreateTable('foo');
         $ctd->setSubject($ct);
 
         $col = new Column('bar');

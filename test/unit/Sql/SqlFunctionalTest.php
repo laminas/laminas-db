@@ -1,46 +1,81 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Sql;
 
 use Laminas\Db\Adapter;
+use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Sql;
+use Laminas\Db\Sql\AbstractSql;
+use Laminas\Db\Sql\Ddl\Column\Column;
+use Laminas\Db\Sql\Ddl\CreateTable;
+use Laminas\Db\Sql\Delete;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Insert;
+use Laminas\Db\Sql\Platform\PlatformDecoratorInterface;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Update;
 use LaminasTest\Db\TestAsset;
 use PHPUnit\Framework\TestCase;
 
+use function array_merge;
+use function is_array;
+use function is_string;
+
 /**
- * @method \Laminas\Db\Sql\Select select(null|string $table)
- * @method \Laminas\Db\Sql\Update update(null|string $table)
- * @method \Laminas\Db\Sql\Delete delete(null|string $table)
- * @method \Laminas\Db\Sql\Insert insert(null|string $table)
- * @method \Laminas\Db\Sql\Ddl\CreateTable createTable(null|string $table)
- * @method \Laminas\Db\Sql\Ddl\Column\Column createColumn(null|string $name)
+ * @method Select select(null|string $table)
+ * @method Update update(null|string $table)
+ * @method Delete delete(null|string $table)
+ * @method Insert insert(null|string $table)
+ * @method CreateTable createTable(null|string $table)
+ * @method Column createColumn(null|string $name)
  */
 class SqlFunctionalTest extends TestCase
 {
-    protected function dataProviderCommonProcessMethods()
+    /**
+     * @psalm-return array<string, array{
+     *     sqlObject: AbstractSql,
+     *     expected: array{
+     *         sql92: {
+     *             string: string,
+     *             prepare: string,
+     *             parameters: array<string, mixed>
+     *         },
+     *         MySql: {
+     *             string: string,
+     *             prepare: string,
+     *             parameters: array<string, mixed>
+     *         },
+     *         Oracle: {
+     *             string: string,
+     *             prepare: string,
+     *             parameters: array<string, mixed>
+     *         },
+     *         SqlServer: {
+     *             string: string,
+     *             prepare: string,
+     *             parameters: array<string, mixed>
+     *         }
+     *     }
+     * }>
+     */
+    protected function dataProviderCommonProcessMethods(): array
     {
+        // phpcs:disable Generic.Files.LineLength.TooLong
         return [
-            'Select::processOffset()' => [
+            'Select::processOffset()'      => [
                 'sqlObject' => $this->select('foo')->offset(10),
                 'expected'  => [
-                    'sql92' => [
+                    'sql92'     => [
                         'string'     => 'SELECT "foo".* FROM "foo" OFFSET \'10\'',
                         'prepare'    => 'SELECT "foo".* FROM "foo" OFFSET ?',
                         'parameters' => ['offset' => 10],
                     ],
-                    'MySql' => [
+                    'MySql'     => [
                         'string'     => 'SELECT `foo`.* FROM `foo` LIMIT 18446744073709551615 OFFSET 10',
                         'prepare'    => 'SELECT `foo`.* FROM `foo` LIMIT 18446744073709551615 OFFSET ?',
                         'parameters' => ['offset' => 10],
                     ],
-                    // @codingStandardsIgnoreStart
-                    'Oracle' => [
+                    'Oracle'    => [
                         'string'     => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b ) WHERE b_rownum > (10)',
                         'prepare'    => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b ) WHERE b_rownum > (:offset)',
                         'parameters' => ['offset' => 10],
@@ -50,24 +85,22 @@ class SqlFunctionalTest extends TestCase
                         'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__LAMINAS_ROW_NUMBER] FROM [foo] ) AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
                         'parameters' => ['offset' => 10, 'limit' => null, 'offsetForSum' => 10],
                     ],
-                    // @codingStandardsIgnoreEnd
                 ],
             ],
-            'Select::processLimit()' => [
+            'Select::processLimit()'       => [
                 'sqlObject' => $this->select('foo')->limit(10),
                 'expected'  => [
-                    'sql92' => [
+                    'sql92'     => [
                         'string'     => 'SELECT "foo".* FROM "foo" LIMIT \'10\'',
                         'prepare'    => 'SELECT "foo".* FROM "foo" LIMIT ?',
                         'parameters' => ['limit' => 10],
                     ],
-                    'MySql' => [
+                    'MySql'     => [
                         'string'     => 'SELECT `foo`.* FROM `foo` LIMIT 10',
                         'prepare'    => 'SELECT `foo`.* FROM `foo` LIMIT ?',
                         'parameters' => ['limit' => 10],
                     ],
-                    // @codingStandardsIgnoreStart
-                    'Oracle' => [
+                    'Oracle'    => [
                         'string'     => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b WHERE rownum <= (0+10)) WHERE b_rownum >= (0 + 1)',
                         'prepare'    => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b WHERE rownum <= (:offset+:limit)) WHERE b_rownum >= (:offset + 1)',
                         'parameters' => ['offset' => 0, 'limit' => 10],
@@ -77,24 +110,22 @@ class SqlFunctionalTest extends TestCase
                         'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__LAMINAS_ROW_NUMBER] FROM [foo] ) AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
                         'parameters' => ['offset' => null, 'limit' => 10, 'offsetForSum' => null],
                     ],
-                    // @codingStandardsIgnoreEnd
                 ],
             ],
             'Select::processLimitOffset()' => [
                 'sqlObject' => $this->select('foo')->limit(10)->offset(5),
                 'expected'  => [
-                    'sql92' => [
+                    'sql92'     => [
                         'string'     => 'SELECT "foo".* FROM "foo" LIMIT \'10\' OFFSET \'5\'',
                         'prepare'    => 'SELECT "foo".* FROM "foo" LIMIT ? OFFSET ?',
                         'parameters' => ['limit' => 10, 'offset' => 5],
                     ],
-                    'MySql' => [
+                    'MySql'     => [
                         'string'     => 'SELECT `foo`.* FROM `foo` LIMIT 10 OFFSET 5',
                         'prepare'    => 'SELECT `foo`.* FROM `foo` LIMIT ? OFFSET ?',
                         'parameters' => ['limit' => 10, 'offset' => 5],
                     ],
-                    // @codingStandardsIgnoreStart
-                    'Oracle' => [
+                    'Oracle'    => [
                         'string'     => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b WHERE rownum <= (5+10)) WHERE b_rownum >= (5 + 1)',
                         'prepare'    => 'SELECT * FROM (SELECT b.*, rownum b_rownum FROM ( SELECT "foo".* FROM "foo" ) b WHERE rownum <= (:offset+:limit)) WHERE b_rownum >= (:offset + 1)',
                         'parameters' => ['offset' => 5, 'limit' => 10],
@@ -104,7 +135,6 @@ class SqlFunctionalTest extends TestCase
                         'prepare'    => 'SELECT * FROM ( SELECT [foo].*, ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [__LAMINAS_ROW_NUMBER] FROM [foo] ) AS [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION] WHERE [LAMINAS_SQL_SERVER_LIMIT_OFFSET_EMULATION].[__LAMINAS_ROW_NUMBER] BETWEEN ?+1 AND ?+?',
                         'parameters' => ['offset' => 5, 'limit' => 10, 'offsetForSum' => 5],
                     ],
-                    // @codingStandardsIgnoreEnd
                 ],
             ],
             // Github issue https://github.com/zendframework/zend-db/issues/98
@@ -118,45 +148,42 @@ class SqlFunctionalTest extends TestCase
                                     ->join(
                                         'joined_table3',
                                         'my_table.id = joined_table3.id',
-                                        [\Laminas\Db\Sql\Select::SQL_STAR]
+                                        [Select::SQL_STAR]
                                     )
                                     ->columns([
                                         'my_table_column',
-                                        'aliased_column' => new \Laminas\Db\Sql\Expression('NOW()'),
+                                        'aliased_column' => new Expression('NOW()'),
                                     ]),
-                'expected' => [
-                    // @codingStandardsIgnoreStart
-                    'sql92' => [
+                'expected'  => [
+                    'sql92'     => [
                         'string' => 'SELECT "my_table"."my_table_column" AS "my_table_column", NOW() AS "aliased_column", "joined_table3".* FROM "my_table" INNER JOIN "joined_table2" ON "my_table"."id" = "joined_table2"."id" INNER JOIN "joined_table3" ON "my_table"."id" = "joined_table3"."id"',
                     ],
-                    'MySql' => [
+                    'MySql'     => [
                         'string' => 'SELECT `my_table`.`my_table_column` AS `my_table_column`, NOW() AS `aliased_column`, `joined_table3`.* FROM `my_table` INNER JOIN `joined_table2` ON `my_table`.`id` = `joined_table2`.`id` INNER JOIN `joined_table3` ON `my_table`.`id` = `joined_table3`.`id`',
                     ],
-                    'Oracle' => [
+                    'Oracle'    => [
                         'string' => 'SELECT "my_table"."my_table_column" AS "my_table_column", NOW() AS "aliased_column", "joined_table3".* FROM "my_table" INNER JOIN "joined_table2" ON "my_table"."id" = "joined_table2"."id" INNER JOIN "joined_table3" ON "my_table"."id" = "joined_table3"."id"',
                     ],
                     'SqlServer' => [
                         'string' => 'SELECT [my_table].[my_table_column] AS [my_table_column], NOW() AS [aliased_column], [joined_table3].* FROM [my_table] INNER JOIN [joined_table2] ON [my_table].[id] = [joined_table2].[id] INNER JOIN [joined_table3] ON [my_table].[id] = [joined_table3].[id]',
-                    ]
-                    // @codingStandardsIgnoreEnd
-                ]
+                    ],
+                ],
             ],
-            'Select::processJoin()' => [
+            'Select::processJoin()'                => [
                 'sqlObject' => $this->select('a')
                                     ->join(['b' => $this->select('c')->where(['cc' => 10])], 'd=e')->where(['x' => 20]),
                 'expected'  => [
-                    // @codingStandardsIgnoreStart
-                    'sql92' => [
+                    'sql92'     => [
                         'string'     => 'SELECT "a".*, "b".* FROM "a" INNER JOIN (SELECT "c".* FROM "c" WHERE "cc" = \'10\') AS "b" ON "d"="e" WHERE "x" = \'20\'',
                         'prepare'    => 'SELECT "a".*, "b".* FROM "a" INNER JOIN (SELECT "c".* FROM "c" WHERE "cc" = ?) AS "b" ON "d"="e" WHERE "x" = ?',
                         'parameters' => ['subselect1where1' => 10, 'where1' => 20],
                     ],
-                    'MySql' => [
+                    'MySql'     => [
                         'string'     => 'SELECT `a`.*, `b`.* FROM `a` INNER JOIN (SELECT `c`.* FROM `c` WHERE `cc` = \'10\') AS `b` ON `d`=`e` WHERE `x` = \'20\'',
                         'prepare'    => 'SELECT `a`.*, `b`.* FROM `a` INNER JOIN (SELECT `c`.* FROM `c` WHERE `cc` = ?) AS `b` ON `d`=`e` WHERE `x` = ?',
                         'parameters' => ['subselect2where1' => 10, 'where2' => 20],
                     ],
-                    'Oracle' => [
+                    'Oracle'    => [
                         'string'     => 'SELECT "a".*, "b".* FROM "a" INNER JOIN (SELECT "c".* FROM "c" WHERE "cc" = \'10\') "b" ON "d"="e" WHERE "x" = \'20\'',
                         'prepare'    => 'SELECT "a".*, "b".* FROM "a" INNER JOIN (SELECT "c".* FROM "c" WHERE "cc" = ?) "b" ON "d"="e" WHERE "x" = ?',
                         'parameters' => ['subselect2where1' => 10, 'where2' => 20],
@@ -166,10 +193,9 @@ class SqlFunctionalTest extends TestCase
                         'prepare'    => 'SELECT [a].*, [b].* FROM [a] INNER JOIN (SELECT [c].* FROM [c] WHERE [cc] = ?) AS [b] ON [d]=[e] WHERE [x] = ?',
                         'parameters' => ['subselect2where1' => 10, 'where2' => 20],
                     ],
-                    // @codingStandardsIgnoreEnd
                 ],
             ],
-            'Ddl::CreateTable::processColumns()' => [
+            'Ddl::CreateTable::processColumns()'   => [
                 'sqlObject' => $this->createTable('foo')
                                     ->addColumn($this->createColumn('col1')
                                         ->setOption('identity', true)
@@ -178,15 +204,13 @@ class SqlFunctionalTest extends TestCase
                                         ->setOption('identity', true)
                                         ->setOption('comment', 'Comment2')),
                 'expected'  => [
-                    // @codingStandardsIgnoreStart
                     'sql92'     => "CREATE TABLE \"foo\" ( \n    \"col1\" INTEGER NOT NULL,\n    \"col2\" INTEGER NOT NULL \n)",
                     'MySql'     => "CREATE TABLE `foo` ( \n    `col1` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Comment1',\n    `col2` INTEGER NOT NULL AUTO_INCREMENT COMMENT 'Comment2' \n)",
                     'Oracle'    => "CREATE TABLE \"foo\" ( \n    \"col1\" INTEGER NOT NULL,\n    \"col2\" INTEGER NOT NULL \n)",
                     'SqlServer' => "CREATE TABLE [foo] ( \n    [col1] INTEGER NOT NULL,\n    [col2] INTEGER NOT NULL \n)",
-                    // @codingStandardsIgnoreEnd
                 ],
             ],
-            'Ddl::CreateTable::processTable()' => [
+            'Ddl::CreateTable::processTable()'     => [
                 'sqlObject' => $this->createTable('foo')->setTemporary(true),
                 'expected'  => [
                     'sql92'     => "CREATE TEMPORARY TABLE \"foo\" ( \n)",
@@ -195,25 +219,28 @@ class SqlFunctionalTest extends TestCase
                     'SqlServer' => "CREATE TABLE [#foo] ( \n)",
                 ],
             ],
-            'Select::processSubSelect()' => [
-                'sqlObject' => $this->select([
-                    'a' => $this->select([
-                        'b' => $this->select('c')->where(['cc' => 'CC']),
-                    ])->where(['bb' => 'BB']),
-                ])->where(['aa' => 'AA']),
+            'Select::processSubSelect()'           => [
+                'sqlObject' => $this
+                    ->select([
+                        'a' => $this
+                            ->select([
+                                'b' => $this->select('c')->where(['cc' => 'CC']),
+                            ])
+                            ->where(['bb' => 'BB']),
+                    ])
+                    ->where(['aa' => 'AA']),
                 'expected'  => [
-                    // @codingStandardsIgnoreStart
-                    'sql92' => [
+                    'sql92'     => [
                         'string'     => 'SELECT "a".* FROM (SELECT "b".* FROM (SELECT "c".* FROM "c" WHERE "cc" = \'CC\') AS "b" WHERE "bb" = \'BB\') AS "a" WHERE "aa" = \'AA\'',
                         'prepare'    => 'SELECT "a".* FROM (SELECT "b".* FROM (SELECT "c".* FROM "c" WHERE "cc" = ?) AS "b" WHERE "bb" = ?) AS "a" WHERE "aa" = ?',
                         'parameters' => ['subselect2where1' => 'CC', 'subselect1where1' => 'BB', 'where1' => 'AA'],
                     ],
-                    'MySql' => [
+                    'MySql'     => [
                         'string'     => 'SELECT `a`.* FROM (SELECT `b`.* FROM (SELECT `c`.* FROM `c` WHERE `cc` = \'CC\') AS `b` WHERE `bb` = \'BB\') AS `a` WHERE `aa` = \'AA\'',
                         'prepare'    => 'SELECT `a`.* FROM (SELECT `b`.* FROM (SELECT `c`.* FROM `c` WHERE `cc` = ?) AS `b` WHERE `bb` = ?) AS `a` WHERE `aa` = ?',
                         'parameters' => ['subselect4where1' => 'CC', 'subselect3where1' => 'BB', 'where2' => 'AA'],
                     ],
-                    'Oracle' => [
+                    'Oracle'    => [
                         'string'     => 'SELECT "a".* FROM (SELECT "b".* FROM (SELECT "c".* FROM "c" WHERE "cc" = \'CC\') "b" WHERE "bb" = \'BB\') "a" WHERE "aa" = \'AA\'',
                         'prepare'    => 'SELECT "a".* FROM (SELECT "b".* FROM (SELECT "c".* FROM "c" WHERE "cc" = ?) "b" WHERE "bb" = ?) "a" WHERE "aa" = ?',
                         'parameters' => ['subselect4where1' => 'CC', 'subselect3where1' => 'BB', 'where2' => 'AA'],
@@ -223,10 +250,9 @@ class SqlFunctionalTest extends TestCase
                         'prepare'    => 'SELECT [a].* FROM (SELECT [b].* FROM (SELECT [c].* FROM [c] WHERE [cc] = ?) AS [b] WHERE [bb] = ?) AS [a] WHERE [aa] = ?',
                         'parameters' => ['subselect4where1' => 'CC', 'subselect3where1' => 'BB', 'where2' => 'AA'],
                     ],
-                    // @codingStandardsIgnoreEnd
                 ],
             ],
-            'Delete::processSubSelect()' => [
+            'Delete::processSubSelect()'           => [
                 'sqlObject' => $this->delete('foo')->where(['x' => $this->select('foo')->where(['x' => 'y'])]),
                 'expected'  => [
                     'sql92'     => [
@@ -251,7 +277,7 @@ class SqlFunctionalTest extends TestCase
                     ],
                 ],
             ],
-            'Update::processSubSelect()' => [
+            'Update::processSubSelect()'           => [
                 'sqlObject' => $this->update('foo')->set(['x' => $this->select('foo')]),
                 'expected'  => [
                     'sql92'     => 'UPDATE "foo" SET "x" = (SELECT "foo".* FROM "foo")',
@@ -260,7 +286,7 @@ class SqlFunctionalTest extends TestCase
                     'SqlServer' => 'UPDATE [foo] SET [x] = (SELECT [foo].* FROM [foo])',
                 ],
             ],
-            'Insert::processSubSelect()' => [
+            'Insert::processSubSelect()'           => [
                 'sqlObject' => $this->insert('foo')->select($this->select('foo')->where(['x' => 'y'])),
                 'expected'  => [
                     'sql92'     => [
@@ -285,7 +311,7 @@ class SqlFunctionalTest extends TestCase
                     ],
                 ],
             ],
-            'Update::processExpression()' => [
+            'Update::processExpression()'          => [
                 'sqlObject' => $this->update('foo')->set(
                     ['x' => new Sql\Expression('?', [$this->select('foo')->where(['x' => 'y'])])]
                 ),
@@ -312,32 +338,54 @@ class SqlFunctionalTest extends TestCase
                     ],
                 ],
             ],
-            'Update::processJoins()' => [
+            'Update::processJoins()'               => [
                 'sqlObject' => $this->update('foo')->set(['x' => 'y'])->where(['xx' => 'yy'])->join(
                     'bar',
                     'bar.barId = foo.barId'
                 ),
                 'expected'  => [
-                    // @codingStandardsIgnoreStart
                     'sql92'     => [
                         'string' => 'UPDATE "foo" INNER JOIN "bar" ON "bar"."barId" = "foo"."barId" SET "x" = \'y\' WHERE "xx" = \'yy\'',
                     ],
                     'MySql'     => [
                         'string' => 'UPDATE `foo` INNER JOIN `bar` ON `bar`.`barId` = `foo`.`barId` SET `x` = \'y\' WHERE `xx` = \'yy\'',
                     ],
-                    'Oracle'     => [
+                    'Oracle'    => [
                         'string' => 'UPDATE "foo" INNER JOIN "bar" ON "bar"."barId" = "foo"."barId" SET "x" = \'y\' WHERE "xx" = \'yy\'',
                     ],
                     'SqlServer' => [
                         'string' => 'UPDATE [foo] INNER JOIN [bar] ON [bar].[barId] = [foo].[barId] SET [x] = \'y\' WHERE [xx] = \'yy\'',
                     ],
-                    // @codingStandardsIgnoreEnd
                 ],
             ],
         ];
+        // phpcs:enable Generic.Files.LineLength.TooLong
     }
 
-    protected function dataProviderDecorators()
+    /**
+     * @psalm-return array<string, array{
+     *     sqlObject: AbstractSql,
+     *     expected: array{
+     *         sql92: array{
+     *             decorators: array<class-string, PlatformDecoratorInterface>,
+     *             string: string
+     *         },
+     *         MySql: array{
+     *             decorators: array<class-string, PlatformDecoratorInterface>,
+     *             string: string
+     *         },
+     *         Oracle: array{
+     *             decorators: array<class-string, PlatformDecoratorInterface>,
+     *             string: string
+     *         },
+     *         SqlServer: array{
+     *             decorators: array<class-string, PlatformDecoratorInterface>,
+     *             string: string
+     *         }
+     *     }
+     * }>
+     */
+    protected function dataProviderDecorators(): array
     {
         return [
             'RootDecorators::Select' => [
@@ -345,31 +393,31 @@ class SqlFunctionalTest extends TestCase
                 'expected'  => [
                     'sql92'     => [
                         'decorators' => [
-                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            Select::class => new TestAsset\SelectDecorator(),
                         ],
-                        'string' => 'SELECT "foo".* FROM "foo" WHERE "x" = (SELECT "bar".* FROM "bar")',
+                        'string'     => 'SELECT "foo".* FROM "foo" WHERE "x" = (SELECT "bar".* FROM "bar")',
                     ],
                     'MySql'     => [
                         'decorators' => [
-                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            Select::class => new TestAsset\SelectDecorator(),
                         ],
-                        'string' => 'SELECT `foo`.* FROM `foo` WHERE `x` = (SELECT `bar`.* FROM `bar`)',
+                        'string'     => 'SELECT `foo`.* FROM `foo` WHERE `x` = (SELECT `bar`.* FROM `bar`)',
                     ],
                     'Oracle'    => [
                         'decorators' => [
-                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            Select::class => new TestAsset\SelectDecorator(),
                         ],
-                        'string' => 'SELECT "foo".* FROM "foo" WHERE "x" = (SELECT "bar".* FROM "bar")',
+                        'string'     => 'SELECT "foo".* FROM "foo" WHERE "x" = (SELECT "bar".* FROM "bar")',
                     ],
                     'SqlServer' => [
                         'decorators' => [
-                            'Laminas\Db\Sql\Select' => new TestAsset\SelectDecorator,
+                            Select::class => new TestAsset\SelectDecorator(),
                         ],
-                        'string' => 'SELECT [foo].* FROM [foo] WHERE [x] = (SELECT [bar].* FROM [bar])',
+                        'string'     => 'SELECT [foo].* FROM [foo] WHERE [x] = (SELECT [bar].* FROM [bar])',
                     ],
                 ],
             ],
-            // @codingStandardsIgnoreStart
+            // phpcs:disable Generic.Files.LineLength.TooLong
             /* TODO - should be implemented
             'RootDecorators::Insert' => array(
                 'sqlObject' => $this->insert('foo')->select($this->select()),
@@ -503,11 +551,39 @@ class SqlFunctionalTest extends TestCase
                     ),
                 ),
             ),*/
-            // @codingStandardsIgnoreEnd
+            // phpcs:enable Generic.Files.LineLength.TooLong
         ];
     }
 
-    public function dataProvider()
+    /**
+     * @psalm-return array<string, array{
+     *     sqlObject: AbstractSql,
+     *     platform: string,
+     *     expected: array{
+     *         sql92: array{
+     *             string: string,
+     *             prepare: string,
+     *             parameters: array<string, mixed>
+     *         },
+     *         MySql: array{
+     *             string: string,
+     *             prepare: string,
+     *             parameters: array<string, mixed>
+     *         },
+     *         Oracle: array{
+     *             string: string,
+     *             prepare: string,
+     *             parameters: array<string, mixed>
+     *         },
+     *         SqlServer: array{
+     *             string: string,
+     *             prepare: string,
+     *             parameters: array<string, mixed>
+     *         },
+     *     }
+     * }>
+     */
+    public function dataProvider(): array
     {
         $data = array_merge(
             $this->dataProviderCommonProcessMethods(),
@@ -543,7 +619,7 @@ class SqlFunctionalTest extends TestCase
             }
         }
 
-        $expectedString = is_string($expected) ? $expected : (isset($expected['string']) ? $expected['string'] : null);
+        $expectedString = is_string($expected) ? $expected : ($expected['string'] ?? null);
         if ($expectedString) {
             $actual = $sql->buildSqlString($sqlObject);
             self::assertEquals($expectedString, $actual, "getSqlString()");
@@ -558,6 +634,12 @@ class SqlFunctionalTest extends TestCase
         }
     }
 
+    /**
+     * @param array|Sql\Platform\PlatformDecoratorInterface $decorator
+     * @psalm-param array{0: class-string, 1: * string}|Sql\Platform\PlatformDecoratorInterface $decorator
+     * @return null|PlatformDecoratorInterface
+     * @psalm-return null|PlatformDecoratorInterface|PlatformDecoratorInterface&MockObject
+     */
     protected function resolveDecorator($decorator)
     {
         if (is_array($decorator)) {
@@ -568,42 +650,50 @@ class SqlFunctionalTest extends TestCase
             $decoratorMock->expects($this->any())->method('buildSqlString')->will($this->returnValue($decorator[1]));
             return $decoratorMock;
         }
+
         if ($decorator instanceof Sql\Platform\PlatformDecoratorInterface) {
             return $decorator;
         }
+      
+        return null;
     }
 
-    protected function resolveAdapter($platform)
+    protected function resolveAdapter(string $platform): Adapter\Adapter
     {
         switch ($platform) {
             case 'sql92':
-                $platform  = new TestAsset\TrustingSql92Platform();
+                $platform = new TestAsset\TrustingSql92Platform();
                 break;
             case 'MySql':
-                $platform  = new TestAsset\TrustingMysqlPlatform();
+                $platform = new TestAsset\TrustingMysqlPlatform();
                 break;
             case 'Oracle':
-                $platform  = new TestAsset\TrustingOraclePlatform();
+                $platform = new TestAsset\TrustingOraclePlatform();
                 break;
             case 'SqlServer':
-                $platform  = new TestAsset\TrustingSqlServerPlatform();
+                $platform = new TestAsset\TrustingSqlServerPlatform();
                 break;
             default:
                 $platform = null;
         }
 
-        $mockDriver = $this->getMockBuilder('Laminas\Db\Adapter\Driver\DriverInterface')->getMock();
+        $mockDriver = $this->getMockBuilder(DriverInterface::class)->getMock();
         $mockDriver->expects($this->any())->method('formatParameterName')->will($this->returnValue('?'));
         $mockDriver->expects($this->any())->method('createStatement')->will($this->returnCallback(function () {
-            return new Adapter\StatementContainer;
+            return new Adapter\StatementContainer();
         }));
 
         return new Adapter\Adapter($mockDriver, $platform);
     }
 
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return AbstractSql
+     */
     public function __call($name, $arguments)
     {
-        $arg0 = isset($arguments[0]) ? $arguments[0] : null;
+        $arg0 = $arguments[0] ?? null;
         switch ($name) {
             case 'select':
                 return new Sql\Select($arg0);

@@ -1,38 +1,29 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\Mysqli;
 
 use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Profiler;
+use mysqli_stmt;
+
+use function array_unshift;
+use function call_user_func_array;
+use function is_array;
 
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
-    /**
-     * @var \mysqli
-     */
-    protected $mysqli = null;
+    /** @var \mysqli */
+    protected $mysqli;
 
-    /**
-     * @var Mysqli
-     */
-    protected $driver = null;
+    /** @var Mysqli */
+    protected $driver;
 
-    /**
-     * @var Profiler\ProfilerInterface
-     */
-    protected $profiler = null;
+    /** @var Profiler\ProfilerInterface */
+    protected $profiler;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $sql = '';
 
     /**
@@ -40,12 +31,10 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      *
      * @var ParameterContainer
      */
-    protected $parameterContainer = null;
+    protected $parameterContainer;
 
-    /**
-     * @var \mysqli_stmt
-     */
-    protected $resource = null;
+    /** @var mysqli_stmt */
+    protected $resource;
 
     /**
      * Is prepared
@@ -54,9 +43,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      */
     protected $isPrepared = false;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $bufferResults = false;
 
     /**
@@ -70,7 +57,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set driver
      *
-     * @param  Mysqli $driver
      * @return self Provides a fluent interface
      */
     public function setDriver(Mysqli $driver)
@@ -80,7 +66,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -100,7 +85,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Initialize
      *
-     * @param  \mysqli $mysqli
      * @return self Provides a fluent interface
      */
     public function initialize(\mysqli $mysqli)
@@ -124,7 +108,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set Parameter container
      *
-     * @param ParameterContainer $parameterContainer
      * @return self Provides a fluent interface
      */
     public function setParameterContainer(ParameterContainer $parameterContainer)
@@ -146,12 +129,11 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set resource
      *
-     * @param  \mysqli_stmt $mysqliStatement
      * @return self Provides a fluent interface
      */
-    public function setResource(\mysqli_stmt $mysqliStatement)
+    public function setResource(mysqli_stmt $mysqliStatement)
     {
-        $this->resource = $mysqliStatement;
+        $this->resource   = $mysqliStatement;
         $this->isPrepared = true;
         return $this;
     }
@@ -200,13 +182,13 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             throw new Exception\RuntimeException('This statement has already been prepared');
         }
 
-        $sql = ($sql) ?: $this->sql;
+        $sql = $sql ?: $this->sql;
 
         $this->resource = $this->mysqli->prepare($sql);
-        if (! $this->resource instanceof \mysqli_stmt) {
+        if (! $this->resource instanceof mysqli_stmt) {
             throw new Exception\InvalidQueryException(
                 'Statement couldn\'t be produced with sql: ' . $sql,
-                null,
+                $this->mysqli->errno,
                 new Exception\ErrorException($this->mysqli->error, $this->mysqli->errno)
             );
         }
@@ -232,7 +214,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         if (! $this->parameterContainer instanceof ParameterContainer) {
             if ($parameters instanceof ParameterContainer) {
                 $this->parameterContainer = $parameters;
-                $parameters = null;
+                $parameters               = null;
             } else {
                 $this->parameterContainer = new ParameterContainer();
             }
@@ -264,13 +246,12 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         if ($this->bufferResults === true) {
             $this->resource->store_result();
             $this->isPrepared = false;
-            $buffered = true;
+            $buffered         = true;
         } else {
             $buffered = false;
         }
 
-        $result = $this->driver->createResult($this->resource, $buffered);
-        return $result;
+        return $this->driver->createResult($this->resource, $buffered);
     }
 
     /**
@@ -281,8 +262,8 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     protected function bindParametersFromContainer()
     {
         $parameters = $this->parameterContainer->getNamedArray();
-        $type = '';
-        $args = [];
+        $type       = '';
+        $args       = [];
 
         foreach ($parameters as $name => &$value) {
             if ($this->parameterContainer->offsetHasErrata($name)) {

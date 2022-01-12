@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\Sqlsrv;
 
 use Laminas\Db\Adapter\Driver\StatementInterface;
@@ -13,73 +7,56 @@ use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Profiler;
 
+use function get_resource_type;
+use function is_array;
+use function sqlsrv_errors;
+use function sqlsrv_execute;
+use function sqlsrv_prepare;
+use function substr_count;
+
+use const SQLSRV_PARAM_IN;
+
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
-    /**
-     * @var resource
-     */
-    protected $sqlsrv = null;
+    /** @var resource */
+    protected $sqlsrv;
 
-    /**
-     * @var Sqlsrv
-     */
-    protected $driver = null;
+    /** @var Sqlsrv */
+    protected $driver;
 
-    /**
-     * @var Profiler\ProfilerInterface
-     */
-    protected $profiler = null;
+    /** @var Profiler\ProfilerInterface */
+    protected $profiler;
 
-    /**
-     * @var string
-     */
-    protected $sql = null;
+    /** @var string */
+    protected $sql;
 
-    /**
-     * @var bool
-     */
-    protected $isQuery = null;
+    /** @var bool */
+    protected $isQuery;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $parameterReferences = [];
 
-    /**
-     * @var ParameterContainer
-     */
-    protected $parameterContainer = null;
+    /** @var ParameterContainer */
+    protected $parameterContainer;
 
-    /**
-     * @var resource
-     */
-    protected $resource = null;
+    /** @var resource */
+    protected $resource;
 
-    /**
-     *
-     * @var bool
-     */
+    /** @var bool */
     protected $isPrepared = false;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $prepareParams = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $prepareOptions = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $parameterReferenceValues = [];
 
     /**
      * Set driver
      *
-     * @param  Sqlsrv $driver
      * @return self Provides a fluent interface
      */
     public function setDriver(Sqlsrv $driver)
@@ -89,7 +66,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -107,7 +83,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     *
      * One of two resource types will be provided here:
      * a) "SQL Server Connection" when a prepared statement needs to still be produced
      * b) "SQL Server Statement" when a prepared statement has been already produced
@@ -121,13 +96,13 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     {
         $resourceType = get_resource_type($resource);
 
-        if ($resourceType == 'SQL Server Connection') {
+        if ($resourceType === 'SQL Server Connection') {
             $this->sqlsrv = $resource;
-        } elseif ($resourceType == 'SQL Server Statement') {
-            $this->resource = $resource;
+        } elseif ($resourceType === 'SQL Server Statement') {
+            $this->resource   = $resource;
             $this->isPrepared = true;
         } else {
-            throw new Exception\InvalidArgumentException('Invalid resource provided to ' . __CLASS__);
+            throw new Exception\InvalidArgumentException('Invalid resource provided to ' . self::class);
         }
 
         return $this;
@@ -136,7 +111,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set parameter container
      *
-     * @param ParameterContainer $parameterContainer
      * @return self Provides a fluent interface
      */
     public function setParameterContainer(ParameterContainer $parameterContainer)
@@ -154,7 +128,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param $resource
+     * @param resource $resource
      * @return self Provides a fluent interface
      */
     public function setResource($resource)
@@ -204,8 +178,8 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         if ($this->isPrepared) {
             throw new Exception\RuntimeException('Already prepared');
         }
-        $sql = ($sql) ?: $this->sql;
-        $options = ($options) ?: $this->prepareOptions;
+        $sql     = $sql ?: $this->sql;
+        $options = $options ?: $this->prepareOptions;
 
         $pRef = &$this->parameterReferences;
         for ($position = 0, $count = substr_count($sql, '?'); $position < $count; $position++) {
@@ -249,7 +223,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         if (! $this->parameterContainer instanceof ParameterContainer) {
             if ($parameters instanceof ParameterContainer) {
                 $this->parameterContainer = $parameters;
-                $parameters = null;
+                $parameters               = null;
             } else {
                 $this->parameterContainer = new ParameterContainer();
             }
@@ -276,22 +250,20 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         if ($resultValue === false) {
             $errors = sqlsrv_errors();
             // ignore general warnings
-            if ($errors[0]['SQLSTATE'] != '01000') {
+            if ($errors[0]['SQLSTATE'] !== '01000') {
                 throw new Exception\RuntimeException($errors[0]['message']);
             }
         }
 
-        $result = $this->driver->createResult($this->resource);
-        return $result;
+        return $this->driver->createResult($this->resource);
     }
 
     /**
      * Bind parameters from container
-     *
      */
     protected function bindParametersFromContainer()
     {
-        $values = $this->parameterContainer->getPositionalArray();
+        $values   = $this->parameterContainer->getPositionalArray();
         $position = 0;
         foreach ($values as $value) {
             $this->parameterReferences[$position++][0] = $value;

@@ -1,32 +1,32 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\AbstractConnection;
 use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Exception\RunTimeException;
+use PDOException;
+use PDOStatement;
+
+use function array_diff_key;
+use function implode;
+use function is_array;
+use function is_int;
+use function str_replace;
+use function strpos;
+use function strtolower;
+use function substr;
 
 class Connection extends AbstractConnection
 {
-    /**
-     * @var Pdo
-     */
-    protected $driver = null;
+    /** @var Pdo */
+    protected $driver;
 
-    /**
-     * @var \PDO
-     */
-    protected $resource = null;
+    /** @var \PDO */
+    protected $resource;
 
-    /**
-     * @var string
-     */
-    protected $dsn = null;
+    /** @var string */
+    protected $dsn;
 
     /**
      * Constructor
@@ -50,7 +50,6 @@ class Connection extends AbstractConnection
     /**
      * Set driver
      *
-     * @param Pdo $driver
      * @return self Provides a fluent interface
      */
     public function setDriver(Pdo $driver)
@@ -84,7 +83,8 @@ class Connection extends AbstractConnection
 
     /**
      * Get the dsn string for this connection
-     * @throws \Laminas\Db\Adapter\Exception\RunTimeException
+     *
+     * @throws RunTimeException
      * @return string
      */
     public function getDsn()
@@ -123,9 +123,9 @@ class Connection extends AbstractConnection
                 break;
         }
 
-        /** @var $result \PDOStatement */
+        /** @var PDOStatement $result */
         $result = $this->resource->query($sql);
-        if ($result instanceof \PDOStatement) {
+        if ($result instanceof PDOStatement) {
             return $result->fetchColumn();
         }
 
@@ -135,12 +135,11 @@ class Connection extends AbstractConnection
     /**
      * Set resource
      *
-     * @param  \PDO $resource
      * @return self Provides a fluent interface
      */
     public function setResource(\PDO $resource)
     {
-        $this->resource = $resource;
+        $this->resource   = $resource;
         $this->driverName = strtolower($this->resource->getAttribute(\PDO::ATTR_DRIVER_NAME));
 
         return $this;
@@ -158,7 +157,7 @@ class Connection extends AbstractConnection
             return $this;
         }
 
-        $dsn = $username = $password = $hostname = $database = null;
+        $dsn     = $username = $password = $hostname = $database = null;
         $options = [];
         foreach ($this->connectionParameters as $key => $value) {
             switch (strtolower($key)) {
@@ -195,17 +194,17 @@ class Connection extends AbstractConnection
                     $database = (string) $value;
                     break;
                 case 'charset':
-                    $charset    = (string) $value;
+                    $charset = (string) $value;
                     break;
                 case 'unix_socket':
-                    $unix_socket = (string) $value;
+                    $unixSocket = (string) $value;
                     break;
                 case 'version':
                     $version = (string) $value;
                     break;
                 case 'driver_options':
                 case 'options':
-                    $value = (array) $value;
+                    $value   = (array) $value;
                     $options = array_diff_key($options, $value) + $value;
                     break;
                 default:
@@ -214,7 +213,7 @@ class Connection extends AbstractConnection
             }
         }
 
-        if (isset($hostname) && isset($unix_socket)) {
+        if (isset($hostname) && isset($unixSocket)) {
             throw new Exception\InvalidConnectionParametersException(
                 'Ambiguous connection parameters, both hostname and unix_socket parameters were set',
                 $this->connectionParameters
@@ -245,11 +244,11 @@ class Connection extends AbstractConnection
                     if (isset($port)) {
                         $dsn[] = "port={$port}";
                     }
-                    if (isset($charset) && $pdoDriver != 'pgsql') {
+                    if (isset($charset) && $pdoDriver !== 'pgsql') {
                         $dsn[] = "charset={$charset}";
                     }
-                    if (isset($unix_socket)) {
-                        $dsn[] = "unix_socket={$unix_socket}";
+                    if (isset($unixSocket)) {
+                        $dsn[] = "unix_socket={$unixSocket}";
                     }
                     if (isset($version)) {
                         $dsn[] = "version={$version}";
@@ -269,14 +268,14 @@ class Connection extends AbstractConnection
         try {
             $this->resource = new \PDO($dsn, $username, $password, $options);
             $this->resource->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            if (isset($charset) && $pdoDriver == 'pgsql') {
+            if (isset($charset) && $pdoDriver === 'pgsql') {
                 $this->resource->exec('SET NAMES ' . $this->resource->quote($charset));
             }
             $this->driverName = strtolower($this->resource->getAttribute(\PDO::ATTR_DRIVER_NAME));
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             $code = $e->getCode();
-            if (! is_long($code)) {
-                $code = null;
+            if (! is_int($code)) {
+                $code = 0;
             }
             throw new Exception\RuntimeException('Connect Error: ' . $e->getMessage(), $code, $e);
         }
@@ -289,7 +288,7 @@ class Connection extends AbstractConnection
      */
     public function isConnected()
     {
-        return ($this->resource instanceof \PDO);
+        return $this->resource instanceof \PDO;
     }
 
     /**
@@ -385,9 +384,7 @@ class Connection extends AbstractConnection
             throw new Exception\InvalidQueryException($errorInfo[2]);
         }
 
-        $result = $this->driver->createResult($resultResource, $sql);
-
-        return $result;
+        return $this->driver->createResult($resultResource, $sql);
     }
 
     /**
@@ -402,9 +399,7 @@ class Connection extends AbstractConnection
             $this->connect();
         }
 
-        $statement = $this->driver->createStatement($sql);
-
-        return $statement;
+        return $this->driver->createStatement($sql);
     }
 
     /**
@@ -415,8 +410,10 @@ class Connection extends AbstractConnection
      */
     public function getLastGeneratedValue($name = null)
     {
-        if ($name === null
-            && ($this->driverName == 'pgsql' || $this->driverName == 'firebird')) {
+        if (
+            $name === null
+            && ($this->driverName === 'pgsql' || $this->driverName === 'firebird')
+        ) {
             return;
         }
 

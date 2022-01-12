@@ -1,21 +1,23 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql;
 
+use Closure;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Pdo\Pdo;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Platform\PlatformInterface;
 use Laminas\Stdlib\PriorityList;
 
+use function array_key_exists;
+use function implode;
+use function is_numeric;
+use function is_scalar;
+use function is_string;
+use function sprintf;
+use function strtolower;
+
 /**
- *
  * @property Where $where
  */
 class Update extends AbstractPreparableSql
@@ -23,50 +25,41 @@ class Update extends AbstractPreparableSql
     /**@#++
      * @const
      */
-    const SPECIFICATION_UPDATE = 'update';
-    const SPECIFICATION_SET = 'set';
-    const SPECIFICATION_WHERE = 'where';
-    const SPECIFICATION_JOIN = 'joins';
+    public const SPECIFICATION_UPDATE = 'update';
+    public const SPECIFICATION_SET    = 'set';
+    public const SPECIFICATION_WHERE  = 'where';
+    public const SPECIFICATION_JOIN   = 'joins';
 
-    const VALUES_MERGE = 'merge';
-    const VALUES_SET   = 'set';
+    public const VALUES_MERGE = 'merge';
+    public const VALUES_SET   = 'set';
     /**@#-**/
 
+    /** @var array<string, string>|array<string, array> */
     protected $specifications = [
         self::SPECIFICATION_UPDATE => 'UPDATE %1$s',
-        self::SPECIFICATION_JOIN => [
+        self::SPECIFICATION_JOIN   => [
             '%1$s' => [
-                [3 => '%1$s JOIN %2$s ON %3$s', 'combinedby' => ' ']
-            ]
+                [3 => '%1$s JOIN %2$s ON %3$s', 'combinedby' => ' '],
+            ],
         ],
-        self::SPECIFICATION_SET => 'SET %1$s',
-        self::SPECIFICATION_WHERE => 'WHERE %1$s',
+        self::SPECIFICATION_SET    => 'SET %1$s',
+        self::SPECIFICATION_WHERE  => 'WHERE %1$s',
     ];
 
-    /**
-     * @var string|TableIdentifier
-     */
+    /** @var string|TableIdentifier */
     protected $table = '';
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $emptyWhereProtection = true;
 
-    /**
-     * @var PriorityList
-     */
+    /** @var PriorityList */
     protected $set;
 
-    /**
-     * @var string|Where
-     */
-    protected $where = null;
+    /** @var string|Where */
+    protected $where;
 
-    /**
-     * @var null|Join
-     */
-    protected $joins = null;
+    /** @var null|Join */
+    protected $joins;
 
     /**
      * Constructor
@@ -80,7 +73,7 @@ class Update extends AbstractPreparableSql
         }
         $this->where = new Where();
         $this->joins = new Join();
-        $this->set = new PriorityList();
+        $this->set   = new PriorityList();
         $this->set->isLIFO(false);
     }
 
@@ -106,7 +99,7 @@ class Update extends AbstractPreparableSql
      */
     public function set(array $values, $flag = self::VALUES_SET)
     {
-        if ($flag == self::VALUES_SET) {
+        if ($flag === self::VALUES_SET) {
             $this->set->clear();
         }
         $priority = is_numeric($flag) ? $flag : 0;
@@ -122,7 +115,7 @@ class Update extends AbstractPreparableSql
     /**
      * Create where clause
      *
-     * @param  Where|\Closure|string|array $predicate
+     * @param Where|Closure|string|array $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
      * @return self Provides a fluent interface
      * @throws Exception\InvalidArgumentException
@@ -153,22 +146,27 @@ class Update extends AbstractPreparableSql
         return $this;
     }
 
+    /**
+     * @param null|string $key
+     * @return mixed|array<string, mixed>
+     */
     public function getRawState($key = null)
     {
         $rawState = [
             'emptyWhereProtection' => $this->emptyWhereProtection,
-            'table' => $this->table,
-            'set' => $this->set->toArray(),
-            'where' => $this->where,
-            'joins' => $this->joins
+            'table'                => $this->table,
+            'set'                  => $this->set->toArray(),
+            'where'                => $this->where,
+            'joins'                => $this->joins,
         ];
-        return (isset($key) && array_key_exists($key, $rawState)) ? $rawState[$key] : $rawState;
+        return isset($key) && array_key_exists($key, $rawState) ? $rawState[$key] : $rawState;
     }
 
+    /** @return string */
     protected function processUpdate(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         return sprintf(
             $this->specifications[static::SPECIFICATION_UPDATE],
@@ -176,10 +174,11 @@ class Update extends AbstractPreparableSql
         );
     }
 
+    /** @return string */
     protected function processSet(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         $setSql = [];
         $i      = 0;
@@ -196,10 +195,10 @@ class Update extends AbstractPreparableSql
 
     protected function processWhere(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
-        if ($this->where->count() == 0) {
+        if ($this->where->count() === 0) {
             return;
         }
         return sprintf(
@@ -208,10 +207,11 @@ class Update extends AbstractPreparableSql
         );
     }
 
+    /** @return null|string[] */
     protected function processJoins(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         return $this->processJoin($this->joins, $platform, $driver, $parameterContainer);
     }
@@ -226,7 +226,7 @@ class Update extends AbstractPreparableSql
      */
     public function __get($name)
     {
-        if (strtolower($name) == 'where') {
+        if (strtolower($name) === 'where') {
             return $this->where;
         }
     }
@@ -241,7 +241,7 @@ class Update extends AbstractPreparableSql
     public function __clone()
     {
         $this->where = clone $this->where;
-        $this->set = clone $this->set;
+        $this->set   = clone $this->set;
     }
 
     /**

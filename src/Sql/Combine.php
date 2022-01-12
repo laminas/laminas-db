@@ -1,38 +1,38 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql;
 
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Platform\PlatformInterface;
 
+use function array_key_exists;
+use function array_merge;
+use function get_class;
+use function gettype;
+use function is_array;
+use function is_object;
+use function sprintf;
+use function strtoupper;
+use function trim;
+
 /**
  * Combine SQL statement - allows combining multiple select statements into one
  */
 class Combine extends AbstractPreparableSql
 {
-    const COLUMNS = 'columns';
-    const COMBINE = 'combine';
-    const COMBINE_UNION = 'union';
-    const COMBINE_EXCEPT = 'except';
-    const COMBINE_INTERSECT = 'intersect';
+    public const COLUMNS           = 'columns';
+    public const COMBINE           = 'combine';
+    public const COMBINE_UNION     = 'union';
+    public const COMBINE_EXCEPT    = 'except';
+    public const COMBINE_INTERSECT = 'intersect';
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected $specifications = [
         self::COMBINE => '%1$s (%2$s) ',
     ];
 
-    /**
-     * @var Select[][]
-     */
+    /** @var Select[][] */
     private $combine = [];
 
     /**
@@ -53,9 +53,7 @@ class Combine extends AbstractPreparableSql
      * @param Select|array $select
      * @param string $type
      * @param string $modifier
-     *
      * @return self Provides a fluent interface
-     *
      * @throws Exception\InvalidArgumentException
      */
     public function combine($select, $type = self::COMBINE_UNION, $modifier = '')
@@ -68,8 +66,8 @@ class Combine extends AbstractPreparableSql
 
                 $this->combine(
                     $combine[0],
-                    isset($combine[1]) ? $combine[1] : $type,
-                    isset($combine[2]) ? $combine[2] : $modifier
+                    $combine[1] ?? $type,
+                    $combine[2] ?? $modifier
                 );
             }
             return $this;
@@ -83,9 +81,9 @@ class Combine extends AbstractPreparableSql
         }
 
         $this->combine[] = [
-            'select' => $select,
-            'type' => $type,
-            'modifier' => $modifier
+            'select'   => $select,
+            'type'     => $type,
+            'modifier' => $modifier,
         ];
         return $this;
     }
@@ -95,7 +93,6 @@ class Combine extends AbstractPreparableSql
      *
      * @param Select|array $select
      * @param string       $modifier
-     *
      * @return self
      */
     public function union($select, $modifier = '')
@@ -108,7 +105,6 @@ class Combine extends AbstractPreparableSql
      *
      * @param Select|array $select
      * @param string       $modifier
-     *
      * @return self
      */
     public function except($select, $modifier = '')
@@ -131,16 +127,12 @@ class Combine extends AbstractPreparableSql
     /**
      * Build sql string
      *
-     * @param PlatformInterface  $platform
-     * @param DriverInterface    $driver
-     * @param ParameterContainer $parameterContainer
-     *
      * @return string
      */
     protected function buildSqlString(
         PlatformInterface $platform,
-        DriverInterface $driver = null,
-        ParameterContainer $parameterContainer = null
+        ?DriverInterface $driver = null,
+        ?ParameterContainer $parameterContainer = null
     ) {
         if (! $this->combine) {
             return;
@@ -148,11 +140,11 @@ class Combine extends AbstractPreparableSql
 
         $sql = '';
         foreach ($this->combine as $i => $combine) {
-            $type = $i == 0
+            $type   = $i === 0
                     ? ''
                     : strtoupper($combine['type'] . ($combine['modifier'] ? ' ' . $combine['modifier'] : ''));
             $select = $this->processSubSelect($combine['select'], $platform, $driver, $parameterContainer);
-            $sql .= sprintf(
+            $sql   .= sprintf(
                 $this->specifications[self::COMBINE],
                 $type,
                 $select
@@ -180,11 +172,9 @@ class Combine extends AbstractPreparableSql
 
         foreach ($this->combine as $combine) {
             $combineColumns = $combine['select']->getRawState(self::COLUMNS);
-            $aligned = [];
+            $aligned        = [];
             foreach ($allColumns as $alias => $column) {
-                $aligned[$alias] = isset($combineColumns[$alias])
-                    ? $combineColumns[$alias]
-                    : new Predicate\Expression('NULL');
+                $aligned[$alias] = $combineColumns[$alias] ?? new Predicate\Expression('NULL');
             }
             $combine['select']->columns($aligned, false);
         }
@@ -195,7 +185,6 @@ class Combine extends AbstractPreparableSql
      * Get raw state
      *
      * @param string $key
-     *
      * @return array
      */
     public function getRawState($key = null)
@@ -206,6 +195,6 @@ class Combine extends AbstractPreparableSql
                                 ? $this->combine[0]['select']->getRawState(self::COLUMNS)
                                 : [],
         ];
-        return (isset($key) && array_key_exists($key, $rawState)) ? $rawState[$key] : $rawState;
+        return isset($key) && array_key_exists($key, $rawState) ? $rawState[$key] : $rawState;
     }
 }

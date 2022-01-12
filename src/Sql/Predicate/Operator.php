@@ -1,67 +1,55 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Predicate;
 
 use Laminas\Db\Sql\AbstractExpression;
 use Laminas\Db\Sql\Exception;
 
+use function in_array;
+use function is_array;
+use function sprintf;
+
 class Operator extends AbstractExpression implements PredicateInterface
 {
-    const OPERATOR_EQUAL_TO                  = '=';
-    const OP_EQ                              = '=';
+    public const OPERATOR_EQUAL_TO = '=';
+    public const OP_EQ             = '=';
 
-    const OPERATOR_NOT_EQUAL_TO              = '!=';
-    const OP_NE                              = '!=';
+    public const OPERATOR_NOT_EQUAL_TO = '!=';
+    public const OP_NE                 = '!=';
 
-    const OPERATOR_LESS_THAN                 = '<';
-    const OP_LT                              = '<';
+    public const OPERATOR_LESS_THAN = '<';
+    public const OP_LT              = '<';
 
-    const OPERATOR_LESS_THAN_OR_EQUAL_TO     = '<=';
-    const OP_LTE                             = '<=';
+    public const OPERATOR_LESS_THAN_OR_EQUAL_TO = '<=';
+    public const OP_LTE                         = '<=';
 
-    const OPERATOR_GREATER_THAN              = '>';
-    const OP_GT                              = '>';
+    public const OPERATOR_GREATER_THAN = '>';
+    public const OP_GT                 = '>';
 
-    const OPERATOR_GREATER_THAN_OR_EQUAL_TO  = '>=';
-    const OP_GTE                             = '>=';
+    public const OPERATOR_GREATER_THAN_OR_EQUAL_TO = '>=';
+    public const OP_GTE                            = '>=';
 
     /**
      * {@inheritDoc}
      */
-    protected $allowedTypes  = [
+    protected $allowedTypes = [
         self::TYPE_IDENTIFIER,
         self::TYPE_VALUE,
     ];
 
-    /**
-     * @var int|float|bool|string
-     */
+    /** @var int|float|bool|string */
     protected $left;
 
-    /**
-     * @var int|float|bool|string
-     */
+    /** @var int|float|bool|string */
     protected $right;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $leftType = self::TYPE_IDENTIFIER;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $rightType = self::TYPE_VALUE;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $operator = self::OPERATOR_EQUAL_TO;
 
     /**
@@ -105,7 +93,6 @@ class Operator extends AbstractExpression implements PredicateInterface
      * Set left side of operator
      *
      * @param  int|float|bool|string $left
-     *
      * @return self Provides a fluent interface
      */
     public function setLeft($left)
@@ -113,7 +100,7 @@ class Operator extends AbstractExpression implements PredicateInterface
         $this->left = $left;
 
         if (is_array($left)) {
-            $left = $this->normalizeArgument($left, $this->leftType);
+            $left           = $this->normalizeArgument($left, $this->leftType);
             $this->leftType = $left[1];
         }
 
@@ -134,9 +121,7 @@ class Operator extends AbstractExpression implements PredicateInterface
      * Set parameter type for left side of operator
      *
      * @param  string $type TYPE_IDENTIFIER or TYPE_VALUE {@see allowedTypes}
-     *
      * @return self Provides a fluent interface
-     *
      * @throws Exception\InvalidArgumentException
      */
     public function setLeftType($type)
@@ -145,8 +130,8 @@ class Operator extends AbstractExpression implements PredicateInterface
             throw new Exception\InvalidArgumentException(sprintf(
                 'Invalid type "%s" provided; must be of type "%s" or "%s"',
                 $type,
-                __CLASS__ . '::TYPE_IDENTIFIER',
-                __CLASS__ . '::TYPE_VALUE'
+                self::class . '::TYPE_IDENTIFIER',
+                self::class . '::TYPE_VALUE'
             ));
         }
 
@@ -192,7 +177,6 @@ class Operator extends AbstractExpression implements PredicateInterface
      * Set right side of operator
      *
      * @param  int|float|bool|string $right
-     *
      * @return self Provides a fluent interface
      */
     public function setRight($right)
@@ -200,7 +184,7 @@ class Operator extends AbstractExpression implements PredicateInterface
         $this->right = $right;
 
         if (is_array($right)) {
-            $right = $this->normalizeArgument($right, $this->rightType);
+            $right           = $this->normalizeArgument($right, $this->rightType);
             $this->rightType = $right[1];
         }
 
@@ -230,8 +214,8 @@ class Operator extends AbstractExpression implements PredicateInterface
             throw new Exception\InvalidArgumentException(sprintf(
                 'Invalid type "%s" provided; must be of type "%s" or "%s"',
                 $type,
-                __CLASS__ . '::TYPE_IDENTIFIER',
-                __CLASS__ . '::TYPE_VALUE'
+                self::class . '::TYPE_IDENTIFIER',
+                self::class . '::TYPE_VALUE'
             ));
         }
 
@@ -257,13 +241,15 @@ class Operator extends AbstractExpression implements PredicateInterface
      */
     public function getExpressionData()
     {
-        list($values[], $types[]) = $this->normalizeArgument($this->left, $this->leftType);
-        list($values[], $types[]) = $this->normalizeArgument($this->right, $this->rightType);
+        [$values[], $types[]] = $this->normalizeArgument($this->left, $this->leftType);
+        [$values[], $types[]] = $this->normalizeArgument($this->right, $this->rightType);
 
-        return [[
-            '%s ' . $this->operator . ' %s',
-            $values,
-            $types
-        ]];
+        return [
+            [
+                '%s ' . $this->operator . ' %s',
+                $values,
+                $types,
+            ],
+        ];
     }
 }

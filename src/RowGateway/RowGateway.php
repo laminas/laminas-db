@@ -1,15 +1,10 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\RowGateway;
 
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\TableIdentifier;
 
 class RowGateway extends AbstractRowGateway
 {
@@ -17,7 +12,7 @@ class RowGateway extends AbstractRowGateway
      * Constructor
      *
      * @param string $primaryKeyColumn
-     * @param string|\Laminas\Db\Sql\TableIdentifier $table
+     * @param string|TableIdentifier $table
      * @param AdapterInterface|Sql $adapterOrSql
      * @throws Exception\InvalidArgumentException
      */

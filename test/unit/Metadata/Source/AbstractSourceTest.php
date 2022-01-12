@@ -1,27 +1,21 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Metadata\Source;
 
+use Laminas\Db\Metadata\Object\ConstraintKeyObject;
 use Laminas\Db\Metadata\Source\AbstractSource;
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 
 class AbstractSourceTest extends TestCase
 {
-    /**
-     * @var AbstractSource
-     */
+    /** @var AbstractSource */
     protected $abstractSourceMock;
 
     protected function setUp(): void
     {
         $this->abstractSourceMock = $this->getMockForAbstractClass(
-            'Laminas\Db\Metadata\Source\AbstractSource',
+            AbstractSource::class,
             [],
             '',
             false
@@ -30,7 +24,7 @@ class AbstractSourceTest extends TestCase
 
     public function testGetConstraintKeys()
     {
-        $refProp = new \ReflectionProperty($this->abstractSourceMock, 'data');
+        $refProp = new ReflectionProperty($this->abstractSourceMock, 'data');
         $refProp->setAccessible(true);
 
         // internal data
@@ -38,20 +32,20 @@ class AbstractSourceTest extends TestCase
             'constraint_references' => [
                 'foo_schema' => [
                     [
-                        'constraint_name' => 'bam_constraint',
-                        'update_rule' => 'UP',
-                        'delete_rule' => 'DOWN',
-                        'referenced_table_name' => 'another_table',
+                        'constraint_name'        => 'bam_constraint',
+                        'update_rule'            => 'UP',
+                        'delete_rule'            => 'DOWN',
+                        'referenced_table_name'  => 'another_table',
                         'referenced_column_name' => 'another_column',
                     ],
                 ],
             ],
-            'constraint_keys' => [
+            'constraint_keys'       => [
                 'foo_schema' => [
                     [
-                        'table_name' => 'bar_table',
-                        'constraint_name' => 'bam_constraint',
-                        'column_name' => 'a',
+                        'table_name'       => 'bar_table',
+                        'constraint_name'  => 'bam_constraint',
+                        'column_name'      => 'a',
                         'ordinal_position' => 1,
                     ],
                 ],
@@ -63,10 +57,10 @@ class AbstractSourceTest extends TestCase
         self::assertCount(1, $constraints);
 
         /**
-         * @var \Laminas\Db\Metadata\Object\ConstraintKeyObject $constraintKeyObj
+         * @var ConstraintKeyObject $constraintKeyObj
          */
         $constraintKeyObj = $constraints[0];
-        self::assertInstanceOf('Laminas\Db\Metadata\Object\ConstraintKeyObject', $constraintKeyObj);
+        self::assertInstanceOf(ConstraintKeyObject::class, $constraintKeyObj);
 
         // check value object is mapped correctly
         self::assertEquals('a', $constraintKeyObj->getColumnName());

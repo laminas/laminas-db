@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter;
 
 use Psr\Container\ContainerInterface;
@@ -20,16 +14,17 @@ class AdapterServiceDelegator
         $this->adapterName = $adapterName;
     }
 
-    public static function __set_state(array $state) : self
+    public static function __set_state(array $state): self
     {
         return new self($state['adapterName'] ?? AdapterInterface::class);
     }
 
+    /** @return AdapterInterface */
     public function __invoke(
         ContainerInterface $container,
         string $name,
         callable $callback,
-        array $options = null
+        ?array $options = null
     ) {
         $instance = $callback();
 

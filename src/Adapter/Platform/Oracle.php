@@ -1,24 +1,22 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Platform;
 
-use \Laminas\Db\Adapter\Exception\InvalidArgumentException;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\Oci8\Oci8;
 use Laminas\Db\Adapter\Driver\Pdo\Pdo;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
+
+use function addcslashes;
+use function get_resource_type;
+use function implode;
+use function str_replace;
+use function trigger_error;
 
 class Oracle extends AbstractPlatform
 {
-    /**
-     * @var null|Pdo|Oci8|\PDO
-     */
-    protected $resource = null;
+    /** @var null|Pdo|Oci8|\PDO */
+    protected $resource;
 
     /**
      * @param array $options
@@ -26,8 +24,9 @@ class Oracle extends AbstractPlatform
      */
     public function __construct($options = [], $driver = null)
     {
-        if (isset($options['quote_identifiers'])
-            && ($options['quote_identifiers'] == false
+        if (
+            isset($options['quote_identifiers'])
+            && ($options['quote_identifiers'] === false
             || $options['quote_identifiers'] === 'false')
         ) {
             $this->quoteIdentifiers = false;
@@ -45,10 +44,11 @@ class Oracle extends AbstractPlatform
      */
     public function setDriver($driver)
     {
-        if ($driver instanceof Oci8
-            || ($driver instanceof Pdo && $driver->getDatabasePlatformName() == 'Oracle')
-            || ($driver instanceof \oci8)
-            || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) == 'oci')
+        if (
+            $driver instanceof Oci8
+            || ($driver instanceof Pdo && $driver->getDatabasePlatformName() === 'Oracle')
+            || $driver instanceof \oci8
+            || ($driver instanceof \PDO && $driver->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'oci')
         ) {
             $this->resource = $driver;
             return $this;
@@ -104,15 +104,16 @@ class Oracle extends AbstractPlatform
                 return $resource->quote($value);
             }
 
-            if (get_resource_type($resource) == 'oci8 connection'
-                || get_resource_type($resource) == 'oci8 persistent connection'
+            if (
+                get_resource_type($resource) === 'oci8 connection'
+                || get_resource_type($resource) === 'oci8 persistent connection'
             ) {
                 return "'" . addcslashes(str_replace("'", "''", $value), "\x00\n\r\"\x1a") . "'";
             }
         }
 
         trigger_error(
-            'Attempting to quote a value in ' . __CLASS__ . ' without extension/driver support '
+            'Attempting to quote a value in ' . self::class . ' without extension/driver support '
             . 'can introduce security vulnerabilities in a production environment.'
         );
 

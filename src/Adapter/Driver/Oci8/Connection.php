@@ -1,28 +1,25 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\Oci8;
 
 use Laminas\Db\Adapter\Driver\AbstractConnection;
 use Laminas\Db\Adapter\Exception;
+use Laminas\Db\Adapter\Exception\InvalidArgumentException;
+
+use function get_resource_type;
+use function is_array;
+use function is_resource;
 
 class Connection extends AbstractConnection
 {
-    /**
-     * @var Oci8
-     */
-    protected $driver = null;
+    /** @var Oci8 */
+    protected $driver;
 
     /**
      * Constructor
      *
      * @param  array|resource|null                                 $connectionInfo
-     * @throws \Laminas\Db\Adapter\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct($connectionInfo = null)
     {
@@ -38,7 +35,6 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * @param  Oci8 $driver
      * @return self Provides a fluent interface
      */
     public function setDriver(Oci8 $driver)
@@ -58,7 +54,7 @@ class Connection extends AbstractConnection
         }
 
         $query = "SELECT sys_context('USERENV', 'CURRENT_SCHEMA') as \"current_schema\" FROM DUAL";
-        $stmt = oci_parse($this->resource, $query);
+        $stmt  = oci_parse($this->resource, $query);
         oci_execute($stmt);
         $dbNameArray = oci_fetch_array($stmt, OCI_ASSOC);
 
@@ -105,25 +101,25 @@ class Connection extends AbstractConnection
         };
 
         // http://www.php.net/manual/en/function.oci-connect.php
-        $username = $findParameterValue(['username']);
-        $password = $findParameterValue(['password']);
+        $username         = $findParameterValue(['username']);
+        $password         = $findParameterValue(['password']);
         $connectionString = $findParameterValue([
             'connection_string',
             'connectionstring',
             'connection',
             'hostname',
-            'instance'
+            'instance',
         ]);
-        $characterSet = $findParameterValue(['character_set', 'charset', 'encoding']);
-        $sessionMode = $findParameterValue(['session_mode']);
+        $characterSet     = $findParameterValue(['character_set', 'charset', 'encoding']);
+        $sessionMode      = $findParameterValue(['session_mode']);
 
         // connection modifiers
-        $isUnique = $findParameterValue(['unique']);
+        $isUnique     = $findParameterValue(['unique']);
         $isPersistent = $findParameterValue(['persistent']);
 
-        if ($isUnique == true) {
+        if ($isUnique === true) {
             $this->resource = oci_new_connect($username, $password, $connectionString, $characterSet, $sessionMode);
-        } elseif ($isPersistent == true) {
+        } elseif ($isPersistent === true) {
             $this->resource = oci_pconnect($username, $password, $connectionString, $characterSet, $sessionMode);
         } else {
             $this->resource = oci_connect($username, $password, $connectionString, $characterSet, $sessionMode);
@@ -133,7 +129,7 @@ class Connection extends AbstractConnection
             $e = oci_error();
             throw new Exception\RuntimeException(
                 'Connection error',
-                null,
+                $e['code'],
                 new Exception\ErrorException($e['message'], $e['code'])
             );
         }
@@ -146,7 +142,7 @@ class Connection extends AbstractConnection
      */
     public function isConnected()
     {
-        return (is_resource($this->resource));
+        return is_resource($this->resource);
     }
 
     /**
@@ -251,17 +247,15 @@ class Connection extends AbstractConnection
             throw new Exception\InvalidQueryException($e['message'], $e['code']);
         }
 
-        $resultPrototype = $this->driver->createResult($ociStmt);
-
-        return $resultPrototype;
+        return $this->driver->createResult($ociStmt);
     }
 
     /**
+     * @todo Get Last Generated Value in Connection (this might not apply)
      * {@inheritDoc}
      */
     public function getLastGeneratedValue($name = null)
     {
-        // @todo Get Last Generated Value in Connection (this might not apply)
-        return;
+        return null;
     }
 }

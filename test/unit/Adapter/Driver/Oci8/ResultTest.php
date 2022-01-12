@@ -1,20 +1,11 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Db\Adapter\Driver\Oci8;
 
 use Laminas\Db\Adapter\Driver\Oci8\Result;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ResultTest
- *
- * @package LaminasTest\Db\Adapter\Driver\Oci8
  * @group result-oci8
  */
 class ResultTest extends TestCase
@@ -69,13 +60,13 @@ class ResultTest extends TestCase
      */
     public function testNext()
     {
-        $mockResult = $this->getMockBuilder('Laminas\Db\Adapter\Driver\Oci8\Result')
+        $mockResult = $this->getMockBuilder(Result::class)
             ->setMethods(['loadData'])
             ->getMock();
         $mockResult->expects($this->any())
             ->method('loadData')
-            ->will($this->returnValue(true));
-        self::assertTrue($mockResult->next());
+            ->willReturn(null);
+        self::assertNull($mockResult->next());
     }
 
     /**

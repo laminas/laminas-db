@@ -1,62 +1,49 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Adapter\Driver\Pgsql;
 
 use Laminas\Db\Adapter\Driver\StatementInterface;
 use Laminas\Db\Adapter\Exception;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Profiler;
+use PgSql\Connection as PgSqlConnection;
+
+use function get_resource_type;
+use function is_array;
+use function is_resource;
+use function pg_execute;
+use function pg_last_error;
+use function pg_prepare;
+use function preg_replace_callback;
+use function sprintf;
 
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     protected static $statementIndex = 0;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $statementName = '';
 
-    /**
-     * @var Pgsql
-     */
-    protected $driver = null;
+    /** @var Pgsql */
+    protected $driver;
 
-    /**
-     * @var Profiler\ProfilerInterface
-     */
-    protected $profiler = null;
+    /** @var Profiler\ProfilerInterface */
+    protected $profiler;
 
-    /**
-     * @var resource
-     */
-    protected $pgsql = null;
+    /** @var resource */
+    protected $pgsql;
 
-    /**
-     * @var resource
-     */
-    protected $resource = null;
+    /** @var resource */
+    protected $resource;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $sql;
 
-    /**
-     * @var ParameterContainer
-     */
+    /** @var ParameterContainer */
     protected $parameterContainer;
 
     /**
-     * @param  Pgsql $driver
      * @return self Provides a fluent interface
      */
     public function setDriver(Pgsql $driver)
@@ -66,7 +53,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @param Profiler\ProfilerInterface $profiler
      * @return self Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
@@ -88,11 +74,17 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      *
      * @param  resource $pgsql
      * @return void
-     * @throws Exception\RuntimeException for invalid or missing postgresql connection
+     * @throws Exception\RuntimeException For invalid or missing postgresql connection.
      */
     public function initialize($pgsql)
     {
-        if (! is_resource($pgsql) || get_resource_type($pgsql) !== 'pgsql link') {
+        if (
+            ! $pgsql instanceof PgSqlConnection
+            && (
+                ! is_resource($pgsql)
+                || 'pgsql link' !== get_resource_type($pgsql)
+            )
+        ) {
             throw new Exception\RuntimeException(sprintf(
                 '%s: Invalid or missing postgresql connection; received "%s"',
                 __METHOD__,
@@ -105,11 +97,12 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Get resource
      *
+     * @todo Implement this method
+     * phpcs:ignore Squiz.Commenting.FunctionComment.InvalidNoReturn
      * @return resource
      */
     public function getResource()
     {
-        // TODO: Implement getResource() method.
     }
 
     /**
@@ -137,7 +130,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set parameter container
      *
-     * @param ParameterContainer $parameterContainer
      * @return self Provides a fluent interface
      */
     public function setParameterContainer(ParameterContainer $parameterContainer)
@@ -163,10 +155,10 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      */
     public function prepare($sql = null)
     {
-        $sql = ($sql) ?: $this->sql;
+        $sql = $sql ?: $this->sql;
 
         $pCount = 1;
-        $sql = preg_replace_callback(
+        $sql    = preg_replace_callback(
             '#\$\##',
             function () use (&$pCount) {
                 return '$' . $pCount++;
@@ -174,9 +166,9 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             $sql
         );
 
-        $this->sql = $sql;
+        $this->sql           = $sql;
         $this->statementName = 'statement' . ++static::$statementIndex;
-        $this->resource = pg_prepare($this->pgsql, $this->statementName, $sql);
+        $this->resource      = pg_prepare($this->pgsql, $this->statementName, $sql);
     }
 
     /**
@@ -206,7 +198,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
         if (! $this->parameterContainer instanceof ParameterContainer) {
             if ($parameters instanceof ParameterContainer) {
                 $this->parameterContainer = $parameters;
-                $parameters = null;
+                $parameters               = null;
             } else {
                 $this->parameterContainer = new ParameterContainer();
             }
@@ -235,7 +227,6 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             throw new Exception\InvalidQueryException(pg_last_error());
         }
 
-        $result = $this->driver->createResult($resultResource);
-        return $result;
+        return $this->driver->createResult($resultResource);
     }
 }

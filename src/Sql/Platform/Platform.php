@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-db for the canonical source repository
- * @copyright https://github.com/laminas/laminas-db/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-db/blob/master/LICENSE.md New BSD License
- */
-
 namespace Laminas\Db\Sql\Platform;
 
 use Laminas\Db\Adapter\AdapterInterface;
@@ -15,16 +9,17 @@ use Laminas\Db\Sql\Exception;
 use Laminas\Db\Sql\PreparableSqlInterface;
 use Laminas\Db\Sql\SqlInterface;
 
+use function is_a;
+use function sprintf;
+use function str_replace;
+use function strtolower;
+
 class Platform extends AbstractPlatform
 {
-    /**
-     * @var AdapterInterface
-     */
-    protected $adapter = null;
+    /** @var AdapterInterface */
+    protected $adapter;
 
-    /**
-     * @var PlatformInterface|null
-     */
+    /** @var PlatformInterface|null */
     protected $defaultPlatform;
 
     public function __construct(AdapterInterface $adapter)
@@ -46,12 +41,11 @@ class Platform extends AbstractPlatform
 
     /**
      * @param string                             $type
-     * @param PlatformDecoratorInterface         $decorator
      * @param AdapterInterface|PlatformInterface $adapterOrPlatform
      */
     public function setTypeDecorator($type, PlatformDecoratorInterface $decorator, $adapterOrPlatform = null)
     {
-        $platformName = $this->resolvePlatformName($adapterOrPlatform);
+        $platformName                           = $this->resolvePlatformName($adapterOrPlatform);
         $this->decorators[$platformName][$type] = $decorator;
     }
 
@@ -109,7 +103,7 @@ class Platform extends AbstractPlatform
      *
      * @throws Exception\RuntimeException
      */
-    public function getSqlString(PlatformInterface $adapterPlatform = null)
+    public function getSqlString(?PlatformInterface $adapterPlatform = null)
     {
         if (! $this->subject instanceof SqlInterface) {
             throw new Exception\RuntimeException(
@@ -123,16 +117,19 @@ class Platform extends AbstractPlatform
         return $this->getTypeDecorator($this->subject, $adapterPlatform)->getSqlString($adapterPlatform);
     }
 
+    /**
+     * @param AdapterInterface|PlatformInterface $adapterOrPlatform
+     * @return string
+     */
     protected function resolvePlatformName($adapterOrPlatform)
     {
         $platformName = $this->resolvePlatform($adapterOrPlatform)->getName();
         return str_replace([' ', '_'], '', strtolower($platformName));
     }
+
     /**
      * @param null|PlatformInterface|AdapterInterface $adapterOrPlatform
-     *
      * @return PlatformInterface
-     *
      * @throws Exception\InvalidArgumentException
      */
     protected function resolvePlatform($adapterOrPlatform)
@@ -151,14 +148,13 @@ class Platform extends AbstractPlatform
 
         throw new Exception\InvalidArgumentException(sprintf(
             '$adapterOrPlatform should be null, %s, or %s',
-            'Laminas\Db\Adapter\AdapterInterface',
-            'Laminas\Db\Adapter\Platform\PlatformInterface'
+            AdapterInterface::class,
+            PlatformInterface::class
         ));
     }
 
     /**
      * @return PlatformInterface
-     *
      * @throws Exception\RuntimeException
      */
     protected function getDefaultPlatform()
