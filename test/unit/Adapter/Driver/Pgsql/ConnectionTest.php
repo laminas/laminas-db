@@ -69,6 +69,7 @@ class ConnectionTest extends TestCase
         try {
             $resource = $this->connection->getResource();
             // connected with empty string
+
             self::assertIsResource($resource);
         } catch (AdapterException\RuntimeException $exc) {
             // If it throws an exception it has failed to connect
