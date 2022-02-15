@@ -4,6 +4,7 @@ namespace LaminasIntegrationTest\Db\Adapter\Driver\Oci8;
 
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\Driver\ResultInterface;
+use Laminas\Db\Sql\Select;
 use Laminas\Db\TableGateway\TableGateway;
 use PHPUnit\Framework\TestCase;
 
@@ -25,13 +26,16 @@ class CharsetTest extends TestCase
 
     public function testSelectWithAdapterDirectSql()
     {
-        $adapter   = $this->createAdapterWithQuoteIdentifiers();
-        $statement = $adapter->createStatement(
-            'select id, field$, field_, field# from test_charset'
-        );
-        $sql       = $statement->getSql();
-        $result    = $statement->execute();
-        //$this->assertTrue(true);
+        $adapter = $this->createAdapterWithQuoteIdentifiers();
+
+        $expectedSql = 'select id, field$, field_, field# from test_charset';
+
+        $statement = $adapter->createStatement($expectedSql);
+
+        $actualSql = $statement->getSql();
+        $this->assertEquals($expectedSql, $actualSql);
+
+        $result = $statement->execute();
         $this->assertInstanceOf(ResultInterface::class, $result);
     }
 

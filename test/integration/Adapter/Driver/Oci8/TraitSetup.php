@@ -16,18 +16,17 @@ use function sprintf;
 // phpcs:ignore WebimpressCodingStandard.NamingConventions.Trait.Suffix
 trait TraitSetup
 {
-    /** @var array<string, string> */
+    /**
+     * Options for adapter from "phpunit.xml".
+     *
+     * @var array $variables
+     */
     protected $variables = [
         'hostname' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_HOSTNAME',
         'username' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_USERNAME',
         'password' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_PASSWORD',
         'database' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_DATABASE',
     ];
-
-//    /** @var array<string, string> */
-//    protected $optional = [
-//        'port' => 'TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_PORT',
-//    ];
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -36,11 +35,11 @@ trait TraitSetup
     protected function setUp(): void
     {
         if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8')) {
-            $this->markTestSkipped('Mysqli integration test disabled');
+            $this->markTestSkipped('OCI8 integration test disabled');
         }
 
         if (! extension_loaded('oci8')) {
-            $this->fail('The phpunit group integration-mysqli was enabled, but the extension "oci8" is not loaded.');
+            $this->fail('The phpunit group integration-oci8 was enabled, but the extension "oci8" is not loaded.');
         }
 
         foreach ($this->variables as $name => $value) {
@@ -54,12 +53,6 @@ trait TraitSetup
         }
         $this->variables['hostname'] .= '/' . $this->variables['database'];
         unset($this->variables['database']);
-
-//        foreach ($this->optional as $name => $value) {
-//            if (getenv($value)) {
-//                $this->variables[$name] = getenv($value);
-//            }
-//        }
     }
 
     protected function createConnection(): Connection
