@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 use function extension_loaded;
 use function getenv;
+use function sprintf;
 
 abstract class AbstractIntegrationTest extends TestCase
 {
@@ -29,6 +30,10 @@ abstract class AbstractIntegrationTest extends TestCase
                 );
             }
             $this->variables[$name] = getenv($value);
+        }
+        $database = getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_DATABASE');
+        if (! empty($database)) {
+            $this->variables['hostname'] = sprintf('%s/%s', $this->variables['hostname'], $database);
         }
 
         if (! extension_loaded('oci8')) {

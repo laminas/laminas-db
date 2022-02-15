@@ -10,6 +10,8 @@ use PHPUnit\Framework\TestCase;
 use function extension_loaded;
 use function get_resource_type;
 use function getenv;
+use function oci_connect;
+use function sprintf;
 
 /**
  * @group integration
@@ -37,6 +39,10 @@ class StatementIntegrationTest extends TestCase
                 );
             }
             $this->variables[$name] = getenv($value);
+        }
+        $database = getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_DATABASE');
+        if (! empty($database)) {
+            $this->variables['hostname'] = sprintf('%s/%s', $this->variables['hostname'], $database);
         }
 
         if (! extension_loaded('oci8')) {

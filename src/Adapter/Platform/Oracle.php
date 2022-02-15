@@ -15,6 +15,13 @@ use function trigger_error;
 
 class Oracle extends AbstractPlatform
 {
+    /**
+     * Override default pattern '/([^0-9,a-z,A-Z$_:])/i'
+     *
+     * @var string $quoteIdentifierFragmentPattern
+     */
+    protected $quoteIdentifierFragmentPattern = '/([^0-9,a-z,A-Z$_:#])/i';
+
     /** @var null|Pdo|Oci8|\PDO */
     protected $resource;
 
