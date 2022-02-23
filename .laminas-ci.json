@@ -8,7 +8,12 @@
         "sqlite3",
         "sqlsrv"
     ],
-    "ignore_php_platform_requirements": {
-        "8.1": true
-    }
+    "exclude": [
+        {
+            "name": "PHPUnit on PHP 8.1 with latest dependencies"
+        },
+        {
+            "name": "PHPUnit on PHP 8.1 with lowest dependencies"
+        }
+    ]
 }
