@@ -7,13 +7,5 @@
         "pgsql",
         "sqlite3",
         "sqlsrv"
-    ],
-    "exclude": [
-        {
-            "name": "PHPUnit on PHP 8.1 with latest dependencies"
-        },
-        {
-            "name": "PHPUnit on PHP 8.1 with lowest dependencies"
-        }
     ]
 }
