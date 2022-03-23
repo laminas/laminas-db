@@ -16,7 +16,13 @@
         "forum": "https://discourse.laminas.dev"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "7.3.99"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "extra": {
         "laminas": {
@@ -26,14 +32,14 @@
     },
     "require": {
         "php": "^7.3 || ~8.0.0 || ~8.1.0",
-        "laminas/laminas-stdlib": "^3.6"
+        "laminas/laminas-stdlib": "^3.7.1"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~2.2.1",
-        "laminas/laminas-eventmanager": "^3.4",
+        "laminas/laminas-eventmanager": "^3.4.0",
         "laminas/laminas-hydrator": "^3.2 || ^4.3",
-        "laminas/laminas-servicemanager": "^3.7",
-        "phpunit/phpunit": "^9.5.5"
+        "laminas/laminas-servicemanager": "^3.7.0",
+        "phpunit/phpunit": "^9.5.19"
     },
     "suggest": {
         "laminas/laminas-eventmanager": "Laminas\\EventManager component",
