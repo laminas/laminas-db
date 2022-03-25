@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Db\Sql\Platform\IbmDb2;
 
 use Laminas\Db\Adapter\Adapter;

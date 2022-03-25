@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
 use LaminasIntegrationTest\Db\Adapter\Driver\Pdo\AbstractAdapterTest;

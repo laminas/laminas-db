@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Db\Sql\Platform\Mysql;
 
 use Laminas\Db\Sql\Platform\Mysql\Mysql;

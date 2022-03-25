@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Db\Sql\Platform\IbmDb2;
 
 use Laminas\Db\Sql\Platform\AbstractPlatform;

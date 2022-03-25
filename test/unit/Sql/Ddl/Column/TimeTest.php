@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Db\Sql\Ddl\Column;
 
 use Laminas\Db\Sql\Ddl\Column\Time;

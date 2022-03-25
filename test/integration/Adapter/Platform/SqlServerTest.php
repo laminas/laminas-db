@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasIntegrationTest\Db\Adapter\Platform;
 
 use Laminas\Db\Adapter\Platform\SqlServer;

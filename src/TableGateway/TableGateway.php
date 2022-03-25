@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Db\TableGateway;
 
 use Laminas\Db\Adapter\AdapterInterface;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Db\Sql;
 
 use Laminas\Db\Sql\ExpressionInterface;

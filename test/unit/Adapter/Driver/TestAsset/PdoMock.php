@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Db\Adapter\Driver\TestAsset;
 
 use PDO;
@@ -29,13 +31,13 @@ class PdoMock extends PDO
      * @param string $attribute
      * @return null
      */
+    #[ReturnTypeWillChange]
     public function getAttribute($attribute)
     {
         return null;
     }
 
-    /** @return bool */
-    public function rollBack()
+    public function rollBack(): bool
     {
         return true;
     }

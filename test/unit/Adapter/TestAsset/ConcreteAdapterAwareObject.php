@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Db\Adapter\TestAsset;
 
 use Laminas\Db\Adapter\AdapterAwareInterface;
