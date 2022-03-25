@@ -66,21 +66,19 @@ class IntegrationTestPHPUnitExtension implements TestHook, BeforeFirstTestHook, 
     }
 
     /**
-     * Resolves the parameters passed in to PHPUnit.
+     * Resolves the parameters passed to PHPUnit.
      *
      * eg. "phpunit --testsuite Unit --filter FirstTest"
      *
-     * $this->getPhpUnitParameter("filter"); // Unit
-     * $this->getPhpUnitParameter("testsuite"); // FirstTest
+     * $this->getPhpUnitParameter("filter"); // FirstTest
+     * $this->getPhpUnitParameter("testsuite"); // Unit
      */
     private function getPhpUnitParameter(string $paramName): ?string
     {
-        global $argv;
-
-        if ($offset = array_search("--$paramName", $argv) === false) {
+        if ($offset = array_search("--$paramName", $GLOBALS['argv']) === false) {
             return null;
         }
 
-        return trim($argv[$offset + 1]);
+        return trim($GLOBALS['argv'][$offset + 1]);
     }
 }
