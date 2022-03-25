@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LaminasTest\Db\Adapter\Driver\TestAsset;
 
 use PDO;
+use ReturnTypeWillChange;
 
 /**
  * Stub class
@@ -15,14 +16,12 @@ class PdoMock extends PDO
     {
     }
 
-    /** @return bool */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         return true;
     }
 
-    /** @return bool */
-    public function commit()
+    public function commit(): bool
     {
         return true;
     }
