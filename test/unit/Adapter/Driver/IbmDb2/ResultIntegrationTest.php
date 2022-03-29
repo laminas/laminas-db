@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Db\Adapter\Driver\IbmDb2;
 
 use Laminas\Db\Adapter\Driver\IbmDb2\Result;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Db\Sql\Ddl\Index;
 
 use Laminas\Db\Sql\Ddl\Index\Index;

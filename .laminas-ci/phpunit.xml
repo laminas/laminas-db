@@ -22,9 +22,9 @@
         </testsuite>
     </testsuites>
 
-    <listeners>
-        <listener class="LaminasIntegrationTest\Db\IntegrationTestListener" file="./test/integration/IntegrationTestListener.php"/>
-    </listeners>
+    <extensions>
+        <extension class="LaminasIntegrationTest\Db\IntegrationTestPHPUnitExtension" file="./test/integration/IntegrationTestPHPUnitExtension.php"/>
+    </extensions>
 
     <php>
         <!-- Integration Test Variables -->

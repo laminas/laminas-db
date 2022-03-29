@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Db\Adapter\Platform;
 
 use function db2_escape_string;

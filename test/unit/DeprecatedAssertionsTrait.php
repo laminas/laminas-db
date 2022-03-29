@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Db;
 
 use PHPUnit\Framework\Assert;
