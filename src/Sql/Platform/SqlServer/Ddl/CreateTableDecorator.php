@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Db\Sql\Platform\SqlServer\Ddl;
 
 use Laminas\Db\Adapter\Platform\PlatformInterface;

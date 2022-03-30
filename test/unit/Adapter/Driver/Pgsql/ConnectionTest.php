@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Db\Adapter\Driver\Pgsql;
 
 use Laminas\Db\Adapter\Driver\Pgsql\Connection;

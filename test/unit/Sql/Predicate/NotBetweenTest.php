@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Db\Sql\Predicate;
 
 use Laminas\Db\Sql\Predicate\NotBetween;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Db\TestAsset;
 
 use Laminas\Db\Adapter\Driver\Pdo\Connection;

@@ -1,28 +1,29 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasIntegrationTest\Db;
 
+use LaminasIntegrationTest\Db\Platform\FixtureLoader;
 use LaminasIntegrationTest\Db\Platform\MysqlFixtureLoader;
 use LaminasIntegrationTest\Db\Platform\PgsqlFixtureLoader;
 use LaminasIntegrationTest\Db\Platform\SqlServerFixtureLoader;
-use PHPUnit\Runner\AfterLastTestHook;
-use PHPUnit\Runner\BeforeFirstTestHook;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
+use PHPUnit\Framework\TestSuite;
 use PHPUnit\Runner\TestHook;
 
-use function array_search;
 use function getenv;
 use function printf;
-use function trim;
 
-class IntegrationTestPHPUnitExtension implements TestHook, BeforeFirstTestHook, AfterLastTestHook
+class IntegrationTestListener implements TestHook, TestListener
 {
-    private array $fixtureLoaders = [];
+    use TestListenerDefaultImplementation;
 
-    public function executeBeforeFirstTest(): void
+    /** @var FixtureLoader[] */
+    private $fixtureLoaders = [];
+
+    public function startTestSuite(TestSuite $suite): void
     {
-        if ($this->getPhpUnitParameter("testsuite") !== 'integration test') {
+        if ($suite->getName() !== 'integration test') {
             return;
         }
 
@@ -49,11 +50,11 @@ class IntegrationTestPHPUnitExtension implements TestHook, BeforeFirstTestHook, 
         }
     }
 
-    public function executeAfterLastTest(): void
+    public function endTestSuite(TestSuite $suite): void
     {
         if (
-            $this->getPhpUnitParameter("testsuite") === 'integration test' ||
-            $this->fixtureLoaders === []
+            $suite->getName() !== 'integration test'
+            || empty($this->fixtureLoader)
         ) {
             return;
         }
@@ -63,22 +64,5 @@ class IntegrationTestPHPUnitExtension implements TestHook, BeforeFirstTestHook, 
         foreach ($this->fixtureLoaders as $fixtureLoader) {
             $fixtureLoader->dropDatabase();
         }
-    }
-
-    /**
-     * Resolves the parameters passed to PHPUnit.
-     *
-     * eg. "phpunit --testsuite Unit --filter FirstTest"
-     *
-     * $this->getPhpUnitParameter("filter"); // FirstTest
-     * $this->getPhpUnitParameter("testsuite"); // Unit
-     */
-    private function getPhpUnitParameter(string $paramName): ?string
-    {
-        if ($offset = array_search("--$paramName", $GLOBALS['argv']) === false) {
-            return null;
-        }
-
-        return trim($GLOBALS['argv'][$offset + 1]);
     }
 }

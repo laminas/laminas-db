@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Db\Adapter\Driver\Oci8\Feature;
 
 use Closure;

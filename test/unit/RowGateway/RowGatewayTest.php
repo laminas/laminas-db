@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Db\RowGateway;
 
 use Laminas\Db\Adapter\Adapter;

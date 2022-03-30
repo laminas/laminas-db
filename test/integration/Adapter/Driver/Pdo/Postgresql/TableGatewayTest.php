@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo\Postgresql;
 
 use Laminas\Db\Sql\TableIdentifier;
