@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Db\ResultSet;
 
 use Laminas\Db\ResultSet\HydratingResultSet;

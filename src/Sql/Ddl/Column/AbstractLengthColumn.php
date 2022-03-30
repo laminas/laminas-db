@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Db\Sql\Ddl\Column;
 
 abstract class AbstractLengthColumn extends Column

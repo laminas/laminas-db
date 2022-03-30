@@ -19,9 +19,9 @@
         </testsuite>
     </testsuites>
 
-    <extensions>
-        <extension class="LaminasIntegrationTest\Db\IntegrationTestPHPUnitExtension" file="./test/integration/IntegrationTestPHPUnitExtension.php"/>
-    </extensions>
+    <listeners>
+        <listener class="LaminasIntegrationTest\Db\IntegrationTestListener" file="./test/integration/IntegrationTestListener.php"/>
+    </listeners>
 
     <php>
         <!-- Note: the following is a FULL list of ALL POSSIBLE constants

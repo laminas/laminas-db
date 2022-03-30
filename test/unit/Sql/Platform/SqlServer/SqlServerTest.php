@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Db\Sql\Platform\SqlServer;
 
 use Laminas\Db\Sql\Platform\SqlServer\SelectDecorator;

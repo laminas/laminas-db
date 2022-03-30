@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Db\Adapter\Profiler;
 
 use Laminas\Db\Adapter\Exception\InvalidArgumentException;
