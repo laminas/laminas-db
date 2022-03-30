@@ -18,14 +18,6 @@
 > 
 > You trust us enough to use our software. We ask that you trust us to say the truth on this. We need your help. Go out and protest this unnecessary war. Stop the bloodshed. Say "stop the war!"
 
-> This package is considered feature-complete, and is now in **security-only** maintenance mode, following a [decision by the Technical Steering Committee](https://github.com/laminas/technical-steering-committee/blob/ea1ac8c8e2f00f90c6059b6bf60399bcf38bc653/meetings/minutes/2022-02-07-TSC-Minutes.md#is-laminas-db-abandoned).
-> If you have a security issue, please [follow our security reporting guidelines](https://getlaminas.org/security/).
-> If you wish to take on the role of maintainer, please [nominate yourself](https://github.com/laminas/technical-steering-committee/issues/new?assignees=&labels=Nomination&template=Maintainer_Nomination.md&title=%5BNOMINATION%5D%5BMAINTAINER%5D%3A+%7Bname+of+person+being+nominated%7D)
->
-> If you are looking for an actively maintained package alternative, we recommend:
->
-> - [doctrine/dbal](https://github.com/doctrine/dbal)
-
 `Laminas\Db` is a component that abstract the access to a Database using an object
 oriented API to build the queries. `Laminas\Db` consumes different storage adapters
 to access different database vendors such as MySQL, PostgreSQL, Oracle, IBM DB2,

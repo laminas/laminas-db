@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Db\Sql\Ddl\Index;
 
 use function array_merge;

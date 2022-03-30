@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace LaminasTest\Db\Sql\Ddl\Constraint;
 
 use Laminas\Db\Sql\Ddl\Constraint\Check;
