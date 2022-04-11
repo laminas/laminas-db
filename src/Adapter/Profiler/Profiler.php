@@ -20,7 +20,7 @@ class Profiler implements ProfilerInterface
 
     /**
      * @param string|StatementContainerInterface $target
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws InvalidArgumentException
      */
     public function profilerStart($target)
@@ -49,7 +49,7 @@ class Profiler implements ProfilerInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function profilerFinish()
     {

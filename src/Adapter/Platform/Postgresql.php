@@ -45,7 +45,7 @@ class Postgresql extends AbstractPlatform
 
     /**
      * @param Pgsql\Pgsql|Pdo\Pdo|resource|\PDO $driver
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function setDriver($driver)

@@ -46,7 +46,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set driver
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setDriver(Pdo $driver)
     {
@@ -55,7 +55,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
     {
@@ -74,7 +74,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Initialize
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function initialize(\PDO $connectionResource)
     {
@@ -85,7 +85,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set resource
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setResource(PDOStatement $pdoStatement)
     {
@@ -107,7 +107,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Set sql
      *
      * @param string $sql
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setSql($sql)
     {
@@ -126,7 +126,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setParameterContainer(ParameterContainer $parameterContainer)
     {

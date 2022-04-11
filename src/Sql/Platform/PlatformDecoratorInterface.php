@@ -6,7 +6,7 @@ interface PlatformDecoratorInterface
 {
     /**
      * @param null|object $subject
-     * @return self
+     * @return $this
      */
     public function setSubject($subject);
 }

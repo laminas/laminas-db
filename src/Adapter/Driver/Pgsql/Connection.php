@@ -55,7 +55,7 @@ class Connection extends AbstractConnection
      * Set resource
      *
      * @param resource $resource
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setResource($resource)
     {
@@ -67,7 +67,7 @@ class Connection extends AbstractConnection
     /**
      * Set driver
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setDriver(Pgsql $driver)
     {
@@ -78,7 +78,7 @@ class Connection extends AbstractConnection
 
     /**
      * @param int|null $type
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setType($type)
     {

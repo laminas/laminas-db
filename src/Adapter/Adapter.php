@@ -93,7 +93,7 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
     {

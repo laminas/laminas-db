@@ -93,7 +93,7 @@ class Operator extends AbstractExpression implements PredicateInterface
      * Set left side of operator
      *
      * @param  int|float|bool|string $left
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setLeft($left)
     {
@@ -121,7 +121,7 @@ class Operator extends AbstractExpression implements PredicateInterface
      * Set parameter type for left side of operator
      *
      * @param  string $type TYPE_IDENTIFIER or TYPE_VALUE {@see allowedTypes}
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function setLeftType($type)
@@ -154,7 +154,7 @@ class Operator extends AbstractExpression implements PredicateInterface
      * Set operator string
      *
      * @param  string $operator
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setOperator($operator)
     {
@@ -177,7 +177,7 @@ class Operator extends AbstractExpression implements PredicateInterface
      * Set right side of operator
      *
      * @param  int|float|bool|string $right
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setRight($right)
     {
@@ -205,7 +205,7 @@ class Operator extends AbstractExpression implements PredicateInterface
      * Set parameter type for right side of operator
      *
      * @param  string $type TYPE_IDENTIFIER or TYPE_VALUE {@see allowedTypes}
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function setRightType($type)

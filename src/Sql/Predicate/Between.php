@@ -42,7 +42,7 @@ class Between extends AbstractExpression implements PredicateInterface
      * Set identifier for comparison
      *
      * @param  string $identifier
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setIdentifier($identifier)
     {
@@ -64,7 +64,7 @@ class Between extends AbstractExpression implements PredicateInterface
      * Set minimum boundary for comparison
      *
      * @param  int|float|string $minValue
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setMinValue($minValue)
     {
@@ -86,7 +86,7 @@ class Between extends AbstractExpression implements PredicateInterface
      * Set maximum boundary for comparison
      *
      * @param  int|float|string $maxValue
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setMaxValue($maxValue)
     {
@@ -108,7 +108,7 @@ class Between extends AbstractExpression implements PredicateInterface
      * Set specification string to use in forming SQL predicate
      *
      * @param  string $specification
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setSpecification($specification)
     {

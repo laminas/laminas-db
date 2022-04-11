@@ -19,7 +19,7 @@ class Literal implements ExpressionInterface
 
     /**
      * @param string $literal
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setLiteral($literal)
     {

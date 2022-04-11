@@ -44,7 +44,7 @@ class Connection extends AbstractConnection
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setDriver(Mysqli $driver)
     {
@@ -71,7 +71,7 @@ class Connection extends AbstractConnection
     /**
      * Set resource
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setResource(\mysqli $resource)
     {

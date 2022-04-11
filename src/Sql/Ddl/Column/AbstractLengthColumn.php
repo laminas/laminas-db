@@ -21,7 +21,7 @@ abstract class AbstractLengthColumn extends Column
 
     /**
      * @param  int $length
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setLength($length)
     {

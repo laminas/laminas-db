@@ -57,7 +57,7 @@ class CreateTable extends AbstractSql implements SqlInterface
 
     /**
      * @param  bool $temporary
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setTemporary($temporary)
     {
@@ -75,7 +75,7 @@ class CreateTable extends AbstractSql implements SqlInterface
 
     /**
      * @param  string $name
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setTable($name)
     {
@@ -84,7 +84,7 @@ class CreateTable extends AbstractSql implements SqlInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function addColumn(Column\ColumnInterface $column)
     {
@@ -93,7 +93,7 @@ class CreateTable extends AbstractSql implements SqlInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function addConstraint(Constraint\ConstraintInterface $constraint)
     {

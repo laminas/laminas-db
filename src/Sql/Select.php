@@ -180,7 +180,7 @@ class Select extends AbstractPreparableSql
      * Create from clause
      *
      * @param  string|array|TableIdentifier $table
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function from($table)
@@ -209,7 +209,7 @@ class Select extends AbstractPreparableSql
 
     /**
      * @param string|Expression $quantifier DISTINCT|ALL
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function quantifier($quantifier)
@@ -240,7 +240,7 @@ class Select extends AbstractPreparableSql
      *
      * @param  array $columns
      * @param  bool  $prefixColumnsWithTable
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function columns(array $columns, $prefixColumnsWithTable = true)
     {
@@ -256,7 +256,7 @@ class Select extends AbstractPreparableSql
      * @param  string|Predicate\Expression $on
      * @param  string|array $columns
      * @param  string $type one of the JOIN_* constants
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function join($name, $on, $columns = self::SQL_STAR, $type = self::JOIN_INNER)
@@ -271,7 +271,7 @@ class Select extends AbstractPreparableSql
      *
      * @param Where|Closure|string|array|Predicate\PredicateInterface $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function where($predicate, $combination = Predicate\PredicateSet::OP_AND)
@@ -286,7 +286,7 @@ class Select extends AbstractPreparableSql
 
     /**
      * @param mixed $group
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function group($group)
     {
@@ -305,7 +305,7 @@ class Select extends AbstractPreparableSql
      *
      * @param Where|Closure|string|array $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function having($predicate, $combination = Predicate\PredicateSet::OP_AND)
     {
@@ -319,7 +319,7 @@ class Select extends AbstractPreparableSql
 
     /**
      * @param string|array|Expression $order
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function order($order)
     {
@@ -344,7 +344,7 @@ class Select extends AbstractPreparableSql
 
     /**
      * @param int $limit
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function limit($limit)
@@ -363,7 +363,7 @@ class Select extends AbstractPreparableSql
 
     /**
      * @param int $offset
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function offset($offset)
@@ -383,7 +383,7 @@ class Select extends AbstractPreparableSql
     /**
      * @param string $type
      * @param string $modifier
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function combine(Select $select, $type = self::COMBINE_UNION, $modifier = '')
@@ -403,7 +403,7 @@ class Select extends AbstractPreparableSql
 
     /**
      * @param string $part
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function reset($part)
@@ -454,7 +454,7 @@ class Select extends AbstractPreparableSql
     /**
      * @param string $index
      * @param string|array<string, array> $specification
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setSpecification($index, $specification)
     {
