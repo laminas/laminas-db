@@ -40,7 +40,7 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
     {
@@ -63,7 +63,7 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function registerConnection(Connection $connection)
     {
@@ -73,7 +73,7 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function registerStatementPrototype(Statement $statementPrototype)
     {
@@ -83,7 +83,7 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function registerResultPrototype(Result $resultPrototype)
     {

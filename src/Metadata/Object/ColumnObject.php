@@ -93,7 +93,7 @@ class ColumnObject
      * Set table name
      *
      * @param string $tableName
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setTableName($tableName)
     {
@@ -131,7 +131,7 @@ class ColumnObject
 
     /**
      * @param int $ordinalPosition to set
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setOrdinalPosition($ordinalPosition)
     {
@@ -149,7 +149,7 @@ class ColumnObject
 
     /**
      * @param mixed $columnDefault to set
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setColumnDefault($columnDefault)
     {
@@ -167,7 +167,7 @@ class ColumnObject
 
     /**
      * @param bool $isNullable to set
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setIsNullable($isNullable)
     {
@@ -193,7 +193,7 @@ class ColumnObject
 
     /**
      * @param string $dataType the $dataType to set
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setDataType($dataType)
     {
@@ -211,7 +211,7 @@ class ColumnObject
 
     /**
      * @param int $characterMaximumLength the $characterMaximumLength to set
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setCharacterMaximumLength($characterMaximumLength)
     {
@@ -229,7 +229,7 @@ class ColumnObject
 
     /**
      * @param int $characterOctetLength the $characterOctetLength to set
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setCharacterOctetLength($characterOctetLength)
     {
@@ -247,7 +247,7 @@ class ColumnObject
 
     /**
      * @param int $numericPrecision the $numericPrevision to set
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setNumericPrecision($numericPrecision)
     {
@@ -265,7 +265,7 @@ class ColumnObject
 
     /**
      * @param int $numericScale the $numericScale to set
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setNumericScale($numericScale)
     {
@@ -283,7 +283,7 @@ class ColumnObject
 
     /**
      * @param  bool $numericUnsigned
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setNumericUnsigned($numericUnsigned)
     {
@@ -309,7 +309,7 @@ class ColumnObject
 
     /**
      * @param array $erratas
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setErratas(array $erratas)
     {
@@ -335,7 +335,7 @@ class ColumnObject
     /**
      * @param string $errataName
      * @param mixed $errataValue
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setErrata($errataName, $errataValue)
     {

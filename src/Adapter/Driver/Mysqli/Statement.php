@@ -57,7 +57,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set driver
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setDriver(Mysqli $driver)
     {
@@ -66,7 +66,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
     {
@@ -85,7 +85,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Initialize
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function initialize(\mysqli $mysqli)
     {
@@ -97,7 +97,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Set sql
      *
      * @param  string $sql
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setSql($sql)
     {
@@ -108,7 +108,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set Parameter container
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setParameterContainer(ParameterContainer $parameterContainer)
     {
@@ -129,7 +129,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set resource
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setResource(mysqli_stmt $mysqliStatement)
     {
@@ -172,7 +172,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * Prepare
      *
      * @param string $sql
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidQueryException
      * @throws Exception\RuntimeException
      */

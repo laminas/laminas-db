@@ -74,7 +74,7 @@ class Predicate extends PredicateSet
      * @param  int|float|bool|string|Expression $right
      * @param  string $leftType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_IDENTIFIER {@see allowedTypes}
      * @param  string $rightType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_VALUE {@see allowedTypes}
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function equalTo($left, $right, $leftType = self::TYPE_IDENTIFIER, $rightType = self::TYPE_VALUE)
     {
@@ -96,7 +96,7 @@ class Predicate extends PredicateSet
      * @param  int|float|bool|string|Expression $right
      * @param  string $leftType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_IDENTIFIER {@see allowedTypes}
      * @param  string $rightType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_VALUE {@see allowedTypes}
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function notEqualTo($left, $right, $leftType = self::TYPE_IDENTIFIER, $rightType = self::TYPE_VALUE)
     {
@@ -118,7 +118,7 @@ class Predicate extends PredicateSet
      * @param  int|float|bool|string|Expression $right
      * @param  string $leftType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_IDENTIFIER {@see allowedTypes}
      * @param  string $rightType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_VALUE {@see allowedTypes}
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function lessThan($left, $right, $leftType = self::TYPE_IDENTIFIER, $rightType = self::TYPE_VALUE)
     {
@@ -140,7 +140,7 @@ class Predicate extends PredicateSet
      * @param  int|float|bool|string|Expression $right
      * @param  string $leftType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_IDENTIFIER {@see allowedTypes}
      * @param  string $rightType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_VALUE {@see allowedTypes}
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function greaterThan($left, $right, $leftType = self::TYPE_IDENTIFIER, $rightType = self::TYPE_VALUE)
     {
@@ -162,7 +162,7 @@ class Predicate extends PredicateSet
      * @param  int|float|bool|string|Expression $right
      * @param  string $leftType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_IDENTIFIER {@see allowedTypes}
      * @param  string $rightType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_VALUE {@see allowedTypes}
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function lessThanOrEqualTo($left, $right, $leftType = self::TYPE_IDENTIFIER, $rightType = self::TYPE_VALUE)
     {
@@ -184,7 +184,7 @@ class Predicate extends PredicateSet
      * @param  int|float|bool|string|Expression $right
      * @param  string $leftType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_IDENTIFIER {@see allowedTypes}
      * @param  string $rightType TYPE_IDENTIFIER or TYPE_VALUE by default TYPE_VALUE {@see allowedTypes}
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function greaterThanOrEqualTo(
         $left,
@@ -208,7 +208,7 @@ class Predicate extends PredicateSet
      *
      * @param  string|Expression $identifier
      * @param  string $like
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function like($identifier, $like)
     {
@@ -228,7 +228,7 @@ class Predicate extends PredicateSet
      *
      * @param  string|Expression $identifier
      * @param  string $notLike
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function notLike($identifier, $notLike)
     {
@@ -245,7 +245,7 @@ class Predicate extends PredicateSet
      *
      * @param string $expression
      * @param null|array $parameters
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function expression($expression, $parameters = null)
     {
@@ -264,7 +264,7 @@ class Predicate extends PredicateSet
      * Literal predicate, for parameters, use expression()
      *
      * @param  string $literal
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function literal($literal)
     {
@@ -294,7 +294,7 @@ class Predicate extends PredicateSet
      * Utilizes IsNull predicate
      *
      * @param  string|Expression $identifier
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function isNull($identifier)
     {
@@ -313,7 +313,7 @@ class Predicate extends PredicateSet
      * Utilizes IsNotNull predicate
      *
      * @param  string|Expression $identifier
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function isNotNull($identifier)
     {
@@ -333,7 +333,7 @@ class Predicate extends PredicateSet
      *
      * @param  string|Expression $identifier
      * @param array|Select $valueSet
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function in($identifier, $valueSet = null)
     {
@@ -353,7 +353,7 @@ class Predicate extends PredicateSet
      *
      * @param  string|Expression $identifier
      * @param array|Select $valueSet
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function notIn($identifier, $valueSet = null)
     {
@@ -374,7 +374,7 @@ class Predicate extends PredicateSet
      * @param  string|Expression $identifier
      * @param  int|float|string $minValue
      * @param  int|float|string $maxValue
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function between($identifier, $minValue, $maxValue)
     {
@@ -395,7 +395,7 @@ class Predicate extends PredicateSet
      * @param  string|Expression $identifier
      * @param  int|float|string $minValue
      * @param  int|float|string $maxValue
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function notBetween($identifier, $minValue, $maxValue)
     {
@@ -415,7 +415,7 @@ class Predicate extends PredicateSet
      * AND / OR combination operator, thus allowing generic predicates to be
      * used fluently within where chains as any other concrete predicate.
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     // phpcs:ignore Generic.NamingConventions.ConstructorName.OldStyle
     public function predicate(PredicateInterface $predicate)
@@ -435,7 +435,7 @@ class Predicate extends PredicateSet
      * Overloads "or", "and", "nest", and "unnest"
      *
      * @param  string $name
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function __get($name)
     {

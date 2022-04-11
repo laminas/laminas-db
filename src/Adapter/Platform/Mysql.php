@@ -45,7 +45,7 @@ class Mysql extends AbstractPlatform
 
     /**
      * @param \Laminas\Db\Adapter\Driver\Mysqli\Mysqli|\Laminas\Db\Adapter\Driver\Pdo\Pdo|\mysqli|\PDO $driver
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws InvalidArgumentException
      */
     public function setDriver($driver)

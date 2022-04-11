@@ -28,7 +28,7 @@ abstract class AbstractPrecisionColumn extends AbstractLengthColumn
 
     /**
      * @param  int $digits
-     * @return self
+     * @return $this
      */
     public function setDigits($digits)
     {
@@ -45,7 +45,7 @@ abstract class AbstractPrecisionColumn extends AbstractLengthColumn
 
     /**
      * @param int|null $decimal
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setDecimal($decimal)
     {

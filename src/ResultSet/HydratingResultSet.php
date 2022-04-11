@@ -38,7 +38,7 @@ class HydratingResultSet extends AbstractResultSet
      * Set the row object prototype
      *
      * @param  object $objectPrototype
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function setObjectPrototype($objectPrototype)
@@ -65,7 +65,7 @@ class HydratingResultSet extends AbstractResultSet
     /**
      * Set the hydrator to use for each row object
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setHydrator(HydratorInterface $hydrator)
     {

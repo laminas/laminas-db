@@ -45,7 +45,7 @@ class Column implements ColumnInterface
 
     /**
      * @param  string $name
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setName($name)
     {
@@ -63,7 +63,7 @@ class Column implements ColumnInterface
 
     /**
      * @param  bool $nullable
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setNullable($nullable)
     {
@@ -81,7 +81,7 @@ class Column implements ColumnInterface
 
     /**
      * @param  null|string|int $default
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setDefault($default)
     {
@@ -99,7 +99,7 @@ class Column implements ColumnInterface
 
     /**
      * @param  array $options
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setOptions(array $options)
     {
@@ -110,7 +110,7 @@ class Column implements ColumnInterface
     /**
      * @param  string $name
      * @param  string $value
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setOption($name, $value)
     {
@@ -127,7 +127,7 @@ class Column implements ColumnInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function addConstraint(ConstraintInterface $constraint)
     {

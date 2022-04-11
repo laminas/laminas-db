@@ -57,7 +57,7 @@ class Connection extends AbstractConnection
     /**
      * Set driver
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setDriver(IbmDb2 $driver)
     {
@@ -68,7 +68,7 @@ class Connection extends AbstractConnection
 
     /**
      * @param  resource $resource DB2 resource
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setResource($resource)
     {
@@ -204,7 +204,7 @@ class Connection extends AbstractConnection
     /**
      * Rollback
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\RuntimeException
      */
     public function rollback()

@@ -29,7 +29,7 @@ class Sqlite extends AbstractPlatform
 
     /**
      * @param Pdo\Pdo|\PDO $driver
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function setDriver($driver)

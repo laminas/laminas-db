@@ -88,7 +88,7 @@ class Result implements Iterator, ResultInterface
      *
      * @param  mixed        $generatedValue
      * @param  int          $rowCount
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function initialize(PDOStatement $resource, $generatedValue, $rowCount = null)
     {

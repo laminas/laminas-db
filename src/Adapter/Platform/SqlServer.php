@@ -41,7 +41,7 @@ class SqlServer extends AbstractPlatform
 
     /**
      * @param Sqlsrv|\Laminas\Db\Adapter\Driver\Pdo\Pdo|resource|\PDO $driver
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws InvalidArgumentException
      */
     public function setDriver($driver)

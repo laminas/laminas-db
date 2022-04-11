@@ -95,7 +95,7 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
 
     /**
      * @param  array $connectionParameters
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setConnectionParameters(array $connectionParameters)
     {
@@ -107,7 +107,7 @@ abstract class AbstractConnection implements ConnectionInterface, ProfilerAwareI
     /**
      * {@inheritDoc}
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setProfiler(ProfilerInterface $profiler)
     {

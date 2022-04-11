@@ -64,7 +64,7 @@ class Result implements
      * @param mixed $resource
      * @param mixed $generatedValue
      * @param bool|null $isBuffered
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function initialize($resource, $generatedValue, $isBuffered = null)

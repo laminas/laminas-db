@@ -57,7 +57,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set driver
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setDriver(Sqlsrv $driver)
     {
@@ -66,7 +66,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     }
 
     /**
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setProfiler(Profiler\ProfilerInterface $profiler)
     {
@@ -89,7 +89,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      * (there will need to already be a bound param set if it applies to this query)
      *
      * @param resource $resource
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
      */
     public function initialize($resource)
@@ -111,7 +111,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Set parameter container
      *
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setParameterContainer(ParameterContainer $parameterContainer)
     {
@@ -129,7 +129,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
     /**
      * @param resource $resource
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setResource($resource)
     {
@@ -149,7 +149,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
     /**
      * @param string $sql
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setSql($sql)
     {
@@ -170,7 +170,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * @param string $sql
      * @param array $options
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      * @throws Exception\RuntimeException
      */
     public function prepare($sql = null, array $options = [])

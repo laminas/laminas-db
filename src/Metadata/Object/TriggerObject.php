@@ -65,7 +65,7 @@ class TriggerObject
      * Set Name.
      *
      * @param string $name
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setName($name)
     {
@@ -87,7 +87,7 @@ class TriggerObject
      * Set Event Manipulation.
      *
      * @param string $eventManipulation
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setEventManipulation($eventManipulation)
     {
@@ -109,7 +109,7 @@ class TriggerObject
      * Set Event Object Catalog.
      *
      * @param string $eventObjectCatalog
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setEventObjectCatalog($eventObjectCatalog)
     {
@@ -131,7 +131,7 @@ class TriggerObject
      * Set Event Object Schema.
      *
      * @param string $eventObjectSchema
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setEventObjectSchema($eventObjectSchema)
     {
@@ -153,7 +153,7 @@ class TriggerObject
      * Set Event Object Table.
      *
      * @param string $eventObjectTable
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setEventObjectTable($eventObjectTable)
     {
@@ -175,7 +175,7 @@ class TriggerObject
      * Set Action Order.
      *
      * @param string $actionOrder
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setActionOrder($actionOrder)
     {
@@ -197,7 +197,7 @@ class TriggerObject
      * Set Action Condition.
      *
      * @param string $actionCondition
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setActionCondition($actionCondition)
     {
@@ -219,7 +219,7 @@ class TriggerObject
      * Set Action Statement.
      *
      * @param string $actionStatement
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setActionStatement($actionStatement)
     {
@@ -241,7 +241,7 @@ class TriggerObject
      * Set Action Orientation.
      *
      * @param string $actionOrientation
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setActionOrientation($actionOrientation)
     {
@@ -263,7 +263,7 @@ class TriggerObject
      * Set Action Timing.
      *
      * @param string $actionTiming
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setActionTiming($actionTiming)
     {
@@ -285,7 +285,7 @@ class TriggerObject
      * Set Action Reference Old Table.
      *
      * @param string $actionReferenceOldTable
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setActionReferenceOldTable($actionReferenceOldTable)
     {
@@ -307,7 +307,7 @@ class TriggerObject
      * Set Action Reference New Table.
      *
      * @param string $actionReferenceNewTable
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setActionReferenceNewTable($actionReferenceNewTable)
     {
@@ -329,7 +329,7 @@ class TriggerObject
      * Set Action Reference Old Row.
      *
      * @param string $actionReferenceOldRow
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setActionReferenceOldRow($actionReferenceOldRow)
     {
@@ -351,7 +351,7 @@ class TriggerObject
      * Set Action Reference New Row.
      *
      * @param string $actionReferenceNewRow
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setActionReferenceNewRow($actionReferenceNewRow)
     {
@@ -373,7 +373,7 @@ class TriggerObject
      * Set Created.
      *
      * @param DateTime $created
-     * @return self Provides a fluent interface
+     * @return $this Provides a fluent interface
      */
     public function setCreated($created)
     {
