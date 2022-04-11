@@ -27,7 +27,7 @@ class Connection extends AbstractConnection
     /**
      * Constructor
      *
-     * @param array|mysqli|null $connectionInfo
+     * @param array|\mysqli|null $connectionInfo
      * @throws InvalidArgumentException
      */
     public function __construct($connectionInfo = null)
