@@ -7,6 +7,8 @@ use Laminas\Db\Adapter\Driver\Oci8\Statement;
 use Laminas\Db\Adapter\Exception\InvalidArgumentException;
 use stdClass;
 
+use function oci_connect;
+
 /**
  * @group integration
  * @group integration-oracle
