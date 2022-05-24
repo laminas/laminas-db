@@ -33,15 +33,19 @@
             values specific to your test environment.
         -->
         <!-- Integration Test Variables -->
+        <ini name="error_reporting" value="-1" />
+        <ini name="display_errors" value="on" />
+
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL" value="false"/>
-        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="192.168.20.20"/>
+        <!-- Use IP, overwise it fails -->
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_HOSTNAME" value="127.0.0.1"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_USERNAME" value="root"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_PASSWORD" value="Password123"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL_DATABASE" value="laminasdb_test"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV" value="false"/>
-        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME" value="192.168.20.20"/>
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME" value="localhost"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME" value="sa"/>
-        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD" value="Password123"/>
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD" value="Password123%"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_DATABASE" value="laminasdb_test"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8" value="false"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_OCI8_HOSTNAME" value=""/>
@@ -54,7 +58,7 @@
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_IBMDB2_PASSWORD" value=""/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_IBMDB2_DATABASE" value=""/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL" value="false"/>
-        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="192.168.20.20"/>
+        <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_HOSTNAME" value="localhost"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_USERNAME" value="postgres"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_PASSWORD" value="postgres"/>
         <env name="TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL_DATABASE" value="laminasdb_test"/>

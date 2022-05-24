@@ -43,24 +43,36 @@ Unit tests do not require additional functionality beyond having the appropriate
 ### Integration tests
 
 To run the integration tests, you need databases.
-The repository includes a `Vagrantfile` which allows you to fire up a [vagrant box](https://app.vagrantup.com) with several of our target databases, including:
+The repository includes a `docker-compose.yml` which allows you to fire up [Docker](https://www.docker.com) containers with several of our target databases, including:
 
 - MySQL
 - PostgreSQL
 - SQL Server
 
-To start up vagrant:
+To start the Docker containers and wait till the containers are ready:
 
 ```bash
-$ vagrant up
+$ docker-compose up -d
 ```
 
-Copy `phpunit.xml.dist` to `phpunit.xml`, and change the following ENV var declaration values to "true":
+Set the following environment variables to run the integration test for that platform:
 
-- TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL
-- TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV
-- TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL
-- TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLITE_MEMORY
+- TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
+- TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV=true
+- TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL=true
+- TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLITE_MEMORY=true
+
+On Linux:
+
+```bash
+export TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
+```
+
+On Windows (cmd):
+
+```
+set TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
+```
 
 From there, you can run the integration tests:
 

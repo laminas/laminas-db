@@ -26,9 +26,10 @@ abstract class AbstractIntegrationTest extends TestCase
      */
     protected function setUp(): void
     {
-        if (! getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV')) {
+        if (!filter_var(getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV'), FILTER_VALIDATE_BOOLEAN)) {
             $this->markTestSkipped('SQLSRV tests are not enabled');
         }
+
         foreach ($this->variables as $name => $value) {
             if (! getenv($value)) {
                 $this->markTestSkipped(

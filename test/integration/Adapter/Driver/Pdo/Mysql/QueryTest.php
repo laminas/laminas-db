@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class QueryTest extends TestCase
 {
+
     use AdapterTrait;
 
     /**
@@ -103,4 +104,5 @@ class QueryTest extends TestCase
             'value' => 'bar',
         ]);
     }
+
 }
