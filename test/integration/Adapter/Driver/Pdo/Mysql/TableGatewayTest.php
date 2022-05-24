@@ -6,6 +6,7 @@ use Laminas\Db\Sql\TableIdentifier;
 use Laminas\Db\TableGateway\Feature\MetadataFeature;
 use Laminas\Db\TableGateway\TableGateway;
 use PHPUnit\Framework\TestCase;
+use Laminas\Db\Sql\Select;
 
 use function count;
 
@@ -36,6 +37,28 @@ class TableGatewayTest extends TestCase
             $this->assertNotEmpty(isset($row->name));
             $this->assertNotEmpty(isset($row->value));
         }
+    }
+
+    /**
+     * @covers \Laminas\Db\TableGateway\TableGateway::select
+     */
+    public function testSelectFetchColumn()
+    {
+        $tableGateway = new TableGateway('test', $this->adapter);
+
+        $select = new Select();
+        $select->from('test');
+        $select->columns([
+            'myid' => 'id'
+        ]);
+        $select->limit(1);
+
+        $statement = $tableGateway->getSql()
+            ->prepareStatementForSqlObject($select);
+
+        $result = $statement->execute();
+        $result->setFetchMode(\PDO::FETCH_COLUMN);
+        $this->assertSame('1', $result->next());
     }
 
     /**
