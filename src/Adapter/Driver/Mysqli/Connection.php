@@ -11,10 +11,13 @@ use function constant;
 use function defined;
 use function is_array;
 use function is_string;
+use function mysqli_report;
 use function strtoupper;
 
 use const MYSQLI_CLIENT_SSL;
 use const MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT;
+use const MYSQLI_REPORT_ERROR;
+use const MYSQLI_REPORT_STRICT;
 
 class Connection extends AbstractConnection
 {
@@ -117,6 +120,8 @@ class Connection extends AbstractConnection
         $caCert     = $p['ca_cert'] ?? '';
         $caPath     = $p['ca_path'] ?? '';
         $cipher     = $p['cipher'] ?? '';
+
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
         $this->resource = $this->createResource();
 
