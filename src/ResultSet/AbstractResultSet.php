@@ -6,6 +6,7 @@ use ArrayIterator;
 use Countable;
 use Iterator;
 use IteratorAggregate;
+use JsonSerializable;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 // phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.UnusedUse
 use ReturnTypeWillChange;
@@ -19,7 +20,7 @@ use function key;
 use function method_exists;
 use function reset;
 
-abstract class AbstractResultSet implements Iterator, ResultSetInterface
+abstract class AbstractResultSet implements Iterator, ResultSetInterface, JsonSerializable
 {
     /**
      * if -1, datasource is already buffered
@@ -299,5 +300,10 @@ abstract class AbstractResultSet implements Iterator, ResultSetInterface
             $return[] = method_exists($row, 'toArray') ? $row->toArray() : $row->getArrayCopy();
         }
         return $return;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }

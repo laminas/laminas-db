@@ -236,6 +236,23 @@ class AbstractResultSetTest extends TestCase
     }
 
     /**
+     * @covers \Laminas\Db\ResultSet\AbstractResultSet::jsonSerialize
+     */
+    public function testJsonSerialize()
+    {
+        $resultSet = $this->getMockForAbstractClass(AbstractResultSet::class);
+        $resultSet->initialize(new ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+            ['id' => 2, 'name' => 'two'],
+            ['id' => 3, 'name' => 'three'],
+        ]));
+        self::assertEquals(
+            $resultSet->toArray(),
+            $resultSet->jsonSerialize()
+        );
+    }
+
+    /**
      * Test multiple iterations with buffer
      *
      * @group issue-6845
