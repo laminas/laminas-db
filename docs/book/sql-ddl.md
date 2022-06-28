@@ -139,7 +139,7 @@ use Laminas\Db\Sql\Sql;
 $sql = new Sql($adapter);
 
 $adapter->query(
-    $sql->getSqlStringForSqlObject($ddl),
+    $sql->buildSqlString($ddl),
     $adapter::QUERY_MODE_EXECUTE
 );
 ```
