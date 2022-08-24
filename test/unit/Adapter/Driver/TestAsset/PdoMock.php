@@ -3,6 +3,7 @@
 namespace LaminasTest\Db\Adapter\Driver\TestAsset;
 
 use PDO;
+use ReturnTypeWillChange;
 
 /**
  * Stub class
@@ -13,14 +14,12 @@ class PdoMock extends PDO
     {
     }
 
-    /** @return bool */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         return true;
     }
 
-    /** @return bool */
-    public function commit()
+    public function commit(): bool
     {
         return true;
     }
@@ -29,13 +28,13 @@ class PdoMock extends PDO
      * @param string $attribute
      * @return null
      */
+    #[ReturnTypeWillChange]
     public function getAttribute($attribute)
     {
         return null;
     }
 
-    /** @return bool */
-    public function rollBack()
+    public function rollBack(): bool
     {
         return true;
     }

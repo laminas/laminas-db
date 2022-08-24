@@ -17,7 +17,13 @@
     <file>test</file>
 
     <!-- Include all rules from Laminas Coding Standard -->
-    <rule ref="LaminasCodingStandard"/>
+    <rule ref="LaminasCodingStandard">
+        <!--
+        declare(strict_types=1) is too risky for a security-only component,
+        and should only be reconsidered once this package receives new feature work.
+        -->
+        <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.DeclareStrictTypesMissing"/>
+    </rule>
 
     <rule ref="PSR1.Files.SideEffects">
         <exclude-pattern>*/test/unit/Adapter/Driver/IbmDb2/StatementTest.php</exclude-pattern>
