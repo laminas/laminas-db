@@ -6,7 +6,6 @@ use Laminas\Db\Sql\ExpressionInterface;
 use Laminas\Db\Sql\SqlInterface;
 
 use function current;
-use function get_class;
 use function gettype;
 use function implode;
 use function in_array;
@@ -68,7 +67,7 @@ abstract class AbstractExpression implements ExpressionInterface
             'array',
             ExpressionInterface::class,
             SqlInterface::class,
-            is_object($argument) ? get_class($argument) : gettype($argument)
+            is_object($argument) ? $argument::class : gettype($argument)
         ));
     }
 

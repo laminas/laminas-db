@@ -8,7 +8,6 @@ use Laminas\Db\Adapter\Platform\PlatformInterface;
 
 use function array_key_exists;
 use function array_merge;
-use function get_class;
 use function gettype;
 use function is_array;
 use function is_object;
@@ -76,7 +75,7 @@ class Combine extends AbstractPreparableSql
         if (! $select instanceof Select) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '$select must be a array or instance of Select, "%s" given',
-                is_object($select) ? get_class($select) : gettype($select)
+                is_object($select) ? $select::class : gettype($select)
             ));
         }
 
