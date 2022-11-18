@@ -28,4 +28,8 @@
     <rule ref="PSR1.Files.SideEffects">
         <exclude-pattern>*/test/unit/Adapter/Driver/IbmDb2/StatementTest.php</exclude-pattern>
     </rule>
+    <rule ref="WebimpressCodingStandard.PHP.CorrectClassNameCase.Invalid">
+        <exclude-pattern>src/Adapter/AdapterServiceFactory.php</exclude-pattern>
+        <exclude-pattern>src/Adapter/AdapterAbstractServiceFactory.php</exclude-pattern>
+    </rule>
 </ruleset>
