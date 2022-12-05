@@ -2,9 +2,14 @@
 
 namespace LaminasTest\Db\Sql\Predicate;
 
+use Laminas\Db\Adapter\Platform\Sql92;
 use Laminas\Db\Sql\Expression;
 use Laminas\Db\Sql\Predicate\Predicate;
+use Laminas\Db\Sql\Select;
+use Laminas\Stdlib\ErrorHandler;
 use PHPUnit\Framework\TestCase;
+
+use const E_USER_NOTICE;
 
 class PredicateTest extends TestCase
 {
@@ -240,7 +245,7 @@ class PredicateTest extends TestCase
         $predicate->expression('foo = bar');
         $predicates = $predicate->getPredicates();
         $expression = $predicates[0][1];
-        self::assertEquals([null], $expression->getParameters());
+        self::assertEquals([], $expression->getParameters());
     }
 
     /**
@@ -275,5 +280,60 @@ class PredicateTest extends TestCase
             [['foo = %s', [0], [Expression::TYPE_VALUE]]],
             $predicate->getExpressionData()
         );
+    }
+
+    public function testCanCreateExpressionsWithoutAnyBoundSqlParameters(): void
+    {
+        $where1 = new Predicate();
+
+        $where1->expression('some_expression()');
+
+        self::assertSame(
+            'SELECT "a_table".* FROM "a_table" WHERE (some_expression())',
+            $this->makeSqlString($where1)
+        );
+    }
+
+    public function testWillBindSqlParametersToExpressionsWithGivenParameter(): void
+    {
+        $where = new Predicate();
+
+        $where->expression('some_expression(?)', null);
+
+        self::assertSame(
+            'SELECT "a_table".* FROM "a_table" WHERE (some_expression(\'\'))',
+            $this->makeSqlString($where)
+        );
+    }
+
+    public function testWillBindSqlParametersToExpressionsWithGivenStringParameter(): void
+    {
+        $where = new Predicate();
+
+        $where->expression('some_expression(?)', 'a string');
+
+        self::assertSame(
+            'SELECT "a_table".* FROM "a_table" WHERE (some_expression(\'a string\'))',
+            $this->makeSqlString($where)
+        );
+    }
+
+    private function makeSqlString(Predicate $where): string
+    {
+        $select = new Select('a_table');
+
+        $select->where($where);
+
+        // this is still faster than connecting to a real DB for this kind of test.
+        // we are using unsafe SQL quoting on purpose here: this raises warnings in production.
+        ErrorHandler::start(E_USER_NOTICE);
+
+        try {
+            $string = $select->getSqlString(new Sql92());
+        } finally {
+            ErrorHandler::stop();
+        }
+
+        return $string;
     }
 }
