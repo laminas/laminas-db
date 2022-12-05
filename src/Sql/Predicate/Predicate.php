@@ -250,7 +250,7 @@ class Predicate extends PredicateSet
     public function expression($expression, $parameters = null)
     {
         $this->addPredicate(
-            new Expression($expression, $parameters),
+            new Expression($expression, func_num_args() > 1 ? $parameters : []),
             $this->nextPredicateCombineOperator ?: $this->defaultCombination
         );
         $this->nextPredicateCombineOperator = null;
