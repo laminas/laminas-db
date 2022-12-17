@@ -3,12 +3,16 @@
 namespace LaminasTest\Db\ResultSet;
 
 use ArrayIterator;
+use Laminas\Db\Adapter\Driver\Pdo\Result;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\ResultSet\AbstractResultSet;
 use Laminas\Db\ResultSet\Exception\InvalidArgumentException;
 use Laminas\Db\ResultSet\Exception\RuntimeException;
+use PDOStatement;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+
+use function assert;
 
 class AbstractResultSetTest extends TestCase
 {
@@ -256,6 +260,55 @@ class AbstractResultSetTest extends TestCase
         $data = $resultSet->current();
         self::assertEquals(2, $data['id']);
 
+        $resultSet->rewind();
+        $data = $resultSet->current();
+        self::assertEquals(1, $data['id']);
+        $resultSet->next();
+        $data = $resultSet->current();
+        self::assertEquals(2, $data['id']);
+        $resultSet->next();
+        $data = $resultSet->current();
+        self::assertEquals(3, $data['id']);
+    }
+
+    /**
+     * Test multiple iterations with buffer with multiple rewind() calls
+     *
+     * @group issue-6845
+     */
+    public function testMultipleRewindBufferIterations()
+    {
+        $resultSet = $this->getMockForAbstractClass(AbstractResultSet::class);
+        $result    = new Result();
+        $stub      = $this->getMockBuilder(PDOStatement::class)->getMock();
+        $data      = new ArrayIterator([
+            ['id' => 1, 'name' => 'one'],
+            ['id' => 2, 'name' => 'two'],
+            ['id' => 3, 'name' => 'three'],
+        ]);
+        assert($stub instanceof PDOStatement); // to suppress IDE type warnings
+        $stub->expects($this->any())
+            ->method('fetch')
+            ->will($this->returnCallback(function () use ($data) {
+                $r = $data->current();
+                $data->next();
+                return $r;
+            }));
+        $result->initialize($stub, null);
+        $result->rewind();
+        $result->rewind();
+        $resultSet->initialize($result);
+        $resultSet->buffer();
+        $resultSet->rewind();
+        $resultSet->rewind();
+
+        $data = $resultSet->current();
+        self::assertEquals(1, $data['id']);
+        $resultSet->next();
+        $data = $resultSet->current();
+        self::assertEquals(2, $data['id']);
+
+        $resultSet->rewind();
         $resultSet->rewind();
         $data = $resultSet->current();
         self::assertEquals(1, $data['id']);
