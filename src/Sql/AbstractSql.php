@@ -396,7 +396,7 @@ abstract class AbstractSql implements SqlInterface
             : $this->processInfo['paramPrefix'] . $namedParameterPrefix;
         $isIdentifier         = false;
         $fromTable            = '';
-        if (is_array($column)) {
+        if (is_array($column) && ! empty($column)) {
             if (isset($column['isIdentifier'])) {
                 $isIdentifier = (bool) $column['isIdentifier'];
             }
