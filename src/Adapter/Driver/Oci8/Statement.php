@@ -35,8 +35,12 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /** @var resource */
     protected $resource;
     
-    /** @var bool */
-    protected $parametersBound;
+    /** 
+     * @var bool 
+     * @internal
+     * @deprecated
+    */
+    public $parametersBound;
 
     /**
      * Is prepared
