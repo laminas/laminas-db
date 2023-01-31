@@ -34,7 +34,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
     /** @var resource */
     protected $resource;
-    
+ 
     /**
      * @var bool
      * @internal
