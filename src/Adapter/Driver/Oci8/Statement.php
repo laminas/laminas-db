@@ -9,7 +9,22 @@ use Laminas\Db\Adapter\Profiler;
 
 use function is_array;
 use function is_string;
+use function oci_bind_by_name;
+use function oci_error;
+use function oci_execute;
+use function oci_new_descriptor;
+use function oci_parse;
+use function oci_statement_type;
 use function sprintf;
+
+use const OCI_B_CLOB;
+use const OCI_COMMIT_ON_SUCCESS;
+use const OCI_DTYPE_LOB;
+use const OCI_NO_AUTO_COMMIT;
+use const OCI_TEMP_CLOB;
+use const SQLT_BIN;
+use const SQLT_CHR;
+use const SQLT_INT;
 
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
@@ -34,6 +49,14 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 
     /** @var resource */
     protected $resource;
+
+    /**
+     * @internal
+     * @deprecated
+     *
+     * @var bool
+     */
+    public $parametersBound;
 
     /**
      * Is prepared
