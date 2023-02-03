@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Gather CI configuration
         id: matrix
-        uses: laminas/laminas-ci-matrix-action@v1
+        uses: laminas/laminas-ci-matrix-action@1.22.1
 
   qa:
     name: QA Checks
@@ -28,7 +28,7 @@ jobs:
       matrix: ${{ fromJSON(needs.matrix.outputs.matrix) }}
     steps:
       - name: ${{ matrix.name }}
-        uses: laminas/laminas-continuous-integration-action@v1
+        uses: laminas/laminas-continuous-integration-action@1.32.0
         with:
           job: ${{ matrix.job }}
     services:
