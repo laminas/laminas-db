@@ -54,7 +54,7 @@ class IntegrationTestListener implements TestHook, TestListener
     {
         if (
             $suite->getName() !== 'integration test'
-            || empty($this->fixtureLoader)
+            || empty($this->fixtureLoaders)
         ) {
             return;
         }
