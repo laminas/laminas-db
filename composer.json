@@ -39,7 +39,7 @@
         "laminas/laminas-eventmanager": "^3.6.0",
         "laminas/laminas-hydrator": "^4.7",
         "laminas/laminas-servicemanager": "^3.19.0",
-        "phpunit/phpunit": "^9.5.25"
+        "phpunit/phpunit": "^10.0.0"
     },
     "suggest": {
         "laminas/laminas-eventmanager": "Laminas\\EventManager component",
