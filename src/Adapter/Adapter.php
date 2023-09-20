@@ -49,8 +49,6 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     /** @var ResultSet\ResultSetInterface */
     protected $queryResultSetPrototype;
 
-    /** @var Driver\StatementInterface */
-    protected $lastPreparedStatement;
 
     /**
      * @param Driver\DriverInterface|array $driver
