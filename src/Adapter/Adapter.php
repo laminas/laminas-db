@@ -49,7 +49,12 @@ class Adapter implements AdapterInterface, Profiler\ProfilerAwareInterface
     /** @var ResultSet\ResultSetInterface */
     protected $queryResultSetPrototype;
 
-
+    /**
+     * @deprecated
+     *
+     * @var Driver\StatementInterface
+     */
+    protected $lastPreparedStatement;
     /**
      * @param Driver\DriverInterface|array $driver
      * @throws Exception\InvalidArgumentException
