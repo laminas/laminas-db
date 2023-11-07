@@ -302,7 +302,7 @@ class Select extends AbstractPreparableSql
     /**
      * Create having clause
      *
-     * @param Where|Closure|string|array $predicate
+     * @param Where|Having|Closure|string|array $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
      * @return $this Provides a fluent interface
      */
