@@ -2,8 +2,8 @@
 
 PHP_VERSION="$1"
 
-if ! [[ "${PHP_VERSION}" =~ 8\.2 ]]; then
-  echo "sqlsrv is only installed from pecl for PHP 8.2, ${PHP_VERSION} detected."
+if ! [[ "${PHP_VERSION}" =~ 8\.3 ]]; then
+  echo "sqlsrv is only installed from pecl for PHP 8.3, ${PHP_VERSION} detected."
   exit 0;
 fi
 
