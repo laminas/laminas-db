@@ -2,6 +2,7 @@
 
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
+use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Sql\TableIdentifier;
 use Laminas\Db\TableGateway\Feature\MetadataFeature;
 use Laminas\Db\TableGateway\TableGateway;
@@ -13,6 +14,8 @@ class TableGatewayTest extends TestCase
 {
     use AdapterTrait;
 
+    /** @var Adapter */
+    protected $adapter;
     /**
      * @covers \Laminas\Db\TableGateway\TableGateway::__construct
      */

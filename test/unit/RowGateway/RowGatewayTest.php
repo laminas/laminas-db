@@ -20,6 +20,8 @@ class RowGatewayTest extends TestCase
     /** @var RowGateway */
     protected $rowGateway;
 
+    /** @var ResultInterface&MockObject */
+    protected $mockResult;
     protected function setUp(): void
     {
         // mock the adapter, driver, and parts

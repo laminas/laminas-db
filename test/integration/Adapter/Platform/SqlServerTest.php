@@ -34,9 +34,10 @@ class SqlServerTest extends TestCase
             $this->adapters['sqlsrv'] = sqlsrv_connect(
                 getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME'),
                 [
-                    'UID'      => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
-                    'PWD'      => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
-                    'Database' => $database,
+                    'UID'                    => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
+                    'PWD'                    => getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD'),
+                    'Database'               => $database,
+                    'TrustServerCertificate' => 1,
                 ]
             );
             if (! $this->adapters['sqlsrv']) {
@@ -48,7 +49,7 @@ class SqlServerTest extends TestCase
             $this->adapters['pdo_sqlsrv'] = new PDO(
                 'sqlsrv:Server='
                     . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
-                    . ';Database=' . ($database ?: ''),
+                . ';Database=' . ($database ?: '') . ';TrustServerCertificate=1',
                 getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
                 getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD')
             );

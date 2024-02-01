@@ -2,6 +2,7 @@
 
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo\Mysql;
 
+use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\Driver\Pdo\Result as PdoResult;
 use Laminas\Db\Adapter\Exception\RuntimeException;
 use Laminas\Db\ResultSet\ResultSet;
@@ -12,6 +13,8 @@ class QueryTest extends TestCase
 {
     use AdapterTrait;
 
+    /** @var Adapter */
+    protected $adapter;
     /**
      * @psalm-return array<array-key, array{
      *     0: string,

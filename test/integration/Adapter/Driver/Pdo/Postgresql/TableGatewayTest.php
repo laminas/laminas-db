@@ -2,6 +2,7 @@
 
 namespace LaminasIntegrationTest\Db\Adapter\Driver\Pdo\Postgresql;
 
+use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Sql\TableIdentifier;
 use Laminas\Db\TableGateway\Feature\FeatureSet;
 use Laminas\Db\TableGateway\Feature\SequenceFeature;
@@ -12,6 +13,8 @@ class TableGatewayTest extends TestCase
 {
     use AdapterTrait;
 
+    /** @var Adapter */
+    protected $adapter;
     public function testLastInsertValue()
     {
         $table      = new TableIdentifier('test_seq');
