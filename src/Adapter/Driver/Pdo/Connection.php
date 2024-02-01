@@ -305,7 +305,7 @@ class Connection extends AbstractConnection
             $this->inTransaction = true;
         }
 
-        $this->nestedTransactionsCount ++;
+        $this->nestedTransactionsCount++;
 
         return $this;
     }

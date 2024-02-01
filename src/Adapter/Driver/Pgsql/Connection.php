@@ -304,7 +304,7 @@ class Connection extends AbstractConnection
                     return $p[$name];
                 }
             }
-            return;
+            return; // phpcs:ignore
         };
 
         $connectionParameters = [

@@ -22,7 +22,11 @@ class StatementIntegrationTest extends AbstractIntegrationTest
     {
         $sqlsrvResource = sqlsrv_connect(
             $this->variables['hostname'],
-            ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
+            [
+                'UID'                    => $this->variables['username'],
+                'PWD'                    => $this->variables['password'],
+                'TrustServerCertificate' => 1,
+            ]
         );
 
         $statement = new Statement();
@@ -37,7 +41,11 @@ class StatementIntegrationTest extends AbstractIntegrationTest
     {
         $sqlsrvResource = sqlsrv_connect(
             $this->variables['hostname'],
-            ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
+            [
+                'UID'                    => $this->variables['username'],
+                'PWD'                    => $this->variables['password'],
+                'TrustServerCertificate' => 1,
+            ]
         );
 
         $statement = new Statement();
@@ -56,7 +64,11 @@ class StatementIntegrationTest extends AbstractIntegrationTest
     {
         $sqlsrvResource = sqlsrv_connect(
             $this->variables['hostname'],
-            ['UID' => $this->variables['username'], 'PWD' => $this->variables['password']]
+            [
+                'UID'                    => $this->variables['username'],
+                'PWD'                    => $this->variables['password'],
+                'TrustServerCertificate' => 1,
+            ]
         );
 
         $statement = new Statement();
