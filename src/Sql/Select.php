@@ -6,6 +6,7 @@ use Closure;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\ParameterContainer;
 use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Sql\Predicate\PredicateInterface;
 
 use function array_key_exists;
 use function count;
@@ -268,7 +269,7 @@ class Select extends AbstractPreparableSql
     /**
      * Create where clause
      *
-     * @param Where|Closure|string|array|Predicate\PredicateInterface $predicate
+     * @param Where|Closure|string|array|PredicateInterface $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
      * @return $this Provides a fluent interface
      * @throws Exception\InvalidArgumentException
@@ -302,7 +303,7 @@ class Select extends AbstractPreparableSql
     /**
      * Create having clause
      *
-     * @param Where|Having|Closure|string|array $predicate
+     * @param Having|Closure|string|array|PredicateInterface $predicate
      * @param  string $combination One of the OP_* constants from Predicate\PredicateSet
      * @return $this Provides a fluent interface
      */
