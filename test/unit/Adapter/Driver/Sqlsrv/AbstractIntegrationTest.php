@@ -38,6 +38,7 @@ abstract class AbstractIntegrationTest extends TestCase
             $this->variables[$name] = getenv($value);
         }
 
+        $this->variables['options'] = ['TrustServerCertificate' => '1'];
         if (! extension_loaded('sqlsrv')) {
             $this->fail('The phpunit group integration-sqlsrv was enabled, but the extension is not loaded.');
         }
