@@ -16,6 +16,7 @@ use Laminas\Db\Sql\Update;
 use Laminas\Db\TableGateway\AbstractTableGateway;
 use Laminas\Db\TableGateway\Feature\FeatureSet;
 use PHPUnit\Framework\MockObject\Generator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
@@ -29,6 +30,9 @@ class AbstractTableGatewayTest extends TestCase
 
     /** @var AbstractTableGateway */
     protected $table;
+
+    /** @var FeatureSet&MockObject */
+    protected $mockFeatureSet;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

@@ -16,6 +16,8 @@ class StatementTest extends TestCase
 {
     /** @var Statement */
     protected $statement;
+    /** @var int */
+    protected $currentErrorReporting;
 
     /**
      * Sets up the fixture, for example, opens a network connection.

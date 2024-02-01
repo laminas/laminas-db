@@ -15,10 +15,16 @@ use Laminas\Db\Sql\Platform\Mysql\SelectDecorator;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
 use LaminasTest\Db\TestAsset\TrustingMysqlPlatform;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class SelectDecoratorTest extends TestCase
 {
+    /** @var Adapter&MockObject */
+    protected $mockAdapter;
+
+    /** @var Sql */
+    protected $sql;
     /**
      * @testdox integration test: Testing SelectDecorator will use Select an internal state to prepare
      *                            a proper limit/offset sql statement
