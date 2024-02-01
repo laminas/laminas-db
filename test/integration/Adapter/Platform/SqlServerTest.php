@@ -49,7 +49,7 @@ class SqlServerTest extends TestCase
             $this->adapters['pdo_sqlsrv'] = new PDO(
                 'sqlsrv:Server='
                     . getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_HOSTNAME')
-                    . '; Database=' . ($database ?: '') . '; TrustServerCertificate=1',
+                . ';Database=' . ($database ?: '') . ';TrustServerCertificate=1',
                 getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_USERNAME'),
                 getenv('TESTS_LAMINAS_DB_ADAPTER_DRIVER_SQLSRV_PASSWORD')
             );
