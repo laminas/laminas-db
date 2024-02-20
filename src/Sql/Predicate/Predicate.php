@@ -453,16 +453,12 @@ class Predicate extends PredicateSet
      */
     public function __get($name)
     {
-        switch (strtolower($name)) {
-            case 'or':
-                return $this->or();
-            case 'and':
-                return $this->and();
-            case 'nest':
-                return $this->nest();
-            case 'unnest':
-                return $this->unnest();
-        }
-        return $this;
+        return match (strtolower($name)) {
+            'or' => $this->or(),
+            'and' => $this->and(),
+            'nest' => $this->nest(),
+            'unnest' => $this->unnest(),
+            default => $this,
+        };
     }
 }
