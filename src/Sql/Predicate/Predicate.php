@@ -436,6 +436,13 @@ class Predicate extends PredicateSet
         return $this;
     }
 
+    public function or(): Predicate
+    {
+        $this->nextPredicateCombineOperator = self::OP_OR;
+
+        return $this;
+    }
+
     /**
      * Overloading
      *
@@ -448,8 +455,7 @@ class Predicate extends PredicateSet
     {
         switch (strtolower($name)) {
             case 'or':
-                $this->nextPredicateCombineOperator = self::OP_OR;
-                break;
+                return $this->or();
             case 'and':
                 return $this->and();
             case 'nest':
