@@ -447,11 +447,8 @@ class Predicate extends PredicateSet
      * Overloading
      *
      * Overloads "or", "and", "nest", and "unnest"
-     *
-     * @param  string $name
-     * @return $this Provides a fluent interface
      */
-    public function __get($name)
+    public function __get(string $name): Predicate
     {
         return match (strtolower($name)) {
             'or' => $this->or(),
