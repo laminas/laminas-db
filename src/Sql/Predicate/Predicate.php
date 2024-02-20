@@ -429,6 +429,13 @@ class Predicate extends PredicateSet
         return $this;
     }
 
+    public function and(): Predicate
+    {
+        $this->nextPredicateCombineOperator = self::OP_AND;
+
+        return $this;
+    }
+
     /**
      * Overloading
      *
@@ -444,8 +451,7 @@ class Predicate extends PredicateSet
                 $this->nextPredicateCombineOperator = self::OP_OR;
                 break;
             case 'and':
-                $this->nextPredicateCombineOperator = self::OP_AND;
-                break;
+                return $this->and();
             case 'nest':
                 return $this->nest();
             case 'unnest':
