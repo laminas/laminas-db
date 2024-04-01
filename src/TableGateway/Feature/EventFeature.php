@@ -9,7 +9,6 @@ use Laminas\Db\Sql\Delete;
 use Laminas\Db\Sql\Insert;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Update;
-use Laminas\Db\TableGateway\Feature\EventFeature\TableGatewayEvent;
 use Laminas\Db\TableGateway\TableGateway;
 use Laminas\EventManager\EventManager;
 use Laminas\EventManager\EventManagerInterface;
@@ -24,7 +23,7 @@ class EventFeature extends AbstractFeature implements
     /** @var EventManagerInterface */
     protected $eventManager;
 
-    /** @var ?TableGatewayEvent */
+    /** @var ?EventFeature\TableGatewayEvent */
     protected $event;
 
     public function __construct(
