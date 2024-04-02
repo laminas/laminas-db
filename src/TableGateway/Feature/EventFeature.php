@@ -23,7 +23,7 @@ class EventFeature extends AbstractFeature implements
     /** @var EventManagerInterface */
     protected $eventManager;
 
-    /** @var null */
+    /** @var ?EventFeature\TableGatewayEvent */
     protected $event;
 
     public function __construct(
