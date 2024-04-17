@@ -429,28 +429,33 @@ class Predicate extends PredicateSet
         return $this;
     }
 
+    public function and(): Predicate
+    {
+        $this->nextPredicateCombineOperator = self::OP_AND;
+
+        return $this;
+    }
+
+    public function or(): Predicate
+    {
+        $this->nextPredicateCombineOperator = self::OP_OR;
+
+        return $this;
+    }
+
     /**
      * Overloading
      *
      * Overloads "or", "and", "nest", and "unnest"
-     *
-     * @param  string $name
-     * @return $this Provides a fluent interface
      */
-    public function __get($name)
+    public function __get(string $name): Predicate
     {
-        switch (strtolower($name)) {
-            case 'or':
-                $this->nextPredicateCombineOperator = self::OP_OR;
-                break;
-            case 'and':
-                $this->nextPredicateCombineOperator = self::OP_AND;
-                break;
-            case 'nest':
-                return $this->nest();
-            case 'unnest':
-                return $this->unnest();
-        }
-        return $this;
+        return match (strtolower($name)) {
+            'or' => $this->or(),
+            'and' => $this->and(),
+            'nest' => $this->nest(),
+            'unnest' => $this->unnest(),
+            default => $this,
+        };
     }
 }
