@@ -8,6 +8,7 @@ use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Adapter\AdapterServiceDelegator;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\AbstractSingleInstancePluginManager;
 use Laminas\ServiceManager\ServiceManager;
 use LaminasTest\Db\Adapter\TestAsset\ConcreteAdapterAwareObject;
 use PHPUnit\Framework\TestCase;
@@ -209,8 +210,8 @@ final class AdapterServiceDelegatorTest extends TestCase
             ],
         ];
 
-        /** @var AbstractPluginManager $pluginManager */
-        $pluginManager = new class ($container, $pluginManagerConfig) extends AbstractPluginManager {
+        /** @var AbstractSingleInstancePluginManager $pluginManager */
+        $pluginManager = new class ($container, $pluginManagerConfig) extends AbstractSingleInstancePluginManager {
         };
 
         $options = [
