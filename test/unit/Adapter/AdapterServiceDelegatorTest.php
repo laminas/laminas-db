@@ -7,7 +7,6 @@ use Laminas\Db\Adapter\AdapterAwareInterface;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Adapter\AdapterServiceDelegator;
 use Laminas\Db\Adapter\Driver\DriverInterface;
-use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\AbstractSingleInstancePluginManager;
 use Laminas\ServiceManager\ServiceManager;
 use LaminasTest\Db\Adapter\TestAsset\ConcreteAdapterAwareObject;
