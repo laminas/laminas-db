@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bab14dbc23e177873fe7698ca0c27a52",
+    "content-hash": "e1564c6300f9b40e106cc1a1a13befd5",
     "packages": [
         {
             "name": "laminas/laminas-stdlib",
@@ -67,6 +67,55 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "brick/varexporter",
+            "version": "0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brick/varexporter.git",
+                "reference": "84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brick/varexporter/zipball/84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b",
+                "reference": "84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^5.0",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpunit/phpunit": "^9.3",
+                "psalm/phar": "5.21.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Brick\\VarExporter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A powerful alternative to var_export(), which can export closures and objects without __set_state()",
+            "keywords": [
+                "var_export"
+            ],
+            "support": {
+                "issues": "https://github.com/brick/varexporter/issues",
+                "source": "https://github.com/brick/varexporter/tree/0.5.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/BenMorel",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-05-10T17:15:19+00:00"
+        },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
             "version": "v0.7.2",
@@ -415,59 +464,58 @@
         },
         {
             "name": "laminas/laminas-servicemanager",
-            "version": "3.22.1",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-servicemanager.git",
-                "reference": "de98d297d4743956a0558a6d71616979ff779328"
+                "reference": "a8489e352de3ce3f1eaf34a354b1e5f2ad2db85c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/de98d297d4743956a0558a6d71616979ff779328",
-                "reference": "de98d297d4743956a0558a6d71616979ff779328",
+                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/a8489e352de3ce3f1eaf34a354b1e5f2ad2db85c",
+                "reference": "a8489e352de3ce3f1eaf34a354b1e5f2ad2db85c",
                 "shasum": ""
             },
             "require": {
+                "brick/varexporter": "^0.3.8 || ^0.4.0 || ^0.5.0",
                 "laminas/laminas-stdlib": "^3.17",
                 "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
-                "psr/container": "^1.0"
+                "psr/container": "^1.1 || ^2.0"
             },
             "conflict": {
-                "ext-psr": "*",
                 "laminas/laminas-code": "<4.10.0",
-                "zendframework/zend-code": "<3.3.1",
-                "zendframework/zend-servicemanager": "*"
+                "zendframework/zend-code": "<3.3.1"
             },
             "provide": {
-                "psr/container-implementation": "^1.0"
-            },
-            "replace": {
-                "container-interop/container-interop": "^1.2.0"
+                "psr/container-implementation": "^1.0 || ^2.0"
             },
             "require-dev": {
+                "boesing/psalm-plugin-stringf": "^1.4",
                 "composer/package-versions-deprecated": "^1.11.99.5",
-                "friendsofphp/proxy-manager-lts": "^1.0.14",
-                "laminas/laminas-code": "^4.10.0",
+                "friendsofphp/proxy-manager-lts": "^1",
+                "laminas/laminas-cli": "^1.8",
                 "laminas/laminas-coding-standard": "~2.5.0",
-                "laminas/laminas-container-config-test": "^0.8",
-                "mikey179/vfsstream": "^1.6.11",
-                "phpbench/phpbench": "^1.2.9",
+                "laminas/laminas-container-config-test": "^1.0",
+                "lctrs/psalm-psr-container-plugin": "^1.9",
+                "mikey179/vfsstream": "^1.6.11@alpha",
+                "phpbench/phpbench": "^1.2.7",
                 "phpunit/phpunit": "^10.4",
                 "psalm/plugin-phpunit": "^0.18.4",
-                "vimeo/psalm": "^5.8.0"
+                "symfony/console": "^6.0",
+                "vimeo/psalm": "^5.22"
             },
             "suggest": {
-                "friendsofphp/proxy-manager-lts": "ProxyManager ^2.1.1 to handle lazy initialization of services"
+                "friendsofphp/proxy-manager-lts": "To handle lazy initialization of services",
+                "laminas/laminas-cli": "To consume CLI commands provided by this component"
             },
-            "bin": [
-                "bin/generate-deps-for-config-factory",
-                "bin/generate-factory-for-class"
-            ],
             "type": "library",
+            "extra": {
+                "laminas": {
+                    "config-provider": "Laminas\\ServiceManager\\ConfigProvider",
+                    "module": "Laminas\\ServiceManager"
+                }
+            },
             "autoload": {
-                "files": [
-                    "src/autoload.php"
-                ],
                 "psr-4": {
                     "Laminas\\ServiceManager\\": "src/"
                 }
@@ -489,11 +537,9 @@
             ],
             "support": {
                 "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-servicemanager/",
                 "forum": "https://discourse.laminas.dev",
                 "issues": "https://github.com/laminas/laminas-servicemanager/issues",
-                "rss": "https://github.com/laminas/laminas-servicemanager/releases.atom",
-                "source": "https://github.com/laminas/laminas-servicemanager"
+                "source": "https://github.com/laminas/laminas-servicemanager/tree/4.2.0"
             },
             "funding": [
                 {
@@ -501,7 +547,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-10-24T11:19:47+00:00"
+            "time": "2024-07-04T09:40:44+00:00"
         },
         {
             "name": "myclabs/deep-copy",
