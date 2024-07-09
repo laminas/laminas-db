@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Db\Adapter;
 
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\Adapter\AdapterAbstractServiceFactory;
-use Laminas\ServiceManager\Config;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\ServiceManager\ServiceManager;
@@ -18,11 +19,11 @@ class AdapterAbstractServiceFactoryTest extends TestCase
     protected function setUp(): void
     {
         $this->serviceManager = new ServiceManager();
-
-        $config = new Config([
-            'abstract_factories' => [AdapterAbstractServiceFactory::class],
-        ]);
-        $config->configureServiceManager($this->serviceManager);
+        $this->serviceManager->configure(
+            [
+                'abstract_factories' => [AdapterAbstractServiceFactory::class],
+            ]
+        );
 
         $this->serviceManager->setService('config', [
             'db' => [

@@ -211,6 +211,7 @@ final class AdapterServiceDelegatorTest extends TestCase
 
         /** @var AbstractSingleInstancePluginManager $pluginManager */
         $pluginManager = new class ($container, $pluginManagerConfig) extends AbstractSingleInstancePluginManager {
+            protected string $instanceOf = ConcreteAdapterAwareObject::class;
         };
 
         $options = [
@@ -219,7 +220,7 @@ final class AdapterServiceDelegatorTest extends TestCase
         ];
 
         /** @var ConcreteAdapterAwareObject $result */
-        $result = $pluginManager->get(
+        $result = $pluginManager->build(
             ConcreteAdapterAwareObject::class,
             $options
         );
