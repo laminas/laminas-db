@@ -35,10 +35,10 @@
         "laminas/laminas-stdlib": "^3.7.1"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "^2.4.0",
+        "laminas/laminas-coding-standard": "^3.0.0",
         "laminas/laminas-eventmanager": "^3.6.0",
         "laminas/laminas-hydrator": "^4.7",
-        "laminas/laminas-servicemanager": "^3.19.0",
+        "laminas/laminas-servicemanager": "^4.0.0",
         "phpunit/phpunit": "^9.5.25"
     },
     "suggest": {
