@@ -33,7 +33,7 @@ jobs:
           job: ${{ matrix.job }}
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:9.1
         env:
           MYSQL_ROOT_PASSWORD: 'password'
           MYSQL_ROOT_HOST: '%'
