@@ -21,7 +21,8 @@
             "php": "8.1.99"
         },
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
         }
     },
     "extra": {
@@ -32,13 +33,19 @@
     },
     "require": {
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
-        "laminas/laminas-stdlib": "^3.7.1"
+        "laminas/laminas-stdlib": "^3.7.1",
+        "psr/container": "^1.1"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "^2.4.0",
         "laminas/laminas-eventmanager": "^3.6.0",
         "laminas/laminas-hydrator": "^4.7",
         "laminas/laminas-servicemanager": "^3.19.0",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpdoc-parser": "^1.5",
+        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5.25"
     },
     "suggest": {
@@ -64,6 +71,7 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
+        "static-analysis": "phpstan analyse src test",
         "test": "phpunit --colors=always --testsuite \"unit test\"",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "test-integration": "phpunit --colors=always --testsuite \"integration test\"",

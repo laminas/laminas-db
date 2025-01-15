@@ -4,7 +4,7 @@ namespace Laminas\Db\Adapter\Driver\Pdo;
 
 use Laminas\Db\Adapter\Driver\AbstractConnection;
 use Laminas\Db\Adapter\Exception;
-use Laminas\Db\Adapter\Exception\RunTimeException;
+use Laminas\Db\Adapter\Exception\RuntimeException;
 use PDOException;
 use PDOStatement;
 
@@ -79,6 +79,8 @@ class Connection extends AbstractConnection
                 3
             ));
         }
+
+        return $this;
     }
 
     /**

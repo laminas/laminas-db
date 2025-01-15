@@ -2,8 +2,8 @@
 
 namespace Laminas\Db\Adapter;
 
-use Interop\Container\ContainerInterface;
-use Laminas\ServiceManager\AbstractFactoryInterface;
+use Psr\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 
 use function is_array;

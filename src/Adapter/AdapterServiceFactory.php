@@ -2,9 +2,9 @@
 
 namespace Laminas\Db\Adapter;
 
-use Interop\Container\ContainerInterface;
-use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 class AdapterServiceFactory implements FactoryInterface
 {
