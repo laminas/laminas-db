@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Db\Adapter;
 
-use Interop\Container\ContainerInterface;
-use Laminas\ServiceManager\AbstractFactoryInterface;
+use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 use function is_array;
 
@@ -20,11 +22,8 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Can we create an adapter by the requested name?
-     *
-     * @param  string $requestedName
-     * @return bool
      */
-    public function canCreate(ContainerInterface $container, $requestedName)
+    public function canCreate(ContainerInterface $container, string $requestedName): bool
     {
         $config = $this->getConfig($container);
         if (empty($config)) {
@@ -38,24 +37,22 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Determine if we can create a service with name (SM v2 compatibility)
-     *
-     * @param string $name
-     * @param string $requestedName
-     * @return bool
      */
-    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
-    {
+    public function canCreateServiceWithName(
+        ServiceLocatorInterface $serviceLocator,
+        string $name,
+        string $requestedName
+    ): bool {
         return $this->canCreate($serviceLocator, $requestedName);
     }
 
     /**
      * Create a DB adapter
      *
-     * @param  string $requestedName
-     * @param  array $options
+     * @param  array|null $options
      * @return Adapter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): mixed
     {
         $config = $this->getConfig($container);
         return new Adapter($config[$requestedName]);
@@ -63,22 +60,19 @@ class AdapterAbstractServiceFactory implements AbstractFactoryInterface
 
     /**
      * Create service with name
-     *
-     * @param string $name
-     * @param string $requestedName
-     * @return Adapter
      */
-    public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
-    {
+    public function createServiceWithName(
+        ServiceLocatorInterface $serviceLocator,
+        string $name,
+        string $requestedName
+    ): Adapter {
         return $this($serviceLocator, $requestedName);
     }
 
     /**
      * Get db configuration, if any
-     *
-     * @return array
      */
-    protected function getConfig(ContainerInterface $container)
+    protected function getConfig(ContainerInterface $container): array
     {
         if ($this->config !== null) {
             return $this->config;

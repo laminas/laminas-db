@@ -1,21 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Db\Adapter;
 
-use Interop\Container\ContainerInterface;
-use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 class AdapterServiceFactory implements FactoryInterface
 {
     /**
      * Create db adapter service
      *
-     * @param string $requestedName
-     * @param array $options
      * @return Adapter
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): mixed
     {
         $config = $container->get('config');
         return new Adapter($config['db']);
@@ -23,10 +23,8 @@ class AdapterServiceFactory implements FactoryInterface
 
     /**
      * Create db adapter service (v2)
-     *
-     * @return Adapter
      */
-    public function createService(ServiceLocatorInterface $container)
+    public function createService(ServiceLocatorInterface $container): Adapter
     {
         return $this($container, Adapter::class);
     }
