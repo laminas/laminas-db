@@ -5,8 +5,7 @@
         "pdo-sqlite",
         "mysqli",
         "pgsql",
-        "sqlite3",
-        "sqlsrv"
+        "sqlite3"
     ],
     "ignore_php_platform_requirements": {
         "8.5": true
