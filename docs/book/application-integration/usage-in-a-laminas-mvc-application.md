@@ -160,7 +160,7 @@ Optionnally, you can also add a container for phpMyAdmin.
 
 ```yaml
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin
     ports:
      - 8081:80
     environment:
@@ -197,7 +197,7 @@ services:
     environment:
      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin
     ports:
      - 8081:80
     environment:
